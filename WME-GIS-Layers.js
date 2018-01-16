@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.14.002
+// @version      2018.01.16.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -53,6 +53,18 @@
 // @connect      thomsonreuters.com
 // @connect      arcgis.com
 // @connect      roktech.net
+// -- IA --
+// @connect      gisworkshop.com
+// @connect      216.81.174.57
+// @connect      cedar-rapids.org
+// @connect      dmcwebgis.com
+// @connect      dmgov.org
+// @connect      dbqco.org
+// @connect      iowa.gov
+// @connect      linncounty.org
+// @connect      polkcountyiowa.gov
+// @connect      pottcounty-ia.gov
+// @connect      siouxcounty.org
 // -- IN --
 // @connect      in.gov
 // -- KS --
@@ -177,6 +189,11 @@
 // -- WI --
 // @connect      legis.wisconsin.gov
 // ==/UserScript==
+
+/* global OL */
+/* global W */
+/* global GM_info */
+/* global OpenLayers */
 
 (function() {
     'use strict';
@@ -385,6 +402,17 @@
          url: 'http://gis.yumacountyaz.gov/ArcGIS/rest/services/YumaCounty/MapServer/128',
          labelFields: ['SITUS_ADDR'],
          state: 'AZ',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Colorado
+        // ***********************************
+
+        {name: 'Archuleta Co - Parcels',
+         id: 'co-archuleta-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
 
@@ -805,6 +833,266 @@
          state: 'IN',
          style: DEFAULT_PT_STYLE},
 
+        // Iowa
+        // ************************************
+
+        {name: 'Adair Co - Parcels (NO DATA)',
+         id: 'ia-adair-co-parcels',
+         url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Adair/MapServer/3',
+         labelFields: ['PID'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Buena Vista Co - Parcels',
+         id: 'ia-buena-vista-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/BuenaVistaIAFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Butler Co - Parcels',
+         id: 'ia-butler-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/ButlerIAFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cedar Rapid - City Parcels',
+         id: 'ia-cedar-rapid-city-parcels',
+         url: 'http://crgis.cedar-rapids.org/arcgis/rest/services/Maps/Parcel_Lines_Simple/MapServer/1',
+         labelFields: ['SITEADDRESS'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clinton - City Parcels',
+         id: 'ia-clinton-city-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/CityofClintonIAFeatures/FeatureServer/6',
+         labelFields: ['TSC_Parcel_Number'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clay Co - Parcels (NO DATA)',
+         id: 'ia-clay-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/ClayIAFeatures/FeatureServer/3',
+         labelFields: ['TSC_Parcel_Number'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Crawford Co - Parcels',
+         id: 'ia-crawford-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/CrawfordIAFeatures/FeatureServer/6',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/\s\w\w\s\d{5}$/,''); },
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dallas Co - Parcels (NO DATA)',
+         id: 'ia-dallas-co-parcels',
+         url: 'http://216.81.174.57/arcgis/rest/services/Live/ParcelPoly931NI_Live/MapServer/46',
+         labelFields: ['PIN'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Decatur Co - Parcels',
+         id: 'ia-decatur-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/DecaturIAFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Des Moines - City Address Points',
+         id: 'ia-des-moines-city-pts',
+         url: 'http://maps.dmgov.org/arcgis/rest/services/External/EXTDynamicAddressLookUp/MapServer/0',
+         labelFields: ['FullAddr'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Des Moines - City Parcels (NO DATA)',
+         id: 'ia-des-moines-city-parcels',
+         url: 'http://maps.dmgov.org/arcgis/rest/services/External/EXTDynamicAddressLookUp/MapServer/25',
+         labelFields: [''],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'W Des Moines - City Address Points',
+         id: 'ia-w-des-moines-city-pts',
+         url: 'http://maps.wdm.iowa.gov/arcgis/rest/services/Geocortex/reader_land/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'W Des Moines - City Parcels (NO DATA)',
+         id: 'ia-w-des-moines-city-parcels',
+         url: 'http://maps.wdm.iowa.gov/arcgis/rest/services/Geocortex/reader_land/MapServer/1',
+         labelFields: [''],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Des Moines Co - Address Points',
+         id: 'ia-des-moines-co-pts',
+         url: 'https://www.dmcwebgis.com/arcgis/rest/services/Assessor/AddressJan/MapServer/0',
+         labelFields: ['FULL_ADDRE'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Des Moines Co - Parcels',
+         id: 'ia-des-moines-co-parcels',
+         url: 'https://www.dmcwebgis.com/arcgis/rest/services/Assessor/IdentifiableLayersJuly/MapServer/0',
+         labelFields: ['SiteAdd'],
+         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dubuque Co - Parcels',
+         id: 'ia-dubuque-co-parcels',
+         url: 'http://gis.dbqco.org/arcgis/rest/services/Maps/LandRecords/MapServer/26',
+         labelFields: ['FullSitus'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greene Co - Parcels (NO DATA)',
+         id: 'ia-greene-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/GreeneIAFeatures/FeatureServer/5',
+         labelFields: ['TSC_Parcel_Number'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ida Co - Parcels',
+         id: 'ia-ida-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/IdaIAFeatures/FeatureServer/3',
+         labelFields: ['TSC_Situs_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iowa Co - Parcels',
+         id: 'ia-iowa-co-parcels',
+         url: 'https://iowagis.integritygis.com/Geocortex/Essentials/REST/sites/Iowa_County_IA/map/mapservices/1/rest/services/x/MapServer/6',
+         labelFields: ['ADDRESS'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+//   same data as above but different layer file.
+
+//        {name: 'Iowa Co - Parcel 2',
+//         id: 'ia-iowa-co-parcels2',
+//         url: 'https://iowagis.integritygis.com/Geocortex/Essentials/REST/sites/Iowa_County_IA/map/mapservices/1/rest/services/x/MapServer/8',
+//         labelFields: ['ADDRESS'],
+//         state: 'IA',
+//         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Addr Points (limited)',
+         id: 'ia-jefferson-co-pts',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/JeffersonIAFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'ia-jefferson-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/JeffersonIAFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kossuth Co - Addr Points (limited)',
+         id: 'ia-kossuth-co-pts',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/KossuthIAFeatures/FeatureServer/5',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kossuth Co - Parcels',
+         id: 'ia-lossuth-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/KossuthIAFeatures/FeatureServer/6',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Linn Co - Address Points',
+         id: 'ia-linn-co-pts',
+         url: 'https://gis.linncounty.org/arcgis/rest/services/PublicAuditor/audLandRecords/MapServer/37',
+         labelFields: ['HOUSENO','PREDIR','NAME','SUFTYPE','SUFDIR','UNITTYPE','UNITNO'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Linn Co - Parcels',
+         id: 'ia-linn-co-parcels',
+         url: 'https://gis.linncounty.org/arcgis/rest/services/PublicAuditor/audLandRecords/MapServer/41',
+         labelFields: ['SitusAddress'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mitchell Co - Parcels NO DATA',
+         id: 'ia-mitchell-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MitchellIAFeatures/FeatureServer/3',
+         labelFields: ['TSC_Parcel_Number'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Monona Co - Parcels',
+         id: 'ia-monona-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/MononaIAFeatures/FeatureServer/5',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Polk Co - Address Points',
+         id: 'ia-polk-co-pts',
+         url: 'https://gis.polkcountyiowa.gov/arcgis/rest/services/Public/basemapJPG/MapServer/0',
+         labelFields: ['FullAddr'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Polk Co - Parcels',
+         id: 'ia-polk-co-parcels',
+         url: 'https://gis.polkcountyiowa.gov/arcgis/rest/services/Public/ParcelLabels/MapServer/1',
+         labelFields: ['Gims.dbo.address.house_no','Gims.dbo.address.st_dir_pre','Gims.dbo.address.st_name','Gims.dbo.address.st_type','Gims.dbo.address.st_dir_suf'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pottawattamie Co - Parcels',
+         id: 'ia-pottawattamie-co-parcels',
+         url: 'http://gis.pottcounty-ia.gov/arcgis/rest/services/Public_Basemap_WGS84/Interactive/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Scott Co - Address Points',
+         id: 'ia-scott-co-pts',
+         url: 'http://services.arcgis.com/ovln19YRWV44nBqV/ArcGIS/rest/services/ScottIAfeatures/FeatureServer/3',
+         //labelFields: ['STRADD'], show full address
+         labelFields: ['SAN','PRD','STN','STS','POD'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Scott Co - Parcels',
+         id: 'ia-scott-co-parcels',
+         url: 'http://services.arcgis.com/ovln19YRWV44nBqV/ArcGIS/rest/services/ScottIAfeatures/FeatureServer/0',
+         labelFields: ['PropertyAddress'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sioux Co - Parcels',
+         id: 'ia-sioux-co-parcels',
+         url: 'http://scgis.siouxcounty.org/arcgis/rest/services/Maps/Cadastral/MapServer/1',
+         labelFields: ['FullSitus'],
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Addr Points (Limited)',
+         id: 'ia-washington-co-pts',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/WashingtonIAFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Washington Co - Parcels',
+         id: 'ia-washington-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/WashingtonIAFeatures/FeatureServer/5',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/,\s\w\w$/,''); },
+         state: 'IA',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Kansas
         // ************************************
@@ -1993,6 +2281,13 @@
         //  state: 'MO',
         //  style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Ralls Co - Parcels',
+         id: 'mo-ralls-co-parcels',
+         url: 'http://rallsgis.integritygis.com/Geocortex/Essentials/REST/sites/Ralls_County_MO/map/mapservices/4/rest/services/x/MapServer/7',
+         labelFields: ['ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'St. Charles Address Points',
          id: 'mo-stcharles-co-points',
          url: 'http://map.sccmo.org/proxy/proxy.ashx?http://10.10.143.115/scc_gis/rest/services/appservices/addressing/mapserver/0',
@@ -2017,12 +2312,12 @@
          state: 'MT',
          style: DEFAULT_PARCEL_STYLE},
 
-//        {name: 'State - Parcels 2',
-//         id: 'mt-state-parcels2',
-//         url: 'http://gisservicemt.gov/arcgis/rest/services/GOV/OperationalLayers_MtSiteSelector/MapServer/8',
-//         labelFields: ['ADDRESSLINE1'],
-//         state: 'MT',
-//         style: DEFAULT_PARCEL_STYLE},
+        //        {name: 'State - Parcels 2',
+        //         id: 'mt-state-parcels2',
+        //         url: 'http://gisservicemt.gov/arcgis/rest/services/GOV/OperationalLayers_MtSiteSelector/MapServer/8',
+        //         labelFields: ['ADDRESSLINE1'],
+        //         state: 'MT',
+        //         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Flathead - Address Points',
          id: 'mt-flathead-co-pts',
@@ -2198,47 +2493,47 @@
         //  state: 'OH',
         //  style: DEFAULT_PT_STYLE},
 
-//         {name: 'Butler Co - Parcels',
-//          id: 'oh-butler-co-parcels',
-//          url: 'https://maps.butlercountyauditor.org/arcgis/rest/services/basemap/MapServer/1',
-//          labelFields: ['LOCATION'],
-//          state: 'OH',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Butler Co - Parcels',
+        //          id: 'oh-butler-co-parcels',
+        //          url: 'https://maps.butlercountyauditor.org/arcgis/rest/services/basemap/MapServer/1',
+        //          labelFields: ['LOCATION'],
+        //          state: 'OH',
+        //          style: DEFAULT_PARCEL_STYLE},
 
-//         {name: 'Clermont Co - Address Points',
-//          id: 'oh-clermont-co-points',
-//          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/AddressPointsLabeled/MapServer/1',
-//          labelFields: ['LSN'],
-//          state: 'OH',
-//          style: DEFAULT_PT_STYLE},
+        //         {name: 'Clermont Co - Address Points',
+        //          id: 'oh-clermont-co-points',
+        //          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/AddressPointsLabeled/MapServer/1',
+        //          labelFields: ['LSN'],
+        //          state: 'OH',
+        //          style: DEFAULT_PT_STYLE},
 
-//         {name: 'Clermont Co - Parcels',
-//          id: 'oh-clermont-co-parcels',
-//          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/ParcelLabelsWithOwner/MapServer/18',
-//          labelFields: ['ADRNO','ADRDIR','ADRSTR','ADRSUF'],
-//          state: 'OH',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Clermont Co - Parcels',
+        //          id: 'oh-clermont-co-parcels',
+        //          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/ParcelLabelsWithOwner/MapServer/18',
+        //          labelFields: ['ADRNO','ADRDIR','ADRSTR','ADRSUF'],
+        //          state: 'OH',
+        //          style: DEFAULT_PARCEL_STYLE},
 
-//         {name: 'Hamilton Co - Parcels',
-//          id: 'oh-hamilton-co-parcels',
-//          url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Hamilton/HCE_Parcels_With_Auditor_Data/MapServer/0',
-//          labelFields: ['CAGIS.AUDREAL_VW.ADDRNO'],
-//          state: 'OH',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Hamilton Co - Parcels',
+        //          id: 'oh-hamilton-co-parcels',
+        //          url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Hamilton/HCE_Parcels_With_Auditor_Data/MapServer/0',
+        //          labelFields: ['CAGIS.AUDREAL_VW.ADDRNO'],
+        //          state: 'OH',
+        //          style: DEFAULT_PARCEL_STYLE},
 
-//         {name: 'Montgomery Co - Address Points',
-//          id: 'oh-montgomery-co-points',
-//          url: 'http://www.mcegisohio.org/arcgis/rest/services/PUBLIC/AUDGIS_MVRP/MapServer/2',
-//          labelFields: ['ADDR_NUM'],
-//          state: 'OH',
-//          style: DEFAULT_PT_STYLE},
+        //         {name: 'Montgomery Co - Address Points',
+        //          id: 'oh-montgomery-co-points',
+        //          url: 'http://www.mcegisohio.org/arcgis/rest/services/PUBLIC/AUDGIS_MVRP/MapServer/2',
+        //          labelFields: ['ADDR_NUM'],
+        //          state: 'OH',
+        //          style: DEFAULT_PT_STYLE},
 
-//         {name: 'Warren Co - Parcels',
-//          id: 'oh-warren-co-parcels',
-//          url: 'http://webmap1.co.warren.oh.us/ArcGIS/rest/services/Dynamic/ParcelLabelsAddr/MapServer/0',
-//          labelFields: ['Street_Nbr'],
-//          state: 'OH',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Warren Co - Parcels',
+        //          id: 'oh-warren-co-parcels',
+        //          url: 'http://webmap1.co.warren.oh.us/ArcGIS/rest/services/Dynamic/ParcelLabelsAddr/MapServer/0',
+        //          labelFields: ['Street_Nbr'],
+        //          state: 'OH',
+        //          style: DEFAULT_PARCEL_STYLE},
 
 
         // Pennsylvania
@@ -2739,11 +3034,11 @@
         // ****************************
 
         {name: 'State - Parcels',
-          id: 'wi-state-parcels',
-          url: 'https://mapservices.legis.wisconsin.gov/arcgis/rest/services/WLIP/PARCELS/FeatureServer/0',
-          labelFields: ['SITEADRESS'],
-          state: 'WI',
-          style: DEFAULT_PARCEL_STYLE},
+         id: 'wi-state-parcels',
+         url: 'https://mapservices.legis.wisconsin.gov/arcgis/rest/services/WLIP/PARCELS/FeatureServer/0',
+         labelFields: ['SITEADRESS'],
+         state: 'WI',
+         style: DEFAULT_PARCEL_STYLE},
 
     ];
 
@@ -2774,7 +3069,6 @@
     ].join('');
     let _mapLayer = null;
     let _settings = {};
-    let _lastCallToken = 0;
 
     function log(message, level) {
         if (message && (!level || (level <= _debugLevel))) {
@@ -2807,7 +3101,6 @@
     }
 
     function getUrl(extent, gisLayer) {
-        let whereParts = [];
         if (gisLayer.spatialReference) {
             let proj = new OL.Projection('EPSG:' + gisLayer.spatialReference);
             extent.transform(W.map.getProjection(), proj);
@@ -2962,7 +3255,7 @@
             styleMap: new OpenLayers.StyleMap(style)
         });
         _mapLayer.setVisibility(_settings.enabled);
-        Waze.map.addLayer(_mapLayer);
+        W.map.addLayer(_mapLayer);
 
     } // END InitLayer
 
@@ -3143,7 +3436,7 @@
                     .append($('<a/>')
                             .attr({
                     'href': '#sidepanel-' + idName,
-                    'data-toggle': 'tab',
+                    'data-toggle': 'tab'
                 })
                             .text(name));
                 this.$content = $('<div/>')
