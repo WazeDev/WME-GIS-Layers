@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.16.001
+// @version      2018.01.16.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -179,6 +179,7 @@
 // -- SD --
 // @connect      206.176.83.74
 // @connect      rcgov.org
+// @connect      1stdistrict.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -186,6 +187,7 @@
 // @connect      arlingtonva.us
 // @connect      bedfordcountyva.gov
 // @connect      virginia.gov
+// @connect      brunswickcountync.gov
 // -- WI --
 // @connect      legis.wisconsin.gov
 // ==/UserScript==
@@ -971,14 +973,14 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
-//   same data as above but different layer file.
+        //   same data as above but different layer file.
 
-//        {name: 'Iowa Co - Parcel 2',
-//         id: 'ia-iowa-co-parcels2',
-//         url: 'https://iowagis.integritygis.com/Geocortex/Essentials/REST/sites/Iowa_County_IA/map/mapservices/1/rest/services/x/MapServer/8',
-//         labelFields: ['ADDRESS'],
-//         state: 'IA',
-//         style: DEFAULT_PARCEL_STYLE},
+        //        {name: 'Iowa Co - Parcel 2',
+        //         id: 'ia-iowa-co-parcels2',
+        //         url: 'https://iowagis.integritygis.com/Geocortex/Essentials/REST/sites/Iowa_County_IA/map/mapservices/1/rest/services/x/MapServer/8',
+        //         labelFields: ['ADDRESS'],
+        //         state: 'IA',
+        //         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jefferson Co - Addr Points (limited)',
          id: 'ia-jefferson-co-pts',
@@ -2482,6 +2484,17 @@
          style: DEFAULT_PARCEL_STYLE},
 
 
+        // North Carolina
+        // ************************************
+
+        {name: 'Brunswick Co - Address Points',
+         id: 'nc-brunswick-co-points',
+         url: 'https://geo.brunswickcountync.gov/arcgis/rest/services/Mapping/DataViewer/MapServer/0',
+         labelFields: ['ST_ADDR'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+
         // Ohio
         // ************************************
 
@@ -2550,6 +2563,99 @@
         // South Dakota
         // *********************************
 
+        {name: 'Beadle Co - Parcels',
+         id: 'sd-beadle-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Beadle/beadlemapnet/MapServer/1',
+         labelFields: ['PROPERTY_A'],
+         //processLabel: function(label) { return label.replace(/^\d{5}\s/, ''); }, // Some addresses start with the zip code, but some start with a valid 5-digit HN.  Can't just blindly remove 5-digit values.
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (NO DATA)',
+         id: 'sd-clark-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet_new/MapServer/16',
+         labelFields: [],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Codington Co - Parcels',
+         id: 'sd-codington-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Codington/codingtonmapnet/MapServer/9',
+         labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // THESE ARE HIGHLY INACCURATE
+        // {name: 'Deuel Co - Address Points',
+        //  id: 'sd-deuel-points',
+        //  url: 'http://www.1stdistrict.org/arcgis/rest/services/Deuel/deuelmapnet/MapServer/0',
+        //  labelFields: ['ARC_Street'],
+        //  state: 'SD',
+        //  style: DEFAULT_PT_STYLE},
+
+        {name: 'Deuel Co - Parcels',
+         id: 'sd-deuel-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Deuel/deuelmapnet/MapServer/2',
+         labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Douglas Co - Parcels',
+         id: 'sd-douglas-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Douglas/douglasmapnet/MapServer/1',
+         labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grant Co - Address Points (SPARSE)',
+         id: 'sd-grant-points',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Grant/grantmapnet_new/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Grant Co - Parcels',
+         id: 'sd-grant-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Grant/grantmapnet_new/MapServer/18',
+         labelFields: ['INQ_STREET_NAME'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grant Co - Milbank - City Parcels',
+         id: 'sd-milbank-city-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Milbank/milbankmapnet/MapServer/40',
+         labelFields: ['INQ_HOUSE_','INQ_STREET'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamlin Co - Parcels',
+         id: 'sd-hamlin-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Hamlin/hamlinmapnet/MapServer/4',
+         labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kingsbury Co - Parcels',
+         id: 'sd-kingsbury-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/kingsbury/kingsburymapnet_new/MapServer/4',
+         labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Parcels',
+         id: 'sd-lake-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Lake/lakemapnet/MapServer/3',
+         labelFields: ['PropertyAddress'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Miner Co - Parcels',
+         id: 'sd-miner-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Miner/minermapnet_new/MapServer/1',
+         labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Minnehaha Co - Parcels',
          id: 'sd-minnehaha-co-parcels',
          url: 'http://206.176.83.74/minnemap/rest/services/Picto_Parcels/MapServer/0',
@@ -2571,6 +2677,12 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Tripp Co - Parcels',
+         id: 'sd-tripp-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Tripp/trippmapnet/MapServer/1',
+         labelFields: ['PROP_ADD'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Texas
         // ****************************
