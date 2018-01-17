@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.16.003
+// @version      2018.01.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -100,6 +100,12 @@
 // -- MD --
 // @connect      md.gov
 // @connect      baltimorecountymd.gov
+// -- MI --
+// @connect      kentcountymi.gov
+// @connect      emmetcounty.org
+// @connect      countyofnewaygo.com
+// @connect      oakgov.com
+// @connect      ewashtenaw.org
 // -- MN --
 // @connect       aitkin.mn.us
 // @connect       anoka.mn.us
@@ -1542,6 +1548,7 @@
          state: 'KY',
          style: DEFAULT_PT_STYLE},
 
+
         // Maryland
         // ************************************
 
@@ -1572,6 +1579,74 @@
          labelFields: ['ADDRLABEL'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
+
+
+        // Michigan
+        // ************************************
+
+        {name: 'Cheboygan Co - Parcels',
+         id: 'mi-cheboygan-co-parcels',
+         url: 'https://services6.arcgis.com/j6ueqNZduqQcCpQQ/ArcGIS/rest/services/Quick_Reference/FeatureServer/1',
+         labelFields: ['propstrcom'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Emmet Co - Parcels',
+         id: 'mi-emmet-co-parcels',
+         url: 'http://gis.emmetcounty.org/arcgis/rest/services/ParcelOverlay/MapServer/4',
+         labelFields: ['PAR_ADDR'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kent Co - Parcels',
+         id: 'mi-kent-co-parcels',
+         url: 'http://gis.kentcountymi.gov/prodarcgis/rest/services/Copy_of_KC_CAD_Local_331/MapServer/10',
+         labelFields: ['PROPERTYADDRESS'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Newaygo Co - Parcels',
+         id: 'mi-newaygo-co-parcels',
+         url: 'http://arcgisweb.countyofnewaygo.com/gis/rest/services/WebMaps/NewaygoCounty/MapServer/2',
+         labelFields: ['P_ADDRESS'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Oakland Co - Parcels',
+         id: 'mi-oakland-co-parcels',
+         url: 'https://gisservices.oakgov.com/arcgis/rest/services/Enterprise/EnterpriseOpenParcelDataMapService/MapServer/1',
+         labelFields: ['SITEADDRESS'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // THESE APPEAR TO BE SAME AS PARCELS, JUST A POINT AT THE CENTER.
+        // {name: 'Oakland Co - Parcel Points',
+        //  id: 'mi-oakland-co-pts',
+        //  url: 'https://gisservices.oakgov.com/arcgis/rest/services/EagleView/EagleViewParcelDataWFSService/MapServer/5',
+        //  labelFields: ['SITESTREETADDRESS'],
+        //  state: 'MI',
+        //  style: DEFAULT_PT_STYLE},
+
+        {name: 'Washtenaw Co - Ann Arbor - Parcels (Limited)',
+         id: 'mi-washtenaw-co-parcels',
+         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/A2ParcelsforItrakIt/MapServer/0',
+         labelFields: ['PRPACOM'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washtenaw Co - Ann Arbor - Address Points (Limited)',
+         id: 'mi-washtenaw-co-pts',
+         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/A2/A2BaseCacheBasicV2/MapServer/21',
+         labelFields: ['SITUS_ADR'],
+         state: 'MI',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wayne Co - Parcels',
+         id: 'mi-wayne-co-parcels',
+         url: 'https://tiles.arcgis.com/tiles/b6rkZNtCd6Mx2gvB/arcgis/rest/services/parcel_and_condo_symbology_test_3/MapServer/1',
+         labelFields: ['str_addr'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Minnesota
         // ************************************
@@ -3158,7 +3233,7 @@
          url: 'https://mapservices.legis.wisconsin.gov/arcgis/rest/services/WLIP/PARCELS/FeatureServer/0',
          labelFields: ['SITEADRESS'],
          state: 'WI',
-         style: DEFAULT_PARCEL_STYLE},
+         style: DEFAULT_PARCEL_STYLE}
 
     ];
 
