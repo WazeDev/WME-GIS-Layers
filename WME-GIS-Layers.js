@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.16.002
+// @version      2018.01.16.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -176,6 +176,7 @@
 // @connect      butlercountyauditor.org
 // @connect      clermontauditor.org
 // @connect      mcegisohio.org
+// @connect      franklincountyauditor.com
 // -- SD --
 // @connect      206.176.83.74
 // @connect      rcgov.org
@@ -2506,47 +2507,54 @@
         //  state: 'OH',
         //  style: DEFAULT_PT_STYLE},
 
-        //         {name: 'Butler Co - Parcels',
-        //          id: 'oh-butler-co-parcels',
-        //          url: 'https://maps.butlercountyauditor.org/arcgis/rest/services/basemap/MapServer/1',
-        //          labelFields: ['LOCATION'],
-        //          state: 'OH',
-        //          style: DEFAULT_PARCEL_STYLE},
+        {name: 'Butler Co - Parcels',
+         id: 'oh-butler-co-parcels',
+         url: 'https://maps.butlercountyauditor.org/arcgis/rest/services/basemap/MapServer/1',
+         labelFields: ['LOCATION'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
-        //         {name: 'Clermont Co - Address Points',
-        //          id: 'oh-clermont-co-points',
-        //          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/AddressPointsLabeled/MapServer/1',
-        //          labelFields: ['LSN'],
-        //          state: 'OH',
-        //          style: DEFAULT_PT_STYLE},
+        {name: 'Clermont Co - Address Points',
+         id: 'oh-clermont-co-points',
+         url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/AddressPointsLabeled/MapServer/1',
+         labelFields: ['LSN'],
+         state: 'OH',
+         style: DEFAULT_PT_STYLE},
 
-        //         {name: 'Clermont Co - Parcels',
-        //          id: 'oh-clermont-co-parcels',
-        //          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/ParcelLabelsWithOwner/MapServer/18',
-        //          labelFields: ['ADRNO','ADRDIR','ADRSTR','ADRSUF'],
-        //          state: 'OH',
-        //          style: DEFAULT_PARCEL_STYLE},
+        {name: 'Clermont Co - Parcels',
+         id: 'oh-clermont-co-parcels',
+         url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/ParcelLabelsWithOwner/MapServer/18',
+         labelFields: ['ADRNO','ADRDIR','ADRSTR','ADRSUF'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
-        //         {name: 'Hamilton Co - Parcels',
-        //          id: 'oh-hamilton-co-parcels',
-        //          url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Hamilton/HCE_Parcels_With_Auditor_Data/MapServer/0',
-        //          labelFields: ['CAGIS.AUDREAL_VW.ADDRNO'],
-        //          state: 'OH',
-        //          style: DEFAULT_PARCEL_STYLE},
+        {name: 'Franklin Co - Parcels',
+         id: 'oh-franklin-co-parcels',
+         url: 'http://maps.franklincountyauditor.com/fcaags/rest/services/Services/ParcelFeatures/MapServer/1',
+         labelFields: ['SITEADDRESS'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
-        //         {name: 'Montgomery Co - Address Points',
-        //          id: 'oh-montgomery-co-points',
-        //          url: 'http://www.mcegisohio.org/arcgis/rest/services/PUBLIC/AUDGIS_MVRP/MapServer/2',
-        //          labelFields: ['ADDR_NUM'],
-        //          state: 'OH',
-        //          style: DEFAULT_PT_STYLE},
+        {name: 'Hamilton Co - Parcels',
+         id: 'oh-hamilton-co-parcels',
+         url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Hamilton/HCE_Parcels_With_Auditor_Data/MapServer/0',
+         labelFields: ['CAGIS.AUDREAL_VW.ADDRNO','CAGIS.AUDREAL_VW.ADDRST','CAGIS.AUDREAL_VW.ADDRSF'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
-        //         {name: 'Warren Co - Parcels',
-        //          id: 'oh-warren-co-parcels',
-        //          url: 'http://webmap1.co.warren.oh.us/ArcGIS/rest/services/Dynamic/ParcelLabelsAddr/MapServer/0',
-        //          labelFields: ['Street_Nbr'],
-        //          state: 'OH',
-        //          style: DEFAULT_PARCEL_STYLE},
+        {name: 'Montgomery Co - Address Points',
+         id: 'oh-montgomery-co-points',
+         url: 'http://www.mcegisohio.org/arcgis/rest/services/PUBLIC/AUDGIS_MVRP/MapServer/2',
+         labelFields: ['ADDR_NUM','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Warren Co - Parcels',
+         id: 'oh-warren-co-parcels',
+         url: 'http://webmap1.co.warren.oh.us/ArcGIS/rest/services/Dynamic/ParcelLabelsAddr/MapServer/0',
+         labelFields: ['Address_Line_1'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
 
         // Pennsylvania
