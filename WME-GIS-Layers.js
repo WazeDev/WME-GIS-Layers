@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.18.002
+// @version      2018.01.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -21,41 +21,25 @@
 // @connect      dc.gov
 // -- FL --
 // @connect      arcgis.com
-// @connect      boca-raton.fl.us
 // @connect      brevardcounty.us
 // @connect      broward.org
 // @connect      bcpa.net
-// @connect      charlottecountyfl.gov
-// @connect      citruspa.org
 // @connect      coj.net
-// @connect      escpa.org
 // @connect      fl.us
-// @connect      fwb.org
 // @connect      hcpafl.org
-// @connect      hernandocountygis-fl.us
-// @connect      hcpao.org
 // @connect      ircgov.com
-// @connect      lakecountyfl.gov
 // @connect      leoncountyfl.gov
-// @connect      mymanatee.org
 // @connect      marioncountyfl.org
 // @connect      martin.fl.us
 // @connect      miamidade.gov
-// @connect      okaloosafl.com
 // @connect      ocpafl.org
-// @connect      property-appraiser.org
 // @connect      palmcoastgov.com
 // @connect      property-appraiser.org
 // @connect      pascocountyfl.net
 // @connect      paslc.org
-// @connect      pinellascounty.org
-// @connect      polkpa.org
-// @connect      port-orange.org
 // @connect      putnam-fl.com
-// @connect      scgov.net
 // @connect      seminolecountyfl.gov
 // @connect      st-johns.fl.us
-// @connect      tampagov.net
 // @connect      vcgov.org
 // -- GA --
 // @connect      augustaga.gov
@@ -213,8 +197,6 @@
 // @connect      brunswickcountync.gov
 // -- WI --
 // @connect      legis.wisconsin.gov
-// -- WV --
-// @connect      wvu.edu
 // ==/UserScript==
 
 /* global OL */
@@ -241,6 +223,7 @@
         fillColor: '#000',
         fillOpacity: 0,
         pointRadius: 4,
+        label : "${label}",
         strokeColor: '#167fff',
         strokeOpacity: '0.8',
         fontColor: "#167fff",
@@ -248,7 +231,7 @@
         labelOutlineColor: "black",
         labelOutlineWidth: 3
     };
-    
+
     let DEFAULT_PARCEL_STYLE = {
         fillOpacity: 0
     };
@@ -491,34 +474,6 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Bay Co - Address Points',
-         id: 'fl-bay-co-pts',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Bay/BayView/MapServer/0',
-         labelFields: ['ADDRESS'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Bay Co - Parcels',
-         id: 'fl-bay-co-parcels',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Bay/BayView/MapServer/2',
-         labelFields: ['DSITEADDR'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Boca Raton- City Points',
-         id: 'fl-boca-raton-city-pts',
-         url: 'http://gisweb.ci.boca-raton.fl.us/bocagis/rest/services/Basemap/BOCA_SITUS/MapServer/0',
-         labelFields: ['STREET_NO','STREET_PRE','STREET_NAM','STREET_SUF','STREET_POS'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Boca Raton- City Parcels',
-         id: 'fl-boca-raton-city-parcels',
-         url: 'http://gisweb.ci.boca-raton.fl.us/bocagis/rest/services/Basemap/PARCEL_QUERY/MapServer/1',
-         labelFields: ['siteaddr'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Brevard Co - Parcels',
          id: 'fl-brevard-co-parcels',
          url: 'http://gis.brevardcounty.us/gissrv/rest/services/Base_Map/Parcel_New_WKID102100/MapServer/5',
@@ -540,27 +495,6 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Charlotte Co - Address Points',
-         id: 'fl-charlotte-co-pts',
-         url: 'http://agis.charlottecountyfl.gov/arcgis/rest/services/Essentials/CCGIS_Website_Layers/MapServer/1',
-         labelFields: ['NUMBER','PREDIR','PRETYPE','NAME','TYPE','SUFDIR'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Charlotte Co - Parcels',
-         id: 'fl-charlotte-co-parcels',
-         url: 'http://agis.charlottecountyfl.gov/arcgis/rest/services/Essentials/CCGIS_Website_Layers/MapServer/17',
-         labelFields: ['FullPropertyAddress'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Citrus Co - Parcels',
-         id: 'fl-citrus-co-parcels',
-         url: 'http://gis.citruspa.org/arcgisweb/rest/services/Tyler/Parcel_Data_Cache/MapServer/3',
-         labelFields: ['TE_PARDAT.ADRNO','TE_PARDAT.ADRDIR','TE_PARDAT.ADRSTR','TE_PARDAT.ADRSUF'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Duval Co - Parcels',
          id: 'fl-duval-co-parcels',
          url: 'http://maps.coj.net/coj/rest/services/CityBiz/ParcelsProd/MapServer/0',
@@ -568,46 +502,10 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Escambia Co - Parcels',
-         id: 'fl-escambia-co-parcels',
-         url: 'https://maps.escpa.org/arcgis1/rest/services/CAMA_PUB_mobile/MapServer/40',
-         labelFields: ['ecpaWeb.dbo.ViewPublic.Situs'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Flagler Co - Parcels',
          id: 'fl-flagler-co-parcels',
          url: 'http://maps.palmcoastgov.com/arcgis/rest/services/External/FlaglerCountyParcels/MapServer/1',
          labelFields: ['HOUSE_NO','STREET'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Ft. Walton Beach - City Addr Points',
-         id: 'fl-ft-walton-beach-co-pts',
-         url: 'https://gis.fwb.org/arcgis/rest/services/Maps/Addresses/MapServer/1',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
-         labelFields: ['SITE_ADDR'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Ft. Walton Beach - City Parcels',
-         id: 'fl-ft-walton-beach-city-parcels',
-         url: 'https://gis.fwb.org/arcgis/rest/services/Maps/Parcels/MapServer/0',
-         labelFields: ['HOUSE_NO','HSESUF','STREET','ST_MD'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Hernando Co - Address Points',
-         id: 'fl-hernando-co-pts',
-         url: 'https://www.hernandocountygis-fl.us/arcgis10_3/rest/services/PANEW/MapServer/0',
-         labelFields: ['HOUSENUM','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Hernando Co - Parcels',
-         id: 'fl-hernando-co-parcels',
-         url: 'https://www.hernandocountygis-fl.us/arcgis10_3/rest/services/PANEW/MapServer/6',
-         labelFields: ['SITUS_ADDRESS'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -625,13 +523,6 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Highlands Co - Parcels NO DATA',
-         id: 'fl-highlands-co-parcels',
-         url: 'http://gis1.hcpao.org/arcgiscv/rest/services/HighlandsCounty_Parcels/MapServer/0',
-         labelFields: [''],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Indian River Co - Address Points',
          id: 'fl-indian-river-co-pts',
          url: 'http://gis.ircgov.com/arcgis/rest/services/IRCGIS/IRC_Address_Points_woLabels/MapServer/0',
@@ -643,21 +534,6 @@
          id: 'fl-indian-river-co-parcels',
          url: 'http://gis.ircgov.com/arcgis/rest/services/IRCPA/IRCPA_Parcels/MapServer/0',
          labelFields: ['SITE_ADDR'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Lake Co - Address Points',
-         id: 'fl-lake-co-pts',
-         url: 'https://gis.lakecountyfl.gov/lakegis/rest/services/InteractiveMap/MapServer/16',
-         labelFields: ['FullAddress'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Lake Co - Parcels',
-         id: 'fl-lake-co-parcels',
-         url: 'https://gis.lakecountyfl.gov/lakegis/rest/services/InteractiveMap/MapServer/20',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
-         labelFields: ['PropertyAddress'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -674,23 +550,6 @@
          labelFields: ['SITEADDR'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
-
-       // Manatee County Layers not showing. not sure why. they show ok for some time, then after a few reloads of script wont load
-       // console showing error loading labels ( token issue ). will need to check more.  they load on ArcGIS map.
-
-        //{name: 'Manatee Co - Address Points',
-        // id: 'fl-manatee-co-pts',
-        // url: 'http://www.mymanatee.org/arcgis01/rest/services/commonoperational/addresslabels/MapServer/0',
-        // labelFields: ['FULL_ADDRESS_POSTAL'],
-        // state: 'FL',
-        // style: DEFAULT_PT_STYLE},
-
-        //{name: 'Manatee Co - Parcels',
-        // id: 'fl-manatee-co-parcels',
-        // url: 'http://www.mymanatee.org/arcgis01/rest/services/commonoperational/parcellines/MapServer/0',
-        // labelFields: ['PRIMARY_ADDRESS'],
-        // state: 'FL',
-        // style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Marion Co - Address Points',
          id: 'fl-marion-co-pts',
@@ -755,21 +614,6 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Okaloosa Co - Address Points',
-         id: 'fl-okaloosa-co-pts',
-         url: 'http://webgis.okaloosafl.com/webgis/proxy/proxy.ashx?http://204.49.20.72/arcgis/rest/services/internet_webgis/MapServer/24',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
-         labelFields: ['SITE_ADDR'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Okaloosa Co - Parcels NO DATA',
-         id: 'fl-okaloosa-co-parcels',
-         url: 'http://webgis.okaloosafl.com/webgis/proxy/proxy.ashx?http://204.49.20.72/arcgis/rest/services/internet_webgis/MapServer/15',
-         labelFields: ['PATPCL_ADDR3'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Orange Co - Address Points',
          id: 'fl-orange-co-pts',
          url: 'https://maps.ocpafl.org/proxy.ashx?https://gisapp2.ocpafl.org/arcgis/rest/services/DYNAMIC/Dynamic_Layers/MapServer/0',
@@ -781,20 +625,6 @@
          id: 'fl-orange-co-parcels',
          url: 'https://maps.ocpafl.org/proxy.ashx?https://gisapp2.ocpafl.org/arcgis/rest/services/DYNAMIC/Dynamic_Layers/MapServer/10',
          labelFields: ['STR_NUM','PRE_DIR','STR_NAME','POST_TYPE','POST_DIR'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Osceola Co - Address Points',
-         id: 'fl-osceola-co-pts',
-         url: 'http://ira.property-appraiser.org/arcgis/rest/services/GisSite_ParcelCentroids/MapServer/0',
-         labelFields: ['StreetNumber','StreetName','StreetSfx','StreetSfxDir','CondoUnit'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Osceola Co - Parcels',
-         id: 'fl-osceola-co-parcels',
-         url: 'http://ira.property-appraiser.org/arcgis/rest/services/PAT_GisSite_TaxMap/MapServer/0',
-         labelFields: ['StreetNumber','StreetName','StreetSfx','StreetSfxDir'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -812,49 +642,6 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Pensacola - City Parcels',
-         id: 'fl-pensacola-city-parcels',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Pensacola/GoMaps4/MapServer/84',
-         labelFields: ['SITEADDR'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Pinellas Co - Address Points',
-         id: 'fl-pinellas-co-pts',
-         url: 'http://egis.pinellascounty.org/arcgis/rest/services/PublicWebGIS/Parcels/MapServer/0',
-         labelFields: ['FULLADDR'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Pinellas Co - Parcels',
-         id: 'fl-pinellas-co-parcels',
-         url: 'http://egis.pinellascounty.org/arcgis/rest/services/PublicWebGIS/Parcels/MapServer/1',
-         labelFields: ['SITE_ADDRESS'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Polk Co - Address Points',
-         id: 'fl-polk-co-pts',
-         url: 'http://map.polkpa.org/proxy.ashx?http://gisapp/ArcGIS/rest/services/WebSite/E911_Site_Address_Points/MapServer/0',
-         labelFields: ['PrimaryAddress'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Polk Co - Parcels NO DATA',
-         id: 'fl-polk-co-parcels',
-         url: 'http://map.polkpa.org/proxy.ashx?http://gisapp/ArcGIS/rest/services/WebSite/ps911_Addresses_gissde/MapServer/21',
-         labelFields: [''],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Port Orange - City Parcels',
-         id: 'fl-port-orange-city-parcels',
-         url: 'http://gisweb.port-orange.org:6080/arcgis/rest/services/Services/PARCEL_POLYGONS/MapServer/0',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
-         labelFields: ['SITUS_ADDR'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Putnam Co - Address Points',
          id: 'fl-putnam-co-pts',
          url: 'http://gis.putnam-fl.com/putgis/rest/services/Operational/ParcelsPlus/MapServer/0',
@@ -867,20 +654,6 @@
          id: 'fl-putnam-co-parcels',
          url: 'http://gis.putnam-fl.com/putgis/rest/services/Operational/ParcelsPlus/MapServer/2',
          labelFields: ['SITEADDRESS'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Sarasota Co - Address Points',
-         id: 'fl-sarasota-co-pts',
-         url: 'https://ags2.scgov.net/arcgis/rest/services/SCPA/Cama_Addresses/MapServer/6',
-         labelFields: ['Address'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Sarasota Co - Parcels NO DATA',
-         id: 'fl-sarasota-co-parcels',
-         url: 'https://ags2.scgov.net/arcgis/rest/services/SCPA/WAB_Labels/MapServer/0',
-         labelFields: [''],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -919,21 +692,6 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Tampa - City Address Points',
-         id: 'fl-tampa-city-pts',
-         url: 'https://arcgis.tampagov.net/arcgis/rest/services/Address/AddressPoints/FeatureServer/0',
-         labelFields: ['FULLADDR'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Tampa - City Parcels',
-         id: 'fl-tampa-city-parcels',
-         url: 'https://arcgis.tampagov.net/arcgis/rest/services/Parcels/TaxParcel/MapServer/0',
-         labelFields: ['SITE_ADDR'],
-         //processLabel: function(label) { label.replace(/\d{5}$/); },
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Volusia Co - Address Points',
          id: 'fl-volusia-co-pts',
          url: 'http://maps.vcgov.org/arcgis/rest/services/MapIT/MapServer/0',
@@ -956,7 +714,7 @@
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'W Palm Beach Co - Parcels NO DATA',
+        {name: 'W Palm Beach Co - Parcels',
          id: 'fl-wpalm-beach-co-parcels',
          url: 'http://maps.co.palm-beach.fl.us/arcgis/rest/services/Parcels/labels/MapServer/0',
          labelFields: [''],
@@ -1852,13 +1610,6 @@
          labelFields: ['PAR_ADDR'],
          state: 'MI',
          style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Kent Co - Address Points',
-         id: 'mi-woodford-co-pts',
-         url: 'http://gis.kentcountymi.gov/prodarcgis/rest/services/Copy_of_KC_CAD_Local_331/MapServer/1',
-         labelFields: ['Address'],
-         state: 'MI',
-         style: DEFAULT_PT_STYLE},
 
         {name: 'Kent Co - Parcels',
          id: 'mi-kent-co-parcels',
@@ -3487,16 +3238,6 @@
         //  style: DEFAULT_STRUCTURE_STYLE},
 
 
-        // West Virginia
-        // ****************************
-
-        {name: 'State - Address Points',
-         id: 'wv-state-pts',
-         url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/Location/wv_address_labels_WVDHSEM_wm/MapServer/0',
-         labelFields: ['FULLADDR'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
-
         // Wisconsin
         // ****************************
 
@@ -3643,11 +3384,13 @@
                             }
                             let attributes = {
                                 layerID: gisLayer.id,
-                                label: label
+                                label: label,
+                                streetSelected: (W.editingMediator.attributes.editingHouseNumbers && item.attributes.Address_Line_1.toLowerCase().indexOf(W.model.streets.getByIds([W.selectionManager.selectedItems[0].model.attributes.primaryStreetID])[0].name.toLowerCase()) > -1)
                             };
-                            if(W.editingMediator.attributes.editingHouseNumbers && item.attributes.Address_Line_1.toLowerCase().indexOf(W.model.streets.getByIds([W.selectionManager.selectedItems[0].model.attributes.primaryStreetID])[0].name.toLowerCase()) > -1)
-                                feature = new OpenLayers.Feature.Vector(featureGeometry,attributes, SELECTED_STREET_STYLE);
-                            else
+                            debugger;
+                            //if()
+                            //    feature = new OpenLayers.Feature.Vector(featureGeometry,attributes, SELECTED_STREET_STYLE);
+                            //else
                                 feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
                             features.push(feature);
                         }
@@ -3718,6 +3461,16 @@
             });
         });
 
+        let selectedRule = new OpenLayers.Rule({
+                filter: new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                    property: "streetSelected",
+                    value: true
+                }),
+                symbolizer: SELECTED_STREET_STYLE
+            });
+
+        rules.push(selectedRule);
         let style = new OpenLayers.Style(DEFAULT_STYLE, { rules: rules } );
 
         _mapLayer = new OpenLayers.Layer.Vector("GIS Layers", {
