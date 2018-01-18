@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.17.001
+// @version      2018.01.18.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1597,6 +1597,13 @@
          labelFields: ['PAR_ADDR'],
          state: 'MI',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kent Co - Address Points',
+         id: 'mi-woodford-co-pts',
+         url: 'http://gis.kentcountymi.gov/prodarcgis/rest/services/Copy_of_KC_CAD_Local_331/MapServer/1',
+         labelFields: ['Address'],
+         state: 'MI',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Kent Co - Parcels',
          id: 'mi-kent-co-parcels',
