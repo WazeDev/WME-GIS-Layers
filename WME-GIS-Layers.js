@@ -237,6 +237,18 @@
         labelOutlineWidth: 3
     };
 
+    let SELECTED_STREET_STYLE={
+        fillColor: '#000',
+        fillOpacity: 0,
+        pointRadius: 4,
+        strokeColor: '#167fff',
+        strokeOpacity: '0.8',
+        fontColor: "#167fff",
+        fontSize: '13',
+        labelOutlineColor: "black",
+        labelOutlineWidth: 3
+    };
+    
     let DEFAULT_PARCEL_STYLE = {
         fillOpacity: 0
     };
@@ -3633,7 +3645,10 @@
                                 layerID: gisLayer.id,
                                 label: label
                             };
-                            feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
+                            if(W.editingMediator.attributes.editingHouseNumbers && item.attributes.Address_Line_1.toLowerCase().indexOf(W.model.streets.getByIds([W.selectionManager.selectedItems[0].model.attributes.primaryStreetID])[0].name.toLowerCase()) > -1)
+                                feature = new OpenLayers.Feature.Vector(featureGeometry,attributes, SELECTED_STREET_STYLE);
+                            else
+                                feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
                             features.push(feature);
                         }
                     }
@@ -3822,6 +3837,7 @@
 
         let tab = new Tab('GIS-L', content, initTab, null);
         W.map.events.register("moveend",null,onMapMove);
+        W.editingMediator.on('change:editingHouseNumbers', onMapMove);
         showScriptInfoAlert();
     }
 
