@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.18.002
+// @version      2018.01.18.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -3484,6 +3484,13 @@
          labelFields: ['FULLADDR'],
          state: 'WV',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'State - Parcels',
+         id: 'wv-state-parcels',
+         url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/PlanningCadastre/WV_Parcels/MapServer/5',
+         labelFields: ['PhyNum','PhyDir','PhyStreet','PhySufx'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Wisconsin
         // ****************************
