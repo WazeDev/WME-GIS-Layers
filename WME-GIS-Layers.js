@@ -3385,13 +3385,9 @@
                             let attributes = {
                                 layerID: gisLayer.id,
                                 label: label,
-                                streetSelected: (W.editingMediator.attributes.editingHouseNumbers && item.attributes.Address_Line_1.toLowerCase().indexOf(W.model.streets.getByIds([W.selectionManager.selectedItems[0].model.attributes.primaryStreetID])[0].name.toLowerCase()) > -1)
+                                streetSelected: (W.editingMediator.attributes.editingHouseNumbers && label.toLowerCase().indexOf(W.model.streets.getByIds([W.selectionManager.selectedItems[0].model.attributes.primaryStreetID])[0].name.toLowerCase()) > -1)
                             };
-                            debugger;
-                            //if()
-                            //    feature = new OpenLayers.Feature.Vector(featureGeometry,attributes, SELECTED_STREET_STYLE);
-                            //else
-                                feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
+                            feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
                             features.push(feature);
                         }
                     }
