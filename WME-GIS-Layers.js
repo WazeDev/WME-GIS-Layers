@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.18.003
+// @version      2018.01.18.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -9,6 +9,10 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
+// -- AK --
+// @connect      matsugov.us
+// @connect      ancgis.com
+// @connect      kpb.us
 // -- AL --
 // @connect      kcsgis.com
 // @connect      calhouncounty.org
@@ -199,6 +203,13 @@
 // @connect      clermontauditor.org
 // @connect      mcegisohio.org
 // @connect      franklincountyauditor.com
+// -- PA --
+// @connect      adamscounty.us
+// @connect      alleghenycounty.us
+// @connect      bakerprojects.com
+// @connect      berks.pa.us
+// @connect      butler.pa.us
+// @connect      cambriacountypa.gov
 // -- SD --
 // @connect      206.176.83.74
 // @connect      rcgov.org
@@ -418,6 +429,56 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Talladega/Public/MapServer/50',
          labelFields: ['SitusAddNumber','SitusAddName'],
          state: 'AL',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Alaska
+        // ************************************
+
+        {name: 'Anchorage - Address Points',
+         id: 'ak-anchorage-pts',
+         url: 'https://www.ancgis.com/arcgis/rest/services/Addressing/Address_Points/MapServer/0',
+         labelFields: ['STREET_ADDRESS'],
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+       {name: 'Anchorage - Parcels',
+        id: 'ak-anchorage-ci-parcels',
+        url: 'https://www.ancgis.com/arcgis/rest/services/Addressing/Address_Parcels/MapServer/0',
+        labelFields: ['STREET_ADDRESS'],
+        state: 'AK',
+        style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kenai Peninsula - Address Points',
+         id: 'ak-kenai-pts',
+         url: 'http://maps.kpb.us/gis/rest/services/PhysicalAddresses/MapServer/0',
+         labelFields: ['ADDRESS'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kenai Peninsula - Parcels',
+         id: 'ak-kenai-parcels',
+         url: 'http://maps.kpb.us/gis/rest/services/TaxParcels/MapServer/0',
+         labelFields: ['SITUS_ADDRESS'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Matanuska-Susitna - Address Points',
+         id: 'ak-matsu-bor-pts',
+         url: 'http://maps.matsugov.us/arcgis/rest/services/Open_Data/PublicSafety_Addresses/MapServer/0',
+         labelFields: ['ADDRESS'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Matanuska-Susitna - Parcels (NO DATA)',
+         id: 'ak-matsu-bor-parcels',
+         url: 'http://maps.matsugov.us/arcgis/rest/services/Open_Data/Cadastral_Parcels/MapServer/0',
+         labelFields: [],
+         visibleAtZoom: 5,
+         state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
 
@@ -1507,15 +1568,15 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Shwanee Co - Address Points',
-         id: 'ks-Shwanee-co-pts',
+        {name: 'Shawnee Co - Address Points',
+         id: 'ks-Shawnee-co-pts',
          url: 'http://gis.snco.us/arcgis2/rest/services/Basemap_Cached/MapServer/55',
          labelFields: ['PADDRESS'],
          state: 'KS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Shwanee Co - Parcels',
-         id: 'ks-shwanee-co-Parcels',
+        {name: 'Shawnee Co - Parcels',
+         id: 'ks-shawnee-co-Parcels',
          url: 'http://gis.snco.us/arcgis2/rest/services/Parcels/MapServer/0',
          labelFields: ['PADDRESS'],
          state: 'KS',
@@ -2884,6 +2945,85 @@
 
         // Pennsylvania
         // **********************************
+
+        {name: 'Adams Co - Address Points',
+         id: 'pa-adams-co-pts',
+         url: 'https://mapping.adamscounty.us/arcgis/rest/services/Maps/Deeds2/MapServer/10',
+         labelFields: ['ST_NUM','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Adams Co - Parcels NO DATA',
+         id: 'pa-adams-co-parcels',
+         url: 'https://mapping.adamscounty.us/arcgis/rest/services/Maps/cama_parcel/MapServer/1',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Allegheny Co - Address Points',
+         id: 'pa-allegheny-co-pts',
+         url: 'http://geodata.alleghenycounty.us/arcgis/rest/services/EGIS/AC_AddressPoints/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Allegheny Co - Parcels',
+         id: 'pa-allegheny-co-parcels',
+         url: 'http://geodata.alleghenycounty.us/arcgis/rest/services/EGIS/AC_Parcels3/MapServer/0',
+         labelFields: ['ALCO_DW.dbo.tbl_IAS4_TEMP_WEB.PROPERTYHOUSENUM','ALCO_DW.dbo.tbl_IAS4_TEMP_WEB.PROPERTYFRACTION','ALCO_DW.dbo.tbl_IAS4_TEMP_WEB.PROPERTYDIRECTION','ALCO_DW.dbo.tbl_IAS4_TEMP_WEB.PROPERTYSTREET','ALCO_DW.dbo.tbl_IAS4_TEMP_WEB.PROPERTYSUFFIX'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Beaver Co - Address Points',
+         id: 'pa-beaver-co-pts',
+         url: 'http://broadbandgis.bakerprojects.com/arcgis/rest/services/BeaverCounty/AddressPoints/MapServer/0',
+         labelFields: ['SAN','PRD','STN','STS','POD'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Beaver Co - Parcels',
+         id: 'pa-beaver-co-parcels',
+         url: 'http://broadbandgis.bakerprojects.com/arcgis/rest/services/BeaverCounty/ParcelSearch/MapServer/0',
+         labelFields: ['beaver_county.BEAVERCOUNTY.Current_Owner_GIS_Portal.Location_Number','beaver_county.BEAVERCOUNTY.Current_Owner_GIS_Portal.Location_Street'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Berks Co - Address Points',
+         id: 'pa-berks-co-pts',
+         url: 'https://gis.co.berks.pa.us/arcgis/rest/services/Pictometry/PictometryWFS/MapServer/0',
+         labelFields: ['FULLSTREETADDRESS'],
+         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Berks Co - Parcels',
+         id: 'pa-berks-co-parcels',
+         url: 'https://gis.co.berks.pa.us/arcgis/rest/services/Assess/AssessBase/MapServer/58',
+         labelFields: ['FULLSITEADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bucks Co - Parcels',
+         id: 'pa-bucks-co-parcels',
+         url: 'https://utility.arcgis.com/usrsvcs/servers/7099869aec2049e780795bcc6bfd4bed/rest/services/Java_Viewer/Parcels/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Butler Co - Parcels',
+         id: 'pa-butler-co-parcels',
+         url: 'http://maps.co.butler.pa.us/arcgis/rest/services/ButlerCounty/ButlerMapService/MapServer/1',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cambria Co - Parcels',
+         id: 'pa-cambria-co-parcels',
+         url: 'http://gis2.cambriacountypa.gov/georesources/rest/services/Resources/SurfaceParcels/MapServer/28',
+         labelFields: ['SITUS_DESC_1'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Juniata Co - Parcels',
          id: 'pa-juniata-co-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Juniata/Public/MapServer/1',
