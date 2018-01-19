@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.19.001
+// @version      2018.01.19.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1483,7 +1483,7 @@
         {name: 'Franklin Co - Parcels (NO DATA)',
          id: 'ks-franklin-co-Parcels',
          url: 'https://gis.thomsonreuters.com/arcgis/rest/services/FranklinKs/FranklinKsDynamic/MapServer/1',
-         labelFields: ['PropertyNumC'],
+         labelFields: [],
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1583,14 +1583,14 @@
         {name: 'Summer Co - Parcels (NO DATA)',
          id: 'ks-summer-co-Parcels',
          url: 'https://gis.thomsonreuters.com/arcgis/rest/services/SumnerKs/SumnerKsDynamic/MapServer/0',
-         labelFields: ['PID'],
+         labelFields: [],
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wyandotte Co - Parcels (NO DATA)',
          id: 'ks-wyandotte-co-Parcels',
          url: 'https://arcgis.wycokck.org/mapserv/rest/services/parcels/MapServer/0',
-         labelFields: ['PARCEL'],
+         labelFields: [],
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1864,6 +1864,7 @@
         {name: 'Maryland - Parcel Boundaries',
          id: 'md-state-parcels',
          url: 'http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_ParcelBoundaries/MapServer/0',
+         where: "ACCTID<>''",
          labelFields: [],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
@@ -3947,8 +3948,8 @@
 
     function initGui() {
         if (_dev_mode) {
-            //DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
-            //DEFAULT_PARCEL_STYLE.fillColor = DEFAULT_STYLE.strokeColor;
+            DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
+            DEFAULT_PARCEL_STYLE.fillColor = DEFAULT_STYLE.strokeColor;
         }
 
         initLayer();
