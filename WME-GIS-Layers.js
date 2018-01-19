@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.18.004
+// @version      2018.01.19.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -724,22 +724,20 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-       // Manatee County Layers not showing. not sure why. they show ok for some time, then after a few reloads of script wont load
-       // console showing error loading labels ( token issue ). will need to check more.  they load on ArcGIS map.
+        {name: 'Manatee Co - Address Points',
+         id: 'fl-manatee-co-pts',
+         url: 'https://www.mymanatee.org/arcgis01/rest/services/commonoperational/addresslabels/MapServer/0',
+         labelFields: ['FULL_ADDRESS_POSTAL'],
+         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         state: 'FL',
+         style: DEFAULT_PT_STYLE},
 
-        //{name: 'Manatee Co - Address Points',
-        // id: 'fl-manatee-co-pts',
-        // url: 'http://www.mymanatee.org/arcgis01/rest/services/commonoperational/addresslabels/MapServer/0',
-        // labelFields: ['FULL_ADDRESS_POSTAL'],
-        // state: 'FL',
-        // style: DEFAULT_PT_STYLE},
-
-        //{name: 'Manatee Co - Parcels',
-        // id: 'fl-manatee-co-parcels',
-        // url: 'http://www.mymanatee.org/arcgis01/rest/services/commonoperational/parcellines/MapServer/0',
-        // labelFields: ['PRIMARY_ADDRESS'],
-        // state: 'FL',
-        // style: DEFAULT_PARCEL_STYLE},
+        {name: 'Manatee Co - Parcels',
+         id: 'fl-manatee-co-parcels',
+         url: 'https://www.mymanatee.org/arcgis01/rest/services/commonoperational/parcellines/MapServer/0',
+         labelFields: ['PRIMARY_ADDRESS'],
+         state: 'FL',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Marion Co - Address Points',
          id: 'fl-marion-co-pts',
@@ -1952,12 +1950,13 @@
          state: 'MI',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Wayne Co - Parcels',
-         id: 'mi-wayne-co-parcels',
-         url: 'https://tiles.arcgis.com/tiles/b6rkZNtCd6Mx2gvB/arcgis/rest/services/parcel_and_condo_symbology_test_3/MapServer/1',
-         labelFields: ['str_addr'],
-         state: 'MI',
-         style: DEFAULT_PARCEL_STYLE},
+        // THIS IS A TILES LAYER, SO NOT USABLE.  COULDN'T FIGURE OUT HOW TO GET FEATURE DATA.
+        // {name: 'Wayne Co - Parcels',
+        //  id: 'mi-wayne-co-parcels',
+        //  url: 'https://tiles.arcgis.com/tiles/b6rkZNtCd6Mx2gvB/arcgis/rest/services/parcel_and_condo_symbology_test_3/MapServer/1',
+        //  labelFields: ['str_addr'],
+        //  state: 'MI',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         // Minnesota
         // ************************************
@@ -3715,7 +3714,7 @@
             fields = fields.concat(gisLayer.labelHeaderFields);
         }
         url += '&outFields=' + encodeURIComponent(fields.join(','));
-        url += '&returnGeometry=true&quantizationParameters={tolerance:100}';
+        url += '&returnGeometry=true';
         url += '&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=' + (gisLayer.spatialReference ? gisLayer.spatialReference : '102100') + '&outSR=3857&f=json';
         if (gisLayer.where) {
             url += '&where=' + encodeURIComponent(gisLayer.where);
