@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.19.002
+// @version      2018.01.20.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -172,7 +172,10 @@
 // @connect      gocolumbiamo.com
 // @connect      integritygis.com
 // @connect      christiancountymo.gov
+// @connect      emapsplus.com
+// @connect      hornershifrin.com
 // @connect      midmogis.org
+// @connect      missouri.edu
 // @connect      jacksongov.org
 // @connect      semogis.com
 // @connect      kcmo.org
@@ -1951,13 +1954,12 @@
          state: 'MI',
          style: DEFAULT_PT_STYLE},
 
-        // THIS IS A TILES LAYER, SO NOT USABLE.  COULDN'T FIGURE OUT HOW TO GET FEATURE DATA.
-        // {name: 'Wayne Co - Parcels',
-        //  id: 'mi-wayne-co-parcels',
-        //  url: 'https://tiles.arcgis.com/tiles/b6rkZNtCd6Mx2gvB/arcgis/rest/services/parcel_and_condo_symbology_test_3/MapServer/1',
-        //  labelFields: ['str_addr'],
-        //  state: 'MI',
-        //  style: DEFAULT_PARCEL_STYLE},
+        {name: 'Wayne Co - Parcels',
+         id: 'mi-wayne-co-parcels',
+         url: 'https://services1.arcgis.com/b6rkZNtCd6Mx2gvB/arcgis/rest/services/Wayne_County_Parcels/FeatureServer/0',
+         labelFields: ['propstreetcombined'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Minnesota
         // ************************************
@@ -2522,6 +2524,41 @@
         // Missouri
         // ************************************
 
+        {name: 'Adair Co - Parcels',
+         id: 'mo-adair-co-parcels',
+         url: 'https://adairgis.integritygis.com/Geocortex/Essentials/REST/sites/Adair_County_MO/map/mapservices/3/rest/services/x/MapServer/4',
+         labelFields: ['ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Atchison Co - Parcels',
+         id: 'mo-atchison-co-parcels',
+         url: 'https://atchisongis.integritygis.com/Geocortex/Essentials/REST/sites/Atchison_County_MO/map/mapservices/5/rest/services/x/MapServer/14',
+         labelFields: ['REALDATA_ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Audrain Co - Parcels',
+         id: 'mo-audrian-co-parcels',
+         url: 'https://audraingis.integritygis.com/Geocortex/Essentials/REST/sites/Audrain_County_MO/map/mapservices/4/rest/services/x/MapServer/12',
+         labelFields: ['SITE_ADD'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bates Co - Address Points',
+         id: 'mo-bates-co-points',
+         url: 'http://batesgis.integritygis.com/Geocortex/Essentials/REST/sites/Bates_County_MO/map/mapservices/0/rest/services/x/MapServer/3',
+         labelFields: ['FULLADDR'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bates Co - Parcels',
+         id: 'mo-bates-co-parcels',
+         url: 'http://batesgis.integritygis.com/Geocortex/Essentials/REST/sites/Bates_County_MO/map/mapservices/0/rest/services/x/MapServer/9',
+         labelFields: ['REALDATA_SITUS_LOCATION'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Benton Co - Address Points',
          id: 'mo-benton-co-points',
          url: 'https://bentongis.integritygis.com/Geocortex/Essentials/REST/sites/Benton_County_MO/map/mapservices/1/rest/services/x/MapServer/1',
@@ -2613,6 +2650,27 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Douglas Co - Parcels',
+         id: 'mo-douglas-co-parcels',
+         url: 'https://douglasgis.integritygis.com/Geocortex/Essentials/REST/sites/Douglas_County_MO_Public/map/mapservices/2/rest/services/x/MapServer/16',
+         labelFields: ['sit_stnm'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dunklin Co - Parcels NO DATA',
+         id: 'mo-dunklin-co-parcels',
+         url: 'http://emapsplus.com/arcgis/rest/services/Missouri/DunklinEmaps/MapServer/0',
+         labelFields: [''],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Henry Co - Parcels',
+         id: 'mo-henry-co-parcels',
+         url: 'http://arcserve1.hornershifrin.com/Geocortex/Essentials/REST/sites/HenryCountyMoOverview/map/mapservices/17/rest/services/x/MapServer/1',
+         labelFields: ['sit_stnm'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Jackson Co - Address Points',
          id: 'mo-jackson-co-points',
          url: 'http://arcgisweb.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/0',
@@ -2635,16 +2693,51 @@
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Kansas City - City Address Points',
-         id: 'mo-kansascitymo-co-points',
+         id: 'mo-kansascitymo-city-points',
          url: 'http://maps.kcmo.org/kcgis/rest/services/external/EnergovData/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
         {name: 'Kansas City - City Parcels',
-         id: 'mo-kansascitymo-co-parcels',
+         id: 'mo-kansascitymo-city-parcels',
          url: 'http://maps.kcmo.org/kcgis/rest/services/external/Platting/MapServer/40',
          labelFields: ['ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lafayette Co - Address Points',
+         id: 'mo-lafayette-co-points',
+         url: 'https://lafayettegis.integritygis.com/Geocortex/Essentials/REST/sites/Lafayette_County_MO/map/mapservices/2/rest/services/x/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lafayette Co - Parcels',
+         id: 'mo-lafayette-co-parcels',
+         url: 'https://lafayettegis.integritygis.com/Geocortex/Essentials/REST/sites/Lafayette_County_MO/map/mapservices/2/rest/services/x/MapServer/7',
+         labelFields: ['ADDRESS_911'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lawrence Co - Parcels',
+         id: 'mo-lawrence-co-parcels',
+         url: 'https://lawrencegis.integritygis.com/Geocortex/Essentials/REST/sites/Lawrence_County_MO/map/mapservices/0/rest/services/x/MapServer/6',
+         labelFields: ['sit_stnm'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'mo-lincoln-co-points',
+         url: 'http://lincolngis.integritygis.com/Geocortex/Essentials/REST/sites/Lincoln_County_MO/map/mapservices/2/rest/services/x/MapServer/4',
+         labelFields: ['FULL_ADDRE'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'mo-lincoln-co-parcels',
+         url: 'http://lincolngis.integritygis.com/Geocortex/Essentials/REST/sites/Lincoln_County_MO/map/mapservices/2/rest/services/x/MapServer/5',
+         labelFields: ['SITUS_ADDRESS'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2652,6 +2745,13 @@
          id: 'mo-miller-co-parcels',
          url: 'https://millergis.integritygis.com/Geocortex/Essentials/REST/sites/Miller_County_MO/map/mapservices/0/rest/services/x/MapServer/9',
          labelFields: ['SITUS_ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Morgan Co - Parcels NO DATA',
+         id: 'mo-morgan-co-parcels',
+         url: 'https://morgangis.integritygis.com/Geocortex/Essentials/REST/sites/Morgan_County_MO/map/mapservices/1/rest/services/x/MapServer/4',
+         labelFields: [''],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2677,6 +2777,20 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Ray Co - Address Points',
+         id: 'mo-ray-co-points',
+         url: 'http://raygis.integritygis.com/Geocortex/Essentials/REST/sites/Ray_County_MO/map/mapservices/10/rest/services/x/MapServer/1',
+         labelFields: ['NewAddress'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ray Co - Parcels',
+         id: 'mo-ray-co-parcels',
+         url: 'http://raygis.integritygis.com/Geocortex/Essentials/REST/sites/Ray_County_MO/map/mapservices/10/rest/services/x/MapServer/21',
+         labelFields: ['ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'St. Charles Address Points',
          id: 'mo-stcharles-co-points',
          url: 'http://map.sccmo.org/proxy/proxy.ashx?http://10.10.143.115/scc_gis/rest/services/appservices/addressing/mapserver/0',
@@ -2690,6 +2804,28 @@
          labelFields: ['SiteAddress'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St. Louis Co - Address Points',
+         id: 'mo-stlouis-co-points',
+         url: 'http://maps.stlouisco.com/arcgis/rest/services/OpenData/OpenData/MapServer/0',
+         labelFields: ['PROP_ADD'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'St. Louis Co - Parcels',
+         id: 'mo-stlouis-co-parcels',
+         url: 'http://maps.stlouisco.com/arcgis/rest/services/Maps/Parcels/MapServer/0',
+         labelFields: ['PROP_ADD'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Vernon Co - Parcels NO DATA',
+         id: 'mo-vernon-co-parcels',
+         url: 'http://vernongis.integritygis.com/Geocortex/Essentials/REST/sites/Vernon_County_MO/map/mapservices/1/rest/services/x/MapServer/6',
+         labelFields: ['PARCELPIN'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
 
         // Montana
         // ************************************
