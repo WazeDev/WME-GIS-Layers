@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.20.001
+// @version      2018.01.21.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -207,12 +207,35 @@
 // @connect      mcegisohio.org
 // @connect      franklincountyauditor.com
 // -- PA --
+// @connect      pa.us
 // @connect      adamscounty.us
 // @connect      alleghenycounty.us
 // @connect      bakerprojects.com
-// @connect      berks.pa.us
-// @connect      butler.pa.us
 // @connect      cambriacountypa.gov
+// @connect      carboncounty.com
+// @connect      centrecountypa.gov
+// @connect      chesco.org
+// @connect      clearfieldco.org
+// @connect      clintoncountypa.com
+// @connect      columbiapa.org
+// @connect      crawfordcountypa.net
+// @connect      ccpa.net
+// @connect      dauphincounty.org
+// @connect      mobile311.com
+// @connect      franklincountypa.gov
+// @connect      huntingdoncounty.net
+// @connect      lyco.org
+// @connect      monroegis.org
+// @connect      montcopa.org
+// @connect      northamptoncounty.org
+// @connect      norrycopa.net
+// @connect      perryco.org
+// @connect      phila.gov
+// @connect      pikepa.org
+// @connect      unionco.org
+// @connect      50.120.220.154
+// @connect      wcgis.us
+// @connect      ycpc.org
 // -- SD --
 // @connect      206.176.83.74
 // @connect      rcgov.org
@@ -3160,11 +3183,426 @@
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Carbon Co - Parcels',
+         id: 'pa-carbon-co-parcels',
+         url: 'https://gis.carboncounty.com:6443/arcgis/rest/services/Carbon_County_Parcel_Viewer/MapServer/19',
+         labelFields: ['Location'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Centre Co - Address Points',
+         id: 'pa-centre-co-pts',
+         url: 'https://gissites2.centrecountypa.gov/arcgis/rest/services/CentreGISV911/MapServer/7',
+         labelFields: ['NUMBER','PRE_DIR','STR_NAME','STR_TYPE','POST_DIR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Centre Co - Parcels',
+         id: 'pa-centre-co-parcels',
+         url: 'https://gissites2.centrecountypa.gov/arcgis/rest/services/CentreGISV911/MapServer/10',
+         labelFields: ['Location'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Chester Co - Address Points SLOW',
+         id: 'pa-chester-co-pts',
+         url: 'https://gisprodops.chesco.org/arcgis/rest/services/EnerGov_Services/EnerGov_Data_D_CL2/MapServer/0',
+         labelFields: ['SITUS_ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Chester Co - Parcels',
+         id: 'pa-chester-co-parcels',
+         url: 'https://gisprodops.chesco.org/arcgis/rest/services/EnerGov_Services/EnerGov_Data_D_CL2/MapServer/2',
+         labelFields: ['SITUS_ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clearfield Co - Address Points',
+         id: 'pa-clearfield-co-pts',
+         url: 'http://gis.clearfieldco.org/arcgis/rest/services/Web_Map/MapServer/1',
+         labelFields: ['SiteAddress'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Clearfield Co - Parcels',
+         id: 'pa-clearfield-co-parcels',
+         url: 'http://gis.clearfieldco.org/arcgis/rest/services/Web_Map/MapServer/10',
+         labelFields: ['situs'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clinton Co - Parcels',
+         id: 'pa-clinton-co-parcels',
+         url: 'http://maps.clintoncountypa.com/arcgis/rest/services/Testing/PARCELS417/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Columbia Co - Address Points',
+         id: 'pa-columbia-co-pts',
+         url: 'http://gis.columbiapa.org/ProxyJS/proxy.ashx?http://gismaps.columbiapa.org/arcgis/rest/services/Overlays/ColMonNorAddressing/MapServer/2',
+         labelFields: ['FULLADDR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbia Co - Parcels',
+         id: 'pa-columbia-co-parcels',
+         url: 'http://gis.columbiapa.org/ProxyJS/proxy.ashx?http://gismaps.columbiapa.org/arcgis/rest/services/Overlays/Columbia_Parcels/MapServer/1',
+         labelFields: ['PropertyLocation'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Crawford Co - Address Points',
+         id: 'pa-crawford-co-pts',
+         url: 'http://gis.crawfordcountypa.net:6080/arcgis/rest/services/AddressParcelSearch_Advanced/MapServer/2',
+         labelFields: ['HSENUMBER','PREFIXDIR','STREETNAME','STREETSUF','POSTDIR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Crawford Co - Parcels NO DATA',
+         id: 'pa-crawford-co-parcels',
+         url: 'http://gis.crawfordcountypa.net:6080/arcgis/rest/services/CrawfordCounty/MapServer/3',
+         labelFields: ['SHAPE'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cumberland Co - Address Points',
+         id: 'pa-cumberland-co-pts',
+         url: 'https://gis.ccpa.net/arcgiswebadaptor/rest/services/SCTF/AddressPoints/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cumberland Co - Parcels SLOW',
+         id: 'pa-cumberland-co-parcels',
+         url: 'https://gis.ccpa.net/arcgiswebadaptor/rest/services/Parcels/MapServer/42',
+         labelFields: ['SITUS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dauphin Co - Parcels',
+         id: 'pa-dauphin-co-parcels',
+         url: 'https://gis.dauphincounty.org/arcgis/rest/services/Parcels/MapServer/1',
+         labelFields: ['house_number','prefix_directional','street_name','street_suffix'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Forest Co - Parcels',
+         id: 'pa-forest-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Pennsylvania/ForestCountyPa/MapServer/3',
+         labelFields: ['situs'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Franklin Co - Address Points',
+         id: 'pa-franklin-co-pts',
+         url: 'https://gis.franklincountypa.gov/esriarcgiswebadapter/rest/services/FranklinHostedGIS/FC_AddressPoints/MapServer/0',
+         labelFields: ['ADDRNUM','PREDIRECTIONAL','STREETNAME','STREETTYPE','POSTDIRECTIONAL'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Franklin Co - Parcels',
+         id: 'pa-franklin-co-parcels',
+         url: 'https://gis.franklincountypa.gov/esriarcgiswebadapter/rest/services/FranklinHostedGIS/FC_ParcelsCAMA/MapServer/0',
+         labelFields: ['SITUSAddress1'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fulton Co - Address Points',
+         id: 'pa-fulton-co-pts',
+         url: 'http://gis.co.fulton.pa.us/arcgis/rest/services/WebToolMap/MapServer/5',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fulton Co - Parcels NO DATA',
+         id: 'pa-fulton-co-parcels',
+         url: 'http://gis.co.fulton.pa.us/arcgis/rest/services/WebToolMap/MapServer/6',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Huntingdon Co - Address Points',
+         id: 'pa-huntingdon-co-pts',
+         url: 'http://mapping.huntingdoncounty.net/arcgisweb/rest/services/Address_Collector/MapServer/1',
+         labelFields: ['HSENUMBER','PREFIXDIR','STREETNAME','STREETSUF','POSTDIR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Huntingdon Co - Parcels',
+         id: 'pa-huntingdon-co-parcels',
+         url: 'http://mapping.huntingdoncounty.net/arcgisweb/rest/services/ParcelMap/MapServer/0',
+         labelFields: ['Property_A'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Juniata Co - Parcels',
          id: 'pa-juniata-co-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Juniata/Public/MapServer/1',
          labelFields: ['Hse_Num','Pre_Dir','Street_Name'],
          processLabel: function(label) { return label.replace(/^0+/,''); },
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lancaster Co - Address Points',
+         id: 'pa-lancaster-co-pts',
+         url: 'https://gis.co.lancaster.pa.us/arcgis/rest/services/LayerServices/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lancaster Co - Parcels',
+         id: 'pa-lancaster-co-parcels',
+         url: 'https://gis.co.lancaster.pa.us/arcgis/rest/services/ParcelsMOX/MapServer/5',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lebanon Co - Parcels',
+         id: 'pa-lebanon-co-parcels',
+         url: 'https://utility.arcgis.com/usrsvcs/servers/7072ca11c43c43feb1ab453851e847b9/rest/services/LandRecords/TaxParcels/MapServer/0',
+         labelFields: ['SITUS_ADDR'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lehigh Co - Address Points',
+         id: 'pa-lehigh-co-pts',
+         url: 'https://services1.arcgis.com/XWDNR4PQlDQwrRCL/ArcGIS/rest/services/ATestParcel/FeatureServer/0',
+         labelFields: ['LONUM','ADDRES'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lehigh Co - Parcels',
+         id: 'pa-lehigh-co-parcels',
+         url: 'https://services1.arcgis.com/XWDNR4PQlDQwrRCL/arcgis/rest/services/ATestParcel/FeatureServer/1',
+         labelFields: ['SITUS_ADDR','SITUS_FDPR','SITUS_FNAM','SITUS_FTYP','SITUS_FDSU'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lycoming Co - Address Points',
+         id: 'pa-lycoming-co-pts',
+         url: 'http://gis.lyco.org/arcgis/rest/services/BuildingAddresses/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lycoming Co - Parcels',
+         id: 'pa-lycoming-co-parcels',
+         url: 'http://gis.lyco.org/arcgis/rest/services/Parcels/MapServer/4',
+         labelFields: ['SITUS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mifflin Co - Parcels',
+         id: 'pa-mifflin-co-parcels',
+         url: 'http://gis.co.mifflin.pa.us/arcgis/rest/services/parcel_program/MapServer/5',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Monroe Co - Address Points',
+         id: 'pa-monroe-co-pts',
+         url: 'http://www.monroegis.org/webadaptor/rest/services/public/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monroe Co - Parcels',
+         id: 'pa-monroe-co-parcels',
+         url: 'http://www.monroegis.org/webadaptor/rest/services/public/MapServer/3',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montgomery Co - Parcels SLOW',
+         id: 'pa-montgomery-co-parcels',
+         url: 'http://propertyrecords.montcopa.org/pt/maps/proxy/proxy.ashx?http://198.7.141.155/arcgis/rest/services/ParcelFinderSourceMap/MapServer/2',
+         labelFields: ['mcgis.DBO.dbo_GIS_BOA_LAND_old.LOCATION1'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Northampton Co - Address Points',
+         id: 'pa-northampton-co-pts',
+         url: 'https://gis.northamptoncounty.org/arcgisweb/rest/services/Assessment_Services/Land_Records_LGM/MapServer/3',
+         labelFields: ['FULLADDR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Northampton Co - Parcels',
+         id: 'pa-northampton-co-parcels',
+         url: 'https://gis.northamptoncounty.org/arcgisweb/rest/services/Assessment_Services/Land_Records_LGM/MapServer/1',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Northumberland Co - Address Points',
+         id: 'pa-northumberland-co-pts',
+         url: 'https://gis.norrycopa.net/arcgis/rest/services/Parcels/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Northumberland Co - Parcels',
+         id: 'pa-northumberland-co-parcels',
+         url: 'https://gis.norrycopa.net/arcgis/rest/services/Parcels/MapServer/2',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Perry Co - Address Points',
+         id: 'pa-perry-co-pts',
+         url: 'http://gis.perryco.org/ArcGIS/rest/services/PerryBaseMap/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Perry Co - Parcels NO DATA',
+         id: 'pa-perry-co-parcels',
+         url: 'http://gis.perryco.org/ArcGIS/rest/services/PerryBaseMap/MapServer/5',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Philadelphia Co - Parcels',
+         id: 'pa-philadelphia-co-parcels',
+         url: 'https://gis.phila.gov/arcgis/rest/services/PhilaGov/Addresses/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pike Co - Address Points',
+         id: 'pa-pike-co-pts',
+         url: 'http://gis.pikepa.org/arcgis/rest/services/PikeCo_AddressPoints/MapServer/1',
+         labelFields: ['PrimaryAddress'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pike Co - Parcels NO DATA',
+         id: 'pa-pike-co-parcels',
+         url: 'http://gis.pikepa.org/arcgis/rest/services/PikeCo_Parcels/MapServer/0',
+         labelFields: [],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Potter Co - Address Points',
+         id: 'pa-potter-co-pts',
+         url: 'https://services3.arcgis.com/vqFmmrJngO1NzsuX/ArcGIS/rest/services/Potter_Data/FeatureServer/0',
+         labelFields: ['HSENUMBER','PREFIXDIR','STREETNAME','STREETSUF','POSTDIR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Potter Co - Parcels',
+         id: 'pa-potter-co-parcels',
+         url: 'https://services3.arcgis.com/vqFmmrJngO1NzsuX/ArcGIS/rest/services/TaxParcels/FeatureServer/0',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Schuylkill Co - Parcels NO DATA',
+         id: 'pa-schuylkill-co-parcels',
+         url: 'https://services1.arcgis.com/5X0VJhfr7n6bBVwH/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Snyder Co - Address Points',
+         id: 'pa-snyder-co-pts',
+         url: 'http://www.unionco.org/unioncomaps/rest/services/Snyder/Structures/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Snyder Co - Parcels',
+         id: 'pa-snyder-co-parcels',
+         url: 'http://www.unionco.org/unioncomaps/rest/services/Snyder/Parcels/MapServer/0',
+         labelFields: ['SitusDesc'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tioga Co - Address Points',
+         id: 'pa-tioga-co-pts',
+         url: 'http://50.120.220.154/arcgis/rest/services/ParcelFabricViewer/13_StructureLocationPoints911/MapServer/0',
+         labelFields: ['HSENUMBER','PREFIXDIR','STREETNAME','STREETSUF','POSTDIR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tioga Co - Parcels',
+         id: 'pa-tioga-co-parcels',
+         url: 'http://50.120.220.154/arcgis/rest/services/ParcelFabricViewer/01_ParcelFabricCAMALines/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Union Co - Address Points',
+         id: 'pa-union-co-pts',
+         url: 'http://www.unionco.org/unioncomaps/rest/services/Union/UnionLandRecords/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Union Co - Parcels',
+         id: 'pa-union-co-parcels',
+         url: 'http://www.unionco.org/unioncomaps/rest/services/Union/UnionLandRecords/MapServer/1',
+         labelFields: ['LocStreetNumber','LocStreetDirection','LocStreetName','LocStreetSuffix'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Washington Co Parcel no address info. Label ['link']  has URL for parcel data request.
+
+        {name: 'Washington Co - Parcels NO DATA',
+         id: 'pa-washington-co-parcels',
+         url: 'https://wcsvrgis.washcopa.org/arcgis1051/rest/services/AGOL/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wayne Co - Address Points',
+         id: 'pa-wayne-co-pts',
+         url: 'http://services1.arcgis.com/VMKRr2Ecl6EFwJpm/ArcGIS/rest/services/Addresses/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wayne Co - Parcels',
+         id: 'pa-wayne-co-parcels',
+         url: 'http://services1.arcgis.com/VMKRr2Ecl6EFwJpm/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: [''],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Westmoreland Co - Parcels',
+         id: 'pa-westmoreland-co-parcels',
+         url: 'https://www.wcgis.us/arcgis/rest/services/TylerTechServices/Parcels/MapServer/0',
+         labelFields: ['NUMBER','PRE_DIR','STR_NAME','STR_TYPE','POST_DIR'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wyoming Co - Address Points',
+         id: 'pa-wyoming-co-pts',
+         url: 'http://services.arcgis.com/0POQ0PQT9pHLMnL2/ArcGIS/rest/services/WyomingCountyAddresses/FeatureServer/0',
+         labelFields: ['FULL_ADDRE'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wyoming Co - Parcels',
+         id: 'pa-wyoming-co-parcels',
+         url: 'http://services.arcgis.com/0POQ0PQT9pHLMnL2/arcgis/rest/services/WyomingCountyParcels/FeatureServer/0',
+         labelFields: ['Situs_Addr'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'York Co - Address Points SLOW X2',
+         id: 'pa-york-co-pts',
+         url: 'http://arcweb.ycpc.org/arcgis/rest/services/Emergency_Services/Address_Pts/MapServer/0',
+         labelFields: ['PROPADR'],
+         state: 'PA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'York Co - Parcels SLOW X2',
+         id: 'pa-york-co-parcels',
+         url: 'http://arcweb.ycpc.org/arcgis/rest/services/Projects/Parcel_Tax_Finder_FeatureService/FeatureServer/0',
+         labelFields: ['PROPADR'],
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
