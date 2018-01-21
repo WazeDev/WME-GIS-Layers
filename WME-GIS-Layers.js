@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.21.001
+// @version      2018.01.21.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -240,6 +240,7 @@
 // @connect      206.176.83.74
 // @connect      rcgov.org
 // @connect      1stdistrict.org
+// @connect      siouxfalls.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -3710,7 +3711,21 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Minnehaha Co - Sioux Falls - Parcels',
+        {name: 'Sioux Falls - City Address Points',
+         id: 'sd-Sioux-Fall-city-pts',
+         url: 'https://gis2.siouxfalls.org/arcgis/rest/services/Data/Property/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sioux Falls - Parcels (city)',
+         id: 'sd-Sioux-Fall-city-parcels',
+         url: 'https://gis2.siouxfalls.org/arcgis/rest/services/Data/Property/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sioux Falls - Parcels (county)',
          id: 'sd-minnehaha-co-sioux-falls-parcels',
          url: 'http://206.176.83.74/minnemap/rest/services/Picto_Parcels/MapServer/12',
          labelFields: ['ADDRESS'],
