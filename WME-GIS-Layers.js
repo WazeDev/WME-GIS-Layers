@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.21.002
+// @version      2018.01.22.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -117,6 +117,9 @@
 // @connect      arcgis.com
 // @connect      hendersonky.us
 // @connect      161.6.109.206
+// -- MA --
+// @connect      ma.us
+// @connect      cityofboston.gov
 // -- MD --
 // @connect      md.gov
 // @connect      baltimorecountymd.gov
@@ -191,6 +194,14 @@
 // @connect       parkcounty.org
 // @connect       yellowstone.mt.gov
 // @connect       gisservicemt.gov
+// -- NC --
+// @connect      brunswickcountync.gov
+// -- ND --
+// @connect      nd.gov
+// @connect      adamscounty.org
+// @connect      burleighco.com
+// @connect      casscountynd.gov
+// @connect      gfgis.com
 // -- NE --
 // @connect      adamscounty.org
 // @connect      dogis.org
@@ -248,7 +259,6 @@
 // @connect      arlingtonva.us
 // @connect      bedfordcountyva.gov
 // @connect      virginia.gov
-// @connect      brunswickcountync.gov
 // -- WI --
 // @connect      legis.wisconsin.gov
 // -- WV --
@@ -1911,6 +1921,47 @@
          style: DEFAULT_PT_STYLE},
 
 
+        // Massachusetts
+        // ************************************
+
+        // multiple address points ( like duplex Building ) have multiple data in same label is showing all data at once. not sure if there is anything we can do on this.
+        // example: adddress 9 Arthur St, Maynard, MA, 01754, USA & 11 Arthur St, Maynard, MA, 01754, USA share the same point, but in Arcgis viewer you can see
+        // in the pop-up window that it has 3 separe data fiels on same label  9 , 11 , 9-11
+        {name: 'Massachusetts - State Address Points',
+         id: 'ma-massachusetts-state-pts',
+         url: 'http://gisprpxy.itd.state.ma.us/arcgisserver/rest/services/AGOL/MassGIS_Master_Address_Points/FeatureServer/0',
+         labelFields: ['FULL_NUMBER_STANDARDIZED','STREET_NAME'],
+         state: 'MA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Massachusetts - State Parcels',
+         id: 'ma-massachusetts-state-parcels',
+         url: 'http://gisprpxy.itd.state.ma.us/arcgisserver/rest/services/AGOL/L3Parcels_feature_service/FeatureServer/0',
+         labelFields: ['SITE_ADDR'],
+         state: 'MA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Boston Point layer for address has the same issue as State layer if using label FULL_ADDRESS . but this layer also had the main Parcel address
+        // on individual label fields , state layer does not.
+        {name: 'Boston - City Address Points',
+         id: 'ma-boston-city-pts',
+         url: 'http://gis.cityofboston.gov/arcgis/rest/services/SAM/Live_SAM_Address/MapServer/0',
+         visibleAtZoom: 7,
+         labelFields: ['STREET_NUMBER','FULL_STREET_NAME'],
+         state: 'MA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Boston - City Parcels',
+         id: 'ma-boston-city-parcels',
+         url: 'http://gis.cityofboston.gov/arcgis/rest/services/Parcels/parcels_full_17/MapServer/0',
+         visibleAtZoom: 7,
+         labelFields: ['FULL_ADDRESS'],
+         distinctFields: ['GIS_ID'],
+         processLabel: function(label) { return label.replace(/\s*,\s*\d{5}$/,'').replace(/\s+Apt\s+.*$/,''); },
+         state: 'MA',
+         style: DEFAULT_PARCEL_STYLE},
+
+
         // Michigan
         // ************************************
 
@@ -3040,6 +3091,217 @@
          labelFields: ['ST_ADDR'],
          state: 'NC',
          style: DEFAULT_PT_STYLE},
+
+
+        // North Dakota
+        // ************************************
+
+        {name: 'Bismarck - City Parcels',
+         id: 'nd-bismarck-city-parcels',
+         url: 'http://gis.burleighco.com/proxy.ashx?https://c08hwygis.co.burleigh.nd.us/server/rest/services/Parcel_Layers/MapServer/4',
+         labelFields: ['Property_Address'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Burleigh Co - Address Points',
+         id: 'nd-burleigh-co-pts',
+         url: 'http://gis.burleighco.com/proxy.ashx?https://c08hwygis.co.burleigh.nd.us/server/rest/services/Address_Points/MapServer/0',
+         labelFields: ['STREET_ADD'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Burleigh Co - Parcels',
+         id: 'nd-burleigh-co-parcels',
+         url: 'http://gis.burleighco.com/proxy.ashx?https://c08hwygis.co.burleigh.nd.us/server/rest/services/Parcel_Layers/MapServer/0',
+         labelFields: ['Property_Address'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cass Co - (no Fargo) Addr Points',
+         id: 'nd-cass-co-pts',
+         url: 'http://gisweb.casscountynd.gov/arcgis/rest/services/PublicDynamic/MapServer/22',
+         labelFields: ['PROPERTY_ADDR'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cass Co & Fargo City Parcels',
+         id: 'nd-cass-co-parcels',
+         url: 'http://gisweb.casscountynd.gov/arcgis/rest/services/PublicDynamic/MapServer/46',
+         labelFields: ['PropertyAddress'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fargo - City (Cass) Addr Points',
+         id: 'nd-fargo-city-pts',
+         url: 'http://gisweb.casscountynd.gov/arcgis/rest/services/PublicDynamic/MapServer/21',
+         labelFields: ['ADDRESS'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        // Divice County GIS does not give any more data that what is available on layer. no parcel data at all
+
+        {name: 'Divide Co - Parcels NO DATA',
+         id: 'nd-divide-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/DivideNDFeatures/FeatureServer/5',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dunn Co - Parcels NO DATA',
+         id: 'nd-dunn-co-parcels',
+         url: 'https://gis3.gisworkshop.com/arcgis/rest/services/DunnTaxDirector/MapServer/3',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Emmons Co - Parcels NO DATA',
+         id: 'nd-emmons-co-parcels',
+         url: 'http://services3.arcgis.com/zDNWy26tIMyYaGcC/arcgis/rest/services/Parcels/FeatureServer/0',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Golden Valley Co - Address Points',
+         id: 'nd-golden Valley-co-pts',
+         url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Goldenvalley/MapServer/0',
+         labelFields: ['Address'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Golden Valley Co - Parcels NO DATA',
+         id: 'nd-golden Valley-co-parcels',
+         url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Goldenvalley/MapServer/2',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // this layer from the City GIS site, but looks like it covers points in County too
+        {name: 'Grand Forks co & City - Address Points',
+         id: 'nd-grand-forks-co-pts',
+         url: 'https://www.gfgis.com/arcgis/rest/services/Public_Layers/Address2/MapServer/0',
+         labelFields: ['housenum','st_prefix','st_name','st_type','st_suffix'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        // This layer from City GIS site. only covers Parcel in city limits
+        {name: 'Grand Forks - City Parcels',
+         id: 'nd-grand-forks-city-parcels',
+         url: 'https://www.gfgis.com/arcgis/rest/services/Public_Layers/ParcelInfo/MapServer/0',
+         labelFields: ['cadr'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McHenry Co - Address Points',
+         id: 'nd-mchenry-co-pts',
+         url: 'http://services6.arcgis.com/zbSH183Elt4hJ5Hl/ArcGIS/rest/services/Emergency_Responders/FeatureServer/0',
+         labelFields: ['Address_911'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'McHenry Co - Parcels NO DATA',
+         id: 'nd-mchenry-co-parcels',
+         url: 'http://services6.arcgis.com/zbSH183Elt4hJ5Hl/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        //{name: 'McHenry Co - Parcels NO DATA',
+        // id: 'nd-mchenry-co-parcels2',
+        // url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/McHenryNDFeatures/FeatureServer/4',
+        // labelFields: [''],
+        // state: 'ND',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McKenzie Co - Parcels NO DATA',
+         id: 'nd-mckenzie-co-parcels',
+         url: 'https://gis2.gisworkshop.com/arcgis/rest/services/McKenzieTaxDirector/MapServer/2',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        {name: 'McLean Co - Parcels NO DATA',
+         id: 'nd-mclean-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/McleanNDFeatures/FeatureServer/3',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Morton Co - Address Points',
+         id: 'nd-morton-co-pts',
+         url: 'https://services2.arcgis.com/KK9EVAUoqJyQSD0q/ArcGIS/rest/services/AddressNoNames/FeatureServer/0',
+         labelFields: ['DLVRY_ADD'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Morton Co - Parcels',
+         id: 'nd-morton-co-parcels',
+         url: 'https://services2.arcgis.com/KK9EVAUoqJyQSD0q/ArcGIS/rest/services/Parcels_1/FeatureServer/0',
+         labelFields: ['HOUSE','APSNAM','APDRCT'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        {name: 'Mountrail Co - Parcels NO DATA',
+         id: 'nd-mountrail-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MountrailNDFeatures/FeatureServer/4',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rolette Co - Address Points',
+         id: 'nd-rolette-co-pts',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/RoletteNDFeatures/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        {name: 'Rolette Co - Parcels NO DATA',
+         id: 'nd-rolette-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/RoletteNDFeatures/FeatureServer/3',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        {name: 'Sioux Co - Parcels NO DATA',
+         id: 'nd-sioux-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/SiouxNDFeatures/FeatureServer/4',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        {name: 'Steele Co - Parcels NO DATA',
+         id: 'nd-steele-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/SteeleNDFeatures/FeatureServer/4',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // County GIS only provides Onwers address not parcel address, layer has same data
+        {name: 'Traill Co - Parcels NO DATA',
+         id: 'nd-traill-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/TraillNDFeatures/FeatureServer/2',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williams Co - Address Points',
+         id: 'nd-williams-co-pts',
+         url: 'https://services1.arcgis.com/D85sDZoJyameepNh/ArcGIS/rest/services/Master_Addresses/FeatureServer/0',
+         labelFields: ['DLVRY_ADD'],
+         state: 'ND',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Williams Co - Parcels',
+         id: 'nd-williams-co-parcels',
+         url: 'https://services1.arcgis.com/D85sDZoJyameepNh/ArcGIS/rest/services/ParcelsWeb/FeatureServer/0',
+         labelFields: ['ParcelStreet'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
 
 
         // Ohio
@@ -4303,6 +4565,9 @@
         if (gisLayer.labelHeaderFields) {
             fields = fields.concat(gisLayer.labelHeaderFields);
         }
+        if (gisLayer.distinctFields) {
+            fields = fields.concat(gisLayer.distinctFields);
+        }
         url += '&outFields=' + encodeURIComponent(fields.join(','));
         url += '&returnGeometry=true';
         url += '&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=' + (gisLayer.spatialReference ? gisLayer.spatialReference : '102100') + '&outSR=3857&f=json';
@@ -4323,54 +4588,67 @@
             if (!token.cancel) {
                 let error = false;
                 if (gisLayer.debug) debugger;
+                let distinctValues = [];
                 items.forEach(function(item) {
+                    let skipIt = false;
                     if (!token.cancel && !error) {
                         let feature;
                         let featureGeometry;
                         let area;
-                        if (item.geometry.x) {
-                            featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x, item.geometry.y);
-                        } else if (item.geometry.rings) {
-                            let rings = [];
-                            item.geometry.rings.forEach(function(ringIn) {
-                                let pnts= [];
-                                for(let i=0;i<ringIn.length;i++){
-                                    pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0], ringIn[i][1]));
-                                }
-                                rings.push(new OpenLayers.Geometry.LinearRing(pnts));
-                            });
-                            featureGeometry = new OpenLayers.Geometry.Polygon(rings);
-                            if (gisLayer.areaToPoint) {
-                                featureGeometry = featureGeometry.getCentroid();
+                        if (gisLayer.distinctFields) {
+                            if (distinctValues.some( v => gisLayer.distinctFields.every(fld => v[fld] === item.attributes[fld]) )) {
+                                skipIt = true;
                             } else {
-                                area = featureGeometry.getArea();
+                                let dist = {};
+                                gisLayer.distinctFields.forEach(fld => dist[fld] = item.attributes[fld]);
+                                distinctValues.push(dist);
                             }
-                        } else if (data.geometryType === 'esriGeometryPolyline') {
-                            let pointList = [];
-                            item.geometry.paths.forEach(function(path){
-                                path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0],point[1])));
-                            });
-                            featureGeometry = new OpenLayers.Geometry.LineString(pointList);
-                        } else {
-                            log('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
-                            error = true;
                         }
-                        if (!error) {
-                            let displayLabelsAtZoom = (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
-                            let label = '';
-                            if (gisLayer.labelHeaderFields) {
-                                label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
+                        if (!skipIt) {
+                            if (item.geometry.x) {
+                                featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x, item.geometry.y);
+                            } else if (item.geometry.rings) {
+                                let rings = [];
+                                item.geometry.rings.forEach(function(ringIn) {
+                                    let pnts= [];
+                                    for(let i=0;i<ringIn.length;i++){
+                                        pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0], ringIn[i][1]));
+                                    }
+                                    rings.push(new OpenLayers.Geometry.LinearRing(pnts));
+                                });
+                                featureGeometry = new OpenLayers.Geometry.Polygon(rings);
+                                if (gisLayer.areaToPoint) {
+                                    featureGeometry = featureGeometry.getCentroid();
+                                } else {
+                                    area = featureGeometry.getArea();
+                                }
+                            } else if (data.geometryType === 'esriGeometryPolyline') {
+                                let pointList = [];
+                                item.geometry.paths.forEach(function(path){
+                                    path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0],point[1])));
+                                });
+                                featureGeometry = new OpenLayers.Geometry.LineString(pointList);
+                            } else {
+                                log('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
+                                error = true;
                             }
-                            if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
-                                label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
-                                if (gisLayer.processLabel) label = gisLayer.processLabel(label);
+                            if (!error) {
+                                let displayLabelsAtZoom = (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                let label = '';
+                                if (gisLayer.labelHeaderFields) {
+                                    label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
+                                }
+                                if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
+                                    label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
+                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label);
+                                }
+                                let attributes = {
+                                    layerID: gisLayer.id,
+                                    label: label
+                                };
+                                feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
+                                features.push(feature);
                             }
-                            let attributes = {
-                                layerID: gisLayer.id,
-                                label: label
-                            };
-                            feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
-                            features.push(feature);
                         }
                     }
                 });
