@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.22.001
+// @version      2018.01.23.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -19,6 +19,8 @@
 // @connect      shelbyal.com
 // @connect      cityofmobile.org
 // @connect      stclairco.com
+// @connect      emapsplus.com
+// @connect      jccal.org
 // -- AZ --
 // @connect      yumacountyaz.gov
 // -- DC --
@@ -202,6 +204,8 @@
 // @connect      burleighco.com
 // @connect      casscountynd.gov
 // @connect      gfgis.com
+// @connect      nd.us
+// @connect      54.213.14.253
 // -- NE --
 // @connect      adamscounty.org
 // @connect      dogis.org
@@ -263,6 +267,13 @@
 // @connect      legis.wisconsin.gov
 // -- WV --
 // @connect      wvu.edu
+// -- WY --
+// @connect      wyo.gov
+// @connect      wy.gov
+// @connect      wy.us
+// @connect      goshencounty.org
+// @connect      laramiecounty.com
+// @connect      lcwy.org
 // ==/UserScript==
 
 /* global OL */
@@ -289,6 +300,12 @@
         fillOpacity: 0
     };
 
+    let DEFAULT_STATE_PARCEL_STYLE = {
+        fillOpacity: 0,
+        strokeColor: '#f51',
+        fontColor: '#f62'
+    };
+
     let DEFAULT_STRUCTURE_STYLE = {
         fillOpacity: 0,
         strokeColor: '#f7f',
@@ -302,10 +319,25 @@
         labelYOffset: -15
     };
 
+    let DEFAULT_STATE_PT_STYLE = {
+        strokeColor: '#000',
+        fontColor: "#0af",
+        fillColor: '#0af',
+        labelYOffset: -15
+    };
+
     let _gisLayers = [
 
         // Alabama
         // ************************************
+
+
+        {name: 'Autauga Co - Parcels NO DATA',
+         id: 'al-autauga-co-parcels',
+         url: 'http://emapsplus.com/arcgis/rest/services/Alabama/AutaugaEmaps/MapServer/0',
+         labelFields: [''],
+         state: 'AL',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Baldwin Co - E911 Address Points',
          id: 'al-baldwin-co-pts',
@@ -363,6 +395,13 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Jefferson Co - Parcels',
+         id: 'al-jefferson-co-parcels',
+         url: 'http://jeffcogis.jccal.org/jccarcgis/rest/services/Public/BasemapJC/MapServer/0',
+         labelFields: ['ADDR_PSPR'],
+         state: 'AL',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Lauderdale Co - Parcels',
          id: 'al-lauderdale-co-parcels',
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Lauderdale/Public/MapServer/120',
@@ -395,6 +434,13 @@
          id: 'al-limestone-co-parcels',
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Athens_Limestone/Public/MapServer/38',
          labelFields: ['SITEADDRESS'],
+         state: 'AL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Madison Co - Parcels NO DATA',
+         id: 'al-madison-co-parcels',
+         url: 'http://emapsplus.com/arcgis/rest/services/Alabama/MadisonEmapsDMO/MapServer/0',
+         labelFields: [''],
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3176,7 +3222,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // this layer from the City GIS site, but looks like it covers points in County too
-        {name: 'Grand Forks co & City - Address Points',
+        {name: 'Grand Forks co & City - Addr Points',
          id: 'nd-grand-forks-co-pts',
          url: 'https://www.gfgis.com/arcgis/rest/services/Public_Layers/Address2/MapServer/0',
          labelFields: ['housenum','st_prefix','st_name','st_type','st_suffix'],
@@ -3250,6 +3296,29 @@
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
+        // point layer seems to be shifted to the south about 270ft from actual location for point. in Devils Lake, North Dakota. need to check other areas
+        // can be seen at 1313 Janna Pl NE, Devils Lake, ND 58301
+        //{name: 'Ramsey Co - Address Points',
+        // id: 'nd-ramsey-co-pts',
+        // url: 'https://gis.co.ramsey.nd.us/arcgis/rest/services/EM/911_Points/MapServer/0',
+        // labelFields: ['SUBADDRESS'],
+        // state: 'ND',
+        //style: DEFAULT_PT_STYLE},
+
+        //{name: 'Ramsey Co - Parcels NO DATA',
+        // id: 'nd-ramsey-co-parcels',
+        // url: 'https://gis.co.ramsey.nd.us/arcgis/rest/services/Basemap/Parcels/MapServer/0',
+        // labelFields: [''],
+        // state: 'ND',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Richland Co - Parcels',
+         id: 'nd-richland-co-parcels',
+         url: 'https://c39gisserver.co.richland.nd.us/arcgis/rest/services/Cadastre/Parcel_Layer/MapServer/0',
+         labelFields: ['RICHLAND.dbo.ALL_PARCEL_DATA.Street_Address'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Rolette Co - Address Points',
          id: 'nd-rolette-co-pts',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/RoletteNDFeatures/FeatureServer/0',
@@ -3273,6 +3342,20 @@
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Stark Co - Parcels NO DATA',
+         id: 'nd-stark-co-parcels',
+         url: 'https://gis2.gisworkshop.com/arcgis/rest/services/StarkTaxDirector/MapServer/0',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dickinson - City Parcels NO DATA',
+         id: 'nd-dickinson-city-parcels',
+         url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Dickinson/MapServer/2',
+         labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
         // County GIS only provides Onwers address not parcel address, layer has same data
         {name: 'Steele Co - Parcels NO DATA',
          id: 'nd-steele-co-parcels',
@@ -3286,6 +3369,20 @@
          id: 'nd-traill-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/TraillNDFeatures/FeatureServer/2',
          labelFields: [''],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Walsh Co - Parcels',
+         id: 'nd-walsh-co-parcels',
+         url: 'https://services1.arcgis.com/djH7pAaRQuB6LGY0/ArcGIS/rest/services/P/FeatureServer/2',
+         labelFields: ['Address2'],
+         state: 'ND',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ward Co - Parcels',
+         id: 'nd-ward-co-parcels',
+         url: 'http://54.213.14.253/arcgis/rest/services/Parcels/WCParcels/FeatureServer/0',
+         labelFields: ['ADDRESS'],
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4307,20 +4404,6 @@
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Nottoway Co - Address Points',
-         id: 'va-nottoway-co-pts',
-         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nottoway/Nottoway_WL_P/MapServer/5',
-         labelFields: ['ADDR'],
-         state: 'VA',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Nottoway Co - Parcels',
-         id: 'va-nottoway-co-parcels',
-         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nottoway/Nottoway_WL_P/MapServer/12',
-         labelFields: ['Short_Address'],
-         state: 'VA',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'New Kent Co - Parcels',
          id: 'va-new-kent-co-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/NewKent/Public/MapServer/18',
@@ -4348,6 +4431,20 @@
          labelFields: ['FULLADDR'],
          state: 'VA',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Nottoway Co - Address Points',
+         id: 'va-nottoway-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nottoway/Nottoway_WL_P/MapServer/5',
+         labelFields: ['ADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Nottoway Co - Parcels',
+         id: 'va-nottoway-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nottoway/Nottoway_WL_P/MapServer/12',
+         labelFields: ['Short_Address'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Orange Co - Address Points',
          id: 'va-orange-co-pts',
@@ -4474,14 +4571,15 @@
          url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/Location/wv_address_labels_WVDHSEM_wm/MapServer/0',
          labelFields: ['FULLADDR'],
          state: 'WV',
-         style: DEFAULT_PT_STYLE},
+         style: DEFAULT_STATE_PT_STYLE},
 
         {name: 'State - Parcels',
          id: 'wv-state-parcels',
          url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/PlanningCadastre/WV_Parcels/MapServer/5',
          labelFields: ['PhyNum','PhyDir','PhyStreet','PhySufx'],
          state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+         style: DEFAULT_STATE_PARCEL_STYLE},
+
 
         // Wisconsin
         // ****************************
@@ -4491,7 +4589,112 @@
          url: 'https://mapservices.legis.wisconsin.gov/arcgis/rest/services/WLIP/PARCELS/FeatureServer/0',
          labelFields: ['SITEADRESS'],
          state: 'WI',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Wyoming
+        // ****************************
+
+        {name: 'State - Parcels',
+         id: 'wy-state-co-parcels',
+         url: 'http://gis.wyo.gov/arcgis/rest/services/ets/Parcels2017/MapServer/0',
+         labelFields: ['LOCATIONAD'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Albany co - Parcels',
+         id: 'wy-albany-co-parcels',
+         url: 'http://arcmobile.co.albany.wy.us/arcgis/rest/services/AlbanyCounty/Ownership/MapServer/0',
+         labelFields: ['LOCATIONAD'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Campbell co - Address Points',
+         id: 'wy-campbell-co-pts',
+         url: 'https://services3.arcgis.com/4bXlKnUVV4OdWWbc/ArcGIS/rest/services/SiteAddresses/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Campbell co - Parcels',
+         id: 'wy-campbell-co-parcels',
+         url: 'https://services3.arcgis.com/4bXlKnUVV4OdWWbc/arcgis/rest/services/TaxParcels_50d4a788a5ca4c03806c8566c5f15d03/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carbon co - Parcels',
+         id: 'wy-carbon-co-parcels',
+         url: 'http://arcmobile.co.albany.wy.us/arcgis/rest/services/CarbonCounty/CarbonCntyWebMap/MapServer/4',
+         labelFields: ['SiteAddres'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel polygon layer is shifted SE of actual position. ( Sundance WY ) need to check other areas of county.
+        {name: 'Crook co - Parcels',
+         id: 'wy-crook-co-parcels',
+         url: 'http://gis.crookcounty.wy.gov/arcgis/rest/services/Assessor_Data/MapServer/4',
+         labelFields: ['STREET_NAME'],
+         visibleAtZoom: 3,
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Goshen co - Parcels',
+         id: 'wy-goshen-co-parcels',
+         url: 'http://gis.goshencounty.org/webadaptor/rest/services/GoshenWAB/MapServer/4',
+         labelFields: ['StreetNo','StreetDire','StreetName','StreetSuff'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Laramie co - Address Points',
+         id: 'wy-laramie-co-pts',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/CountyBaseMap/MapServer/134',
+         labelFields: ['address'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Laramie co - Parcels SLOW',
+         id: 'wy-laramie-co-parcels',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/CountyBaseMap/MapServer/136',
+         labelFields: ['streetno','streetdir','streetname','streetsuf'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cheyenne / Laramie co - Address Points',
+         id: 'wy-cheyenne-laramie-co-pts',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/features/CountyBaseMapFeatures/MapServer/0',
+         labelFields: ['address'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cheyenne / Laramie co - Parcels SLOW',
+         id: 'wy-cheyenne-laramie-co-parcels',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/features/CountyBaseMapFeatures/MapServer/2',
+         labelFields: ['streetno','streetdir','streetname','streetsuf'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln co - Parcels',
+         id: 'wy-lincoln-co-parcels',
+         url: 'https://maps.lcwy.org/arcgis/rest/services/PUBLIC/Parcels_arcgis/MapServer/8',
+         labelFields: ['LOCATION'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Weson co - Address Points',
+         id: 'wy-weston-co-pts',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/WestonViewer/FeatureServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Weston co - Parcels',
+         id: 'wy-weston-co-parcels',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/WestonViewer/FeatureServer/7',
+         labelFields: ['LOCATION_A'],
+         state: 'WY',
          style: DEFAULT_PARCEL_STYLE}
+
 
     ];
 
@@ -4605,14 +4808,15 @@
                             }
                         }
                         if (!skipIt) {
+                            let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
                             if (item.geometry.x) {
-                                featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x, item.geometry.y);
+                                featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
                             } else if (item.geometry.rings) {
                                 let rings = [];
                                 item.geometry.rings.forEach(function(ringIn) {
                                     let pnts= [];
                                     for(let i=0;i<ringIn.length;i++){
-                                        pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0], ringIn[i][1]));
+                                        pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0] + layerOffset.x, ringIn[i][1] + layerOffset.y));
                                     }
                                     rings.push(new OpenLayers.Geometry.LinearRing(pnts));
                                 });
@@ -4625,7 +4829,7 @@
                             } else if (data.geometryType === 'esriGeometryPolyline') {
                                 let pointList = [];
                                 item.geometry.paths.forEach(function(path){
-                                    path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0],point[1])));
+                                    path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
                                 });
                                 featureGeometry = new OpenLayers.Geometry.LineString(pointList);
                             } else {
