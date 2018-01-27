@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.26.001
+// @version      2018.01.26.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -223,6 +223,20 @@
 // @connect      clermontauditor.org
 // @connect      mcegisohio.org
 // @connect      franklincountyauditor.com
+// @connect      allencountyohio.com
+// @connect      ashtabulacounty.us
+// @connect      auglaizecounty.org
+// @connect      fultoncountyoh.com
+// @connect      lakecountyohio.gov
+// @connect      lcounty.com
+// @connect      loraincountyauditor.com
+// @connect      mahoningcountyoh.gov
+// @connect      mercercountyohio.org
+// @connect      sanduskycountygis.org
+// @connect      sciotocountyengineer.org
+// @connect      starkcountyohio.gov
+// @connect      summitoh.net
+// @connect      tgisites.com
 // -- PA --
 // @connect      pa.us
 // @connect      adamscounty.us
@@ -528,12 +542,12 @@
          state: 'AK',
          style: DEFAULT_PT_STYLE},
 
-       {name: 'Anchorage - Parcels',
-        id: 'ak-anchorage-ci-parcels',
-        url: 'https://www.ancgis.com/arcgis/rest/services/Addressing/Address_Parcels/MapServer/0',
-        labelFields: ['STREET_ADDRESS'],
-        state: 'AK',
-        style: DEFAULT_PARCEL_STYLE},
+        {name: 'Anchorage - Parcels',
+         id: 'ak-anchorage-ci-parcels',
+         url: 'https://www.ancgis.com/arcgis/rest/services/Addressing/Address_Parcels/MapServer/0',
+         labelFields: ['STREET_ADDRESS'],
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Kenai Peninsula - Address Points',
          id: 'ak-kenai-pts',
@@ -3421,6 +3435,28 @@
         // Ohio
         // ************************************
 
+        {name: 'Allen Co - Parcels',
+         id: 'oh-allen-co-parcels',
+         url: 'http://gis.allencountyohio.com/arcgis/rest/services/test/MapServer/0',
+         labelFields: ['HOUSENO','ST_DIR','STREET','ST_DESC'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ashtabula Co - Parcels',
+         id: 'oh-Ashtabula-co-parcels',
+         url: 'http://gis2.ashtabulacounty.us/arcgis/rest/services/MyMapService/MapServer/1',
+         labelFields: ['Location_Address'],
+         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Auglaize Co - Parcels',
+         id: 'oh-Auglaize-co-parcels',
+         url: 'http://gis.auglaizecounty.org/arcgis/rest/services/AuglaizeCounty/MapServer/24',
+         labelFields: ['NO_','STREET'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
         // NOTE: Query returns results, but not showing anything in arcgis maps.  Maybe no geometry?
         // {name: 'Butler Co - Address Points',
         //  id: 'oh-butler-co-points',
@@ -3457,10 +3493,59 @@
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Fulton Co - Address Points',
+         id: 'oh-Fulton-co-pts',
+         url: 'http://gis.fultoncountyoh.com/arcgis/rest/services/LocalGov/Site_Address_Points/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Hamilton Co - Parcels',
          id: 'oh-hamilton-co-parcels',
          url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Hamilton/HCE_Parcels_With_Auditor_Data/MapServer/0',
          labelFields: ['CAGIS.AUDREAL_VW.ADDRNO','CAGIS.AUDREAL_VW.ADDRST','CAGIS.AUDREAL_VW.ADDRSF'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Parcels',
+         id: 'oh-Lake-co-parcels',
+         url: 'http://arcgis.lakecountyohio.gov/arcgis/rest/services/POL_Parcels/MapServer/1',
+         labelFields: ['GIS_LocationAddress'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Licking Co - Parcels',
+         id: 'oh-Licking-co-parcels',
+         url: 'https://apps.lcounty.com/arcgis/rest/services/TaxMapWeb/TAXMAPWEB/MapServer/3',
+         labelFields: ['STREET1'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lorain Co - Address Points',
+         id: 'oh-Lorain-co-pts',
+         url: 'http://www.loraincountyauditor.com/arcgis/rest/services/Site_Address/MapServer/0',
+         labelFields: ['ST_NUM','ST_NUM_SUF','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
+         state: 'OH',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mahoning Co - Parcels',
+         id: 'oh-Mahoning-co-parcels',
+         url: 'http://gisapp.mahoningcountyoh.gov/arcgis/rest/services/AddressPortal/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marion Co - Parcels',
+         id: 'oh-Marion-co-parcels',
+         url: 'http://mcogis.co.marion.oh.us/arcgis/rest/services/WEB_APP_PARCELS/MapServer/1',
+         labelFields: ['OWNER3'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mercer Co - Parcels',
+         id: 'oh-Mercer-co-parcels',
+         url: 'http://www.mercercountyohio.org/arcgis/rest/services/ParcelTextB/MapServer/0',
+         labelFields: ['BasicInfo.Address'],
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3470,6 +3555,41 @@
          labelFields: ['ADDR_NUM','STR_NAME','STR_TYPE','SUF_DIR'],
          state: 'OH',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Sandusky Co - Address Points',
+         id: 'oh-Sandusky-co-points',
+         url: 'http://www.sanduskycountygis.org/arcgis/rest/services/SandGISViewer_2015/MapServer/26',
+         labelFields: ['LSN'],
+         state: 'OH',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Scioto Co - Parcels',
+         id: 'oh-Scioto-co-parcels',
+         url: 'https://www.sciotocountyengineer.org/arcgis/rest/services/OneView/ParcelsSearch/MapServer/0',
+         labelFields: ['StreetAddressFull'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Stark Co - Parcels',
+         id: 'oh-Stark-co-parcels',
+         url: 'https://webdmz.starkcountyohio.gov/arcgis/rest/services/ParcelTaxMapCache/MapServer/25',
+         labelFields: ['HOUSE_NUMBER','PREDIRECTIONAL','STREET_NAME','STREET_TYPE','POST_DIRECTIONAL'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Summit Co - Parcels',
+         id: 'oh-Summit-co-parcels',
+         url: 'http://summitmaps.summitoh.net/arcgis/rest/services/DynamicParcels/MapServer/0',
+         labelFields: ['ADDR'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Van Wert Co - Parcels',
+         id: 'oh-Van-Wert-co-parcels',
+         url: 'http://www.tgisites.com/arcgis/rest/services/VanWert/Parcels/MapServer/0',
+         labelFields: ['STNUM','STNAM','STTYPE'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Warren Co - Parcels',
          id: 'oh-warren-co-parcels',
