@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.26.002
+// @version      2018.01.26.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -283,6 +283,9 @@
 // @connect      legis.wisconsin.gov
 // -- WV --
 // @connect      wvu.edu
+// @connect      berkeleywv.org
+// @connect      cabellassessor.com
+// @connect      landmarkgeospatial.com
 // -- WY --
 // @connect      wyo.gov
 // @connect      wy.gov
@@ -4724,6 +4727,104 @@
          state: 'WV',
          style: DEFAULT_STATE_PARCEL_STYLE},
 
+        {name: 'Berkeley Co - Address Points',
+         id: 'wv-Berkeley-co-pts',
+         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Addresses/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Berkeley Co - Parcels (NO DATA)',
+         id: 'wv-Berkeley-co-parcels',
+         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brooke Co - Address Points',
+         id: 'wv-Brooke-co-pts',
+         url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017address2/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Brooke Co - Parcels',
+         id: 'wv-Brooke-co-parcels',
+         url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017_public_parcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cabell Co - Parcels',
+         id: 'wv-Cabell-co-parcels',
+         url: 'https://mapping.cabellassessor.com/arcgis/rest/services/Parcels17/MapServer/0',
+         labelFields: ['IAS_DATA_location'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Doddridge Co - Parcels (LIMITED DATA)',
+         id: 'wv-Doddridge-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Doddridge/DoddridgeOperational/MapServer/78',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Gilmer Co - Parcels',
+         id: 'wv-Gilmer-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Gilmer/GilmerOperational/MapServer/57',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lewis Co - Parcels',
+         id: 'wv-Lewis-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Lewis/LewisOperational/MapServer/54',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Preston Co - Address Points',
+         id: 'wv-Preston-co-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/46',
+         labelFields: ['Number','Street'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Preston Co - NEW Address Points',
+         id: 'wv-Preston-co-NEW-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/PrestonNew/PrestonOperational/MapServer/46',
+         labelFields: ['ADDR_NUM','Street'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Preston Co - Parcels',
+         id: 'wv-Preston-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/98',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Putnam Co - Parcels',
+         id: 'wv-Putnam-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Putnam/PutnamOperational/MapServer/33',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Randolph Co - Address Points',
+         id: 'wv-Randolph-co-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/74',
+         labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Randolph Co - Parcels',
+         id: 'wv-Randolph-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/79',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Wisconsin
         // ****************************
