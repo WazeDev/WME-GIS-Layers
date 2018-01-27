@@ -272,6 +272,8 @@
 // @connect      rcgov.org
 // @connect      1stdistrict.org
 // @connect      siouxfalls.org
+// -- TX --
+// @connect      friscotexas.gov
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -4255,6 +4257,13 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Frisco - City Parcels',
+         id: 'tx-frisco-city-parcels',
+         url: 'http://mapcache.friscotexas.gov/arcgis/rest/services/Resident/MapServer/10',
+         labelFields: ['Address'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
         // Utah
         // *****************************
 
