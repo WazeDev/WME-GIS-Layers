@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.23.001
+// @version      2018.01.26.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -33,6 +33,8 @@
 // @connect      bcpa.net
 // @connect      charlottecountyfl.gov
 // @connect      citruspa.org
+// @connect      claycountygov.com
+// @connect      colliergov.net
 // @connect      coj.net
 // @connect      escpa.org
 // @connect      fl.us
@@ -274,6 +276,7 @@
 // @connect      goshencounty.org
 // @connect      laramiecounty.com
 // @connect      lcwy.org
+// @connect      casperwy.gov
 // ==/UserScript==
 
 /* global OL */
@@ -693,6 +696,27 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Clay Co - Address Points',
+         id: 'fl-clay-co-pts',
+         url: 'https://maps.claycountygov.com:6443/arcgis/rest/services/SiteAddresses/MapServer/0',
+         labelFields: ['WholeAddress'],
+         state: 'FL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Clay Co - Parcels',
+         id: 'fl-clay-co-parcels',
+         url: 'https://maps.claycountygov.com:6443/arcgis/rest/services/Parcel/MapServer/0',
+         labelFields: ['House_Number','House_Suffix','StreetName','StreetType','StreetDir'],
+         state: 'FL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Collier co - Address Points',
+         id: 'fl-collier-co-pts',
+         url: 'https://ags.colliergov.net/arcgis/rest/services/Base/Addresses/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'FL',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Duval Co - Parcels',
          id: 'fl-duval-co-parcels',
          url: 'http://maps.coj.net/coj/rest/services/CityBiz/ParcelsProd/MapServer/0',
@@ -875,13 +899,6 @@
          id: 'fl-nassau-co-parcels',
          url: 'http://arcgis4.roktech.net/arcgis/rest/services/Nassau/Nassau_GoMaps4/MapServer/0',
          labelFields: ['HOUSE_NO','HSESUF','STREET','ST_MD'],
-         state: 'FL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Oceola Co - Parcels',
-         id: 'fl-oceola-co-parcels',
-         url: 'http://ira.property-appraiser.org/arcgis/rest/services/GisSite_TaxMap/MapServer/0',
-         labelFields: ['StreetNumber','StreetName','StreetSfx','StreetSfxDir'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4127,6 +4144,13 @@
 
         {name: 'Utah - State Parcels',
          id: 'ut-state-parcels',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahStatewideParcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'UT',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Utah Co - Parcels',
+         id: 'ut-utah-co-parcels',
          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahCountyParcelsLIR/FeatureServer/0',
          labelFields: ['PARCEL_ADD'],
          state: 'UT',
@@ -4600,30 +4624,30 @@
          url: 'http://gis.wyo.gov/arcgis/rest/services/ets/Parcels2017/MapServer/0',
          labelFields: ['LOCATIONAD'],
          state: 'WY',
-         style: DEFAULT_PARCEL_STYLE},
+         style: DEFAULT_STATE_PARCEL_STYLE},
 
-        {name: 'Albany co - Parcels',
+        {name: 'Albany Co - Parcels',
          id: 'wy-albany-co-parcels',
          url: 'http://arcmobile.co.albany.wy.us/arcgis/rest/services/AlbanyCounty/Ownership/MapServer/0',
          labelFields: ['LOCATIONAD'],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Campbell co - Address Points',
+        {name: 'Campbell Co - Address Points',
          id: 'wy-campbell-co-pts',
          url: 'https://services3.arcgis.com/4bXlKnUVV4OdWWbc/ArcGIS/rest/services/SiteAddresses/FeatureServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Campbell co - Parcels',
+        {name: 'Campbell Co - Parcels',
          id: 'wy-campbell-co-parcels',
          url: 'https://services3.arcgis.com/4bXlKnUVV4OdWWbc/arcgis/rest/services/TaxParcels_50d4a788a5ca4c03806c8566c5f15d03/FeatureServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Carbon co - Parcels',
+        {name: 'Carbon Co - Parcels',
          id: 'wy-carbon-co-parcels',
          url: 'http://arcmobile.co.albany.wy.us/arcgis/rest/services/CarbonCounty/CarbonCntyWebMap/MapServer/4',
          labelFields: ['SiteAddres'],
@@ -4631,70 +4655,132 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // Parcel polygon layer is shifted SE of actual position. ( Sundance WY ) need to check other areas of county.
-        {name: 'Crook co - Parcels',
+        {name: 'Crook Co - Parcels',
          id: 'wy-crook-co-parcels',
          url: 'http://gis.crookcounty.wy.gov/arcgis/rest/services/Assessor_Data/MapServer/4',
          labelFields: ['STREET_NAME'],
-         visibleAtZoom: 3,
+         //layerOffset: {x: -30, y: +20},
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Goshen co - Parcels',
+        {name: 'Goshen Co - Parcels',
          id: 'wy-goshen-co-parcels',
          url: 'http://gis.goshencounty.org/webadaptor/rest/services/GoshenWAB/MapServer/4',
          labelFields: ['StreetNo','StreetDire','StreetName','StreetSuff'],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Laramie co - Address Points',
+        {name: 'Laramie Co - Address Points',
          id: 'wy-laramie-co-pts',
          url: 'https://maps.laramiecounty.com/arcgis/rest/services/CountyBaseMap/MapServer/134',
          labelFields: ['address'],
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Laramie co - Parcels SLOW',
+        {name: 'Laramie Co - Parcels SLOW',
          id: 'wy-laramie-co-parcels',
          url: 'https://maps.laramiecounty.com/arcgis/rest/services/CountyBaseMap/MapServer/136',
          labelFields: ['streetno','streetdir','streetname','streetsuf'],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Cheyenne / Laramie co - Address Points',
+        {name: 'Cheyenne / Laramie Co - Address Points',
          id: 'wy-cheyenne-laramie-co-pts',
          url: 'https://maps.laramiecounty.com/arcgis/rest/services/features/CountyBaseMapFeatures/MapServer/0',
          labelFields: ['address'],
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Cheyenne / Laramie co - Parcels SLOW',
+        {name: 'Cheyenne / Laramie Co - Parcels SLOW',
          id: 'wy-cheyenne-laramie-co-parcels',
          url: 'https://maps.laramiecounty.com/arcgis/rest/services/features/CountyBaseMapFeatures/MapServer/2',
          labelFields: ['streetno','streetdir','streetname','streetsuf'],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Lincoln co - Parcels',
+        {name: 'Lincoln Co - Address Points',
+         id: 'wy-lincoln-co-pts',
+         url: 'https://maps.lcwy.org/arcgis/rest/services/PUBLIC/RuralAdd/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels NO DATA',
          id: 'wy-lincoln-co-parcels',
          url: 'https://maps.lcwy.org/arcgis/rest/services/PUBLIC/Parcels_arcgis/MapServer/8',
-         labelFields: ['LOCATION'],
+         labelFields: [''],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Weson co - Address Points',
+        {name: 'Natrona Co - Address Points',
+         id: 'wy-natrona-co-pts',
+         url: 'https://maps.casperwy.gov/nrgisc/rest/services/Addressing/Addressing/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Natrona Co - Parcels NO DATA',
+         id: 'wy-natrona-co-parcels',
+         url: 'https://maps.casperwy.gov/nrgisc/rest/services/Parcel_Ownership/Parcel/MapServer/0',
+         labelFields: [''],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Niobrara Co - Parcels',
+         id: 'wy-niobrara-co-parcels',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/Niobrara_Assessor/FeatureServer/4',
+         labelFields: ['HouseNumber','StDirection','StreetName','StreetType'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sundance - City Address Points',
+         id: 'wy-sundance-city-pts',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/SundanceBaseMap/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sundance - City Parcels NO DATA',
+         id: 'wy-sundance-city-parcels',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/SundanceBaseMap/FeatureServer/3',
+         labelFields: [''],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Unita Co - Parcels',
+         id: 'wy-unita-co-parcels',
+         url: 'https://services.arcgis.com/3lhSvleboHW33hAj/arcgis/rest/services/UintaCounty/FeatureServer/0',
+         labelFields: ['ADDNO','RDNAME'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Evanston - City Parcels',
+         id: 'wy-evanston-city-parcels',
+         url: 'https://services.arcgis.com/3lhSvleboHW33hAj/ArcGIS/rest/services/MyMapService/FeatureServer/0',
+         labelFields: ['ADDNO','RDNAME'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washakie Co - Parcels',
+         id: 'wy-washakie-co-parcels',
+         url: 'https://services.arcgis.com/VXqKERHDPaVIWXWc/arcgis/rest/services/2017_WashCoParcelData/FeatureServer/0',
+         labelFields: ['ADDRESSLOC'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Weston Co - Address Points',
          id: 'wy-weston-co-pts',
          url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/WestonViewer/FeatureServer/1',
          labelFields: ['ADDRESS'],
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Weston co - Parcels',
+        {name: 'Weston Co - Parcels',
          id: 'wy-weston-co-parcels',
          url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/WestonViewer/FeatureServer/7',
          labelFields: ['LOCATION_A'],
          state: 'WY',
          style: DEFAULT_PARCEL_STYLE}
-
 
     ];
 
