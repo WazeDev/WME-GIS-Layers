@@ -274,6 +274,7 @@
 // @connect      siouxfalls.org
 // -- TX --
 // @connect      friscotexas.gov
+// @connect      maps.planogis.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -4250,13 +4251,6 @@
         // Texas
         // ****************************
 
-        {name: 'Kingsville - City Parcels',
-         id: 'tx-kingsville-city-parcels',
-         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Kingsville/Kingsville_WL_P/MapServer/1',
-         labelFields: ['Full_Addr'],
-         state: 'TX',
-         style: DEFAULT_PARCEL_STYLE},
-
         {name: 'Frisco - City Parcels',
          id: 'tx-frisco-city-parcels',
          url: 'http://mapcache.friscotexas.gov/arcgis/rest/services/Resident/MapServer/10',
@@ -4264,6 +4258,22 @@
          processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kingsville - City Parcels',
+         id: 'tx-kingsville-city-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Kingsville/Kingsville_WL_P/MapServer/1',
+         labelFields: ['Full_Addr'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Plano - City Parcels',
+         id: 'tx-plano-city-parcels',
+         url: 'http://maps.planogis.org/arcgiswad/rest/services/BaseLayers/Parcels/MapServer/0',
+         labelFields: ['SITUS_NUM','SITUS_STREET_PREFX','SITUS_STREET','SITUS_STREET_SUFIX'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         // Utah
         // *****************************
 
