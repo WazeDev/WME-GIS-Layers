@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.26.003
+// @version      2018.01.28.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -23,6 +23,8 @@
 // @connect      jccal.org
 // -- AZ --
 // @connect      yumacountyaz.gov
+// -- CO --
+// @connect      fremontgis.com
 // -- DC --
 // @connect      dc.gov
 // -- FL --
@@ -77,6 +79,9 @@
 // @connect      thomsonreuters.com
 // @connect      arcgis.com
 // @connect      roktech.net
+// -- HI --
+// @connect      hawaii.gov
+// @connect      honolulugis.org
 // -- IA --
 // @connect      gisworkshop.com
 // @connect      216.81.174.57
@@ -603,6 +608,20 @@
          id: 'co-archuleta-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: ['SITUS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fremont Co - Address Points',
+         id: 'co-fremont-co-pts',
+         url: 'http://fremontgis.com/arcgis_102/rest/services/FremontCO_GIS_Layers/MapServer/160',
+         labelFields: ['GL_ADR_FUL'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fremont Co - Parcels',
+         id: 'co-fremont-co-parcels',
+         url: 'http://fremontgis.com/arcgis_102/rest/services/parcels/MapServer/0',
+         labelFields: ['SITE_ADDR'],
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1251,6 +1270,33 @@
          style: DEFAULT_PARCEL_STYLE},
 
 
+        // Hawaii
+        // ************************************
+
+        // County GIS's are Qpublic.net GIS system, layers data not available. found statewide parcel layer, but no address label. Label qpub_link does have a direct
+        // link to Qpublic data to open parcel information on new window ( for future option if possible ).
+        {name: 'State - Parcels NO DATA',
+         id: 'hi-hawaii-parcels',
+         url: 'http://geodata.hawaii.gov/arcgis/rest/services/EnerGIS/EnerGIS_table/MapServer/0',
+         labelFields: [''],
+         state: 'HI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Honolulu Co - Address Points',
+         id: 'hi-honolulu-co-pts',
+         url: 'http://webserverholis.honolulugis.org/arcgis/rest/services/Public/Cadastral/MapServer/3',
+         labelFields: ['HOUSENUMBER','HOUSESUFFX','STREETNAME','SUITE'],
+         state: 'HI',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Honolulu Co - Parcels NO DATA',
+         id: 'hi-honolulu-co-parcels',
+         url: 'http://webserverholis.honolulugis.org/arcgis/rest/services/Public/Cadastral/MapServer/1',
+         labelFields: [''],
+         state: 'HI',
+         style: DEFAULT_PARCEL_STYLE},
+
+
         // Indiana
         // ************************************
 
@@ -1260,6 +1306,7 @@
          labelFields: ['FULL_ADDRESS'],
          state: 'IN',
          style: DEFAULT_PT_STYLE},
+
 
         // Iowa
         // ************************************
@@ -2676,6 +2723,18 @@
          state: 'MN',
          style: DEFAULT_PARCEL_STYLE},
 
+
+        // Mississippi
+        // ************************************
+
+        {name: 'Copiah Co - Address Points',
+         id: 'ms-Copiah-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CopiahLabelTest/FeatureServer/1',
+         labelFields: ['NUMERICS','ROAD_NAME'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+
         // Missouri
         // ************************************
 
@@ -3489,6 +3548,13 @@
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Franklin Co - Address Points',
+         id: 'oh-franklin-co-pts',
+         url: 'http://maps.franklincountyauditor.com/fcaags/rest/services/BaseMap/SiteAddressesWGS84/MapServer/0',
+         labelFields: ['SITEADDRESS_1'],
+         state: 'OH',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Franklin Co - Parcels',
          id: 'oh-franklin-co-parcels',
          url: 'http://maps.franklincountyauditor.com/fcaags/rest/services/Services/ParcelFeatures/MapServer/1',
@@ -3502,6 +3568,13 @@
          labelFields: ['LSN'],
          state: 'OH',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Fulton Co - Parcels',
+         id: 'oh-Fulton-co-parcels',
+         url: 'http://gis.fultoncountyoh.com/arcgis/rest/services/LocalGov/Base/MapServer/5',
+         labelFields: ['mlocStrNo','mlocStrDir','mlocStrNam','mlocStrSuf'],
+         state: 'OH',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hamilton Co - Parcels',
          id: 'oh-hamilton-co-parcels',
@@ -4756,10 +4829,28 @@
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Cabell Co - Parcels',
-         id: 'wv-Cabell-co-parcels',
+        // This layer was discovered on the same server as Cabell parcel layer #2, but not sure if it's "official".
+        {name: 'Cabell Co - Address Points',
+         id: 'wv-Cabell-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CabellWV_Service/FeatureServer/0',
+         labelFields: ['ADDR_LABEL','SA_STREET'],
+         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // This layer is used by the Cabell assessor website.
+        {name: 'Cabell Co - Parcels #1',
+         id: 'wv-Cabell-co-parcels-1',
          url: 'https://mapping.cabellassessor.com/arcgis/rest/services/Parcels17/MapServer/0',
          labelFields: ['IAS_DATA_location'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This layer was discovered, but doesn't appear to be used on the county website.
+        {name: 'Cabell Co - Parcels #2',
+         id: 'wv-Cabell-co-parcels-2',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CabellWV_Service/FeatureServer/6',
+         labelFields: ['situsaddr'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4774,6 +4865,34 @@
          id: 'wv-Gilmer-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Gilmer/GilmerOperational/MapServer/57',
          labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greenbrier Co - Address Points',
+         id: 'wv-Greenbrier-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Greenbrier Co - Parcels',
+         id: 'wv-Greenbrier-co-parcels',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/6',
+         labelFields: ['situsaddr'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hampshire Co - Address Points',
+         id: 'wv-Hampshire-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HampshireMapService/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hampshire Co - Parcels',
+         id: 'wv-Hampshire-co-parcels',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HampshireMapService/FeatureServer/4',
+         labelFields: ['situsaddr'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4825,6 +4944,44 @@
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
+
+        // This is the parcel layer from the Taylor county website
+        {name: 'Taylor Co - Parcels #1',
+         id: 'wv-Taylor-co-parcels-1',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/TaylorWV_Service/FeatureServer/3',
+         labelFields: ['situsaddr'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This parcel layer was discovered on the landmarkgeospatial server, but doesn't appear to be used on the Taylor co website?
+        {name: 'Taylor Co - Parcels #2',
+         id: 'wv-Taylor-co-parcels-2',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Taylor/TaylorOperational2/MapServer/80',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Upshur Co - Address Points',
+         id: 'wv-Upshur-co-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/1',
+         labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Upshur Co - Parcels',
+         id: 'wv-Upshur-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/2',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wyoming Co - Parcels',
+         id: 'wv-Wyoming-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Wyoming/WyomingOperational/MapServer/17',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
 
         // Wisconsin
         // ****************************
