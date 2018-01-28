@@ -274,6 +274,7 @@
 // @connect      siouxfalls.org
 // -- TX --
 // @connect      gis.co.collin.tx.us
+// @connect      maps.dcad.org
 // @connect      friscotexas.gov
 // @connect      maps.planogis.org
 // -- VA --
@@ -4257,6 +4258,14 @@
          url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/181',
          labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
          processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+		 {name: 'Dallas - City Parcels',
+         id: 'tx-dallas-city-parcels',
+         url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
