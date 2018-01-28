@@ -273,6 +273,7 @@
 // @connect      1stdistrict.org
 // @connect      siouxfalls.org
 // -- TX --
+// @connect      gis.co.collin.tx.us
 // @connect      friscotexas.gov
 // @connect      maps.planogis.org
 // -- VA --
@@ -4250,6 +4251,14 @@
 
         // Texas
         // ****************************
+
+        {name: 'Collin co - Address Points',
+         id: 'tx-collin-co-address-points',
+         url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/181',
+         labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
+         processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Frisco - City Parcels',
          id: 'tx-frisco-city-parcels',
