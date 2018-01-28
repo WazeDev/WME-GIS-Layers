@@ -273,8 +273,12 @@
 // @connect      1stdistrict.org
 // @connect      siouxfalls.org
 // -- TX --
+// @connect      gis.abilenetx.com
 // @connect      gis.co.collin.tx.us
 // @connect      maps.dcad.org
+// @connect      gis.dentoncounty.com
+// @connect      gis.elpasotexas.gov
+// @connect      arcgisweb.co.fort-bend.tx.us
 // @connect      friscotexas.gov
 // @connect      maps.planogis.org
 // -- VA --
@@ -4253,6 +4257,14 @@
         // Texas
         // ****************************
 
+        {name: 'Abilene - City Address Points',
+         id: 'tx-abilene-city-address',
+         url: 'https://gis.abilenetx.com/arcgis/rest/services/Address_Points/MapServer/0',
+         labelFields: ['FULLADDR'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Collin co - Address Points',
          id: 'tx-collin-co-address-points',
          url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/181',
@@ -4269,11 +4281,50 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Denton Co - Parcels',
+         id: 'tx-denton-co-parcels',
+         url: 'http://gis.dentoncounty.com/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'El Paso Co - Parcels',
+         id: 'tx-el-paso-co-parcels',
+         url: 'http://gis.elpasotexas.gov/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['CAD_2018.DBO.ParcelAttribute.SITUS_NUM','CAD_2018.DBO.ParcelAttribute.SITUS_STRE'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fort Bend Paso Co - Address Points',
+         id: 'tx-fort-bend-address',
+         url: 'https://arcgisweb.co.fort-bend.tx.us/arcgis/rest/services/General/Address_Points/MapServer/0',
+         labelFields: ['STREET_NUM','STREET_NAM','STREET_SUF'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Frisco - City Parcels',
          id: 'tx-frisco-city-parcels',
          url: 'http://mapcache.friscotexas.gov/arcgis/rest/services/Resident/MapServer/10',
          labelFields: ['Address'],
          processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Galveston Co - Parcels',
+         id: 'tx-galveston-co-parcels',
+         url: 'https://services2.arcgis.com/7Zo7vX4Yxo9Z7Vw3/ArcGIS/rest/services/MyMapService/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)\s+.*,.*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'tx-jefferson-co-parcels',
+         url: 'http://services.arcgis.com/ZXAF35aJr7XcgDMv/ArcGIS/rest/services/JeffersonTXFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4284,11 +4335,42 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Loving Co - Parcels',
+         id: 'tx-loving-co-parcels',
+         url: 'https://services7.arcgis.com/cPZChP7n2kRoyp30/ArcGIS/rest/services/Loving_CAD/FeatureServer/2',
+         labelFields: ['Prop_Street_Num','Prop_Street'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montgomery Co - Parcels',
+         id: 'tx-montgomery-co-parcels',
+         url: 'https://services1.arcgis.com/PRoAPGnMSUqvTrzq/ArcGIS/rest/services/Tax_Parcel_Public_View/FeatureServer/0',
+         labelFields: ['PropertyAd'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Plano - City Parcels',
          id: 'tx-plano-city-parcels',
          url: 'http://maps.planogis.org/arcgiswad/rest/services/BaseLayers/Parcels/MapServer/0',
          labelFields: ['SITUS_NUM','SITUS_STREET_PREFX','SITUS_STREET','SITUS_STREET_SUFIX'],
          processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tarrant Co - Parcels',
+         id: 'tx-tarrant-co-parcels',
+         url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
+         labelFields: ['SitusAddress'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williamson Co - Address Points',
+         id: 'tx-williamson-co-address',
+         url: 'https://gis.wilco.org/arcgis/rest/services/public/county_address/MapServer/0',
+         labelFields: ['ADDR_NUMBER','RD_FULLNAME'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
