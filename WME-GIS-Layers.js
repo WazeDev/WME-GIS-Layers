@@ -281,6 +281,9 @@
 // @connect      arcgisweb.co.fort-bend.tx.us
 // @connect      friscotexas.gov
 // @connect      maps.planogis.org
+// @connect      gis.wilco.org
+// @connect      webmap.trueautomation.com
+// @connect      bcad.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -4262,6 +4265,78 @@
          url: 'https://gis.abilenetx.com/arcgis/rest/services/Address_Points/MapServer/0',
          labelFields: ['FULLADDR'],
          processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Andrews Co - Parcels',
+         id: 'tx-andrews-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AndrewsMapSearch/MapServer/1',
+         labelFields: ['Andrews.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Angelina Co - Parcels',
+         id: 'tx-angelina-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AngelinaMapSearch/MapServer/7',
+         labelFields: ['Angelina.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Aransas Co - Parcels',
+         id: 'tx-aransas-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AransasMapSearch/MapServer/1',
+         labelFields: ['Aransas.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Atascosa Co - Parcels',
+         id: 'tx-Atascosa-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AtascosaMapSearch/MapServer/7',
+         labelFields: ['Atascosa.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bexar Co - Parcels',
+         id: 'tx-bexar-co-parcels',
+         url: 'http://www.bcad.org/arcgis/rest/services/PAMapSearch/MapServer/6',
+         labelFields: ['PAMaps.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brazoria Co - Parcels',
+         id: 'tx-brazoria-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrazoriaMapSearch/MapServer/8',
+         labelFields: ['Brazoria.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Burnet Co - Parcels',
+         id: 'tx-burnet-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BurnetMapSearch/MapServer/7',
+         labelFields: ['Burnet.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Calhoun Co - Parcels',
+         id: 'tx-calhoun-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/CalhounMapSearch/MapServer/7',
+         labelFields: ['Calhoun.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cass Co - Parcels',
+         id: 'tx-cass-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/CassMapSearch/MapServer/1',
+         labelFields: ['Cass.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
