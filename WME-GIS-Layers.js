@@ -4678,7 +4678,7 @@
         {name: 'Smith Co - Address Points',
          id: 'tx-smith-co-address',
          url: 'https://www.smithcountymapsite.org/publicgis/rest/services/Maps/AddressPoints/MapServer/0',
-         labelFields: ['FULLNAME'],
+         labelFields: ['ADDRNUM','FULLNAME'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
