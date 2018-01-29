@@ -285,6 +285,7 @@
 // @connect      webmap.trueautomation.com
 // @connect      bcad.org
 // @connect      wadtx.com
+// @connect      smithcountymapsite.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -4673,6 +4674,14 @@
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: 'DEFAULT_PARCEL_STYLE'},
+
+        {name: 'Smith Co - Address Points',
+         id: 'tx-smith-co-address',
+         url: 'https://www.smithcountymapsite.org/publicgis/rest/services/Maps/AddressPoints/MapServer/0',
+         labelFields: ['FULLNAME'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Stevens Co - Parcels',
          id: 'tx-stevens-co-parcels',
