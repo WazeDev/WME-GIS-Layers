@@ -284,6 +284,7 @@
 // @connect      gis.wilco.org
 // @connect      webmap.trueautomation.com
 // @connect      bcad.org
+// @connect      wadtx.com
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -4412,6 +4413,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Dallas Co - Parcels',
+         id: 'tx-dallas-co-parcels',
+         url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Deaf Smith Co - Parcels',
          id: 'tx-deafsmith-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/DeafSmithMapSearch/MapServer/7',
@@ -4577,7 +4586,7 @@
          state: 'TX',
          style: 'DEFAULT_PARCEL_STYLE'},
 
-        {name: 'Mclennan Co - Parcels',
+        {name: 'McLennan Co - Parcels',
          id: 'tx-mclennan-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/MclennanMapSearch/MapServer/7',
          labelFields: [ 'Mclennan.dbo.web_map_property.situs' ],
@@ -4633,6 +4642,14 @@
          state: 'TX',
          style: 'DEFAULT_PARCEL_STYLE'},
 
+        {name: 'Rockwall Co - Parcels',
+         id: 'tx-rockwall-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/RockwallMapSearch/MapServer/1',
+         labelFields: ['Rockwall.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'SanJacinto Co - Parcels',
          id: 'tx-sanjacinto-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/SanJacintoMapSearch/MapServer/7',
@@ -4681,14 +4698,6 @@
          state: 'TX',
          style: 'DEFAULT_PARCEL_STYLE'},
 
-        {name: 'Tyler Co - Parcels',
-         id: 'tx-tyler-co-parcels',
-         url: 'https://webmap.trueautomation.com/arcgis/rest/services/TylerMapSearch/MapServer/1',
-         labelFields: [ 'Tyler.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
-         state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
-
         {name: 'Tarrant Co - Parcels',
          id: 'tx-tarrant-co-parcels',
          url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
@@ -4696,6 +4705,14 @@
          processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tyler Co - Parcels',
+         id: 'tx-tyler-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/TylerMapSearch/MapServer/1',
+         labelFields: [ 'Tyler.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: 'DEFAULT_PARCEL_STYLE'},
 
         {name: 'Upshur Co - Parcels',
          id: 'tx-upshur-co-parcels',
@@ -4713,7 +4730,7 @@
          state: 'TX',
          style: 'DEFAULT_PARCEL_STYLE'},
 
-        {name: 'ValVerde Co - Parcels',
+        {name: 'Val Verde Co - Parcels',
          id: 'tx-valverde-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ValVerdeMapSearch/MapServer/7',
          labelFields: [ 'ValVerde.dbo.web_map_property.situs' ],
@@ -4768,6 +4785,14 @@
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: 'DEFAULT_PARCEL_STYLE'},
+
+        {name: 'Wichita Co - Parcels',
+         id: 'tx-wichita-co-parcels',
+         url: 'https://propaccess.wadtx.com/arcgis/rest/services/WichitaMapSearch/MapServer/7',
+         labelFields: ['GISData.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Yoakum Co - Parcels',
          id: 'tx-yoakum-co-parcels',
