@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.29.001
+// @version      2018.01.30.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -2404,6 +2404,14 @@
          id: 'mi-kent-co-parcels',
          url: 'http://gis.kentcountymi.gov/prodarcgis/rest/services/Copy_of_KC_CAD_Local_331/MapServer/10',
          labelFields: ['PROPERTYADDRESS'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montcalm Co - Parcels',
+         id: 'mi-Montcalm-co-parcels',
+         url: 'https://services6.arcgis.com/GJ2uZAPsEvtmqpe1/ArcGIS/rest/services/Tax_Parcels/FeatureServer/0',
+         where: "BSAEXPORT_ONERNAME1 <> 'MICH STATE HWY COMMISSION'",
+         labelFields: ['BSAEXPORT_PCOMBINED'],
          state: 'MI',
          style: DEFAULT_PARCEL_STYLE},
 
