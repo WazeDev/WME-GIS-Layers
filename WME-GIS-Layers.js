@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.30.002
+// @version      2018.01.30.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -2451,21 +2451,22 @@
         //  state: 'MI',
         //  style: DEFAULT_PT_STYLE},
 
-        {name: 'Washtenaw Co - Parcels Labels',
-         id: 'mi-washtenaw-co-parcels-2',
-         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
-         token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
-         labelFields: ['ADDRESSTEXT'],
-         state: 'MI',
-         style: DEFAULT_PARCEL_STYLE},
+        // WASHTENAW DATA IS PROTECTED BY A URL TOKEN.  ANN ARBOR (ON THE SAME SERVER) IS ACCESSIBLE, THOUGH.
+//         {name: 'Washtenaw Co - Parcels Labels',
+//          id: 'mi-washtenaw-co-parcels-2',
+//          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
+//          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+//          labelFields: ['ADDRESSTEXT'],
+//          state: 'MI',
+//          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Washtenaw Co - Parcels Boundaries',
-         id: 'mi-washtenaw-co-parcels-3',
-         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
-         token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
-         labelFields: [''],
-         state: 'MI',
-         style: DEFAULT_PARCEL_STYLE},
+//         {name: 'Washtenaw Co - Parcels Boundaries',
+//          id: 'mi-washtenaw-co-parcels-3',
+//          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
+//          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+//          labelFields: [''],
+//          state: 'MI',
+//          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wayne Co - Parcels',
          id: 'mi-wayne-co-parcels',
