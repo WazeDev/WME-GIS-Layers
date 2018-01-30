@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.30.001
+// @version      2018.01.30.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -2379,6 +2379,20 @@
         // Michigan
         // ************************************
 
+        {name: 'Ann Arbor - City Parcels',
+         id: 'mi-washtenaw-co-parcels',
+         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/A2ParcelsforItrakIt/MapServer/0',
+         labelFields: ['PRPACOM'],
+         state: 'MI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ann Arbor - City Address Points',
+         id: 'mi-washtenaw-co-pts',
+         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/A2/A2BaseCacheBasicV2/MapServer/21',
+         labelFields: ['SITUS_ADR'],
+         state: 'MI',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Cheboygan Co - Parcels',
          id: 'mi-cheboygan-co-parcels',
          url: 'https://services6.arcgis.com/j6ueqNZduqQcCpQQ/ArcGIS/rest/services/Quick_Reference/FeatureServer/1',
@@ -2437,19 +2451,21 @@
         //  state: 'MI',
         //  style: DEFAULT_PT_STYLE},
 
-        {name: 'Washtenaw Co - Ann Arbor - Parcels (Limited)',
-         id: 'mi-washtenaw-co-parcels',
-         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/A2ParcelsforItrakIt/MapServer/0',
-         labelFields: ['PRPACOM'],
+        {name: 'Washtenaw Co - Parcels Labels',
+         id: 'mi-washtenaw-co-parcels-2',
+         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
+         token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+         labelFields: ['ADDRESSTEXT'],
          state: 'MI',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Washtenaw Co - Ann Arbor - Address Points (Limited)',
-         id: 'mi-washtenaw-co-pts',
-         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/A2/A2BaseCacheBasicV2/MapServer/21',
-         labelFields: ['SITUS_ADR'],
+        {name: 'Washtenaw Co - Parcels Boundaries',
+         id: 'mi-washtenaw-co-parcels-3',
+         url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
+         token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+         labelFields: [''],
          state: 'MI',
-         style: DEFAULT_PT_STYLE},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wayne Co - Parcels',
          id: 'mi-wayne-co-parcels',
@@ -5549,6 +5565,7 @@
         if (gisLayer.distinctFields) {
             fields = fields.concat(gisLayer.distinctFields);
         }
+        url += gisLayer.token ? '&token=' + gisLayer.token : '';
         url += '&outFields=' + encodeURIComponent(fields.join(','));
         url += '&returnGeometry=true';
         url += '&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=' + (gisLayer.spatialReference ? gisLayer.spatialReference : '102100') + '&outSR=3857&f=json';
