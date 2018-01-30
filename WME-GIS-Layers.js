@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.28.001
+// @version      2018.01.29.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -94,6 +94,16 @@
 // @connect      polkcountyiowa.gov
 // @connect      pottcounty-ia.gov
 // @connect      siouxcounty.org
+// -- ID --
+// @connect      adacountyassessor.org
+// @connect      idaho.gov
+// @connect      id.us
+// @connect      cityofboise.org
+// @connect      bonnercounty.us
+// @connect      canyonco.org
+// @connect      clearwatercounty.org
+// @connect      rexburg.org
+// @connect      kcgov.us
 // -- IN --
 // @connect      in.gov
 // -- KS --
@@ -194,6 +204,8 @@
 // @connect      polkcountymo.org
 // @connect      sccmo.org
 // @connect      stlouisco.com
+// -- MS --
+// @connect      ms.gov
 // -- MT --
 // @connect       gisservicemt.gov
 // @connect       flathead.mt.gov
@@ -1294,6 +1306,281 @@
          url: 'http://webserverholis.honolulugis.org/arcgis/rest/services/Public/Cadastral/MapServer/1',
          labelFields: [''],
          state: 'HI',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Idaho
+        // ************************************
+
+        {name: 'Ada Co - Address Points',
+         id: 'id-ada-co-pts',
+         url: 'http://www.adacountyassessor.org/arcgis/rest/services/External/ExternalMap/MapServer/16',
+         labelFields: ['AddNum','StPreDir','StName','StSuffix','StPostDir'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ada Co - Parcels',
+         id: 'id-ada-co-parcels',
+         url: 'http://www.adacountyassessor.org/arcgis/rest/services/External/ExternalMap/MapServer/24',
+         labelFields: ['PROP_ADD'],
+         processLabel: function(label) { return label.replace(/,.*/,''); },
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bannock Co - Parcels',
+         id: 'id-bannock-co-parcels',
+         url: 'https://services6.arcgis.com/jEWFLsriO24ArCMH/ArcGIS/rest/services/parcels/FeatureServer/0',
+         labelFields: ['HOUSE_NO','STREET','DIRECTION'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bingham Co - Address Points',
+         id: 'id-bingham-co-pts',
+         url: 'https://www.co.bingham.id.us/arcgis/rest/services/Basemaps/Address_Points/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bingham Co - Parcels',
+         id: 'id-bingham-co-parcels',
+         url: 'https://www.co.bingham.id.us/arcgis/rest/services/Public/Bingham_County_Parcel_Map_Public/MapServer/2',
+         labelFields: ['St_Num','St_Prefix','St_Name','St_Suffx','St_Post_Di'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Blaine Co - Address Points',
+         id: 'id-blaine-co-pts',
+         url: 'http://maps.co.blaine.id.us/bcgis/rest/services/ParcelInfo/MapServer/3',
+         labelFields: ['pm_prop_ad'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Blaine Co - Parcels',
+         id: 'id-blaine-co-parcels',
+         url: 'http://maps.co.blaine.id.us/bcgis/rest/services/ParcelInfo/MapServer/5',
+         labelFields: ['prop_adrs1'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel Layer not showing, but not console errors.. ArcGIS map shows Can't add layer. (Shape field missing.) if I add layer ID10 but loads and show if adding
+        // all the layers in the MapServer folder ID 0 to 17.
+        //{name: 'Ketchum - City Parcels TEST',
+        // id: 'id-ketchum-city-parcels',
+        // url: 'http://maps.co.blaine.id.us/bcgis/rest/services/AGSKetchum/MapServer/1',
+        // labelFields: ['prop_adrs1'],
+        // state: 'ID',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Boise - City Address Points',
+         id: 'id-boise-city-pts',
+         url: 'http://gismaps.cityofboise.org/arcgis/rest/services/BoiseMaps/PublicProperty/MapServer/6',
+         labelFields: ['AddNum','StPreDir','StName','StSuffix','StPostDir'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Boise - City Parcels',
+         id: 'id-boise-city-parcels',
+         url: 'http://gismaps.cityofboise.org/arcgis/rest/services/BoiseMaps/PublicProperty/MapServer/9',
+         labelFields: ['ADDRESS'],
+         layerOffset: {x: -3, y: 0},
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Booner Co - Address Points',
+         id: 'id-booner-co-pts',
+         url: 'http://maps.bonnercounty.us/bcgis/rest/services/External/STRUC_PTS_LN/MapServer/0',
+         labelFields: ['FINAL_ADD','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Booner Co - Parcels',
+         id: 'id-booner-co-parcels',
+         url: 'http://maps.bonnercounty.us/bcgis/rest/services/External/CADAS_POLY/MapServer/1',
+         labelFields: ['PropStr'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Layer not showing , console error.  Arcgis map showing layer
+        {name: 'Booneville Co - Address Points',
+         id: 'id-booneville-co-pts',
+         url: 'http://maps.co.bonneville.id.us/arcgis/rest/services/Address_Points/MapServer/0',
+         labelFields: ['Address'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Booneville Co - Parcels',
+         id: 'id-booneville-co-parcels',
+         url: 'http://maps.co.bonneville.id.us/arcgis/rest/services/WebMapApp/MapServer/0',
+         labelFields: ['prop_street'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Boundary Co - Address Points',
+         id: 'id-boundary-co-pts',
+         url: 'https://services5.arcgis.com/ZopoLvPkBp5W7W8U/ArcGIS/rest/services/1_publishToArcGisOnline_author_roads/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Camas Co - Address Points',
+         id: 'id-camas-co-pts',
+         url: 'https://gis2.idaho.gov/arcgis/rest/services/ADM/Structures/MapServer/0',
+         labelFields: ['ADDNUM'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Camas Co - Parcels NO DATA',
+         id: 'id-camas-co-parcels',
+         url: 'https://gis2.idaho.gov/arcgis/rest/services/ADM/Parcels/MapServer/5',
+         labelFields: [''],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Canyon Co - Address Points',
+         id: 'id-canyon-co-pts',
+         url: 'http://gis.canyonco.org:6080/arcgis/rest/services/cc/Address_Points/MapServer/0',
+         labelFields: ['SiteNum','Predir','SiteStreet','StreetType','Postdir'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Canyon Co - Parcels',
+         id: 'id-canyon-co-parcels',
+         url: 'http://gis.canyonco.org:6080/arcgis/rest/services/cc/Taxparcels/MapServer/0',
+         labelFields: ['SiteNum','Predir','SiteStreet','StreetType','Postdir'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Caribou Co - Addr Points 2014',
+         id: 'id-caribou-co-pts',
+         url: 'https://services2.arcgis.com/zPp6uY3zIswPu2kP/arcgis/rest/services/Address_2014/FeatureServer/0',
+         labelFields: ['Address'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Caribou Co - Parcels NO DATA',
+         id: 'id-caribou-co-parcels',
+         url: 'https://services2.arcgis.com/zPp6uY3zIswPu2kP/arcgis/rest/services/Parcel/FeatureServer/0',
+         labelFields: [''],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clearwater Co - Address Points',
+         id: 'id-clearwater-co-pts',
+         url: 'http://gis.clearwatercounty.org/arcgis/rest/services/County/MapServer/1',
+         labelFields: ['HOUSE_NUMB','ADDRESS'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Clearwater Co - Parcels',
+         id: 'id-clearwater-co-parcels',
+         url: 'http://gis.clearwatercounty.org/arcgis/rest/services/Operational/MapServer/0',
+         labelFields: [''],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'id-jefferson-co-pts',
+         url: 'http://maps.co.jefferson.id.us/arcgis/rest/services/Transportation/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'id-jefferson-co-parcels',
+         url: 'http://maps.co.jefferson.id.us/arcgis/rest/services/Cadastre/MapServer/12',
+         labelFields: ['PS_PROP_AD'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kootenai Co - Address Points',
+         id: 'id-kootenai-co-pts',
+         url: 'http://kcearth.kcgov.us/ws/rest/services/KC_Dynamic_Layers_KE/MapServer/0',
+         labelFields: ['HOUSE_NUM','PRE_DIR','ST_NAME','ST_TYPE'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kootenai Co - Parcels',
+         id: 'id-kootenai-co-parcels',
+         url: 'http://kcearth.kcgov.us/ws/rest/services/KC_Dynamic_Layers_KE/MapServer/11',
+         labelFields: ['Loc_Addr'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Latah Co - Address Points',
+         id: 'id-latah-co-pts',
+         url: 'http://gis.latah.id.us/arcgis/rest/services/General/MapServer/11',
+         labelFields: ['FULLADDRSS'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Latah Co - Parcels',
+         id: 'id-latah-co-parcels',
+         url: 'http://gis.latah.id.us/arcgis/rest/services/Appraiser_Data/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Madidon Co - Addr Points',
+         id: 'id-madison-co-pts',
+         url: 'http://jessie.rexburg.org/mrgis/rest/services/Data/Addresses/MapServer/0',
+         labelFields: ['AddressLabel'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Madidon Co - Proposed Addr Points',
+         id: 'id-madison-co-pts2',
+         url: 'http://jessie.rexburg.org/mrgis/rest/services/Data/Addresses/MapServer/1',
+         labelFields: ['AddressLabel'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Madison Co - Parcels',
+         id: 'id-madison-co-parcels',
+         url: 'http://jessie.rexburg.org/mrgis/rest/services/Data/Parcels/MapServer/0',
+         labelFields: ['SITE_ADD'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Nez Perce Co - Address Points',
+         id: 'id-nez-perce-co-pts',
+         url: 'http://gis.co.nezperce.id.us/gis/rest/services/Public/PropertyMap/MapServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Nez Perce Co - Parcels',
+         id: 'id-nez-perce-co-parcels',
+         url: 'http://gis.co.nezperce.id.us/gis/rest/services/NPCGIS/npc_cadastral/MapServer/0',
+         labelFields: ['NPC_CADASTRAL.DBO.PARCEL_BASEMAP.PM_PROP_AD'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Teton Co - Address Points',
+         id: 'id-teton-co-pts',
+         url: 'http://gisserver1.co.teton.id.us/arcgis/rest/services/PARCEL_ADDRESS_SEARCH/MapServer/0',
+         labelFields: ['LABELNAME'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Teton Co - Parcels',
+         id: 'id-teton-co-parcels',
+         url: 'http://gisserver1.co.teton.id.us/arcgis/rest/services/PARCEL_ADDRESS_SEARCH/MapServer/5',
+         labelFields: ['Physical_Address'],
+         state: 'ID',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Valley Co - Address Points',
+         id: 'id-valley-co-pts',
+         url: 'https://services6.arcgis.com/ikurHvtarxfN6u3u/ArcGIS/rest/services/Address_Collector/FeatureServer/0',
+         labelFields: ['DLVRY_ADD'],
+         state: 'ID',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Valley Co - Parcels',
+         id: 'id-valley-co-parcels',
+         url: 'https://services6.arcgis.com/ikurHvtarxfN6u3u/ArcGIS/rest/services/Parcel_Master2/FeatureServer/0',
+         labelFields: ['SitusAddre'],
+         state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
 
 
@@ -2726,6 +3013,25 @@
 
         // Mississippi
         // ************************************
+
+        // For these counties: HANCOCK, HARRISON, JACKSON, PEARL RIVER, STONE
+        {name: 'State - Parcels (MDEM)',
+         id: 'ms-state-parcels1',
+         url: 'http://www.gisonline.ms.gov/arcgis/rest/services/MDEQ/Basemap/MapServer/104',
+         labelFields: ['SITEADD'],
+         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         where: "PARNO NOT IN ('1','2','3')",
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'State - Parcels (non-MDEM, LIMITED DATA)',
+         id: 'ms-state-parcels2',
+         url: 'http://www.gisonline.ms.gov/arcgis/rest/services/MDEQ/Basemap/MapServer/105',
+         labelFields: ['ADDR2'],
+         processLabel: function(label) { return label.replace(/^0\s?/,'').replace(/"/g,''); },
+         //where: "PARNO NOT IN ('1','2','3')",
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Copiah Co - Address Points',
          id: 'ms-Copiah-co-pts',
@@ -5308,7 +5614,7 @@
                                 }
                                 if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
                                     label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
-                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label);
+                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label).trim();
                                 }
                                 let attributes = {
                                     layerID: gisLayer.id,
