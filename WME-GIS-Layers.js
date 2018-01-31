@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.30.003
+// @version      2018.01.30.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13,6 +13,9 @@
 // @connect      matsugov.us
 // @connect      ancgis.com
 // @connect      kpb.us
+// @connect      fnsb.us
+// @connect      ak.us
+// @connect      mobile311.com
 // -- AL --
 // @connect      kcsgis.com
 // @connect      calhouncounty.org
@@ -569,6 +572,54 @@
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Dillingham - City Address Points',
+         id: 'ak-Dillingham-city-pts',
+         url: 'https://services3.arcgis.com/gdLTz4xpy5IxwbSz/ArcGIS/rest/services/AddressesOnline20170623/FeatureServer/0',
+         labelFields: ['FullStreetAddress'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Dillingham - City Parcels',
+         id: 'ak-Dillingham-city-parcels',
+         url: 'https://services3.arcgis.com/gdLTz4xpy5IxwbSz/ArcGIS/rest/services/ParcelsOnline20170623/FeatureServer/0',
+         labelFields: ['StreetAddress'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fairbanks North Star - Address Points',
+         id: 'ak-Fairbanks-North-Star-bor-pts',
+         url: 'https://gis.fnsb.us/arcgis/rest/services/FNSB_PUBLIC/Valid_Address_Points_FNSB/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fairbanks North Star - Parcels (NO DATA)',
+         id: 'ak-Fairbanks-North-Star-bor-parcels',
+         url: 'https://gis.fnsb.us/arcgis/rest/services/FNSB_PUBLIC/Parcels_FNSB/MapServer/0',
+         labelFields: [],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Haines - Parcels (NO DATA)',
+         id: 'ak-Haines-bor-parcels',
+         url: 'https://services3.arcgis.com/pMlUMMROURtJLUZt/ArcGIS/rest/services/Haines_Parcels_01212018/FeatureServer/0',
+         labelFields: [''],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Juneau - Parcels',
+         id: 'ak-juneau-bor-parcels',
+         url: 'http://epv.ci.juneau.ak.us/arcgis/rest/services/prod/unc_property_layers_2b/MapServer/6',
+         labelFields: ['site_addrs'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Kenai Peninsula - Address Points',
          id: 'ak-kenai-pts',
          url: 'http://maps.kpb.us/gis/rest/services/PhysicalAddresses/MapServer/0',
@@ -581,6 +632,38 @@
          id: 'ak-kenai-parcels',
          url: 'http://maps.kpb.us/gis/rest/services/TaxParcels/MapServer/0',
          labelFields: ['SITUS_ADDRESS'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ketchikan Gateway - Address Points',
+         id: 'ak-Ketchikan-Gateway-bor-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Alaska/Ketchikan/MapServer/20',
+         labelFields: ['TEXT_'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ketchikan Gateway - Parcels',
+         id: 'ak-Ketchikan-Gateway-bor-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Alaska/Ketchikan/MapServer/17',
+         labelFields: ['LOC_STNO','LOC_STNAME','LOC_SUFFIX','LOC_POSTDI'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kodiak Island - Address Points',
+         id: 'ak-Kodiak-Island-bor-pts',
+         url: 'https://services1.arcgis.com/R5BNizttyFKxRSMm/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kodiak Island - Parcels',
+         id: 'ak-Kodiak-Island-bor-parcels',
+         url: 'https://services1.arcgis.com/R5BNizttyFKxRSMm/arcgis/rest/services/KIB_Parcels/FeatureServer/0',
+         labelFields: ['STREET_NUMBER', 'STREET_NAME', 'STREET_DIRECTION'],
          visibleAtZoom: 5,
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
@@ -600,6 +683,30 @@
          visibleAtZoom: 5,
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wrangell - Parcels (NO DATA)',
+         id: 'ak-Wrangell-bor-parcels',
+         url: 'https://services7.arcgis.com/7cBSaoaaRaH5ojZy/arcgis/rest/services/Parcels/FeatureServer/0',
+         labelFields: [''],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Yakutat - Parcels (NO DATA)',
+         id: 'ak-Yakutat-bor-parcels',
+         url: 'https://services2.arcgis.com/gRKiTtxkoTx0gERB/ArcGIS/rest/services/ParcelsOnline20170915/FeatureServer/0',
+         labelFields: [''],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Yakutat - Address Points',
+         id: 'ak-Yakutat-bor-pts',
+         url: 'https://services2.arcgis.com/gRKiTtxkoTx0gERB/ArcGIS/rest/services/AddressingOnline/FeatureServer/2',
+         labelFields: ['AddressNumber', 'FullStreetName'],
+         visibleAtZoom: 5,
+         state: 'AK',
+         style: DEFAULT_PT_STYLE},
 
 
         // Arizona
