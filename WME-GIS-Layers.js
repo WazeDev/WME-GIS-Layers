@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.31.001
+// @version      2018.01.31.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -4770,6 +4770,7 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+
         // Texas
         // ****************************
 
@@ -5096,7 +5097,7 @@
          labelFields: [ 'Maverick.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'McLennan Co - Parcels',
          id: 'tx-mclennan-co-parcels',
@@ -5104,7 +5105,7 @@
          labelFields: [ 'Mclennan.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Montgomery Co - Parcels',
          id: 'tx-montgomery-co-parcels',
@@ -5120,7 +5121,7 @@
          labelFields: [ 'Newton.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Nueces Co - Parcels',
          id: 'tx-nueces-co-parcels',
@@ -5128,7 +5129,7 @@
          labelFields: [ 'Nueces.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Plano - City Parcels',
          id: 'tx-plano-city-parcels',
@@ -5144,7 +5145,7 @@
          labelFields: [ 'Polk.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Real Co - Parcels',
          id: 'tx-real-co-parcels',
@@ -5152,7 +5153,7 @@
          labelFields: [ 'Real.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Rockwall Co - Parcels',
          id: 'tx-rockwall-co-parcels',
@@ -5168,7 +5169,7 @@
          labelFields: [ 'SanJacinto.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Scurry Co - Parcels',
          id: 'tx-scurry-co-parcels',
@@ -5176,7 +5177,7 @@
          labelFields: [ 'Scurry.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Shelby Co - Parcels',
          id: 'tx-shelby-co-parcels',
@@ -5184,7 +5185,7 @@
          labelFields: [ 'Shelby.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Smith Co - Address Points',
          id: 'tx-smith-co-address',
@@ -5200,7 +5201,7 @@
          labelFields: [ 'Stevens.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Sutton Co - Parcels',
          id: 'tx-sutton-co-parcels',
@@ -5208,7 +5209,7 @@
          labelFields: [ 'Sutton.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Swisher Co - Parcels',
          id: 'tx-swisher-co-parcels',
@@ -5216,7 +5217,7 @@
          labelFields: [ 'Swisher.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Tarrant Co - Parcels',
          id: 'tx-tarrant-co-parcels',
@@ -5232,7 +5233,7 @@
          labelFields: [ 'Tyler.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Upshur Co - Parcels',
          id: 'tx-upshur-co-parcels',
@@ -5240,7 +5241,7 @@
          labelFields: [ 'Upshur.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Upton Co - Parcels',
          id: 'tx-upton-co-parcels',
@@ -5248,7 +5249,7 @@
          labelFields: [ 'Upton.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Val Verde Co - Parcels',
          id: 'tx-valverde-co-parcels',
@@ -5256,7 +5257,7 @@
          labelFields: [ 'ValVerde.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Walla Co - Parcels',
          id: 'tx-walla-co-parcels',
@@ -5264,7 +5265,7 @@
          labelFields: [ 'Walla.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Waller Co - Parcels',
          id: 'tx-waller-co-parcels',
@@ -5272,7 +5273,7 @@
          labelFields: [ 'Waller.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Webb Co - Parcels',
          id: 'tx-webb-co-parcels',
@@ -5280,7 +5281,7 @@
          labelFields: [ 'Webb.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Williamson Co - Address Points',
          id: 'tx-williamson-co-address',
@@ -5296,7 +5297,7 @@
          labelFields: [ 'Wilson.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Winkler Co - Parcels',
          id: 'tx-winkler-co-parcels',
@@ -5304,7 +5305,7 @@
          labelFields: [ 'Winkler.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wichita Co - Parcels',
          id: 'tx-wichita-co-parcels',
@@ -5320,7 +5321,7 @@
          labelFields: [ 'Yoakum.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Zavala Co - Parcels',
          id: 'tx-zavala-co-parcels',
@@ -5328,7 +5329,8 @@
          labelFields: [ 'Zavala.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
-         style: 'DEFAULT_PARCEL_STYLE'},
+         style: DEFAULT_PARCEL_STYLE},
+
 
         // Utah
         // *****************************
