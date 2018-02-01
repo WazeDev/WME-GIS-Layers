@@ -306,6 +306,7 @@
 // @connect      bcad.org
 // @connect      wadtx.com
 // @connect      smithcountymapsite.org
+// @connect      arcweb.hcad.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -5018,6 +5019,14 @@
          id: 'tx-guadalupe-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/GuadalupeMapSearch/MapServer/7',
          labelFields: ['Guadalupe.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Harris Co - Parcels',
+         id: 'tx-hunt-co-parcels',
+         url: 'https://arcweb.hcad.org/server/rest/services/public/public_query/MapServer/0',
+         labelFields: ['address'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
