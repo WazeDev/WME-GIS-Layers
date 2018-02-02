@@ -5024,7 +5024,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Harris Co - Parcels',
-         id: 'tx-hunt-co-parcels',
+         id: 'tx-harris-co-parcels',
          url: 'https://arcweb.hcad.org/server/rest/services/public/public_query/MapServer/0',
          labelFields: ['address'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
