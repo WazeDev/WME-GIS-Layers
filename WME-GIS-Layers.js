@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.01.31.002
+// @version      2018.02.01.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -5794,6 +5794,16 @@
         //  //processLabel: function(label) { return label.replace(/^0\s/,''); },
         //  state: 'VA',
         //  style: DEFAULT_STRUCTURE_STYLE},
+
+        // Washington
+        // ****************************
+        {name: 'Washington - State Parcels',
+         id: 'wa-state-parcels',
+         url: 'https://services.arcgis.com/jsIt88o09Q0r1j8h/ArcGIS/rest/services/Parcels2017gdb/FeatureServer/0',
+         labelFields: ['SITUS_ADDRESS'],
+         processLabel: function(label) { return label.replace(/\n.*/,'').replace(/,.*/,''); },
+         state: 'WA',
+         style: DEFAULT_PARCEL_STYLE},
 
 
         // West Virginia
