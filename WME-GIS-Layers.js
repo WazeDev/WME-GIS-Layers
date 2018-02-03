@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.01.001
+// @version      2018.02.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -209,6 +209,7 @@
 // @connect      stlouisco.com
 // -- MS --
 // @connect      ms.gov
+// @connect      desotocountyms.gov
 // -- MT --
 // @connect       gisservicemt.gov
 // @connect       flathead.mt.gov
@@ -830,17 +831,18 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Broward Co - Address Points',
-         id: 'fl-broward-co-pts',
-         url: 'http://gis.broward.org/arcgis/rest/services/PointAddressLabels/MapServer/0',
-         labelFields: ['SITUS_HOUSE_NUMBER'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
+        // Layer was working when first setup. now Feb 2018 is no working and site is not available at all
+        //{name: 'Broward Co - Address Points',
+        // id: 'fl-broward-co-pts',
+        //url: 'http://gis.broward.org/arcgis/rest/services/PointAddressLabels/MapServer/0', was working b-4 now Feb 2018 not working
+        //labelFields: ['SITUS_STREET_NUMBER'],
+        //state: 'FL',
+        //style: DEFAULT_PT_STYLE},
 
         {name: 'Broward Co - Parcels',
          id: 'fl-broward-co-parcels',
-         url: 'http://bcweb-adapters.bcpa.net/arcgis/rest/services/BCPA_INTERNAL_OCT17/MapServer/30',
-         labelFields: [''],
+         url: 'http://bcweb-adapters.bcpa.net/arcgis/rest/services/BCPA_INTERNAL_JAN18/MapServer/30',
+         labelFields: ['BCPADATA.BCPA_INFO.SITUS_STREET_NUMBER'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3186,6 +3188,34 @@
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'De Soto Co - Address Points',
+         id: 'ms-de-soto-co-pts',
+         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/86',
+         labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'De Soto Co - Parcels',
+         id: 'ms-de-soto-co-parcel',
+         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/25',
+         labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Winston Co - Address Points',
+         id: 'ms-winston-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/1',
+         labelFields: ['ADDR'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Winston Co - Parcels NO DATA',
+         id: 'ms-winston-co-parcel',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/10',
+         labelFields: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
 
         // Missouri
         // ************************************
@@ -3337,6 +3367,19 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Holts Summit - City Addr Points',
+         id: 'mo-holts-summit-city-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/7',
+         labelFields: ['HouseNum','Direction','StreetName','Suffix','PostDirect'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Holts Summit - City Parcels NO DATA',
+         id: 'mo-holts-summit-city-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/10',
+         labelFields: [],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
         {name: 'Jackson Co - Address Points',
          id: 'mo-jackson-co-points',
          url: 'http://arcgisweb.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/0',
