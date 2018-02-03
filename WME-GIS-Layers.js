@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.03.001
+// @version      2018.02.03.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -26,6 +26,8 @@
 // @connect      jccal.org
 // -- AZ --
 // @connect      yumacountyaz.gov
+// -- CA --
+// @connect      geopowered.com
 // -- CO --
 // @connect      fremontgis.com
 // -- DC --
@@ -296,6 +298,10 @@
 // @connect      rcgov.org
 // @connect      1stdistrict.org
 // @connect      siouxfalls.org
+// -- TN --
+// @connect      204.63.176.116
+// @connect      clevelandtn.gov
+// @connect      johnsoncitytn.org
 // -- TX --
 // @connect      gis.abilenetx.com
 // @connect      gis.co.collin.tx.us
@@ -736,6 +742,18 @@
          labelFields: ['SITUS_ADDR'],
          state: 'AZ',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // California
+        // ***********************************
+
+        // THIS IS AN ODD LAYER.  IT IS CLIPPED TO A RECTANGULAR REGION WITHIN THE COUNTY, SO NOT SURE YET IF IT IS "OFFICIAL".
+        // {name: 'San Bernardino Co - Parcels',
+        //  id: 'ca-san-bernardino-co-parcels',
+        //  url: 'http://services3.geopowered.com/arcgis/rest/services/CNO/CNO_SBCOParcel/MapServer/0',
+        //  labelFields: ['NUMBER','PREDIR','STREETNAME','STREETTYPE'],
+        //  state: 'CA',
+        //  style: DEFAULT_PARCEL_STYLE},
 
 
         // Colorado
@@ -4980,6 +4998,69 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+
+        // Tennessee
+        // ****************************
+        {name: 'Blount Co - Address Points',
+         id: 'tn-blount-county-pts',
+         url: 'http://204.63.176.116/arcgis/rest/services/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Blount Co - Parcels',
+         id: 'tn-Blount-co-parcels',
+         url: 'http://204.63.176.116/arcgis/rest/services/BlountParcels/MapServer/0',
+         where: "PARID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bradley Co - Address Points',
+         id: 'tn-Bradley-county-pts',
+         url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_Basemap/mapserver/0',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bradley Co - Parcels (NO DATA)',
+         id: 'tn-Bradley-co-parcels',
+         url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_PSACadastral/mapserver/0',
+         where: "PARCEL<>''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cleveland - City Points',
+         id: 'tn-Cleveland-City-pts',
+         url: 'https://gis.clevelandtn.gov/arcgis/rest/services/Operational/OperationalLayers/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cleveland - City Parcels',
+         id: 'tn-Cleveland-city-parcels',
+         url: 'https://gis.clevelandtn.gov/arcgis/rest/services/Operational/OperationalLayers/MapServer/3',
+         where: "ParcelID<>''",
+         labelFields: ['StreetNumber','StreetName'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carter / Johnson / Sullivan / Washington / Unicoi - Address Points',
+         id: 'tn-multi-county-pts-1',
+         url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/Address/SiteAddressPoint/MapServer/0',
+         labelFields: ['FULLADDR'],
+         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        // CARTER, JOHNSON, SULLIVAN, WASHINGTON, UNICOI
+        {name: 'Carter / Johnson / Sullivan / Washington / Unicoi - Parcels',
+         id: 'tn-multi-co-parcels-1',
+         url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/ParcelPublishing/TaxParcels/MapServer/0',
+         labelFields: ['SITEADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Texas
         // ****************************
