@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.02.002
+// @version      2018.02.03.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -289,7 +289,10 @@
 // @connect      wcgis.us
 // @connect      ycpc.org
 // -- SD --
+// @connect      districtiii.org
 // @connect      206.176.83.74
+// @connect      mobile311.com
+// @connect      lincolncountysd.org
 // @connect      rcgov.org
 // @connect      1stdistrict.org
 // @connect      siouxfalls.org
@@ -4678,6 +4681,13 @@
         // South Dakota
         // *********************************
 
+        {name: 'Aurora Co - Parcels',
+         id: 'sd-aurora-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/AURORA/MapServer/21',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Beadle Co - Parcels',
          id: 'sd-beadle-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Beadle/beadlemapnet/MapServer/1',
@@ -4686,10 +4696,39 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Clark Co - Parcels (NO DATA)',
-         id: 'sd-clark-co-parcels',
+        {name: 'Bon Homme Co - Parcels',
+         id: 'sd-Bon-homme-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/BON_HOMME/MapServer/1',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brule Co - Parcels',
+         id: 'sd-brule-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/BRULE/MapServer/16',
+         labelFields: ['CAMA.HOUSENUM','CAMA.ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // layer working, but seems to be very limited in polygon and address info not to usefull
+        //{name: 'Buffalo Co - Parcels',
+        // id: 'sd-buffalo-co-parcels',
+        // url: 'http://ims.districtiii.org/arcgis/rest/services/BUFFALO/MapServer/1',
+        // labelFields: ['cama2016.SITEADDRES'],
+        // state: 'SD',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (NO Data)',
+         id: 'sd-clark-co-parcels1',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet_new/MapServer/16',
-         labelFields: [],
+         labelFields: [''],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (NO City)',
+         id: 'sd-clark-co-parcels2',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet/MapServer/8',
+         labelFields: ['ADDRESS'],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4697,6 +4736,20 @@
          id: 'sd-codington-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Codington/codingtonmapnet/MapServer/9',
          labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Davison Co - Parcels',
+         id: 'sd-davison-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/DAVISON/MapServer/4',
+         labelFields: ['CAMA_2016.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Day Co - Parcels',
+         id: 'sd-day-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/DAY/MapServer/14',
+         labelFields: ['cama2017.SITE_ADDRESS'],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4719,6 +4772,50 @@
          id: 'sd-douglas-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Douglas/douglasmapnet/MapServer/1',
          labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Layer working, but not very usefull. no address info and parcel looks more like square division not actual ownership parcel.
+        //{name: 'Edmunds Co - Parcels',
+        // id: 'sd-edmunds-co-parcels',
+        // url: 'http://ims.districtiii.org/arcgis/rest/services/EDMUNDS/MapServer/3',
+        // labelFields: ['CAMA.Property_Address'],
+        // visibleAtZoom: 4,
+        // state: 'SD',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fall River Co - County Addr Points',
+         id: 'sd-fall-river-points1',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/1',
+         labelFields: ['DLVRY_ADD'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Towns Addr Points',
+         id: 'sd-fall-river-points2',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/2',
+         labelFields: ['DLVRY_ADD'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Building Addr Points',
+         id: 'sd-fall-river-points3',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/0',
+         labelFields: ['Address','PreDir','Str_Name','Designation','PostDir'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Parcels',
+         id: 'sd-fall-river-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/24',
+         labelFields: ['House_Number','Address'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Faulk Co - Parcels NO DATA',
+         id: 'sd-faulk-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/FAULK/MapServer/1',
+         labelFields: [],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4750,6 +4847,20 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hanson Co - Parcels',
+         id: 'sd-hanson-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/HANSON/MapServer/9',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hutchinson Co - Parcels',
+         id: 'sd-hutchinson-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/HUTCHINSON/MapServer/0',
+         labelFields: ['CAMA.SITE_HOUSE','CAMA.SITE_STREET'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Kingsbury Co - Parcels',
          id: 'sd-kingsbury-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/kingsbury/kingsburymapnet_new/MapServer/4',
@@ -4764,6 +4875,55 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Lawrence Co - Parcels',
+         id: 'sd-lawrence-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/LawrenceCounty/MapServer/19',
+         labelFields: ['E911'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lawrence Co - Address Points',
+         id: 'sd-lawrence-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/LawrenceCounty/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'sd-lincoln-co-pts',
+         url: 'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Groups/Labels/MapServer/2',
+         labelFields: ['ADDRESS','STREET','SUFFIX'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'sd-lincoln-co-parcels',
+         url: 'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Groups/Labels/MapServer/0',
+         labelFields: ['CountyService.DBO.Parcel.Address'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lyman Co - Parcels',
+         id: 'sd-lyman-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/LYMAN/MapServer/0',
+         labelFields: ['CAMA.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marshall Co - Parcels',
+         id: 'sd-marshall-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/MARSHALL/MapServer/6',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mellette Co - Address Points',
+         id: 'sd-mellette-co-pts',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/MELLETTE/MapServer/0',
+         labelFields: ['PHYSICAL_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Miner Co - Parcels',
          id: 'sd-miner-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Miner/minermapnet_new/MapServer/1',
@@ -4775,6 +4935,13 @@
          id: 'sd-minnehaha-co-parcels',
          url: 'http://206.176.83.74/minnemap/rest/services/Picto_Parcels/MapServer/0',
          labelFields: ['FULL_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sanborn Co - Parcels',
+         id: 'sd-sanborn-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/SANBORN/MapServer/0',
+         labelFields: ['CAMA_2016.SITE_HOUSE','CAMA_2016.SITE_ADDRESS'],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
