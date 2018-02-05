@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.04.001
+// @version      2018.02.04.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -531,12 +531,27 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Morgan Co - Address Points',
+         id: 'al-Morgan-co-pts',
+         url: 'http://al.decatur.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/DecaturAL/DecaturAL_Layers/mapserver/3',
+         labelFields: ['ST_NUMBER','ST_PREFIX','ST_NAME','ST_TYPE','ST_SUFFIX'],
+         state: 'AL',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Morgan Co - Parcels',
          id: 'al-morgan-co-parcels',
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Morgan/Public/MapServer/118',
          labelFields: ['PropAddr1'],
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
+
+        // THIS SEEMS TO MATCH THE LAYER ABOVE, WITH A SLIGHT OFFSET.
+        // {name: 'Morgan Co - Parcels 2',
+        //  id: 'al-morgan-co-parcels-2',
+        //  url: 'http://al.decatur.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/DecaturAL/DecaturAL_PSACadastral/MapServer/1',
+        //  labelFields: ['PropAddr1'],
+        //  state: 'AL',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Mobile - City Address Points',
          id: 'al-mobile-city-points',
@@ -733,7 +748,7 @@
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Yakutat - Address Points',
+        {name: 'Yakutat - Address Points',
          id: 'ak-Yakutat-bor-pts',
          url: 'https://services2.arcgis.com/gRKiTtxkoTx0gERB/ArcGIS/rest/services/AddressingOnline/FeatureServer/2',
          labelFields: ['AddressNumber', 'FullStreetName'],
@@ -1659,7 +1674,7 @@
          state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Latah Co - Address Points',
+        {name: 'Latah Co - Address Points',
          id: 'id-latah-co-pts',
          url: 'http://gis.latah.id.us/arcgis/rest/services/General/MapServer/11',
          labelFields: ['FULLADDRSS'],
@@ -2605,21 +2620,21 @@
         //  style: DEFAULT_PT_STYLE},
 
         // WASHTENAW DATA IS PROTECTED BY A URL TOKEN.  ANN ARBOR (ON THE SAME SERVER) IS ACCESSIBLE, THOUGH.
-//         {name: 'Washtenaw Co - Parcels Labels',
-//          id: 'mi-washtenaw-co-parcels-2',
-//          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
-//          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
-//          labelFields: ['ADDRESSTEXT'],
-//          state: 'MI',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Washtenaw Co - Parcels Labels',
+        //          id: 'mi-washtenaw-co-parcels-2',
+        //          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
+        //          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+        //          labelFields: ['ADDRESSTEXT'],
+        //          state: 'MI',
+        //          style: DEFAULT_PARCEL_STYLE},
 
-//         {name: 'Washtenaw Co - Parcels Boundaries',
-//          id: 'mi-washtenaw-co-parcels-3',
-//          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
-//          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
-//          labelFields: [''],
-//          state: 'MI',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Washtenaw Co - Parcels Boundaries',
+        //          id: 'mi-washtenaw-co-parcels-3',
+        //          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
+        //          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+        //          labelFields: [''],
+        //          state: 'MI',
+        //          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wayne Co - Parcels',
          id: 'mi-wayne-co-parcels',
@@ -5418,7 +5433,7 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-		{name: 'Dallas - City Parcels',
+        {name: 'Dallas - City Parcels',
          id: 'tx-dallas-city-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
