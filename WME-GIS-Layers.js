@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.03.002
+// @version      2018.02.04.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -302,6 +302,15 @@
 // @connect      204.63.176.116
 // @connect      clevelandtn.gov
 // @connect      johnsoncitytn.org
+// @connect      nashville.gov
+// @connect      hamiltontn.gov
+// @connect      maurycounty-tn.gov
+// @connect      mcgtn.org
+// @connect      putnamco.org
+// @connect      rutherfordcountytn.gov
+// @connect      tn.us
+// @connect      williamsoncounty-tn.gov
+// @connect      wilsontngis.com
 // -- TX --
 // @connect      gis.abilenetx.com
 // @connect      gis.co.collin.tx.us
@@ -5061,6 +5070,206 @@
          labelFields: ['SITEADDRESS'],
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Davidson Co - Address Points',
+         id: 'tn-Davidson-county-pts',
+         url: 'http://maps.nashville.gov/arcgis/rest/services/Addressing/AddressPoints/MapServer/0',
+         labelFields: ['FullAddress'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Davidson Co - Parcels',
+         id: 'tn-Davidson-co-parcels',
+         url: 'http://maps.nashville.gov/arcgis/rest/services/Cadastral/Parcels/MapServer/0',
+         labelFields: ['PropHouse','PropStreet'],
+         processLabel: function(label) { return label.replace(/^0\s+/,''); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamilton Co - Address Points',
+         id: 'tn-Hamilton-county-pts',
+         url: 'https://mapsdev.hamiltontn.gov/hcwa03/rest/services/Live_Addressing/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hamilton Co - Parcels',
+         id: 'tn-Hamilton-co-parcels',
+         url: 'https://mapsdev.hamiltontn.gov/hcwa03/rest/services/Live_Parcels/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hardeman Co - Parcels (NO DATA)',
+         id: 'tn-Hardeman-co-parcels',
+         url: 'http://tn.hardeman.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/HardemanTN/HardemanTN_Cadastral/mapserver/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'tn-Jefferson-county-pts',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonAddresses/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        // I'M NOT SURE WHICH OF THE FOLLOWING PARCEL LAYERS IS THE BEST.  THE FIRST IS REFERENCED BY THE WEBSITE, BUT THE SECOND HAS SOME MINOR
+        // DIFFERENCES I NOTICED WHILE SPOT CHECKING.
+        {name: 'Jefferson Co - Parcels',
+         id: 'tn-Jefferson-co-parcels',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/Parcel_Upload/FeatureServer/2',
+         where: "PARID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Parcels 2',
+         id: 'tn-Jefferson-co-parcels-2',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonParcels/FeatureServer/0',
+         where: "PARCELID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Maury Co - Parcels',
+         id: 'tn-Maury-co-parcels',
+         url: 'http://maps.maurycounty-tn.gov/arcgis/rest/services/TaxParcelQuery/MapServer/0',
+         where: "PARCELID <> ''",
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McMinn Co - Parcels (NO DATA)',
+         id: 'tn-McMinn-co-parcels',
+         url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_PSACadastral/MapServer/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McMinn Co - Structures',
+         id: 'tn-McMinn-co-structures',
+         url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_Layers/mapserver/3',
+         labelFields: ['HouseNum','PreDirect','StName','StType'],
+         state: 'TN',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Montgomery Co - Parcels',
+         id: 'tn-Montgomery-co-parcels',
+         url: 'https://mcggis.mcgtn.org/mcggis/rest/services/Parcels/MapServer/0',
+         labelFields: ['PropertyAddress'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Putnam Co - Address Points',
+         id: 'tn-Putnam-county-pts',
+         url: 'http://services.putnamco.org/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/2',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Putnam Co - Parcels',
+         id: 'tn-Putnam-co-parcels',
+         url: 'http://services.putnamco.org/arcgis/rest/services/TaxParcelQuery/MapServer/0',
+         where: "PARCELID<>''",
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rutherford Co - Address Points',
+         id: 'tn-Rutherford-county-pts',
+         url: 'http://map3.rutherfordcountytn.gov/arcgis/rest/services/Basemaps/Basemap/MapServer/21',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rutherford Co - Parcels',
+         id: 'tn-Rutherford-co-parcels',
+         url: 'http://map3.rutherfordcountytn.gov/arcgis/rest/services/Basemaps/Basemap/MapServer/16',
+         where: "MAP<>''",
+         labelFields: ['STREETNO','STREETDIR','STREETNAME','STREETSUF'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sevier Co - Address Points',
+         id: 'tn-Sevier-county-pts',
+         url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Address/FeatureServer/0',
+         labelFields: ['LSN'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sevier Co - Parcels',
+         id: 'tn-Sevier-co-parcels',
+         url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Parcel_Sevier_County/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // THERE IS SOMETHING ABOUT THE QUERY THAT THIS SITE DOESN'T LIKE, BUT I HAVEN'T FIGURED IT OUT.  MAYBE DOESN'T SUPPORT GEOMETRY IN QUERIES???
+        // {name: 'Shelby Co - Parcels',
+        //  id: 'tn-Shelby-co-parcels',
+        //  url: 'http://gis.assessor.shelby.tn.us/proxy.ashx?http://services4.geopowered.com/arcgis/rest/services/ShelbyTN/ShelbyTN_Cadastral2017/MapServer/2',
+        //  labelFields: [''],
+        //  state: 'TN',
+        //  style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sumner Co - Address Points',
+         id: 'tn-Sumner-county-pts',
+         url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_PSALayers/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sumner Co - Parcels (NO DATA)',
+         id: 'tn-Sumner-co-parcels',
+         url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_Cadastral/MapServer/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tipton Co - Address Points',
+         id: 'tn-Tipton-county-pts',
+         url: 'http://tiptontn.geopowered.com/PropertySearch/proxy.ashx?http://services2.geopowered.com/arcgis/rest/services/TiptonTN/Tipton_E911/mapserver/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tipton Co - Parcels',
+         id: 'tn-Tipton-co-parcels',
+         url: 'http://tiptontn.geopowered.com/PropertySearch/proxy.ashx?http://services2.geopowered.com/arcgis/rest/services/TiptonTN/TiptonTN_PSACadastral/MapServer/13',
+         where: "GISLINK <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williamson Co - Parcels',
+         id: 'tn-Williamson-co-parcels',
+         url: 'http://arcgis2.williamsoncounty-tn.gov/arcgis/rest/services/Williamson/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wilson Co - Address Points',
+         id: 'tn-Wilson-county-pts',
+         url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_PSALayers/mapserver/2',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wilson Co - Parcels (NO DATA)',
+         id: 'tn-Wilson-co-parcels',
+         url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_Assessor_PSACadastral/MapServer/45',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
 
         // Texas
         // ****************************
