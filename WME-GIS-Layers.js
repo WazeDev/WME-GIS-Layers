@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.04.002
+// @version      2018.02.05.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -208,6 +208,7 @@
 // @connect      kcmo.org
 // @connect      polkcountymo.org
 // @connect      sccmo.org
+// @connect      showmeboone.com
 // @connect      stlouisco.com
 // -- MS --
 // @connect      ms.gov
@@ -2099,10 +2100,18 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Franklin Co - Parcels (NO DATA)',
+        {name: 'Franklin Co- Address Points',
+         id: 'ks-franklin-co-Pts',
+         url: 'https://services2.integritygis.com/arcgis/rest/services/Public/Ottawa_TylerTech/MapServer/0',
+         labelFields: ['HouseNum','Street'],
+         state: 'KS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Franklin Co - Parcels',
          id: 'ks-franklin-co-Parcels',
-         url: 'https://gis.thomsonreuters.com/arcgis/rest/services/FranklinKs/FranklinKsDynamic/MapServer/1',
-         labelFields: [],
+         url: 'https://services2.integritygis.com/arcgis/rest/services/Public/Ottawa_TylerTech/MapServer/1',
+         labelFields: ['PropertyAd'],
+         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3314,17 +3323,17 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Boone Co - Columbia - Address Points',
-         id: 'mo-boone-co-points',
-         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/View_Services/ADDRESS_LABELS/MapServer/0',
+        {name: 'Boone Co - Address Points',
+         id: 'mo-boone-co-pts',
+         url: 'https://maps.showmeboone.com/ArcGIS/rest/services/BC_Basemap_Address/MapServer/0',
          labelFields: ['HOUSENO','PRE_DIR','STREET','SUFFIX','APT'],
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Boone Co - Parcels',
+        {name: 'Boone Co - Parcels NO DATA',
          id: 'mo-boone-co-parcels',
-         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/Energov/Energov_View/MapServer/0',
-         labelFields: ['ADDNUM','STDIR','STNAME'],
+         url: 'https://maps.showmeboone.com/ArcGIS/rest/services/BC_Basemap_MSD_V2/MapServer/7',
+         labelFields: [],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3381,6 +3390,20 @@
          id: 'mo-cole-co-parcels',
          url: 'https://www.midmogis.org/arcgis/rest/services/VectorData_HTML5/MapServer/101',
          labelFields: ['Location'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Columbia - City Address Points',
+         id: 'mo-boone-city-pts',
+         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/View_Services/ADDRESS_LABELS/MapServer/0',
+         labelFields: ['HOUSENO','PRE_DIR','STREET','SUFFIX','APT'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbia - City Parcels',
+         id: 'mo-boone-city-parcels',
+         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/Energov/Energov_View/MapServer/0',
+         labelFields: ['ADDNUM','STDIR','STNAME'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
