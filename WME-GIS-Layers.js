@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.05.003
+// @version      2018.02.05.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -417,8 +417,9 @@
         {name: 'Post Offices',
          id: 'us-post-offices',
          url: 'https://services5.arcgis.com/TBEibzxOE0dzXUyc/ArcGIS/rest/services/USPS_Plants_DUs_CD/FeatureServer/1',
+         where: "FACILITY_TYPE='POST_OFF' AND Status<>'CLOSED'",
          labelHeaderFields: ['LOCALE_NAME'],
-         labelFields: ['ADDRESS', 'CITY', 'STATE', 'ZIP_CODE'],
+         labelFields: ['ADDRESS','CITY','STATE','ZIP_CODE'],
          labelsVisibleAtZoom: 5,
          visibleAtZoom: 2,
          state: 'US',
@@ -6994,7 +6995,7 @@
         let states = _gisLayers.map(l => l.state).unique().filter(st => _settings.selectedStates.indexOf(st) > -1);
         $('#panel-gis-state-layers').empty();
         $('#panel-gis-state-layers').append(
-            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on states in the Settings tab.') : states.map(st => {
+            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                     $('<div>').css({'font-size':'11px'}).append(
                         $('<span>').append(
@@ -7045,7 +7046,7 @@
         let states = _gisLayers.map(l => l.state).unique();
         $('#panel-gis-layers-settings').append(
             $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
-                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('States')),
+                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Layer Categories')),
                 $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                     states.map(st => {
                         let fullName = STATES.toFullName(st);
