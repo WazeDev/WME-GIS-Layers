@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.05.001
+// @version      2018.02.05.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -358,6 +358,8 @@
 (function() {
     'use strict';
 
+    let _dev_mode = false;
+
     let DEFAULT_STYLE = {
         fillColor: '#000',
         pointRadius: 4,
@@ -377,6 +379,13 @@
     let DEFAULT_STATE_PARCEL_STYLE = {
         fillOpacity: 0,
         strokeColor: '#f51',
+        fontColor: '#f62'
+    };
+
+    let DEFAULT_CITY_STYLE = {
+        fillOpacity: 0.3,
+        fillColor: '#f65',
+        strokeColor: '#f65',
         fontColor: '#f62'
     };
 
@@ -5872,15 +5881,22 @@
 
         // Utah
         // *****************************
+        {name: 'Cities',
+         id: 'ut-cities',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahMunicipalBoundaries/FeatureServer/0',
+         labelFields: ['NAME'],
+         state: 'UT',
+         visibleAtZoom: '0',
+         style: DEFAULT_CITY_STYLE},
 
-        {name: 'Utah - State Address Points',
+        {name: 'State Address Points',
          id: 'utah-state-address-points',
          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahAddressPoints/FeatureServer/0',
          labelFields: ['FullAdd'],
          state: 'UT',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Utah - State Parcels',
+        {name: 'State Parcels',
          id: 'ut-state-parcels',
          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahStatewideParcels/FeatureServer/0',
          labelFields: ['PARCEL_ADD'],
@@ -5896,7 +5912,7 @@
 
         // Virginia
         // ****************************
-        {name: 'Virginia - State Address Points',
+        {name: 'State Address Points',
          id: 'va-address-points',
          url: 'http://gismaps.vita.virginia.gov/arcgis/rest/services/VA_Base_layers/VA_Address_Points/MapServer/0',
          labelFields: ['FULLADDR'],
@@ -6732,7 +6748,6 @@
 
     let SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     let _alertUpdate = false;
-    let _dev_mode;
     let _debugLevel = 0;
     let _scriptVersion = GM_info.script.version;
     let _scriptVersionChanges = [
@@ -6883,10 +6898,12 @@
                 $('label[for="gis-layer_' + gisLayer.id + '"]').css({color:'#00a009'});
             }
         }
-    }  // END ProcessFeatures()
+    }  // END processFeatures()
 
+    let _ignoreFetch = false;
     let _lastToken = {};
     function fetchFeatures() {
+        if (_ignoreFetch) return;
         _lastToken.cancel = true;
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
         let states = W.model.states.getObjectArray().map(state => state.name);
@@ -6910,12 +6927,6 @@
                     processFeatures({skipIt: true}, _lastToken, gisLayer);
                 }
             });
-        }
-    }
-
-    function onModeChanged(model, modeId, context) {
-        if(!modeId || modeId === 1) {
-            initUserPanel();
         }
     }
 
@@ -6967,6 +6978,24 @@
         $('#panel-gis-state-layers').append(
             $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on states in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                    $('<div>').css({'font-size':'11px'}).append(
+                        $('<span>').append(
+                            'Select ',
+                            $('<a>', {href:"#"}).text("All").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                _ignoreFetch = false;
+                                fetchFeatures();
+                            }),
+                            " / ",
+                            $('<a>', {href:'#'}).text("None").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                _ignoreFetch = false;
+                                fetchFeatures();
+                            })
+                        )
+                    ),
                     $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
                     $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                         _gisLayers.filter(l => l.state === st).map(gisLayer => {
@@ -7055,7 +7084,7 @@
             )
         ).html();
 
-        let tab = new Tab('GIS-L', content, initTab, null);
+        new Tab('GIS-L', content, initTab, null);
         W.map.events.register("moveend",null,onMapMove);
         showScriptInfoAlert();
     }
@@ -7083,7 +7112,6 @@
     function bootstrap() {
         if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
             log('Initializing...', 1);
-            _dev_mode = W.loginManager.user.userName === 'MapOMatic';
             init();
         } else {
             log('Bootstrap failed. Trying again...', 1);
