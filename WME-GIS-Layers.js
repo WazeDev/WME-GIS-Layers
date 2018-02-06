@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.05.002
+// @version      2018.02.05.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -411,9 +411,29 @@
 
     let _gisLayers = [
 
-        // Alabama
+        // US
         // ************************************
 
+        {name: 'Post Offices',
+         id: 'us-post-offices',
+         url: 'https://services5.arcgis.com/TBEibzxOE0dzXUyc/ArcGIS/rest/services/USPS_Plants_DUs_CD/FeatureServer/1',
+         labelHeaderFields: ['LOCALE_NAME'],
+         labelFields: ['ADDRESS', 'CITY', 'STATE', 'ZIP_CODE'],
+         labelsVisibleAtZoom: 5,
+         visibleAtZoom: 2,
+         state: 'US',
+         style: {
+             strokeColor: '#000',
+             fontColor: "#f84",
+             fillColor: '#f84',
+             fontSize: '13',
+             fontWeight: 'bold',
+             labelYOffset: -20
+         }},
+
+
+        // Alabama
+        // ************************************
 
         {name: 'Autauga Co - Parcels NO DATA',
          id: 'al-autauga-co-parcels',
@@ -6732,7 +6752,7 @@
 
     let STATES = {
         _states:[
-            ['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
+            ['US (Country)','US'],['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
             ['Federated States Of Micronesia','FM'],['Florida','FL'],['Georgia','GA'],['Guam','GU'],['Hawaii','HI'],['Idaho','ID'],['Illinois','IL'],['Indiana','IN'],['Iowa','IA'],['Kansas','KS'],
             ['Kentucky','KY'],['Louisiana','LA'],['Maine','ME'],['Marshall Islands','MH'],['Maryland','MD'],['Massachusetts','MA'],['Michigan','MI'],['Minnesota','MN'],['Mississippi','MS'],['Missouri','MO'],
             ['Montana','MT'],['Nebraska','NE'],['Nevada','NV'],['New Hampshire','NH'],['New Jersey','NJ'],['New Mexico','NM'],['New York','NY'],['North Carolina','NC'],['North Dakota','ND'],
@@ -6869,7 +6889,7 @@
                                 error = true;
                             }
                             if (!error) {
-                                let displayLabelsAtZoom = (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                let displayLabelsAtZoom = gisLayer.labelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
                                 let label = '';
                                 if (gisLayer.labelHeaderFields) {
                                     label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
@@ -6908,26 +6928,24 @@
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
         let states = W.model.states.getObjectArray().map(state => state.name);
         $('.gis-state-layer-label').css({'color':'#777'});
-        if (states.length) {
-            _gisLayers.forEach(gisLayer => {
-                let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-                let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
-                let isInState = !gisLayer.state || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
-                let isValidZoom = W.map.getZoom() >= (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
-                if (isValidUrl && isInState && isVisible && isValidZoom) {
-                    let url = getUrl(W.map.getExtent(), gisLayer);
-                    GM_xmlhttpRequest({
-                        url: url,
-                        context: _lastToken,
-                        method: 'GET',
-                        onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
-                        onerror: function(res) { log('ERROR: ' + res.statusText); }
-                    });
-                } else {
-                    processFeatures({skipIt: true}, _lastToken, gisLayer);
-                }
-            });
-        }
+        _gisLayers.forEach(gisLayer => {
+            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
+            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
+            let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            let isValidZoom = W.map.getZoom() >= (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            if (isValidUrl && isInState && isVisible && isValidZoom) {
+                let url = getUrl(W.map.getExtent(), gisLayer);
+                GM_xmlhttpRequest({
+                    url: url,
+                    context: _lastToken,
+                    method: 'GET',
+                    onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
+                    onerror: function(res) { log('ERROR: ' + res.statusText); }
+                });
+            } else {
+                processFeatures({skipIt: true}, _lastToken, gisLayer);
+            }
+        });
     }
 
     function showScriptInfoAlert() {
@@ -7075,7 +7093,7 @@
             $('<span>', {style:'font-size:14px;font-weight:600'}).text('GIS Layers'),
             $('<span>', {style:'font-size:11px;margin-left:10px;color:#aaa;'}).text(GM_info.script.version),
             '<ul class="nav nav-tabs">' +
-            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">State Layers</a></li>' +
+            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">Layers</a></li>' +
             '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
             '</ul>',
             $('<div>', {class:'tab-content',style:'padding:8px;padding-top:2px'}).append(
