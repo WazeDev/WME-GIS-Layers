@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.01.001
+// @version      2018.02.05.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -26,6 +26,8 @@
 // @connect      jccal.org
 // -- AZ --
 // @connect      yumacountyaz.gov
+// -- CA --
+// @connect      geopowered.com
 // -- CO --
 // @connect      fremontgis.com
 // -- DC --
@@ -206,9 +208,11 @@
 // @connect      kcmo.org
 // @connect      polkcountymo.org
 // @connect      sccmo.org
+// @connect      showmeboone.com
 // @connect      stlouisco.com
 // -- MS --
 // @connect      ms.gov
+// @connect      desotocountyms.gov
 // -- MT --
 // @connect       gisservicemt.gov
 // @connect       flathead.mt.gov
@@ -288,10 +292,26 @@
 // @connect      wcgis.us
 // @connect      ycpc.org
 // -- SD --
+// @connect      districtiii.org
 // @connect      206.176.83.74
+// @connect      mobile311.com
+// @connect      lincolncountysd.org
 // @connect      rcgov.org
 // @connect      1stdistrict.org
 // @connect      siouxfalls.org
+// -- TN --
+// @connect      204.63.176.116
+// @connect      clevelandtn.gov
+// @connect      johnsoncitytn.org
+// @connect      nashville.gov
+// @connect      hamiltontn.gov
+// @connect      maurycounty-tn.gov
+// @connect      mcgtn.org
+// @connect      putnamco.org
+// @connect      rutherfordcountytn.gov
+// @connect      tn.us
+// @connect      williamsoncounty-tn.gov
+// @connect      wilsontngis.com
 // -- TX --
 // @connect      gis.abilenetx.com
 // @connect      gis.co.collin.tx.us
@@ -339,6 +359,8 @@
 (function() {
     'use strict';
 
+    let _dev_mode = false;
+
     let DEFAULT_STYLE = {
         fillColor: '#000',
         pointRadius: 4,
@@ -358,6 +380,13 @@
     let DEFAULT_STATE_PARCEL_STYLE = {
         fillOpacity: 0,
         strokeColor: '#f51',
+        fontColor: '#f62'
+    };
+
+    let DEFAULT_CITY_STYLE = {
+        fillOpacity: 0.3,
+        fillColor: '#f65',
+        strokeColor: '#f65',
         fontColor: '#f62'
     };
 
@@ -383,9 +412,30 @@
 
     let _gisLayers = [
 
-        // Alabama
+        // US
         // ************************************
 
+        {name: 'Post Offices',
+         id: 'us-post-offices',
+         url: 'https://services5.arcgis.com/TBEibzxOE0dzXUyc/ArcGIS/rest/services/USPS_Plants_DUs_CD/FeatureServer/1',
+         where: "FACILITY_TYPE='POST_OFF' AND Status<>'CLOSED'",
+         labelHeaderFields: ['LOCALE_NAME'],
+         labelFields: ['ADDRESS','CITY','STATE','ZIP_CODE'],
+         labelsVisibleAtZoom: 5,
+         visibleAtZoom: 2,
+         state: 'US',
+         style: {
+             strokeColor: '#000',
+             fontColor: "#f84",
+             fillColor: '#f84',
+             fontSize: '13',
+             fontWeight: 'bold',
+             labelYOffset: -20
+         }},
+
+
+        // Alabama
+        // ************************************
 
         {name: 'Autauga Co - Parcels NO DATA',
          id: 'al-autauga-co-parcels',
@@ -513,12 +563,27 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Morgan Co - Address Points',
+         id: 'al-Morgan-co-pts',
+         url: 'http://al.decatur.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/DecaturAL/DecaturAL_Layers/mapserver/3',
+         labelFields: ['ST_NUMBER','ST_PREFIX','ST_NAME','ST_TYPE','ST_SUFFIX'],
+         state: 'AL',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Morgan Co - Parcels',
          id: 'al-morgan-co-parcels',
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Morgan/Public/MapServer/118',
          labelFields: ['PropAddr1'],
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
+
+        // THIS SEEMS TO MATCH THE LAYER ABOVE, WITH A SLIGHT OFFSET.
+        // {name: 'Morgan Co - Parcels 2',
+        //  id: 'al-morgan-co-parcels-2',
+        //  url: 'http://al.decatur.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/DecaturAL/DecaturAL_PSACadastral/MapServer/1',
+        //  labelFields: ['PropAddr1'],
+        //  state: 'AL',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Mobile - City Address Points',
          id: 'al-mobile-city-points',
@@ -715,7 +780,7 @@
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Yakutat - Address Points',
+        {name: 'Yakutat - Address Points',
          id: 'ak-Yakutat-bor-pts',
          url: 'https://services2.arcgis.com/gRKiTtxkoTx0gERB/ArcGIS/rest/services/AddressingOnline/FeatureServer/2',
          labelFields: ['AddressNumber', 'FullStreetName'],
@@ -733,6 +798,18 @@
          labelFields: ['SITUS_ADDR'],
          state: 'AZ',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // California
+        // ***********************************
+
+        // THIS IS AN ODD LAYER.  IT IS CLIPPED TO A RECTANGULAR REGION WITHIN THE COUNTY, SO NOT SURE YET IF IT IS "OFFICIAL".
+        // {name: 'San Bernardino Co - Parcels',
+        //  id: 'ca-san-bernardino-co-parcels',
+        //  url: 'http://services3.geopowered.com/arcgis/rest/services/CNO/CNO_SBCOParcel/MapServer/0',
+        //  labelFields: ['NUMBER','PREDIR','STREETNAME','STREETTYPE'],
+        //  state: 'CA',
+        //  style: DEFAULT_PARCEL_STYLE},
 
 
         // Colorado
@@ -831,17 +908,18 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Broward Co - Address Points',
-         id: 'fl-broward-co-pts',
-         url: 'http://gis.broward.org/arcgis/rest/services/PointAddressLabels/MapServer/0',
-         labelFields: ['SITUS_HOUSE_NUMBER'],
-         state: 'FL',
-         style: DEFAULT_PT_STYLE},
+        // Layer was working when first setup. now Feb 2018 is no working and site is not available at all
+        //{name: 'Broward Co - Address Points',
+        // id: 'fl-broward-co-pts',
+        //url: 'http://gis.broward.org/arcgis/rest/services/PointAddressLabels/MapServer/0', was working b-4 now Feb 2018 not working
+        //labelFields: ['SITUS_STREET_NUMBER'],
+        //state: 'FL',
+        //style: DEFAULT_PT_STYLE},
 
         {name: 'Broward Co - Parcels',
          id: 'fl-broward-co-parcels',
-         url: 'http://bcweb-adapters.bcpa.net/arcgis/rest/services/BCPA_INTERNAL_OCT17/MapServer/30',
-         labelFields: [''],
+         url: 'http://bcweb-adapters.bcpa.net/arcgis/rest/services/BCPA_INTERNAL_JAN18/MapServer/30',
+         labelFields: ['BCPADATA.BCPA_INFO.SITUS_STREET_NUMBER'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1628,7 +1706,7 @@
          state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Latah Co - Address Points',
+        {name: 'Latah Co - Address Points',
          id: 'id-latah-co-pts',
          url: 'http://gis.latah.id.us/arcgis/rest/services/General/MapServer/11',
          labelFields: ['FULLADDRSS'],
@@ -2053,10 +2131,18 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Franklin Co - Parcels (NO DATA)',
+        {name: 'Franklin Co- Address Points',
+         id: 'ks-franklin-co-Pts',
+         url: 'https://services2.integritygis.com/arcgis/rest/services/Public/Ottawa_TylerTech/MapServer/0',
+         labelFields: ['HouseNum','Street'],
+         state: 'KS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Franklin Co - Parcels',
          id: 'ks-franklin-co-Parcels',
-         url: 'https://gis.thomsonreuters.com/arcgis/rest/services/FranklinKs/FranklinKsDynamic/MapServer/1',
-         labelFields: [],
+         url: 'https://services2.integritygis.com/arcgis/rest/services/Public/Ottawa_TylerTech/MapServer/1',
+         labelFields: ['PropertyAd'],
+         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2574,21 +2660,21 @@
         //  style: DEFAULT_PT_STYLE},
 
         // WASHTENAW DATA IS PROTECTED BY A URL TOKEN.  ANN ARBOR (ON THE SAME SERVER) IS ACCESSIBLE, THOUGH.
-//         {name: 'Washtenaw Co - Parcels Labels',
-//          id: 'mi-washtenaw-co-parcels-2',
-//          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
-//          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
-//          labelFields: ['ADDRESSTEXT'],
-//          state: 'MI',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Washtenaw Co - Parcels Labels',
+        //          id: 'mi-washtenaw-co-parcels-2',
+        //          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/43',
+        //          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+        //          labelFields: ['ADDRESSTEXT'],
+        //          state: 'MI',
+        //          style: DEFAULT_PARCEL_STYLE},
 
-//         {name: 'Washtenaw Co - Parcels Boundaries',
-//          id: 'mi-washtenaw-co-parcels-3',
-//          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
-//          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
-//          labelFields: [''],
-//          state: 'MI',
-//          style: DEFAULT_PARCEL_STYLE},
+        //         {name: 'Washtenaw Co - Parcels Boundaries',
+        //          id: 'mi-washtenaw-co-parcels-3',
+        //          url: 'https://webmapssecure.ewashtenaw.org/arcgisshared/rest/services/WashCo_Dynamic2/MapServer/53',
+        //          token: 'lNDfngvIvPq9PBwf4mOeHij3pYtxf2WbP1QRaNlyNkQ.',
+        //          labelFields: [''],
+        //          state: 'MI',
+        //          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wayne Co - Parcels',
          id: 'mi-wayne-co-parcels',
@@ -3187,6 +3273,34 @@
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'De Soto Co - Address Points',
+         id: 'ms-de-soto-co-pts',
+         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/86',
+         labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'De Soto Co - Parcels',
+         id: 'ms-de-soto-co-parcel',
+         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/25',
+         labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Winston Co - Address Points',
+         id: 'ms-winston-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/1',
+         labelFields: ['ADDR'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Winston Co - Parcels NO DATA',
+         id: 'ms-winston-co-parcel',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/10',
+         labelFields: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
 
         // Missouri
         // ************************************
@@ -3240,17 +3354,17 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Boone Co - Columbia - Address Points',
-         id: 'mo-boone-co-points',
-         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/View_Services/ADDRESS_LABELS/MapServer/0',
+        {name: 'Boone Co - Address Points',
+         id: 'mo-boone-co-pts',
+         url: 'https://maps.showmeboone.com/ArcGIS/rest/services/BC_Basemap_Address/MapServer/0',
          labelFields: ['HOUSENO','PRE_DIR','STREET','SUFFIX','APT'],
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Boone Co - Parcels',
+        {name: 'Boone Co - Parcels NO DATA',
          id: 'mo-boone-co-parcels',
-         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/Energov/Energov_View/MapServer/0',
-         labelFields: ['ADDNUM','STDIR','STNAME'],
+         url: 'https://maps.showmeboone.com/ArcGIS/rest/services/BC_Basemap_MSD_V2/MapServer/7',
+         labelFields: [],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3310,6 +3424,20 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Columbia - City Address Points',
+         id: 'mo-boone-city-pts',
+         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/View_Services/ADDRESS_LABELS/MapServer/0',
+         labelFields: ['HOUSENO','PRE_DIR','STREET','SUFFIX','APT'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbia - City Parcels',
+         id: 'mo-boone-city-parcels',
+         url: 'https://gis.gocolumbiamo.com/arcgis/rest/services/Energov/Energov_View/MapServer/0',
+         labelFields: ['ADDNUM','STDIR','STNAME'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Cooper Co - Parcels',
          id: 'mo-cooper-co-parcels',
          url: 'https://coopergis.integritygis.com/Geocortex/Essentials/REST/sites/Cooper_County_MO/map/mapservices/2/rest/services/x/MapServer/17',
@@ -3338,6 +3466,19 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Holts Summit - City Addr Points',
+         id: 'mo-holts-summit-city-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/7',
+         labelFields: ['HouseNum','Direction','StreetName','Suffix','PostDirect'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Holts Summit - City Parcels NO DATA',
+         id: 'mo-holts-summit-city-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/10',
+         labelFields: [],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
         {name: 'Jackson Co - Address Points',
          id: 'mo-jackson-co-points',
          url: 'http://arcgisweb.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/0',
@@ -4636,6 +4777,13 @@
         // South Dakota
         // *********************************
 
+        {name: 'Aurora Co - Parcels',
+         id: 'sd-aurora-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/AURORA/MapServer/21',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Beadle Co - Parcels',
          id: 'sd-beadle-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Beadle/beadlemapnet/MapServer/1',
@@ -4644,10 +4792,39 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Clark Co - Parcels (NO DATA)',
-         id: 'sd-clark-co-parcels',
+        {name: 'Bon Homme Co - Parcels',
+         id: 'sd-Bon-homme-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/BON_HOMME/MapServer/1',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brule Co - Parcels',
+         id: 'sd-brule-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/BRULE/MapServer/16',
+         labelFields: ['CAMA.HOUSENUM','CAMA.ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // layer working, but seems to be very limited in polygon and address info not to usefull
+        //{name: 'Buffalo Co - Parcels',
+        // id: 'sd-buffalo-co-parcels',
+        // url: 'http://ims.districtiii.org/arcgis/rest/services/BUFFALO/MapServer/1',
+        // labelFields: ['cama2016.SITEADDRES'],
+        // state: 'SD',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (NO Data)',
+         id: 'sd-clark-co-parcels1',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet_new/MapServer/16',
-         labelFields: [],
+         labelFields: [''],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (NO City)',
+         id: 'sd-clark-co-parcels2',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet/MapServer/8',
+         labelFields: ['ADDRESS'],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4655,6 +4832,20 @@
          id: 'sd-codington-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Codington/codingtonmapnet/MapServer/9',
          labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Davison Co - Parcels',
+         id: 'sd-davison-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/DAVISON/MapServer/4',
+         labelFields: ['CAMA_2016.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Day Co - Parcels',
+         id: 'sd-day-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/DAY/MapServer/14',
+         labelFields: ['cama2017.SITE_ADDRESS'],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4677,6 +4868,50 @@
          id: 'sd-douglas-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Douglas/douglasmapnet/MapServer/1',
          labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Layer working, but not very usefull. no address info and parcel looks more like square division not actual ownership parcel.
+        //{name: 'Edmunds Co - Parcels',
+        // id: 'sd-edmunds-co-parcels',
+        // url: 'http://ims.districtiii.org/arcgis/rest/services/EDMUNDS/MapServer/3',
+        // labelFields: ['CAMA.Property_Address'],
+        // visibleAtZoom: 4,
+        // state: 'SD',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fall River Co - County Addr Points',
+         id: 'sd-fall-river-points1',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/1',
+         labelFields: ['DLVRY_ADD'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Towns Addr Points',
+         id: 'sd-fall-river-points2',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/2',
+         labelFields: ['DLVRY_ADD'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Building Addr Points',
+         id: 'sd-fall-river-points3',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/0',
+         labelFields: ['Address','PreDir','Str_Name','Designation','PostDir'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Parcels',
+         id: 'sd-fall-river-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/24',
+         labelFields: ['House_Number','Address'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Faulk Co - Parcels NO DATA',
+         id: 'sd-faulk-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/FAULK/MapServer/1',
+         labelFields: [],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4708,6 +4943,20 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hanson Co - Parcels',
+         id: 'sd-hanson-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/HANSON/MapServer/9',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hutchinson Co - Parcels',
+         id: 'sd-hutchinson-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/HUTCHINSON/MapServer/0',
+         labelFields: ['CAMA.SITE_HOUSE','CAMA.SITE_STREET'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Kingsbury Co - Parcels',
          id: 'sd-kingsbury-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/kingsbury/kingsburymapnet_new/MapServer/4',
@@ -4722,6 +4971,55 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Lawrence Co - Parcels',
+         id: 'sd-lawrence-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/LawrenceCounty/MapServer/19',
+         labelFields: ['E911'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lawrence Co - Address Points',
+         id: 'sd-lawrence-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/LawrenceCounty/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'sd-lincoln-co-pts',
+         url: 'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Groups/Labels/MapServer/2',
+         labelFields: ['ADDRESS','STREET','SUFFIX'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'sd-lincoln-co-parcels',
+         url: 'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Groups/Labels/MapServer/0',
+         labelFields: ['CountyService.DBO.Parcel.Address'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lyman Co - Parcels',
+         id: 'sd-lyman-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/LYMAN/MapServer/0',
+         labelFields: ['CAMA.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marshall Co - Parcels',
+         id: 'sd-marshall-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/MARSHALL/MapServer/6',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mellette Co - Address Points',
+         id: 'sd-mellette-co-pts',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/MELLETTE/MapServer/0',
+         labelFields: ['PHYSICAL_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Miner Co - Parcels',
          id: 'sd-miner-co-parcels',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Miner/minermapnet_new/MapServer/1',
@@ -4733,6 +5031,13 @@
          id: 'sd-minnehaha-co-parcels',
          url: 'http://206.176.83.74/minnemap/rest/services/Picto_Parcels/MapServer/0',
          labelFields: ['FULL_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sanborn Co - Parcels',
+         id: 'sd-sanborn-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/SANBORN/MapServer/0',
+         labelFields: ['CAMA_2016.SITE_HOUSE','CAMA_2016.SITE_ADDRESS'],
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4769,6 +5074,269 @@
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Tripp/trippmapnet/MapServer/1',
          labelFields: ['PROP_ADD'],
          state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Tennessee
+        // ****************************
+        {name: 'Blount Co - Address Points',
+         id: 'tn-blount-county-pts',
+         url: 'http://204.63.176.116/arcgis/rest/services/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Blount Co - Parcels',
+         id: 'tn-Blount-co-parcels',
+         url: 'http://204.63.176.116/arcgis/rest/services/BlountParcels/MapServer/0',
+         where: "PARID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bradley Co - Address Points',
+         id: 'tn-Bradley-county-pts',
+         url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_Basemap/mapserver/0',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bradley Co - Parcels (NO DATA)',
+         id: 'tn-Bradley-co-parcels',
+         url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_PSACadastral/mapserver/0',
+         where: "PARCEL<>''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cleveland - City Points',
+         id: 'tn-Cleveland-City-pts',
+         url: 'https://gis.clevelandtn.gov/arcgis/rest/services/Operational/OperationalLayers/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cleveland - City Parcels',
+         id: 'tn-Cleveland-city-parcels',
+         url: 'https://gis.clevelandtn.gov/arcgis/rest/services/Operational/OperationalLayers/MapServer/3',
+         where: "ParcelID<>''",
+         labelFields: ['StreetNumber','StreetName'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carter / Johnson / Sullivan / Washington / Unicoi - Address Points',
+         id: 'tn-multi-county-pts-1',
+         url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/Address/SiteAddressPoint/MapServer/0',
+         labelFields: ['FULLADDR'],
+         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        // CARTER, JOHNSON, SULLIVAN, WASHINGTON, UNICOI
+        {name: 'Carter / Johnson / Sullivan / Washington / Unicoi - Parcels',
+         id: 'tn-multi-co-parcels-1',
+         url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/ParcelPublishing/TaxParcels/MapServer/0',
+         labelFields: ['SITEADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Davidson Co - Address Points',
+         id: 'tn-Davidson-county-pts',
+         url: 'http://maps.nashville.gov/arcgis/rest/services/Addressing/AddressPoints/MapServer/0',
+         labelFields: ['FullAddress'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Davidson Co - Parcels',
+         id: 'tn-Davidson-co-parcels',
+         url: 'http://maps.nashville.gov/arcgis/rest/services/Cadastral/Parcels/MapServer/0',
+         labelFields: ['PropHouse','PropStreet'],
+         processLabel: function(label) { return label.replace(/^0\s+/,''); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamilton Co - Address Points',
+         id: 'tn-Hamilton-county-pts',
+         url: 'https://mapsdev.hamiltontn.gov/hcwa03/rest/services/Live_Addressing/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hamilton Co - Parcels',
+         id: 'tn-Hamilton-co-parcels',
+         url: 'https://mapsdev.hamiltontn.gov/hcwa03/rest/services/Live_Parcels/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hardeman Co - Parcels (NO DATA)',
+         id: 'tn-Hardeman-co-parcels',
+         url: 'http://tn.hardeman.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/HardemanTN/HardemanTN_Cadastral/mapserver/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'tn-Jefferson-county-pts',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonAddresses/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        // I'M NOT SURE WHICH OF THE FOLLOWING PARCEL LAYERS IS THE BEST.  THE FIRST IS REFERENCED BY THE WEBSITE, BUT THE SECOND HAS SOME MINOR
+        // DIFFERENCES I NOTICED WHILE SPOT CHECKING.
+        {name: 'Jefferson Co - Parcels',
+         id: 'tn-Jefferson-co-parcels',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/Parcel_Upload/FeatureServer/2',
+         where: "PARID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Parcels 2',
+         id: 'tn-Jefferson-co-parcels-2',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonParcels/FeatureServer/0',
+         where: "PARCELID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Maury Co - Parcels',
+         id: 'tn-Maury-co-parcels',
+         url: 'http://maps.maurycounty-tn.gov/arcgis/rest/services/TaxParcelQuery/MapServer/0',
+         where: "PARCELID <> ''",
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McMinn Co - Parcels (NO DATA)',
+         id: 'tn-McMinn-co-parcels',
+         url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_PSACadastral/MapServer/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McMinn Co - Structures',
+         id: 'tn-McMinn-co-structures',
+         url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_Layers/mapserver/3',
+         labelFields: ['HouseNum','PreDirect','StName','StType'],
+         state: 'TN',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Montgomery Co - Parcels',
+         id: 'tn-Montgomery-co-parcels',
+         url: 'https://mcggis.mcgtn.org/mcggis/rest/services/Parcels/MapServer/0',
+         labelFields: ['PropertyAddress'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Putnam Co - Address Points',
+         id: 'tn-Putnam-county-pts',
+         url: 'http://services.putnamco.org/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/2',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Putnam Co - Parcels',
+         id: 'tn-Putnam-co-parcels',
+         url: 'http://services.putnamco.org/arcgis/rest/services/TaxParcelQuery/MapServer/0',
+         where: "PARCELID<>''",
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rutherford Co - Address Points',
+         id: 'tn-Rutherford-county-pts',
+         url: 'http://map3.rutherfordcountytn.gov/arcgis/rest/services/Basemaps/Basemap/MapServer/21',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rutherford Co - Parcels',
+         id: 'tn-Rutherford-co-parcels',
+         url: 'http://map3.rutherfordcountytn.gov/arcgis/rest/services/Basemaps/Basemap/MapServer/16',
+         where: "MAP<>''",
+         labelFields: ['STREETNO','STREETDIR','STREETNAME','STREETSUF'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sevier Co - Address Points',
+         id: 'tn-Sevier-county-pts',
+         url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Address/FeatureServer/0',
+         labelFields: ['LSN'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sevier Co - Parcels',
+         id: 'tn-Sevier-co-parcels',
+         url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Parcel_Sevier_County/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // THERE IS SOMETHING ABOUT THE QUERY THAT THIS SITE DOESN'T LIKE, BUT I HAVEN'T FIGURED IT OUT.  MAYBE DOESN'T SUPPORT GEOMETRY IN QUERIES???
+        // {name: 'Shelby Co - Parcels',
+        //  id: 'tn-Shelby-co-parcels',
+        //  url: 'http://gis.assessor.shelby.tn.us/proxy.ashx?http://services4.geopowered.com/arcgis/rest/services/ShelbyTN/ShelbyTN_Cadastral2017/MapServer/2',
+        //  labelFields: [''],
+        //  state: 'TN',
+        //  style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sumner Co - Address Points',
+         id: 'tn-Sumner-county-pts',
+         url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_PSALayers/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sumner Co - Parcels (NO DATA)',
+         id: 'tn-Sumner-co-parcels',
+         url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_Cadastral/MapServer/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tipton Co - Address Points',
+         id: 'tn-Tipton-county-pts',
+         url: 'http://tiptontn.geopowered.com/PropertySearch/proxy.ashx?http://services2.geopowered.com/arcgis/rest/services/TiptonTN/Tipton_E911/mapserver/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tipton Co - Parcels',
+         id: 'tn-Tipton-co-parcels',
+         url: 'http://tiptontn.geopowered.com/PropertySearch/proxy.ashx?http://services2.geopowered.com/arcgis/rest/services/TiptonTN/TiptonTN_PSACadastral/MapServer/13',
+         where: "GISLINK <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williamson Co - Parcels',
+         id: 'tn-Williamson-co-parcels',
+         url: 'http://arcgis2.williamsoncounty-tn.gov/arcgis/rest/services/Williamson/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wilson Co - Address Points',
+         id: 'tn-Wilson-county-pts',
+         url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_PSALayers/mapserver/2',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wilson Co - Parcels (NO DATA)',
+         id: 'tn-Wilson-co-parcels',
+         url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_Assessor_PSACadastral/MapServer/45',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
 
@@ -4919,7 +5487,7 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-		{name: 'Dallas - City Parcels',
+        {name: 'Dallas - City Parcels',
          id: 'tx-dallas-city-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
@@ -5343,15 +5911,22 @@
 
         // Utah
         // *****************************
+        {name: 'Cities',
+         id: 'ut-cities',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahMunicipalBoundaries/FeatureServer/0',
+         labelFields: ['NAME'],
+         state: 'UT',
+         visibleAtZoom: '0',
+         style: DEFAULT_CITY_STYLE},
 
-        {name: 'Utah - State Address Points',
+        {name: 'State Address Points',
          id: 'utah-state-address-points',
          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahAddressPoints/FeatureServer/0',
          labelFields: ['FullAdd'],
          state: 'UT',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Utah - State Parcels',
+        {name: 'State Parcels',
          id: 'ut-state-parcels',
          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahStatewideParcels/FeatureServer/0',
          labelFields: ['PARCEL_ADD'],
@@ -5367,7 +5942,7 @@
 
         // Virginia
         // ****************************
-        {name: 'Virginia - State Address Points',
+        {name: 'State Address Points',
          id: 'va-address-points',
          url: 'http://gismaps.vita.virginia.gov/arcgis/rest/services/VA_Base_layers/VA_Address_Points/MapServer/0',
          labelFields: ['FULLADDR'],
@@ -6187,7 +6762,7 @@
 
     let STATES = {
         _states:[
-            ['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
+            ['US (Country)','US'],['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
             ['Federated States Of Micronesia','FM'],['Florida','FL'],['Georgia','GA'],['Guam','GU'],['Hawaii','HI'],['Idaho','ID'],['Illinois','IL'],['Indiana','IN'],['Iowa','IA'],['Kansas','KS'],
             ['Kentucky','KY'],['Louisiana','LA'],['Maine','ME'],['Marshall Islands','MH'],['Maryland','MD'],['Massachusetts','MA'],['Michigan','MI'],['Minnesota','MN'],['Mississippi','MS'],['Missouri','MO'],
             ['Montana','MT'],['Nebraska','NE'],['Nevada','NV'],['New Hampshire','NH'],['New Jersey','NJ'],['New Mexico','NM'],['New York','NY'],['North Carolina','NC'],['North Dakota','ND'],
@@ -6203,7 +6778,6 @@
 
     let SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     let _alertUpdate = false;
-    let _dev_mode;
     let _debugLevel = 0;
     let _scriptVersion = GM_info.script.version;
     let _scriptVersionChanges = [
@@ -6325,7 +6899,7 @@
                                 error = true;
                             }
                             if (!error) {
-                                let displayLabelsAtZoom = (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                let displayLabelsAtZoom = gisLayer.labelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
                                 let label = '';
                                 if (gisLayer.labelHeaderFields) {
                                     label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
@@ -6354,40 +6928,34 @@
                 $('label[for="gis-layer_' + gisLayer.id + '"]').css({color:'#00a009'});
             }
         }
-    }  // END ProcessFeatures()
+    }  // END processFeatures()
 
+    let _ignoreFetch = false;
     let _lastToken = {};
     function fetchFeatures() {
+        if (_ignoreFetch) return;
         _lastToken.cancel = true;
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
         let states = W.model.states.getObjectArray().map(state => state.name);
         $('.gis-state-layer-label').css({'color':'#777'});
-        if (states.length) {
-            _gisLayers.forEach(gisLayer => {
-                let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-                let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
-                let isInState = !gisLayer.state || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
-                let isValidZoom = W.map.getZoom() >= (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
-                if (isValidUrl && isInState && isVisible && isValidZoom) {
-                    let url = getUrl(W.map.getExtent(), gisLayer);
-                    GM_xmlhttpRequest({
-                        url: url,
-                        context: _lastToken,
-                        method: 'GET',
-                        onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
-                        onerror: function(res) { log('ERROR: ' + res.statusText); }
-                    });
-                } else {
-                    processFeatures({skipIt: true}, _lastToken, gisLayer);
-                }
-            });
-        }
-    }
-
-    function onModeChanged(model, modeId, context) {
-        if(!modeId || modeId === 1) {
-            initUserPanel();
-        }
+        _gisLayers.forEach(gisLayer => {
+            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
+            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
+            let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            let isValidZoom = W.map.getZoom() >= (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            if (isValidUrl && isInState && isVisible && isValidZoom) {
+                let url = getUrl(W.map.getExtent(), gisLayer);
+                GM_xmlhttpRequest({
+                    url: url,
+                    context: _lastToken,
+                    method: 'GET',
+                    onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
+                    onerror: function(res) { log('ERROR: ' + res.statusText); }
+                });
+            } else {
+                processFeatures({skipIt: true}, _lastToken, gisLayer);
+            }
+        });
     }
 
     function showScriptInfoAlert() {
@@ -6436,8 +7004,26 @@
         let states = _gisLayers.map(l => l.state).unique().filter(st => _settings.selectedStates.indexOf(st) > -1);
         $('#panel-gis-state-layers').empty();
         $('#panel-gis-state-layers').append(
-            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on states in the Settings tab.') : states.map(st => {
+            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                    $('<div>').css({'font-size':'11px'}).append(
+                        $('<span>').append(
+                            'Select ',
+                            $('<a>', {href:"#"}).text("All").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                _ignoreFetch = false;
+                                fetchFeatures();
+                            }),
+                            " / ",
+                            $('<a>', {href:'#'}).text("None").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                _ignoreFetch = false;
+                                fetchFeatures();
+                            })
+                        )
+                    ),
                     $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
                     $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                         _gisLayers.filter(l => l.state === st).map(gisLayer => {
@@ -6469,7 +7055,7 @@
         let states = _gisLayers.map(l => l.state).unique();
         $('#panel-gis-layers-settings').append(
             $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
-                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('States')),
+                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Layer Categories')),
                 $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                     states.map(st => {
                         let fullName = STATES.toFullName(st);
@@ -6517,7 +7103,7 @@
             $('<span>', {style:'font-size:14px;font-weight:600'}).text('GIS Layers'),
             $('<span>', {style:'font-size:11px;margin-left:10px;color:#aaa;'}).text(GM_info.script.version),
             '<ul class="nav nav-tabs">' +
-            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">State Layers</a></li>' +
+            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">Layers</a></li>' +
             '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
             '</ul>',
             $('<div>', {class:'tab-content',style:'padding:8px;padding-top:2px'}).append(
@@ -6526,7 +7112,7 @@
             )
         ).html();
 
-        let tab = new Tab('GIS-L', content, initTab, null);
+        new Tab('GIS-L', content, initTab, null);
         W.map.events.register("moveend",null,onMapMove);
         showScriptInfoAlert();
     }
@@ -6554,7 +7140,6 @@
     function bootstrap() {
         if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
             log('Initializing...', 1);
-            _dev_mode = W.loginManager.user.userName === 'MapOMatic';
             init();
         } else {
             log('Bootstrap failed. Trying again...', 1);
