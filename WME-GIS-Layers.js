@@ -327,6 +327,7 @@
 // @connect      wadtx.com
 // @connect      smithcountymapsite.org
 // @connect      arcweb.hcad.org
+// @connect      gis.bisconsultants.com
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -5603,6 +5604,14 @@
          id: 'tx-jefferson-co-parcels',
          url: 'http://services.arcgis.com/ZXAF35aJr7XcgDMv/ArcGIS/rest/services/JeffersonTXFeatures/FeatureServer/3',
          labelFields: ['TSC_Site_Address'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kaufman Co - Parcels',
+         id: 'tx-kaufmane-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/KaufmanWeb/MapServer/0',
+         labelFields: ['KaufmanCad.DBO.Accounts.situs_num','KaufmanCad.DBO.Accounts.situs_street_prefx','KaufmanCad.DBO.Accounts.situs_street','KaufmanCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
