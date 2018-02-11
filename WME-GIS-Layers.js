@@ -1408,15 +1408,15 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // layer not showing much of points. will try to research more.
-        //{name: 'Brian Co - Address Points',
-        // id: 'ga-brian-co-points',
+        //{name: 'Bryan Co - Address Points',
+        // id: 'ga-bryan-co-points',
         // url: 'http://bryangis.bryan-county.org/arcgis/rest/services/AddressPoints/MapServer/0',
         // labelFields: ['FULLADDR'],
         // state: 'GA',
         // style: DEFAULT_PT_STYLE},
 
-        {name: 'Brian Co - Parcels',
-         id: 'ga-brian-co-parcels',
+        {name: 'Bryan Co - Parcels',
+         id: 'ga-bryan-co-parcels',
          url: 'http://bryangis.bryan-county.org/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['HOUSE_NO','STDIRECT','STREET_NAM','STTYPE'],
          state: 'GA',
