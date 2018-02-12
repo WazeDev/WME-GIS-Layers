@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.10.001
+// @version      2018.02.12.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1632,14 +1632,14 @@
          state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Booner Co - Address Points',
+        {name: 'Bonner Co - Address Points',
          id: 'id-booner-co-pts',
          url: 'http://maps.bonnercounty.us/bcgis/rest/services/External/STRUC_PTS_LN/MapServer/0',
          labelFields: ['FINAL_ADD','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
          state: 'ID',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Booner Co - Parcels',
+        {name: 'Bonner Co - Parcels',
          id: 'id-booner-co-parcels',
          url: 'http://maps.bonnercounty.us/bcgis/rest/services/External/CADAS_POLY/MapServer/1',
          labelFields: ['PropStr'],
