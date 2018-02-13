@@ -5431,6 +5431,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Austin Co - Parcels',
+         id: 'tx-austin-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/AustinWeb/MapServer/0',
+         labelFields: ['AustinCad.DBO.Accounts.situs_num','AustinCad.DBO.Accounts.situs_street_prefx','AustinCad.DBO.Accounts.situs_street','AustinCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Bandera Co - Parcels',
          id: 'tx-bandera-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BanderaMapSearch/MapServer/6',
@@ -5655,7 +5663,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Kaufman Co - Parcels',
-         id: 'tx-kaufmane-co-parcels',
+         id: 'tx-kaufman-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/KaufmanWeb/MapServer/0',
          labelFields: ['KaufmanCad.DBO.Accounts.situs_num','KaufmanCad.DBO.Accounts.situs_street_prefx','KaufmanCad.DBO.Accounts.situs_street','KaufmanCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
