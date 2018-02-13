@@ -5479,6 +5479,15 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Brazos Co - Parcels',
+         id: 'tx-brazos-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BrazosWeb/MapServer/0',
+         labelFields: ['BrazosCad.DBO.Accounts.situs_num','BrazosCad.DBO.Accounts.situs_street_prefx','BrazosCad.DBO.Accounts.situs_street','BrazosCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+
         {name: 'Brown Co - Parcels',
          id: 'tx-brown-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrownMapSearch/MapServer/1',
