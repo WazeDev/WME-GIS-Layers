@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.05.004
+// @version      2018.02.12.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -24,6 +24,7 @@
 // @connect      stclairco.com
 // @connect      emapsplus.com
 // @connect      jccal.org
+// @connect      tuscaloosa-al.gov
 // -- AZ --
 // @connect      yumacountyaz.gov
 // -- CA --
@@ -74,6 +75,7 @@
 // @connect      vcgov.org
 // -- GA --
 // @connect      augustaga.gov
+// @connect      bryan-county.org
 // @connect      thempc.org
 // @connect      clayton.ga.us
 // @connect      cherokeega.com
@@ -600,6 +602,13 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Northport - City Parcels',
+         id: 'al-northport-city-parcels',
+         url: 'https://services2.arcgis.com/3u10F1chkeawsUZY/arcgis/rest/services/20170808_NorthportBoundary/FeatureServer/3',
+         labelFields: ['pcliLocati'],
+         state: 'AL',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Shelby Co - Address Points',
          id: 'al-shelby-co-points',
          url: 'https://maps.shelbyal.com/arcgis/rest/services/ShelbyALBaseMap/MapServer/0',
@@ -632,6 +641,20 @@
          id: 'al-talladega-co-parcels',
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Talladega/Public/MapServer/50',
          labelFields: ['SitusAddNumber','SitusAddName'],
+         state: 'AL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tuscaloosa - City Address Points',
+         id: 'al-tuscaloosa-city-pts',
+         url: 'http://tuscgis.tuscaloosa-al.gov/arcgis/rest/services/ADDRESSES_WGS/MapServer/0',
+         labelFields: ['PROPADDR'],
+         state: 'AL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tuscaloosa - City Parcels NO DATA',
+         id: 'al-tuscaloosa-city-parcels',
+         url: 'http://tuscgis.tuscaloosa-al.gov/arcgis/rest/services/Parcels_WGS/MapServer/0',
+         labelFields: [],
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -840,6 +863,7 @@
 
         // Connecticut
         // ***********************************
+
         {name: 'Winchester - City Parcels',
          id: 'ct-winchester-city-parcels',
          url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Winchester/Winchester_WL_P/MapServer/0',
@@ -847,8 +871,16 @@
          state: 'CT',
          style: DEFAULT_PARCEL_STYLE},
 
+
         // District of Columbia
         // ************************************
+
+        {name: 'District Of Columbia - Address Points',
+         id: 'dc-pts',
+         url: 'https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Location_WebMercator/MapServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'DC',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'District Of Columbia - Parcels',
          id: 'dc-parcels',
@@ -856,6 +888,7 @@
          labelFields: ['PREMISEADD'],
          state: 'DC',
          style: DEFAULT_PARCEL_STYLE},
+
 
         // Florida
         // ************************************
@@ -909,13 +942,12 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        // Layer was working when first setup. now Feb 2018 is no working and site is not available at all
-        //{name: 'Broward Co - Address Points',
-        // id: 'fl-broward-co-pts',
-        //url: 'http://gis.broward.org/arcgis/rest/services/PointAddressLabels/MapServer/0', was working b-4 now Feb 2018 not working
-        //labelFields: ['SITUS_STREET_NUMBER'],
-        //state: 'FL',
-        //style: DEFAULT_PT_STYLE},
+        {name: 'Broward Co - Address Points',
+         id: 'fl-broward-co-pts',
+         url: 'https://bcgis.broward.org/arcgismaps/rest/services/PointAddresstLabels/MapServer/0',
+         labelFields: ['FULL_SITE_ADDRESS'],
+         state: 'FL',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Broward Co - Parcels',
          id: 'fl-broward-co-parcels',
@@ -1377,6 +1409,21 @@
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
 
+        // layer not showing much of points. will try to research more.
+        //{name: 'Bryan Co - Address Points',
+        // id: 'ga-bryan-co-points',
+        // url: 'http://bryangis.bryan-county.org/arcgis/rest/services/AddressPoints/MapServer/0',
+        // labelFields: ['FULLADDR'],
+        // state: 'GA',
+        // style: DEFAULT_PT_STYLE},
+
+        {name: 'Bryan Co - Parcels',
+         id: 'ga-bryan-co-parcels',
+         url: 'http://bryangis.bryan-county.org/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['HOUSE_NO','STDIRECT','STREET_NAM','STTYPE'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Chatham Co - Parcels',
          id: 'ga-chatham-co-parcels',
          url: 'http://sagiscloud.thempc.org/arcgis/rest/services/sagis_org/SAGIS1/MapServer/24',
@@ -1587,14 +1634,14 @@
          state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Booner Co - Address Points',
+        {name: 'Bonner Co - Address Points',
          id: 'id-booner-co-pts',
          url: 'http://maps.bonnercounty.us/bcgis/rest/services/External/STRUC_PTS_LN/MapServer/0',
          labelFields: ['FINAL_ADD','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
          state: 'ID',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Booner Co - Parcels',
+        {name: 'Bonner Co - Parcels',
          id: 'id-booner-co-parcels',
          url: 'http://maps.bonnercounty.us/bcgis/rest/services/External/CADAS_POLY/MapServer/1',
          labelFields: ['PropStr'],
