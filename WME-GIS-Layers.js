@@ -5447,6 +5447,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Bastrop Co - Parcels',
+         id: 'tx-bastrop-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BastropWeb/MapServer/0',
+         labelFields: ['BastropCad.DBO.Accounts.situs_num','BastropCad.DBO.Accounts.situs_street_prefx','BastropCad.DBO.Accounts.situs_street','BastropCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Bell Co - Parcels',
          id: 'tx-bell-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BellMapSearch/MapServer/1',
