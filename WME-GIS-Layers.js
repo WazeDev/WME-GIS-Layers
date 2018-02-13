@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.12.001
+// @version      2018.02.13.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -86,6 +86,16 @@
 // @connect      thomsonreuters.com
 // @connect      arcgis.com
 // @connect      roktech.net
+// @connect      ga.us
+// @connect      atlantaregional.com
+// @connect      brookhavenga.gov
+// @connect      columbiacountyga.gov
+// @connect      interdev.com
+// @connect      dunwoodyga.gov
+// @connect      romega.us
+// @connect      sandyspringsga.gov
+// @connect      sagiscloud.thempc.org
+// @connect      whitfieldcountyga.com
 // -- HI --
 // @connect      hawaii.gov
 // @connect      honolulugis.org
@@ -208,6 +218,7 @@
 // @connect      jacksongov.org
 // @connect      semogis.com
 // @connect      kcmo.org
+// @connect      mo.us
 // @connect      polkcountymo.org
 // @connect      sccmo.org
 // @connect      showmeboone.com
@@ -1393,6 +1404,13 @@
         // Georgia
         // ************************************
 
+        {name: 'Alpharetta - City Parcels',
+         id: 'ga-alpharetta-city-parcels',
+         url: 'http://alphagis.alpharetta.ga.us/arcgis/rest/services/ParcelsWM/MapServer/0',
+         labelFields: ['AddrNumber','AddrPreDir','AddrStreet','AddrSuffix','AddrPosDir'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Augusta - City Address Points',
          id: 'ga-augusta-city-points',
          url: 'http://gismap.augustaga.gov/arcgis/rest/services/Map_LayersJS/MapServer/78',
@@ -1404,6 +1422,20 @@
          id: 'ga-augusta-city-parcels',
          url: 'http://gismap.augustaga.gov/arcgis/rest/services/Map_LayersJS/MapServer/100',
          labelFields: ['siteaddress'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brookhaven - City Address Points',
+         id: 'ga-brookhaven-city-points',
+         url: 'https://gis.brookhavenga.gov/arcgis/rest/services/addresses/MapServer/0',
+         labelFields: ['FULL_ADDR'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Brookhaven - City Parcels NO DATA',
+         id: 'ga-brookhaven-city-parcels',
+         url: 'https://gis.brookhavenga.gov/arcgis/rest/services/basemap/MapServer/1',
+         labelFields: ['SITEADDRESS'],
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1457,6 +1489,27 @@
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Columbia Co - Address Points',
+         id: 'ga-columbia-co-points',
+         url: 'https://mapsonline.columbiacountyga.gov/arcgis/rest/services/StatePlane/MapLayers/MapServer/54',
+         labelFields: ['Loc_No','Pre_Dir','Name','Street_Type','Post_Dir'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbia Co - Parcels',
+         id: 'ga-columbia-co-parcels',
+         url: 'https://mapsonline.columbiacountyga.gov/arcgis/rest/services/StatePlane/MapLayers/MapServer/65',
+         labelFields: ['PhysicalAddress'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Decatur - City Address Points',
+         id: 'ga-decatur-city-points',
+         url: 'http://gis.interdev.com/arcgis/rest/services/DecaturServices/AddressPoints_Published/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Dekalb Co - Address Points',
          id: 'ga-dekalb-co-points',
          url: 'http://maps.dekalbcountyga.gov/arcgis/rest/services/TaxParcels/MapServer/2',
@@ -1468,6 +1521,28 @@
          id: 'ga-dekalb-co-parcels',
          url: 'http://maps.dekalbcountyga.gov/arcgis/rest/services/TaxParcels/MapServer/20',
          labelFields: ['ADDRESS_NUMBER','FULL_STREET_NAME'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dunwoody - City Address Points',
+         id: 'ga-dunwoody-city-points',
+         url: 'https://dungis.dunwoodyga.gov/arcgis/rest/services/Parcel/MapServer/1',
+         labelFields: ['Address'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Dunwoody - City Parcels',
+         id: 'ga-dunwoody-city-parcels',
+         url: 'https://dungis.dunwoodyga.gov/arcgis/rest/services/Parcel/MapServer/0',
+         labelFields: ['StNumber','PreDir','StName','StType','PostDir'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // multiple parcels layers available. this one has most recent date but some did not have any dates on them.
+        {name: 'Effingham Co - Parcels',
+         id: 'ga-effingham-co-parcels',
+         url: 'https://services.arcgis.com/9scQWTgPOi3GxJRr/ArcGIS/rest/services/2016Parcels/FeatureServer/0',
+         labelFields: ['StreetAdd'],
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1494,7 +1569,7 @@
 
         {name: 'Fulton Co - Parcels',
          id: 'ga-fulton-co-parcels',
-         url: 'https://gis.fultoncountyga.gov/arcgis/rest/services/MapServices/PropertyMapViewer/MapServer/10',
+         url: 'https://gis.fultoncountyga.gov/arcgis/rest/services/MapServices/PropertyMapViewer/MapServer/12',
          labelFields: ['Address'],
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
@@ -1505,6 +1580,13 @@
          labelFields: ['PIN'],
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lithonia - City Address Points',
+         id: 'ga-lithonia-city-points',
+         url: 'https://arcgis.atlantaregional.com/arcgis/rest/services/CityofLithonia/MapServer/0',
+         labelFields: ['SitusAddress'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Newnan - City Parcels',
          id: 'ga-newnan-city-parcels',
@@ -1523,6 +1605,55 @@
         {name: 'Paulding Co - Parcels (NO DATA)',
          id: 'ga-paulding-co-parcels',
          url: 'https://arcgis4.roktech.net/arcgis/rest/services/Paulding/GoMaps4/MapServer/36',
+         labelFields: [''],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rome - City Parcels',
+         id: 'ga-rome-city-parcels',
+         url: 'https://gis01.romega.us/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sandy Springs - City Address Points',
+         id: 'ga-sandy-springs-city-points',
+         url: 'https://gis.sandyspringsga.gov/arcgis/rest/services/Basemap/CityMap/MapServer/1',
+         labelFields: ['Full_Add'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sandy Springs - City Parcels',
+         id: 'ga-sandy-springs-city-parcels',
+         url: 'https://gis.sandyspringsga.gov/arcgis/rest/services/Basemap/CityMap/MapServer/107',
+         labelFields: ['Address'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Savannah - City Parcels',
+         id: 'ga-savannah-city-parcels',
+         url: 'http://sagiscloud.thempc.org/arcgis/rest/services/sagis_org/SAGIS1/MapServer/24',
+         labelFields: ['PROP_ADDRESS'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Union - City Parcels',
+         id: 'ga-union-city-parcels',
+         url: 'https://arcgis.atlantaregional.com/arcgis/rest/services/CityOfUnionCity/MapServer/1',
+         labelFields: ['Address'],
+         state: 'GA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Whitfield Co - Address Points',
+         id: 'ga-whitfield-co-points',
+         url: 'http://gis.whitfieldcountyga.com/arcgis/rest/services/Addressing/MapServer/0',
+         labelFields: ['FULL_ADDRE'],
+         state: 'GA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Whitfield Co - Parcels NO DATA',
+         id: 'ga-whitfield-co-parcels',
+         url: 'http://gis.whitfieldcountyga.com/arcgis/rest/services/Addressing/MapServer/9',
          labelFields: [''],
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3578,6 +3709,20 @@
          id: 'mo-lawrence-co-parcels',
          url: 'https://lawrencegis.integritygis.com/Geocortex/Essentials/REST/sites/Lawrence_County_MO/map/mapservices/0/rest/services/x/MapServer/6',
          labelFields: ['sit_stnm'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Liberty - City Address Points',
+         id: 'mo-liberty-city-points',
+         url: 'http://maps.ci.liberty.mo.us/arcgis/rest/services/BaseMap/LibertyMainMap/MapServer/64',
+         labelFields: ['FULLADDR'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Liberty - City Parcels',
+         id: 'mo-liberty-city-parcels',
+         url: 'http://maps.ci.liberty.mo.us/arcgis/rest/services/BaseMap/LibertyMainMap/MapServer/70',
+         labelFields: ['SITEADDRESS'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
