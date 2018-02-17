@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.13.002
+// @version      2018.02.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -253,6 +253,11 @@
 // -- NV --
 // @connect      washoecounty.us
 // @connect      perryco.org
+// -- NY --
+// @connect      ny.gov
+// @connect      bcgis.com
+// @connect      cattco.org
+// @connect      cayugacounty.us
 // -- OH --
 // @connect      hamilton-co.org
 // @connect      oh.us
@@ -1780,14 +1785,14 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // Layer not showing , console error.  Arcgis map showing layer
-        {name: 'Booneville Co - Address Points',
+        {name: 'Bonneville Co - Address Points',
          id: 'id-booneville-co-pts',
          url: 'http://maps.co.bonneville.id.us/arcgis/rest/services/Address_Points/MapServer/0',
          labelFields: ['Address'],
          state: 'ID',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Booneville Co - Parcels',
+        {name: 'Bonneville Co - Parcels',
          id: 'id-booneville-co-parcels',
          url: 'http://maps.co.bonneville.id.us/arcgis/rest/services/WebMapApp/MapServer/0',
          labelFields: ['prop_street'],
@@ -1906,7 +1911,7 @@
          state: 'ID',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Madidon Co - Proposed Addr Points',
+        {name: 'Madison Co - Proposed Addr Points',
          id: 'id-madison-co-pts2',
          url: 'http://jessie.rexburg.org/mrgis/rest/services/Data/Addresses/MapServer/1',
          labelFields: ['AddressLabel'],
@@ -3943,6 +3948,7 @@
          state: 'MT',
          style: DEFAULT_PARCEL_STYLE},
 
+
         // Nebraska
         // ************************************
 
@@ -4005,6 +4011,89 @@
          labelFields: ['STREETNUM','STREETDIR','STREET'],
          processLabel: function(label) { return label.replace(/^0\s?/,''); },
          state: 'NV',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // New York
+        // ************************************
+
+        {name: 'State - Address Points',
+         id: 'ny-state-pts',
+         url: 'https://gisservices.its.ny.gov/arcgis/rest/services/SAM_Address_Points/MapServer/1',
+         labelFields: ['AddressLabel'],
+         state: 'NY',
+         style: DEFAULT_STATE_PT_STYLE},
+
+        // includes : Cayuga, Chautauqua, Cortland, Erie, Genesee, Greene, Lewis, NYC- Bronx, NYC- Kings (Brooklyn), NYC- New York (Manhattan), NYC- Queens,
+        // NYC- Richmond (Staten Island), Ontario, Orange, Rensselaer, Sullivan, Tompkins, Ulster, Warren, and Westchester
+        {name: 'State - Parcels (20 Counties)',
+         id: 'ny-state-parcels',
+         url: 'https://gisservices.its.ny.gov/arcgis/rest/services/NYS_Tax_Parcels_Public/MapServer/0',
+         labelFields: ['PARCEL_ADDR'],
+         state: 'NY',
+         style: DEFAULT_STATE_PARCEL_STYLE},
+
+        {name: 'Allegany Co - Parcels',
+         id: 'ny-allegany-co-parcels',
+         url: 'https://services5.arcgis.com/WcotYUBrYwlGLzUr/ArcGIS/rest/services/Allegany_Parcel_Export_RPS/FeatureServer/0',
+         labelFields: ['STREET_ADD'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Broome Co - Address Point',
+         id: 'ny-broome-co-pts',
+         url: 'http://www.bcgis.com/arcgis/rest/services/parcels/br_parcels/MapServer/3',
+         labelFields: ['HSNO','FSTN'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Broome Co - Parcels',
+         id: 'ny-broome-co-parcels',
+         url: 'http://www.bcgis.com/arcgis/rest/services/parcels/br_parcels/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cattaraugus Co - Parcels',
+         id: 'ny-cattaraugus-co-parcels',
+         url: 'https://maps2.cattco.org/arcgiswebadaptor/rest/services/ParcelandSales_Viewer/MapServer/3',
+         labelFields: ['LOC_NO','PROP_LOC'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cayuga Co - Address Point',
+         id: 'ny-cayuga-co-pts',
+         url: 'http://gis.cayugacounty.us/arcgis/rest/services/Flexviewer/MapContents/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cayuga Co - Parcels',
+         id: 'ny-cayuga-co-parcels',
+         url: 'http://gis.cayugacounty.us/arcgis/rest/services/Flexviewer/MapContents/MapServer/31',
+         labelFields: ['RPSdata.LOCATION'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cortland Co - Parcels',
+         id: 'ny-cortland-co-parcels',
+         url: 'https://services5.arcgis.com/WcotYUBrYwlGLzUr/ArcGIS/rest/services/Cortland/FeatureServer/0',
+         labelFields: ['LOC_ST_NBR','LOC_ST_NAM'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ontario Co - Parcels',
+         id: 'ny-ontario-co-parcels',
+         url: 'https://services5.arcgis.com/WcotYUBrYwlGLzUr/ArcGIS/rest/services/Ontario/FeatureServer/0',
+         labelFields: ['LOC_NUMBER','LOC_STREET'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wyoming Co - Parcels',
+         id: 'ny-wyoming-co-parcels',
+         url: 'https://services5.arcgis.com/WcotYUBrYwlGLzUr/ArcGIS/rest/services/Wyoming/FeatureServer/0',
+         labelFields: ['LOC_ST_NBR','LOC_ST_NAM'],
+         state: 'NY',
          style: DEFAULT_PARCEL_STYLE},
 
 
