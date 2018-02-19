@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.17.001
+// @version      2018.02.19.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -29,6 +29,7 @@
 // @connect      yumacountyaz.gov
 // -- CA --
 // @connect      geopowered.com
+// @connect      acgov.org
 // -- CO --
 // @connect      fremontgis.com
 // -- DC --
@@ -842,6 +843,104 @@
 
         // California
         // ***********************************
+
+        {name: 'Alameda Co (partial) - House #s',
+         id: 'ca-Alameda-co-pts-1',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/51',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alameda Co (partial) - House #s',
+         id: 'ca-Alameda-co-pts-2',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/16',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alameda - City House #s',
+         id: 'ca-Alameda-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/1',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Albany - City House #s',
+         id: 'ca-Albany-city-pts',
+         url: ' http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/3',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Berkeley - City House #s',
+         id: 'ca-Berkeley-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/5',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dublin - City House #s',
+         id: 'ca-dublin-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/9',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Emeryville - City House #s',
+         id: 'ca-Emeryville-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/23',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fremont (#1) - City House #s',
+         id: 'ca-Fremont-city-pts-1',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/25',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fremont (#2) - City House #s',
+         id: 'ca-Fremont-city-pts-2',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/30',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Livermore - City House #s',
+         id: 'ca-Livermore-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/34',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Newark / Union City - City House #s',
+         id: 'ca-newark-union-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/41',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Oakland - City House #s',
+         id: 'ca-oakland-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/43',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Piedmont - City House #s',
+         id: 'ca-piedmont-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/45',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pleasanton - City House #s',
+         id: 'ca-Pleasanton-city-pts',
+         url: 'http://gis.acgov.org/arcgis/rest/services/SitStat/AddressAnnotation/MapServer/47',
+         labelFields: ['TextString'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
 
         // THIS IS AN ODD LAYER.  IT IS CLIPPED TO A RECTANGULAR REGION WITHIN THE COUNTY, SO NOT SURE YET IF IT IS "OFFICIAL".
         // {name: 'San Bernardino Co - Parcels',
@@ -4734,6 +4833,13 @@
          id: 'pa-dauphin-co-parcels',
          url: 'https://gis.dauphincounty.org/arcgis/rest/services/Parcels/MapServer/1',
          labelFields: ['house_number','prefix_directional','street_name','street_suffix'],
+         state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Delaware Co - Parcels',
+         id: 'pa-delaware-co-parcels',
+         url: 'http://w04.co.delaware.pa.us/arcgis/rest/services/Parcels_Jan2018/MapServer/0',
+         labelFields: ['SiteLocati'],
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
