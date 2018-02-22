@@ -6175,7 +6175,7 @@
         {name:  'Hays Co - Parcels',
          id:  'tx-hays-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HaysWeb/MapServer/0',
-         labelFields:  ['HaysCad.DBO.Accounts.situs_num', 'HaysCad.DBO.Accounts.situs_street_prefx', 'HaysCad.DBO.Accounts.situs_street', 'HaysCad.DBO.Accounts.situs_street_sufix' ],
+         labelFields:  ['HaysCad.dbo.Accounts.situs_num', 'HaysCad.dbo.Accounts.situs_street_prefx', 'HaysCad.dbo.Accounts.situs_street', 'HaysCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
