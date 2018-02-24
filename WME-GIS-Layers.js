@@ -347,6 +347,7 @@
 // @connect      smithcountymapsite.org
 // @connect      arcweb.hcad.org
 // @connect      gis.bisconsultants.com
+// @connect      maps.co.grayson.tx.us
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -6116,10 +6117,18 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name:  'Gray Co - Parcels',
+         {name:  'Gray Co - Parcels',
          id:  'tx-gray-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
          labelFields:  ['GrayCad.DBO.Accounts.situs_num', 'GrayCad.DBO.Accounts.situs_street_prefx', 'GrayCad.DBO.Accounts.situs_street', 'GrayCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+         {name:  'Grayson Co - Parcels',
+         id:  'tx-grayson-co-parcels',
+         url:  'http://maps.co.grayson.tx.us/gcgis/rest/services/Grayson/Addresses/MapServer/5',
+         labelFields:  ['SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
