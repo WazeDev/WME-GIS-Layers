@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.26.001
+// @version      2018.02.26.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -434,7 +434,7 @@
         strokeColor: '#fff',
         fontColor: '#fff',
         fillOpacity: 0,
-        labelYOffset: 15,
+        labelYOffset: 10,
         pointRadius: 2,
         fontSize: 10
     };
@@ -2571,6 +2571,26 @@
 
         // Kentucky
         // ************************************
+
+        {name: 'State Road - Mile Markers',
+         id: 'ky-state-road-mm',
+         url: 'http://maps.kytc.ky.gov/arcgis/rest/services/BaseMap/PointReference/MapServer/7',
+         where: "MP_LABEL NOT LIKE '%.%'",
+         labelFields: ['MP_LABEL'],
+         visibleAtZoom: 1,
+         labelsVisibleAtZoom: 1,
+         state: 'KY',
+         style: DEFAULT_MM_STYLE},
+
+        {name: 'Local Road - Mile Markers',
+         id: 'ky-local-road-mm',
+         url: 'http://maps.kytc.ky.gov/arcgis/rest/services/BaseMap/PointReference/MapServer/8',
+         where: "MP_LABEL NOT LIKE '%.%'",
+         labelFields: ['MP_LABEL'],
+         visibleAtZoom: 1,
+         labelsVisibleAtZoom: 1,
+         state: 'KY',
+         style: DEFAULT_MM_STYLE},
 
         {name: 'Anderson Co - Address Points',
          id: 'ky-anderson-co-pts',
