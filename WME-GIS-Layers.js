@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.19.001
+// @version      2018.02.26.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -430,6 +430,15 @@
         labelYOffset: -15
     };
 
+    let DEFAULT_MM_STYLE = {
+        strokeColor: '#fff',
+        fontColor: '#fff',
+        fillOpacity: 0,
+        labelYOffset: 15,
+        pointRadius: 2,
+        fontSize: 10
+    };
+
     let _gisLayers = [
 
         // US
@@ -678,6 +687,15 @@
 
         // Alaska
         // ************************************
+
+        {name: 'Highway Mile Markers',
+         id: 'ak-mm',
+         url: 'http://www.dot.state.ak.us/ArcGIS/rest/services/AKDOT_Mileposts/MapServer/4',
+         labelFields: ['MP'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'AK',
+         style: DEFAULT_MM_STYLE},
 
         {name: 'Anchorage - Address Points',
          id: 'ak-anchorage-pts',
@@ -7776,7 +7794,9 @@
                                 error = true;
                             }
                             if (!error) {
-                                let displayLabelsAtZoom = gisLayer.labelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                let hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
+                                let hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
+                                let displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
                                 let label = '';
                                 if (gisLayer.labelHeaderFields) {
                                     label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
@@ -7819,7 +7839,8 @@
             let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
             let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
             let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
-            let isValidZoom = W.map.getZoom() >= (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
+            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
             if (isValidUrl && isInState && isVisible && isValidZoom) {
                 let url = getUrl(W.map.getExtent(), gisLayer);
                 GM_xmlhttpRequest({
