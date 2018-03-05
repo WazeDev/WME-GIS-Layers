@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.27.001
+// @version      2018.03.05.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -132,6 +132,7 @@
 // @connect      geodataportal.net
 // @connect      finneycountygis.com
 // @connect      lawrenceks.org
+// @connect      rileycountyks.gov
 // @connect      rsdigital.com
 // @connect      pottcounty.org
 // @connect      renogov.org
@@ -2378,6 +2379,7 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
+
         // Kansas
         // ************************************
 
@@ -2529,6 +2531,21 @@
          id: 'ks-pottawatomie-co-Parcels',
          url: 'http://www2.pottcounty.org/arcgis2/rest/services/ParcelsAll/MapServer/0',
          labelFields: [''],
+         state: 'KS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Riley Co - Address Points',
+         id: 'ks-riley-co-pts',
+         url: 'https://gis.rileycountyks.gov/arcgis/rest/services/GISWebsiteDataV2_3_2/MapServer/77',
+         labelFields: ['FULLADDR'],
+         state: 'KS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Riley Co - Parcels',
+         id: 'ks-riley-co-Parcels',
+         url: 'https://gis.rileycountyks.gov/arcgis/rest/services/BasemapV2_1/MapServer/17',
+         labelFields: ['Property_A'],
+         processLabel: function(label) { return label.replace(/,.*/,''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3993,6 +4010,13 @@
          labelFields: ['PARCELPIN'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'West Plains - City Address Points',
+         id: 'mo-west-plains-city-points',
+         url: 'https://services5.arcgis.com/vlbfeUFWgxfykYSC/ArcGIS/rest/services/City_Addresses/FeatureServer/0',
+         labelFields: ['COMB_ADDR'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
 
 
         // Montana
@@ -8270,7 +8294,7 @@
                     context: _lastToken,
                     method: 'GET',
                     onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
-                    onerror: function(res) { log('ERROR: ' + res.statusText); }
+                    onerror: function(res) { log('HTTP request error:',JSON.stringify(res)); }
                 });
             } else {
                 processFeatures({skipIt: true}, _lastToken, gisLayer);
