@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.02.19.001
+// @version      2018.03.09.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -132,6 +132,7 @@
 // @connect      geodataportal.net
 // @connect      finneycountygis.com
 // @connect      lawrenceks.org
+// @connect      rileycountyks.gov
 // @connect      rsdigital.com
 // @connect      pottcounty.org
 // @connect      renogov.org
@@ -226,6 +227,7 @@
 // @connect      stlouisco.com
 // -- MS --
 // @connect      ms.gov
+// @connect      agdmaps.com
 // @connect      desotocountyms.gov
 // -- MT --
 // @connect       gisservicemt.gov
@@ -256,9 +258,31 @@
 // @connect      perryco.org
 // -- NY --
 // @connect      ny.gov
+// @connect      ny.us
 // @connect      bcgis.com
 // @connect      cattco.org
 // @connect      cayugacounty.us
+// @connect      chautauquacounty.com
+// @connect      dancgis.org
+// @connect      23.96.59.134
+// @connect      dutchessny.gov
+// @connect      erie.gov
+// @connect      gishost.com
+// @connect      greenegovernment.com
+// @connect      latisviewer.com
+// @connect      livingstoncounty.us
+// @connect      monroecounty.gov
+// @connect      nassaucountyny.gov
+// @connect      niagaracounty.com
+// @connect      orangecountygov.com
+// @connect      oswegocounty.com
+// @connect      mapxpress.net
+// @connect      pcnygis.com
+// @connect      72.10.206.73
+// @connect      suffolkcountyny.gov
+// @connect      ulstercountyny.gov
+// @connect      warrencountyny.gov
+// @connect      westchestergov.com
 // -- OH --
 // @connect      hamilton-co.org
 // @connect      oh.us
@@ -358,8 +382,12 @@
 // @connect      legis.wisconsin.gov
 // -- WV --
 // @connect      wvu.edu
+// @connect      184.12.255.122
+// @connect      agdmaps.com
 // @connect      berkeleywv.org
 // @connect      cabellassessor.com
+// @connect      harrisoncountywv.com
+// @connect      kanawhacountyassessor.com
 // @connect      landmarkgeospatial.com
 // -- WY --
 // @connect      wyo.gov
@@ -374,7 +402,6 @@
 /* global OL */
 /* global W */
 /* global GM_info */
-/* global OpenLayers */
 
 (function() {
     'use strict';
@@ -428,6 +455,15 @@
         fontColor: "#0af",
         fillColor: '#0af',
         labelYOffset: -15
+    };
+
+    let DEFAULT_MM_STYLE = {
+        strokeColor: '#fff',
+        fontColor: '#fff',
+        fillOpacity: 0,
+        labelYOffset: 10,
+        pointRadius: 2,
+        fontSize: 10
     };
 
     let _gisLayers = [
@@ -678,6 +714,15 @@
 
         // Alaska
         // ************************************
+
+        {name: 'Highway Mile Markers',
+         id: 'ak-mm',
+         url: 'http://www.dot.state.ak.us/ArcGIS/rest/services/AKDOT_Mileposts/MapServer/4',
+         labelFields: ['MP'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'AK',
+         style: DEFAULT_MM_STYLE},
 
         {name: 'Anchorage - Address Points',
          id: 'ak-anchorage-pts',
@@ -2339,6 +2384,7 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
+
         // Kansas
         // ************************************
 
@@ -2493,6 +2539,21 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Riley Co - Address Points',
+         id: 'ks-riley-co-pts',
+         url: 'https://gis.rileycountyks.gov/arcgis/rest/services/GISWebsiteDataV2_3_2/MapServer/77',
+         labelFields: ['FULLADDR'],
+         state: 'KS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Riley Co - Parcels',
+         id: 'ks-riley-co-Parcels',
+         url: 'https://gis.rileycountyks.gov/arcgis/rest/services/BasemapV2_1/MapServer/17',
+         labelFields: ['Property_A'],
+         processLabel: function(label) { return label.replace(/,.*/,''); },
+         state: 'KS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Reno Co - Address Points',
          id: 'ks-reno-co-pts',
          url: 'http://renogis3.renogov.org/arcgis/rest/services/Test/WebLayers/MapServer/6',
@@ -2553,6 +2614,26 @@
 
         // Kentucky
         // ************************************
+
+        {name: 'State Road - Mile Markers',
+         id: 'ky-state-road-mm',
+         url: 'http://maps.kytc.ky.gov/arcgis/rest/services/BaseMap/PointReference/MapServer/7',
+         where: "MP_LABEL NOT LIKE '%.%'",
+         labelFields: ['MP_LABEL'],
+         visibleAtZoom: 1,
+         labelsVisibleAtZoom: 1,
+         state: 'KY',
+         style: DEFAULT_MM_STYLE},
+
+        {name: 'Local Road - Mile Markers',
+         id: 'ky-local-road-mm',
+         url: 'http://maps.kytc.ky.gov/arcgis/rest/services/BaseMap/PointReference/MapServer/8',
+         where: "MP_LABEL NOT LIKE '%.%'",
+         labelFields: ['MP_LABEL'],
+         visibleAtZoom: 1,
+         labelsVisibleAtZoom: 1,
+         state: 'KY',
+         style: DEFAULT_MM_STYLE},
 
         {name: 'Anderson Co - Address Points',
          id: 'ky-anderson-co-pts',
@@ -2897,6 +2978,10 @@
          labelFields: ['PAR_ADDR'],
          state: 'MI',
          style: DEFAULT_PARCEL_STYLE},
+
+        // 2018-2-26 (mapomatic) These Kent Co layers used to work, but they've since disabled the external
+        // services on this server, so we can't see anything on it.  I've left these active for now, but
+        // will disable if the services don't return soon.
 
         {name: 'Kent Co - Address Points',
          id: 'mi-woodford-co-pts',
@@ -3570,6 +3655,55 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Lincoln Co - Address Points',
+         id: 'ms-lincoln-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/109',
+         labelFields: ['SITUS'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'ms-lincoln-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/103',
+         labelFields: ['STREET_NUMBER','STREET_NAME'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marion Co - Address Points',
+         id: 'ms-marion-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MarionMS/MapServer/41',
+         labelFields: ['SITUS'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Marion Co - Parcels',
+         id: 'ms-marion-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MarionMS/MapServer/48',
+         labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pike Co - Parcels',
+         id: 'ms-pike-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
+         labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Warren Co - Address Points',
+         id: 'ms-warren-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/WarrenMS/MapServer/161',
+         labelFields: ['SITUS'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Warren Co - Parcels',
+         id: 'ms-warren-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/WarrenMS/MapServer/166',
+         labelFields: ['STREET_NUM','STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Winston Co - Address Points',
          id: 'ms-winston-co-pts',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/1',
@@ -3931,6 +4065,13 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'West Plains - City Address Points',
+         id: 'mo-west-plains-city-points',
+         url: 'https://services5.arcgis.com/vlbfeUFWgxfykYSC/ArcGIS/rest/services/City_Addresses/FeatureServer/0',
+         labelFields: ['COMB_ADDR'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
 
         // Montana
         // ************************************
@@ -4174,6 +4315,41 @@
          state: 'NY',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Chautauqua Co - Address Point',
+         id: 'ny-chautauqua-co-pts',
+         url: 'https://maps.chautauquacounty.com/server/rest/services/Public/AddressToolBasemap/MapServer/0',
+         labelFields: ['FullAddress'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Chautauqua Co - Parcels',
+         id: 'ny-chautauqua-co-parcels',
+         url: 'https://maps.chautauquacounty.com/server/rest/services/ParcelViewer/ViewerOperational/MapServer/151',
+         labelFields: ['Loc_Address'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Chemung Co - Address Point',
+         id: 'ny-chemung-co-pts',
+         url: 'https://services5.arcgis.com/Zuw6weNBpZX2wFbS/ArcGIS/rest/services/Chemungaddress_pts/FeatureServer/0',
+         labelFields: ['GEO_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Chemung Co - Parcels',
+         id: 'ny-chemung-co-parcels',
+         url: 'https://services5.arcgis.com/Zuw6weNBpZX2wFbS/ArcGIS/rest/services/Public_Parcels/FeatureServer/0',
+         labelFields: ['RPS_ADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Colonie - Town Parcels',
+         id: 'ny-colonie-town-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_Town_Colonie/MapServer/3',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Cortland Co - Parcels',
          id: 'ny-cortland-co-parcels',
          url: 'https://services5.arcgis.com/WcotYUBrYwlGLzUr/ArcGIS/rest/services/Cortland/FeatureServer/0',
@@ -4181,10 +4357,352 @@
          state: 'NY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Ontario Co - Parcels',
-         id: 'ny-ontario-co-parcels',
+        {name: 'Delaware Co - Address Point',
+         id: 'ny-delaware-co-pts',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Delaware_Internal/MapServer/0',
+         labelFields: ['ADDR1'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Delaware Co - Parcels',
+         id: 'ny-delaware-co-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Delaware_Internal/MapServer/18',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dutchess Co - Address Point',
+         id: 'ny-dutchess-co-pts',
+         url: 'https://gis.dutchessny.gov/wa/rest/services/parcelaccess/MapServer/12',
+         labelFields: ['FULLADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Dutchess Co - Parcels NO DATA',
+         id: 'ny-dutchess-co-parcels',
+         url: 'https://gis.dutchessny.gov/wa/rest/services/parcelaccess/MapServer/0',
+         labelFields: [''],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Erie Co - Parcels',
+         id: 'ny-erie-co-parcels',
+         url: 'http://gis2.erie.gov/arcgis/rest/services/ErieCountyNY/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Essex Co - Parcels',
+         id: 'ny-essex-co-parcels',
+         url: 'http://essex-gis.co.essex.ny.us/arcgis/rest/services/NY_County_Essex/MapServer/7',
+         labelFields: ['LOCATION'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Franklin Co - Parcels',
+         id: 'ny-franklin-co-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Franklin/MapServer/2',
+         labelFields: ['STREET_ADD'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Genesee Co - Address Point',
+         id: 'ny-genesee-co-pts',
+         url: 'http://gisp.co.genesee.ny.us/arcgis/rest/services/GC_Public/BaseMap_Public/MapServer/0',
+         labelFields: ['HOUSENUMBER','HOUSENUMBEREXTRA','STREETNAME','STREETTYPE','SUFFIXDIRECTION'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Genesee Co - Parcels',
+         id: 'ny-genesee-co-parcels',
+         url: 'http://gisp.co.genesee.ny.us/arcgis/rest/services/GC_Public/BaseMap_Public/MapServer/32',
+         labelFields: ['PrclNumb','PrclStreet'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greene Co - Parcels',
+         id: 'ny-greene-co-parcels',
+         url: 'http://gis.greenegovernment.com/ArcGIS/rest/services/GreeneCounty/MapServer/6',
+         labelFields: ['LOC_ST_NBR','LOC_PREFIX','LOC_ST_NAM','LOC_MAIL_S','LOC_POST_D'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamilton Co - Parcels',
+         id: 'ny-hamilton-co-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Hamilton/MapServer/28',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'ny-jefferson-co-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Jefferson/MapServer/19',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Livingston Co - Parcels',
+         id: 'ny-livingston-co-parcels',
+         url: 'http://map.livingstoncounty.us/arcgis/rest/services/Public/Operational_Map_Public/MapServer/4',
+         labelFields: ['PARCEL_ADD'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Monroe Co - Parcels',
+         id: 'ny-monroe-co-parcels',
+         url: 'https://mappingmonroe.monroecounty.gov/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['ST_NBR','LOCPREDIR','LOCSTNAME','LOCSTTYPE','LOCPOSTDIR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Nassau Co - Parcels NO DATA',
+         id: 'ny-nassau-co-parcels',
+         url: 'https://gis.nassaucountyny.gov/arcgis/rest/services/Akanda/MapServer/1',
+         labelFields: [''],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Niagara Co - Parcels',
+         id: 'ny-niagara-co-parcels',
+         url: 'https://gis.niagaracounty.com/arcgis/rest/services/NC_GIS/NC_GIS/FeatureServer/5',
+         labelFields: ['PrclNumb','PrclStreet'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Onondaga Co - Address Point',
+         id: 'ny-onondaga-co-pts',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Onondaga/MapServer/5',
+         labelFields: ['PROP_ADD'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Onondaga Co - Parcels',
+         id: 'ny-onondaga-co-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Onondaga/MapServer/7',
+         labelFields: ['PROP_ADD'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ontario Co - Address Point',
+         id: 'ny-ontario-co-pts',
+         url: 'http://oncorng.co.ontario.ny.us/arcgis/rest/services/OnCOR/Basemap/MapServer/0',
+         labelFields: ['FULL_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ontario Co - Parcels1',
+         id: 'ny-ontario-co-parcels1',
+         url: 'http://oncorng.co.ontario.ny.us/arcgis/rest/services/OnCOR/Basemap/MapServer/3',
+         labelFields: [''],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ontario Co - Parcels2',
+         id: 'ny-ontario-co-parcels2',
          url: 'https://services5.arcgis.com/WcotYUBrYwlGLzUr/ArcGIS/rest/services/Ontario/FeatureServer/0',
          labelFields: ['LOC_NUMBER','LOC_STREET'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Orange Co - Address Point',
+         id: 'ny-orange-co-pts',
+         url: 'http://ocgis.orangecountygov.com/ArcGIS/rest/services/Dynamic/LandBase/MapServer//0',
+         labelFields: ['StreetAddress'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Orange Co - Parcels NO DATA',
+         id: 'ny-orange-co-parcels',
+         url: 'http://ocgis.orangecountygov.com/ArcGIS/rest/services/Dynamic/LandBase/MapServer//4',
+         labelFields: [''],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Orleans Co - Parcels HN only',
+         id: 'ny-orleans-co-parcels',
+         url: 'https://services6.arcgis.com/AGRzZ0TKgr5syAM6/ArcGIS/rest/services/MapOrleansUpdate/FeatureServer/0',
+         labelFields: ['LOC_ST_NBR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Oswego Co - Parcels',
+         id: 'ny-oswego-co-parcels',
+         url: 'http://rptsgisweb.oswegocounty.com/arcgis/rest/services/GIS_webmap/GIS_web_basemap/MapServer/1',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Otsego Co - Parcels',
+         id: 'ny-otsego-co-parcels',
+         url: 'http://server2.mapxpress.net:6080/arcgis/rest/services/Otsego/Basemap/MapServer/5',
+         labelFields: ['HOUSE_NO','STREET'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Putnam Co - Address Points',
+         id: 'ny-putnam-co-pts',
+         url: 'http://www.pcnygis.com/arcgiswa/rest/services/ArcGIS_Online/E911_Sites/MapServer/1',
+         labelFields: ['ADDRESS','STREET'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Putnam Co - Parcels',
+         id: 'ny-putnam-co-parcels',
+         url: 'http://www.pcnygis.com/arcgiswa/rest/services/Public/Parcels/MapServer/0',
+         labelFields: ['GIS_Public.DBO.RPS.PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Layer works but requires token that expires
+        //{name: 'Rockland Co - Address Points TK',
+        // id: 'ny-rockland-co-pts',
+        // url: 'https://www.latisviewer.com/arcgis/rest/services/Rockland/District_Address_Point/MapServer/0',
+        // token: '6omRWcYSSIwuqArN2-Qq2M1dz8WBZijUsfV13vuzgZ4.',
+        // labelFields: ['ADDRESS'],
+        // state: 'NY',
+        // style: DEFAULT_PT_STYLE},
+
+        // Layer works but requires token that expires
+        //{name: 'Rockland Co - Parcels TK',
+        // id: 'ny-rockland-co-parcels',
+        // url: 'https://www.latisviewer.com/arcgis/rest/services/Rockland/Tax_Map/MapServer/3',
+        // token: '6omRWcYSSIwuqArN2-Qq2M1dz8WBZijUsfV13vuzgZ4.',
+        // labelFields: ['ADDRESS'],
+        // state: 'NY',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        // Layer works but requires token that expires
+        //{name: 'St. Lawrence Co - Parcels HN only TK',
+        // id: 'ny-st-lawrence-co-parcels',
+        // url: 'http://dancgis.org/arcgis/rest/services/Common_StLawrence/MapServer/3',
+        // token: 'w9aXRtLf3nGvsMtkSR1CxBCF6rwF61EOtwfenEqIR20.',
+        // labelFields: ['LOC_ST_NBR'],
+        // state: 'NY',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saratoga Co - Parcels',
+         id: 'ny-saratoga-co-parcels',
+         url: 'http://23.96.59.134/arcgis/rest/services/LocalGovt/NY_County_Saratoga_V2/MapServer/57',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Schenectady Co - Parcels',
+         id: 'ny-schenectady-co-parcels',
+         url: 'http://spatial.gishost.com/arcgis/rest/services/SIMS/SIMS/MapServer/6',
+         labelFields: ['PROP_ADDRS'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Schoharie Co - Address Points',
+         id: 'ny-schoharie-co-pts',
+         url: 'http://72.10.206.73/arcgis/rest/services/NY_County_Schoharie/MapServer/0',
+         labelFields: ['Address'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Schoharie Co - Parcels',
+         id: 'ny-schoharie-co-parcels',
+         url: 'http://72.10.206.73/arcgis/rest/services/NY_County_Schoharie/MapServer/4',
+         labelFields: ['LOC_NUMBER','LOC_STREET'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Steuben Co - Address Points',
+         id: 'ny-steuben-co-pts',
+         url: 'https://services2.arcgis.com/NZkLeERo9XICXiuy/ArcGIS/rest/services/911_Address/FeatureServer/0',
+         labelFields: ['XNUMBER','XNUM_SUF','RD_NAME_F'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Steuben Co - Parcels',
+         id: 'ny-steuben-co-parcels',
+         url: 'https://services2.arcgis.com/NZkLeERo9XICXiuy/ArcGIS/rest/services/Real_Property_Parcel_Viewer/FeatureServer/1',
+         labelFields: ['FIRE_NBR','TM_RDSTRT'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Suffolk Co - Address Points',
+         id: 'ny-suffolk-co-pts',
+         url: 'https://gisservices2.suffolkcountyny.gov/arcgis/rest/services/Live_Layers_External/MapServer/2',
+         labelFields: ['FullStreet'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Suffolk Co - Parcels NO DATA',
+         id: 'ny-suffolk-co-parcels',
+         url: 'https://gisservices2.suffolkcountyny.gov/arcgis/rest/services/Live_Layers_External/MapServer/57',
+         labelFields: [''],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sullivan Co - Address Points',
+         id: 'ny-sulivan-co-pts',
+         url: 'https://services7.arcgis.com/bx3OlIPqiDclwaja/ArcGIS/rest/services/SCGISO_911_Data_Update/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sullivan Co - Parcels NO DATA',
+         id: 'ny-sulivan-co-parcels',
+         url: 'https://services7.arcgis.com/bx3OlIPqiDclwaja/ArcGIS/rest/services/Tax_Map_Data/FeatureServer/12',
+         labelFields: [''],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tioga Co - Address Points',
+         id: 'ny-tioga-co-pts',
+         url: 'http://git.co.tioga.ny.us/arcgis/rest/services/Address_Points/MapServer/0',
+         labelFields: ['PARCEL_L_1','PARCEL_LOC'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tioga Co - Parcels',
+         id: 'ny-tioga-co-parcels',
+         url: 'http://git.co.tioga.ny.us/arcgis/rest/services/GIT_New/MapServer/3',
+         labelFields: ['PARCEL_LOCATION_NUMBER','PARCEL_LOCATION'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ulster Co - Parcels',
+         id: 'ny-ulster-co-parcels',
+         url: 'https://gis.ulstercountyny.gov/arcgis/rest/services/Tax_Parcels/Tax_Parcels/MapServer/0',
+         labelFields: ['PARCEL_ADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Warren Co - Address Points',
+         id: 'ny-warren-co-pts',
+         url: 'http://gis-2.warrencountyny.gov/arcgis/rest/services/warren_new/MapServer/1',
+         labelFields: ['AddressNumber','SuffixAddressNumber','PreDirectional','PreType','StreetName','PostType','PostDirectional'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Warren Co - Parcels',
+         id: 'ny-warren-co-parcels',
+         url: 'http://gis-2.warrencountyny.gov/arcgis/rest/services/warren_basemap/MapServer/2',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Parcels',
+         id: 'ny-washington-co-parcels',
+         url: 'http://gis.co.washington.ny.us/arcgis/rest/services/WashingtonCounty/MapServer/4',
+         labelFields: ['PROP_ADDR'],
+         state: 'NY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Westchester Co - Address Points',
+         id: 'ny-westchester-co-pts',
+         url: 'https://giswww.westchestergov.com/arcgis/rest/services/MappingWestchesterCounty_AdditionalLayers/MapServer/78',
+         labelFields: ['PROPADDRESS'],
+         state: 'NY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Westchester Co - Parcels',
+         id: 'ny-westchester-co-parcels',
+         url: 'https://giswww.westchestergov.com/arcgis/rest/services/MappingWestchesterCounty_AdditionalLayers/MapServer/79',
+         labelFields: ['PROPADDRESS'],
          state: 'NY',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7371,12 +7889,134 @@
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hancock Co - Address Points',
+         id: 'wv-Hancock-co-pts',
+         url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
+         labelFields: ['FULL_ADDRE'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hancock Co - Parcels',
+         id: 'wv-hancock-co-parcels',
+         url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hardy Co - Address Points',
+         id: 'wv-Hardy-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HardyMapService/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-07 (mapomatic) Hardy Co has a parcel layer, but no address fields
+
+        {name: 'Harrison Co - Address Points',
+         id: 'wv-Harrison-co-pts',
+         url: 'https://psportal.harrisoncountywv.com/server/rest/services/ftrAddress/MapServer/2',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Harrison Co - Parcels',
+         id: 'wv-Harrison-co-parcels',
+         url: 'https://psportal.harrisoncountywv.com/server/rest/services/Assessor/Parcels/MapServer/0',
+         labelFields: ['LOC2'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'wv-Jefferson-co-pts',
+         url: 'http://184.12.255.122:6080/arcgis/rest/services/MyGov/Addressing/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'wv-Jefferson-co-parcels',
+         url: 'http://184.12.255.122:6080/arcgis/rest/services/Parcels/2018parcels1/MapServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kanawha Co - Parcels',
+         id: 'wv-Kanawha-co-parcels',
+         url: 'https://gis.kanawhacountyassessor.com:6443/arcgis/rest/services/Parcel_Viewer/Parcels_4_Jan_2018/MapServer/1',
+         labelFields: ['Prop_Location'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Lewis Co - Parcels',
          id: 'wv-Lewis-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Lewis/LewisOperational/MapServer/54',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'wv-Lincoln-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/Lincoln_WV_Service/FeatureServer/8',
+         labelFields: ['ADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-07 (mapomatic) Lincoln Co has a parcel layer, but no address fields
+
+        {name: 'Mercer Co - Address Points',
+         id: 'wv-Mercer-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MercerWV_Service/FeatureServer/8',
+         labelFields: ['FULL_ADD'],
+         processLabel: function(label) { return label.replace(/^0 /, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monongalia Co - Address Points',
+         id: 'wv-Monongalia-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MonongaliaWV/MapServer/138',
+         labelFields: ['FULL_ADDRESS'],
+         processLabel: function(label) { return label.replace(/^0 /, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monroe Co - Address Points',
+         id: 'wv-Monroe-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MonroeFieldService/FeatureServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ohio Co - Address Points',
+         id: 'wv-Ohio-co-pts',
+         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/ptad/FeatureServer/0',
+         labelFields: ['ADDR'],
+         processLabel: function(label) { return label.replace(/((\w+ )+)(\d+)$/,'$3 $1').trim(); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ohio Co - Parcels',
+         id: 'wv-Ohio-co-parcels',
+         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/dpl/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pendleton Co - Address Points',
+         id: 'wv-Pendleton-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/PendletonWV_911Service/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pocahontas Co - Address Points',
+         id: 'wv-Pocahontas-co-pts',
+         url: 'https://services5.arcgis.com/BS7xAap9C8CqR5BC/ArcGIS/rest/services/Address_Labels/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-08 (mapomatic) Also found this for Preston Co, which has parcels and address points.
+        // Not sure which is the "correct" one.  https://ags.agdmaps.com/arcgis/rest/services/PrestonWV/MapServer
 
         {name: 'Preston Co - Address Points',
          id: 'wv-Preston-co-pts',
@@ -7436,6 +8076,13 @@
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Tyler Co - Address Points',
+         id: 'wv-Tyler-co-pts',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/Tyler_Site/FeatureServer/0',
+         labelFields: ['ADDR_LABEL'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Upshur Co - Address Points',
          id: 'wv-Upshur-co-pts',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/1',
@@ -7443,17 +8090,52 @@
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Upshur Co - Parcels',
+        {name: 'Upshur Co - Parcels #1',
+         id: 'wv-Upshur-co-parcels-1',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/UpshurTaxParcelsCAMA/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Upshur Co - Parcels #2',
          id: 'wv-Upshur-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/2',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Webster Co - Address Points',
+         id: 'wv-Webster-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WebsterWV_Service/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wetzel Co - Address Points',
+         id: 'wv-Wetzel-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WetzelWV/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wetzel Co - Parcels',
+         id: 'wv-Wetzel-co-parcels',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/WC_TM/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wood Co - Address Points',
+         id: 'wv-Wood-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WoodWV/FeatureServer/6',
+         labelFields: ['FullAddr'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Wyoming Co - Parcels',
          id: 'wv-Wyoming-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Wyoming/WyomingOperational/MapServer/17',
-         labelFields: ['PARCELADDRESS'],
+         labelFields: ['ADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7749,17 +8431,17 @@
                         if (!skipIt) {
                             let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
                             if (item.geometry.x) {
-                                featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
+                                featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
                             } else if (item.geometry.rings) {
                                 let rings = [];
                                 item.geometry.rings.forEach(function(ringIn) {
                                     let pnts= [];
                                     for(let i=0;i<ringIn.length;i++){
-                                        pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0] + layerOffset.x, ringIn[i][1] + layerOffset.y));
+                                        pnts.push(new OL.Geometry.Point(ringIn[i][0] + layerOffset.x, ringIn[i][1] + layerOffset.y));
                                     }
-                                    rings.push(new OpenLayers.Geometry.LinearRing(pnts));
+                                    rings.push(new OL.Geometry.LinearRing(pnts));
                                 });
-                                featureGeometry = new OpenLayers.Geometry.Polygon(rings);
+                                featureGeometry = new OL.Geometry.Polygon(rings);
                                 if (gisLayer.areaToPoint) {
                                     featureGeometry = featureGeometry.getCentroid();
                                 } else {
@@ -7768,15 +8450,17 @@
                             } else if (data.geometryType === 'esriGeometryPolyline') {
                                 let pointList = [];
                                 item.geometry.paths.forEach(function(path){
-                                    path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
+                                    path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
                                 });
-                                featureGeometry = new OpenLayers.Geometry.LineString(pointList);
+                                featureGeometry = new OL.Geometry.LineString(pointList);
                             } else {
                                 log('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
                                 error = true;
                             }
                             if (!error) {
-                                let displayLabelsAtZoom = gisLayer.labelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                let hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
+                                let hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
+                                let displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
                                 let label = '';
                                 if (gisLayer.labelHeaderFields) {
                                     label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
@@ -7789,7 +8473,7 @@
                                     layerID: gisLayer.id,
                                     label: label
                                 };
-                                feature = new OpenLayers.Feature.Vector(featureGeometry,attributes);
+                                feature = new OL.Feature.Vector(featureGeometry,attributes);
                                 features.push(feature);
                             }
                         }
@@ -7819,7 +8503,8 @@
             let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
             let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
             let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
-            let isValidZoom = W.map.getZoom() >= (gisLayer.visibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
+            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
             if (isValidUrl && isInState && isVisible && isValidZoom) {
                 let url = getUrl(W.map.getExtent(), gisLayer);
                 GM_xmlhttpRequest({
@@ -7827,7 +8512,7 @@
                     context: _lastToken,
                     method: 'GET',
                     onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
-                    onerror: function(res) { log('ERROR: ' + res.statusText); }
+                    onerror: function(res) { log('HTTP request error:',JSON.stringify(res)); }
                 });
             } else {
                 processFeatures({skipIt: true}, _lastToken, gisLayer);
@@ -7844,9 +8529,9 @@
 
     function initLayer(){
         let rules = _gisLayers.map(gisLayer => {
-            return new OpenLayers.Rule({
-                filter: new OpenLayers.Filter.Comparison({
-                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+            return new OL.Rule({
+                filter: new OL.Filter.Comparison({
+                    type: OL.Filter.Comparison.EQUAL_TO,
                     property: "layerID",
                     value: gisLayer.id
                 }),
@@ -7854,11 +8539,11 @@
             });
         });
 
-        let style = new OpenLayers.Style(DEFAULT_STYLE, { rules: rules } );
+        let style = new OL.Style(DEFAULT_STYLE, { rules: rules } );
 
-        _mapLayer = new OpenLayers.Layer.Vector("GIS Layers", {
+        _mapLayer = new OL.Layer.Vector("GIS Layers", {
             uniqueName: "__wmeGISLayers",
-            styleMap: new OpenLayers.StyleMap(style)
+            styleMap: new OL.StyleMap(style)
         });
         _mapLayer.setVisibility(_settings.enabled);
         W.map.addLayer(_mapLayer);
@@ -8069,10 +8754,10 @@
 
                 this.appendTab();
                 let that = this;
-                if (Waze.prefs) {
-                    Waze.prefs.on('change:isImperial', function(){that.appendTab();});
+                if (W.prefs) {
+                    W.prefs.on('change:isImperial', function(){that.appendTab();});
                 }
-                Waze.app.modeController.model.bind('change:mode', function(){that.appendTab();});
+                W.app.modeController.model.bind('change:mode', function(){that.appendTab();});
             }
         }
 
