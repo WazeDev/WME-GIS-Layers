@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.05.001
+// @version      2018.03.08.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -381,8 +381,12 @@
 // @connect      legis.wisconsin.gov
 // -- WV --
 // @connect      wvu.edu
+// @connect      184.12.255.122
+// @connect      agdmaps.com
 // @connect      berkeleywv.org
 // @connect      cabellassessor.com
+// @connect      harrisoncountywv.com
+// @connect      kanawhacountyassessor.com
 // @connect      landmarkgeospatial.com
 // -- WY --
 // @connect      wyo.gov
@@ -7835,12 +7839,134 @@
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hancock Co - Address Points',
+         id: 'wv-Hancock-co-pts',
+         url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
+         labelFields: ['FULL_ADDRE'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hancock Co - Parcels',
+         id: 'wv-hancock-co-parcels',
+         url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hardy Co - Address Points',
+         id: 'wv-Hardy-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HardyMapService/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-07 (mapomatic) Hardy Co has a parcel layer, but no address fields
+
+        {name: 'Harrison Co - Address Points',
+         id: 'wv-Harrison-co-pts',
+         url: 'https://psportal.harrisoncountywv.com/server/rest/services/ftrAddress/MapServer/2',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Harrison Co - Parcels',
+         id: 'wv-Harrison-co-parcels',
+         url: 'https://psportal.harrisoncountywv.com/server/rest/services/Assessor/Parcels/MapServer/0',
+         labelFields: ['LOC2'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'wv-Jefferson-co-pts',
+         url: 'http://184.12.255.122:6080/arcgis/rest/services/MyGov/Addressing/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'wv-Jefferson-co-parcels',
+         url: 'http://184.12.255.122:6080/arcgis/rest/services/Parcels/2018parcels1/MapServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kanawha Co - Parcels',
+         id: 'wv-Kanawha-co-parcels',
+         url: 'https://gis.kanawhacountyassessor.com:6443/arcgis/rest/services/Parcel_Viewer/Parcels_4_Jan_2018/MapServer/1',
+         labelFields: ['Prop_Location'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Lewis Co - Parcels',
          id: 'wv-Lewis-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Lewis/LewisOperational/MapServer/54',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'wv-Lincoln-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/Lincoln_WV_Service/FeatureServer/8',
+         labelFields: ['ADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-07 (mapomatic) Lincoln Co has a parcel layer, but no address fields
+
+        {name: 'Mercer Co - Address Points',
+         id: 'wv-Mercer-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MercerWV_Service/FeatureServer/8',
+         labelFields: ['FULL_ADD'],
+         processLabel: function(label) { return label.replace(/^0 /, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monongalia Co - Address Points',
+         id: 'wv-Monongalia-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MonongaliaWV/MapServer/138',
+         labelFields: ['FULL_ADDRESS'],
+         processLabel: function(label) { return label.replace(/^0 /, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monroe Co - Address Points',
+         id: 'wv-Monroe-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MonroeFieldService/FeatureServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ohio Co - Address Points',
+         id: 'wv-Ohio-co-pts',
+         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/ptad/FeatureServer/0',
+         labelFields: ['ADDR'],
+         processLabel: function(label) { return label.replace(/((\w+ )+)(\d+)$/,'$3 $1').trim(); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ohio Co - Parcels',
+         id: 'wv-Ohio-co-parcels',
+         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/dpl/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pendleton Co - Address Points',
+         id: 'wv-Pendleton-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/PendletonWV_911Service/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pocahontas Co - Address Points',
+         id: 'wv-Pocahontas-co-pts',
+         url: 'https://services5.arcgis.com/BS7xAap9C8CqR5BC/ArcGIS/rest/services/Address_Labels/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-08 (mapomatic) Also found this for Preston Co, which has parcels and address points.
+        // Not sure which is the "correct" one.  https://ags.agdmaps.com/arcgis/rest/services/PrestonWV/MapServer
 
         {name: 'Preston Co - Address Points',
          id: 'wv-Preston-co-pts',
@@ -7900,6 +8026,13 @@
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Tyler Co - Address Points',
+         id: 'wv-Tyler-co-pts',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/Tyler_Site/FeatureServer/0',
+         labelFields: ['ADDR_LABEL'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Upshur Co - Address Points',
          id: 'wv-Upshur-co-pts',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/1',
@@ -7907,17 +8040,52 @@
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Upshur Co - Parcels',
+        {name: 'Upshur Co - Parcels #1',
+         id: 'wv-Upshur-co-parcels-1',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/UpshurTaxParcelsCAMA/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Upshur Co - Parcels #2',
          id: 'wv-Upshur-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/2',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Webster Co - Address Points',
+         id: 'wv-Webster-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WebsterWV_Service/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wetzel Co - Address Points',
+         id: 'wv-Wetzel-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WetzelWV/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wetzel Co - Parcels',
+         id: 'wv-Wetzel-co-parcels',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/WC_TM/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wood Co - Address Points',
+         id: 'wv-Wood-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WoodWV/FeatureServer/6',
+         labelFields: ['FullAddr'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Wyoming Co - Parcels',
          id: 'wv-Wyoming-co-parcels',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Wyoming/WyomingOperational/MapServer/17',
-         labelFields: ['PARCELADDRESS'],
+         labelFields: ['ADDRESS'],
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
