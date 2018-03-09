@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.08.001
+// @version      2018.03.09.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -227,6 +227,7 @@
 // @connect      stlouisco.com
 // -- MS --
 // @connect      ms.gov
+// @connect      agdmaps.com
 // @connect      desotocountyms.gov
 // -- MT --
 // @connect       gisservicemt.gov
@@ -3651,6 +3652,55 @@
          id: 'ms-de-soto-co-parcel',
          url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/25',
          labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'ms-lincoln-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/109',
+         labelFields: ['SITUS'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'ms-lincoln-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/103',
+         labelFields: ['STREET_NUMBER','STREET_NAME'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marion Co - Address Points',
+         id: 'ms-marion-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MarionMS/MapServer/41',
+         labelFields: ['SITUS'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Marion Co - Parcels',
+         id: 'ms-marion-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MarionMS/MapServer/48',
+         labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pike Co - Parcels',
+         id: 'ms-pike-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
+         labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Warren Co - Address Points',
+         id: 'ms-warren-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/WarrenMS/MapServer/161',
+         labelFields: ['SITUS'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Warren Co - Parcels',
+         id: 'ms-warren-co-parcel',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/WarrenMS/MapServer/166',
+         labelFields: ['STREET_NUM','STREET'],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
