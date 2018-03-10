@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.10.001
+// @version      2018.03.10.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
 // @require      https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js
+// @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
@@ -424,6 +425,7 @@
 /* global OL */
 /* global W */
 /* global GM_info */
+/* global WazeWrap */
 
 (function() {
     'use strict';
@@ -6399,7 +6401,6 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-
         {name: 'Bryan City - Parcels',
          id: 'tx-bryan-co-parcels',
          url: 'https://maps.bryantx.gov/arcgis/rest/services/Address/AddressManagement/MapServer/2',
@@ -6552,7 +6553,7 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-        {name: 'Dallas - City Parcels',
+		 {name: 'Dallas - City Parcels',
          id: 'tx-dallas-city-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
@@ -6823,7 +6824,7 @@
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
- 
+
         {name:  'Highland Village City - Parcels',
          id:  'tx-highland-village-city-parcels',
          url:  'https://maps.highlandvillage.org/arcgis/rest/services/Maps/Basemap/MapServer/6',
@@ -7196,7 +7197,7 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Polk Co - Parcels',
+        {name: 'Polk Co - Parcels',
          id: 'tx-polk-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/PolkMapSearch/MapServer/8',
          labelFields: [ 'Polk.dbo.web_map_property.situs' ],
@@ -7581,7 +7582,7 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Zavala Co - Parcels',
+	{name: 'Zavala Co - Parcels',
          id: 'tx-zavala-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZavalaMapSearch/MapServer/6',
          labelFields: [ 'Zavala.dbo.web_map_property.situs' ],
@@ -8813,6 +8814,16 @@
         }
     }
 
+    function setEnabled(value) {
+        _settings.enabled = value;
+        saveSettingsToStorage();
+        _mapLayer.setVisibility(value);
+        let color = value ? '#00bd00' : '#777';
+        $('span#gis-layers-power-btn').css({color:color});
+        if (value) fetchFeatures();
+        $('#layer-switcher-item_gis_layers').prop('checked',value);
+    }
+
     function initLayer(){
         let rules = _gisLayers.map(gisLayer => {
             return new OL.Rule({
@@ -8925,18 +8936,17 @@
         $('a[href="#sidepanel-gis-l"]').prepend(
             $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
                 evt.stopPropagation();
-                _settings.enabled = !_settings.enabled;
-                saveSettingsToStorage();
-                _mapLayer.setVisibility(_settings.enabled);
-                let color = _settings.enabled ? '#00bd00' : '#777';
-                $('span#gis-layers-power-btn').css({color:color});
-                if (_settings.enabled) fetchFeatures();
+                setEnabled(!_settings.enabled);
             })
         );
     }
 
     function onMapMove() {
         if (_settings.enabled) fetchFeatures();
+    }
+
+    function onLayerCheckboxChanged(checked) {
+        setEnabled(checked);
     }
 
     function initGui() {
@@ -8961,6 +8971,7 @@
         ).html();
 
         new Tab('GIS-L', content, initTab, null);
+        WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
         W.map.events.register("moveend",null,onMapMove);
         showScriptInfoAlert();
     }
