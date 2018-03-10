@@ -371,6 +371,28 @@
 // @connect      smithcountymapsite.org
 // @connect      arcweb.hcad.org
 // @connect      gis.bisconsultants.com
+// @connect      maps.co.grayson.tx.us
+// @connect      maps.cstx.gov
+// @connect      maps.mckinneytexas.org
+// @connect      temple.tx.us
+// @connect      gismaps.flower-mound.com
+// @connect      maps.garlandtx.gov
+// @connect      newedgeservices.com
+// @connect      arcgis.waxahachie.com
+// @connect      maps.ci.sherman.tx.us
+// @connect      gis.weatherfordtx.gov
+// @connect      propaccess.traviscad.org
+// @connect      maps.bryantx.gov
+// @connect      fortworthtexas.gov
+// @connect      ewebmap.ci.lubbock.tx.us
+// @connect      copgisweb.ci.pearland.tx.us
+// @connect      sanantonio.gov
+// @connect      odessa-tx.gov
+// @connect      map.coppelltx.gov
+// @connect      maps.highlandvillage.org
+// @connect      dfwmaps.com
+// @connect      maps.cityofcarrollton.com
+// @connect      emap.rowlett.com
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -6257,6 +6279,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Amarillo City - Parcels',
+         id: 'tx-amarillo-city-parcels',
+         url: 'https://services6.arcgis.com/Vdk8uHgdgYx8ZqS6/ArcGIS/rest/services/TaxAccountParcelsArcGISOnline/FeatureServer/0',
+         labelFields: ['Address','STREET_PFX','STREET','STREET_SFX'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Andrews Co - Parcels',
          id: 'tx-andrews-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/AndrewsMapSearch/MapServer/1',
@@ -6269,6 +6299,14 @@
          id: 'tx-angelina-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/AngelinaMapSearch/MapServer/7',
          labelFields: ['Angelina.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Anna City - Parcels',
+         id: 'tx-anna-city-parcels',
+         url: 'https://services5.arcgis.com/DvFgDXTY4DS4ZXFx/ArcGIS/rest/services/ClippedParcels/FeatureServer/0',
+         labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
          processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -6313,6 +6351,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Bee Co - Parcels',
+         id: 'tx-bee-co-parcels',
+         url: 'https://services7.arcgis.com/cPZChP7n2kRoyp30/ArcGIS/rest/services/Bee_CAD/FeatureServer/3',
+         labelFields: ['Prop_Street_Number','Prop_Street','Prop_Street_Dir'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Bell Co - Parcels',
          id: 'tx-bell-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BellMapSearch/MapServer/1',
@@ -6345,11 +6391,19 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-
         {name: 'Brown Co - Parcels',
          id: 'tx-brown-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrownMapSearch/MapServer/1',
          labelFields: ['Brown.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        {name: 'Bryan City - Parcels',
+         id: 'tx-bryan-co-parcels',
+         url: 'https://maps.bryantx.gov/arcgis/rest/services/Address/AddressManagement/MapServer/2',
+         labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -6394,6 +6448,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Carrollton City - Parcels',
+         id: 'tx-carrollton-city-parcels',
+         url: 'http://maps.cityofcarrollton.com/arcgis/rest/services/Webclstr1/BaseMap/MapServer/6',
+         labelFields: ['STR_NUM','STR_DIR','STR_NAME','STR_SUF'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Cass Co - Parcels',
          id: 'tx-cass-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/CassMapSearch/MapServer/1',
@@ -6415,6 +6477,14 @@
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/CochranMapSearch/MapServer/6',
          labelFields: ['Cochran.dbo.web_map_property.situs'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'College Station City - Buildings',
+         id: 'tx-college-station-city-buildings',
+         url: 'https://maps.cstx.gov/cstx/rest/services/College_Station_Basemap/MapServer/5',
+         labelFields: ['FULL_ADDRESS'],
+         processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6450,6 +6520,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name:  'Coppell City - Parcels',
+         id:  'tx-coppell-city-parcels',
+         url:  'https://map.coppelltx.gov/gis/rest/services/External/MapLayers/MapServer/11',
+         labelFields:  ['STREET_NUM','FULL_STREET_NAME' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name:  'Coryell Co - Parcels',
          id:  'tx-coryell-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/CoryellWeb/MapServer/0',
@@ -6474,7 +6552,7 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-		 {name: 'Dallas - City Parcels',
+        {name: 'Dallas - City Parcels',
          id: 'tx-dallas-city-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
@@ -6497,6 +6575,14 @@
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Decatur City - Parcels',
+         id:  'tx-decatur-city-parcels',
+         url:  'https://services1.arcgis.com/PLOR6Lqgjdua9pO5/arcgis/rest/services/Layers/FeatureServer/0/',
+         labelFields:  ['HOUSENUM', 'PREDIR', 'STREETNAME', 'STTYPE' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
 
         {name:  'Delta Co - Parcels',
          id:  'tx-delta-co-parcels',
@@ -6570,10 +6656,26 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-        {name: 'Fort Bend Paso Co - Address Points',
+        {name: 'Fort Bend Co - Address Points',
          id: 'tx-fort-bend-address',
          url: 'https://arcgisweb.co.fort-bend.tx.us/arcgis/rest/services/General/Address_Points/MapServer/0',
          labelFields: ['STREET_NUM','STREET_NAM','STREET_SUF'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fort Worth City - Parcels',
+         id: 'tx-fort-worth-parcels',
+         url: 'https://mapitwest.fortworthtexas.gov/ags/rest/services/FWGISData/FW_GIS_DATA/MapServer/13',
+         labelFields: ['ADDR_NO','PREFIX','STREET_NAME','STREET_TYPE','SUFFIX'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Flower Mound City - Parcels',
+         id: 'tx-flower-mound-city-parcels',
+         url: 'https://gismaps.flower-mound.com/wafmp/rest/services/Basemap/Parcels_MS/MapServer/0',
+         labelFields: ['ADDRESS_1'],
          processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -6610,6 +6712,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Garland City - Address Points',
+         id: 'tx-garland-city-address',
+         url: 'https://maps.garlandtx.gov/arcgis/rest/services/OpenData/OPENDATA_BaseLayers/MapServer/5',
+         labelFields: ['STREETNUM','STREETPREFIX','STREETNAME','STREETTYPE','STREETSUFFIX'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Gillespie Co - Parcels',
          id: 'tx-gillespie-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/GillespieMapSearch/MapServer/7',
@@ -6634,10 +6744,26 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name:  'Granbury City - Parcels',
+         id:  'tx-granbury-city-parcels',
+         url:  'https://gis.newedgeservices.com/arcgis/rest/services/Granbury/GranburyWebMap_PublicSite/MapServer/4',
+         labelFields:  ['GranburyGIS.SDE.Parcels.vm_situs' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name:  'Gray Co - Parcels',
          id:  'tx-gray-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
          labelFields:  ['GrayCad.DBO.Accounts.situs_num', 'GrayCad.DBO.Accounts.situs_street_prefx', 'GrayCad.DBO.Accounts.situs_street', 'GrayCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Grayson Co - Parcels',
+         id:  'tx-grayson-co-parcels',
+         url:  'http://maps.co.grayson.tx.us/gcgis/rest/services/Grayson/Addresses/MapServer/5',
+         labelFields:  ['SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -6693,7 +6819,15 @@
         {name:  'Hays Co - Parcels',
          id:  'tx-hays-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HaysWeb/MapServer/0',
-         labelFields:  ['HaysCad.DBO.Accounts.situs_num', 'HaysCad.DBO.Accounts.situs_street_prefx', 'HaysCad.DBO.Accounts.situs_street', 'HaysCad.DBO.Accounts.situs_street_sufix' ],
+         labelFields:  ['HaysCad.dbo.Accounts.situs_num', 'HaysCad.dbo.Accounts.situs_street_prefx', 'HaysCad.dbo.Accounts.situs_street', 'HaysCad.dbo.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+ 
+        {name:  'Highland Village City - Parcels',
+         id:  'tx-highland-village-city-parcels',
+         url:  'https://maps.highlandvillage.org/arcgis/rest/services/Maps/Basemap/MapServer/6',
+         labelFields:  ['SITUS' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -6718,6 +6852,14 @@
          id:  'tx-hunt-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HuntWeb/MapServer/0',
          labelFields:  ['HuntCad.DBO.Accounts.situs_num', 'HuntCad.DBO.Accounts.situs_street_prefx', 'HuntCad.DBO.Accounts.situs_street', 'HuntCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Irving City - Parcels',
+         id:  'tx-irving-city-parcels',
+         url:  'https://services3.arcgis.com/OfsJXUlu8pSkbl7B/ArcGIS/rest/services/CertifiedTax/FeatureServer/0',
+         labelFields:  ['STREET_NUM', 'STREET_NAM', 'STREET_SUF' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -6808,6 +6950,14 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name:  'Lancaster City - Parcels',
+         id:  'tx-lancaster-city-parcels',
+         url:  'https://services1.arcgis.com/hUry7JDhk1zQOJdo/ArcGIS/rest/services/Zoning_Webmap/FeatureServer/3',
+         labelFields:  ['SiteNum', 'SiteDir', 'SiteStreet', 'SiteSuffix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name: 'Lavaca Co - Parcels',
          id: 'tx-lavaca-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/LavacaMapSearch/MapServer/7',
@@ -6847,10 +6997,25 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Lubbock City - Address Points',
+         id: 'tx-lubbock-city-address',
+         url: 'http://ewebmap.ci.lubbock.tx.us/arcgis/rest/services/Layers/Default/MapServer/1',
+         labelFields: ['ADDR','PREFIX','STREET','STREET_TYPE'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name:  'Madison Co - Parcels',
          id:  'tx-madison-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/MadisonWeb/MapServer/0',
          labelFields:  ['MadisonCad.DBO.Accounts.situs_num', 'MadisonCad.DBO.Accounts.situs_street_prefx', 'MadisonCad.DBO.Accounts.situs_street', 'MadisonCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Mansfield City - Parcels',
+         id:  'tx-mansfield-city-parcels',
+         url:  'http://gis4.dfwmaps.com/arcgis/rest/services/ICMansfield/Mansfield_Baselayers/MapServer/4',
+         labelFields:  ['ADDRESS' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -6875,6 +7040,14 @@
          id:  'tx-mcculloch-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/McCullochWeb/MapServer/0',
          labelFields:  ['McCullochCad.DBO.Accounts.situs_num', 'McCullochCad.DBO.Accounts.situs_street_prefx', 'McCullochCad.DBO.Accounts.situs_street', 'McCullochCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'McKinney Co - Parcels',
+         id:  'tx-mckinney-co-parcels',
+         url:  'http://maps.mckinneytexas.org/mckinney/rest/services/MapServices/BaseLayers/MapServer/1',
+         labelFields:  ['SitusAdd' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -6907,6 +7080,14 @@
          id:  'tx-menard-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/MenardWeb/MapServer/0',
          labelFields:  ['MenardCad.DBO.Accounts.situs_num', 'MenardCad.DBO.Accounts.situs_street_prefx', 'MenardCad.DBO.Accounts.situs_street', 'MenardCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Midland City - Parcels',
+         id:  'tx-midland-city-parcels',
+         url:  'https://midland.newedgeservices.com/arcgis/rest/services/Cityworks/BaseMap_and_Trans/MapServer/2',
+         labelFields:  ['MidlandGIS.SDE.BM_Parcel.SITENUM', 'MidlandGIS.SDE.BM_Parcel.ADDRESS' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -6951,6 +7132,14 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name:  'North Richland Hills - Parcels',
+         id:  'tx-north-richland-hills-parcels',
+         url:  'http://gis4.dfwmaps.com/arcgis/rest/services/ICNRH/NRH_Baselayers_VE/MapServer/1',
+         labelFields:  ['Situs_Addr' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name: 'Nueces Co - Parcels',
          id: 'tx-nueces-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/NuecesMapSearch/MapServer/8',
@@ -6967,6 +7156,14 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name:  'Odessa City - Address Points',
+         id:  'tx-odessa-city-address',
+         url:  'https://gis2.odessa-tx.gov/arcgis/rest/services/Basemaps/GeneralPurposeDefaultBasemap/MapServer/3',
+         labelFields:  ['FULLADDR' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+         
         {name:  'Orange Co - Parcels',
          id:  'tx-orange-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/OrangeWeb/MapServer/0',
@@ -6983,6 +7180,14 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name:  'Pearland City - Parcels',
+         id:  'tx-pearland-city-parcels',
+         url:  'https://copgisweb.ci.pearland.tx.us/arcgis/rest/services/InteractiveMap/Parcels2017Nov/MapServer/0',
+         labelFields:  ['situs_num','situs_street_prefx','situs_street','situs_street_suffix'],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name: 'Plano - City Parcels',
          id: 'tx-plano-city-parcels',
          url: 'http://maps.planogis.org/arcgiswad/rest/services/BaseLayers/Parcels/MapServer/0',
@@ -6991,10 +7196,26 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Polk Co - Parcels',
+         {name: 'Polk Co - Parcels',
          id: 'tx-polk-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/PolkMapSearch/MapServer/8',
          labelFields: [ 'Polk.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Porter City - Parcels',
+         id: 'tx-porter-city-parcels',
+         url: 'https://services1.arcgis.com/PRoAPGnMSUqvTrzq/ArcGIS/rest/services/Tax_Parcel_Public_View/FeatureServer/0',
+         labelFields: [ 'PropertyAd' ],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Prosper City - address',
+         id: 'tx-prosper-city-address',
+         url: 'https://gis.newedgeservices.com/arcgis/rest/services/Prosper/ProsperMap/MapServer/40',
+         labelFields: [ 'STR_NUMBER' , 'STR_DIRECTION', 'STR_NAME', 'STR_SUFFIX'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -7039,7 +7260,24 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'SanJacinto Co - Parcels',
+// Rowlett has no shape data in the GIS Parcels         
+//        {name: 'Rowlett City - Parcels',
+//         id: 'tx-rowlett-city-parcels',
+//         url: 'http://emap.rowlett.com/arcgis/rest/services/BaseMap/Basemap/MapServer/8',
+//         labelFields: ['STR_NUM','STR_NAME','STR_TYPE'],
+//         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+//         state: 'TX',
+//         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Antonio City - Parcels',
+         id: 'tx-sanantonio-city-parcels',
+         url: 'https://qagis1.sanantonio.gov/ArcGIS/rest/services/BrowseSAOperationalLayers/MapServer/1',
+         labelFields: [ 'Address' ],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Jacinto Co - Parcels',
          id: 'tx-sanjacinto-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/SanJacintoMapSearch/MapServer/7',
          labelFields: [ 'SanJacinto.dbo.web_map_property.situs' ],
@@ -7075,6 +7313,14 @@
          id: 'tx-shelby-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ShelbyMapSearch/MapServer/7',
          labelFields: [ 'Shelby.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sherman City - Parcels',
+         id: 'tx-sherman-city-parcels',
+         url: 'http://maps.ci.sherman.tx.us/arcgis/rest/services/ParcelPublishing/MapServer/8',
+         labelFields: [ 'SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -7119,6 +7365,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name:  'Temple City - Parcels',
+         id:  'tx-temple-city-parcels',
+         url:  'https://arcgiswap01.ci.temple.tx.us/arcgis/rest/services/Services/Parcels/FeatureServer/0',
+         labelFields:  ['PRIMARY_ADD' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name:  'Terrell Co - Parcels',
          id:  'tx-terrell-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/TerrellWeb/MapServer/0',
@@ -7131,6 +7385,14 @@
          id:  'tx-titus-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/TitusWeb/MapServer/0',
          labelFields:  ['TitusCad.DBO.Accounts.situs_num', 'TitusCad.DBO.Accounts.situs_street_prefx', 'TitusCad.DBO.Accounts.situs_street', 'TitusCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Travis Co - Parcels',
+         id:  'tx-travis-co-parcels',
+         url:  'http://propaccess.traviscad.org/arcgis/rest/services/TravisMapSearch/MapServer/8',
+         labelFields:  ['GIS_Data.dbo.web_map_property.situs' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -7223,6 +7485,22 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name: 'Waxahachie City - Parcels',
+         id: 'tx-waxahachie-city-parcels',
+         url: 'http://arcgis.waxahachie.com/arcgis/rest/services/CityofWaxahachieMainInteractiveMap/MapServer/21',
+         labelFields: [ 'situs_num' ,'situs_stre', 'situs_st_1', 'situs_st_2'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+         
+        {name: 'Weatherford City - Address Points',
+         id: 'tx-weatherford-city-address',
+         url: 'https://gis.weatherfordtx.gov/arcgis/rest/services/Public_Basemap/MapServer/0',
+         labelFields: [ 'ADD_FULLNAME'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+         
         {name: 'Webb Co - Parcels',
          id: 'tx-webb-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WebbMapSearch/MapServer/7',
@@ -7238,6 +7516,14 @@
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Wichita Co - Parcels',
+         id: 'tx-wichita-co-parcels',
+         url: 'https://propaccess.wadtx.com/arcgis/rest/services/WichitaMapSearch/MapServer/7',
+         labelFields: ['GISData.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Williamson Co - Address Points',
          id: 'tx-williamson-co-address',
@@ -7259,14 +7545,6 @@
          id: 'tx-winkler-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WinklerMapSearch/MapServer/7',
          labelFields: [ 'Winkler.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
-         state: 'TX',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Wichita Co - Parcels',
-         id: 'tx-wichita-co-parcels',
-         url: 'https://propaccess.wadtx.com/arcgis/rest/services/WichitaMapSearch/MapServer/7',
-         labelFields: ['GISData.dbo.web_map_property.situs'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -7295,7 +7573,15 @@
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-		 {name: 'Zavala Co - Parcels',
+        {name: 'Zapata Co - Parcels',
+         id: 'tx-zapata-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZapataMapSearch/MapServer/1',
+         labelFields: [ 'Zapata.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Zavala Co - Parcels',
          id: 'tx-zavala-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZavalaMapSearch/MapServer/6',
          labelFields: [ 'Zavala.dbo.web_map_property.situs' ],
