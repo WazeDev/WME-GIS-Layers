@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.12.001
+// @version      2018.03.12.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1521,7 +1521,7 @@
          id: 'fl-st-johns-co-parcels',
          url: 'http://www.gis.bocc.co.st-johns.fl.us/sjcgis/rest/services/Parcel/MapServer/0',
          where: "USE_CODE NOT IN('0900','8600','8700','8800','8900','9400') AND USE_CODE IS NOT NULL",
-         labelFields: ['USE_CODE','PRP_ADDR'],
+         labelFields: ['PRP_ADDR'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
