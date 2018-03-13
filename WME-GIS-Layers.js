@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.10.002
+// @version      2018.03.12.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1520,7 +1520,8 @@
         {name: 'St. Johns Co - Parcels',
          id: 'fl-st-johns-co-parcels',
          url: 'http://www.gis.bocc.co.st-johns.fl.us/sjcgis/rest/services/Parcel/MapServer/0',
-         labelFields: ['PRP_ADDR'],
+         where: "USE_CODE NOT IN('0900','8600','8700','8800','8900','9400') AND USE_CODE IS NOT NULL",
+         labelFields: ['USE_CODE','PRP_ADDR'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7164,7 +7165,7 @@
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
-         
+
         {name:  'Orange Co - Parcels',
          id:  'tx-orange-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/OrangeWeb/MapServer/0',
@@ -7261,7 +7262,7 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-// Rowlett has no shape data in the GIS Parcels         
+// Rowlett has no shape data in the GIS Parcels
 //        {name: 'Rowlett City - Parcels',
 //         id: 'tx-rowlett-city-parcels',
 //         url: 'http://emap.rowlett.com/arcgis/rest/services/BaseMap/Basemap/MapServer/8',
@@ -7493,7 +7494,7 @@
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
-         
+
         {name: 'Weatherford City - Address Points',
          id: 'tx-weatherford-city-address',
          url: 'https://gis.weatherfordtx.gov/arcgis/rest/services/Public_Basemap/MapServer/0',
@@ -7501,7 +7502,7 @@
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
-         
+
         {name: 'Webb Co - Parcels',
          id: 'tx-webb-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WebbMapSearch/MapServer/7',
