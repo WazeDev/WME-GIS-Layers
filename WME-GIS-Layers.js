@@ -6770,8 +6770,8 @@
 
         {name: 'Gregg Co - Parcels',
          id: 'tx-gregg-co-parcels',
-         url: 'https://webmap.trueautomation.com/arcgis/rest/services/GreggMapSearch/MapServer/7',
-         labelFields: ['Gregg.dbo.web_map_property.situs'],
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/GreggWeb/MapServer/0/',
+         labelFields: ['GreggCad.dbo.Accounts.situs_num','GreggCad.dbo.Accounts.situs_street_prefx','GreggCad.dbo.Accounts.situs_street','GreggCad.dbo.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
