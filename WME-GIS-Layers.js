@@ -393,6 +393,7 @@
 // @connect      dfwmaps.com
 // @connect      maps.cityofcarrollton.com
 // @connect      emap.rowlett.com
+// @connect      cloud.longviewtexas.gov
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -6986,6 +6987,14 @@
          id:  'tx-live oak-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/Live OakWeb/MapServer/0',
          labelFields:  ['Live OakCad.DBO.Accounts.situs_num', 'Live OakCad.DBO.Accounts.situs_street_prefx', 'Live OakCad.DBO.Accounts.situs_street', 'Live OakCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Longview City - Address Points',
+         id:  'tx-longview-city-address',
+         url:  'https://cloud.longviewtexas.gov/arcgis/rest/services/WebMaps/WebMapServices/MapServer/3',
+         labelFields:  ['STREET_NUM','DIR','STREET','TYPE' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
