@@ -394,6 +394,7 @@
 // @connect      maps.cityofcarrollton.com
 // @connect      emap.rowlett.com
 // @connect      cloud.longviewtexas.gov
+// @connect      gis.pandai.com
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -7481,7 +7482,7 @@
 
         {name: 'Waller Co - Parcels',
          id: 'tx-waller-co-parcels',
-         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WallerMapSearch/MapServer/0',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WallerMapSearch/MapServer/1',
          labelFields: [ 'Waller.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
@@ -7490,7 +7491,7 @@
         {name:  'Washington Co - Parcels',
          id:  'tx-washington-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/WashingtonWeb/MapServer/0',
-         labelFields:  ['WashingtonCad.DBO.OriginalAccounts.situs_num', 'WashingtonCad.DBO.OriginalAccounts.situs_street_prefx', 'WashingtonCad.DBO.OriginalAccounts.situs_street', 'WashingtonCad.DBO.OriginalAccounts.situs_street_sufix' ],
+         labelFields:  ['WashingtonCad.DBO.OriginalAccounts.Situs_Address' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
