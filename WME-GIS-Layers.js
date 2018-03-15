@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.14.001
+// @version      2018.03.14.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -254,6 +254,8 @@
 // @connect      dogis.org
 // @connect      lincoln.ne.gov
 // @connect      sarpy.com
+// -- NJ --
+// @connect      nj.us
 // -- NV --
 // @connect      washoecounty.us
 // @connect      perryco.org
@@ -305,6 +307,8 @@
 // @connect      starkcountyohio.gov
 // @connect      summitoh.net
 // @connect      tgisites.com
+// -- OK --
+// @connect      incog.org
 // -- PA --
 // @connect      pa.us
 // @connect      adamscounty.us
@@ -3923,6 +3927,7 @@
          labelFields: [],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Jackson Co - Address Points',
          id: 'mo-jackson-co-points',
          url: 'http://arcgisweb.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/0',
@@ -3939,8 +3944,8 @@
 
         {name: 'Jefferson Co - Parcels',
          id: 'mo-jefferson-co-parcels',
-         url: 'http://www.semogis.com/arcgis/rest/services/JeffersonLayers/MapServer/7',
-         labelFields: ['Site_Address'],
+         url: 'https://services1.arcgis.com/Sfc8glAOQGBwsYa4/ArcGIS/rest/services/Property/FeatureServer/2',
+         labelFields: ['site_street_number','site_street_name','site_pst_direction'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4278,6 +4283,24 @@
          labelFields: ['STREETNUM','STREETDIR','STREET'],
          processLabel: function(label) { return label.replace(/^0\s?/,''); },
          state: 'NV',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // New Jersey
+        // ************************************
+
+        {name: 'State - Address Points',
+         id: 'nj-state-points',
+         url: 'http://geodata.state.nj.us/arcgis/rest/services/Features/Addresses_and_Names/MapServer/0',
+         labelFields: ['STREET_ADDR'],
+         state: 'NJ',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'State - Parcels',
+         id: 'nj-state-parcels',
+         url: 'http://geodata.state.nj.us/arcgis/rest/services/Applications/NJ_TaxListSearch/MapServer/2',
+         labelFields: ['PROP_LOC'],
+         state: 'NJ',
          style: DEFAULT_PARCEL_STYLE},
 
 
@@ -5194,6 +5217,59 @@
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
+
+        // Oklahoma
+        // **********************************
+
+        {name: 'Delaware Co - Parcels',
+         id: 'ok-delaware-co-parcels',
+         url: 'https://services.arcgis.com/bmlPdrfZm3kfidAc/ArcGIS/rest/services/ParcelS/FeatureServer/0',
+         where: "Nbhd <> ''",
+         labelFields: ['Situs'],
+         processLabel: function(label) { return label.replace(/^0+/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tulsa Co - Parcels',
+         id: 'ok-Tulsa-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsTULSA_all/MapServer/0',
+         where: "PAR_TYPE = 'PARCEL'",
+         labelFields: ['PROP_ADD'],
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Creek Co - Parcels',
+         id: 'ok-Creek-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsCREEK_all/MapServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS] )?(\d+)$/,'$3 $2$1').replace(/^0+/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Osage Co - Parcels',
+         id: 'ok-Osage-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsOSAGE/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^0+/,'').replace(/\\/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rogers Co - Parcels',
+         id: 'ok-Rogers-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsROGERS/MapServer/0',
+         where: "CAMA<>''",
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^0+/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wagoner Co - Parcels',
+         id: 'ok-Wagoner-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsWAGONER/FeatureServer/0',
+         labelFields: ['Situs'],
+         processLabel: function(label) { return label.replace(/^0+/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Pennsylvania
         // **********************************
