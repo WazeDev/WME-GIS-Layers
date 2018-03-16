@@ -319,6 +319,7 @@
 // @connect      tgisites.com
 // -- OK --
 // @connect      incog.org
+// @connect      arcgis4.roktech.net
 // -- PA --
 // @connect      pa.us
 // @connect      adamscounty.us
@@ -410,6 +411,7 @@
 // @connect      emap.rowlett.com
 // @connect      cloud.longviewtexas.gov
 // @connect      gis.pandai.com
+// @connect      gis.gptx.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -2990,7 +2992,7 @@
          style: DEFAULT_PT_STYLE},
 
 
-                // Louisiana
+        // Louisiana
         // ************************************
 
         {name: 'Assumption Parish - Address Points',
@@ -5486,9 +5488,16 @@
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
-
         // Oklahoma
         // **********************************
+
+        {name: 'ACOG Counties - OKC Area',
+         id: 'ok-acog-cos-parcels',
+         url: 'https://arcgis4.roktech.net/arcgis/rest/services/ACOG/acog_query/MapServer/16',
+         labelFields: ['PARCEL_ADDRESS'],
+         processLabel: function(label) { return label.replace(/^0+/, ''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Delaware Co - Parcels',
          id: 'ok-delaware-co-parcels',
@@ -7097,6 +7106,14 @@
          id:  'tx-granbury-city-parcels',
          url:  'https://gis.newedgeservices.com/arcgis/rest/services/Granbury/GranburyWebMap_PublicSite/MapServer/4',
          labelFields:  ['GranburyGIS.SDE.Parcels.vm_situs' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Grand Prairie City - Parcels',
+         id:  'tx-grandprairie-city-parcels',
+         url:  'https://gis.gptx.org/srv103/rest/services/Maps/BaseMap/MapServer/15',
+         labelFields:  ['STR_NUM', 'STR_NAME', 'STR_TYPE' ],
          processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
