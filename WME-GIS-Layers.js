@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.15.001
+// @version      2018.03.15.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -123,6 +123,12 @@
 // @connect      clearwatercounty.org
 // @connect      rexburg.org
 // @connect      kcgov.us
+// -- IL --
+// @connect      cookcountyil.gov
+// @connect      dupageco.org
+// @connect      lakecountyil.gov
+// @connect      il.us
+// @connect      willcogis.org
 // -- IN --
 // @connect      in.gov
 // -- KS --
@@ -2145,6 +2151,81 @@
          labelFields: ['SitusAddre'],
          state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // Illinois
+        // ************************************
+
+        {name: 'Cook Co - Parcels',
+         id: 'il-cook-co-parcels',
+         url: 'https://gis1.cookcountyil.gov/arcgis/rest/services/cookVwrDynmc/MapServer/44',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cook Co - Address Points',
+         id: 'il-cook-co-pts',
+         url: 'https://gis1.cookcountyil.gov/arcgis/rest/services/cookVwrDynmc/MapServer/62',
+         labelFields: ['CMPADDABRV'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'DuPage Co - Parcels',
+         id: 'il-dupage-co-parcels',
+         url: 'http://gis.dupageco.org/arcgis/rest/services/DuPage_County_IL/ParcelsWithRealEstateCC/MapServer/0',
+         labelFields: ['PROPADDRL1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Address Points',
+         id: 'il-lake-co-pts',
+         url: 'https://maps.lakecountyil.gov/arcgis/rest/services/GISMapping/WABAddress/MapServer/0',
+         labelFields: ['FRG_PREDIR','FRG_HOUSE','FRG_STREET','FRG_SUFFIX'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Peoria Co - Address Points',
+         id: 'il-peoria-co-pts',
+         url: 'https://services.arcgis.com/iPiPjILCMYxPZWTc/arcgis/rest/services/Addresses/FeatureServer/0',
+         labelFields: ['CombinedAddress'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Peoria Co - Parcels (no labels)',
+         id: 'il-peoria-co-parcels-2',
+         url: 'https://services.arcgis.com/iPiPjILCMYxPZWTc/ArcGIS/rest/services/Tax_Parcels/FeatureServer/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // 2018-03-15 (mapomatic) This service seems to have stopped working for some reason.
+        // {name: 'Peoria Co - Parcels',
+        //  id: 'il-peoria-co-parcels',
+        //  url: 'https://gis.peoriacounty.org/arcgis/rest/services/DP/LandRecords/MapServer/27',
+        //  labelFields: ['prop_street'],
+        //  state: 'IL',
+        //  style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St. Clair Co - Parcels',
+         id: 'il-stclair-co-parcels',
+         url: 'http://publicmap.co.st-clair.il.us/gissvr7/rest/services/parcel_map_data/MapServer/29',
+         labelFields: ['SITEADR1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Will Co - Parcels',
+         id: 'il-will-co-parcels',
+         url: 'http://apps.willcogis.org/arcgis/rest/services/BasemapLayers/ParcelsLY_Dynamic/MapServer/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Will Co - Address Points',
+         id: 'il-will-co-pts',
+         url: 'http://apps.willcogis.org/arcgis/rest/services/BasemapLayers/AddressPoints/MapServer/0',
+         labelFields: ['gisedit.DBO.Address_Points.HOUSENUMBE','gisedit.DBO.Address_Points.PREFIXDIRE','gisedit.DBO.Address_Points.STREETNAME','gisedit.DBO.Address_Points.SUFFIXTYPE'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
 
 
         // Indiana
