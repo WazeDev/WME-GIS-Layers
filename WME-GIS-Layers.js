@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.14.002
+// @version      2018.03.15.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -156,12 +156,16 @@
 // @connect      arcgis.com
 // @connect      hendersonky.us
 // @connect      161.6.109.206
+// -- LA --
+// @connect      nola.gov
+// @connect      geoportalmaps.com
 // -- MA --
 // @connect      ma.us
 // @connect      cityofboston.gov
 // -- MD --
 // @connect      md.gov
 // @connect      baltimorecountymd.gov
+// @connect      pgatlas.com
 // -- MI --
 // @connect      kentcountymi.gov
 // @connect      emmetcounty.org
@@ -2905,6 +2909,121 @@
          style: DEFAULT_PT_STYLE},
 
 
+                // Louisiana
+        // ************************************
+
+        {name: 'Assumption Parish - Address Points',
+         id: 'la-assumption-pa-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Assumption_Services/MapServer/27',
+         labelFields: ['ADNUMCOMP','STCOMP'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Assumption Parish - Parcels and Addresses',
+         id: 'la-assumption-pa-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Assumption_Services/MapServer/26',
+         labelFields: ['Address_Number','Street_Name'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Avoyelles Parish - Parcels and Addresses',
+         id: 'la-avoyelles-pa-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Avoyelles_Services/MapServer/10',
+         labelFields: ['Address'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Beauregard Parish - Parcels and Addresses',
+         id: 'la-beauregard-pa-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Beauregard_Services/MapServer/12',
+         labelFields: ['Address_Nu','Street_Dir', 'Street_Nam'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Catahoula Parish - Parcels and Addresses',
+         id: 'la-catahoula-pa-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Catahoula_Services/MapServer/1',
+         labelFields: ['par_address'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Claiborne Parish - Address Points',
+         id: 'la-claiborne-pa-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Claiborne_Services/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Claiborne Parish - Parcels and Addresses',
+         id: 'la-claiborne-pa-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Claiborne_Services/MapServer/2',
+         labelFields: ['ADDRESS_NU','STREET_DIR','STREET_NAM'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Concordia Parish - Address Points',
+         id: 'la-concordia-pa-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Concordia_Service/MapServer/0',
+         labelFields: ['ADDRESS'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Concordia Parish - Parcels and Addresses',
+         id: 'la-concordia-pa-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Concordia_Service/MapServer/4',
+         labelFields: ['Address_Number','Street_Direction','Street_Name'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Covington - Parcels 1',
+         id: 'la-covington-parcels-1',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Covington_Services/MapServer/2',
+         labelFields: ['prop_number','prop_street'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Covington - Parcels 2',
+         id: 'la-covington-parcels-2',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Covington_Services/MapServer/3',
+         labelFields: ['COMP_ADD'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Minden - Address Points',
+         id: 'la-minden-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Minden_Parcels/MapServer/0',
+         labelFields: ['FULLADD'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Minden - Parcels and Addresses',
+         id: 'la-minden-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Minden_Parcels/MapServer/8',
+         labelFields: ['Address_Nu','Street_Nam'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Orleans - Parcels and Addresses',
+         id: 'la-neworleans-parcels-and-points',
+         url: 'https://gis.nola.gov/arcgis/rest/services/GovernmentServices/PlanningServices/MapServer/1',
+         labelFields: ['SITUS_NUM','SITUS_DIR','SITUS_STREET','SITUS_TYPE'],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+
         // Maryland
         // ************************************
 
@@ -2934,6 +3053,34 @@
          id: 'md-baltimore-county-points',
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Facilities/Address/MapServer/0',
          labelFields: ['ADDRLABEL'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Frederick Co - Parcels',
+         id: 'md-frederick-county-parcels',
+         url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/BaseMap_Tiled/Parcels_Tiled/MapServer/0',
+         labelFields: [],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Frederick Co - Address Points',
+         id: 'md-frederick-county-points',
+         url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/Planning/AddressLabels/MapServer/1',
+         labelFields: ['NUM_FULL','ST_FULL'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Prince Georges Co - Parcels',
+         id: 'md-princegeorges-county-parcels',
+         url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/69',
+         labelFields: [''],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Prince Georges Co - Address Points',
+         id: 'md-princegeorges-county-points',
+         url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/0',
+         labelFields: ['COMPLETE_ADDRESS_NUMBER','COMPLETE_STREET_NAME'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
@@ -3665,6 +3812,39 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Adams Co - Parcels and Addresses',
+         id: 'ms-adams-co-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/AdamsCo_Services/MapServer/25',
+         labelFields: ['StreetNumber','StreetName'],
+         where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bay Saint Louis - Address Points',
+         id: 'ms-baysaintlouis-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/BaySaintLouis_Services/MapServer/0',
+         labelFields: ['FULLADD'],
+         where: [''],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bay Saint Louis - Parcels',
+         id: 'ms-baysaintlouis-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/BaySaintLouis_Services/MapServer/25',
+         labelFields: [''],
+         where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Biloxi - Parcels and Addresses',
+         id: 'ms-biloxi-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
+         labelFields: ['STNUM','DIR','ST_NAME'],
+         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Copiah Co - Address Points',
          id: 'ms-Copiah-co-pts',
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CopiahLabelTest/FeatureServer/1',
@@ -3683,6 +3863,14 @@
          id: 'ms-de-soto-co-parcel',
          url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/25',
          labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hancock Co - Parcels and Addresses',
+         id: 'ms-hancock-co-parcels-and-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Hancock_Parcels/MapServer/0',
+         labelFields: ['ADDRESS'],
+         where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
