@@ -7290,6 +7290,14 @@
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Cooke Co - Parcels',
+         id: 'tx-coookie-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
+         labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name:  'Coppell City - Parcels',
          id:  'tx-coppell-city-parcels',
          url:  'https://map.coppelltx.gov/gis/rest/services/External/MapLayers/MapServer/11',
