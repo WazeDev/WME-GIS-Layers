@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.15.002
+// @version      2018.03.16.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -165,6 +165,7 @@
 // -- LA --
 // @connect      nola.gov
 // @connect      geoportalmaps.com
+// @connect      jeffparish.net
 // -- MA --
 // @connect      ma.us
 // @connect      cityofboston.gov
@@ -319,7 +320,7 @@
 // @connect      tgisites.com
 // -- OK --
 // @connect      incog.org
-// @connect      arcgis4.roktech.net
+// @connect      roktech.net
 // -- PA --
 // @connect      pa.us
 // @connect      adamscounty.us
@@ -535,7 +536,7 @@
         // Alabama
         // ************************************
 
-        {name: 'Autauga Co - Parcels NO DATA',
+        {name: 'Autauga Co - Parcels (no labels)',
          id: 'al-autauga-co-parcels',
          url: 'http://emapsplus.com/arcgis/rest/services/Alabama/AutaugaEmaps/MapServer/0',
          labelFields: [''],
@@ -556,7 +557,7 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Blount Co - Parcels (NO DATA)',
+        {name: 'Blount Co - Parcels (no labels)',
          id: 'al-blount-co-parcels',
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Blount/Public/MapServer/32',
          labelFields: [''],
@@ -640,7 +641,7 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Madison Co - Parcels NO DATA',
+        {name: 'Madison Co - Parcels (no labels)',
          id: 'al-madison-co-parcels',
          url: 'http://emapsplus.com/arcgis/rest/services/Alabama/MadisonEmapsDMO/MapServer/0',
          labelFields: [''],
@@ -711,7 +712,7 @@
          state: 'AL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Shelby Co - Parcels (NO DATA)',
+        {name: 'Shelby Co - Parcels (no labels)',
          id: 'al-shelby-co-parcels',
          url: 'https://maps.shelbyal.com/arcgis/rest/services/ShelbyALBaseMap/MapServer/18',
          labelFields: [''],
@@ -746,7 +747,7 @@
          state: 'AL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Tuscaloosa - City Parcels NO DATA',
+        {name: 'Tuscaloosa - City Parcels (no labels)',
          id: 'al-tuscaloosa-city-parcels',
          url: 'http://tuscgis.tuscaloosa-al.gov/arcgis/rest/services/Parcels_WGS/MapServer/0',
          labelFields: [],
@@ -804,7 +805,7 @@
          state: 'AK',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Fairbanks North Star - Parcels (NO DATA)',
+        {name: 'Fairbanks North Star - Parcels (no labels)',
          id: 'ak-Fairbanks-North-Star-bor-parcels',
          url: 'https://gis.fnsb.us/arcgis/rest/services/FNSB_PUBLIC/Parcels_FNSB/MapServer/0',
          labelFields: [],
@@ -812,7 +813,7 @@
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Haines - Parcels (NO DATA)',
+        {name: 'Haines - Parcels (no labels)',
          id: 'ak-Haines-bor-parcels',
          url: 'https://services3.arcgis.com/pMlUMMROURtJLUZt/ArcGIS/rest/services/Haines_Parcels_01212018/FeatureServer/0',
          labelFields: [''],
@@ -884,7 +885,7 @@
          state: 'AK',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Matanuska-Susitna - Parcels (NO DATA)',
+        {name: 'Matanuska-Susitna - Parcels (no labels)',
          id: 'ak-matsu-bor-parcels',
          url: 'http://maps.matsugov.us/arcgis/rest/services/Open_Data/Cadastral_Parcels/MapServer/0',
          labelFields: [],
@@ -892,7 +893,7 @@
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Wrangell - Parcels (NO DATA)',
+        {name: 'Wrangell - Parcels (no labels)',
          id: 'ak-Wrangell-bor-parcels',
          url: 'https://services7.arcgis.com/7cBSaoaaRaH5ojZy/arcgis/rest/services/Parcels/FeatureServer/0',
          labelFields: [''],
@@ -900,7 +901,7 @@
          state: 'AK',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Yakutat - Parcels (NO DATA)',
+        {name: 'Yakutat - Parcels (no labels)',
          id: 'ak-Yakutat-bor-parcels',
          url: 'https://services2.arcgis.com/gRKiTtxkoTx0gERB/ArcGIS/rest/services/ParcelsOnline20170915/FeatureServer/0',
          labelFields: [''],
@@ -1264,7 +1265,7 @@
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Highlands Co - Parcels NO DATA',
+        {name: 'Highlands Co - Parcels (no labels)',
          id: 'fl-highlands-co-parcels',
          url: 'http://gis1.hcpao.org/arcgiscv/rest/services/HighlandsCounty_Parcels/MapServer/0',
          labelFields: [''],
@@ -1393,7 +1394,7 @@
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Okaloosa Co - Parcels NO DATA',
+        {name: 'Okaloosa Co - Parcels (no labels)',
          id: 'fl-okaloosa-co-parcels',
          url: 'http://webgis.okaloosafl.com/webgis/proxy/proxy.ashx?http://204.49.20.72/arcgis/rest/services/internet_webgis/MapServer/15',
          labelFields: ['PATPCL_ADDR3'],
@@ -1470,7 +1471,7 @@
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Polk Co - Parcels NO DATA',
+        {name: 'Polk Co - Parcels (no labels)',
          id: 'fl-polk-co-parcels',
          url: 'http://map.polkpa.org/proxy.ashx?http://gisapp/ArcGIS/rest/services/WebSite/ps911_Addresses_gissde/MapServer/21',
          labelFields: [''],
@@ -1507,7 +1508,7 @@
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Sarasota Co - Parcels NO DATA',
+        {name: 'Sarasota Co - Parcels (no labels)',
          id: 'fl-sarasota-co-parcels',
          url: 'https://ags2.scgov.net/arcgis/rest/services/SCPA/WAB_Labels/MapServer/0',
          labelFields: [''],
@@ -1587,7 +1588,7 @@
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'W Palm Beach Co - Parcels NO DATA',
+        {name: 'W Palm Beach Co - Parcels (no labels)',
          id: 'fl-wpalm-beach-co-parcels',
          url: 'http://maps.co.palm-beach.fl.us/arcgis/rest/services/Parcels/labels/MapServer/0',
          labelFields: [''],
@@ -1626,7 +1627,7 @@
          state: 'GA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Brookhaven - City Parcels NO DATA',
+        {name: 'Brookhaven - City Parcels (no labels)',
          id: 'ga-brookhaven-city-parcels',
          url: 'https://gis.brookhavenga.gov/arcgis/rest/services/basemap/MapServer/1',
          labelFields: ['SITEADDRESS'],
@@ -1768,7 +1769,7 @@
          state: 'GA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Gwinnett Co - Parcels (NO DATA)',
+        {name: 'Gwinnett Co - Parcels (no labels)',
          id: 'ga-gwinnett-co-parcels',
          url: 'https://gis.thomsonreuters.com/arcgis/rest/services/GwinnettGa/GwinnettGaDynamic2/MapServer/0',
          labelFields: ['PIN'],
@@ -1796,7 +1797,7 @@
          state: 'GA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Paulding Co - Parcels (NO DATA)',
+        {name: 'Paulding Co - Parcels (no labels)',
          id: 'ga-paulding-co-parcels',
          url: 'https://arcgis4.roktech.net/arcgis/rest/services/Paulding/GoMaps4/MapServer/36',
          labelFields: [''],
@@ -1845,7 +1846,7 @@
          state: 'GA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Whitfield Co - Parcels NO DATA',
+        {name: 'Whitfield Co - Parcels (no labels)',
          id: 'ga-whitfield-co-parcels',
          url: 'http://gis.whitfieldcountyga.com/arcgis/rest/services/Addressing/MapServer/9',
          labelFields: [''],
@@ -1858,7 +1859,7 @@
 
         // County GIS's are Qpublic.net GIS system, layers data not available. found statewide parcel layer, but no address label. Label qpub_link does have a direct
         // link to Qpublic data to open parcel information on new window ( for future option if possible ).
-        {name: 'State - Parcels NO DATA',
+        {name: 'State - Parcels (no labels)',
          id: 'hi-hawaii-parcels',
          url: 'http://geodata.hawaii.gov/arcgis/rest/services/EnerGIS/EnerGIS_table/MapServer/0',
          labelFields: [''],
@@ -1872,7 +1873,7 @@
          state: 'HI',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Honolulu Co - Parcels NO DATA',
+        {name: 'Honolulu Co - Parcels (no labels)',
          id: 'hi-honolulu-co-parcels',
          url: 'http://webserverholis.honolulugis.org/arcgis/rest/services/Public/Cadastral/MapServer/1',
          labelFields: [''],
@@ -2000,7 +2001,7 @@
          state: 'ID',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Camas Co - Parcels NO DATA',
+        {name: 'Camas Co - Parcels (no labels)',
          id: 'id-camas-co-parcels',
          url: 'https://gis2.idaho.gov/arcgis/rest/services/ADM/Parcels/MapServer/5',
          labelFields: [''],
@@ -2028,7 +2029,7 @@
          state: 'ID',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Caribou Co - Parcels NO DATA',
+        {name: 'Caribou Co - Parcels (no labels)',
          id: 'id-caribou-co-parcels',
          url: 'https://services2.arcgis.com/zPp6uY3zIswPu2kP/arcgis/rest/services/Parcel/FeatureServer/0',
          labelFields: [''],
@@ -2244,7 +2245,7 @@
         // Iowa
         // ************************************
 
-        {name: 'Adair Co - Parcels (NO DATA)',
+        {name: 'Adair Co - Parcels (no labels)',
          id: 'ia-adair-co-parcels',
          url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Adair/MapServer/3',
          labelFields: ['PID'],
@@ -2279,7 +2280,7 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Clay Co - Parcels (NO DATA)',
+        {name: 'Clay Co - Parcels (no labels)',
          id: 'ia-clay-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/ClayIAFeatures/FeatureServer/3',
          labelFields: ['TSC_Parcel_Number'],
@@ -2294,7 +2295,7 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Dallas Co - Parcels (NO DATA)',
+        {name: 'Dallas Co - Parcels (no labels)',
          id: 'ia-dallas-co-parcels',
          url: 'http://216.81.174.57/arcgis/rest/services/Live/ParcelPoly931NI_Live/MapServer/46',
          labelFields: ['PIN'],
@@ -2315,7 +2316,7 @@
          state: 'IA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Des Moines - City Parcels (NO DATA)',
+        {name: 'Des Moines - City Parcels (no labels)',
          id: 'ia-des-moines-city-parcels',
          url: 'http://maps.dmgov.org/arcgis/rest/services/External/EXTDynamicAddressLookUp/MapServer/25',
          labelFields: [''],
@@ -2329,7 +2330,7 @@
          state: 'IA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'W Des Moines - City Parcels (NO DATA)',
+        {name: 'W Des Moines - City Parcels (no labels)',
          id: 'ia-w-des-moines-city-parcels',
          url: 'http://maps.wdm.iowa.gov/arcgis/rest/services/Geocortex/reader_land/MapServer/1',
          labelFields: [''],
@@ -2358,7 +2359,7 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Greene Co - Parcels (NO DATA)',
+        {name: 'Greene Co - Parcels (no labels)',
          id: 'ia-greene-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/GreeneIAFeatures/FeatureServer/5',
          labelFields: ['TSC_Parcel_Number'],
@@ -2430,7 +2431,7 @@
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Mitchell Co - Parcels NO DATA',
+        {name: 'Mitchell Co - Parcels (no labels)',
          id: 'ia-mitchell-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MitchellIAFeatures/FeatureServer/3',
          labelFields: ['TSC_Parcel_Number'],
@@ -2534,7 +2535,7 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Cowley Co - Parcels (NO DATA)',
+        {name: 'Cowley Co - Parcels (no labels)',
          id: 'ks-cowley-co-Parcels',
          url: 'https://gis.cowleycounty.org/clserver/rest/services/Public_Layers/CL_General/MapServer/0',
          labelFields: [''],
@@ -2608,7 +2609,7 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Harvey Co - Parcels (NO DATA)',
+        {name: 'Harvey Co - Parcels (no labels)',
          id: 'ks-harvey-co-Parcels',
          url: 'https://gis.thomsonreuters.com/arcgis/rest/services/HarveyKs/HarveyKsDynamic/MapServer/0',
          labelFields: [''],
@@ -2622,7 +2623,7 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Jefferson Co - Parcels (NO DATA)',
+        {name: 'Jefferson Co - Parcels (no labels)',
          id: 'ks-jefferson-co-Parcels',
          url: 'https://gis.thomsonreuters.com/arcgis/rest/services/JeffersonKs/JeffersonKsDynamic/MapServer/0',
          labelFields: [''],
@@ -2650,7 +2651,7 @@
          state: 'KS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Pottawatomie Co - Parcels (NO DATA)',
+        {name: 'Pottawatomie Co - Parcels (no labels)',
          id: 'ks-pottawatomie-co-Parcels',
          url: 'http://www2.pottcounty.org/arcgis2/rest/services/ParcelsAll/MapServer/0',
          labelFields: [''],
@@ -2701,14 +2702,14 @@
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Summer Co - Parcels (NO DATA)',
+        {name: 'Summer Co - Parcels (no labels)',
          id: 'ks-summer-co-Parcels',
          url: 'https://gis.thomsonreuters.com/arcgis/rest/services/SumnerKs/SumnerKsDynamic/MapServer/0',
          labelFields: [],
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Wyandotte Co - Parcels (NO DATA)',
+        {name: 'Wyandotte Co - Parcels (no labels)',
          id: 'ks-wyandotte-co-Parcels',
          url: 'https://arcgis.wycokck.org/mapserv/rest/services/parcels/MapServer/0',
          labelFields: [],
@@ -2995,40 +2996,40 @@
         // Louisiana
         // ************************************
 
-        {name: 'Assumption Parish - Address Points',
-         id: 'la-assumption-pa-points',
+        {name: 'Assumption Parish - Address points',
+         id: 'la-assumption-parish-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Assumption_Services/MapServer/27',
          labelFields: ['ADNUMCOMP','STCOMP'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Assumption Parish - Parcels and Addresses',
-         id: 'la-assumption-pa-parcels-and-points',
+        {name: 'Assumption Parish - Parcels',
+         id: 'la-assumption-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Assumption_Services/MapServer/26',
          labelFields: ['Address_Number','Street_Name'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Avoyelles Parish - Parcels and Addresses',
-         id: 'la-avoyelles-pa-parcels-and-points',
+        {name: 'Avoyelles Parish - Parcels',
+         id: 'la-avoyelles-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Avoyelles_Services/MapServer/10',
          labelFields: ['Address'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Beauregard Parish - Parcels and Addresses',
-         id: 'la-beauregard-pa-parcels-and-points',
+        {name: 'Beauregard Parish - Parcels',
+         id: 'la-beauregard-parish-parcels-and-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Beauregard_Services/MapServer/12',
          labelFields: ['Address_Nu','Street_Dir', 'Street_Nam'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Catahoula Parish - Parcels and Addresses',
-         id: 'la-catahoula-pa-parcels-and-points',
+        {name: 'Catahoula Parish - Parcels',
+         id: 'la-catahoula-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Catahoula_Services/MapServer/1',
          labelFields: ['par_address'],
          where: [],
@@ -3036,15 +3037,15 @@
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Claiborne Parish - Address Points',
-         id: 'la-claiborne-pa-points',
+         id: 'la-claiborne-parish-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Claiborne_Services/MapServer/0',
          labelFields: ['FULL_ADD'],
          where: [],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Claiborne Parish - Parcels and Addresses',
-         id: 'la-claiborne-pa-parcels-and-points',
+        {name: 'Claiborne Parish - Parcels',
+         id: 'la-claiborne-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Claiborne_Services/MapServer/2',
          labelFields: ['ADDRESS_NU','STREET_DIR','STREET_NAM'],
          where: [],
@@ -3052,15 +3053,15 @@
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Concordia Parish - Address Points',
-         id: 'la-concordia-pa-points',
+         id: 'la-concordia-parish-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Concordia_Service/MapServer/0',
          labelFields: ['ADDRESS'],
          where: [],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Concordia Parish - Parcels and Addresses',
-         id: 'la-concordia-pa-parcels-and-points',
+        {name: 'Concordia Parish - Parcels',
+         id: 'la-concordia-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Concordia_Service/MapServer/4',
          labelFields: ['Address_Number','Street_Direction','Street_Name'],
          where: [],
@@ -3083,6 +3084,200 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'DeSoto Parish - Address Points',
+         id: 'la-desoto-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/DeSoto_Services/MapServer/1',
+         labelFields: ['ADD_NUM','STREET'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'DeSoto Parish - Parcels',
+         id: 'la-desoto-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/DeSoto_Services/MapServer/8',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'East BR Parish - Address Points',
+         id: 'la-east-br-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/EBR_Assessor/MapServer/1',
+         labelFields: ['ADDRESS_NU','FULL_ADDRESS'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'East BR Parish - Parcels',
+         id: 'la-east-br-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/EBR_Assessor/MapServer/10',
+         labelFields: ['PHYSADD'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Franklin Parish - Address Points',
+         id: 'la-franklin-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Franklin_Services/MapServer/0',
+         labelFields: ['Address','Street_Nam','Type'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Franklin Parish - Parcels',
+         id: 'la-franklin-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Franklin_Services/MapServer/8',
+         labelFields: ['Address_Nu','Street_Nam'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Gretna - Address Points',
+         id: 'la-gretna-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Gretna_Services_Private/MapServer/1',
+         labelFields: ['ADDRESS','STREET'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Gretna - Parcels',
+         id: 'la-gretna-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Gretna_Services_Private/MapServer/9',
+         labelFields: ['ParcelAddr'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iberia Parish - Parcels',
+         id: 'la-iberia-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberia_Parcels/MapServer/3',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iberville Parish - Address Points',
+         id: 'la-iberville-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberville_Services/MapServer/10',
+         labelFields: ['STRNUM','STREET','STR_TYPE'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Iberville Parish - Parcels',
+         id: 'la-iberville-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberville_Services/MapServer/3',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Parish - Address Points',
+         id: 'la-jefferson-parish-pts',
+         url: 'http://webmap.jeffparish.net/arcgis/rest/services/CODE/Code_Enforcement/MapServer/5',
+         labelFields: ['ADDRESS', 'STREET', 'SUITE'],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Parish - Address Points 2',
+         id: 'la-jefferson-parish-points-2',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Jefferson_Assessor/MapServer/4',
+         labelFields: ['ADDRESS','STREET'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Parish - Parcels (no labels)',
+         id: 'la-jefferson-parish-parcels',
+         url: 'http://webmap.jeffparish.net/arcgis/rest/services/CODE/Code_Enforcement/MapServer/12',
+         labelFields: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Parish - Parcels 2',
+         id: 'la-jefferson-parish-parcels-2',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Jefferson_Assessor/MapServer/12',
+         labelFields: ['par_address'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kenner - Address Points',
+         id: 'la-kenner-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Kenner_Services/MapServer/1',
+         labelFields: ['ADDRESS','STREET'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kenner - Parcels',
+         id: 'la-kenner-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Kenner_Services/MapServer/9',
+         labelFields: ['PAR_ADDRES'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lafourche Parish - Address Points',
+         id: 'la-lafourche-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LaFourche_Services/MapServer/5',
+         labelFields: ['ADD_COMP'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lafourche Parish - Parcels',
+         id: 'la-lafourche-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LaFourche_Services/MapServer/3',
+         labelFields: ['par_addres'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'LaSalle Parish - Address Points',
+         id: 'la-lasalle-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LaSalle_Services/MapServer/1',
+         labelFields: ['NEWADDRESS'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'LaSalle Parish - Parcels',
+         id: 'la-lasalle-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LaSalle_Services/MapServer/7',
+         labelFields: ['Address_Number','Street_Direction','Street_Name'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Livingston Parish - Parcels',
+         id: 'la-livingston-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Livingston_Services/MapServer/8',
+         labelFields: ['Par_Address'],
+         processLabel: function(label) { return label.replace(/^~/,''); },
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mandeville - Address Points',
+         id: 'la-mandeville-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Mandeville_Services/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mandeville - Parcels',
+         id: 'la-mandeville-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Mandeville_Services/MapServer/4',
+         labelFields: ['NUM_ER','DIRECTION','STR_NAME','STR_TYPE','STR_SFFX'],
+         where: [],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Minden - Address Points',
          id: 'la-minden-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Minden_Parcels/MapServer/0',
@@ -3091,21 +3286,168 @@
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Minden - Parcels and Addresses',
-         id: 'la-minden-parcels-and-points',
+        {name: 'Minden - Parcels',
+         id: 'la-minden-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Minden_Parcels/MapServer/8',
          labelFields: ['Address_Nu','Street_Nam'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'New Orleans - Parcels and Addresses',
-         id: 'la-neworleans-parcels-and-points',
+        {name: 'Natchitoches Parish - Parcels',
+         id: 'la-natchitoches-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Natchitoches_Services/MapServer/15',
+         labelFields: ['Address_Number','Street_Direction','Street_Name'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Iberia - Address Points',
+         id: 'la-new-iberia-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/NewIberia_Services/MapServer/14',
+         labelFields: ['Address'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'New Iberia - Parcels',
+         id: 'la-new-iberia-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/NewIberia_Services/MapServer/17',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Orleans - Parcels',
+         id: 'la-new-orleans-parcels',
          url: 'https://gis.nola.gov/arcgis/rest/services/GovernmentServices/PlanningServices/MapServer/1',
          labelFields: ['SITUS_NUM','SITUS_DIR','SITUS_STREET','SITUS_TYPE'],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Red River Parish - Address Points',
+         id: 'la-red-river-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/RedRiver_Services/MapServer/1',
+         labelFields: ['ADDRESS'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Red River Parish - Parcels',
+         id: 'la-red-river-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/RedRiver_Services/MapServer/11',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St Charles Parish - Address Points',
+         id: 'la-st-charles-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StCharles_Services/MapServer/0',
+         labelFields: ['Address'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'St Charles Parish - Parcels',
+         id: 'la-st-charles-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StCharles_Services/MapServer/5',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St John the Baptist Parish - Address Points',
+         id: 'la-st-john-the-baptist-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StJohn_Services/MapServer/3',
+         labelFields: ['STR_NUM','PRE_DIR','STR_NAME','STR_TYPE','POST_DIR'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'St John the Baptist Parish - Parcels',
+         id: 'la-st-john-the-baptist-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StJohn_Services/MapServer/19',
+         labelFields: ['PAR_ADDR','PAR_STNM'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St Martin Parish - Parcels',
+         id: 'la-st-martin-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StMartin_Services/MapServer/15',
+         labelFields: ['HOUSE_NO','ST_DIR','STREET_NAM','ST_SUFFIX'],
+         processLabel: function(label) { return label.replace(/^0+\s?/,''); },
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St Mary Parish - Parcels',
+         id: 'la-st-mary-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StMary_Services/MapServer/9',
+         labelFields: ['ADDRESS_NUMBER','STREET_DIRECTION','STREET_NAME'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Terrebonne Parish - Address Points',
+         id: 'la-terrebonne-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Terrebonne_Service/MapServer/0',
+         labelFields: ['MUN_NO','DIR','STREET','DESIGNATIO'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Terrebonne Parish - Parcels',
+         id: 'la-terrebonne-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Terrebonne_Service/MapServer/10',
+         labelFields: ['Address_Nu','Street_Nam'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Parish - Parcels',
+         id: 'la-washington-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Washington_Services/MapServer/14',
+         labelFields: ['PHYSICAL_A','PHYSICAL_S'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Webster Parish - Address Points',
+         id: 'la-webster-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Webster_Parcels/MapServer/0',
+         labelFields: ['FULLADD'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Webster Parish - Parcels',
+         id: 'la-webster-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Webster_Parcels/MapServer/10',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'West Feliciana Parish - Address Points',
+         id: 'la-west-feliciana-parish-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/WestFeliciana_Services/MapServer/0',
+         labelFields: ['FULLADDRES'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'West Feliciana Parish - Parcels',
+         id: 'la-west-feliciana-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/WestFeliciana_Services/MapServer/6',
+         labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Maryland
         // ************************************
@@ -3496,7 +3838,7 @@
          state: 'MN',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Douglas Co - Parcels (NO DATA)',
+        {name: 'Douglas Co - Parcels (no labels)',
          id: 'mn-douglas-co-parcels',
          url: 'http://dc-web.co.douglas.mn.us/arcgis/rest/services/AGOL/Data_Layers/MapServer/48',
          labelFields: [''],
@@ -3895,8 +4237,8 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Adams Co - Parcels and Addresses',
-         id: 'ms-adams-co-parcels-and-points',
+        {name: 'Adams Co - Parcels',
+         id: 'ms-adams-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/AdamsCo_Services/MapServer/25',
          labelFields: ['StreetNumber','StreetName'],
          where: [''],
@@ -3911,7 +4253,7 @@
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Bay Saint Louis - Parcels',
+        {name: 'Bay Saint Louis - Parcels (NO LABELS)',
          id: 'ms-baysaintlouis-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/BaySaintLouis_Services/MapServer/25',
          labelFields: [''],
@@ -3919,8 +4261,8 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Biloxi - Parcels and Addresses',
-         id: 'ms-biloxi-parcels-and-points',
+        {name: 'Biloxi - Parcels',
+         id: 'ms-biloxi-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
          labelFields: ['STNUM','DIR','ST_NAME'],
          processLabel: function(label) { return label.replace(/^0\s?/,''); },
@@ -3937,7 +4279,7 @@
 
         {name: 'De Soto Co - Address Points',
          id: 'ms-de-soto-co-pts',
-         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/86',
+         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/87',
          labelFields: ['FULL_ADDR'],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
@@ -3949,10 +4291,54 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Hancock Co - Parcels and Addresses',
-         id: 'ms-hancock-co-parcels-and-points',
+        {name: 'Diamondhead - Address Points',
+         id: 'ms-diamondhead-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diamondhead_Services/MapServer/0',
+         labelFields: ['ADDNUM','STREETNAME'],
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Diamondhead - Parcels',
+         id: 'ms-diamondhead-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diamondhead_Services/MapServer/13',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'D\'Iberville - Address Points',
+         id: 'ms-diberville-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/2',
+         labelFields: ['SIT_NO','SIT_NAME'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'D\'Iberville - Parcels',
+         id: 'ms-diberville-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/17',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hancock Co - Parcels',
+         id: 'ms-hancock-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Hancock_Parcels/MapServer/0',
          labelFields: ['ADDRESS'],
+         where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lamar Co - Parcels',
+         id: 'ms-lamar-co-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LamarCounty_Services/MapServer/59',
+         labelFields: ['StreetNumber','StreetName'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -3985,6 +4371,32 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Ocean Springs - Address Points',
+         id: 'ms-ocean-springs-points',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/OS_Services/MapServer/20',
+         labelFields: ['ADDRESS','STREET_NAM'],
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ocean Springs - Parcels',
+         id: 'ms-ocean-springs-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/OS_Services/MapServer/23',
+         labelFields: ['LOCATION'],
+         processLabel: function(label) { return label.replace(/OCEAN SPR.*/,''); },
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pontotoc Co - Parcels',
+         id: 'ms-pontotoc-co-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
+         labelFields: ['StreetNumber','StreetName'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         where: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Pike Co - Parcels',
          id: 'ms-pike-co-parcel',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
@@ -4013,7 +4425,7 @@
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Winston Co - Parcels NO DATA',
+        {name: 'Winston Co - Parcels (no labels)',
          id: 'ms-winston-co-parcel',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/10',
          labelFields: [],
@@ -4080,7 +4492,7 @@
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Boone Co - Parcels NO DATA',
+        {name: 'Boone Co - Parcels (no labels)',
          id: 'mo-boone-co-parcels',
          url: 'https://maps.showmeboone.com/ArcGIS/rest/services/BC_Basemap_MSD_V2/MapServer/7',
          labelFields: [],
@@ -4108,7 +4520,7 @@
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Camden Co - Parcels (NO DATA)',
+        {name: 'Camden Co - Parcels (no labels)',
          id: 'mo-camden-co-parcels',
          url: 'https://camdengis.integritygis.com/Geocortex/Essentials/REST/sites/Camden_County_MO_Desktop/map/mapservices/0/rest/services/x/MapServer/8',
          labelFields: [''],
@@ -4171,7 +4583,7 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Dunklin Co - Parcels NO DATA',
+        {name: 'Dunklin Co - Parcels (no labels)',
          id: 'mo-dunklin-co-parcels',
          url: 'http://emapsplus.com/arcgis/rest/services/Missouri/DunklinEmaps/MapServer/0',
          labelFields: [''],
@@ -4192,7 +4604,7 @@
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Holts Summit - City Parcels NO DATA',
+        {name: 'Holts Summit - City Parcels (no labels)',
          id: 'mo-holts-summit-city-parcels',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/10',
          labelFields: [],
@@ -4290,7 +4702,7 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Morgan Co - Parcels NO DATA',
+        {name: 'Morgan Co - Parcels (no labels)',
          id: 'mo-morgan-co-parcels',
          url: 'https://morgangis.integritygis.com/Geocortex/Essentials/REST/sites/Morgan_County_MO/map/mapservices/1/rest/services/x/MapServer/4',
          labelFields: [''],
@@ -4361,7 +4773,7 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Vernon Co - Parcels NO DATA',
+        {name: 'Vernon Co - Parcels (no labels)',
          id: 'mo-vernon-co-parcels',
          url: 'http://vernongis.integritygis.com/Geocortex/Essentials/REST/sites/Vernon_County_MO/map/mapservices/1/rest/services/x/MapServer/6',
          labelFields: ['PARCELPIN'],
@@ -4421,7 +4833,7 @@
          state: 'MT',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Missoula Co - Parcels (NO DATA)',
+        {name: 'Missoula Co - Parcels (no labels)',
          id: 'mt-missoula-co-parcels',
          url: 'https://gis.missoulacounty.us/arcgis/rest/services/Base/Base/MapServer/36',
          labelFields: [''],
@@ -4699,7 +5111,7 @@
          state: 'NY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Dutchess Co - Parcels NO DATA',
+        {name: 'Dutchess Co - Parcels (no labels)',
          id: 'ny-dutchess-co-parcels',
          url: 'https://gis.dutchessny.gov/wa/rest/services/parcelaccess/MapServer/0',
          labelFields: [''],
@@ -4776,7 +5188,7 @@
          state: 'NY',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Nassau Co - Parcels NO DATA',
+        {name: 'Nassau Co - Parcels (no labels)',
          id: 'ny-nassau-co-parcels',
          url: 'https://gis.nassaucountyny.gov/arcgis/rest/services/Akanda/MapServer/1',
          labelFields: [''],
@@ -4832,7 +5244,7 @@
          state: 'NY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Orange Co - Parcels NO DATA',
+        {name: 'Orange Co - Parcels (no labels)',
          id: 'ny-orange-co-parcels',
          url: 'http://ocgis.orangecountygov.com/ArcGIS/rest/services/Dynamic/LandBase/MapServer//4',
          labelFields: [''],
@@ -4950,7 +5362,7 @@
          state: 'NY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Suffolk Co - Parcels NO DATA',
+        {name: 'Suffolk Co - Parcels (no labels)',
          id: 'ny-suffolk-co-parcels',
          url: 'https://gisservices2.suffolkcountyny.gov/arcgis/rest/services/Live_Layers_External/MapServer/57',
          labelFields: [''],
@@ -4964,7 +5376,7 @@
          state: 'NY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Sullivan Co - Parcels NO DATA',
+        {name: 'Sullivan Co - Parcels (no labels)',
          id: 'ny-sulivan-co-parcels',
          url: 'https://services7.arcgis.com/bx3OlIPqiDclwaja/ArcGIS/rest/services/Tax_Map_Data/FeatureServer/12',
          labelFields: [''],
@@ -5093,21 +5505,21 @@
 
         // Divice County GIS does not give any more data that what is available on layer. no parcel data at all
 
-        {name: 'Divide Co - Parcels NO DATA',
+        {name: 'Divide Co - Parcels (no labels)',
          id: 'nd-divide-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/DivideNDFeatures/FeatureServer/5',
          labelFields: [''],
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Dunn Co - Parcels NO DATA',
+        {name: 'Dunn Co - Parcels (no labels)',
          id: 'nd-dunn-co-parcels',
          url: 'https://gis3.gisworkshop.com/arcgis/rest/services/DunnTaxDirector/MapServer/3',
          labelFields: [''],
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Emmons Co - Parcels NO DATA',
+        {name: 'Emmons Co - Parcels (no labels)',
          id: 'nd-emmons-co-parcels',
          url: 'http://services3.arcgis.com/zDNWy26tIMyYaGcC/arcgis/rest/services/Parcels/FeatureServer/0',
          labelFields: [''],
@@ -5121,7 +5533,7 @@
          state: 'ND',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Golden Valley Co - Parcels NO DATA',
+        {name: 'Golden Valley Co - Parcels (no labels)',
          id: 'nd-golden Valley-co-parcels',
          url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Goldenvalley/MapServer/2',
          labelFields: [''],
@@ -5151,7 +5563,7 @@
          state: 'ND',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'McHenry Co - Parcels NO DATA',
+        {name: 'McHenry Co - Parcels (no labels)',
          id: 'nd-mchenry-co-parcels',
          url: 'http://services6.arcgis.com/zbSH183Elt4hJ5Hl/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: [''],
@@ -5159,14 +5571,14 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        //{name: 'McHenry Co - Parcels NO DATA',
+        //{name: 'McHenry Co - Parcels (no labels)',
         // id: 'nd-mchenry-co-parcels2',
         // url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/McHenryNDFeatures/FeatureServer/4',
         // labelFields: [''],
         // state: 'ND',
         // style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'McKenzie Co - Parcels NO DATA',
+        {name: 'McKenzie Co - Parcels (no labels)',
          id: 'nd-mckenzie-co-parcels',
          url: 'https://gis2.gisworkshop.com/arcgis/rest/services/McKenzieTaxDirector/MapServer/2',
          labelFields: [''],
@@ -5174,7 +5586,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        {name: 'McLean Co - Parcels NO DATA',
+        {name: 'McLean Co - Parcels (no labels)',
          id: 'nd-mclean-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/McleanNDFeatures/FeatureServer/3',
          labelFields: [''],
@@ -5196,7 +5608,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        {name: 'Mountrail Co - Parcels NO DATA',
+        {name: 'Mountrail Co - Parcels (no labels)',
          id: 'nd-mountrail-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MountrailNDFeatures/FeatureServer/4',
          labelFields: [''],
@@ -5212,7 +5624,7 @@
         // state: 'ND',
         //style: DEFAULT_PT_STYLE},
 
-        //{name: 'Ramsey Co - Parcels NO DATA',
+        //{name: 'Ramsey Co - Parcels (no labels)',
         // id: 'nd-ramsey-co-parcels',
         // url: 'https://gis.co.ramsey.nd.us/arcgis/rest/services/Basemap/Parcels/MapServer/0',
         // labelFields: [''],
@@ -5234,7 +5646,7 @@
          style: DEFAULT_PT_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        {name: 'Rolette Co - Parcels NO DATA',
+        {name: 'Rolette Co - Parcels (no labels)',
          id: 'nd-rolette-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/RoletteNDFeatures/FeatureServer/3',
          labelFields: [''],
@@ -5242,21 +5654,21 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        {name: 'Sioux Co - Parcels NO DATA',
+        {name: 'Sioux Co - Parcels (no labels)',
          id: 'nd-sioux-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/SiouxNDFeatures/FeatureServer/4',
          labelFields: [''],
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Stark Co - Parcels NO DATA',
+        {name: 'Stark Co - Parcels (no labels)',
          id: 'nd-stark-co-parcels',
          url: 'https://gis2.gisworkshop.com/arcgis/rest/services/StarkTaxDirector/MapServer/0',
          labelFields: [''],
          state: 'ND',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Dickinson - City Parcels NO DATA',
+        {name: 'Dickinson - City Parcels (no labels)',
          id: 'nd-dickinson-city-parcels',
          url: 'https://gis3.gisworkshop.com/arcgis/rest/services/Dickinson/MapServer/2',
          labelFields: [''],
@@ -5264,7 +5676,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        {name: 'Steele Co - Parcels NO DATA',
+        {name: 'Steele Co - Parcels (no labels)',
          id: 'nd-steele-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/SteeleNDFeatures/FeatureServer/4',
          labelFields: [''],
@@ -5272,7 +5684,7 @@
          style: DEFAULT_PARCEL_STYLE},
 
         // County GIS only provides Onwers address not parcel address, layer has same data
-        {name: 'Traill Co - Parcels NO DATA',
+        {name: 'Traill Co - Parcels (no labels)',
          id: 'nd-traill-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/TraillNDFeatures/FeatureServer/2',
          labelFields: [''],
@@ -5491,11 +5903,19 @@
         // Oklahoma
         // **********************************
 
-        {name: 'ACOG Counties - OKC Area',
-         id: 'ok-acog-cos-parcels',
-         url: 'https://arcgis4.roktech.net/arcgis/rest/services/ACOG/acog_query/MapServer/16',
+        {name: 'ACOG Counties (OKC Area) - Parcels',
+         id: 'ok-acog-cos-okc-area-parcels',
+         url: 'http://arcgis4.roktech.net/arcgis/rest/services/ACOG/acog_query/MapServer/16',
          labelFields: ['PARCEL_ADDRESS'],
          processLabel: function(label) { return label.replace(/^0+/, ''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Creek Co - Parcels',
+         id: 'ok-Creek-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsCREEK_all/MapServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS] )?(\d+)$/,'$3 $2$1').replace(/^0+/,''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5505,22 +5925,6 @@
          where: "Nbhd <> ''",
          labelFields: ['Situs'],
          processLabel: function(label) { return label.replace(/^0+/,''); },
-         state: 'OK',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Tulsa Co - Parcels',
-         id: 'ok-Tulsa-co-parcels',
-         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsTULSA_all/MapServer/0',
-         where: "PAR_TYPE = 'PARCEL'",
-         labelFields: ['PROP_ADD'],
-         state: 'OK',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Creek Co - Parcels',
-         id: 'ok-Creek-co-parcels',
-         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsCREEK_all/MapServer/0',
-         labelFields: ['ADDRESS'],
-         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS] )?(\d+)$/,'$3 $2$1').replace(/^0+/,''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5538,6 +5942,14 @@
          where: "CAMA<>''",
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(/^0+/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tulsa Co - Parcels',
+         id: 'ok-Tulsa-co-parcels',
+         url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsTULSA_all/MapServer/0',
+         where: "PAR_TYPE = 'PARCEL'",
+         labelFields: ['PROP_ADD'],
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5559,7 +5971,7 @@
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Adams Co - Parcels NO DATA',
+        {name: 'Adams Co - Parcels (no labels)',
          id: 'pa-adams-co-parcels',
          url: 'https://mapping.adamscounty.us/arcgis/rest/services/Maps/cama_parcel/MapServer/1',
          labelFields: [''],
@@ -5707,7 +6119,7 @@
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Crawford Co - Parcels NO DATA',
+        {name: 'Crawford Co - Parcels (no labels)',
          id: 'pa-crawford-co-parcels',
          url: 'http://gis.crawfordcountypa.net:6080/arcgis/rest/services/CrawfordCounty/MapServer/3',
          labelFields: ['SHAPE'],
@@ -5770,7 +6182,7 @@
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Fulton Co - Parcels NO DATA',
+        {name: 'Fulton Co - Parcels (no labels)',
          id: 'pa-fulton-co-parcels',
          url: 'http://gis.co.fulton.pa.us/arcgis/rest/services/WebToolMap/MapServer/6',
          labelFields: [''],
@@ -5911,7 +6323,7 @@
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Perry Co - Parcels NO DATA',
+        {name: 'Perry Co - Parcels (no labels)',
          id: 'pa-perry-co-parcels',
          url: 'http://gis.perryco.org/ArcGIS/rest/services/PerryBaseMap/MapServer/5',
          labelFields: [''],
@@ -5932,7 +6344,7 @@
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Pike Co - Parcels NO DATA',
+        {name: 'Pike Co - Parcels (no labels)',
          id: 'pa-pike-co-parcels',
          url: 'http://gis.pikepa.org/arcgis/rest/services/PikeCo_Parcels/MapServer/0',
          labelFields: [],
@@ -5953,7 +6365,7 @@
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Schuylkill Co - Parcels NO DATA',
+        {name: 'Schuylkill Co - Parcels (no labels)',
          id: 'pa-schuylkill-co-parcels',
          url: 'https://services1.arcgis.com/5X0VJhfr7n6bBVwH/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: [''],
@@ -6004,7 +6416,7 @@
 
         // Washington Co Parcel no address info. Label ['link']  has URL for parcel data request.
 
-        {name: 'Washington Co - Parcels NO DATA',
+        {name: 'Washington Co - Parcels (no labels)',
          id: 'pa-washington-co-parcels',
          url: 'https://wcsvrgis.washcopa.org/arcgis1051/rest/services/AGOL/Parcels/MapServer/0',
          labelFields: [''],
@@ -6101,7 +6513,7 @@
         // state: 'SD',
         // style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Clark Co - Parcels (NO Data)',
+        {name: 'Clark Co - Parcels (no labels)',
          id: 'sd-clark-co-parcels1',
          url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet_new/MapServer/16',
          labelFields: [''],
@@ -6195,7 +6607,7 @@
          state: 'SD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Faulk Co - Parcels NO DATA',
+        {name: 'Faulk Co - Parcels (no labels)',
          id: 'sd-faulk-co-parcels',
          url: 'http://ims.districtiii.org/arcgis/rest/services/FAULK/MapServer/1',
          labelFields: [],
@@ -6388,7 +6800,7 @@
          state: 'TN',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Bradley Co - Parcels (NO DATA)',
+        {name: 'Bradley Co - Parcels (no labels)',
          id: 'tn-Bradley-co-parcels',
          url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_PSACadastral/mapserver/0',
          where: "PARCEL<>''",
@@ -6456,7 +6868,7 @@
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Hardeman Co - Parcels (NO DATA)',
+        {name: 'Hardeman Co - Parcels (no labels)',
          id: 'tn-Hardeman-co-parcels',
          url: 'http://tn.hardeman.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/HardemanTN/HardemanTN_Cadastral/mapserver/46',
          where: "GISLINK <> ''",
@@ -6498,7 +6910,7 @@
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'McMinn Co - Parcels (NO DATA)',
+        {name: 'McMinn Co - Parcels (no labels)',
          id: 'tn-McMinn-co-parcels',
          url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_PSACadastral/MapServer/46',
          where: "GISLINK <> ''",
@@ -6581,7 +6993,7 @@
          state: 'TN',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Sumner Co - Parcels (NO DATA)',
+        {name: 'Sumner Co - Parcels (no labels)',
          id: 'tn-Sumner-co-parcels',
          url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_Cadastral/MapServer/46',
          where: "GISLINK <> ''",
@@ -6618,7 +7030,7 @@
          state: 'TN',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Wilson Co - Parcels (NO DATA)',
+        {name: 'Wilson Co - Parcels (no labels)',
          id: 'tn-Wilson-co-parcels',
          url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_Assessor_PSACadastral/MapServer/45',
          where: "GISLINK <> ''",
@@ -8461,7 +8873,7 @@
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Berkeley Co - Parcels (NO DATA)',
+        {name: 'Berkeley Co - Parcels (no labels)',
          id: 'wv-Berkeley-co-parcels',
          url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Parcels/MapServer/0',
          labelFields: [''],
@@ -8901,7 +9313,7 @@
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Lincoln Co - Parcels NO DATA',
+        {name: 'Lincoln Co - Parcels (no labels)',
          id: 'wy-lincoln-co-parcels',
          url: 'https://maps.lcwy.org/arcgis/rest/services/PUBLIC/Parcels_arcgis/MapServer/8',
          labelFields: [''],
@@ -8915,7 +9327,7 @@
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Natrona Co - Parcels NO DATA',
+        {name: 'Natrona Co - Parcels (no labels)',
          id: 'wy-natrona-co-parcels',
          url: 'https://maps.casperwy.gov/nrgisc/rest/services/Parcel_Ownership/Parcel/MapServer/0',
          labelFields: [''],
@@ -8936,7 +9348,7 @@
          state: 'WY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Sundance - City Parcels NO DATA',
+        {name: 'Sundance - City Parcels (no labels)',
          id: 'wy-sundance-city-parcels',
          url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/SundanceBaseMap/FeatureServer/3',
          labelFields: [''],
