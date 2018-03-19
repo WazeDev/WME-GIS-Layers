@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.16.001
+// @version      2018.03.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -172,7 +172,18 @@
 // -- MD --
 // @connect      md.gov
 // @connect      baltimorecountymd.gov
+// @connect      allconet.org
+// @connect      aacounty.org
+// @connect      arcgis.com
+// @connect      ccgov.org
+// @connect      frederickcountymd.gov
+// @connect      garrettcounty.org
+// @connect      montgomerycountymd.gov
 // @connect      pgatlas.com
+// @connect      qac.org
+// @connect      saint-marys.md.us
+// @connect      talbgov.org
+// @connect      washco-md.net
 // -- MI --
 // @connect      kentcountymi.gov
 // @connect      emmetcounty.org
@@ -3466,6 +3477,34 @@
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Allegany Co - Parcels',
+         id: 'md-allegany-county-parcels',
+         url: 'http://alleganygis.allconet.org/allcogis/rest/services/Parcels/MapServer/0',
+         labelFields: [],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Allegany Co - Address Points',
+         id: 'md-allegany-county-points',
+         url: 'http://alleganygis.allconet.org/allcogis/rest/services/AddressPoints/MapServer/0',
+         labelFields: ['addrnum','fullname'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Anne Arundel Co - Parcels',
+         id: 'md-anne-arundel-county-parcels',
+         url: 'http://gis-world3.aacounty.org/arcgis/rest/services/Public/MyAA/MapServer/7',
+         labelFields: [],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Anne Arundel Co - Address Points',
+         id: 'md-anne-arundel-county-points',
+         url: 'http://gis-world3.aacounty.org/arcgis/rest/services/Public/MyAA/MapServer/0',
+         labelFields: ['ST_NUMBER','ST_NUMSUFF','ST_PREFIXD','ST_NAME','ST_TYPE','ST_SUFFIXD'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Baltimore Co - Parcels',
          id: 'md-baltimore-co-parcels',
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Property/Property/MapServer/1',
@@ -3480,9 +3519,37 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Carroll Co - Parcels',
+         id: 'md-carroll-county-parcels',
+         url: 'https://services.arcgis.com/Uf0DiYpD9NOFO5YH/ArcGIS/rest/services/Parcels_CarrollCounty/FeatureServer/0',
+         labelFields: [],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carroll Co - Address Points',
+         id: 'md-carroll-county-points',
+         url: 'https://services.arcgis.com/Uf0DiYpD9NOFO5YH/arcgis/rest/services/AddressPoints_CarrollCounty/FeatureServer/0',
+         labelFields: ['Full_Addre'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cecil Co - Parcels',
+         id: 'md-cecil-county-parcels',
+         url: 'https://cecilmaps.ccgov.org/arcgis/rest/services/ConsolidatedWebService/MapServer/60',
+         labelFields: [],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cecil Co - Address Points',
+         id: 'md-cecil-county-points',
+         url: 'https://cecilmaps.ccgov.org/arcgis/rest/services/ConsolidatedWebService/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Frederick Co - Parcels',
          id: 'md-frederick-county-parcels',
-         url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/BaseMap_Tiled/Parcels_Tiled/MapServer/0',
+         url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/Planning/Parcels/MapServer/0',
          labelFields: [],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
@@ -3494,17 +3561,94 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Prince Georges Co - Parcels',
-         id: 'md-princegeorges-county-parcels',
+        {name: 'Garrett Co - Address Points',
+         id: 'md-garrett-county-points',
+         url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/2',
+         labelFields: ['STRUCTURE_NUMBER','STRUCTURE_NUMBER_SUFFIX','PREFIX_DIRECTIONAL','STREET_NAME','STREET_TYPE','SUFFIX_DIRECTIONAL'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Montgomery Co - Parcels',
+         id: 'md-montgomery-county-parcels',
+         url: 'http://gis4.montgomerycountymd.gov/arcgis/rest/services/general/property/MapServer/0',
+         labelFields: [''],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montgomery Co - Structures',
+         id: 'md-montgomery-county-structures',
+         url: 'https://gis3.montgomerycountymd.gov/arcgis/rest/services/GDX/buildings/MapServer/0',
+         labelFields: ['ADDRNUM','PRE_DIR','STREET_NAME','STREET_TYPE'],
+         state: 'MD',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Prince George\'s Co - Parcels',
+         id: 'md-prince-george-county-parcels',
          url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/69',
          labelFields: [''],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Prince Georges Co - Address Points',
-         id: 'md-princegeorges-county-points',
+        {name: 'Prince George\'s Co - Address Points',
+         id: 'md-prince-george-county-points',
          url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/0',
          labelFields: ['COMPLETE_ADDRESS_NUMBER','COMPLETE_STREET_NAME'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Queene Anne\'s Co - Parcels',
+         id: 'md-queen-anne-county-parcels',
+         url: 'https://gis.qac.org/arcgis/rest/services/QAC_PUBLIC/QAC_Basemap/MapServer/3',
+         labelFields: [''],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Queene Anne\'s Co - Address Points',
+         id: 'md-queen-anne-county-points',
+         url: 'https://gis.qac.org/arcgis/rest/services/QAC_PUBLIC/QAC_Basemap/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'St. Mary\'s Co - Parcels',
+         id: 'md-stmary-county-parcels',
+         url: 'http://gtg.smcg.co.saint-marys.md.us/arcgis/rest/services/NewMaps/ZoningMap/MapServer/1',
+         labelFields: [],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St. Mary\'s Co - Address Points',
+         id: 'md-stmary-county-points',
+         url: 'http://gtg.smcg.co.saint-marys.md.us/arcgis/rest/services/NewMaps/ZoningMap/MapServer/0',
+         labelFields: ['STREET_ADD','STREET_APA'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Talbot Co - Parcels',
+         id: 'md-talbot-county-parcels',
+         url: 'http://maps.talbgov.org/arcgis/rest/services/TalbotWebMaps/PublicLandUse/MapServer/0',
+         labelFields: [''],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Talbot Co - Address Points',
+         id: 'md-talbot-county-points',
+         url: 'http://maps.talbgov.org/arcgis/rest/services/TalbotWebMaps/PublicLandUse/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Washington Co - Parcels',
+         id: 'md-washington-county-parcels',
+         url: 'https://maps.washco-md.net/arcgis/rest/services/Parcel/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Address Points',
+         id: 'md-washington-county-points',
+         url: 'https://maps.washco-md.net/arcgis/rest/services/General/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
