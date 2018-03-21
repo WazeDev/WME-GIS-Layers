@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.17.001
+// @version      2018.03.20.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -67,6 +67,7 @@
 // @connect      pascocountyfl.net
 // @connect      paslc.org
 // @connect      pinellascounty.org
+// @connect      plantation.org
 // @connect      polkpa.org
 // @connect      port-orange.org
 // @connect      putnam-fl.com
@@ -331,6 +332,8 @@
 // @connect      tgisites.com
 // -- OK --
 // @connect      incog.org
+// @connect      geocortex.com
+// @connect      normanok.gov
 // @connect      roktech.net
 // -- PA --
 // @connect      pa.us
@@ -1471,6 +1474,13 @@
          id: 'fl-pinellas-co-parcels',
          url: 'http://egis.pinellascounty.org/arcgis/rest/services/PublicWebGIS/Parcels/MapServer/1',
          labelFields: ['SITE_ADDRESS'],
+         state: 'FL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Plantation - City Parcels',
+         id: 'fl-plantation-city-parcels',
+         url: 'http://gis.plantation.org/arcgis/rest/services/Maps/PGISv101/MapServer/7',
+         labelFields: ['SiteAddress'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3078,16 +3088,16 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Covington - Parcels 1',
-         id: 'la-covington-parcels-1',
+        {name: 'Covington - City Parcels 1',
+         id: 'la-covington-city-parcels-1',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Covington_Services/MapServer/2',
          labelFields: ['prop_number','prop_street'],
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Covington - Parcels 2',
-         id: 'la-covington-parcels-2',
+        {name: 'Covington - City Parcels 2',
+         id: 'la-covington-city-parcels-2',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Covington_Services/MapServer/3',
          labelFields: ['COMP_ADD'],
          where: [],
@@ -3142,16 +3152,16 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Gretna - Address Points',
-         id: 'la-gretna-points',
+        {name: 'Gretna - City Address Points',
+         id: 'la-gretna-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Gretna_Services_Private/MapServer/1',
          labelFields: ['ADDRESS','STREET'],
          where: [],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Gretna - Parcels',
-         id: 'la-gretna-parcels',
+        {name: 'Gretna - City Parcels',
+         id: 'la-gretna-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Gretna_Services_Private/MapServer/9',
          labelFields: ['ParcelAddr'],
          where: [],
@@ -3214,16 +3224,16 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Kenner - Address Points',
-         id: 'la-kenner-points',
+        {name: 'Kenner - City Address Points',
+         id: 'la-kenner-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Kenner_Services/MapServer/1',
          labelFields: ['ADDRESS','STREET'],
          where: [],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Kenner - Parcels',
-         id: 'la-kenner-parcels',
+        {name: 'Kenner - City Parcels',
+         id: 'la-kenner-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Kenner_Services/MapServer/9',
          labelFields: ['PAR_ADDRES'],
          where: [],
@@ -3272,32 +3282,32 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Mandeville - Address Points',
-         id: 'la-mandeville-points',
+        {name: 'Mandeville - City Address Points',
+         id: 'la-mandeville-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Mandeville_Services/MapServer/0',
          labelFields: ['FULL_ADD'],
          where: [],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Mandeville - Parcels',
-         id: 'la-mandeville-parcels',
+        {name: 'Mandeville - City Parcels',
+         id: 'la-mandeville-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Mandeville_Services/MapServer/4',
          labelFields: ['NUM_ER','DIRECTION','STR_NAME','STR_TYPE','STR_SFFX'],
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Minden - Address Points',
-         id: 'la-minden-points',
+        {name: 'Minden - City Address Points',
+         id: 'la-minden-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Minden_Parcels/MapServer/0',
          labelFields: ['FULLADD'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Minden - Parcels',
-         id: 'la-minden-parcels',
+        {name: 'Minden - City Parcels',
+         id: 'la-minden-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Minden_Parcels/MapServer/8',
          labelFields: ['Address_Nu','Street_Nam'],
          where: [''],
@@ -3312,16 +3322,16 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'New Iberia - Address Points',
-         id: 'la-new-iberia-points',
+        {name: 'New Iberia - City Address Points',
+         id: 'la-new-iberia-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/NewIberia_Services/MapServer/14',
          labelFields: ['Address'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'New Iberia - Parcels',
-         id: 'la-new-iberia-parcels',
+        {name: 'New Iberia - City Parcels',
+         id: 'la-new-iberia-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/NewIberia_Services/MapServer/17',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
          processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
@@ -3329,8 +3339,8 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'New Orleans - Parcels',
-         id: 'la-new-orleans-parcels',
+        {name: 'New Orleans - City Parcels',
+         id: 'la-new-orleans-city-parcels',
          url: 'https://gis.nola.gov/arcgis/rest/services/GovernmentServices/PlanningServices/MapServer/1',
          labelFields: ['SITUS_NUM','SITUS_DIR','SITUS_STREET','SITUS_TYPE'],
          state: 'LA',
@@ -4388,24 +4398,24 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Bay Saint Louis - Address Points',
-         id: 'ms-baysaintlouis-points',
+        {name: 'Bay Saint Louis - City Address Points',
+         id: 'ms-bay-saint-louis-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/BaySaintLouis_Services/MapServer/0',
          labelFields: ['FULLADD'],
          where: [''],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Bay Saint Louis - Parcels (NO LABELS)',
-         id: 'ms-baysaintlouis-parcels',
+        {name: 'Bay Saint Louis - City Parcels (NO LABELS)',
+         id: 'ms-bay-saint-louis-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/BaySaintLouis_Services/MapServer/25',
          labelFields: [''],
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Biloxi - Parcels',
-         id: 'ms-biloxi-parcels',
+        {name: 'Biloxi - City Parcels',
+         id: 'ms-biloxi-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
          labelFields: ['STNUM','DIR','ST_NAME'],
          processLabel: function(label) { return label.replace(/^0\s?/,''); },
@@ -4434,16 +4444,16 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Diamondhead - Address Points',
-         id: 'ms-diamondhead-points',
+        {name: 'Diamondhead - City Address Points',
+         id: 'ms-diamondhead-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diamondhead_Services/MapServer/0',
          labelFields: ['ADDNUM','STREETNAME'],
          where: [],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Diamondhead - Parcels',
-         id: 'ms-diamondhead-parcels',
+        {name: 'Diamondhead - City Parcels',
+         id: 'ms-diamondhead-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diamondhead_Services/MapServer/13',
          labelFields: ['ADDRESS'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
@@ -4451,8 +4461,8 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'D\'Iberville - Address Points',
-         id: 'ms-diberville-points',
+         {name: 'D\'Iberville - City Address Points',
+         id: 'ms-diberville-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/2',
          labelFields: ['SIT_NO','SIT_NAME'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
@@ -4460,8 +4470,8 @@
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'D\'Iberville - Parcels',
-         id: 'ms-diberville-parcels',
+        {name: 'D\'Iberville - City Parcels',
+         id: 'ms-diberville-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/17',
          labelFields: ['STREET_NUM','STREET_NAM'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
@@ -4514,16 +4524,16 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Ocean Springs - Address Points',
-         id: 'ms-ocean-springs-points',
+        {name: 'Ocean Springs - City Address Points',
+         id: 'ms-ocean-springs-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/OS_Services/MapServer/20',
          labelFields: ['ADDRESS','STREET_NAM'],
          where: [],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Ocean Springs - Parcels',
-         id: 'ms-ocean-springs-parcels',
+        {name: 'Ocean Springs - City Parcels',
+         id: 'ms-ocean-springs-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/OS_Services/MapServer/23',
          labelFields: ['LOCATION'],
          processLabel: function(label) { return label.replace(/OCEAN SPR.*/,''); },
@@ -6069,6 +6079,23 @@
          where: "Nbhd <> ''",
          labelFields: ['Situs'],
          processLabel: function(label) { return label.replace(/^0+/,''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+/*        {name: 'Norman - City Parcels',
+         id: 'ok-norman-city-parcels',
+         url: 'http://maps.normanok.gov/arcgis/rest/services/GeneralBaseMap/MapServer/42',
+//         labelFields: ['F_ADD','T_ADD','PRE_DIR','STREET_NAME','STREET_TYPE','SUF_DIR'],
+         labelFields: [],
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+Doesn't have a Shape field.
+*/
+        {name: 'Oklahoma Co - Parcels (Alt Source)',
+         id: 'ok-oklahoma-co-parcels',
+         url: 'https://oklahomacounty.geocortex.com/arcgis/rest/services/ParcelData/OklahomaCountyAllParcelsDataNEW/MapServer/4',
+         labelFields: ['location'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
