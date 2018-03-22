@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.22.001
+// @version      2018.03.22.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -31,6 +31,7 @@
 // @connect      bentoncountyar.gov
 // @connect      efsedge.com
 // @connect      pagis.org
+// @connect      washington.ar.us
 // -- AZ --
 // @connect      yumacountyaz.gov
 // -- CA --
@@ -1302,6 +1303,20 @@
          processLabel: function(label) { return label.replace(/^\D.*/, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Washington Co - Address Points',
+         id: 'ar-washington-co-points',
+         url: 'http://arcserv.co.washington.ar.us/wcgis/rest/services/demo_IT/WashcoDynamic2/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Washington Co - Parcels (no labels)',
+         id: 'ar-washington-co-parcels',
+         url: 'http://arcserv.co.washington.ar.us/wcgis/rest/services/demo_IT/WashcoDynamic2/MapServer/14',
+         labelFields: [],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
 
         // California
         // ***********************************
