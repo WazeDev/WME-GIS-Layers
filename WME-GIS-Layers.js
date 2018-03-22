@@ -4860,7 +4860,6 @@
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Clinton/MapServer/24',
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
          processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
-         where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
