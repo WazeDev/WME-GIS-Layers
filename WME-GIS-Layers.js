@@ -259,6 +259,7 @@
 // -- MS --
 // @connect      ms.gov
 // @connect      agdmaps.com
+// @connect      cmpdd.org
 // @connect      desotocountyms.gov
 // @connect      ms.us
 // -- MT --
@@ -4837,11 +4838,28 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+         {name: 'Brandon - City Parcels',
+         id: 'ms-brandon-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Brandon2016/MapServer/8',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Biloxi - City Parcels',
          id: 'ms-biloxi-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
          labelFields: ['STNUM','DIR','ST_NAME'],
          processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clinton - City Parcels',
+         id: 'ms-clinton-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Clinton/MapServer/24',
+         labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4867,6 +4885,14 @@
          labelFields: ['NUMERICS','ROAD_NAME'],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Copiah Co - Parcels',
+         id: 'ms-copiah-co-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Copiah_County/MapServer/3',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'De Soto Co - Address Points',
          id: 'ms-de-soto-co-pts',
@@ -4933,6 +4959,14 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Jackson Co - Parcels',
+         id: 'ms-jackson-co-parcels',
+         url: 'https://webmap.co.jackson.ms.us/arcgis/rest/services/JacksonCounty/Parcel_2_Web/MapServer/2',
+         labelFields: ['STRN','STRD','STRNM','STYPE'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Lamar Co - Parcels',
          id: 'ms-lamar-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LamarCounty_Services/MapServer/59',
@@ -4953,6 +4987,22 @@
          id: 'ms-lincoln-co-parcel',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/103',
          labelFields: ['STREET_NUMBER','STREET_NAME'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Madison Co - Parcels',
+         id: 'ms-madison-co-parcel',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Madison_County/MapServer/11',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Magee - City Parcels',
+         id: 'ms-magee-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/MageeViewer/MapServer/4',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4987,12 +5037,26 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Pontotoc Co - Parcels',
-         id: 'ms-pontotoc-co-parcels',
-         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
-         labelFields: ['StreetNumber','StreetName'],
+        {name: 'Pearl - City Address Points',
+         id: 'ms-pearl-city-points',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/1',
+         labelFields: ['FULL_ADDRE'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pearl - City Parcels',
+         id: 'ms-pearl-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/15',
+         labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
-         where: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Pelahatchie - City Parcels',
+         id: 'ms-pelahatchie-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Pelahatchie/MapServer/16',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5000,6 +5064,15 @@
          id: 'ms-pike-co-parcel',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
          labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pontotoc Co - Parcels',
+         id: 'ms-pontotoc-co-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
+         labelFields: ['StreetNumber','StreetName'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5013,6 +5086,21 @@
         {name: 'Quitman Co - Parcels',
          id: 'ms-quitman-co-parcel',
          url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/4',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Rankin Co - Address Points',
+         id: 'ms-rankin-co-pts',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/3',
+         labelFields: ['FULL_ADDRE'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rankin Co - Parcels',
+         id: 'ms-rankin-co-parcel',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
          state: 'MS',
@@ -5032,6 +5120,14 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Warren Co - Parcels 2',
+         id: 'ms-warren-co-parcels-2',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Warren_County/MapServer/4',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Winston Co - Address Points',
          id: 'ms-winston-co-pts',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/1',
@@ -5046,6 +5142,13 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Yazoo City - City Parcels',
+         id: 'ms-yazoo-city-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/YazooCity/MapServer/4',
+         labelFields: ['STR_NUM','STR_NAME'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Missouri
         // ************************************
