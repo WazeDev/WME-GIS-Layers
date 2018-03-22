@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.22.002
+// @version      2018.03.22.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -3815,6 +3815,14 @@
          id: 'la-st-mary-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StMary_Services/MapServer/9',
          labelFields: ['ADDRESS_NUMBER','STREET_DIRECTION','STREET_NAME'],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St Tammany Parish - Parcels',
+         id: 'la-st-tammany-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StTammany_Services/MapServer/6',
+         labelFields: ['prop_number','prop_street',],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
