@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.21.001
+// @version      2018.03.22.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -28,7 +28,9 @@
 // @connect      tuscaloosa-al.gov
 // -- AR --
 // @connect      arkansas.gov
+// @connect      bentoncountyar.gov
 // @connect      efsedge.com
+// @connect      pagis.org
 // -- AZ --
 // @connect      yumacountyaz.gov
 // -- CA --
@@ -975,6 +977,21 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Benton Co - Address Points',
+         id: 'ar-benton-co-points',
+         url: 'http://gis.bentoncountyar.gov/arcgis/rest/services/Basemaps/Cadastral/MapServer/2',
+         labelFields: ['FULL_ADDR'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Benton Co - Parcels',
+         id: 'ar-benton-co-parcels',
+         url: 'http://gis.bentoncountyar.gov/arcgis/rest/services/Basemaps/Cadastral/MapServer/14',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Bryant - City Address Points',
          id: 'ar-bryant-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/BryantCity/Bryant_Master_Map1/MapServer/13',
@@ -1180,6 +1197,21 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'North Little Rock - City Address Points',
+         id: 'ar-north-little-rock-city-points',
+         url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/11',
+         labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'North Little Rock - City Parcels',
+         id: 'ar-north-little-rock-city-parcels',
+         url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/46',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Ouachita Co - Address Points',
          id: 'ar-ouachita-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/5',
@@ -1225,7 +1257,22 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Saline Co - Address Points',
+         {name: 'Pulaski Co - Address Points',
+         id: 'ar-pulaski-co-points',
+         url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/9',
+         labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pulaski Co - Parcels',
+         id: 'ar-pulaski-co-parcels',
+         url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/40',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saline Co - Address Points',
          id: 'ar-saline-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/11',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
