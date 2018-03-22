@@ -260,6 +260,7 @@
 // @connect      ms.gov
 // @connect      agdmaps.com
 // @connect      desotocountyms.gov
+// @connect      ms.us
 // -- MT --
 // @connect       gisservicemt.gov
 // @connect       flathead.mt.gov
@@ -4921,6 +4922,14 @@
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Hancock_Parcels/MapServer/0',
          labelFields: ['ADDRESS'],
          where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hinds Co - Parcels',
+         id: 'ms-hinds-co-parcels',
+         url: 'http://gisweb.co.hinds.ms.us/arcgis/rest/services/HindsParcelMap/MapServer/2',
+         labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
