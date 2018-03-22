@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.20.001
+// @version      2018.03.21.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -26,6 +26,9 @@
 // @connect      emapsplus.com
 // @connect      jccal.org
 // @connect      tuscaloosa-al.gov
+// -- AR --
+// @connect      arkansas.gov
+// @connect      efsedge.com
 // -- AZ --
 // @connect      yumacountyaz.gov
 // -- CA --
@@ -164,9 +167,10 @@
 // @connect      hendersonky.us
 // @connect      161.6.109.206
 // -- LA --
-// @connect      nola.gov
+// @connect      efsedge.com
 // @connect      geoportalmaps.com
 // @connect      jeffparish.net
+// @connect      nola.gov
 // -- MA --
 // @connect      ma.us
 // @connect      cityofboston.gov
@@ -767,7 +771,6 @@
          state: 'AL',
          style: DEFAULT_PARCEL_STYLE},
 
-
         // Alaska
         // ************************************
 
@@ -930,7 +933,6 @@
          state: 'AK',
          style: DEFAULT_PT_STYLE},
 
-
         // Arizona
         // ************************************
 
@@ -941,6 +943,318 @@
          state: 'AZ',
          style: DEFAULT_PARCEL_STYLE},
 
+        // Arkansas
+        // ***********************************
+
+        {name: 'State - Address Points',
+         id: 'ar-state-points',
+         url: 'http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Planning_Cadastre/MapServer/0',
+         labelFields: ['ph_add'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'State - Parcels',
+         id: 'ar-state-parcels',
+         url: 'http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Planning_Cadastre/MapServer/6',
+         labelFields: ['ph_rd_num','ph_pre_dir','ph_rd_nam','ph_rd_typ','ph_suf_dir'],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ashley Co - Address Points',
+         id: 'ar-ashley-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Ashley_County/Vector/MapServer/38',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ashley Co - Parcels',
+         id: 'ar-ashley-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Ashley_County/Vector/MapServer/16',
+         labelFields: ['Ashley.DBO.Ashley_CAMA_PRMF.Street_Number','Ashley.DBO.Ashley_CAMA_PRMF.Street_Dir','Ashley.DBO.Ashley_CAMA_PRMF.Street_Name','Ashley.DBO.Ashley_CAMA_PRMF.Street_Type','Ashley.DBO.Ashley_CAMA_PRMF.Street_Type_Suffix'],
+         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bryant - City Address Points',
+         id: 'ar-bryant-city-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/BryantCity/Bryant_Master_Map1/MapServer/13',
+         labelFields: ['ADR_NUM','ADR_NUM_SUF','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bryant - City Parcels',
+         id: 'ar-bryant-city-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/BryantCity/Bryant_Master_Map1/MapServer/69',
+         labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Chicot Co - Address Points',
+         id: 'ar-chicot-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Chicot_County/Vector/MapServer/7',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Chicot Co - Parcels',
+         id: 'ar-chicot-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Chicot_County/Vector/MapServer/14',
+         labelFields: ['Chicot.DBO.Chicot_CAMA.PH_ADD'],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clarksville- City Address Points',
+         id: 'ar-clarksville-city-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Johnson_County/Johnson_County_Vector/MapServer/8',
+         labelFields: ['NewAddNum','Street_Nam'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbia Co - Address Points',
+         id: 'ar-columbia-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Columbia_County/Vector/MapServer/9',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbia Co - Parcels',
+         id: 'ar-columbia-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Columbia_County/Vector/MapServer/15',
+         labelFields: ['PH_ADD'],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Craighead Co - Address Points',
+         id: 'ar-craighead-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Craighead/Vector/MapServer/9',
+         labelFields: ['Craighead.DBO.Craighead_CAMA.PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Craighead Co - Parcels',
+         id: 'ar-craighead-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Craighead/Vector/MapServer/16',
+         labelFields: ['Craighead.DBO.Craighead_CAMA.PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Desha Co - Address Points',
+         id: 'ar-desha-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Desha_County/Vector/MapServer/8',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Desha Co - Parcels',
+         id: 'ar-desha-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Desha_County/Vector/MapServer/14',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Drew Co - Address Points',
+         id: 'ar-drew-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Drew_County/Vector/MapServer/7',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Drew Co - Parcels',
+         id: 'ar-drew-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Drew_County/Vector/MapServer/13',
+         labelFields: ['drew.DBO.DREW_PRMF.Street_Number','drew.DBO.DREW_PRMF.Street_Dir','drew.DBO.DREW_PRMF.Street_Name','drew.DBO.DREW_PRMF.Street_Type','drew.DBO.DREW_PRMF.Street_Type_Suffix'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Faulkner Co - Address Points',
+         id: 'ar-faulkner-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Faulkner_County/Vector/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Faulkner Co - Parcels',
+         id: 'ar-faulkner-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Faulkner_County/Vector/MapServer/6',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grant Co - Address Points',
+         id: 'ar-grant-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/0',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Grant Co - Parcels',
+         id: 'ar-grant-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/23',
+         labelFields: ['Grant2.DBO.PADM2.SNUM','Grant2.DBO.PADM2.SNUMS','Grant2.DBO.PADM2.SDIR','Grant2.DBO.PADM2.SSTR','Grant2.DBO.PADM2.SSTP'],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Howard Co - Address Points',
+         id: 'ar-howard-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Howard_County/Howard_Vector/MapServer/0',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Howard Co - Parcels',
+         id: 'ar-howard-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Howard_County/Howard_Vector/MapServer/22',
+         labelFields: ['Howard.DBO.HowardCama_GISOut.PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Hot Springs Village - City Address Points',
+         id: 'ar-hot-springs-village-city-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/65',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hot Springs Village - City Parcels',
+         id: 'ar-hot-springs-village-city-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/62',
+         labelFields: ['PhyAddress'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Johnson Co - Address Points',
+         id: 'ar-johnson-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Johnson_County/Johnson_County_Vector/MapServer/7',
+         labelFields: ['HNUM','STREET'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Johnson Co - Parcels',
+         id: 'ar-johnson-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Johnson_County/Johnson_County_Vector/MapServer/14',
+         labelFields: ['Johnson.DBO.Johnson_CAMA_GISOut.PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'ar-lincoln-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Lincoln_County/VectorAssessor/MapServer/6',
+         labelFields: ['ADR_NUM','NUM_SUF','FULNAM'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'ar-lincoln-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Lincoln_County/VectorAssessor/MapServer/13',
+         labelFields: ['Street_Num','Street_Dir','Street_Nam','Street_Typ'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lonoke Co - Address Points',
+         id: 'ar-lonoke-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Lonoke/Lonoke_Vector/MapServer/0',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lonoke Co - Parcels',
+         id: 'ar-lonoke-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Lonoke/Lonoke_Vector/MapServer/12',
+         labelFields: ['Lonoke.DBO.PADM.SNUM','Lonoke.DBO.PADM.SDIR','Lonoke.DBO.PADM.SSTR','Lonoke.DBO.PADM.SSTP'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ouachita Co - Address Points',
+         id: 'ar-ouachita-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/5',
+         labelFields: ['adr_num','ADDR_SN','ADDR_ST'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ouachita Co - Parcels',
+         id: 'ar-ouachita-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/18',
+         labelFields: ['Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Number','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Dir','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Name','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type_Suffix'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pike Co - Address Points',
+         id: 'ar-pike-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Pike_County/Pike_Vector/MapServer/6',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pike Co - Parcels',
+         id: 'ar-pike-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Pike_County/Pike_Vector/MapServer/15',
+         labelFields: ['Pike.DBO.Pike_PADM.SNUM','Pike.DBO.Pike_PADM.SDIR','Pike.DBO.Pike_PADM.SSTR','Pike.DBO.Pike_PADM.SSTP'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Poinsett Co - Address Points',
+         id: 'ar-poinsett-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Poinsett_County/Vector/MapServer/0',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAM','PSTR_TYPE'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Poinsett Co - Parcels',
+         id: 'ar-poinsett-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Poinsett_County/Vector/MapServer/18',
+         labelFields: ['Poinsett.DBO.PADM.SNUM','Poinsett.DBO.PADM.SDIR','Poinsett.DBO.PADM.SSTR','Poinsett.DBO.PADM.SSTP'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Saline Co - Address Points',
+         id: 'ar-saline-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/11',
+         labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Saline Co - Parcels',
+         id: 'ar-saline-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/23',
+         labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_RD_NUM','Saline2.DBO.SalineCo_CAMA.PH_PRE_DIR','Saline2.DBO.SalineCo_CAMA.PH_RD_NAM','Saline2.DBO.SalineCo_CAMA.PH_RD_TYP'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sheridan - City Address Points',
+         id: 'ar-sheridan-city-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/1',
+         labelFields: ['ADR_NUM','PPRE_DIR','PSTR_NAM','PSTR_TYPE','PSUF_DIR'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tull - City Address Points',
+         id: 'ar-tull-city-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/2',
+         labelFields: ['ADR_NUM','PSTR_FULNAM'],
+         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
 
         // California
         // ***********************************
@@ -3032,8 +3346,22 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Avoyelles Parish - Address Points',
+         id: 'la-avoyelles-parish-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Avoyelles_Parish/Vector/MapServer/1',
+         labelFields: ['Address'],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Avoyelles Parish - Parcels',
          id: 'la-avoyelles-parish-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Avoyelles_Parish/Vector/MapServer/6',
+         labelFields: ['Avoyelles.DBO.Parcel_CAMA_01182018.Address_Number','Avoyelles.DBO.Parcel_CAMA_01182018.Street_Name'],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Avoyelles Parish - Parcels 2',
+         id: 'la-avoyelles-parish-parcels-2',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Avoyelles_Services/MapServer/10',
          labelFields: ['Address'],
          where: [''],
@@ -3048,10 +3376,26 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Catahoula Parish - Address Points',
+         id: 'la-catahoula-parish-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Catahoula_Parish/Vector/MapServer/5',
+         labelFields: ['New_Num_1','Apt_Lot_Ste','New_St_Rd_Name'],
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Catahoula Parish - Parcels',
          id: 'la-catahoula-parish-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Catahoula_Parish/Vector/MapServer/14',
+         labelFields: ['Catahoula.DBO.Parcels_09012016.Phy_Address'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Catahoula Parish - Parcels 2',
+         id: 'la-catahoula-parish-parcels-2',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Catahoula_Services/MapServer/1',
          labelFields: ['par_address'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3426,6 +3770,14 @@
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Terrebonne_Service/MapServer/10',
          labelFields: ['Address_Nu','Street_Nam'],
          where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Vernon Parish - Parcels',
+         id: 'la-vernon-parish-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Vernon_Parish/Vernon_Vector/MapServer/19',
+         labelFields: ['Vernon.DBO.Vernon_CAMA.Address_Number','Vernon.DBO.Vernon_CAMA.Street_Name'],
+   //      processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4423,6 +4775,21 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Coahoma Co - Address Points',
+         id: 'ms-coahoma-co-points',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Coahoma_County/Vector/MapServer/7',
+         labelFields: ['NUMBER','PREFIX_DIR','ST_NAME','STREET_TYP','SUFFIX_DIR'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Coahoma Co - Parcels',
+         id: 'ms-coahoma-co-parcels',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Coahoma_County/Vector/MapServer/3',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Copiah Co - Address Points',
          id: 'ms-Copiah-co-pts',
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CopiahLabelTest/FeatureServer/1',
@@ -4554,6 +4921,21 @@
          id: 'ms-pike-co-parcel',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
          labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Quitman Co - Address Points',
+         id: 'ms-quitman-co-pts',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/0',
+         labelFields: ['FULL_ADDR'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Quitman Co - Parcels',
+         id: 'ms-quitman-co-parcel',
+         url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/4',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
