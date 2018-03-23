@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.22.003
+// @version      2018.03.23.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -384,6 +384,7 @@
 // @connect      siouxfalls.org
 // -- TN --
 // @connect      204.63.176.116
+// @connect      apsu.edu
 // @connect      clevelandtn.gov
 // @connect      johnsoncitytn.org
 // @connect      nashville.gov
@@ -3825,7 +3826,7 @@
         {name: 'St Tammany Parish - Parcels',
          id: 'la-st-tammany-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StTammany_Services/MapServer/6',
-         labelFields: ['prop_number','prop_street',],
+         labelFields: ['prop_number','prop_street'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -7512,6 +7513,7 @@ Doesn't have a Shape field.
 
         // Tennessee
         // ****************************
+
         {name: 'Blount Co - Address Points',
          id: 'tn-blount-county-pts',
          url: 'http://204.63.176.116/arcgis/rest/services/AddressPoints/MapServer/0',
@@ -7539,6 +7541,14 @@ Doesn't have a Shape field.
          url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_PSACadastral/mapserver/0',
          where: "PARCEL<>''",
          labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel last updated 2-28-15
+        {name: 'Cheatham Co - Parcels 2015',
+         id: 'tn-cheatham-co-parcels',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/Cheatham/Cheat_Parcels/MapServer/0',
+         labelFields: ['address'],
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7610,6 +7620,14 @@ Doesn't have a Shape field.
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
+        // this layer was probably last updated on 2-2015 as other layers on same server show that info, this one did not, but is probably same date.
+        {name: 'Henry Co - Address Points 2015',
+         id: 'tn-henry-co-pts',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/HenryCo/Paris_city_map_abbr/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Jefferson Co - Address Points',
          id: 'tn-Jefferson-county-pts',
          url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonAddresses/FeatureServer/0',
@@ -7679,6 +7697,14 @@ Doesn't have a Shape field.
          where: "PARCELID<>''",
          labelFields: ['SITEADDRESS'],
          processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel last updated 2-28-15
+        {name: 'Robertson Co - Parcels 2015',
+         id: 'tn-robertson-co-parcels',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/Robertson/Rob_Parcels/MapServer/0',
+         labelFields: ['address'],
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
