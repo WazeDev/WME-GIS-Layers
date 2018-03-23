@@ -374,6 +374,26 @@
 // @connect      50.120.220.154
 // @connect      wcgis.us
 // @connect      ycpc.org
+// -- SC --
+// @connect      aecomonline.net
+// @connect      andersoncountysc.org
+// @connect      bcgov.net
+// @connect      berkeleycountysc.gov
+// @connect      charlestoncounty.org
+// @connect      dorchestercounty.net
+// @connect      florenceco.org
+// @connect      gcgis.org
+// @connect      georgetowncountysc.org
+// @connect      greenwoodsc.gov
+// @connect      horrycounty.org
+// @connect      laurenscountygis.org
+// @connect      lex-co.com
+// @connect      mobile311.com
+// @connect      newberrycounty.net
+// @connect      orangeburgcounty.org
+// @connect      saludacountysc.net
+// @connect      sumtercountysc.org
+// @connect      yorkcountygov.com
 // -- SD --
 // @connect      districtiii.org
 // @connect      206.176.83.74
@@ -7205,6 +7225,356 @@ Doesn't have a Shape field.
          labelFields: ['PROPADR'],
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // South Caolina
+        // *********************************
+
+        // Abbeville Co - qPublic
+        // Aiken Co - qPublic
+        // Allendale Co - qPublic $$$
+
+        {name: 'Anderson Co - Parcels',
+         id: 'sc-anderson-co-parcels',
+         url: 'http://propertyviewer.andersoncountysc.org/arcgis/rest/services/NewPropertyViewer/MapServer/7',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Anderson Co - Address Points',
+         id: 'sc-anderson-co-pts',
+         url: 'http://propertyviewer.andersoncountysc.org/arcgis/rest/services/Address_Viewer/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Bamberg Co - qPublic $$$
+        // Barnwell Co - qPublic $$$
+
+        {name: 'Beaufort Co - Parcels',
+         id: 'sc-beaufort-co-parcels',
+         url: 'http://webgis.bcgov.net/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Beaufort Co - Address Points',
+         id: 'sc-beaufort-co-pts',
+         url: 'http://webgis.bcgov.net/arcgis/rest/services/Addresses/MapServer/0',
+         labelFields: ['STADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Berkeley Co - Parcels',
+         id: 'sc-berkeley-co-parcels',
+         url: 'http://gis.berkeleycountysc.gov/arcgis/rest/services/desktop/internet_map/MapServer/3',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Berkeley Co - Address Points',
+         id: 'sc-berkeley-co-pts',
+         url: 'http://gis.berkeleycountysc.gov/arcgis/rest/services/desktop/internet_map/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Calhoun Co - Parcels',
+         id: 'sc-calhoun-co-parcels',
+         url: 'https://gis.aecomonline.net/arcgis/rest/services/CalhounCO/WebParcels/MapServer/127',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Calhoun Co - Address Points',
+         id: 'sc-calhoun-co-pts',
+         url: 'https://gis.aecomonline.net/arcgis/rest/services/CalhounCO/Dynamic/MapServer/0',
+         labelFields: ['Z11_ADD'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Charleston Co - Parcels',
+         id: 'sc-charleston-co-parcels',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/4',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Charleston - Address Points',
+         id: 'sc-charleston-co-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/1',
+         labelFields: ['WHOLE_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Cherokee Co - qPublic
+        // Chester Co - qPublic
+        // Chesterfield Co - WTH
+        // Clarendon Co - qPublic
+
+        {name: 'Colleton Co - Parcels',
+         id: 'sc-colleton-co-parcels',
+         url: 'https://services1.arcgis.com/m0cnLGKdhwao8WvM/ArcGIS/rest/services/Parcel_Boundaries/FeatureServer/0',
+         labelFields: ['SitusAddre'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Colleton Co - Address Points',
+         id: 'sc-colleton-co-pts',
+         url: 'https://services1.arcgis.com/m0cnLGKdhwao8WvM/ArcGIS/rest/services/Address_Points/FeatureServer/0',
+         labelFields: ['WHOLEADDRE'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Darlington Co - qPublic
+        // Dillon Co - WTH
+
+        {name: 'Dorchester Co - Parcels',
+         id: 'sc-dorchester-co-parcels',
+         url: 'https://gisservices.dorchestercounty.net/arcgis/rest/services/BI_Base_Counter_Publish/MapServer/4',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dorchester Co - Address Points',
+         id: 'sc-dorchester-co-pts',
+         url: 'https://gisservices.dorchestercounty.net/arcgis/rest/services/BI_Base_Counter_Publish/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Edgefield Co - qPublic
+        // Fairfield Co - qPublic
+
+        {name: 'Florence Co - Parcels',
+         id: 'sc-florence-co-parcels',
+         url: 'https://arc2000.florenceco.org/arcgis/rest/services/AGOL_Base/MapServer/8',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Florence Co - Address Points',
+         id: 'sc-florence-co-pts',
+         url: 'https://arc2000.florenceco.org/arcgis/rest/services/AGOL_Base/MapServer/15',
+         labelFields: ['FULLADDR'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Georgetown Co - Parcels',
+         id: 'sc-georgetown-co-parcels',
+         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/2',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Georgetown Co - 911 Address Points',
+         id: 'sc-georgetown-co-pts',
+         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/8',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Greenville Co - Parcels',
+         id: 'sc-greenville-co-parcels',
+         url: 'https://www.gcgis.org/arcgis/rest/services/GCGIA/Greenville_Base/MapServer/34',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greenville Co - Address Points',
+         id: 'sc-greenville-co-pts',
+         url: 'https://www.gcgis.org/arcgis/rest/services/GCGIA/Greenville_Base/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Greenwood Co - Parcels',
+         id: 'sc-greenwood-co-parcels',
+         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/36',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greenwood Co - Address Points',
+         id: 'sc-greenwood-co-pts',
+         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/28',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Hampton Co - qPublic $$$
+
+        {name: 'Horry Co - Parcels',
+         id: 'sc-horry-co-parcels',
+         url: 'http://www.horrycounty.org/gisweb/rest/services/Public/Parcels/MapServer/1',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Horry Co - Address Points',
+         id: 'sc-horry-co-pts',
+         url: 'http://www.horrycounty.org/gisweb/rest/services/Public/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Jasper Co - qPublic
+        // Kershaw Co - WTH
+        // Lancaster Co - qPublic
+
+        {name: 'Laurens Co - Parcels',
+         id: 'sc-laurens-co-parcels',
+         url: 'http://www.laurenscountygis.org/ArcGIS/rest/services/WebParcels/MapServer/65',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Laurens Co - Address Points',
+         id: 'sc-laurens-co-pts',
+         url: 'http://www.laurenscountygis.org/ArcGIS/rest/services/AVL/MapServer/0',
+         labelFields: ['COUNTY_COM'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Lee Co - qPublic $$$
+
+        {name: 'Lexington Co - Parcels',
+         id: 'sc-lexington-co-parcels',
+         url: 'http://maps.lex-co.com/arcgis/rest/services/Property/MapServer/0',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lexington Co - Address Points',
+         id: 'sc-lexington-co-pts',
+         url: 'http://maps.lex-co.com/arcgis/rest/services/AddressPts/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Marion Co - WTH
+        // Marlboro Co - WTH
+        // McCormick Co - WTH
+
+        {name: 'Newberry Co - Parcels',
+         id: 'sc-newberry-co-parcels',
+         url: 'http://map.newberrycounty.net/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/5',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Newberry Co - Address Points',
+         id: 'sc-newberry-co-pts',
+         url: 'http://map.newberrycounty.net/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/1',
+         labelFields: ['AL_HouseNo','AL_PreDir','AL_PreType','AL_StName','AL_StType','AL_SufDir'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Oconee Co - qPublic
+
+        {name: 'Orangeburg Co - Parcels',
+         id: 'sc-orangeburg-co-parcels',
+         url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/TaxParcels_web/MapServer/1',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Orangeburg Co - Address Points (no data)',
+         id: 'sc-orangeburg-co-pts',
+         url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/SiteAddressesView/MapServer/0',
+         labelFields: ['ADD_STNUM','ADD_STREET','ADD_EXT'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Pickens Co - qPublic
+        // Richland Co - Custom GIS
+
+        {name: 'Saluda Co - Parcels',
+         id: 'sc-saluda-co-parcels',
+         url: 'http://www.saludacountysc.net/arcgis/rest/services/ParcelSearch/PublicWebsite/MapServer/4',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saluda Co - Address Points',
+         id: 'sc-saluda-co-pts',
+         url: 'http://www.saludacountysc.net/arcgis/rest/services/ParcelSearch/PublicWebsite/MapServer/1',
+         labelFields: ['FullAddress'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Spartanburg Co - Parcels',
+         id: 'sc-spartanburg-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthCarolina/SpartanburgSC/MapServer/24',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Spartanburg Co - Address Points',
+         id: 'sc-spartanburg-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthCarolina/SpartanburgSC/MapServer/9',
+         labelFields: ['FULLNAME'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sumter Co - Parcels',
+         id: 'sc-sumter-co-parcels',
+         url: 'http://svr4.sumtercountysc.org:6080/arcgis/rest/services/Parcel_Search/County_Map_PS/MapServer/1',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sumter Co - Address Points',
+         id: 'sc-sumter-co-pts',
+         url: 'http://svr4.sumtercountysc.org:6080/arcgis/rest/services/Parcel_Search/County_Map_PS/MapServer/5',
+         labelFields: ['O_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Union Co - qPublic
+        // Williamsburg Co - WTH
+
+        {name: 'York Co - Parcels',
+         id: 'sc-york-co-parcels',
+         url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/3',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'York Co - Address Points',
+         id: 'sc-york-co-pts',
+         url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/0',
+         labelFields: ['WHOLE_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Charleston - City Address Points',
+         id: 'sc-charleston-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/25',
+         labelFields: ['ADDRLABEL'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mount Pleasant - City Address Points',
+         id: 'sc-mount-pleasant-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/26',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'North Charleston - City Address Points',
+         id: 'sc-north-charleston-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/24',
+         labelFields: ['FullAddres'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Summerville - City Address Points',
+         id: 'sc-summerville-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/23',
+         labelFields: ['FULLADDR'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
 
 
         // South Dakota
