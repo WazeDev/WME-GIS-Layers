@@ -433,6 +433,7 @@
 // @connect      emap.rowlett.com
 // @connect      cloud.longviewtexas.gov
 // @connect      gis.pandai.com
+// @connect      gis.gptx.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -6497,7 +6498,6 @@
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
-
         // Oklahoma
         // **********************************
 
@@ -7905,6 +7905,14 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Cooke Co - Parcels',
+         id: 'tx-coookie-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
+         labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name:  'Coppell City - Parcels',
          id:  'tx-coppell-city-parcels',
          url:  'https://map.coppelltx.gov/gis/rest/services/External/MapLayers/MapServer/11',
@@ -8137,6 +8145,14 @@ Doesn't have a Shape field.
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name:  'Grand Prairie City - Parcels',
+         id:  'tx-grandprairie-city-parcels',
+         url:  'https://gis.gptx.org/srv103/rest/services/Maps/BaseMap/MapServer/15',
+         labelFields:  ['STR_NUM', 'STR_NAME', 'STR_TYPE' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name:  'Gray Co - Parcels',
          id:  'tx-gray-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
@@ -8189,7 +8205,7 @@ Doesn't have a Shape field.
          id: 'tx-harris-co-parcels',
          url: 'https://arcweb.hcad.org/server/rest/services/public/public_query/MapServer/0',
          labelFields: ['address'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(/^0\s.*/,'').replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
