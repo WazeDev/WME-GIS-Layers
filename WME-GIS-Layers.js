@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.21.001
+// @version      2018.03.22.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -28,7 +28,10 @@
 // @connect      tuscaloosa-al.gov
 // -- AR --
 // @connect      arkansas.gov
+// @connect      bentoncountyar.gov
 // @connect      efsedge.com
+// @connect      pagis.org
+// @connect      washington.ar.us
 // -- AZ --
 // @connect      yumacountyaz.gov
 // -- CA --
@@ -256,7 +259,9 @@
 // -- MS --
 // @connect      ms.gov
 // @connect      agdmaps.com
+// @connect      cmpdd.org
 // @connect      desotocountyms.gov
+// @connect      ms.us
 // -- MT --
 // @connect       gisservicemt.gov
 // @connect       flathead.mt.gov
@@ -430,6 +435,7 @@
 // @connect      emap.rowlett.com
 // @connect      cloud.longviewtexas.gov
 // @connect      gis.pandai.com
+// @connect      gis.gptx.org
 // -- VA --
 // @connect      worldviewsolutions.com
 // @connect      alexandriava.gov
@@ -975,6 +981,21 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Benton Co - Address Points',
+         id: 'ar-benton-co-points',
+         url: 'http://gis.bentoncountyar.gov/arcgis/rest/services/Basemaps/Cadastral/MapServer/2',
+         labelFields: ['FULL_ADDR'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Benton Co - Parcels',
+         id: 'ar-benton-co-parcels',
+         url: 'http://gis.bentoncountyar.gov/arcgis/rest/services/Basemaps/Cadastral/MapServer/14',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Bryant - City Address Points',
          id: 'ar-bryant-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/BryantCity/Bryant_Master_Map1/MapServer/13',
@@ -1180,6 +1201,21 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'North Little Rock - City Address Points',
+         id: 'ar-north-little-rock-city-points',
+         url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/11',
+         labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'North Little Rock - City Parcels',
+         id: 'ar-north-little-rock-city-parcels',
+         url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/46',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Ouachita Co - Address Points',
          id: 'ar-ouachita-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/5',
@@ -1225,7 +1261,22 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Saline Co - Address Points',
+         {name: 'Pulaski Co - Address Points',
+         id: 'ar-pulaski-co-points',
+         url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/9',
+         labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pulaski Co - Parcels',
+         id: 'ar-pulaski-co-parcels',
+         url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/40',
+         labelFields: ['PH_ADD'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saline Co - Address Points',
          id: 'ar-saline-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/11',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
@@ -1255,6 +1306,20 @@
          processLabel: function(label) { return label.replace(/^\D.*/, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Washington Co - Address Points',
+         id: 'ar-washington-co-points',
+         url: 'http://arcserv.co.washington.ar.us/wcgis/rest/services/demo_IT/WashcoDynamic2/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Washington Co - Parcels (no labels)',
+         id: 'ar-washington-co-parcels',
+         url: 'http://arcserv.co.washington.ar.us/wcgis/rest/services/demo_IT/WashcoDynamic2/MapServer/14',
+         labelFields: [],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
 
         // California
         // ***********************************
@@ -3757,6 +3822,14 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'St Tammany Parish - Parcels',
+         id: 'la-st-tammany-parish-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StTammany_Services/MapServer/6',
+         labelFields: ['prop_number','prop_street',],
+         where: [''],
+         state: 'LA',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Terrebonne Parish - Address Points',
          id: 'la-terrebonne-parish-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Terrebonne_Service/MapServer/0',
@@ -4766,12 +4839,28 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+         {name: 'Brandon - City Parcels',
+         id: 'ms-brandon-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Brandon2016/MapServer/8',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Biloxi - City Parcels',
          id: 'ms-biloxi-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
          labelFields: ['STNUM','DIR','ST_NAME'],
          processLabel: function(label) { return label.replace(/^0\s?/,''); },
          where: [''],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clinton - City Parcels',
+         id: 'ms-clinton-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Clinton/MapServer/24',
+         labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4796,6 +4885,14 @@
          labelFields: ['NUMERICS','ROAD_NAME'],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Copiah Co - Parcels',
+         id: 'ms-copiah-co-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Copiah_County/MapServer/3',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'De Soto Co - Address Points',
          id: 'ms-de-soto-co-pts',
@@ -4854,6 +4951,22 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hinds Co - Parcels',
+         id: 'ms-hinds-co-parcels',
+         url: 'http://gisweb.co.hinds.ms.us/arcgis/rest/services/HindsParcelMap/MapServer/2',
+         labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jackson Co - Parcels',
+         id: 'ms-jackson-co-parcels',
+         url: 'https://webmap.co.jackson.ms.us/arcgis/rest/services/JacksonCounty/Parcel_2_Web/MapServer/2',
+         labelFields: ['STRN','STRD','STRNM','STYPE'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Lamar Co - Parcels',
          id: 'ms-lamar-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LamarCounty_Services/MapServer/59',
@@ -4874,6 +4987,22 @@
          id: 'ms-lincoln-co-parcel',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/103',
          labelFields: ['STREET_NUMBER','STREET_NAME'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Madison Co - Parcels',
+         id: 'ms-madison-co-parcel',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Madison_County/MapServer/11',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Magee - City Parcels',
+         id: 'ms-magee-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/MageeViewer/MapServer/4',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4908,12 +5037,26 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Pontotoc Co - Parcels',
-         id: 'ms-pontotoc-co-parcels',
-         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
-         labelFields: ['StreetNumber','StreetName'],
+        {name: 'Pearl - City Address Points',
+         id: 'ms-pearl-city-points',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/1',
+         labelFields: ['FULL_ADDRE'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pearl - City Parcels',
+         id: 'ms-pearl-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/15',
+         labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
-         where: [],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Pelahatchie - City Parcels',
+         id: 'ms-pelahatchie-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Pelahatchie/MapServer/16',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4921,6 +5064,15 @@
          id: 'ms-pike-co-parcel',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
          labelFields: ['PROP_ADD_NUM','PROP_STREET'],
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pontotoc Co - Parcels',
+         id: 'ms-pontotoc-co-parcels',
+         url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
+         labelFields: ['StreetNumber','StreetName'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4934,6 +5086,21 @@
         {name: 'Quitman Co - Parcels',
          id: 'ms-quitman-co-parcel',
          url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/4',
+         labelFields: ['STREET_NUM','STREET'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Rankin Co - Address Points',
+         id: 'ms-rankin-co-pts',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/3',
+         labelFields: ['FULL_ADDRE'],
+         state: 'MS',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rankin Co - Parcels',
+         id: 'ms-rankin-co-parcel',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
          state: 'MS',
@@ -4953,6 +5120,14 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Warren Co - Parcels 2',
+         id: 'ms-warren-co-parcels-2',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Warren_County/MapServer/4',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Winston Co - Address Points',
          id: 'ms-winston-co-pts',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/1',
@@ -4967,6 +5142,13 @@
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Yazoo City - City Parcels',
+         id: 'ms-yazoo-city-city-parcels',
+         url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/YazooCity/MapServer/4',
+         labelFields: ['STR_NUM','STR_NAME'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         state: 'MS',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Missouri
         // ************************************
@@ -6435,7 +6617,6 @@
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
-
         // Oklahoma
         // **********************************
 
@@ -7843,6 +8024,14 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Cooke Co - Parcels',
+         id: 'tx-coookie-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
+         labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name:  'Coppell City - Parcels',
          id:  'tx-coppell-city-parcels',
          url:  'https://map.coppelltx.gov/gis/rest/services/External/MapLayers/MapServer/11',
@@ -8075,6 +8264,14 @@ Doesn't have a Shape field.
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
+        {name:  'Grand Prairie City - Parcels',
+         id:  'tx-grandprairie-city-parcels',
+         url:  'https://gis.gptx.org/srv103/rest/services/Maps/BaseMap/MapServer/15',
+         labelFields:  ['STR_NUM', 'STR_NAME', 'STR_TYPE' ],
+         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name:  'Gray Co - Parcels',
          id:  'tx-gray-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
@@ -8127,7 +8324,7 @@ Doesn't have a Shape field.
          id: 'tx-harris-co-parcels',
          url: 'https://arcweb.hcad.org/server/rest/services/public/public_query/MapServer/0',
          labelFields: ['address'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(/^0\s.*/,'').replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
