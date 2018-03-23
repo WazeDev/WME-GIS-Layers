@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.23.002
+// @version      2018.03.23.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -2563,7 +2563,7 @@
 
         {name: 'Valley Co - Address Points',
          id: 'id-valley-co-pts',
-         url: 'https://services6.arcgis.com/ikurHvtarxfN6u3u/ArcGIS/rest/services/Address_Collector/FeatureServer/0',
+         url: 'https://services6.arcgis.com/ikurHvtarxfN6u3u/ArcGIS/rest/services/Addresses_Collector/FeatureServer/0',
          labelFields: ['DLVRY_ADD'],
          state: 'ID',
          style: DEFAULT_PT_STYLE},
