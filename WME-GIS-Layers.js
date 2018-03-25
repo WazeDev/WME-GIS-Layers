@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.23.003
+// @version      2018.03.24.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -5659,9 +5659,16 @@
          state: 'NE',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Douglas Co - Address Points',
+         id: 'ne-douglas-co-points',
+         url: 'https://gis.dogis.org/arcgis/rest/services/OpenData_layers/MapServer/32',
+         labelFields: ['FULLADDR'],
+         state: 'NE',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Douglas Co - Parcels',
          id: 'ne-douglas-co-parcels',
-         url: 'https://gis.dogis.org/arcgis/rest/services/Basemaps/Gray_Basemap/MapServer/4',
+         url: 'https://gis.dogis.org/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['PROPERTY_A'],
          state: 'NE',
          style: DEFAULT_PARCEL_STYLE},
