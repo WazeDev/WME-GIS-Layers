@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.22.003
+// @version      2018.03.28.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -10,478 +10,382 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
-// -- AK --
-// @connect      matsugov.us
-// @connect      ancgis.com
-// @connect      kpb.us
-// @connect      fnsb.us
-// @connect      ak.us
-// @connect      mobile311.com
-// -- AL --
-// @connect      kcsgis.com
-// @connect      calhouncounty.org
-// @connect      shelbyal.com
-// @connect      cityofmobile.org
-// @connect      stclairco.com
-// @connect      emapsplus.com
-// @connect      jccal.org
-// @connect      tuscaloosa-al.gov
-// -- AR --
-// @connect      arkansas.gov
-// @connect      bentoncountyar.gov
-// @connect      efsedge.com
-// @connect      pagis.org
-// @connect      washington.ar.us
-// -- AZ --
-// @connect      yumacountyaz.gov
-// -- CA --
-// @connect      geopowered.com
-// @connect      acgov.org
-// -- CO --
-// @connect      fremontgis.com
-// -- DC --
-// @connect      dc.gov
-// -- FL --
-// @connect      arcgis.com
-// @connect      boca-raton.fl.us
-// @connect      brevardcounty.us
-// @connect      broward.org
-// @connect      bcpa.net
-// @connect      charlottecountyfl.gov
-// @connect      citruspa.org
-// @connect      claycountygov.com
-// @connect      colliergov.net
-// @connect      coj.net
-// @connect      escpa.org
-// @connect      fl.us
-// @connect      fwb.org
-// @connect      hcpafl.org
-// @connect      hernandocountygis-fl.us
-// @connect      hcpao.org
-// @connect      ircgov.com
-// @connect      lakecountyfl.gov
-// @connect      leoncountyfl.gov
-// @connect      mymanatee.org
-// @connect      marioncountyfl.org
-// @connect      martin.fl.us
-// @connect      miamidade.gov
-// @connect      okaloosafl.com
-// @connect      ocpafl.org
-// @connect      property-appraiser.org
-// @connect      palmcoastgov.com
-// @connect      property-appraiser.org
-// @connect      pascocountyfl.net
-// @connect      paslc.org
-// @connect      pinellascounty.org
-// @connect      plantation.org
-// @connect      polkpa.org
-// @connect      port-orange.org
-// @connect      putnam-fl.com
-// @connect      scgov.net
-// @connect      seminolecountyfl.gov
-// @connect      st-johns.fl.us
-// @connect      tampagov.net
-// @connect      vcgov.org
-// -- GA --
-// @connect      augustaga.gov
-// @connect      bryan-county.org
-// @connect      thempc.org
-// @connect      clayton.ga.us
-// @connect      cherokeega.com
-// @connect      cobbgis.org
-// @connect      dekalbcountyga.gov
-// @connect      forsythco.com
-// @connect      fultoncountyga.gov
-// @connect      thomsonreuters.com
-// @connect      arcgis.com
-// @connect      roktech.net
-// @connect      ga.us
-// @connect      atlantaregional.com
-// @connect      brookhavenga.gov
-// @connect      columbiacountyga.gov
-// @connect      interdev.com
-// @connect      dunwoodyga.gov
-// @connect      romega.us
-// @connect      sandyspringsga.gov
-// @connect      sagiscloud.thempc.org
-// @connect      whitfieldcountyga.com
-// -- HI --
-// @connect      hawaii.gov
-// @connect      honolulugis.org
-// -- IA --
-// @connect      gisworkshop.com
-// @connect      216.81.174.57
-// @connect      cedar-rapids.org
-// @connect      dmcwebgis.com
-// @connect      dmgov.org
-// @connect      dbqco.org
-// @connect      iowa.gov
-// @connect      linncounty.org
-// @connect      polkcountyiowa.gov
-// @connect      pottcounty-ia.gov
-// @connect      siouxcounty.org
-// -- ID --
-// @connect      adacountyassessor.org
-// @connect      idaho.gov
-// @connect      id.us
-// @connect      cityofboise.org
-// @connect      bonnercounty.us
-// @connect      canyonco.org
-// @connect      clearwatercounty.org
-// @connect      rexburg.org
-// @connect      kcgov.us
-// -- IL --
-// @connect      cookcountyil.gov
-// @connect      dupageco.org
-// @connect      lakecountyil.gov
-// @connect      il.us
-// @connect      willcogis.org
-// -- IN --
-// @connect      in.gov
-// -- KS --
-// @connect      kansasgis.org
-// @connect      douglascountyks.org
-// @connect      bucoks.com
-// @connect      cowleycounty.org
-// @connect      geodataportal.net
-// @connect      finneycountygis.com
-// @connect      lawrenceks.org
-// @connect      rileycountyks.gov
-// @connect      rsdigital.com
-// @connect      pottcounty.org
-// @connect      renogov.org
-// @connect      snco.us
-// @connect      wycokck.org
-// @connect      wichita.gov
-// -- KY --
-// @connect      ky.gov
-// @connect      kcor.org
-// @connect      maps2.bgadd.org
-// @connect      boonecountygis.com
-// @connect      lojic.org
-// @connect      lexingtonky.gov
-// @connect      madisoncountyky.us
-// @connect      ccgisonline.com
-// @connect      linkgis.org
-// @connect      bgky.org
-// @connect      paducahky.gov
-// @connect      gscplanning.com
-// @connect      arcgis.com
-// @connect      hendersonky.us
-// @connect      161.6.109.206
-// -- LA --
-// @connect      efsedge.com
-// @connect      geoportalmaps.com
-// @connect      jeffparish.net
-// @connect      nola.gov
-// -- MA --
-// @connect      ma.us
-// @connect      cityofboston.gov
-// -- MD --
-// @connect      md.gov
-// @connect      baltimorecountymd.gov
-// @connect      allconet.org
-// @connect      aacounty.org
-// @connect      arcgis.com
-// @connect      ccgov.org
-// @connect      frederickcountymd.gov
-// @connect      garrettcounty.org
-// @connect      montgomerycountymd.gov
-// @connect      pgatlas.com
-// @connect      qac.org
-// @connect      saint-marys.md.us
-// @connect      talbgov.org
-// @connect      washco-md.net
-// -- MI --
-// @connect      kentcountymi.gov
-// @connect      emmetcounty.org
-// @connect      countyofnewaygo.com
-// @connect      oakgov.com
-// @connect      ewashtenaw.org
-// -- MN --
-// @connect       aitkin.mn.us
-// @connect       anoka.mn.us
-// @connect       becker.mn.us
-// @connect       beltrami.mn.us
-// @connect       big-stone.mn.us
-// @connect       carlton.mn.us
-// @connect       carver.mn.us
-// @connect       cass.mn.us
-// @connect       chippewa.mn.us
-// @connect       claycountymn.gov
-// @connect       clearwater.mn.us
-// @connect       cook.mn.us
-// @connect       dakota.mn.us
-// @connect       goodhue.mn.us
-// @connect       douglas.mn.us
-// @connect       fillmore.mn.us
-// @connect       136.234.11.196
-// @connect       hennepin.us
-// @connect       hubbard.mn.us
-// @connect       itasca.mn.us
-// @connect       kandiyohi.mn.us
-// @connect       136.234.13.165
-// @connect       lake-of-the-woods.mn.us
-// @connect       marshall.mn.us
-// @connect       mille-lacs.mn.us
-// @connect       norman.mn.us
-// @connect       olmsted.mn.us
-// @connect       ottertailcounty.net
-// @connect       polk.mn.us
-// @connect       pope.mn.us
-// @connect       ramsey.mn.us
-// @connect       renvillecountymn.com
-// @connect       roseau.mn.us
-// @connect       stlouiscountymn.gov
-// @connect       stearns.mn.us
-// @connect       steele.mn.us
-// @connect       wadena.mn.us
-// @connect       waseca.mn.us
-// @connect       washington.mn.us
-// @connect       wilkin.mn.us
-// @connect       ym.mn.gov
-// -- MO --
-// @connect      gocolumbiamo.com
-// @connect      integritygis.com
-// @connect      christiancountymo.gov
-// @connect      emapsplus.com
-// @connect      hornershifrin.com
-// @connect      midmogis.org
-// @connect      missouri.edu
-// @connect      jacksongov.org
-// @connect      semogis.com
-// @connect      kcmo.org
-// @connect      mo.us
-// @connect      polkcountymo.org
-// @connect      sccmo.org
-// @connect      showmeboone.com
-// @connect      stlouisco.com
-// -- MS --
-// @connect      ms.gov
-// @connect      agdmaps.com
-// @connect      cmpdd.org
-// @connect      desotocountyms.gov
-// @connect      ms.us
-// -- MT --
-// @connect       gisservicemt.gov
-// @connect       flathead.mt.gov
-// @connect       gallatin.mt.gov
-// @connect       helenamontanamaps.org
-// @connect       missoulacounty.us
-// @connect       parkcounty.org
-// @connect       yellowstone.mt.gov
-// @connect       gisservicemt.gov
-// -- NC --
-// @connect      brunswickcountync.gov
-// -- ND --
-// @connect      nd.gov
-// @connect      adamscounty.org
-// @connect      burleighco.com
-// @connect      casscountynd.gov
-// @connect      gfgis.com
-// @connect      nd.us
+//
+// @connect      23.96.59.134
+// @connect      50.120.220.154
 // @connect      54.213.14.253
-// -- NE --
+// @connect      72.10.206.73
+// @connect      136.234.11.196
+// @connect      136.234.13.165
+// @connect      161.6.109.206
+// @connect      184.12.255.122
+// @connect      204.63.176.116
+// @connect      206.176.83.74
+// @connect      216.81.174.57
+// @connect      1stdistrict.org
+// @connect      aacounty.org
+// @connect      abilenetx.com
+// @connect      acgov.org
+// @connect      adacountyassessor.org
 // @connect      adamscounty.org
-// @connect      dogis.org
-// @connect      lincoln.ne.gov
-// @connect      sarpy.com
-// -- NJ --
-// @connect      nj.us
-// -- NV --
-// @connect      washoecounty.us
-// @connect      perryco.org
-// -- NY --
-// @connect      ny.gov
-// @connect      ny.us
+// @connect      adamscounty.us
+// @connect      aecomonline.net
+// @connect      agdmaps.com
+// @connect      ak.us
+// @connect      alexandriava.gov
+// @connect      allconet.org
+// @connect      alleghenycounty.us
+// @connect      allencountyohio.com
+// @connect      ancgis.com
+// @connect      andersoncountysc.org
+// @connect      apsu.edu
+// @connect      ar.us
+// @connect      arcgis.com
+// @connect      arkansas.gov
+// @connect      arlingtonva.us
+// @connect      ashtabulacounty.us
+// @connect      atlantaregional.com
+// @connect      auglaizecounty.org
+// @connect      augustaga.gov
+// @connect      bakerprojects.com
+// @connect      baltimorecountymd.gov
+// @connect      bcad.org
 // @connect      bcgis.com
+// @connect      bcgov.net
+// @connect      bcpa.net
+// @connect      bedfordcountyva.gov
+// @connect      bentoncountyar.gov
+// @connect      berkeleycountysc.gov
+// @connect      berkeleywv.org
+// @connect      bgadd.org
+// @connect      bgky.org
+// @connect      bisconsultants.com
+// @connect      bonnercounty.us
+// @connect      boonecountygis.com
+// @connect      brevardcounty.us
+// @connect      brookhavenga.gov
+// @connect      broward.org
+// @connect      brunswickcountync.gov
+// @connect      bryan-county.org
+// @connect      bryantx.gov
+// @connect      bucoks.com
+// @connect      burleighco.com
+// @connect      butlercountyauditor.org
+// @connect      cabellassessor.com
+// @connect      calhouncounty.org
+// @connect      cambriacountypa.gov
+// @connect      canyonco.org
+// @connect      carboncounty.com
+// @connect      casperwy.gov
+// @connect      casscountynd.gov
 // @connect      cattco.org
 // @connect      cayugacounty.us
-// @connect      chautauquacounty.com
-// @connect      dancgis.org
-// @connect      23.96.59.134
-// @connect      dutchessny.gov
-// @connect      erie.gov
-// @connect      gishost.com
-// @connect      greenegovernment.com
-// @connect      latisviewer.com
-// @connect      livingstoncounty.us
-// @connect      monroecounty.gov
-// @connect      nassaucountyny.gov
-// @connect      niagaracounty.com
-// @connect      orangecountygov.com
-// @connect      oswegocounty.com
-// @connect      mapxpress.net
-// @connect      pcnygis.com
-// @connect      72.10.206.73
-// @connect      suffolkcountyny.gov
-// @connect      ulstercountyny.gov
-// @connect      warrencountyny.gov
-// @connect      westchestergov.com
-// -- OH --
-// @connect      hamilton-co.org
-// @connect      oh.us
-// @connect      butlercountyauditor.org
-// @connect      clermontauditor.org
-// @connect      mcegisohio.org
-// @connect      franklincountyauditor.com
-// @connect      allencountyohio.com
-// @connect      ashtabulacounty.us
-// @connect      auglaizecounty.org
-// @connect      fultoncountyoh.com
-// @connect      lakecountyohio.gov
-// @connect      lcounty.com
-// @connect      loraincountyauditor.com
-// @connect      mahoningcountyoh.gov
-// @connect      mercercountyohio.org
-// @connect      sanduskycountygis.org
-// @connect      sciotocountyengineer.org
-// @connect      starkcountyohio.gov
-// @connect      summitoh.net
-// @connect      tgisites.com
-// -- OK --
-// @connect      incog.org
-// @connect      geocortex.com
-// @connect      normanok.gov
-// @connect      roktech.net
-// -- PA --
-// @connect      pa.us
-// @connect      adamscounty.us
-// @connect      alleghenycounty.us
-// @connect      bakerprojects.com
-// @connect      cambriacountypa.gov
-// @connect      carboncounty.com
-// @connect      centrecountypa.gov
-// @connect      chesco.org
-// @connect      clearfieldco.org
-// @connect      clintoncountypa.com
-// @connect      columbiapa.org
-// @connect      crawfordcountypa.net
+// @connect      ccgisonline.com
+// @connect      ccgov.org
 // @connect      ccpa.net
+// @connect      cedar-rapids.org
+// @connect      centrecountypa.gov
+// @connect      charlestoncounty.org
+// @connect      charlottecountyfl.gov
+// @connect      chautauquacounty.com
+// @connect      cherokeega.com
+// @connect      chesco.org
+// @connect      christiancountymo.gov
+// @connect      citruspa.org
+// @connect      cityhs.net
+// @connect      cityofboise.org
+// @connect      cityofboston.gov
+// @connect      cityofcarrollton.com
+// @connect      cityofmobile.org
+// @connect      claycountygov.com
+// @connect      claycountymn.gov
+// @connect      clearfieldco.org
+// @connect      clearwatercounty.org
+// @connect      clermontauditor.org
+// @connect      clevelandtn.gov
+// @connect      clintoncountypa.com
+// @connect      cmpdd.org
+// @connect      cobbgis.org
+// @connect      coj.net
+// @connect      colliergov.net
+// @connect      columbiacountyga.gov
+// @connect      columbiapa.org
+// @connect      cookcountyil.gov
+// @connect      coppelltx.gov
+// @connect      countyofnewaygo.com
+// @connect      cowleycounty.org
+// @connect      crawfordcountypa.net
+// @connect      cstx.gov
+// @connect      dancgis.org
 // @connect      dauphincounty.org
-// @connect      mobile311.com
+// @connect      dbqco.org
+// @connect      dc.gov
+// @connect      dcad.org
+// @connect      dekalbcountyga.gov
+// @connect      dentoncounty.com
+// @connect      desotocountyms.gov
+// @connect      dfwmaps.com
+// @connect      districtiii.org
+// @connect      dmcwebgis.com
+// @connect      dmgov.org
+// @connect      dogis.org
+// @connect      dorchestercounty.net
+// @connect      douglascountyks.org
+// @connect      dunwoodyga.gov
+// @connect      dupageco.org
+// @connect      dutchessny.gov
+// @connect      efsedge.com
+// @connect      elpasotexas.gov
+// @connect      emapsplus.com
+// @connect      emmetcounty.org
+// @connect      erie.gov
+// @connect      escpa.org
+// @connect      ewashtenaw.org
+// @connect      finneycountygis.com
+// @connect      fl.us
+// @connect      florenceco.org
+// @connect      flower-mound.com
+// @connect      fnsb.us
+// @connect      forsythco.com
+// @connect      fortworthtexas.gov
+// @connect      franklincountyauditor.com
 // @connect      franklincountypa.gov
+// @connect      frederickcountymd.gov
+// @connect      fremontgis.com
+// @connect      friscotexas.gov
+// @connect      fultoncountyga.gov
+// @connect      fultoncountyoh.com
+// @connect      fwb.org
+// @connect      ga.us
+// @connect      garlandtx.gov
+// @connect      garrettcounty.org
+// @connect      gcgis.org
+// @connect      geocortex.com
+// @connect      geodataportal.net
+// @connect      geoportalmaps.com
+// @connect      geopowered.com
+// @connect      georgetowncountysc.org
+// @connect      gfgis.com
+// @connect      gishost.com
+// @connect      gisservicemt.gov
+// @connect      gisworkshop.com
+// @connect      gocolumbiamo.com
+// @connect      goshencounty.org
+// @connect      gptx.org
+// @connect      greenegovernment.com
+// @connect      greenwoodsc.gov
+// @connect      gscplanning.com
+// @connect      hamilton-co.org
+// @connect      hamiltontn.gov
+// @connect      harrisoncountywv.com
+// @connect      hawaii.gov
+// @connect      hcad.org
+// @connect      hcpafl.org
+// @connect      hcpao.org
+// @connect      helenamontanamaps.org
+// @connect      hendersonky.us
+// @connect      hennepin.us
+// @connect      hernandocountygis-fl.us
+// @connect      highlandvillage.org
+// @connect      honolulugis.org
+// @connect      hornershifrin.com
+// @connect      horrycounty.org
 // @connect      huntingdoncounty.net
+// @connect      id.us
+// @connect      idaho.gov
+// @connect      il.us
+// @connect      in.gov
+// @connect      incog.org
+// @connect      integritygis.com
+// @connect      interdev.com
+// @connect      iowa.gov
+// @connect      ircgov.com
+// @connect      jacksongov.org
+// @connect      jccal.org
+// @connect      jeffparish.net
+// @connect      johnsoncitytn.org
+// @connect      kanawhacountyassessor.com
+// @connect      kansasgis.org
+// @connect      kcgov.us
+// @connect      kcmo.org
+// @connect      kcor.org
+// @connect      kcsgis.com
+// @connect      kentcountymi.gov
+// @connect      kpb.us
+// @connect      ky.gov
+// @connect      lakecountyfl.gov
+// @connect      lakecountyil.gov
+// @connect      lakecountyohio.gov
+// @connect      landmarkgeospatial.com
+// @connect      laramiecounty.com
+// @connect      larimer.org
+// @connect      latisviewer.com
+// @connect      laurenscountygis.org
+// @connect      lawrenceks.org
+// @connect      lcounty.com
+// @connect      lcwy.org
+// @connect      leoncountyfl.gov
+// @connect      lex-co.com
+// @connect      lexingtonky.gov
+// @connect      lincolncountysd.org
+// @connect      linkgis.org
+// @connect      linncounty.org
+// @connect      livingstoncounty.us
+// @connect      lojic.org
+// @connect      longviewtexas.gov
+// @connect      loraincountyauditor.com
 // @connect      lyco.org
+// @connect      ma.us
+// @connect      madisoncountyky.us
+// @connect      mahoningcountyoh.gov
+// @connect      mapxpress.net
+// @connect      marioncountyfl.org
+// @connect      matsugov.us
+// @connect      maurycounty-tn.gov
+// @connect      mcegisohio.org
+// @connect      mcgtn.org
+// @connect      mckinneytexas.org
+// @connect      md.gov
+// @connect      md.us
+// @connect      mercercountyohio.org
+// @connect      miamidade.gov
+// @connect      midmogis.org
+// @connect      missoulacounty.us
+// @connect      missouri.edu
+// @connect      mn.gov
+// @connect      mn.us
+// @connect      mo.us
+// @connect      mobile311.com
+// @connect      monroecounty.gov
 // @connect      monroegis.org
 // @connect      montcopa.org
-// @connect      northamptoncounty.org
+// @connect      montgomerycountymd.gov
+// @connect      ms.gov
+// @connect      ms.us
+// @connect      mt.gov
+// @connect      mymanatee.org
+// @connect      nashville.gov
+// @connect      nassaucountyny.gov
+// @connect      nd.gov
+// @connect      nd.us
+// @connect      ne.gov
+// @connect      newberrycounty.net
+// @connect      newedgeservices.com
+// @connect      niagaracounty.com
+// @connect      nj.us
+// @connect      nola.gov
+// @connect      normanok.gov
 // @connect      norrycopa.net
+// @connect      northamptoncounty.org
+// @connect      ny.gov
+// @connect      ny.us
+// @connect      oakgov.com
+// @connect      ocpafl.org
+// @connect      odessa-tx.gov
+// @connect      oh.us
+// @connect      okaloosafl.com
+// @connect      orangeburgcounty.org
+// @connect      orangecountygov.com
+// @connect      oswegocounty.com
+// @connect      ottertailcounty.net
+// @connect      pa.us
+// @connect      paducahky.gov
+// @connect      pagis.org
+// @connect      palmcoastgov.com
+// @connect      pandai.com
+// @connect      parkcounty.org
+// @connect      pascocountyfl.net
+// @connect      paslc.org
+// @connect      pcnygis.com
 // @connect      perryco.org
+// @connect      pgatlas.com
 // @connect      phila.gov
 // @connect      pikepa.org
-// @connect      unionco.org
-// @connect      50.120.220.154
-// @connect      wcgis.us
-// @connect      ycpc.org
-// -- SC --
-// @connect      aecomonline.net
-// @connect      andersoncountysc.org
-// @connect      bcgov.net
-// @connect      berkeleycountysc.gov
-// @connect      charlestoncounty.org
-// @connect      dorchestercounty.net
-// @connect      florenceco.org
-// @connect      gcgis.org
-// @connect      georgetowncountysc.org
-// @connect      greenwoodsc.gov
-// @connect      horrycounty.org
-// @connect      laurenscountygis.org
-// @connect      lex-co.com
-// @connect      mobile311.com
-// @connect      newberrycounty.net
-// @connect      orangeburgcounty.org
-// @connect      saludacountysc.net
-// @connect      sumtercountysc.org
-// @connect      yorkcountygov.com
-// -- SD --
-// @connect      districtiii.org
-// @connect      206.176.83.74
-// @connect      mobile311.com
-// @connect      lincolncountysd.org
-// @connect      rcgov.org
-// @connect      1stdistrict.org
-// @connect      siouxfalls.org
-// -- TN --
-// @connect      204.63.176.116
-// @connect      clevelandtn.gov
-// @connect      johnsoncitytn.org
-// @connect      nashville.gov
-// @connect      hamiltontn.gov
-// @connect      maurycounty-tn.gov
-// @connect      mcgtn.org
+// @connect      pinellascounty.org
+// @connect      planogis.org
+// @connect      plantation.org
+// @connect      polkcountyiowa.gov
+// @connect      polkcountymo.org
+// @connect      polkpa.org
+// @connect      port-orange.org
+// @connect      pottcounty.org
+// @connect      pottcounty-ia.gov
+// @connect      property-appraiser.org
 // @connect      putnamco.org
+// @connect      putnam-fl.com
+// @connect      qac.org
+// @connect      rcgov.org
+// @connect      renogov.org
+// @connect      renvillecountymn.com
+// @connect      rexburg.org
+// @connect      rileycountyks.gov
+// @connect      roktech.net
+// @connect      romega.us
+// @connect      rowlett.com
+// @connect      rsdigital.com
 // @connect      rutherfordcountytn.gov
+// @connect      saludacountysc.net
+// @connect      sanantonio.gov
+// @connect      sanduskycountygis.org
+// @connect      sandyspringsga.gov
+// @connect      sarpy.com
+// @connect      sccmo.org
+// @connect      scgov.net
+// @connect      sciotocountyengineer.org
+// @connect      seminolecountyfl.gov
+// @connect      semogis.com
+// @connect      shelbyal.com
+// @connect      showmeboone.com
+// @connect      siouxcounty.org
+// @connect      siouxfalls.org
+// @connect      smithcountymapsite.org
+// @connect      snco.us
+// @connect      starkcountyohio.gov
+// @connect      stclairco.com
+// @connect      stlouisco.com
+// @connect      stlouiscountymn.gov
+// @connect      suffolkcountyny.gov
+// @connect      summitoh.net
+// @connect      sumtercountysc.org
+// @connect      talbgov.org
+// @connect      tampagov.net
+// @connect      tgisites.com
+// @connect      thempc.org
+// @connect      thomsonreuters.com
+// @connect      timmons.com
 // @connect      tn.us
+// @connect      traviscad.org
+// @connect      trueautomation.com
+// @connect      tuscaloosa-al.gov
+// @connect      tx.us
+// @connect      ulstercountyny.gov
+// @connect      unionco.org
+// @connect      vcgov.org
+// @connect      virginia.gov
+// @connect      wadtx.com
+// @connect      warrencountyny.gov
+// @connect      washco-md.net
+// @connect      washoecounty.us
+// @connect      waxahachie.com
+// @connect      wcgis.us
+// @connect      weatherfordtx.gov
+// @connect      westchestergov.com
+// @connect      whitfieldcountyga.com
+// @connect      wichita.gov
+// @connect      wilco.org
+// @connect      willcogis.org
 // @connect      williamsoncounty-tn.gov
 // @connect      wilsontngis.com
-// -- TX --
-// @connect      gis.abilenetx.com
-// @connect      gis.co.collin.tx.us
-// @connect      maps.dcad.org
-// @connect      gis.dentoncounty.com
-// @connect      gis.elpasotexas.gov
-// @connect      arcgisweb.co.fort-bend.tx.us
-// @connect      friscotexas.gov
-// @connect      maps.planogis.org
-// @connect      gis.wilco.org
-// @connect      webmap.trueautomation.com
-// @connect      bcad.org
-// @connect      wadtx.com
-// @connect      smithcountymapsite.org
-// @connect      arcweb.hcad.org
-// @connect      gis.bisconsultants.com
-// @connect      maps.co.grayson.tx.us
-// @connect      maps.cstx.gov
-// @connect      maps.mckinneytexas.org
-// @connect      temple.tx.us
-// @connect      gismaps.flower-mound.com
-// @connect      maps.garlandtx.gov
-// @connect      newedgeservices.com
-// @connect      arcgis.waxahachie.com
-// @connect      maps.ci.sherman.tx.us
-// @connect      gis.weatherfordtx.gov
-// @connect      propaccess.traviscad.org
-// @connect      maps.bryantx.gov
-// @connect      fortworthtexas.gov
-// @connect      ewebmap.ci.lubbock.tx.us
-// @connect      copgisweb.ci.pearland.tx.us
-// @connect      sanantonio.gov
-// @connect      odessa-tx.gov
-// @connect      map.coppelltx.gov
-// @connect      maps.highlandvillage.org
-// @connect      dfwmaps.com
-// @connect      maps.cityofcarrollton.com
-// @connect      emap.rowlett.com
-// @connect      cloud.longviewtexas.gov
-// @connect      gis.pandai.com
-// @connect      gis.gptx.org
-// -- VA --
+// @connect      wisconsin.gov
 // @connect      worldviewsolutions.com
-// @connect      alexandriava.gov
-// @connect      timmons.com
-// @connect      arlingtonva.us
-// @connect      bedfordcountyva.gov
-// @connect      virginia.gov
-// -- WI --
-// @connect      legis.wisconsin.gov
-// -- WV --
 // @connect      wvu.edu
-// @connect      184.12.255.122
-// @connect      agdmaps.com
-// @connect      berkeleywv.org
-// @connect      cabellassessor.com
-// @connect      harrisoncountywv.com
-// @connect      kanawhacountyassessor.com
-// @connect      landmarkgeospatial.com
-// -- WY --
-// @connect      wyo.gov
 // @connect      wy.gov
 // @connect      wy.us
-// @connect      goshencounty.org
-// @connect      laramiecounty.com
-// @connect      lcwy.org
-// @connect      casperwy.gov
+// @connect      wycokck.org
+// @connect      wyo.gov
+// @connect      ycpc.org
+// @connect      yorkcountygov.com
+// @connect      yumacountyaz.gov
 // ==/UserScript==
 
 /* global OL */
@@ -1159,6 +1063,20 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hot Springs - City Address Points',
+         id: 'ar-hot-springs-city-points',
+         url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/0',
+         labelFields: ['ADR_NUM','ADR_UNIT_TYP','ADR_UNIT_ID','PSTR_FULNAM'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hot Springs - City Parcels (no labels)',
+         id: 'ar-hot-springs-city-parcels',
+         url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/13',
+         labelFields: [],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
          {name: 'Hot Springs Village - City Address Points',
          id: 'ar-hot-springs-village-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/65',
@@ -1472,6 +1390,20 @@
          id: 'co-fremont-co-parcels',
          url: 'http://fremontgis.com/arcgis_102/rest/services/parcels/MapServer/0',
          labelFields: ['SITE_ADDR'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Larimer Co - Address Points',
+         id: 'co-larimer-co-pts',
+         url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Larimer Co - Parcels',
+         id: 'co-larimer-co-parcels',
+         url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3',
+         labelFields: ['LOCADDRESS'],
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2562,7 +2494,7 @@
 
         {name: 'Valley Co - Address Points',
          id: 'id-valley-co-pts',
-         url: 'https://services6.arcgis.com/ikurHvtarxfN6u3u/ArcGIS/rest/services/Address_Collector/FeatureServer/0',
+         url: 'https://services6.arcgis.com/ikurHvtarxfN6u3u/ArcGIS/rest/services/Addresses_Collector/FeatureServer/0',
          labelFields: ['DLVRY_ADD'],
          state: 'ID',
          style: DEFAULT_PT_STYLE},
@@ -3845,7 +3777,7 @@
         {name: 'St Tammany Parish - Parcels',
          id: 'la-st-tammany-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StTammany_Services/MapServer/6',
-         labelFields: ['prop_number','prop_street',],
+         labelFields: ['prop_number','prop_street'],
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -5658,9 +5590,16 @@
          state: 'NE',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Douglas Co - Address Points',
+         id: 'ne-douglas-co-points',
+         url: 'https://gis.dogis.org/arcgis/rest/services/OpenData_layers/MapServer/32',
+         labelFields: ['FULLADDR'],
+         state: 'NE',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Douglas Co - Parcels',
          id: 'ne-douglas-co-parcels',
-         url: 'https://gis.dogis.org/arcgis/rest/services/Basemaps/Gray_Basemap/MapServer/4',
+         url: 'https://gis.dogis.org/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['PROPERTY_A'],
          state: 'NE',
          style: DEFAULT_PARCEL_STYLE},
@@ -7882,6 +7821,7 @@ Doesn't have a Shape field.
 
         // Tennessee
         // ****************************
+
         {name: 'Blount Co - Address Points',
          id: 'tn-blount-county-pts',
          url: 'http://204.63.176.116/arcgis/rest/services/AddressPoints/MapServer/0',
@@ -7909,6 +7849,14 @@ Doesn't have a Shape field.
          url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_PSACadastral/mapserver/0',
          where: "PARCEL<>''",
          labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel last updated 2-28-15
+        {name: 'Cheatham Co - Parcels 2015',
+         id: 'tn-cheatham-co-parcels',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/Cheatham/Cheat_Parcels/MapServer/0',
+         labelFields: ['address'],
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7980,6 +7928,14 @@ Doesn't have a Shape field.
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
+        // this layer was probably last updated on 2-2015 as other layers on same server show that info, this one did not, but is probably same date.
+        {name: 'Henry Co - Address Points 2015',
+         id: 'tn-henry-co-pts',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/HenryCo/Paris_city_map_abbr/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Jefferson Co - Address Points',
          id: 'tn-Jefferson-county-pts',
          url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonAddresses/FeatureServer/0',
@@ -8049,6 +8005,14 @@ Doesn't have a Shape field.
          where: "PARCELID<>''",
          labelFields: ['SITEADDRESS'],
          processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel last updated 2-28-15
+        {name: 'Robertson Co - Parcels 2015',
+         id: 'tn-robertson-co-parcels',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/Robertson/Rob_Parcels/MapServer/0',
+         labelFields: ['address'],
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
