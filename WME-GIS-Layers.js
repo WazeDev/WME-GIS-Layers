@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.24.001
+// @version      2018.03.28.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -10,18 +10,19 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
-// @connect      136.234.11.196
-// @connect      136.234.13.165
-// @connect      161.6.109.206
-// @connect      184.12.255.122
-// @connect      1stdistrict.org
-// @connect      204.63.176.116
-// @connect      206.176.83.74
-// @connect      216.81.174.57
+//
 // @connect      23.96.59.134
 // @connect      50.120.220.154
 // @connect      54.213.14.253
 // @connect      72.10.206.73
+// @connect      136.234.11.196
+// @connect      136.234.13.165
+// @connect      161.6.109.206
+// @connect      184.12.255.122
+// @connect      204.63.176.116
+// @connect      206.176.83.74
+// @connect      216.81.174.57
+// @connect      1stdistrict.org
 // @connect      aacounty.org
 // @connect      abilenetx.com
 // @connect      acgov.org
@@ -91,6 +92,7 @@
 // @connect      chesco.org
 // @connect      christiancountymo.gov
 // @connect      citruspa.org
+// @connect      cityhs.net
 // @connect      cityofboise.org
 // @connect      cityofboston.gov
 // @connect      cityofcarrollton.com
@@ -216,6 +218,7 @@
 // @connect      lakecountyohio.gov
 // @connect      landmarkgeospatial.com
 // @connect      laramiecounty.com
+// @connect      larimer.org
 // @connect      latisviewer.com
 // @connect      laurenscountygis.org
 // @connect      lawrenceks.org
@@ -305,11 +308,11 @@
 // @connect      polkcountymo.org
 // @connect      polkpa.org
 // @connect      port-orange.org
-// @connect      pottcounty-ia.gov
 // @connect      pottcounty.org
+// @connect      pottcounty-ia.gov
 // @connect      property-appraiser.org
-// @connect      putnam-fl.com
 // @connect      putnamco.org
+// @connect      putnam-fl.com
 // @connect      qac.org
 // @connect      rcgov.org
 // @connect      renogov.org
@@ -1060,6 +1063,20 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hot Springs - City Address Points',
+         id: 'ar-hot-springs-city-points',
+         url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/0',
+         labelFields: ['ADR_NUM','ADR_UNIT_TYP','ADR_UNIT_ID','PSTR_FULNAM'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hot Springs - City Parcels (no labels)',
+         id: 'ar-hot-springs-city-parcels',
+         url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/13',
+         labelFields: [],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
          {name: 'Hot Springs Village - City Address Points',
          id: 'ar-hot-springs-village-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/65',
@@ -1373,6 +1390,20 @@
          id: 'co-fremont-co-parcels',
          url: 'http://fremontgis.com/arcgis_102/rest/services/parcels/MapServer/0',
          labelFields: ['SITE_ADDR'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Larimer Co - Address Points',
+         id: 'co-larimer-co-pts',
+         url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Larimer Co - Parcels',
+         id: 'co-larimer-co-parcels',
+         url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3',
+         labelFields: ['LOCADDRESS'],
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
