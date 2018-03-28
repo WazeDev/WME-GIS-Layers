@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.24.001
+// @version      2018.03.28.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -29,6 +29,7 @@
 // -- AR --
 // @connect      arkansas.gov
 // @connect      bentoncountyar.gov
+// @connect      cityhs.net
 // @connect      efsedge.com
 // @connect      pagis.org
 // @connect      washington.ar.us
@@ -39,6 +40,7 @@
 // @connect      acgov.org
 // -- CO --
 // @connect      fremontgis.com
+// @connect      larimer.org
 // -- DC --
 // @connect      dc.gov
 // -- FL --
@@ -1160,6 +1162,20 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Hot Springs - City Address Points',
+         id: 'ar-hot-springs-city-points',
+         url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/0',
+         labelFields: ['ADR_NUM','ADR_UNIT_TYP','ADR_UNIT_ID','PSTR_FULNAM'],
+         state: 'AR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hot Springs - City Parcels (no labels)',
+         id: 'ar-hot-springs-city-parcels',
+         url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/13',
+         labelFields: [],
+         state: 'AR',
+         style: DEFAULT_PARCEL_STYLE},
+
          {name: 'Hot Springs Village - City Address Points',
          id: 'ar-hot-springs-village-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/65',
@@ -1473,6 +1489,20 @@
          id: 'co-fremont-co-parcels',
          url: 'http://fremontgis.com/arcgis_102/rest/services/parcels/MapServer/0',
          labelFields: ['SITE_ADDR'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Larimer Co - Address Points',
+         id: 'co-larimer-co-pts',
+         url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Larimer Co - Parcels',
+         id: 'co-larimer-co-parcels',
+         url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3',
+         labelFields: ['LOCADDRESS'],
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
