@@ -340,8 +340,10 @@
 // @connect      siouxfalls.org
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      springfieldmo.gov
 // @connect      starkcountyohio.gov
 // @connect      stclairco.com
+// @connect      stlouis-mo.gov
 // @connect      stlouisco.com
 // @connect      stlouiscountymn.gov
 // @connect      suffolkcountyny.gov
@@ -5299,6 +5301,21 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        // Greene Co - Info from city of Springfield MO, has countywide data
+        {name: 'Greene Co - Parcels',
+         id: 'mo-greene-co-parcels',
+         url: 'http://maps.springfieldmo.gov/arcgis/rest/services/Maps/GisViewer/MapServer/64',
+         labelFields: [],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greene Co - Address Points',
+         id: 'mo-greene-co-points',
+         url: 'http://maps.springfieldmo.gov/arcgis/rest/services/Maps/GisViewer/MapServer/62',
+         labelFields: ['PRIM_NUM','SUB_NUM','PRE_DIR','STR_NAM','STR_TYPE'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Henry Co - Parcels',
          id: 'mo-henry-co-parcels',
          url: 'http://arcserve1.hornershifrin.com/Geocortex/Essentials/REST/sites/HenryCountyMoOverview/map/mapservices/17/rest/services/x/MapServer/1',
@@ -5317,6 +5334,13 @@
          id: 'mo-holts-summit-city-parcels',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/10',
          labelFields: [],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iron Co - Parcels',
+         id: 'mo-iron-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/IronCo/IronAssess/MapServer/0',
+         labelFields: ['SITE_ADD'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5418,6 +5442,13 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Perry Co - Parcels',
+         id: 'mo-perry-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/PerryCo/PerryAssess/MapServer/0',
+         labelFields: ['SITE_ADD'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Phelps Co - Parcels',
          id: 'mo-phelps-co-parcels',
          url: 'https://phelpsgis.integritygis.com/Geocortex/Essentials/REST/sites/Phelps_County_MO_Public/map/mapservices/7/rest/services/x/MapServer/27',
@@ -5468,6 +5499,20 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'St. Francois Co - Parcels',
+         id: 'mo-stfrancois-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/StFranCo/CityBase/MapServer/6',
+         labelFields: ['REALGISDATA__ADDRESS_1'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St. Louis City - Parcels',
+         id: 'mo-stl-city-parcels',
+         url: 'https://stlgis.stlouis-mo.gov/arcgis/rest/services/public/STL_PUBLICMAP/MapServer/1',
+         labelFields: ['ADDRNUM','ADDRSUF','STREETPRE','STREETNAME','STREETSUF','STRSUFDIR'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'St. Louis Co - Address Points',
          id: 'mo-stlouis-co-points',
          url: 'http://maps.stlouisco.com/arcgis/rest/services/OpenData/OpenData/MapServer/0',
@@ -5482,10 +5527,24 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Scott Co - Parcels',
+         id: 'mo-scott-co-parcels',
+         url: 'https://www.semogis.com/arcgis/rest/services/ScottCo/ScottAssess/MapServer/0',
+         labelFields: ['SITE_ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Vernon Co - Parcels (no labels)',
          id: 'mo-vernon-co-parcels',
          url: 'http://vernongis.integritygis.com/Geocortex/Essentials/REST/sites/Vernon_County_MO/map/mapservices/1/rest/services/x/MapServer/6',
          labelFields: ['PARCELPIN'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Parcels',
+         id: 'mo-washington-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/WashCo/WashAssess/MapServer/0',
+         labelFields: ['HOUSENUM','ADDRESS'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
