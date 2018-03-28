@@ -5305,7 +5305,7 @@
         {name: 'Greene Co - Parcels',
          id: 'mo-greene-co-parcels',
          url: 'http://maps.springfieldmo.gov/arcgis/rest/services/Maps/GisViewer/MapServer/64',
-         labelFields: [],
+         labelFields: ['L_ADRNO','L_ADRDIR','L_ADRSTR','L_ADRSUF'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
