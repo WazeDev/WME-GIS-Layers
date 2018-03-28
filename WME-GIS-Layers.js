@@ -3867,7 +3867,7 @@
         {name: 'Allegany Co - Parcels',
          id: 'md-allegany-county-parcels',
          url: 'http://alleganygis.allconet.org/allcogis/rest/services/Parcels/MapServer/0',
-         labelFields: [],
+         labelFields: ['address'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3881,7 +3881,7 @@
         {name: 'Anne Arundel Co - Parcels',
          id: 'md-anne-arundel-county-parcels',
          url: 'http://gis-world3.aacounty.org/arcgis/rest/services/Public/MyAA/MapServer/7',
-         labelFields: [],
+         labelFields: ['ASST_HOUSE_NO','ASST_STREET_DIR','ASST_STREET_NAME','ASST_STREET_TYPE'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3892,6 +3892,16 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Baltimore - City Parcels',
+         id: 'md-baltimore-city-parcels',
+         url: 'http://gis.baltimorecity.gov/egis/rest/services/cityview/Realproperty/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Baltimore - City Address Points (data not found. close, but not quite)
+        // gis.baltimorecity.gov/egis/rest/services/Pictometry/Pictometry_Layers/MapServer/1
+
         {name: 'Baltimore Co - Parcels',
          id: 'md-baltimore-co-parcels',
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Property/Property/MapServer/1',
@@ -3899,14 +3909,25 @@
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Baltimore Co- Address Points',
+        {name: 'Baltimore Co - Address Points',
          id: 'md-baltimore-county-points',
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Facilities/Address/MapServer/0',
          labelFields: ['ADDRLABEL'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Carroll Co - Parcels',
+        // Calvert Co - Parcels (does not have a Shape field)
+        // calvertgis.co.cal.md.us/arcgis/rest/services/PropertyMap/MapServer/2
+        {name: 'Calvert Co - Address Points',
+         id: 'md-calvert-county-points',
+         url: 'http://calvertgis.co.cal.md.us/arcgis/rest/services/Basemaps/Topo_Base_Map_2011_Version2/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        // Caroline Co - No GIS
+
+        {name: 'Carroll Co - Parcels (no data)',
          id: 'md-carroll-county-parcels',
          url: 'https://services.arcgis.com/Uf0DiYpD9NOFO5YH/ArcGIS/rest/services/Parcels_CarrollCounty/FeatureServer/0',
          labelFields: [],
@@ -3923,7 +3944,7 @@
         {name: 'Cecil Co - Parcels',
          id: 'md-cecil-county-parcels',
          url: 'https://cecilmaps.ccgov.org/arcgis/rest/services/ConsolidatedWebService/MapServer/60',
-         labelFields: [],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3934,10 +3955,13 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        // Charles Co - No GIS
+        // Dorchester Co - No GIS
+
         {name: 'Frederick Co - Parcels',
          id: 'md-frederick-county-parcels',
          url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/Planning/Parcels/MapServer/0',
-         labelFields: [],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3948,6 +3972,13 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Garrett Co - Parcels',
+         id: 'md-garrett-county-parcels',
+         url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/7',
+         labelFields: ['ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Garrett Co - Address Points',
          id: 'md-garrett-county-points',
          url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/2',
@@ -3955,10 +3986,14 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        // Harford Co - No GIS
+        // Howard Co - OpenLayers
+        // Kent Co - No GIS
+
         {name: 'Montgomery Co - Parcels',
          id: 'md-montgomery-county-parcels',
          url: 'http://gis4.montgomerycountymd.gov/arcgis/rest/services/general/property/MapServer/0',
-         labelFields: [''],
+         labelFields: ['PREMISE_ADDR_HOUSENO','PREMISE_ADDR_DIRECTION','PREMISE_ADDR_STREET','PREMISE_ADDR_STREET_TYPE'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3969,7 +4004,7 @@
          state: 'MD',
          style: DEFAULT_STRUCTURE_STYLE},
 
-        {name: 'Prince George\'s Co - Parcels',
+        {name: 'Prince George\'s Co - Parcels (no data)',
          id: 'md-prince-george-county-parcels',
          url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/69',
          labelFields: [''],
@@ -3986,7 +4021,7 @@
         {name: 'Queene Anne\'s Co - Parcels',
          id: 'md-queen-anne-county-parcels',
          url: 'https://gis.qac.org/arcgis/rest/services/QAC_PUBLIC/QAC_Basemap/MapServer/3',
-         labelFields: [''],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3997,7 +4032,7 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'St. Mary\'s Co - Parcels',
+        {name: 'St. Mary\'s Co - Parcels (no data)',
          id: 'md-stmary-county-parcels',
          url: 'http://gtg.smcg.co.saint-marys.md.us/arcgis/rest/services/NewMaps/ZoningMap/MapServer/1',
          labelFields: [],
@@ -4011,10 +4046,12 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        // Somerset Co - No GIS
+
         {name: 'Talbot Co - Parcels',
          id: 'md-talbot-county-parcels',
          url: 'http://maps.talbgov.org/arcgis/rest/services/TalbotWebMaps/PublicLandUse/MapServer/0',
-         labelFields: [''],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4028,7 +4065,7 @@
         {name: 'Washington Co - Parcels',
          id: 'md-washington-county-parcels',
          url: 'https://maps.washco-md.net/arcgis/rest/services/Parcel/Parcels/MapServer/0',
-         labelFields: [''],
+         labelFields: ['PremNum','PremNumSuff','PremDir','PremName','PremType'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4038,6 +4075,9 @@
          labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
+
+        // Wicomico Co - No GIS
+        // Worcester Co - No GIS
 
 
         // Massachusetts
