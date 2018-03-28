@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.28.002
+// @version      2018.03.28.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -29,6 +29,7 @@
 // @connect      adacountyassessor.org
 // @connect      adamscounty.org
 // @connect      adamscounty.us
+// @connect      adcogov.org
 // @connect      aecomonline.net
 // @connect      agdmaps.com
 // @connect      ak.us
@@ -40,6 +41,7 @@
 // @connect      andersoncountysc.org
 // @connect      apsu.edu
 // @connect      ar.us
+// @connect      arapahoegov.com
 // @connect      arcgis.com
 // @connect      arkansas.gov
 // @connect      arlingtonva.us
@@ -108,6 +110,7 @@
 // @connect      cobbgis.org
 // @connect      coj.net
 // @connect      colliergov.net
+// @connect      coloradosprings.gov
 // @connect      columbiacountyga.gov
 // @connect      columbiapa.org
 // @connect      cookcountyil.gov
@@ -314,6 +317,7 @@
 // @connect      putnamco.org
 // @connect      putnam-fl.com
 // @connect      qac.org
+// @connect      rapc.info
 // @connect      rcgov.org
 // @connect      renogov.org
 // @connect      renvillecountymn.com
@@ -1372,10 +1376,69 @@
         // Colorado
         // ***********************************
 
+        {name: 'Adams Co - Address Points',
+         id: 'co-adams-co-points',
+         url: 'https://gisapp.adcogov.org/arcgis/rest/services/AdamsCountyBasic/MapServer/32',
+         labelFields: ['ADDR_FULL'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Adams Co - Parcels',
+         id: 'co-adams-co-parcels',
+         url: 'https://gisapp.adcogov.org/arcgis/rest/services/AdamsCountyBasic/MapServer/33',
+         labelFields: ['CONCATADDR1'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alamosa Co - Parcels',
+         id: 'co-alamosa-co-parcels',
+         url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/AlamosaParcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Arapahoe Co - Address Points',
+         id: 'co-arapahoe-co-points',
+         url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/3',
+         labelFields: ['Full_Address'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Arapahoe Co - Parcels',
+         id: 'co-arapahoe-co-parcels',
+         url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/158',
+         labelFields: ['Situs_Address'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Archuleta Co - Parcels',
          id: 'co-archuleta-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: ['SITUS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Colorado Springs - City Address Points',
+         id: 'co-colorado-springs-city-points',
+         url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/122',
+         labelFields: ['STREET','SUBADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Colorado Springs - City Parcels',
+         id: 'co-colorado-springs-city-parcels',
+         url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/2',
+         labelFields: ['MAINADDRES'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Conejos Co - Parcels',
+         id: 'co-conejos-co-parcels',
+         url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/ConejosParcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1404,6 +1467,13 @@
          id: 'co-larimer-co-parcels',
          url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3',
          labelFields: ['LOCADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saguache Co - Parcels (no labels)',
+         id: 'co-saguache-co-parcels',
+         url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/SaguacheParcels/FeatureServer/0',
+         labelFields: [],
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3706,6 +3776,14 @@
          labelFields: ['SITUS_NUM','SITUS_DIR','SITUS_STREET','SITUS_TYPE'],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rapides Parish - Address Points',
+         id: 'la-rapides-parish-points',
+         url: 'https://rapcgis.rapc.info/server/rest/services/RAPC/addresses/MapServer/0',
+         labelFields: ['Address'],
+         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Red River Parish - Address Points',
          id: 'la-red-river-parish-points',
