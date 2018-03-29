@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.28.004
+// @version      2018.03.29.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -14,6 +14,7 @@
 // @connect      23.96.59.134
 // @connect      50.120.220.154
 // @connect      54.213.14.253
+// @connect      63.238.120.156
 // @connect      72.10.206.73
 // @connect      136.234.11.196
 // @connect      136.234.13.165
@@ -64,8 +65,10 @@
 // @connect      bisconsultants.com
 // @connect      bonnercounty.us
 // @connect      boonecountygis.com
+// @connect      bouldercounty.org
 // @connect      brevardcounty.us
 // @connect      brookhavenga.gov
+// @connect      broomfield.org
 // @connect      broward.org
 // @connect      brunswickcountync.gov
 // @connect      bryan-county.org
@@ -95,6 +98,7 @@
 // @connect      christiancountymo.gov
 // @connect      citruspa.org
 // @connect      cityhs.net
+// @connect      cityofaspen.com
 // @connect      cityofboise.org
 // @connect      cityofboston.gov
 // @connect      cityofcarrollton.com
@@ -108,6 +112,8 @@
 // @connect      clintoncountypa.com
 // @connect      cmpdd.org
 // @connect      cobbgis.org
+// @connect      co.gov
+// @connect      co.us
 // @connect      coj.net
 // @connect      colliergov.net
 // @connect      coloradosprings.gov
@@ -125,9 +131,11 @@
 // @connect      dc.gov
 // @connect      dcad.org
 // @connect      dekalbcountyga.gov
+// @connect      deltacounty.com
 // @connect      dentoncounty.com
 // @connect      desotocountyms.gov
 // @connect      dfwmaps.com
+// @connect      digitaldataservices.com
 // @connect      districtiii.org
 // @connect      dmcwebgis.com
 // @connect      dmgov.org
@@ -139,6 +147,7 @@
 // @connect      dutchessny.gov
 // @connect      efsedge.com
 // @connect      elpasotexas.gov
+// @connect      eaglecounty.us
 // @connect      emapsplus.com
 // @connect      emmetcounty.org
 // @connect      erie.gov
@@ -160,6 +169,7 @@
 // @connect      fultoncountyoh.com
 // @connect      fwb.org
 // @connect      ga.us
+// @connect      garfield-county.com
 // @connect      garlandtx.gov
 // @connect      garrettcounty.org
 // @connect      gcgis.org
@@ -175,6 +185,7 @@
 // @connect      gocolumbiamo.com
 // @connect      goshencounty.org
 // @connect      gptx.org
+// @connect      grandgis.com
 // @connect      greenegovernment.com
 // @connect      greenwoodsc.gov
 // @connect      gscplanning.com
@@ -205,6 +216,7 @@
 // @connect      ircgov.com
 // @connect      jacksongov.org
 // @connect      jccal.org
+// @connect      jeffco.us
 // @connect      jeffparish.net
 // @connect      johnsoncitytn.org
 // @connect      kanawhacountyassessor.com
@@ -251,6 +263,7 @@
 // @connect      md.gov
 // @connect      md.us
 // @connect      mercercountyohio.org
+// @connect      mesacounty.us
 // @connect      miamidade.gov
 // @connect      midmogis.org
 // @connect      missoulacounty.us
@@ -263,6 +276,7 @@
 // @connect      monroegis.org
 // @connect      montcopa.org
 // @connect      montgomerycountymd.gov
+// @connect      montrosecounty.net
 // @connect      ms.gov
 // @connect      ms.us
 // @connect      mt.gov
@@ -296,6 +310,7 @@
 // @connect      pagis.org
 // @connect      palmcoastgov.com
 // @connect      pandai.com
+// @connect      parkco.us
 // @connect      parkcounty.org
 // @connect      pascocountyfl.net
 // @connect      paslc.org
@@ -305,6 +320,7 @@
 // @connect      phila.gov
 // @connect      pikepa.org
 // @connect      pinellascounty.org
+// @connect      pitkincounty.com
 // @connect      planogis.org
 // @connect      plantation.org
 // @connect      polkcountyiowa.gov
@@ -332,6 +348,7 @@
 // @connect      sanantonio.gov
 // @connect      sanduskycountygis.org
 // @connect      sandyspringsga.gov
+// @connect      sanmiguelcountyco.gov
 // @connect      sarpy.com
 // @connect      sccmo.org
 // @connect      scgov.net
@@ -351,6 +368,7 @@
 // @connect      stlouisco.com
 // @connect      stlouiscountymn.gov
 // @connect      suffolkcountyny.gov
+// @connect      summitcountyco.gov
 // @connect      summitoh.net
 // @connect      sumtercountysc.org
 // @connect      talbgov.org
@@ -1117,7 +1135,7 @@
          id: 'ar-lincoln-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lincoln_County/VectorAssessor/MapServer/6',
          labelFields: ['ADR_NUM','NUM_SUF','FULNAM'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1125,7 +1143,7 @@
          id: 'ar-lincoln-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lincoln_County/VectorAssessor/MapServer/13',
          labelFields: ['Street_Num','Street_Dir','Street_Nam','Street_Typ'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1133,7 +1151,7 @@
          id: 'ar-lonoke-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lonoke/Lonoke_Vector/MapServer/0',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1141,7 +1159,7 @@
          id: 'ar-lonoke-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lonoke/Lonoke_Vector/MapServer/12',
          labelFields: ['Lonoke.DBO.PADM.SNUM','Lonoke.DBO.PADM.SDIR','Lonoke.DBO.PADM.SSTR','Lonoke.DBO.PADM.SSTP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1156,7 +1174,7 @@
          id: 'ar-north-little-rock-city-parcels',
          url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/46',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1171,7 +1189,7 @@
          id: 'ar-ouachita-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/18',
          labelFields: ['Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Number','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Dir','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Name','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type_Suffix'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1186,7 +1204,7 @@
          id: 'ar-pike-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Pike_County/Pike_Vector/MapServer/15',
          labelFields: ['Pike.DBO.Pike_PADM.SNUM','Pike.DBO.Pike_PADM.SDIR','Pike.DBO.Pike_PADM.SSTR','Pike.DBO.Pike_PADM.SSTP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1201,7 +1219,7 @@
          id: 'ar-poinsett-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Poinsett_County/Vector/MapServer/18',
          labelFields: ['Poinsett.DBO.PADM.SNUM','Poinsett.DBO.PADM.SDIR','Poinsett.DBO.PADM.SSTR','Poinsett.DBO.PADM.SSTP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1216,7 +1234,7 @@
          id: 'ar-pulaski-co-parcels',
          url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/40',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1231,7 +1249,7 @@
          id: 'ar-saline-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/23',
          labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_RD_NUM','Saline2.DBO.SalineCo_CAMA.PH_PRE_DIR','Saline2.DBO.SalineCo_CAMA.PH_RD_NAM','Saline2.DBO.SalineCo_CAMA.PH_RD_TYP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1396,7 +1414,7 @@
          id: 'co-alamosa-co-parcels',
          url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/AlamosaParcels/FeatureServer/0',
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1421,6 +1439,50 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Aspen - City Address Points',
+         id: 'co-aspen-city-points',
+         url: 'https://gismap.cityofaspen.com/astro/rest/services/MapAspen/MapAspenNoAnno/MapServer/50',
+         labelFields: ['ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Aspen - City Parcels',
+         id: 'co-aspen-city-parcels',
+         url: 'https://gismap.cityofaspen.com/astro/rest/services/MapAspen/MapAspenNoAnno/MapServer/55',
+         labelFields: ['SITUS_ADDRESS'],
+//         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Boulder Co - Address Points',
+         id: 'co-boulder-co-points',
+         url: 'http://maps.bouldercounty.org/arcgis/rest/services/PARCELS/ADDRESS_POINTS/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Boulder Co - Parcels',
+         id: 'co-boulder-co-parcels',
+         url: 'http://maps.bouldercounty.org/arcgis/rest/services/PARCELS/PARCELS_OWNER/MapServer/0',
+         labelFields: ['SITE_STR_NUM','SITE_STR_UNIT','SITE_STR_PFX','SITE_STREET','SITE_STR_SFX'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Broomfield Co - Address Points',
+         id: 'co-broomfield-co-points',
+         url: 'http://gis.broomfield.org/ArcGIS/rest/services/Assessor/Subdivisions_Parcels_2D/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Broomfield Co - Parcels',
+         id: 'co-broomfield-co-parcels',
+         url: 'http://gis.broomfield.org/ArcGIS/rest/services/Assessor/Subdivisions_Parcels_2D/MapServer/1',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Colorado Springs - City Address Points',
          id: 'co-colorado-springs-city-points',
          url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/122',
@@ -1432,7 +1494,22 @@
          id: 'co-colorado-springs-city-parcels',
          url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/2',
          labelFields: ['MAINADDRES'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Commerce City - City Address Points',
+         id: 'co-commerce-city-city-points',
+         url: 'http://63.238.120.156/arcgis/rest/services/OpenData/AddressPoints/MapServer/0',
+         labelFields: ['ADDR_HN','SUBADDR_TYPE','SUBADDR_UNIT','ADDR_PD','ADDR_SN','ADDR_ST','ADDR_SD'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Commerce City - City Parcels',
+         id: 'co-commerce-city-city-parcels',
+         url: 'http://63.238.120.156/arcgis/rest/services/OpenData/Parcel/MapServer/0',
+         labelFields: ['ADDR_COMPLETE'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1440,21 +1517,156 @@
          id: 'co-conejos-co-parcels',
          url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/ConejosParcels/FeatureServer/0',
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Fremont Co - Address Points',
+        {name: 'Costilla Co - Parcels',
+         id: 'co-costilla-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/CostillaCOFeatures/FeatureServer/2',
+         labelFields: ['GIS_Site_Address'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Delta Co - Address Points',
+         id: 'co-delta-co-points',
+         url: 'http://maps.deltacounty.com/arcgis/rest/services/PARCEL_MAP_B_SERVICE/MapServer/0',
+         labelFields: ['Full_Address'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Delta Co - Parcels',
+         id: 'co-delta-co-parcels',
+         url: 'http://maps.deltacounty.com/arcgis/rest/services/PARCEL_MAP_B_SERVICE/MapServer/9',
+         labelFields: ['Full_Add'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Denver Co - Parcels',
+         id: 'co-denver-co-parcels',
+         url: 'https://services.arcgis.com/ue9rwulIoeLEI9bj/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['SITUS_AD_1'],
+ //        processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Douglas Co - Address Points',
+         id: 'co-douglas-co-points',
+         url: 'https://apps.douglas.co.us/arcgis/rest/services/Parcels/AddressPoints_WM/MapServer/1',
+         labelFields: ['ADDRESS_SEARCH.STREET_NAME_FULL'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Douglas Co - Parcels (no labels)',
+         id: 'co-douglas-co-parcels',
+         url: 'https://apps.douglas.co.us/arcgis/rest/services/Parcels/Parcels_WM_Dynamic/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Eagle Co - Address Points',
+         id: 'co-eagle-co-points',
+         url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Address_ForLabel/MapServer/0',
+         labelFields: ['Address'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Eagle Co - Parcels (no labels)',
+         id: 'co-eagle-co-parcels',
+         url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Parcel_Viewer/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+/*        {name: 'Fremont Co - Address Points',
          id: 'co-fremont-co-pts',
          url: 'http://fremontgis.com/arcgis_102/rest/services/FremontCO_GIS_Layers/MapServer/160',
          labelFields: ['GL_ADR_FUL'],
          state: 'CO',
          style: DEFAULT_PT_STYLE},
+Not a valid Address Point Layer
+*/
 
         {name: 'Fremont Co - Parcels',
          id: 'co-fremont-co-parcels',
          url: 'http://fremontgis.com/arcgis_102/rest/services/parcels/MapServer/0',
          labelFields: ['SITE_ADDR'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Garfield Co - Parcels',
+         id: 'co-garfield-co-parcels',
+         url: 'http://gis.garfield-county.com/arcgis/rest/services/Development/GC_ParcelsNew/MapServer/0',
+         labelFields: ['PHYSADDRESS'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Gilpin Co - Address Points',
+         id: 'co-gilpin-co-points',
+         url: 'https://data1.digitaldataservices.com/arcgis/rest/services/GilpinCounty/Gilpin_ParcelOverlay/MapServer/0',
+         labelFields: ['fulladdr'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Gilpin Co - Parcels',
+         id: 'co-gilpin-co-parcels',
+         url: 'https://data1.digitaldataservices.com/arcgis/rest/services/GilpinCounty/Gilpin_ParcelOverlay/MapServer/3',
+         labelFields: ['gilpin.sde.AssessorTaxRoll.siteaddress'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grand Co - Address Points',
+         id: 'co-grand-co-points',
+         url: 'http://grandgis.com/arcgis/rest/services/gcAddressPoints/MapServer/0',
+         labelFields: ['STR_NUM','ST_PDIR','ROAD_NAME'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Grand Co - Parcels',
+         id: 'co-grand-co-parcels',
+         url: 'http://grandgis.com/arcgis/rest/services/ParcelsNew/MapServer/0',
+         labelFields: ['GIS_ADD'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Jefferson Co - Address Points',
+         id: 'co-jefferson-co-points',
+         url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Address/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'co-jefferson-co-parcels',
+         url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Parcel/MapServer/0',
+         labelFields: ['PRPADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Parcels',
+         id: 'co-lake-co-parcels',
+         url: 'https://services1.arcgis.com/38PTfoP8IjlBsxZN/ArcGIS/rest/services/LC_Parcels/FeatureServer/0',
+         labelFields: ['PASHOUSE','PASST','PASSNAM'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'La Plata Co - Address Points',
+         id: 'co-la-plata-co-pts',
+         url: 'http://lpcgis.laplata.co.us/arcgis/rest/services/Map_LayersJSC/MapServer/75',
+         labelFields: ['PROPERTY_A'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'La Plata Co - Parcels',
+         id: 'co-la-plata-co-parcels',
+         url: 'http://lpcgis.laplata.co.us/arcgis/rest/services/Map_LayersJSC/MapServer/77',
+         labelFields: ['SITE_ADDR'],
+         processLabel: function(label) { return label.replace(/^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way)\b.*/gi, '$1$2').replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1472,6 +1684,157 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Las Animas Co - Address Points',
+         id: 'co-las-animas-co-points',
+         url: 'https://services7.arcgis.com/NWWOCaXnjdetEWUz/ArcGIS/rest/services/Las_Animas_County_GIS/FeatureServer/4',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Las Animas Co - Parcels',
+         id: 'co-las-animas-co-parcels',
+         url: 'https://services7.arcgis.com/NWWOCaXnjdetEWUz/ArcGIS/rest/services/Las_Animas_County_GIS/FeatureServer/5',
+         labelFields: ['FullAddress'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Logan Co - Parcels',
+         id: 'co-logan-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/LoganCOFeatures/FeatureServer/2',
+         labelFields: ['GIS_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way)\b.*/gi, '$1$2').replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mesa Co - Parcels',
+         id: 'co-mesa-co-parcels',
+         url: 'https://mcgis.mesacounty.us/arcgis/rest/services/maps/ParcelOnly4Query/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mineral Co - Parcels',
+         id: 'co-mineral-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MineralCOFeatures/FeatureServer/1',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montezuma Co - Address Points',
+         id: 'co-montezuma-co-points',
+         url: 'http://gis-server.co.montezuma.co.us/arcgis/rest/services/Address_Verification_Viewer/MapServer/0',
+         labelFields: ['StreetNo','StreetDir','StreetName','StreetSuf','StDirSuffx'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Montezuma Co - Parcels',
+         id: 'co-montezuma-co-parcels',
+         url: 'http://gis-server.co.montezuma.co.us/arcgis/rest/services/Address_Verification_Viewer/MapServer/1',
+         labelFields: ['LOCATIONADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montrose Co - Address Points',
+         id: 'co-montrose-co-points',
+         url: 'https://mcmap2.montrosecounty.net/arcgis/rest/services/MontroseCOaddress/MapServer/0',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Montrose Co - Parcels',
+         id: 'co-montrose-co-parcels',
+         url: 'https://mcmap2.montrosecounty.net/arcgis/rest/services/MontroseCOparcellabels/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Morgan Co - Parcels',
+         id: 'co-morgan-co-parcels',
+         url: 'https://services6.arcgis.com/iSzqv8eal4TO2oVb/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Otero Co - Parcels',
+         id: 'co-otero-co-parcels',
+         url: 'https://services3.arcgis.com/iHv2akjE3QDYWb0T/ArcGIS/rest/services/esri_OteroParcels_2018/FeatureServer/0',
+         labelFields: ['PRCLADRS'],
+         processLabel: function(label) { return label.replace(/^(.*)\s(\d+).*/, '$2 $1').replace(/^LAND\s.*/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Park Co - Address Points',
+         id: 'co-park-co-points',
+         url: 'http://maps.parkco.us/arcgis/rest/services/Addressing/Public_Addressing_Search/MapServer/0',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Park Co - Parcels (no label)',
+         id: 'co-park-co-parcels',
+         url: 'http://maps.parkco.us/arcgis/rest/services/basemaps/Parcels_Main/MapServer/4',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pitkin Co - Parcels (no labels)',
+         id: 'co-pitkin-co-parcels',
+         url: 'https://maps.pitkincounty.com/arcgis/rest/services/Projects/AssessorsParcels/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pueblo Co - Address Points',
+         id: 'co-pueblo-co-points',
+         url: 'http://maps.co.pueblo.co.us/outside/rest/services/pueblo_county_address_points/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pueblo Co - Parcels (no labels)',
+         id: 'co-pueblo-co-parcels',
+         url: 'http://maps.co.pueblo.co.us/outside/rest/services/pueblo_county_parcels/MapServer/1',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rio Blanco Co - Address Points',
+         id: 'co-rio-blanco-co-points',
+         url: 'https://services1.arcgis.com/pfZ4YwxhgKucWn2S/ArcGIS/rest/services/RioBlancoCOfeatures/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rio Blanco Co - Parcels',
+         id: 'co-rio-blanco-co-parcels',
+         url: 'https://services1.arcgis.com/pfZ4YwxhgKucWn2S/ArcGIS/rest/services/RioBlancoCOfeatures/FeatureServer/17',
+         labelFields: ['STREETNO','STREETNAME'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rio Grande Co - Parcels (no labels)',
+         id: 'co-rio-grande-co-parcels',
+         url: 'http://maps.co.pueblo.co.us/outside/rest/services/riogrande/riogrande_county_parcels/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Routt Co - Address Points',
+         id: 'co-routt-co-points',
+         url: 'http://maps.co.routt.co.us/arcgis/rest/services/PublicData/AddressPoints/MapServer/0',
+         labelFields: ['Label'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Routt Co - Parcels',
+         id: 'co-routt-co-parcels',
+         url: 'http://maps.co.routt.co.us/arcgis/rest/services/PublicData/Parcels/MapServer/0',
+         labelFields: ['PhysicalAddress'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Saguache Co - Parcels (no labels)',
          id: 'co-saguache-co-parcels',
          url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/SaguacheParcels/FeatureServer/0',
@@ -1479,6 +1842,62 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'San Miguel Co - Address Points',
+         id: 'co-san-miguel-co-points',
+         url: 'https://maps.sanmiguelcountyco.gov/gis/rest/services/public/property_new/MapServer/0',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'San Miguel Co - Parcels',
+         id: 'co-san-miguel-co-parcels',
+         url: 'https://maps.sanmiguelcountyco.gov/gis/rest/services/public/property_new/MapServer/2',
+         labelFields: ['STREETADDR'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Sedgwick Co - Address Points',
+         id: 'co-sedgwick-co-points',
+         url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/1',
+         labelFields: ['Address_Nu','Direction','Street','Suffix'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sedgwick Co - Parcels',
+         id: 'co-sedgwick-co-parcels',
+         url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/3',
+         labelFields: ['Situs_Addr'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Summit Co - Parcels',
+         id: 'co-summit-co-parcels',
+         url: 'https://gis.summitcountyco.gov/arcgis/rest/services/ParcelQueryTool/SummitMap1_v10/MapServer/0',
+         labelFields: ['TextString'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Teller Co - Address Points',
+         id: 'co-teller-co-points',
+         url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Property/MapServer/5',
+         labelFields: ['STREET'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Teller Co - Parcels',
+         id: 'co-teller-co-parcels',
+         url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['Teller_County.SDE.PARCEL.SITUSSTNUM','Teller_County.SDE.PARCEL.STRNAME'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Yuma Co - Parcels',
+         id: 'co-yuma-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/YumaCOFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way)\b.*/gi, '$1$2').replace(/^(0+(\s.*)?|\D.*)/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Connecticut
         // ***********************************
@@ -3476,7 +3895,7 @@
          id: 'la-catahoula-parish-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Catahoula_Parish/Vector/MapServer/14',
          labelFields: ['Catahoula.DBO.Parcels_09012016.Phy_Address'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3484,7 +3903,7 @@
          id: 'la-catahoula-parish-parcels-2',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Catahoula_Services/MapServer/1',
          labelFields: ['par_address'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3605,7 +4024,7 @@
          id: 'la-iberia-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberia_Parcels/MapServer/3',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3622,7 +4041,7 @@
          id: 'la-iberville-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberville_Services/MapServer/3',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3701,7 +4120,7 @@
          id: 'la-lasalle-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LaSalle_Services/MapServer/7',
          labelFields: ['Address_Number','Street_Direction','Street_Name'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3767,7 +4186,7 @@
          id: 'la-new-iberia-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/NewIberia_Services/MapServer/17',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3783,7 +4202,7 @@
          id: 'la-rapides-parish-points',
          url: 'https://rapcgis.rapc.info/server/rest/services/RAPC/addresses/MapServer/0',
          labelFields: ['Address'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'LA',
          style: DEFAULT_PT_STYLE},
 
@@ -3799,7 +4218,7 @@
          id: 'la-red-river-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/RedRiver_Services/MapServer/11',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3816,7 +4235,7 @@
          id: 'la-st-charles-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StCharles_Services/MapServer/5',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3841,7 +4260,7 @@
          id: 'la-st-martin-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StMartin_Services/MapServer/15',
          labelFields: ['HOUSE_NO','ST_DIR','STREET_NAM','ST_SUFFIX'],
-         processLabel: function(label) { return label.replace(/^0+\s?/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3882,7 +4301,6 @@
          id: 'la-vernon-parish-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Vernon_Parish/Vernon_Vector/MapServer/19',
          labelFields: ['Vernon.DBO.Vernon_CAMA.Address_Number','Vernon.DBO.Vernon_CAMA.Street_Name'],
-   //      processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4873,7 +5291,7 @@
          id: 'ms-state-parcels1',
          url: 'http://www.gisonline.ms.gov/arcgis/rest/services/MDEQ/Basemap/MapServer/104',
          labelFields: ['SITEADD'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: "PARNO NOT IN ('1','2','3')",
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4882,7 +5300,7 @@
          id: 'ms-state-parcels2',
          url: 'http://www.gisonline.ms.gov/arcgis/rest/services/MDEQ/Basemap/MapServer/105',
          labelFields: ['ADDR2'],
-         processLabel: function(label) { return label.replace(/^0\s?/,'').replace(/"/g,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,'').replace(/"/g,''); },
          //where: "PARNO NOT IN ('1','2','3')",
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4915,7 +5333,7 @@
          id: 'ms-brandon-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Brandon2016/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4923,7 +5341,7 @@
          id: 'ms-biloxi-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
          labelFields: ['STNUM','DIR','ST_NAME'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4932,7 +5350,7 @@
          id: 'ms-clinton-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Clinton/MapServer/24',
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4947,7 +5365,7 @@
          id: 'ms-coahoma-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Coahoma_County/Vector/MapServer/3',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4962,7 +5380,7 @@
          id: 'ms-copiah-co-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Copiah_County/MapServer/3',
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4992,7 +5410,7 @@
          id: 'ms-diamondhead-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diamondhead_Services/MapServer/13',
          labelFields: ['ADDRESS'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -5001,7 +5419,7 @@
          id: 'ms-diberville-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/2',
          labelFields: ['SIT_NO','SIT_NAME'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
@@ -5010,7 +5428,7 @@
          id: 'ms-diberville-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/17',
          labelFields: ['STREET_NUM','STREET_NAM'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -5027,7 +5445,7 @@
          id: 'ms-hinds-co-parcels',
          url: 'http://gisweb.co.hinds.ms.us/arcgis/rest/services/HindsParcelMap/MapServer/2',
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5035,7 +5453,7 @@
          id: 'ms-jackson-co-parcels',
          url: 'https://webmap.co.jackson.ms.us/arcgis/rest/services/JacksonCounty/Parcel_2_Web/MapServer/2',
          labelFields: ['STRN','STRD','STRNM','STYPE'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5043,7 +5461,7 @@
          id: 'ms-lamar-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LamarCounty_Services/MapServer/59',
          labelFields: ['StreetNumber','StreetName'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -5066,7 +5484,7 @@
          id: 'ms-madison-co-parcel',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Madison_County/MapServer/11',
          labelFields: ['STREET_NUM','STREET_NAM'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5074,7 +5492,7 @@
          id: 'ms-magee-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/MageeViewer/MapServer/4',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5120,7 +5538,7 @@
          id: 'ms-pearl-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/15',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5128,7 +5546,7 @@
          id: 'ms-pelahatchie-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Pelahatchie/MapServer/16',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5143,7 +5561,7 @@
          id: 'ms-pontotoc-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
          labelFields: ['StreetNumber','StreetName'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -5159,7 +5577,7 @@
          id: 'ms-quitman-co-parcel',
          url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/4',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5174,7 +5592,7 @@
          id: 'ms-rankin-co-parcel',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5196,7 +5614,7 @@
          id: 'ms-warren-co-parcels-2',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Warren_County/MapServer/4',
          labelFields: ['STREET_NUM','STREET_NAM'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5218,7 +5636,7 @@
          id: 'ms-yazoo-city-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/YazooCity/MapServer/4',
          labelFields: ['STR_NUM','STR_NAME'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6794,7 +7212,7 @@ Doesn't have a Shape field.
          id: 'ok-oklahoma-co-parcels',
          url: 'https://oklahomacounty.geocortex.com/arcgis/rest/services/ParcelData/OklahomaCountyAllParcelsDataNEW/MapServer/4',
          labelFields: ['location'],
-         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         processLabel: function(label) { return label.replace(/^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way)\b.*/gi, '$1$2').replace(/^(0+(\s.*)?|\D.*)/, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6811,7 +7229,7 @@ Doesn't have a Shape field.
          url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsROGERS/MapServer/0',
          where: "CAMA<>''",
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6827,7 +7245,7 @@ Doesn't have a Shape field.
          id: 'ok-Wagoner-co-parcels',
          url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsWAGONER/FeatureServer/0',
          labelFields: ['Situs'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(/^(0+(\s.*)?|\D.*)/,''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
