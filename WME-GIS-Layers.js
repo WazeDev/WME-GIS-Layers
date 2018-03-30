@@ -3900,7 +3900,6 @@
          labelFields: ['FULLADDR'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
-
         // Baltimore - City Address Points (data not found. close, but not quite)
         // gis.baltimorecity.gov/egis/rest/services/Pictometry/Pictometry_Layers/MapServer/1
 
@@ -7274,8 +7273,9 @@ Doesn't have a Shape field.
 
         {name: 'Anderson Co - Parcels',
          id: 'sc-anderson-co-parcels',
-         url: 'http://propertyviewer.andersoncountysc.org/arcgis/rest/services/NewPropertyViewer/MapServer/7',
-         labelFields: [''],
+         url: 'http://propertyviewer.andersoncountysc.org/arcgis/rest/services/Address_Viewer/MapServer/5',
+         labelFields: ['PHYS_ADDR'],
+         processLabel: function(label) { return label.replace(/.* (\d.*)/,'$1'); },
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7292,7 +7292,7 @@ Doesn't have a Shape field.
         {name: 'Beaufort Co - Parcels',
          id: 'sc-beaufort-co-parcels',
          url: 'http://webgis.bcgov.net/arcgis/rest/services/Parcels/MapServer/0',
-         labelFields: [''],
+         labelFields: ['GisData_DBO_GisFile_SitusAddre'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7306,7 +7306,7 @@ Doesn't have a Shape field.
         {name: 'Berkeley Co - Parcels',
          id: 'sc-berkeley-co-parcels',
          url: 'http://gis.berkeleycountysc.gov/arcgis/rest/services/desktop/internet_map/MapServer/3',
-         labelFields: [''],
+         labelFields: ['GIS_Address'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7317,7 +7317,7 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Calhoun Co - Parcels',
+        {name: 'Calhoun Co - Parcels (no data)',
          id: 'sc-calhoun-co-parcels',
          url: 'https://gis.aecomonline.net/arcgis/rest/services/CalhounCO/WebParcels/MapServer/127',
          labelFields: [''],
@@ -7334,7 +7334,7 @@ Doesn't have a Shape field.
         {name: 'Charleston Co - Parcels',
          id: 'sc-charleston-co-parcels',
          url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/4',
-         labelFields: [''],
+         labelFields: ['FEATURES.SDE.CAMA.PROP_ST_NO','FEATURES.SDE.CAMA.PROP_ST_NAME','FEATURES.SDE.CAMA.PROP_TYPE'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7370,7 +7370,7 @@ Doesn't have a Shape field.
         {name: 'Dorchester Co - Parcels',
          id: 'sc-dorchester-co-parcels',
          url: 'https://gisservices.dorchestercounty.net/arcgis/rest/services/BI_Base_Counter_Publish/MapServer/4',
-         labelFields: [''],
+         labelFields: ['PROPERTY_LOCATION'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7387,7 +7387,7 @@ Doesn't have a Shape field.
         {name: 'Florence Co - Parcels',
          id: 'sc-florence-co-parcels',
          url: 'https://arc2000.florenceco.org/arcgis/rest/services/AGOL_Base/MapServer/8',
-         labelFields: [''],
+         labelFields: ['ADDR_SITE'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7400,12 +7400,12 @@ Doesn't have a Shape field.
 
         {name: 'Georgetown Co - Parcels',
          id: 'sc-georgetown-co-parcels',
-         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/2',
-         labelFields: [''],
+         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WillCW/MapServer/2',
+         labelFields: ['Georgetown2018.dbo.GISVIEW3.Housenum','Georgetown2018.dbo.GISVIEW3.Street'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Georgetown Co - 911 Address Points',
+        {name: 'Georgetown Co - Address Points',
          id: 'sc-georgetown-co-pts',
          url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/8',
          labelFields: ['ADDRESS'],
@@ -7415,7 +7415,7 @@ Doesn't have a Shape field.
         {name: 'Greenville Co - Parcels',
          id: 'sc-greenville-co-parcels',
          url: 'https://www.gcgis.org/arcgis/rest/services/GCGIA/Greenville_Base/MapServer/34',
-         labelFields: [''],
+         labelFields: ['STRNUM','LOCATE'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7428,8 +7428,8 @@ Doesn't have a Shape field.
 
         {name: 'Greenwood Co - Parcels',
          id: 'sc-greenwood-co-parcels',
-         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/36',
-         labelFields: [''],
+         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/38',
+         labelFields: ['SiteAddress'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7442,7 +7442,7 @@ Doesn't have a Shape field.
 
         // Hampton Co - qPublic $$$
 
-        {name: 'Horry Co - Parcels',
+        {name: 'Horry Co - Parcels (no data)',
          id: 'sc-horry-co-parcels',
          url: 'http://www.horrycounty.org/gisweb/rest/services/Public/Parcels/MapServer/1',
          labelFields: [''],
@@ -7460,7 +7460,7 @@ Doesn't have a Shape field.
         // Kershaw Co - WTH
         // Lancaster Co - qPublic
 
-        {name: 'Laurens Co - Parcels',
+        {name: 'Laurens Co - Parcels (no data)',
          id: 'sc-laurens-co-parcels',
          url: 'http://www.laurenscountygis.org/ArcGIS/rest/services/WebParcels/MapServer/65',
          labelFields: [''],
@@ -7479,7 +7479,7 @@ Doesn't have a Shape field.
         {name: 'Lexington Co - Parcels',
          id: 'sc-lexington-co-parcels',
          url: 'http://maps.lex-co.com/arcgis/rest/services/Property/MapServer/0',
-         labelFields: [''],
+         labelFields: ['PROPADDR'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7497,7 +7497,7 @@ Doesn't have a Shape field.
         {name: 'Newberry Co - Parcels',
          id: 'sc-newberry-co-parcels',
          url: 'http://map.newberrycounty.net/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/5',
-         labelFields: [''],
+         labelFields: ['Street_Number_E911','Street_Name_E911'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7510,14 +7510,14 @@ Doesn't have a Shape field.
 
         // Oconee Co - qPublic
 
-        {name: 'Orangeburg Co - Parcels',
+        {name: 'Orangeburg Co - Parcels (no data)',
          id: 'sc-orangeburg-co-parcels',
          url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/TaxParcels_web/MapServer/1',
          labelFields: [''],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Orangeburg Co - Address Points (no data)',
+        {name: 'Orangeburg Co - Address Points',
          id: 'sc-orangeburg-co-pts',
          url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/SiteAddressesView/MapServer/0',
          labelFields: ['ADD_STNUM','ADD_STREET','ADD_EXT'],
@@ -7530,7 +7530,7 @@ Doesn't have a Shape field.
         {name: 'Saluda Co - Parcels',
          id: 'sc-saluda-co-parcels',
          url: 'http://www.saludacountysc.net/arcgis/rest/services/ParcelSearch/PublicWebsite/MapServer/4',
-         labelFields: [''],
+         labelFields: ['SDE.DBO.AssessorData.Street_Number_E911','SDE.DBO.AssessorData.Street_Name_E911'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7541,7 +7541,7 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Spartanburg Co - Parcels',
+        {name: 'Spartanburg Co - Parcels (no data)',
          id: 'sc-spartanburg-co-parcels',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthCarolina/SpartanburgSC/MapServer/24',
          labelFields: [''],
@@ -7558,7 +7558,7 @@ Doesn't have a Shape field.
         {name: 'Sumter Co - Parcels',
          id: 'sc-sumter-co-parcels',
          url: 'http://svr4.sumtercountysc.org:6080/arcgis/rest/services/Parcel_Search/County_Map_PS/MapServer/1',
-         labelFields: [''],
+         labelFields: ['ADDRESS','STREET'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7575,7 +7575,7 @@ Doesn't have a Shape field.
         {name: 'York Co - Parcels',
          id: 'sc-york-co-parcels',
          url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/3',
-         labelFields: [''],
+         labelFields: ['STREETNUM','STREETNAME'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
