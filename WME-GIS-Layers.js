@@ -128,6 +128,7 @@
 // @connect      dbqco.org
 // @connect      dc.gov
 // @connect      dcad.org
+// @connect      de.us
 // @connect      dekalbcountyga.gov
 // @connect      dentoncounty.com
 // @connect      desotocountyms.gov
@@ -280,6 +281,7 @@
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
+// @connect      nccde.org
 // @connect      nd.gov
 // @connect      nd.us
 // @connect      ne.gov
@@ -364,6 +366,7 @@
 // @connect      suffolkcountyny.gov
 // @connect      summitoh.net
 // @connect      sumtercountysc.org
+// @connect      sussexcountyde.gov
 // @connect      talbgov.org
 // @connect      tampagov.net
 // @connect      tazewell.com
@@ -1436,6 +1439,52 @@
          labelFields: ['ParcelAddress1'],
          state: 'CT',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // Delaware
+        // ************************************
+
+        {name: 'New Castle Co - Parcels',
+         id: 'de-new-castle-co-parcels',
+         url: 'https://gis.nccde.org/agsserver/rest/services/BaseMaps/BaseLayers/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'DE',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Castle Co - Address Points',
+         id: 'de-new-castle-co-points',
+         url: 'https://gis.nccde.org/agsserver/rest/services/BaseMaps/Addresses/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'DE',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kent Co - Parcels',
+         id: 'de-kent-co-parcels',
+         url: 'http://co.kent.de.us/arcgis/rest/services/KentCountyParcels/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'DE',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kent Co - Address Points',
+         id: 'de-kent-co-points',
+         url: 'http://co.kent.de.us/arcgis/rest/services/Structure/MapServer/0',
+         labelFields: ['FullAddr'],
+         state: 'DE',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sussex Co - Parcels (no data)',
+         id: 'de-sussex-co-parcels',
+         url: 'https://maps.sussexcountyde.gov/gis/rest/services/County_Layers/ParcelLines/MapServer/0',
+         labelFields: [''],
+         state: 'DE',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sussex Co - Address Points',
+         id: 'de-sussex-co-points',
+         url: 'https://maps.sussexcountyde.gov/gis/rest/services/County_Layers/911Addresses/MapServer/0',
+         labelFields: ['Address'],
+         state: 'DE',
+         style: DEFAULT_PT_STYLE},
 
 
         // District of Columbia
