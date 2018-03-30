@@ -15,6 +15,7 @@
 // @connect      50.120.220.154
 // @connect      54.213.14.253
 // @connect      72.10.206.73
+// @connect      131.156.137.22
 // @connect      136.234.11.196
 // @connect      136.234.13.165
 // @connect      161.6.109.206
@@ -29,6 +30,7 @@
 // @connect      adacountyassessor.org
 // @connect      adamscounty.org
 // @connect      adamscounty.us
+// @connect      adamscountyarcserver.com
 // @connect      aecomonline.net
 // @connect      agdmaps.com
 // @connect      ak.us
@@ -59,9 +61,11 @@
 // @connect      berkeleywv.org
 // @connect      bgadd.org
 // @connect      bgky.org
+// @connect      bhamaps.com
 // @connect      bisconsultants.com
 // @connect      bonnercounty.us
 // @connect      boonecountygis.com
+// @connect      boonecountyil.org
 // @connect      brevardcounty.us
 // @connect      brookhavenga.gov
 // @connect      broward.org
@@ -80,10 +84,12 @@
 // @connect      casscountynd.gov
 // @connect      cattco.org
 // @connect      cayugacounty.us
+// @connect      ccgisc.org
 // @connect      ccgisonline.com
 // @connect      ccgov.org
 // @connect      ccpa.net
 // @connect      cedar-rapids.org
+// @connect      centralilmaps.com
 // @connect      centrecountypa.gov
 // @connect      charlestoncounty.org
 // @connect      charlottecountyfl.gov
@@ -112,6 +118,7 @@
 // @connect      columbiapa.org
 // @connect      cookcountyil.gov
 // @connect      coppelltx.gov
+// @connect      countyofkane.org
 // @connect      countyofnewaygo.com
 // @connect      cowleycounty.org
 // @connect      crawfordcountypa.net
@@ -131,6 +138,7 @@
 // @connect      dogis.org
 // @connect      dorchestercounty.net
 // @connect      douglascountyks.org
+// @connect      douglasil.com
 // @connect      dunwoodyga.gov
 // @connect      dupageco.org
 // @connect      dutchessny.gov
@@ -174,6 +182,7 @@
 // @connect      gptx.org
 // @connect      greenegovernment.com
 // @connect      greenwoodsc.gov
+// @connect      grundyco.org
 // @connect      gscplanning.com
 // @connect      hamilton-co.org
 // @connect      hamiltontn.gov
@@ -204,6 +213,7 @@
 // @connect      jccal.org
 // @connect      jeffparish.net
 // @connect      johnsoncitytn.org
+// @connect      k3gis.com
 // @connect      kanawhacountyassessor.com
 // @connect      kansasgis.org
 // @connect      kcgov.us
@@ -224,6 +234,7 @@
 // @connect      lawrenceks.org
 // @connect      lcounty.com
 // @connect      lcwy.org
+// @connect      leecountyil.com
 // @connect      leoncountyfl.gov
 // @connect      lex-co.com
 // @connect      lexingtonky.gov
@@ -243,7 +254,9 @@
 // @connect      matsugov.us
 // @connect      maurycounty-tn.gov
 // @connect      mcegisohio.org
+// @connect      mcgisweb.org
 // @connect      mcgtn.org
+// @connect      mchenrycountygis.org
 // @connect      mckinneytexas.org
 // @connect      md.gov
 // @connect      md.us
@@ -263,6 +276,7 @@
 // @connect      ms.gov
 // @connect      ms.us
 // @connect      mt.gov
+// @connect      mygisonline.com
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
@@ -298,6 +312,7 @@
 // @connect      paslc.org
 // @connect      pcnygis.com
 // @connect      perryco.org
+// @connect      peoriacounty.org
 // @connect      pgatlas.com
 // @connect      phila.gov
 // @connect      pikepa.org
@@ -351,6 +366,7 @@
 // @connect      sumtercountysc.org
 // @connect      talbgov.org
 // @connect      tampagov.net
+// @connect      tazewell.com
 // @connect      tgisites.com
 // @connect      thempc.org
 // @connect      thomsonreuters.com
@@ -379,6 +395,7 @@
 // @connect      williamsoncounty-tn.gov
 // @connect      wilsontngis.com
 // @connect      wisconsin.gov
+// @connect      wiu.edu
 // @connect      worldviewsolutions.com
 // @connect      wvu.edu
 // @connect      wy.gov
@@ -2512,10 +2529,100 @@
         // Illinois
         // ************************************
 
+        {name: 'Adams Co - Parcels',
+         id: 'il-adams-co-parcels',
+         url: 'https://www.adamscountyarcserver.com/adamscountyarcserver/rest/services/Adams_County_Basemap_Complete/MapServer/14',
+         labelFields: ['SITE_AD'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Adams Co - Address Points',
+         id: 'il-adams-co-pts',
+         url: 'https://www.adamscountyarcserver.com/adamscountyarcserver/rest/services/Adams_County_Basemap_Complete/MapServer/1',
+         labelFields: ['PRIMNO','PREDIR','STNAME','SUFFIX','POSTDIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Alexander Co - No GIS
+        // Bond Co - No GIS
+
+        {name: 'Boone Co - Parcels',
+         id: 'il-boone-co-parcels',
+         url: 'http://maps.boonecountyil.org/arcgis/rest/services/Ownership_Parcels/MapServer/0',
+         labelFields: ['add_full'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Boone Co - Address Points',
+         id: 'il-boone-co-pts',
+         url: 'http://maps.boonecountyil.org/arcgis/rest/services/Address_Labels/MapServer/0',
+         labelFields: ['Full_Address'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Brown Co - No GIS
+        // Bureau Co - No GIS
+        // Calhoun Co - No GIS
+        // Carroll Co - No GIS, $$$
+        // Cass Co - qPublic
+
+        {name: 'Champaign Co - Parcels (no data)',
+         id: 'il-champaign-co-parcels',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/ArcGISOnline/AGO_TaxParcels/Mapserver/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Champaign Co - Address Points',
+         id: 'il-champaign-co-pts',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/ArcGISOnline/AddressPoints/Mapserver/0',
+         labelFields: ['StreetAddress'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Christian Co - Parcels',
+         id: 'il-christian-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_christian_co_il_taxmap/MapServer/0',
+         labelFields: ['SiteAddres'],
+         processLabel: function(label) { return label.replace(/~.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Christian Co - Address Points - Not found
+
+        {name: 'Clark Co - Parcels',
+         id: 'il-clark-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ClarkILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Clark Co - Address Points - Not found
+
+        {name: 'Clay Co - Parcels',
+         id: 'il-clay-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ClayILFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Clay Co - Address Points - Not found
+
+        {name: 'Clinton Co - Parcels',
+         id: 'il-clinton-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ClintonILFeatures/FeatureServer/1',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Clinton Co - Address Points - Not found
+
+        // Coles Co - Parcels - Unreliable address data
+        // Coles Co - Address Points - Not found
+
         {name: 'Cook Co - Parcels',
          id: 'il-cook-co-parcels',
          url: 'https://gis1.cookcountyil.gov/arcgis/rest/services/cookVwrDynmc/MapServer/44',
-         labelFields: [''],
+         labelFields: ['HouseNo','Dir','Street','Suffix'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2526,10 +2633,247 @@
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Crawford Co - Parcels',
+         id: 'il-crawford-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/CrawfordILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Crawford Co - Address Points - Not found
+
+        {name: 'Cumberland Co - Parcels',
+         id: 'il-cumberland-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_cumberland_co_il_gismap/MapServer/0',
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Cumberland Co - Address Points - Not found
+
+        {name: 'DeWitt Co - Parcels',
+         id: 'il-dewitt-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/DeWittILFeatures/FeatureServer/5',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // DeWitt Co - Address Points - Not found
+
+        // DeKalb Co - Compass GIS
+
+        {name: 'Douglas Co - Parcels',
+         id: 'il-douglas-co-parcels',
+         url: 'https://douglasil.com/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Douglas Co - Address Points',
+         id: 'il-douglas-co-pts',
+         url: 'https://douglasil.com/arcgis/rest/services/911Addresses/MapServer/0',
+         labelFields: ['House','Dir','Street','Suffix'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'DuPage Co - Parcels',
          id: 'il-dupage-co-parcels',
          url: 'http://gis.dupageco.org/arcgis/rest/services/DuPage_County_IL/ParcelsWithRealEstateCC/MapServer/0',
          labelFields: ['PROPADDRL1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'DuPage Co - Address Points',
+         id: 'il-dupage-co-pts',
+         url: 'http://gis.dupageco.org/arcgis/rest/services/DuPage_County_IL/AddressPointsUnderDevelopment/MapServer/0',
+         labelFields: ['STREET_NUM','STREET_NAME','STREET_TYPE','STREET_SUFFIX_DIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Edgar Co - Parcels',
+         id: 'il-edgar-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_edgar_co_il_taxmap_PAT_CIC/MapServer/0',
+         labelFields: ['PropertyAddress1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Fayette Co - Address Points - Not found
+
+        // Edwards Co - No GIS
+
+        {name: 'Effingham Co - Parcels',
+         id: 'il-effingham-co-parcels',
+         url: 'https://services.arcgis.com/vj0V9Lal6oiz0YXp/ArcGIS/rest/services/Features/FeatureServer/3',
+         labelFields: ['SiteAddress','SiteCSZ'],
+         processLabel: function(label) { return label.replace(new RegExp((label.match(/ \d{5} (.*)/))[1],'g'),'').trim(); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Effingham Co - Address Points - Not found
+
+        {name: 'Fayette Co - Parcels',
+         id: 'il-fayette-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/FayetteILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Fayette Co - Address Points - Not found
+
+        {name: 'Ford Co - Parcels',
+         id: 'il-ford-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/FordILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Ford Co - Address Points - Not found
+
+        {name: 'Franklin Co - Parcels',
+         id: 'il-franklin-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/FranklinILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Franklin Co - Address Points - Not found
+
+        {name: 'Fulton Co - Parcels',
+         id: 'il-fulton-co-parcels',
+         url: 'https://services7.arcgis.com/O9Z7JkIFFJ6nOIIq/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Fulton Co - Address Points - Not found
+
+        // Gallatin Co - No GIS
+        // Greene Co - No GIS
+
+        {name: 'Grundy Co - Parcels',
+         id: 'il-grundy-co-parcels',
+         url: 'http://maps.grundyco.org/arcgis/rest/services/CountyWebsiteMaps/CountyParcelsBaseLayer_ParcelFabric_SPIE/MapServer/0',
+         labelFields: ['GrundyParcels.dbo.GISParcelsLegalDescriptionIncluded.SitusAddr1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Grundy Co - Address Points - Not found
+
+        {name: 'Hamilton Co - Parcels',
+         id: 'il-hamilton-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/HamiltonILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Hamilton Co - Address Points - Not found
+
+        // Hancock Co - No GIS
+        // Hardon Co - No GIS
+        // Henderson Co - No GIS
+
+        {name: 'Henry Co - Parcels',
+         id: 'il-henry-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/HenryILFeatures/FeatureServer/7',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Henry Co - Address Points - Not found
+
+        {name: 'Iroquois Co - Parcels (bad data)',
+         id: 'il-iroquois-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_Iroquois_co_il_taxmap_PAT/MapServer/146',
+         labelFields: ['site_address'], //address information is imperfect
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Iroquois Co - Address Points - Not found
+
+        {name: 'Jackson Co - Parcels',
+         id: 'il-jackson-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_jackson_co_il_taxmap/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Jackson Co - Address Points - Not found
+
+        // Jasper Co - No GIS
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'il-jefferson-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/JeffersonILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Jefferson Co - Address Points - Not found
+
+        {name: 'Jersey Co - Parcels',
+         id: 'il-jersey-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/JerseyILFeatures/FeatureServer/6',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Jersey Co - Address Points - Not found
+
+        // Jo Daviess County - No data $$$
+        // Johnson Co - No GIS
+
+        {name: 'Kane Co - Parcels',
+         id: 'il-kane-co-parcels',
+         url: 'http://gistech.countyofkane.org/DotNet2/proxy.ashx?http://gistech.countyofkane.org/ArcGIS/rest/services/KaneGISx/MapServer/13',
+         labelFields: ['SiteAddres'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kane Co - Address Points',
+         id: 'il-kane-co-pts',
+         url: 'http://gistech.countyofkane.org/DotNet2/proxy.ashx?http://gistech.countyofkane.org/ArcGIS/rest/services/KaneGISx/MapServer/9',
+         labelFields: ['FULL_ADR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kankakee Co - Parcels',
+         id: 'il-kankakee-co-parcels',
+         url: 'http://k3gis.com:6080/arcgis/rest/services/Cadastral/Subdivisions_TaxParcels/MapServer/0',
+         labelFields: ['site_addr'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kankakee Co - Address Points',
+         id: 'il-kankakee-co-pts',
+         url: 'http://k3gis.com:6080/arcgis/rest/services/Cadastral/Address_Points/MapServer/0',
+         labelFields: ['house_number','house_number_suffix','prefix_directional','street_name','street_suffix','post_directional'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kendall Co - Parcels',
+         id: 'il-kendall-co-parcels',
+         url: 'http://gis.co.kendall.il.us/arcgis/rest/services/CADASTRAL/parcels_pub/MapServer/0',
+         labelFields: ['KENDGIS.DBO.GIS_DATA.site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kendall Co - Structures',
+         id: 'il-kendall-co-structures',
+         url: 'http://gis.co.kendall.il.us/arcgis/rest/services/BASEMAPS/CADBase_pub/MapServer/0',
+         labelFields: ['ADDRESS_WHOLE'],
+         state: 'IL',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Kendall Co - Address Points',
+         id: 'il-kendall-co-pts',
+         url: 'http://gis.co.kendall.il.us/arcgis/rest/services/911/Site_Address_pub/MapServer/0',
+         labelFields: ['HOUSE_NUMB','HOUSE_NU_1','PREFIX_DIR','STREET_NAM','STREET_SUF','POST_DIREC'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Knox Co - Parcels',
+         id: 'il-knox-co-parcels',
+         url: 'http://gis.co.knox.il.us/arcgis/rest/services/Test_1/Parcel_service_V4/MapServer/10',
+         labelFields: ['GIS_Table.dbo.gis_data.site_addr'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Knox Co - Address Points - Not found
+
+        {name: 'Lake Co - Parcels',
+         id: 'il-lake-co-parcels',
+         url: 'https://maps.lakecountyil.gov/arcgis/rest/services/GISMapping/WABParcels/MapServer/2',
+         labelFields: ['pla_number','pla_numsuf','pla_direct','pla_name','pla_type','pla_suffix'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2540,6 +2884,186 @@
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'LaSalle Co - Parcels',
+         id: 'il-lasalle-co-parcels',
+         url: 'http://131.156.137.22/arcgis/rest/services/Lasalle_IL_PAT_TaxMap/MapServer/142',
+         labelFields: ['SiteAddress'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // LaSalle Co - Address Points - Not found
+
+        {name: 'Lawrence Co - Parcels',
+         id: 'il-lawrence-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_lawrence_co_il_taxmap/MapServer/0',
+         labelFields: ['location'],
+         processLabel: function(label) { return label.replace(/;.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // LaSalle Co - Address Points - Not found
+
+        {name: 'Lee Co - Parcels',
+         id: 'il-lee-co-parcels',
+         url: 'https://gis.leecountyil.com/server/rest/services/Parcel_Polygons/MapServer/0',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lee Co - Address Points',
+         id: 'il-lee-co-pts',
+         url: 'https://gis.leecountyil.com/server/rest/services/Addresses/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Livingston Co - No GIS
+
+        {name: 'Logan Co - Parcels',
+         id: 'il-logan-co-parcels',
+         url: 'http://www.centralilmaps.com/arcgis/rest/services/Logan_Flex_Property/MapServer/4',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Logan Co - Address Points - Not found
+
+        {name: 'Macon Co - Parcels',
+         id: 'il-macon-co-parcels',
+         url: 'http://macongis.co.macon.il.us/arcgis/rest/services/ParcelViewer/Parcels/MapServer/0',
+         labelFields: ['SiteAddress'],
+         processLabel: function(label) { return label.replace(/~.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Macon Co - Address Points',
+         id: 'il-macon-co-pts',
+         url: 'http://macongis.co.macon.il.us/arcgis/rest/services/AGOL/Addresses/MapServer/0',
+         labelFields: ['HOUSE_NUMBER','PRE_DIR','STREET_NAME','STREET_TYPE','SUF_ST_DIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Macoupin Co - Parcels',
+         id: 'il-macoupin-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_macoupin_co_il_taxmap/MapServer/0',
+         labelFields: ['Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Macoupin Co - Address Points - Not found
+
+        // Madison Co - ArcGIS - password protected data
+
+        {name: 'Marion Co - Parcels',
+         id: 'il-marion-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/MarionILFeatures/FeatureServer/6',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Marion Co - Address Points - Not found
+
+        // Marshall Co - No GIS
+        // Mason Co - WTH
+
+        {name: 'Massac Co - Parcels',
+         id: 'il-massac-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_massac_co_il_taxmap/MapServer/0',
+         labelFields: ['Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Massac Co - Address Points',
+         id: 'il-massac-co-pts',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_massac_co_il_gis/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'McDonough Co - Parcels',
+         id: 'il-mcdonough-co-parcels',
+         url: 'http://gis.wiu.edu/arcgis/rest/services/mcdonough_highway/MapServer/21',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McDonough Co - Address Points',
+         id: 'il-mcdonough-co-pts',
+         url: 'http://gis.wiu.edu/arcgis/rest/services/mcdonough_highway/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'McHenry Co - Parcels',
+         id: 'il-mchenry-co-parcels',
+         url: 'http://www.mchenrycountygis.org/arcgis/rest/services/parcels/MapServer/0',
+         labelFields: ['SiteAddressStreet'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // McHenry Co - Address Points - Not found
+
+        {name: 'McLean Co - Parcels (no data)',
+         id: 'il-mclean-co-parcels',
+         url: 'https://www.mcgisweb.org/mcgis/rest/services/ArcGISOpenData/ArcGISOpenData/MapServer/2',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McLean Co - Address Points',
+         id: 'il-mclean-co-pts',
+         url: 'https://www.mcgisweb.org/mcgis/rest/services/ArcGISOpenData/ArcGISOpenData/MapServer/0',
+         labelFields: ['ADDR_NUM','PrefixDirection','StreetName','SuffixType','SuffixDirection'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Menard Co - Parcels',
+         id: 'il-menard-co-parcels',
+         url: 'https://services5.arcgis.com/OYmyJWdTtTeTShSg/ArcGIS/rest/services/November_2017_Tax_Parcels/FeatureServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Menard Co - Address Points - Incomplete data
+
+        // Mercer Co - No GIS
+
+        {name: 'Monroe Co - Parcels',
+         id: 'il-monroe-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MonroeILFeatures/FeatureServer/9',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Avenue|Drive|Street|Court|Cirle|Boulevard|Place|Lane|Freeway|Road|(Route \d+)|Terrace|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Monroe Co - Address Points - Not found
+
+        // Montgomery Co - qPublic
+
+        {name: 'Morgan Co - Parcels',
+         id: 'il-morgan-co-parcels',
+         url: 'https://services3.arcgis.com/95PFahBF8eyGEfuc/ArcGIS/rest/services/TaxParcels/FeatureServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Morgan Co - Address Points',
+         id: 'il-morgan-co-pts',
+         url: 'https://services3.arcgis.com/95PFahBF8eyGEfuc/ArcGIS/rest/services/MorganAddresses/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Moultrie Co - Parcels',
+         id: 'il-moultrie-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_moultrie_co_il_taxmap3_web_mercator/MapServer/0',
+         labelFields: ['Site_Address'],
+         processLabel: function(label) { return label.replace(/~.*$/,'').replace(/^0+.*/, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Moultrie Co - Address Points - Not found
+
+        // Ogle Co - qPublic
+
+        {name: 'Peoria Co - Parcels',
+         id: 'il-peoria-co-parcels',
+         url: 'https://gis.peoriacounty.org/arcgis/rest/services/DP/LandRecords/MapServer/27',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Peoria Co - Address Points',
          id: 'il-peoria-co-pts',
          url: 'https://services.arcgis.com/iPiPjILCMYxPZWTc/arcgis/rest/services/Addresses/FeatureServer/0',
@@ -2547,20 +3071,37 @@
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Peoria Co - Parcels (no labels)',
-         id: 'il-peoria-co-parcels-2',
-         url: 'https://services.arcgis.com/iPiPjILCMYxPZWTc/ArcGIS/rest/services/Tax_Parcels/FeatureServer/0',
+        // Perry Co - No GIS
+
+        {name: 'Piatt Co - Parcels',
+         id: 'il-piatt-co-parcels',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/Webmap_Piatt/ParcelSearch/MapServer/0',
          labelFields: [''],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
-        // 2018-03-15 (mapomatic) This service seems to have stopped working for some reason.
-        // {name: 'Peoria Co - Parcels',
-        //  id: 'il-peoria-co-parcels',
-        //  url: 'https://gis.peoriacounty.org/arcgis/rest/services/DP/LandRecords/MapServer/27',
-        //  labelFields: ['prop_street'],
-        //  state: 'IL',
-        //  style: DEFAULT_PARCEL_STYLE},
+        {name: 'Piatt Co - Address Points',
+         id: 'il-Piatt-co-pts',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/ArcGISOnline_Piatt/AddressPoints/MapServer/0',
+         labelFields: ['Address'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Pike Co - No GIS
+        // Pope Co - No GIS
+        // Pulaski Co - No GIS
+        // Putnam Co - WTH
+
+        {name: 'Randolph Co - Parcels',
+         id: 'il-randolph-co-parcels',
+         url: 'https://services5.arcgis.com/pweYHqdOby1TE9DD/arcgis/rest/services/TaxParcelsFull/FeatureServer/0/',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Randolph Co - Address Points - Not found
+
+        // Richland Co - WTH
+        // Rock Island Co - No GIS
 
         {name: 'St. Clair Co - Parcels',
          id: 'il-stclair-co-parcels',
@@ -2568,11 +3109,121 @@
          labelFields: ['SITEADR1'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
+        // St. Clair Co - Address Points - Not found
+
+        // Saline Co - No GIS
+
+        {name: 'Sangamon Co - Parcels (no data)',
+         id: 'il-sangamon-co-parcels',
+         url: 'http://gismaps.co.sangamon.il.us/tpv/proxy.ashx?http://aberdeen/ArcGIS/rest/services/ParcelPoly/MapServer/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sangamon Co - Address Points',
+         id: 'il-sangamon-co-pts',
+         url: 'http://gismaps.co.sangamon.il.us/tpv/proxy.ashx?http://aberdeen/ArcGIS/rest/services/AddressVerify/MapServer/0',
+         labelFields: ['HN','HNSFFX','PREDIR','PRE_TYPE','STNAME','STTYPE','SUFDIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Schuyler Co - Parcels',
+         id: 'il-schuyler-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_schuyler_co_il_taxmap/MapServer/0',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Schuyler Co - Address Points - Not found
+
+        // Scott Co - No GIS
+
+        {name: 'Shelby Co - Parcels',
+         id: 'il-shelby-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_shelby_co_il_taxmap/MapServer/0',
+         labelFields: ['SiteAddres'],
+         processLabel: function(label) { return label.replace(/~.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Schelby Co - Address Points - Not found
+
+        {name: 'Stark Co - Parcels',
+         id: 'il-stark-co-parcels',
+         url: 'https://services6.arcgis.com/IMZwRRU1qL5MDxBH/arcgis/rest/services/LandParcels/FeatureServer/0/',
+         labelFields: ['SiteAddress'],
+         processLabel: function(label) { return label.replace(/~.*$/,''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Stark Co - Address Points',
+         id: 'il-stark-co-pts',
+         url: 'https://services6.arcgis.com/IMZwRRU1qL5MDxBH/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
+         labelFields: ['House','Dir','Suffix','Street','Type','Addr_new'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Stephenson Co - Parcels',
+         id: 'il-stephenson-co-parcels',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Parcels/MapServer/3',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Stephenson Co - Address Points - Not found
+
+        {name: 'Tazewell Co - Parcels (no data)',
+         id: 'il-tazewell-co-parcels',
+         url: 'https://gis.tazewell.com/maps/rest/services/WAB/TazCo_Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tazewell Co - Address Points',
+         id: 'il-tazewell-co-pts',
+         url: 'https://gis.tazewell.com/maps/rest/services/WAB/TazCo_AddressPts/MapServer/0',
+         labelFields: ['FullAddress'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+        
+        // Union Co - No GIS
+
+        {name: 'Vermillion Co - Parcels',
+         id: 'il-vermillion-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_vermilion_co_il_taxmap/MapServer/0',
+         labelFields: ['FullSiteAddress1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Vermillion Co - Address Points - Not found
+        
+        // Wabash Co - No GIS
+        // Warren Co - No GIS
+        // Washington Co - No GIS
+        // Wayne Co - No GIS
+
+        {name: 'White Co - Parcels',
+         id: 'il-white-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/WhiteILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // White Co - Address Points - Not found
+
+        {name: 'Whiteside Co - Parcels',
+         id: 'il-whiteside-co-parcels',
+         url: 'https://services.arcgis.com/l0M0OC6J9QAHCiGx/ArcGIS/rest/services/TaxParcelQuery/FeatureServer/0',
+         labelFields: ['SITEADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Whiteside Co - Address Points',
+         id: 'il-whitesided-co-pts',
+         url: 'https://services.arcgis.com/l0M0OC6J9QAHCiGx/ArcGIS/rest/services/SiteAddresses/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Will Co - Parcels',
          id: 'il-will-co-parcels',
          url: 'http://apps.willcogis.org/arcgis/rest/services/BasemapLayers/ParcelsLY_Dynamic/MapServer/0',
-         labelFields: [''],
+         labelFields: ['HOUSENUMBE','ADDR_FRACT','PREFIXDIRE','PREFIXTYPE','STREETNAME','SUFFIXTYPE','SUFFIXDIRE','ADDR_OTHER'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2580,6 +3231,49 @@
          id: 'il-will-co-pts',
          url: 'http://apps.willcogis.org/arcgis/rest/services/BasemapLayers/AddressPoints/MapServer/0',
          labelFields: ['gisedit.DBO.Address_Points.HOUSENUMBE','gisedit.DBO.Address_Points.PREFIXDIRE','gisedit.DBO.Address_Points.STREETNAME','gisedit.DBO.Address_Points.SUFFIXTYPE'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Williamson Co - Parcels',
+         id: 'il-williamson-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_williamson_co_il_taxmap/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Williamson Co - Address Points - Not found
+
+        {name: 'Winnebago Co - Parcels',
+         id: 'il-winnebago-co-parcels',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Parcels/MapServer/1',
+         labelFields: ['LOPHouseNumber','LOPHouseNbrSuffix','LOPPrefixDirectional','LOPStreetName','LOPStreetSuffix','LOPPostDirectional'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Winnebago Co - Address Points',
+         id: 'il-winnebago-co-pts',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Layers/MapServer/16',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Woodford Co - Parcels',
+         id: 'il-woodford-co-parcels',
+         url: 'http://www.centralilmaps.com/arcgis/rest/services/Woodford/WoodfordGIS_Flex_New_20160509/MapServer/11',
+         labelFields: ['SiteAddres'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Woodford Co - Address Points',
+         id: 'il-woodford-co-pts',
+         url: 'http://www.centralilmaps.com/arcgis/rest/services/Woodford/WoodfordGIS_Flex_New_20160509/MapServer/1',
+         labelFields: ['SiteAddres'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rockford - City Address Points',
+         id: 'il-rockford-city-pts',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Layers/MapServer/17',
+         labelFields: ['STNO','PREFIX','STNAME','SUFFIX','POSTDIR'],
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
