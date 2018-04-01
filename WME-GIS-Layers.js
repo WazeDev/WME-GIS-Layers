@@ -1,4 +1,4 @@
-4// ==UserScript==
+// ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
 // @version      2018.04.01.002
@@ -8600,4 +8600,3732 @@ Doesn't have a Shape field.
          url: 'http://gis.berkeleycountysc.gov/arcgis/rest/services/desktop/internet_map/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'SC',
-         style: DEFAULT_PT_STY
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Calhoun Co - Parcels (no data)',
+         id: 'sc-calhoun-co-parcels',
+         url: 'https://gis.aecomonline.net/arcgis/rest/services/CalhounCO/WebParcels/MapServer/127',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Calhoun Co - Address Points',
+         id: 'sc-calhoun-co-pts',
+         url: 'https://gis.aecomonline.net/arcgis/rest/services/CalhounCO/Dynamic/MapServer/0',
+         labelFields: ['Z11_ADD'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Charleston Co - Parcels',
+         id: 'sc-charleston-co-parcels',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/4',
+         labelFields: ['FEATURES.SDE.CAMA.PROP_ST_NO','FEATURES.SDE.CAMA.PROP_ST_NAME','FEATURES.SDE.CAMA.PROP_TYPE'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Charleston - Address Points',
+         id: 'sc-charleston-co-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/1',
+         labelFields: ['WHOLE_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Cherokee Co - qPublic
+        // Chester Co - qPublic
+        // Chesterfield Co - WTH
+        // Clarendon Co - qPublic
+
+        {name: 'Colleton Co - Parcels',
+         id: 'sc-colleton-co-parcels',
+         url: 'https://services1.arcgis.com/m0cnLGKdhwao8WvM/ArcGIS/rest/services/Parcel_Boundaries/FeatureServer/0',
+         labelFields: ['SitusAddre'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Colleton Co - Address Points',
+         id: 'sc-colleton-co-pts',
+         url: 'https://services1.arcgis.com/m0cnLGKdhwao8WvM/ArcGIS/rest/services/Address_Points/FeatureServer/0',
+         labelFields: ['WHOLEADDRE'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Darlington Co - qPublic
+        // Dillon Co - WTH
+
+        {name: 'Dorchester Co - Parcels',
+         id: 'sc-dorchester-co-parcels',
+         url: 'https://gisservices.dorchestercounty.net/arcgis/rest/services/BI_Base_Counter_Publish/MapServer/4',
+         labelFields: ['PROPERTY_LOCATION'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dorchester Co - Address Points',
+         id: 'sc-dorchester-co-pts',
+         url: 'https://gisservices.dorchestercounty.net/arcgis/rest/services/BI_Base_Counter_Publish/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Edgefield Co - qPublic
+        // Fairfield Co - qPublic
+
+        {name: 'Florence Co - Parcels',
+         id: 'sc-florence-co-parcels',
+         url: 'https://arc2000.florenceco.org/arcgis/rest/services/AGOL_Base/MapServer/8',
+         labelFields: ['ADDR_SITE'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Florence Co - Address Points',
+         id: 'sc-florence-co-pts',
+         url: 'https://arc2000.florenceco.org/arcgis/rest/services/AGOL_Base/MapServer/15',
+         labelFields: ['FULLADDR'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Georgetown Co - Parcels',
+         id: 'sc-georgetown-co-parcels',
+         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WillCW/MapServer/2',
+         labelFields: ['Georgetown2018.dbo.GISVIEW3.Housenum','Georgetown2018.dbo.GISVIEW3.Street'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Georgetown Co - Address Points',
+         id: 'sc-georgetown-co-pts',
+         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/8',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Greenville Co - Parcels',
+         id: 'sc-greenville-co-parcels',
+         url: 'https://www.gcgis.org/arcgis/rest/services/GCGIA/Greenville_Base/MapServer/34',
+         labelFields: ['STRNUM','LOCATE'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greenville Co - Address Points',
+         id: 'sc-greenville-co-pts',
+         url: 'https://www.gcgis.org/arcgis/rest/services/GCGIA/Greenville_Base/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Greenwood Co - Parcels',
+         id: 'sc-greenwood-co-parcels',
+         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/38',
+         labelFields: ['SiteAddress'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greenwood Co - Address Points',
+         id: 'sc-greenwood-co-pts',
+         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/28',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Hampton Co - qPublic $$$
+
+        {name: 'Horry Co - Parcels (no data)',
+         id: 'sc-horry-co-parcels',
+         url: 'http://www.horrycounty.org/gisweb/rest/services/Public/Parcels/MapServer/1',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Horry Co - Address Points',
+         id: 'sc-horry-co-pts',
+         url: 'http://www.horrycounty.org/gisweb/rest/services/Public/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Jasper Co - qPublic
+        // Kershaw Co - WTH
+        // Lancaster Co - qPublic
+
+        {name: 'Laurens Co - Parcels (no data)',
+         id: 'sc-laurens-co-parcels',
+         url: 'http://www.laurenscountygis.org/ArcGIS/rest/services/WebParcels/MapServer/65',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Laurens Co - Address Points',
+         id: 'sc-laurens-co-pts',
+         url: 'http://www.laurenscountygis.org/ArcGIS/rest/services/AVL/MapServer/0',
+         labelFields: ['COUNTY_COM'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Lee Co - qPublic $$$
+
+        {name: 'Lexington Co - Parcels',
+         id: 'sc-lexington-co-parcels',
+         url: 'http://maps.lex-co.com/arcgis/rest/services/Property/MapServer/0',
+         labelFields: ['PROPADDR'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lexington Co - Address Points',
+         id: 'sc-lexington-co-pts',
+         url: 'http://maps.lex-co.com/arcgis/rest/services/AddressPts/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Marion Co - WTH
+        // Marlboro Co - WTH
+        // McCormick Co - WTH
+
+        {name: 'Newberry Co - Parcels',
+         id: 'sc-newberry-co-parcels',
+         url: 'http://map.newberrycounty.net/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/5',
+         labelFields: ['Street_Number_E911','Street_Name_E911'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Newberry Co - Address Points',
+         id: 'sc-newberry-co-pts',
+         url: 'http://map.newberrycounty.net/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/1',
+         labelFields: ['AL_HouseNo','AL_PreDir','AL_PreType','AL_StName','AL_StType','AL_SufDir'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Oconee Co - qPublic
+
+        {name: 'Orangeburg Co - Parcels (no data)',
+         id: 'sc-orangeburg-co-parcels',
+         url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/TaxParcels_web/MapServer/1',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Orangeburg Co - Address Points',
+         id: 'sc-orangeburg-co-pts',
+         url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/SiteAddressesView/MapServer/0',
+         labelFields: ['ADD_STNUM','ADD_STREET','ADD_EXT'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Pickens Co - qPublic
+        // Richland Co - Custom GIS
+
+        {name: 'Saluda Co - Parcels',
+         id: 'sc-saluda-co-parcels',
+         url: 'http://www.saludacountysc.net/arcgis/rest/services/ParcelSearch/PublicWebsite/MapServer/4',
+         labelFields: ['SDE.DBO.AssessorData.Street_Number_E911','SDE.DBO.AssessorData.Street_Name_E911'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saluda Co - Address Points',
+         id: 'sc-saluda-co-pts',
+         url: 'http://www.saludacountysc.net/arcgis/rest/services/ParcelSearch/PublicWebsite/MapServer/1',
+         labelFields: ['FullAddress'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Spartanburg Co - Parcels (no data)',
+         id: 'sc-spartanburg-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthCarolina/SpartanburgSC/MapServer/24',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Spartanburg Co - Address Points',
+         id: 'sc-spartanburg-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthCarolina/SpartanburgSC/MapServer/9',
+         labelFields: ['FULLNAME'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sumter Co - Parcels',
+         id: 'sc-sumter-co-parcels',
+         url: 'http://svr4.sumtercountysc.org:6080/arcgis/rest/services/Parcel_Search/County_Map_PS/MapServer/1',
+         labelFields: ['ADDRESS','STREET'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sumter Co - Address Points',
+         id: 'sc-sumter-co-pts',
+         url: 'http://svr4.sumtercountysc.org:6080/arcgis/rest/services/Parcel_Search/County_Map_PS/MapServer/5',
+         labelFields: ['O_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        // Union Co - qPublic
+        // Williamsburg Co - WTH
+
+        {name: 'York Co - Parcels',
+         id: 'sc-york-co-parcels',
+         url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/3',
+         labelFields: ['STREETNUM','STREETNAME'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'York Co - Address Points',
+         id: 'sc-york-co-pts',
+         url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/0',
+         labelFields: ['WHOLE_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Charleston - City Address Points',
+         id: 'sc-charleston-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/25',
+         labelFields: ['ADDRLABEL'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mount Pleasant - City Address Points',
+         id: 'sc-mount-pleasant-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/26',
+         labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'North Charleston - City Address Points',
+         id: 'sc-north-charleston-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/24',
+         labelFields: ['FullAddres'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Summerville - City Address Points',
+         id: 'sc-summerville-city-pts',
+         url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/23',
+         labelFields: ['FULLADDR'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+
+        // South Dakota
+        // *********************************
+
+        {name: 'Aurora Co - Parcels',
+         id: 'sd-aurora-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/AURORA/MapServer/21',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Beadle Co - Parcels',
+         id: 'sd-beadle-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Beadle/beadlemapnet/MapServer/1',
+         labelFields: ['PROPERTY_A'],
+         //processLabel: function(label) { return label.replace(/^\d{5}\s/, ''); }, // Some addresses start with the zip code, but some start with a valid 5-digit HN.  Can't just blindly remove 5-digit values.
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bon Homme Co - Parcels',
+         id: 'sd-Bon-homme-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/BON_HOMME/MapServer/1',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brule Co - Parcels',
+         id: 'sd-brule-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/BRULE/MapServer/16',
+         labelFields: ['CAMA.HOUSENUM','CAMA.ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // layer working, but seems to be very limited in polygon and address info not to usefull
+        //{name: 'Buffalo Co - Parcels',
+        // id: 'sd-buffalo-co-parcels',
+        // url: 'http://ims.districtiii.org/arcgis/rest/services/BUFFALO/MapServer/1',
+        // labelFields: ['cama2016.SITEADDRES'],
+        // state: 'SD',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (no labels)',
+         id: 'sd-clark-co-parcels1',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet_new/MapServer/16',
+         labelFields: [''],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Clark Co - Parcels (NO City)',
+         id: 'sd-clark-co-parcels2',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Clark/clarkmapnet/MapServer/8',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Codington Co - Parcels',
+         id: 'sd-codington-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Codington/codingtonmapnet/MapServer/9',
+         labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Davison Co - Parcels',
+         id: 'sd-davison-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/DAVISON/MapServer/4',
+         labelFields: ['CAMA_2016.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Day Co - Parcels',
+         id: 'sd-day-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/DAY/MapServer/14',
+         labelFields: ['cama2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // THESE ARE HIGHLY INACCURATE
+        // {name: 'Deuel Co - Address Points',
+        //  id: 'sd-deuel-points',
+        //  url: 'http://www.1stdistrict.org/arcgis/rest/services/Deuel/deuelmapnet/MapServer/0',
+        //  labelFields: ['ARC_Street'],
+        //  state: 'SD',
+        //  style: DEFAULT_PT_STYLE},
+
+        {name: 'Deuel Co - Parcels',
+         id: 'sd-deuel-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Deuel/deuelmapnet/MapServer/2',
+         labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Douglas Co - Parcels',
+         id: 'sd-douglas-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Douglas/douglasmapnet/MapServer/1',
+         labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Layer working, but not very usefull. no address info and parcel looks more like square division not actual ownership parcel.
+        //{name: 'Edmunds Co - Parcels',
+        // id: 'sd-edmunds-co-parcels',
+        // url: 'http://ims.districtiii.org/arcgis/rest/services/EDMUNDS/MapServer/3',
+        // labelFields: ['CAMA.Property_Address'],
+        // visibleAtZoom: 4,
+        // state: 'SD',
+        // style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fall River Co - County Addr Points',
+         id: 'sd-fall-river-points1',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/1',
+         labelFields: ['DLVRY_ADD'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Towns Addr Points',
+         id: 'sd-fall-river-points2',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/2',
+         labelFields: ['DLVRY_ADD'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Building Addr Points',
+         id: 'sd-fall-river-points3',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/0',
+         labelFields: ['Address','PreDir','Str_Name','Designation','PostDir'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Fall River Co - Parcels',
+         id: 'sd-fall-river-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/FallRiver/MapServer/24',
+         labelFields: ['House_Number','Address'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Faulk Co - Parcels (no labels)',
+         id: 'sd-faulk-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/FAULK/MapServer/1',
+         labelFields: [],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grant Co - Address Points (SPARSE)',
+         id: 'sd-grant-points',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Grant/grantmapnet_new/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Grant Co - Parcels',
+         id: 'sd-grant-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Grant/grantmapnet_new/MapServer/18',
+         labelFields: ['INQ_STREET_NAME'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grant Co - Milbank - City Parcels',
+         id: 'sd-milbank-city-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Milbank/milbankmapnet/MapServer/40',
+         labelFields: ['INQ_HOUSE_','INQ_STREET'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamlin Co - Parcels',
+         id: 'sd-hamlin-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Hamlin/hamlinmapnet/MapServer/4',
+         labelFields: ['PROPERTY_A'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hanson Co - Parcels',
+         id: 'sd-hanson-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/HANSON/MapServer/9',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hutchinson Co - Parcels',
+         id: 'sd-hutchinson-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/HUTCHINSON/MapServer/0',
+         labelFields: ['CAMA.SITE_HOUSE','CAMA.SITE_STREET'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kingsbury Co - Parcels',
+         id: 'sd-kingsbury-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/kingsbury/kingsburymapnet_new/MapServer/4',
+         labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Parcels',
+         id: 'sd-lake-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Lake/lakemapnet/MapServer/3',
+         labelFields: ['PropertyAddress'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lawrence Co - Parcels',
+         id: 'sd-lawrence-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/LawrenceCounty/MapServer/19',
+         labelFields: ['E911'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lawrence Co - Address Points',
+         id: 'sd-lawrence-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthDakota/LawrenceCounty/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'sd-lincoln-co-pts',
+         url: 'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Groups/Labels/MapServer/2',
+         labelFields: ['ADDRESS','STREET','SUFFIX'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels',
+         id: 'sd-lincoln-co-parcels',
+         url: 'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Groups/Labels/MapServer/0',
+         labelFields: ['CountyService.DBO.Parcel.Address'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lyman Co - Parcels',
+         id: 'sd-lyman-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/LYMAN/MapServer/0',
+         labelFields: ['CAMA.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marshall Co - Parcels',
+         id: 'sd-marshall-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/MARSHALL/MapServer/6',
+         labelFields: ['CAMA_2017.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mellette Co - Address Points',
+         id: 'sd-mellette-co-pts',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/MELLETTE/MapServer/0',
+         labelFields: ['PHYSICAL_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Miner Co - Parcels',
+         id: 'sd-miner-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Miner/minermapnet_new/MapServer/1',
+         labelFields: ['PROP_STREE'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Minnehaha Co - Parcels',
+         id: 'sd-minnehaha-co-parcels',
+         url: 'http://206.176.83.74/minnemap/rest/services/Picto_Parcels/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sanborn Co - Parcels',
+         id: 'sd-sanborn-co-parcels',
+         url: 'http://ims.districtiii.org/arcgis/rest/services/SANBORN/MapServer/0',
+         labelFields: ['CAMA_2016.SITE_HOUSE','CAMA_2016.SITE_ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sioux Falls - City Address Points',
+         id: 'sd-Sioux-Fall-city-pts',
+         url: 'https://gis2.siouxfalls.org/arcgis/rest/services/Data/Property/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sioux Falls - Parcels (city)',
+         id: 'sd-Sioux-Fall-city-parcels',
+         url: 'https://gis2.siouxfalls.org/arcgis/rest/services/Data/Property/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sioux Falls - Parcels (county)',
+         id: 'sd-minnehaha-co-sioux-falls-parcels',
+         url: 'http://206.176.83.74/minnemap/rest/services/Picto_Parcels/MapServer/12',
+         labelFields: ['ADDRESS'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pennington Co - Rapid City - Parcels',
+         id: 'sd-rapid-city-parcels',
+         url: 'http://gis.rcgov.org/arcgiswebadaptor/rest/services/PublicRapidMap/MapServer/40',
+         labelFields: ['PropAddress'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tripp Co - Parcels',
+         id: 'sd-tripp-co-parcels',
+         url: 'http://www.1stdistrict.org/arcgis/rest/services/Tripp/trippmapnet/MapServer/1',
+         labelFields: ['PROP_ADD'],
+         state: 'SD',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Tennessee
+        // ****************************
+
+        {name: 'Blount Co - Address Points',
+         id: 'tn-blount-county-pts',
+         url: 'http://204.63.176.116/arcgis/rest/services/AddressPoints/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Blount Co - Parcels',
+         id: 'tn-Blount-co-parcels',
+         url: 'http://204.63.176.116/arcgis/rest/services/BlountParcels/MapServer/0',
+         where: "PARID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bradley Co - Address Points',
+         id: 'tn-Bradley-county-pts',
+         url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_Basemap/mapserver/0',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bradley Co - Parcels (no labels)',
+         id: 'tn-Bradley-co-parcels',
+         url: 'http://bradleytn.geopowered.com/PropertySearch/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/BradleyTN_Assessor/BradleyTN_PSACadastral/mapserver/0',
+         where: "PARCEL<>''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel last updated 2-28-15
+        {name: 'Cheatham Co - Parcels 2015',
+         id: 'tn-cheatham-co-parcels',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/Cheatham/Cheat_Parcels/MapServer/0',
+         labelFields: ['address'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cleveland - City Points',
+         id: 'tn-Cleveland-City-pts',
+         url: 'https://gis.clevelandtn.gov/arcgis/rest/services/Operational/OperationalLayers/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cleveland - City Parcels',
+         id: 'tn-Cleveland-city-parcels',
+         url: 'https://gis.clevelandtn.gov/arcgis/rest/services/Operational/OperationalLayers/MapServer/3',
+         where: "ParcelID<>''",
+         labelFields: ['StreetNumber','StreetName'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carter / Johnson / Sullivan / Washington / Unicoi - Address Points',
+         id: 'tn-multi-county-pts-1',
+         url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/Address/SiteAddressPoint/MapServer/0',
+         labelFields: ['FULLADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        // CARTER, JOHNSON, SULLIVAN, WASHINGTON, UNICOI
+        {name: 'Carter / Johnson / Sullivan / Washington / Unicoi - Parcels',
+         id: 'tn-multi-co-parcels-1',
+         url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/ParcelPublishing/TaxParcels/MapServer/0',
+         labelFields: ['SITEADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Davidson Co - Address Points',
+         id: 'tn-Davidson-county-pts',
+         url: 'http://maps.nashville.gov/arcgis/rest/services/Addressing/AddressPoints/MapServer/0',
+         labelFields: ['FullAddress'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Davidson Co - Parcels',
+         id: 'tn-Davidson-co-parcels',
+         url: 'http://maps.nashville.gov/arcgis/rest/services/Cadastral/Parcels/MapServer/0',
+         labelFields: ['PropHouse','PropStreet'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamilton Co - Address Points',
+         id: 'tn-Hamilton-county-pts',
+         url: 'https://mapsdev.hamiltontn.gov/hcwa03/rest/services/Live_Addressing/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hamilton Co - Parcels',
+         id: 'tn-Hamilton-co-parcels',
+         url: 'https://mapsdev.hamiltontn.gov/hcwa03/rest/services/Live_Parcels/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hardeman Co - Parcels (no labels)',
+         id: 'tn-Hardeman-co-parcels',
+         url: 'http://tn.hardeman.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/HardemanTN/HardemanTN_Cadastral/mapserver/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // this layer was probably last updated on 2-2015 as other layers on same server show that info, this one did not, but is probably same date.
+        {name: 'Henry Co - Address Points 2015',
+         id: 'tn-henry-co-pts',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/HenryCo/Paris_city_map_abbr/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'tn-Jefferson-county-pts',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonAddresses/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        // I'M NOT SURE WHICH OF THE FOLLOWING PARCEL LAYERS IS THE BEST.  THE FIRST IS REFERENCED BY THE WEBSITE, BUT THE SECOND HAS SOME MINOR
+        // DIFFERENCES I NOTICED WHILE SPOT CHECKING.
+        {name: 'Jefferson Co - Parcels',
+         id: 'tn-Jefferson-co-parcels',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/Parcel_Upload/FeatureServer/2',
+         where: "PARID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Parcels 2',
+         id: 'tn-Jefferson-co-parcels-2',
+         url: 'https://services7.arcgis.com/in9ruKxwZKI20efQ/ArcGIS/rest/services/JeffersonParcels/FeatureServer/0',
+         where: "PARCELID <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Maury Co - Parcels',
+         id: 'tn-Maury-co-parcels',
+         url: 'http://maps.maurycounty-tn.gov/arcgis/rest/services/TaxParcelQuery/MapServer/0',
+         where: "PARCELID <> ''",
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McMinn Co - Parcels (no labels)',
+         id: 'tn-McMinn-co-parcels',
+         url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_PSACadastral/MapServer/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McMinn Co - Structures',
+         id: 'tn-McMinn-co-structures',
+         url: 'http://tn.mcminn.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/McMinnTN/McMinnTN_Layers/mapserver/3',
+         labelFields: ['HouseNum','PreDirect','StName','StType'],
+         state: 'TN',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Montgomery Co - Parcels',
+         id: 'tn-Montgomery-co-parcels',
+         url: 'https://mcggis.mcgtn.org/mcggis/rest/services/Parcels/MapServer/0',
+         labelFields: ['PropertyAddress'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Putnam Co - Address Points',
+         id: 'tn-Putnam-county-pts',
+         url: 'http://services.putnamco.org/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/2',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Putnam Co - Parcels',
+         id: 'tn-Putnam-co-parcels',
+         url: 'http://services.putnamco.org/arcgis/rest/services/TaxParcelQuery/MapServer/0',
+         where: "PARCELID<>''",
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel last updated 2-28-15
+        {name: 'Robertson Co - Parcels 2015',
+         id: 'tn-robertson-co-parcels',
+         url: 'http://apnsgis1.apsu.edu:6080/arcgis/rest/services/Robertson/Rob_Parcels/MapServer/0',
+         labelFields: ['address'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rutherford Co - Address Points',
+         id: 'tn-Rutherford-county-pts',
+         url: 'http://map3.rutherfordcountytn.gov/arcgis/rest/services/Basemaps/Basemap/MapServer/21',
+         labelFields: ['FULLADDR'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rutherford Co - Parcels',
+         id: 'tn-Rutherford-co-parcels',
+         url: 'http://map3.rutherfordcountytn.gov/arcgis/rest/services/Basemaps/Basemap/MapServer/16',
+         where: "MAP<>''",
+         labelFields: ['STREETNO','STREETDIR','STREETNAME','STREETSUF'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sevier Co - Address Points',
+         id: 'tn-Sevier-county-pts',
+         url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Address/FeatureServer/0',
+         labelFields: ['LSN'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sevier Co - Parcels',
+         id: 'tn-Sevier-co-parcels',
+         url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Parcel_Sevier_County/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1'); },
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // THERE IS SOMETHING ABOUT THE QUERY THAT THIS SITE DOESN'T LIKE, BUT I HAVEN'T FIGURED IT OUT.  MAYBE DOESN'T SUPPORT GEOMETRY IN QUERIES???
+        // {name: 'Shelby Co - Parcels',
+        //  id: 'tn-Shelby-co-parcels',
+        //  url: 'http://gis.assessor.shelby.tn.us/proxy.ashx?http://services4.geopowered.com/arcgis/rest/services/ShelbyTN/ShelbyTN_Cadastral2017/MapServer/2',
+        //  labelFields: [''],
+        //  state: 'TN',
+        //  style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sumner Co - Address Points',
+         id: 'tn-Sumner-county-pts',
+         url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_PSALayers/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sumner Co - Parcels (no labels)',
+         id: 'tn-Sumner-co-parcels',
+         url: 'http://tn.sumner.geopowered.com/proxy.ashx?http://services1.geopowered.com/arcgis/rest/services/SumnerTN/SumnerTN_Cadastral/MapServer/46',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tipton Co - Address Points',
+         id: 'tn-Tipton-county-pts',
+         url: 'http://tiptontn.geopowered.com/PropertySearch/proxy.ashx?http://services2.geopowered.com/arcgis/rest/services/TiptonTN/Tipton_E911/mapserver/0',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tipton Co - Parcels',
+         id: 'tn-Tipton-co-parcels',
+         url: 'http://tiptontn.geopowered.com/PropertySearch/proxy.ashx?http://services2.geopowered.com/arcgis/rest/services/TiptonTN/TiptonTN_PSACadastral/MapServer/13',
+         where: "GISLINK <> ''",
+         labelFields: ['ST_NUM','STREET'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williamson Co - Parcels',
+         id: 'tn-Williamson-co-parcels',
+         url: 'http://arcgis2.williamsoncounty-tn.gov/arcgis/rest/services/Williamson/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wilson Co - Address Points',
+         id: 'tn-Wilson-county-pts',
+         url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_PSALayers/mapserver/2',
+         labelFields: ['ADDRESS'],
+         state: 'TN',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wilson Co - Parcels (no labels)',
+         id: 'tn-Wilson-co-parcels',
+         url: 'http://geopowered.wilson.wilsontngis.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/WilsonTN_PSA/WilsonTN_Assessor_PSACadastral/MapServer/45',
+         where: "GISLINK <> ''",
+         labelFields: [''],
+         state: 'TN',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Texas
+        // ****************************
+
+        {name: 'Abilene - City Address Points',
+         id: 'tx-abilene-city-address',
+         url: 'https://gis.abilenetx.com/arcgis/rest/services/Address_Points/MapServer/0',
+         labelFields: ['FULLADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Amarillo City - Parcels',
+         id: 'tx-amarillo-city-parcels',
+         url: 'https://services6.arcgis.com/Vdk8uHgdgYx8ZqS6/ArcGIS/rest/services/TaxAccountParcelsArcGISOnline/FeatureServer/0',
+         labelFields: ['Address','STREET_PFX','STREET','STREET_SFX'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Andrews Co - Parcels',
+         id: 'tx-andrews-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AndrewsMapSearch/MapServer/1',
+         labelFields: ['Andrews.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Angelina Co - Parcels',
+         id: 'tx-angelina-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AngelinaMapSearch/MapServer/7',
+         labelFields: ['Angelina.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Anna City - Parcels',
+         id: 'tx-anna-city-parcels',
+         url: 'https://services5.arcgis.com/DvFgDXTY4DS4ZXFx/ArcGIS/rest/services/ClippedParcels/FeatureServer/0',
+         labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Aransas Co - Parcels',
+         id: 'tx-aransas-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AransasMapSearch/MapServer/1',
+         labelFields: ['Aransas.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Atascosa Co - Parcels',
+         id: 'tx-Atascosa-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/AtascosaMapSearch/MapServer/7',
+         labelFields: ['Atascosa.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Austin Co - Parcels',
+         id: 'tx-austin-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/AustinWeb/MapServer/0',
+         labelFields: ['AustinCad.DBO.Accounts.situs_num','AustinCad.DBO.Accounts.situs_street_prefx','AustinCad.DBO.Accounts.situs_street','AustinCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bandera Co - Parcels',
+         id: 'tx-bandera-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BanderaMapSearch/MapServer/6',
+         labelFields: ['Bandera.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bastrop Co - Parcels',
+         id: 'tx-bastrop-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BastropWeb/MapServer/0',
+         labelFields: ['BastropCad.DBO.Accounts.situs_num','BastropCad.DBO.Accounts.situs_street_prefx','BastropCad.DBO.Accounts.situs_street','BastropCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bee Co - Parcels',
+         id: 'tx-bee-co-parcels',
+         url: 'https://services7.arcgis.com/cPZChP7n2kRoyp30/ArcGIS/rest/services/Bee_CAD/FeatureServer/3',
+         labelFields: ['Prop_Street_Number','Prop_Street','Prop_Street_Dir'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bell Co - Parcels',
+         id: 'tx-bell-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BellMapSearch/MapServer/1',
+         labelFields: ['Bell.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bexar Co - Parcels',
+         id: 'tx-bexar-co-parcels',
+         url: 'http://www.bcad.org/arcgis/rest/services/PAMapSearch/MapServer/6',
+         labelFields: ['PAMaps.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brazoria Co - Parcels',
+         id: 'tx-brazoria-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrazoriaMapSearch/MapServer/8',
+         labelFields: ['Brazoria.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brazos Co - Parcels',
+         id: 'tx-brazos-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BrazosWeb/MapServer/0',
+         labelFields: ['BrazosCad.DBO.Accounts.situs_num','BrazosCad.DBO.Accounts.situs_street_prefx','BrazosCad.DBO.Accounts.situs_street','BrazosCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brown Co - Parcels',
+         id: 'tx-brown-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrownMapSearch/MapServer/1',
+         labelFields: ['Brown.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bryan City - Parcels',
+         id: 'tx-bryan-co-parcels',
+         url: 'https://maps.bryantx.gov/arcgis/rest/services/Address/AddressManagement/MapServer/2',
+         labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Burleson Co - Parcels',
+         id: 'tx-burleson-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BurlesonWeb/MapServer/0',
+         labelFields: ['BurlesonCad.dbo.Accounts.situs_num','BurlesonCad.dbo.Accounts.situs_street_prefx','BurlesonCad.dbo.Accounts.situs_street','BurlesonCad.dbo.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Burnet Co - Parcels',
+         id: 'tx-burnet-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/BurnetMapSearch/MapServer/7',
+         labelFields: ['Burnet.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Calhoun Co - Parcels',
+         id: 'tx-calhoun-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/CalhounMapSearch/MapServer/7',
+         labelFields: ['Calhoun.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Camp Co - Parcels',
+         id: 'tx-camp-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CampWeb/MapServer/0',
+         labelFields: ['CampCad.DBO.Accounts.situs_num','CampCad.DBO.Accounts.situs_street_prefx','CampCad.DBO.Accounts.situs_street','CampCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carson Co - Parcels',
+         id: 'tx-carson-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CarsonWeb/MapServer/0',
+         labelFields: ['CarsonCad.DBO.Accounts.situs_num','CarsonCad.DBO.Accounts.situs_street_prefx','CarsonCad.DBO.Accounts.situs_street','CarsonCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+//        {name: 'Carrollton City - Parcels',
+//         id: 'tx-carrollton-city-parcels',
+//         url: 'http://maps.cityofcarrollton.com/arcgis/rest/services/Webclstr1/BaseMap/MapServer/6',
+//         labelFields: ['STR_NUM','STR_DIR','STR_NAME','STR_SUF'],
+//         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+//         state: 'TX',
+//         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cass Co - Parcels',
+         id: 'tx-cass-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/CassMapSearch/MapServer/1',
+         labelFields: ['Cass.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cherokee Co - Parcels',
+         id: 'tx-cherokee-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/CherokeeMapSearch/MapServer/7',
+         labelFields: ['Cherokee.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cochran Co - Parcels',
+         id: 'tx-cochran-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/CochranMapSearch/MapServer/6',
+         labelFields: ['Cochran.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'College Station City - Buildings',
+         id: 'tx-college-station-city-buildings',
+         url: 'https://maps.cstx.gov/cstx/rest/services/College_Station_Basemap/MapServer/13',
+         labelFields: ['FULL_ADDRESS'],
+         processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Collin co - Address Points',
+         id: 'tx-collin-co-address-points',
+         url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/181',
+         labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
+         processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Colorado Co - Parcels',
+         id: 'tx-colorado-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ColoradoMapSearch/MapServer/7',
+         labelFields: ['Colorado.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Comal Co - Parcels',
+         id: 'tx-comal-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ComalMapSearch/MapServer/7',
+         labelFields: ['Comal.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Comanche Co - Parcels',
+         id: 'tx-comanche-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/ComancheWeb/MapServer/0',
+         labelFields: ['ComancheCad.DBO.Accounts.situs_num','ComancheCad.DBO.Accounts.situs_street_prefx','ComancheCad.DBO.Accounts.situs_street','ComancheCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cooke Co - Parcels',
+         id: 'tx-coookie-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
+         labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Coppell City - Parcels',
+         id:  'tx-coppell-city-parcels',
+         url:  'https://map.coppelltx.gov/gis/rest/services/External/MapLayers/MapServer/11',
+         labelFields:  ['STREET_NUM','FULL_STREET_NAME' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Coryell Co - Parcels',
+         id:  'tx-coryell-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/CoryellWeb/MapServer/0',
+         labelFields:  ['CoryellCad.DBO.Accounts.situs_num', 'CoryellCad.DBO.Accounts.situs_street_prefx', 'CoryellCad.DBO.Accounts.situs_street', 'CoryellCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Crane Co - Parcels',
+         id:  'tx-crane-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/CraneWeb/MapServer/0',
+         labelFields:  ['CraneCad.DBO.TempAccounts.situs_num', 'CraneCad.DBO.TempAccounts.situs_street_prefx', 'CraneCad.DBO.TempAccounts.situs_street', 'CraneCad.DBO.TempAccounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Dallam Co - Parcels',
+         id:  'tx-dallam-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DallamWeb/MapServer/0',
+         labelFields:  ['DallamCad.DBO.Accounts.situs_num', 'DallamCad.DBO.Accounts.situs_street_prefx', 'DallamCad.DBO.Accounts.situs_street', 'DallamCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+		 {name: 'Dallas - City Parcels',
+         id: 'tx-dallas-city-parcels',
+         url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dallas Co - Parcels',
+         id: 'tx-dallas-co-parcels',
+         url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Deaf Smith Co - Parcels',
+         id: 'tx-deafsmith-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/DeafSmithMapSearch/MapServer/7',
+         labelFields: ['DeafSmith.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Decatur City - Parcels',
+         id:  'tx-decatur-city-parcels',
+         url:  'https://services1.arcgis.com/PLOR6Lqgjdua9pO5/arcgis/rest/services/Layers/FeatureServer/0/',
+         labelFields:  ['HOUSENUM', 'PREDIR', 'STREETNAME', 'STTYPE' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Delta Co - Parcels',
+         id:  'tx-delta-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DeltaWeb/MapServer/0',
+         labelFields:  ['DeltaCad.DBO.Accounts.situs_num', 'DeltaCad.DBO.Accounts.situs_street_prefx', 'DeltaCad.DBO.Accounts.situs_street', 'DeltaCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Denton Co - Parcels',
+         id: 'tx-denton-co-parcels',
+         url: 'http://gis.dentoncounty.com/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Dimmit Co - Parcels',
+         id:  'tx-dimmit-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DimmitWeb/MapServer/0',
+         labelFields:  ['DimmitCad.DBO.Accounts.situs_num', 'DimmitCad.DBO.Accounts.situs_street_prefx', 'DimmitCad.DBO.Accounts.situs_street', 'DimmitCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Duval Co - Parcels',
+         id:  'tx-duval-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DuvalWeb/MapServer/0',
+         labelFields:  ['DuvalCad.DBO.Accounts.situs_num', 'DuvalCad.DBO.Accounts.situs_street_prefx', 'DuvalCad.DBO.Accounts.situs_street', 'DuvalCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Ellis Co - Parcels',
+         id:  'tx-ellis-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/EllisWeb/MapServer/0',
+         labelFields:  ['EllisCad.DBO.Accounts.situs_num', 'EllisCad.DBO.Accounts.situs_street_prefx', 'EllisCad.DBO.Accounts.situs_street', 'EllisCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'El Paso Co - Parcels',
+         id: 'tx-el-paso-co-parcels',
+         url: 'http://gis.elpasotexas.gov/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['CAD_2018.DBO.ParcelAttribute.SITUS_NUM','CAD_2018.DBO.ParcelAttribute.SITUS_STRE'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Falls Co - Parcels',
+         id: 'tx-falls-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/FallsMapSearch/MapServer/7',
+         labelFields: ['Falls.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Fannin Co - Parcels',
+         id:  'tx-fannin-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FanninWeb/MapServer/0',
+         labelFields:  ['FanninCad.DBO.Accounts.situs_num', 'FanninCad.DBO.Accounts.situs_street_prefx', 'FanninCad.DBO.Accounts.situs_street', 'FanninCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Fayette Co - Parcels',
+         id:  'tx-fayette-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FayetteWeb/MapServer/0',
+         labelFields:  ['FayetteCad.DBO.Accounts.situs_num', 'FayetteCad.DBO.Accounts.situs_street_prefx', 'FayetteCad.DBO.Accounts.situs_street', 'FayetteCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Fort Bend Co - Address Points',
+         id: 'tx-fort-bend-address',
+         url: 'https://arcgisweb.co.fort-bend.tx.us/arcgis/rest/services/General/Address_Points/MapServer/0',
+         labelFields: ['STREET_NUM','STREET_NAM','STREET_SUF'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fort Worth City - Parcels',
+         id: 'tx-fort-worth-parcels',
+         url: 'https://mapitwest.fortworthtexas.gov/ags/rest/services/FWGISData/FW_GIS_DATA/MapServer/13',
+         labelFields: ['ADDR_NO','PREFIX','STREET_NAME','STREET_TYPE','SUFFIX'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Flower Mound City - Parcels',
+         id: 'tx-flower-mound-city-parcels',
+         url: 'https://gismaps.flower-mound.com/wafmp/rest/services/Basemap/Parcels_MS/MapServer/0',
+         labelFields: ['ADDRESS_1'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Freestone Co - Parcels',
+         id:  'tx-freestone-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FreestoneWeb/MapServer/0',
+         labelFields:  ['FreestoneCad.DBO.Accounts.situs_num', 'FreestoneCad.DBO.Accounts.situs_street_prefx', 'FreestoneCad.DBO.Accounts.situs_street', 'FreestoneCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Frisco - City Parcels',
+         id: 'tx-frisco-city-parcels',
+         url: 'http://mapcache.friscotexas.gov/arcgis/rest/services/Resident/MapServer/10',
+         labelFields: ['Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Gaines Co - Parcels',
+         id:  'tx-gaines-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GainesWeb/MapServer/0',
+         labelFields:  ['GainesCad.DBO.Accounts.situs_num', 'GainesCad.DBO.Accounts.situs_street_prefx', 'GainesCad.DBO.Accounts.situs_street', 'GainesCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Galveston Co - Parcels',
+         id: 'tx-galveston-co-parcels',
+         url: 'https://services2.arcgis.com/7Zo7vX4Yxo9Z7Vw3/ArcGIS/rest/services/MyMapService/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)\s+.*,.*/,'$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Garland City - Address Points',
+         id: 'tx-garland-city-address',
+         url: 'https://maps.garlandtx.gov/arcgis/rest/services/OpenData/OPENDATA_BaseLayers/MapServer/5',
+         labelFields: ['STREETNUM','STREETPREFIX','STREETNAME','STREETTYPE','STREETSUFFIX'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Gillespie Co - Parcels',
+         id: 'tx-gillespie-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/GillespieMapSearch/MapServer/7',
+         labelFields: ['Gillespie.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+//        {name:  'Glasscock Co - Parcels',
+//         id:  'tx-glasscock-co-parcels',
+//         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GlasscockWeb/MapServer/0',
+//         labelFields:  ['GlasscockCad.DBO.Accounts.situs_num', 'GlasscockCad.DBO.Accounts.situs_street_prefx', 'GlasscockCad.DBO.Accounts.situs_street', 'GlasscockCad.DBO.Accounts.situs_street_sufix' ],
+//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+//         state:  'TX',
+//         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Goliad Co - Parcels',
+         id: 'tx-goliad-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/GoliadMapSearch/MapServer/7',
+         labelFields: ['Goliad.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Granbury City - Parcels',
+         id:  'tx-granbury-city-parcels',
+         url:  'https://gis.newedgeservices.com/arcgis/rest/services/Granbury/GranburyWebMap_PublicSite/MapServer/4',
+         labelFields:  ['GranburyGIS.SDE.Parcels.vm_situs' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Grand Prairie City - Parcels',
+         id:  'tx-grandprairie-city-parcels',
+         url:  'https://gis.gptx.org/srv103/rest/services/Maps/BaseMap/MapServer/15',
+         labelFields:  ['STR_NUM', 'STR_NAME', 'STR_TYPE' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Gray Co - Parcels',
+         id:  'tx-gray-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
+         labelFields:  ['GrayCad.DBO.Accounts.situs_num', 'GrayCad.DBO.Accounts.situs_street_prefx', 'GrayCad.DBO.Accounts.situs_street', 'GrayCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Grayson Co - Parcels',
+         id:  'tx-grayson-co-parcels',
+         url:  'http://maps.co.grayson.tx.us/gcgis/rest/services/Grayson/Addresses/MapServer/5',
+         labelFields:  ['SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Gregg Co - Parcels',
+         id: 'tx-gregg-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/GreggWeb/MapServer/0/',
+         labelFields: ['GreggCad.dbo.Accounts.situs_num','GreggCad.dbo.Accounts.situs_street_prefx','GreggCad.dbo.Accounts.situs_street','GreggCad.dbo.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Grimes Co - Parcels',
+         id:  'tx-grimes-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrimesWeb/MapServer/0',
+         labelFields:  ['GrimesCad.DBO.Accounts.situs_num', 'GrimesCad.DBO.Accounts.situs_street_prefx', 'GrimesCad.DBO.Accounts.situs_street', 'GrimesCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Guadalupe Co - Parcels',
+         id: 'tx-guadalupe-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/GuadalupeMapSearch/MapServer/7',
+         labelFields: ['Guadalupe.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Hansford Co - Parcels',
+         id:  'tx-hansford-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HansfordWeb/MapServer/0',
+         labelFields:  ['HansfordCad.DBO.Accounts.situs_num', 'HansfordCad.DBO.Accounts.situs_street_prefx', 'HansfordCad.DBO.Accounts.situs_street', 'HansfordCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Harris Co - Parcels',
+         id: 'tx-harris-co-parcels',
+         url: 'https://arcweb.hcad.org/server/rest/services/public/public_query/MapServer/0',
+         labelFields: ['address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, '').replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Hartley Co - Parcels',
+         id:  'tx-hartley-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HartleyWeb/MapServer/0',
+         labelFields:  ['HartleyCad.DBO.Accounts.situs_num', 'HartleyCad.DBO.Accounts.situs_street_prefx', 'HartleyCad.DBO.Accounts.situs_street', 'HartleyCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Hays Co - Parcels',
+         id:  'tx-hays-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HaysWeb/MapServer/0',
+         labelFields:  ['HaysCad.dbo.Accounts.situs_num', 'HaysCad.dbo.Accounts.situs_street_prefx', 'HaysCad.dbo.Accounts.situs_street', 'HaysCad.dbo.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Highland Village City - Parcels',
+         id:  'tx-highland-village-city-parcels',
+         url:  'https://maps.highlandvillage.org/arcgis/rest/services/Maps/Basemap/MapServer/6',
+         labelFields:  ['SITUS' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+//        {name:  'Hockley Co - Parcels',
+//         id:  'tx-hockley-co-parcels',
+//         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HockleyWeb/MapServer/0',
+//         labelFields:  ['HockleyCad.DBO.Accounts.situs_num', 'HockleyCad.DBO.Accounts.situs_street_prefx', 'HockleyCad.DBO.Accounts.situs_street', 'HockleyCad.DBO.Accounts.situs_street_sufix' ],
+//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+//         state:  'TX',
+//         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Howard Co - Parcels',
+         id:  'tx-howard-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HowardWeb/MapServer/0',
+         labelFields:  ['HowardCad.DBO.Accounts.situs_num', 'HowardCad.DBO.Accounts.situs_street_prefx', 'HowardCad.DBO.Accounts.situs_street', 'HowardCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Hunt Co - Parcels',
+         id:  'tx-hunt-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HuntWeb/MapServer/0',
+         labelFields:  ['HuntCad.DBO.Accounts.situs_num', 'HuntCad.DBO.Accounts.situs_street_prefx', 'HuntCad.DBO.Accounts.situs_street', 'HuntCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Irving City - Parcels',
+         id:  'tx-irving-city-parcels',
+         url:  'https://services3.arcgis.com/OfsJXUlu8pSkbl7B/ArcGIS/rest/services/CertifiedTax/FeatureServer/0',
+         labelFields:  ['STREET_NUM', 'STREET_NAM', 'STREET_SUF' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'tx-jefferson-co-parcels',
+         url: 'http://services.arcgis.com/ZXAF35aJr7XcgDMv/ArcGIS/rest/services/JeffersonTXFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Johnson Co - Parcels',
+         id:  'tx-johnson-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/JohnsonWeb/MapServer/0',
+         labelFields:  ['SITUS' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Kaufman Co - Parcels',
+         id: 'tx-kaufman-co-parcels',
+         url: 'https://gis.bisconsultants.com/bisgis/rest/services/KaufmanWeb/MapServer/0',
+         labelFields: ['KaufmanCad.DBO.Accounts.situs_num','KaufmanCad.DBO.Accounts.situs_street_prefx','KaufmanCad.DBO.Accounts.situs_street','KaufmanCad.DBO.Accounts.situs_street_sufix'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kendall Co - Parcels',
+         id: 'tx-kendall-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/KendallMapSearch/MapServer/7',
+         labelFields: ['Kendall.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kerr Co - Parcels',
+         id: 'tx-kerr-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/KerrMapSearch/MapServer/4',
+         labelFields: ['Kerr.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kimble Co - Parcels',
+         id: 'tx-kimble-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/KimbleMapSearch/MapServer/7',
+         labelFields: ['Kimble.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kingsville - City Parcels',
+         id: 'tx-kingsville-city-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Kingsville/Kingsville_WL_P/MapServer/1',
+         labelFields: ['Full_Addr'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kinney Co - Parcels',
+         id: 'tx-kinney-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/KinneyMapSearch/MapServer/1',
+         labelFields: ['Kinney.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kleberg Co - Parcels',
+         id: 'tx-kleberg-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/KlebergMapSearch/MapServer/1',
+         labelFields: ['Kleberg.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'La Salle Co - Parcels',
+         id:  'tx-la salle-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LaSalleWeb/MapServer/0',
+         labelFields:  ['LasalleCad.DBO.Accounts.situs_num', 'LasalleCad.DBO.Accounts.situs_street_prefx', 'LasalleCad.DBO.Accounts.situs_street', 'LasalleCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Lamar Co - Parcels',
+         id:  'tx-lamar-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LamarWeb/MapServer/0',
+         labelFields:  ['LamarCad.DBO.Accounts.situs_num', 'LamarCad.DBO.Accounts.situs_street_prefx', 'LamarCad.DBO.Accounts.situs_street', 'LamarCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Lancaster City - Parcels',
+         id:  'tx-lancaster-city-parcels',
+         url:  'https://services1.arcgis.com/hUry7JDhk1zQOJdo/ArcGIS/rest/services/Zoning_Webmap/FeatureServer/3',
+         labelFields:  ['SiteNum', 'SiteDir', 'SiteStreet', 'SiteSuffix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Lavaca Co - Parcels',
+         id: 'tx-lavaca-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/LavacaMapSearch/MapServer/7',
+         labelFields: ['Lavaca.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Lee Co - Parcels',
+         id:  'tx-lee-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LeeWeb/MapServer/0',
+         labelFields:  ['LeeCad.DBO.Accounts.situs_num', 'LeeCad.DBO.Accounts.situs_street_prefx', 'LeeCad.DBO.Accounts.situs_street', 'LeeCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Liberty Co - Parcels',
+         id:  'tx-liberty-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LibertyWeb/MapServer/0',
+         labelFields:  ['LibertyCad.DBO.Accounts.situs_num', 'LibertyCad.DBO.Accounts.situs_street_prefx', 'LibertyCad.DBO.Accounts.situs_street', 'LibertyCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Live Oak Co - Parcels',
+         id:  'tx-live oak-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LiveOakWeb/MapServer/0',
+         labelFields:  ['LiveOakCad.dbo.Accounts.situs_num', 'LiveOakCad.dbo.Accounts.situs_street_prefx', 'LiveOakCad.dbo.Accounts.situs_street', 'LiveOakCad.dbo.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Longview City - Address Points',
+         id:  'tx-longview-city-address',
+         url:  'https://cloud.longviewtexas.gov/arcgis/rest/services/WebMaps/WebMapServices/MapServer/3',
+         labelFields:  ['STREET_NUM','DIR','STREET','TYPE' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Loving Co - Parcels',
+         id: 'tx-loving-co-parcels',
+         url: 'https://services7.arcgis.com/cPZChP7n2kRoyp30/ArcGIS/rest/services/Loving_CAD/FeatureServer/2',
+         labelFields: ['Prop_Street_Num','Prop_Street'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lubbock City - Address Points',
+         id: 'tx-lubbock-city-address',
+         url: 'http://ewebmap.ci.lubbock.tx.us/arcgis/rest/services/Layers/Default/MapServer/1',
+         labelFields: ['ADDR','PREFIX','STREET','STREET_TYPE'],
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Madison Co - Parcels',
+         id:  'tx-madison-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MadisonWeb/MapServer/0',
+         labelFields:  ['MadisonCad.DBO.Accounts.situs_num', 'MadisonCad.DBO.Accounts.situs_street_prefx', 'MadisonCad.DBO.Accounts.situs_street', 'MadisonCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Mansfield City - Parcels',
+         id:  'tx-mansfield-city-parcels',
+         url:  'http://gis4.dfwmaps.com/arcgis/rest/services/ICMansfield/Mansfield_Baselayers/MapServer/4',
+         labelFields:  ['ADDRESS' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Marion Co - Parcels',
+         id:  'tx-marion-co-parcels',
+         url:  'http://gis.pandai.com/arcgis/rest/services/Marion/Marion_Parcel_Cama_JOIN/MapServer/0',
+         labelFields:  ['MarionCADGIS.DBO.MapDATA.Prop_Street_Number', 'MarionCADGIS.DBO.MapDATA.Prop_Street', 'MarionCADGIS.DBO.MapDATA.Prop_Street_Dir' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Maverick Co - Parcels',
+         id: 'tx-maverick-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/MaverickMapSearch/MapServer/1',
+         labelFields: [ 'Maverick.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'McCulloch Co - Parcels',
+         id:  'tx-mcculloch-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/McCullochWeb/MapServer/0',
+         labelFields:  ['McCullochCad.DBO.Accounts.situs_num', 'McCullochCad.DBO.Accounts.situs_street_prefx', 'McCullochCad.DBO.Accounts.situs_street', 'McCullochCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'McKinney Co - Parcels',
+         id:  'tx-mckinney-co-parcels',
+         url:  'http://maps.mckinneytexas.org/mckinney/rest/services/MapServices/BaseLayers/MapServer/1',
+         labelFields:  ['SitusAdd' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'McLennan Co - Parcels',
+         id: 'tx-mclennan-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/MclennanMapSearch/MapServer/7',
+         labelFields: [ 'Mclennan.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'McMullen Co - Parcels',
+         id:  'tx-mcmullen-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/McMullenWeb/MapServer/0',
+         labelFields:  ['McMullenCad.DBO.Accounts.situs_num', 'McMullenCad.DBO.Accounts.situs_street_prefx', 'McMullenCad.DBO.Accounts.situs_street', 'McMullenCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Medina Co - Parcels',
+         id:  'tx-medina-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MedinaWeb/MapServer/0',
+         labelFields:  ['MedinaCad.DBO.Accounts.situs_num', 'MedinaCad.DBO.Accounts.situs_street_prefx', 'MedinaCad.DBO.Accounts.situs_street', 'MedinaCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+//  Missing data in parcel information
+//        {name:  'Menard Co - Parcels',
+//         id:  'tx-menard-co-parcels',
+//         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MenardWeb/MapServer/0',
+//         labelFields:  ['MenardCad.DBO.Accounts.situs_num', 'MenardCad.DBO.Accounts.situs_street_prefx', 'MenardCad.DBO.Accounts.situs_street', 'MenardCad.DBO.Accounts.situs_street_sufix' ],
+//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+//         state:  'TX',
+//         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Midland City - Parcels',
+         id:  'tx-midland-city-parcels',
+         url:  'https://midland.newedgeservices.com/arcgis/rest/services/Cityworks/BaseMap_and_Trans/MapServer/2',
+         labelFields:  ['MidlandGIS.SDE.BM_Parcel.SITENUM', 'MidlandGIS.SDE.BM_Parcel.ADDRESS' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Mills Co - Parcels',
+         id:  'tx-mills-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MillsWeb/MapServer/0',
+         labelFields:  ['MillsCad.DBO.Accounts.situs_num', 'MillsCad.DBO.Accounts.situs_street_prefx', 'MillsCad.DBO.Accounts.situs_street', 'MillsCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Montgomery Co - Parcels',
+         id: 'tx-montgomery-co-parcels',
+         url: 'https://services1.arcgis.com/PRoAPGnMSUqvTrzq/ArcGIS/rest/services/Tax_Parcel_Public_View/FeatureServer/0',
+         labelFields: ['PropertyAd'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Moore Co - Parcels',
+         id:  'tx-moore-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MooreWeb/MapServer/0',
+         labelFields:  ['MooreCad.DBO.Accounts.situs_num', 'MooreCad.DBO.Accounts.situs_street_prefx', 'MooreCad.DBO.Accounts.situs_street', 'MooreCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Newton Co - Parcels',
+         id: 'tx-newton-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/NewtonMapSearch/MapServer/7',
+         labelFields: [ 'Newton.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Nolan Co - Parcels',
+         id:  'tx-nolan-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/NolanWeb/MapServer/0',
+         labelFields:  ['NolanCad.DBO.Accounts.situs_num', 'NolanCad.DBO.Accounts.situs_street_prefx', 'NolanCad.DBO.Accounts.situs_street', 'NolanCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'North Richland Hills - Parcels',
+         id:  'tx-north-richland-hills-parcels',
+         url:  'http://gis4.dfwmaps.com/arcgis/rest/services/ICNRH/NRH_Baselayers_VE/MapServer/1',
+         labelFields:  ['Situs_Addr' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Nueces Co - Parcels',
+         id: 'tx-nueces-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/NuecesMapSearch/MapServer/8',
+         labelFields: [ 'Nueces.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Ochiltree Co - Parcels',
+         id:  'tx-ochiltree-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/OchiltreeWeb/MapServer/0',
+         labelFields:  ['OchiltreeCad.DBO.Accounts.situs_num', 'OchiltreeCad.DBO.Accounts.situs_street_prefx', 'OchiltreeCad.DBO.Accounts.situs_street', 'OchiltreeCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Odessa City - Address Points',
+         id:  'tx-odessa-city-address',
+         url:  'https://gis2.odessa-tx.gov/arcgis/rest/services/Basemaps/GeneralPurposeDefaultBasemap/MapServer/3',
+         labelFields:  ['FULLADDR' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Orange Co - Parcels',
+         id:  'tx-orange-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/OrangeWeb/MapServer/0',
+         labelFields:  ['OrangeCad.DBO.Accounts.situs_num', 'OrangeCad.DBO.Accounts.situs_street_prefx', 'OrangeCad.DBO.Accounts.situs_street', 'OrangeCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Parmer Co - Parcels',
+         id:  'tx-parmer-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/ParmerWeb/MapServer/0',
+         labelFields:  ['ParmerCad.DBO.Accounts.situs_num', 'ParmerCad.DBO.Accounts.situs_street_prefx', 'ParmerCad.DBO.Accounts.situs_street', 'ParmerCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Pearland City - Parcels',
+         id:  'tx-pearland-city-parcels',
+         url:  'https://copgisweb.ci.pearland.tx.us/arcgis/rest/services/InteractiveMap/Parcels2017Nov/MapServer/0',
+         labelFields:  ['situs_num','situs_street_prefx','situs_street','situs_street_suffix'],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Plano - City Parcels',
+         id: 'tx-plano-city-parcels',
+         url: 'http://maps.planogis.org/arcgiswad/rest/services/BaseLayers/Parcels/MapServer/0',
+         labelFields: ['SITUS_NUM','SITUS_STREET_PREFX','SITUS_STREET','SITUS_STREET_SUFIX'],
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Polk Co - Parcels',
+         id: 'tx-polk-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/PolkMapSearch/MapServer/8',
+         labelFields: [ 'Polk.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Porter City - Parcels',
+         id: 'tx-porter-city-parcels',
+         url: 'https://services1.arcgis.com/PRoAPGnMSUqvTrzq/ArcGIS/rest/services/Tax_Parcel_Public_View/FeatureServer/0',
+         labelFields: [ 'PropertyAd' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Prosper City - address',
+         id: 'tx-prosper-city-address',
+         url: 'https://gis.newedgeservices.com/arcgis/rest/services/Prosper/ProsperMap/MapServer/40',
+         labelFields: [ 'STR_NUMBER' , 'STR_DIRECTION', 'STR_NAME', 'STR_SUFFIX'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Rains Co - Parcels',
+         id:  'tx-rains-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/RainsWeb/MapServer/0',
+         labelFields:  ['RainsCad.DBO.Accounts.situs_num', 'RainsCad.DBO.Accounts.situs_street_prefx', 'RainsCad.DBO.Accounts.situs_street', 'RainsCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Real Co - Parcels',
+         id: 'tx-real-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/RealMapSearch/MapServer/1',
+         labelFields: [ 'Real.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Red River Co - Parcels',
+         id:  'tx-red river-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/RedRiverWeb/MapServer/0',
+         labelFields:  ['RedRiverCad.DBO.Accounts.situs_num', 'RedRiverCad.DBO.Accounts.situs_street_prefx', 'RedRiverCad.DBO.Accounts.situs_street', 'RedRiverCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Reeves Co - Parcels',
+         id:  'tx-reeves-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/ReevesWeb/MapServer/0',
+         labelFields:  ['ReevesCad.DBO.Accounts.situs_num', 'ReevesCad.DBO.Accounts.situs_street_prefx','ReevesCad.DBO.Accounts.situs_street','ReevesCad.DBO.Accounts.situs_street_sufix'],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Rockwall Co - Parcels',
+         id: 'tx-rockwall-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/RockwallMapSearch/MapServer/1',
+         labelFields: ['Rockwall.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+// Rowlett has no shape data in the GIS Parcels
+//        {name: 'Rowlett City - Parcels',
+//         id: 'tx-rowlett-city-parcels',
+//         url: 'http://emap.rowlett.com/arcgis/rest/services/BaseMap/Basemap/MapServer/8',
+//         labelFields: ['STR_NUM','STR_NAME','STR_TYPE'],
+//         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+//         state: 'TX',
+//         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Antonio City - Parcels',
+         id: 'tx-sanantonio-city-parcels',
+         url: 'https://qagis1.sanantonio.gov/ArcGIS/rest/services/BrowseSAOperationalLayers/MapServer/1',
+         labelFields: [ 'Address' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Jacinto Co - Parcels',
+         id: 'tx-sanjacinto-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/SanJacintoMapSearch/MapServer/7',
+         labelFields: [ 'SanJacinto.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Schleicher Co - Parcels',
+         id:  'tx-schleicher-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/SchleicherWeb/MapServer/0',
+         labelFields:  ['SchleicherCad.DBO.Accounts.situs_num', 'SchleicherCad.DBO.Accounts.situs_street_prefx', 'SchleicherCad.DBO.Accounts.situs_street', 'SchleicherCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Scurry Co - Parcels',
+         id: 'tx-scurry-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ScurryMapSearch/MapServer/7',
+         labelFields: [ 'Scurry.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Shackelford Co - Parcels',
+         id:  'tx-shackelford-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/ShackelfordWeb/MapServer/0',
+         labelFields:  ['ShackelfordCad.DBO.Accounts.situs_num', 'ShackelfordCad.DBO.Accounts.situs_street_prefx', 'ShackelfordCad.DBO.Accounts.situs_street', 'ShackelfordCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Shelby Co - Parcels',
+         id: 'tx-shelby-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ShelbyMapSearch/MapServer/7',
+         labelFields: [ 'Shelby.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sherman City - Parcels',
+         id: 'tx-sherman-city-parcels',
+         url: 'http://maps.ci.sherman.tx.us/arcgis/rest/services/ParcelPublishing/MapServer/8',
+         labelFields: [ 'SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Smith Co - Address Points',
+         id: 'tx-smith-co-address',
+         url: 'https://www.smithcountymapsite.org/publicgis/rest/services/Maps/AddressPoints/MapServer/0',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Stevens Co - Parcels',
+         id: 'tx-stevens-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/StevensMapSearch/MapServer/6',
+         labelFields: [ 'Stevens.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sutton Co - Parcels',
+         id: 'tx-sutton-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/SuttonMapSearch/MapServer/6',
+         labelFields: [ 'Sutton.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Swisher Co - Parcels',
+         id: 'tx-swisher-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/SwisherMapSearch/MapServer/7',
+         labelFields: [ 'Swisher.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tarrant Co - Parcels',
+         id: 'tx-tarrant-co-parcels',
+         url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
+         labelFields: ['SitusAddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Temple City - Parcels',
+         id:  'tx-temple-city-parcels',
+         url:  'https://arcgiswap01.ci.temple.tx.us/arcgis/rest/services/Services/Parcels/FeatureServer/0',
+         labelFields:  ['PRIMARY_ADD' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Terrell Co - Parcels',
+         id:  'tx-terrell-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/TerrellWeb/MapServer/0',
+         labelFields:  ['TerrellCad.DBO.TempAccounts.situs_num', 'TerrellCad.DBO.TempAccounts.situs_street_prefx', 'TerrellCad.DBO.TempAccounts.situs_street', 'TerrellCad.DBO.TempAccounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Titus Co - Parcels',
+         id:  'tx-titus-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/TitusWeb/MapServer/0',
+         labelFields:  ['TitusCad.DBO.Accounts.situs_num', 'TitusCad.DBO.Accounts.situs_street_prefx', 'TitusCad.DBO.Accounts.situs_street', 'TitusCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Travis Co - Parcels',
+         id:  'tx-travis-co-parcels',
+         url:  'http://propaccess.traviscad.org/arcgis/rest/services/TravisMapSearch/MapServer/8',
+         labelFields:  ['GIS_Data.dbo.web_map_property.situs' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Tyler Co - Parcels',
+         id: 'tx-tyler-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/TylerMapSearch/MapServer/1',
+         labelFields: [ 'Tyler.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Trinity Co - Parcels',
+         id:  'tx-trinity-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/TrinityWeb/MapServer/0',
+         labelFields:  ['TrinityCad.DBO.Accounts.situs_num', 'TrinityCad.DBO.Accounts.situs_street_prefx', 'TrinityCad.DBO.Accounts.situs_street', 'TrinityCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Upshur Co - Parcels',
+         id: 'tx-upshur-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/UpshurMapSearch/MapServer/7',
+         labelFields: [ 'Upshur.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Upton Co - Parcels',
+         id: 'tx-upton-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/UptonMapSearch/MapServer/6',
+         labelFields: [ 'Upton.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Uvalde Co - Parcels',
+         id:  'tx-uvalde-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/UvaldeWeb/MapServer/0',
+         labelFields:  ['UvaldeCad.DBO.Accounts.situs_num', 'UvaldeCad.DBO.Accounts.situs_street_prefx', 'UvaldeCad.DBO.Accounts.situs_street', 'UvaldeCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Val Verde Co - Parcels',
+         id: 'tx-valverde-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ValVerdeMapSearch/MapServer/7',
+         labelFields: [ 'ValVerde.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Van Zandt Co - Parcels',
+         id:  'tx-van zandt-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/VanZandtWeb/MapServer/0',
+         labelFields:  ['VanZandtCad.DBO.Accounts.situs_num', 'VanZandtCad.DBO.Accounts.situs_street_prefx', 'VanZandtCad.DBO.Accounts.situs_street', 'VanZandtCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Walker Co - Parcels',
+         id:  'tx-walker-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WalkerWeb/MapServer/0',
+         labelFields:  ['WalkerCad.DBO.Accounts.situs_num', 'WalkerCad.DBO.Accounts.situs_street_prefx', 'WalkerCad.DBO.Accounts.situs_street', 'WalkerCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Walla Co - Parcels',
+         id: 'tx-walla-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WallaMapSearch/MapServer/6',
+         labelFields: [ 'Walla.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Waller Co - Parcels',
+         id: 'tx-waller-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WallerMapSearch/MapServer/1',
+         labelFields: [ 'Waller.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Washington Co - Parcels',
+         id:  'tx-washington-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WashingtonWeb/MapServer/0',
+         labelFields:  ['WashingtonCad.DBO.OriginalAccounts.Situs_Address' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Waxahachie City - Parcels',
+         id: 'tx-waxahachie-city-parcels',
+         url: 'http://arcgis.waxahachie.com/arcgis/rest/services/CityofWaxahachieMainInteractiveMap/MapServer/21',
+         labelFields: [ 'situs_num' ,'situs_stre', 'situs_st_1', 'situs_st_2'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Weatherford City - Address Points',
+         id: 'tx-weatherford-city-address',
+         url: 'https://gis.weatherfordtx.gov/arcgis/rest/services/Public_Basemap/MapServer/0',
+         labelFields: [ 'ADD_FULLNAME'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Webb Co - Parcels',
+         id: 'tx-webb-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WebbMapSearch/MapServer/7',
+         labelFields: [ 'Webb.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Wharton Co - Parcels',
+         id:  'tx-wharton-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WhartonWeb/MapServer/0',
+         labelFields:  ['WhartonCad.DBO.Accounts.situs_num', 'WhartonCad.DBO.Accounts.situs_street_prefx', 'WhartonCad.DBO.Accounts.situs_street', 'WhartonCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Wichita Co - Parcels',
+         id: 'tx-wichita-co-parcels',
+         url: 'https://propaccess.wadtx.com/arcgis/rest/services/WichitaMapSearch/MapServer/7',
+         labelFields: ['GISData.dbo.web_map_property.situs'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williamson Co - Address Points',
+         id: 'tx-williamson-co-address',
+         url: 'https://gis.wilco.org/arcgis/rest/services/public/county_address/MapServer/0',
+         labelFields: ['ADDR_NUMBER','RD_FULLNAME'],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wilson Co - Parcels',
+         id: 'tx-wilson-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WilsonMapSearch/MapServer/1',
+         labelFields: [ 'Wilson.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Winkler Co - Parcels',
+         id: 'tx-winkler-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WinklerMapSearch/MapServer/7',
+         labelFields: [ 'Winkler.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Wood Co - Parcels',
+         id:  'tx-wood-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WoodWeb/MapServer/0',
+         labelFields:  ['WoodCad.DBO.Accounts.situs_num', 'WoodCad.DBO.Accounts.situs_street_prefx', 'WoodCad.DBO.Accounts.situs_street', 'WoodCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Yoakum Co - Parcels',
+         id: 'tx-yoakum-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/YoakumMapSearch/MapServer/7',
+         labelFields: [ 'Yoakum.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name:  'Young Co - Parcels',
+         id:  'tx-young-co-parcels',
+         url:  'https://gis.bisconsultants.com/bisgis/rest/services/YoungWeb/MapServer/0',
+         labelFields:  ['YoungCad.DBO.Accounts.situs_num', 'YoungCad.DBO.Accounts.situs_street_prefx', 'YoungCad.DBO.Accounts.situs_street', 'YoungCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name: 'Zapata Co - Parcels',
+         id: 'tx-zapata-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZapataMapSearch/MapServer/1',
+         labelFields: [ 'Zapata.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+	{name: 'Zavala Co - Parcels',
+         id: 'tx-zavala-co-parcels',
+         url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZavalaMapSearch/MapServer/6',
+         labelFields: [ 'Zavala.dbo.web_map_property.situs' ],
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state: 'TX',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Utah
+        // *****************************
+        {name: 'Cities',
+         id: 'ut-cities',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahMunicipalBoundaries/FeatureServer/0',
+         labelFields: ['NAME'],
+         state: 'UT',
+         visibleAtZoom: '0',
+         style: DEFAULT_CITY_STYLE},
+
+        {name: 'State Address Points',
+         id: 'utah-state-address-points',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahAddressPoints/FeatureServer/0',
+         labelFields: ['FullAdd'],
+         state: 'UT',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'State Parcels',
+         id: 'ut-state-parcels',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahStatewideParcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'UT',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Utah Co - Parcels',
+         id: 'ut-utah-co-parcels',
+         url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahCountyParcelsLIR/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'UT',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Virginia
+        // ****************************
+        {name: 'State Address Points',
+         id: 'va-address-points',
+         url: 'http://gismaps.vita.virginia.gov/arcgis/rest/services/VA_Base_layers/VA_Address_Points/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        // NO ADDRESS DATA
+        // {name: 'Accomack Co - Parcels',
+        //  id: 'va-accomack-co-parcels',
+        //  url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/accomack/Accomack_BasemapCache_parcels_web_mercator/MapServer/1',
+        //  labelFields: [''],
+        //  state: 'VA',
+        //  style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Accomack Co - Address Points',
+         id: 'va-accomack-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/accomack/public/MapServer/6',
+         labelFields: ['Full_Address'],
+         processLabel: function(label) {
+             return label.replace(/[A-Z]{4}\s\d{5}$/,'');
+         },
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Alexandria - City Address Points',
+         id: 'va-alexandria-city-points',
+         url: 'https://maps.alexandriava.gov/arcgis/rest/services/alxAddressWm/MapServer/0',
+         labelFields: ['FULL_ADDS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Alexandria - City Parcels',
+         id: 'va-alexandria-city-parcels',
+         url: 'https://maps.alexandriava.gov/arcgis/rest/services/alxParcelsWm/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alleghany Co - Address Points',
+         id: 'va-alleghany-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/alleghany/Public/MapServer/4',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Amelia Co - Address Points',
+         id: 'va-amelia-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Amelia/Amelia_WL_P/MapServer/8',
+         labelFields: ['FULLADDRES'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Amelia Co - Parcels',
+         id: 'va-amelia-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Amelia/Amelia_WL_P/MapServer/30',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Amherst Co - Address Points',
+         id: 'va-amherst-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Amherst/Amherst_WL_P/MapServer/17',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Appomattox Co - Address Points',
+         id: 'va-appomattox-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Appomattox/Appomattox_WL_P/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Appomattox Co - Parcels',
+         id: 'va-appomattox-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Appomattox/Appomattox_WL_P/MapServer/12',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Arlington Co - Address Points',
+         id: 'va-arlington-co-pts',
+         url: 'https://gis.arlingtonva.us/arlgis/rest/services/public/Addresses/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bedford - City Parcels',
+         id: 'va-bedford-city-parcels',
+         url: 'http://webgis.bedfordcountyva.gov/arcgis/rest/services/OpenData/OpenDataTownofBedford/MapServer/11',
+         labelFields: ['LocAddr'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Bedford Co - Address Points',
+         id: 'va-bedford-co-pts',
+         url: 'http://webgis.bedfordcountyva.gov/arcgis/rest/services/OpenData/OpenDataReference/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Bedford Co - Parcels',
+         id: 'va-bedford-co-parcels',
+         url: 'http://webgis.bedfordcountyva.gov/arcgis/rest/services/OpenData/OpenDataProperty/MapServer/0',
+         labelFields: ['LocAddr'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Campbell Co - Address Points',
+         id: 'va-campbell-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/campbell/Public/MapServer/2',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Campbell Co - Parcels',
+         id: 'va-campbell-co-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/campbell/Public/MapServer/8',
+         labelFields: ['LocAddr'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Caroline Co - Address Points',
+         id: 'va-caroline-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/caroline/Public/MapServer/19',
+         labelFields: ['ADDR_NUM','PREDIR','STNAME','STSFFX','POSDIR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        // *** NO ADDRESS DATA
+        // {name: 'Charlotte Co - Parcels',
+        //  id: 'va-charlotte-co-parcels',
+        //  url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Charlotte/Public/MapServer/7',
+        //  labelFields: [],
+        //  state: 'VA',
+        //  style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Dinwiddie Co - Address Points',
+         id: 'va-dinwiddie-co-pts',
+         areaToPoint: true,
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/dinwiddie/Public/MapServer/3',
+         labelFields: ['FULL_ADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Dinwiddie Co - Parcels',
+         id: 'va-dinwiddie-co-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/dinwiddie/Public/MapServer/15',
+         labelFields: ['MHSE_','MDIRCT','MSTRT','MSTTYP','MSDIRS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Emporia - City Parcels',
+         id: 'va-emporia-city-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/emporia/main_public/MapServer/5',
+         labelFields: ['HseNum','StreetName'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Emporia - City Address Points',
+         id: 'va-emporia-city-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/emporia/main_public/MapServer/8',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Farmville - City Parcels',
+         id: 'va-farmville-city-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Farmville/Farmville_WL_P/MapServer/9',
+         labelFields: ['ParcelAddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Franklin Co - Address Points',
+         id: 'va-franklin-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Franklin/Public/MapServer/16',
+         labelFields: ['PrimaryAdd'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Franklin Co - Parcels',
+         id: 'va-franklin-co-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Franklin/Public/MapServer/2',
+         labelFields: ['MHSE_','MDIRCT','MSTRT','MSTTYP','MSDIRS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Highland Co - Address Points',
+         id: 'va-highland-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Highland/Highland_WL_P/MapServer/1',
+         labelFields: ['ADDR','PREFIX','ROAD_NAME','SUFFIX','POSTDIR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Highland Co - Parcels',
+         id: 'va-highland-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Highland/Highland_WL_P/MapServer/9',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'King and Queen Co - Address Points',
+         id: 'va-king-and-queen-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_KingAndQueen/KingAndQueen_WL_P/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'King and Queen Co - Parcels',
+         id: 'va-king-and-queen-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_KingAndQueen/KingAndQueen_WL_P/MapServer/7',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lexington - City Parcels',
+         id: 'va-lexington-city-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Lexington/Lexington_WL_P/MapServer/2',
+         labelFields: ['ParcelAddress1'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lexington - City Structures',
+         id: 'va-lexington-city-structures',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Lexington/Lexington_WL_P/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Louisa Co - Address Points',
+         id: 'va-louisa-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Louisa/Louisa_WL_P/MapServer/13',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Louisa Co - Parcels',
+         id: 'va-louisa-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Louisa/Louisa_WL_P/MapServer/25',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lunenburg Co - Parcels',
+         id: 'va-lunenburg-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Lunenburg/Lunenburg_WL_P/MapServer/1',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Nelson Co - Address Points',
+         id: 'va-nelson-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nelson/Nelson_WL_P/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Nelson Co - Parcels',
+         id: 'va-nelson-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nelson/Nelson_WL_P/MapServer/1',
+         labelFields: ['PhysicalAddress'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Kent Co - Parcels',
+         id: 'va-new-kent-co-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/NewKent/Public/MapServer/18',
+         labelFields: ['REM_PRCL_LOCN'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Kent Co - Address Points',
+         id: 'va-new-kent-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/NewKent/Public/MapServer/30',
+         labelFields: ['FullAddr'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Northampton Co - Address Points',
+         id: 'va-northampton-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Northampton/NH_ESVA911_AGO/MapServer/5',
+         labelFields: ['HOUSE_NUM','V_STNAME'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Norton - City Address Points',
+         id: 'va-norton-city-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/norton/NortonAddressAG_OnLineAnno/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Nottoway Co - Address Points',
+         id: 'va-nottoway-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nottoway/Nottoway_WL_P/MapServer/5',
+         labelFields: ['ADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Nottoway Co - Parcels',
+         id: 'va-nottoway-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Nottoway/Nottoway_WL_P/MapServer/12',
+         labelFields: ['Short_Address'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Orange Co - Address Points',
+         id: 'va-orange-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Orange/Orange_WL_P/MapServer/5',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Orange Co - Parcels',
+         id: 'va-orange-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Orange/Orange_WL_P/MapServer/42',
+         labelFields: ['ParcelAddress'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Page Co - Address Points',
+         id: 'va-page-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Page/Page/MapServer/0',
+         labelFields: ['HouseNum','Street'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Page Co - Parcels',
+         id: 'va-page-co-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Page/Page/MapServer/13',
+         labelFields: ['GIS_FULL_ADDR'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Petersburg - City Parcels',
+         id: 'va-petersburg-city-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Petersburg/Petersburg_WL_P/MapServer/18',
+         labelFields: ['ParcelAddress1'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Poquoson - City Address Points',
+         id: 'va-poquoson-city-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/poquoson/Public/MapServer/15',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Shenandoah Co - Address Points',
+         id: 'va-shenandoah-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Shenandoah/Shenandoah_WL_P/MapServer/9',
+         labelFields: ['FULL_ADDRESS2'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Shenandoah Co - Parcels',
+         id: 'va-shenandoah-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Shenandoah/Shenandoah_WL_P/MapServer/29',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Surry Co - Address Points',
+         id: 'va-surry-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Surry/Public/MapServer/3',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sussex Co - Address Points',
+         id: 'va-sussex-co-pts',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Sussex/Public/MapServer/1',
+         labelFields: ['FULLADDR'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Warren Co - Address Points',
+         id: 'va-warren-co-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Warren/Warren_WL_P/MapServer/3',
+         labelFields: ['full_address'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Warren Co - Parcels',
+         id: 'va-warren-co-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Warren/Warren_WL_P/MapServer/1',
+         labelFields: ['PARCELADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Waynesboro - City Parcels',
+         id: 'va-waynesboro-city-parcels',
+         url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Waynesboro/Public/MapServer/12',
+         labelFields: ['FULLADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Williamsburg - City Address Points',
+         id: 'va-williamsburg-city-pts',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Williamsburg/Williamsburg_WL_P/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'VA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Williamsburg - City Parcels',
+         id: 'va-williamsburg-city-parcels',
+         url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Williamsburg/Williamsburg_WL_P/MapServer/12',
+         labelFields: ['StreetName'],
+         state: 'VA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // {name: 'Williamsburg - City Structures',
+        //  id: 'va-williamsburg-city-structures',
+        //  url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Williamsburg/Williamsburg_WL_P/MapServer/2',
+        //  labelHeaderFields: ['StrNumUnit'],
+        //  labelFields: ['BusinessName'],
+        //  //processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+        //  state: 'VA',
+        //  style: DEFAULT_STRUCTURE_STYLE},
+
+        // Washington
+        // ****************************
+        {name: 'Washington - State Parcels',
+         id: 'wa-state-parcels',
+         url: 'https://services.arcgis.com/jsIt88o09Q0r1j8h/ArcGIS/rest/services/Parcels2017gdb/FeatureServer/0',
+         labelFields: ['SITUS_ADDRESS'],
+         processLabel: function(label) { return label.replace(/\n.*/,'').replace(_regexReplace.r3, ''); },
+         state: 'WA',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // West Virginia
+        // ****************************
+
+        {name: 'State - Address Points',
+         id: 'wv-state-pts',
+         url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/Location/wv_address_labels_WVDHSEM_wm/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'WV',
+         style: DEFAULT_STATE_PT_STYLE},
+
+        {name: 'State - Parcels',
+         id: 'wv-state-parcels',
+         url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/PlanningCadastre/WV_Parcels/MapServer/5',
+         labelFields: ['PhyNum','PhyDir','PhyStreet','PhySufx'],
+         state: 'WV',
+         style: DEFAULT_STATE_PARCEL_STYLE},
+
+        {name: 'Berkeley Co - Address Points',
+         id: 'wv-Berkeley-co-pts',
+         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Addresses/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Berkeley Co - Parcels (no labels)',
+         id: 'wv-Berkeley-co-parcels',
+         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brooke Co - Address Points',
+         id: 'wv-Brooke-co-pts',
+         url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017address2/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Brooke Co - Parcels',
+         id: 'wv-Brooke-co-parcels',
+         url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017_public_parcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This layer was discovered on the same server as Cabell parcel layer #2, but not sure if it's "official".
+        {name: 'Cabell Co - Address Points',
+         id: 'wv-Cabell-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CabellWV_Service/FeatureServer/0',
+         labelFields: ['ADDR_LABEL','SA_STREET'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // This layer is used by the Cabell assessor website.
+        {name: 'Cabell Co - Parcels #1',
+         id: 'wv-Cabell-co-parcels-1',
+         url: 'https://mapping.cabellassessor.com/arcgis/rest/services/Parcels17/MapServer/0',
+         labelFields: ['IAS_DATA_location'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This layer was discovered, but doesn't appear to be used on the county website.
+        {name: 'Cabell Co - Parcels #2',
+         id: 'wv-Cabell-co-parcels-2',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CabellWV_Service/FeatureServer/6',
+         labelFields: ['situsaddr'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Doddridge Co - Parcels (LIMITED DATA)',
+         id: 'wv-Doddridge-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Doddridge/DoddridgeOperational/MapServer/78',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Gilmer Co - Parcels',
+         id: 'wv-Gilmer-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Gilmer/GilmerOperational/MapServer/57',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greenbrier Co - Address Points',
+         id: 'wv-Greenbrier-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Greenbrier Co - Parcels',
+         id: 'wv-Greenbrier-co-parcels',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/6',
+         labelFields: ['situsaddr'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hampshire Co - Address Points',
+         id: 'wv-Hampshire-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HampshireMapService/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hampshire Co - Parcels',
+         id: 'wv-Hampshire-co-parcels',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HampshireMapService/FeatureServer/4',
+         labelFields: ['situsaddr'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hancock Co - Address Points',
+         id: 'wv-Hancock-co-pts',
+         url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
+         labelFields: ['FULL_ADDRE'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hancock Co - Parcels',
+         id: 'wv-hancock-co-parcels',
+         url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hardy Co - Address Points',
+         id: 'wv-Hardy-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HardyMapService/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-07 (mapomatic) Hardy Co has a parcel layer, but no address fields
+
+        {name: 'Harrison Co - Address Points',
+         id: 'wv-Harrison-co-pts',
+         url: 'https://psportal.harrisoncountywv.com/server/rest/services/ftrAddress/MapServer/2',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Harrison Co - Parcels',
+         id: 'wv-Harrison-co-parcels',
+         url: 'https://psportal.harrisoncountywv.com/server/rest/services/Assessor/Parcels/MapServer/0',
+         labelFields: ['LOC2'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'wv-Jefferson-co-pts',
+         url: 'http://184.12.255.122:6080/arcgis/rest/services/MyGov/Addressing/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'wv-Jefferson-co-parcels',
+         url: 'http://184.12.255.122:6080/arcgis/rest/services/Parcels/2018parcels1/MapServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kanawha Co - Parcels',
+         id: 'wv-Kanawha-co-parcels',
+         url: 'https://gis.kanawhacountyassessor.com:6443/arcgis/rest/services/Parcel_Viewer/Parcels_4_Jan_2018/MapServer/1',
+         labelFields: ['Prop_Location'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lewis Co - Parcels',
+         id: 'wv-Lewis-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Lewis/LewisOperational/MapServer/54',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'wv-Lincoln-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/Lincoln_WV_Service/FeatureServer/8',
+         labelFields: ['ADDR'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-07 (mapomatic) Lincoln Co has a parcel layer, but no address fields
+
+        {name: 'Mercer Co - Address Points',
+         id: 'wv-Mercer-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MercerWV_Service/FeatureServer/8',
+         labelFields: ['FULL_ADD'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monongalia Co - Address Points',
+         id: 'wv-Monongalia-co-pts',
+         url: 'https://ags.agdmaps.com/arcgis/rest/services/MonongaliaWV/MapServer/138',
+         labelFields: ['FULL_ADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monroe Co - Address Points',
+         id: 'wv-Monroe-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MonroeFieldService/FeatureServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ohio Co - Address Points',
+         id: 'wv-Ohio-co-pts',
+         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/ptad/FeatureServer/0',
+         labelFields: ['ADDR'],
+         processLabel: function(label) { return label.replace(/((\w+ )+)(\d+)$/,'$3 $1').trim(); },
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ohio Co - Parcels',
+         id: 'wv-Ohio-co-parcels',
+         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/dpl/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pendleton Co - Address Points',
+         id: 'wv-Pendleton-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/PendletonWV_911Service/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pocahontas Co - Address Points',
+         id: 'wv-Pocahontas-co-pts',
+         url: 'https://services5.arcgis.com/BS7xAap9C8CqR5BC/ArcGIS/rest/services/Address_Labels/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        // 2018-03-08 (mapomatic) Also found this for Preston Co, which has parcels and address points.
+        // Not sure which is the "correct" one.  https://ags.agdmaps.com/arcgis/rest/services/PrestonWV/MapServer
+
+        {name: 'Preston Co - Address Points',
+         id: 'wv-Preston-co-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/46',
+         labelFields: ['Number','Street'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Preston Co - NEW Address Points',
+         id: 'wv-Preston-co-NEW-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/PrestonNew/PrestonOperational/MapServer/46',
+         labelFields: ['ADDR_NUM','Street'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Preston Co - Parcels',
+         id: 'wv-Preston-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/98',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Putnam Co - Parcels',
+         id: 'wv-Putnam-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Putnam/PutnamOperational/MapServer/33',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Randolph Co - Address Points',
+         id: 'wv-Randolph-co-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/74',
+         labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Randolph Co - Parcels',
+         id: 'wv-Randolph-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/79',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This is the parcel layer from the Taylor county website
+        {name: 'Taylor Co - Parcels #1',
+         id: 'wv-Taylor-co-parcels-1',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/TaylorWV_Service/FeatureServer/3',
+         labelFields: ['situsaddr'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This parcel layer was discovered on the landmarkgeospatial server, but doesn't appear to be used on the Taylor co website?
+        {name: 'Taylor Co - Parcels #2',
+         id: 'wv-Taylor-co-parcels-2',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Taylor/TaylorOperational2/MapServer/80',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tyler Co - Address Points',
+         id: 'wv-Tyler-co-pts',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/Tyler_Site/FeatureServer/0',
+         labelFields: ['ADDR_LABEL'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Upshur Co - Address Points',
+         id: 'wv-Upshur-co-pts',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/1',
+         labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Upshur Co - Parcels #1',
+         id: 'wv-Upshur-co-parcels-1',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/UpshurTaxParcelsCAMA/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Upshur Co - Parcels #2',
+         id: 'wv-Upshur-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/2',
+         labelFields: ['PARCELADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Webster Co - Address Points',
+         id: 'wv-Webster-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WebsterWV_Service/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wetzel Co - Address Points',
+         id: 'wv-Wetzel-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WetzelWV/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wetzel Co - Parcels',
+         id: 'wv-Wetzel-co-parcels',
+         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/WC_TM/FeatureServer/0',
+         labelFields: ['PARCEL_ADD'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wood Co - Address Points',
+         id: 'wv-Wood-co-pts',
+         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WoodWV/FeatureServer/6',
+         labelFields: ['FullAddr'],
+         state: 'WV',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wyoming Co - Parcels',
+         id: 'wv-Wyoming-co-parcels',
+         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Wyoming/WyomingOperational/MapServer/17',
+         labelFields: ['ADDRESS'],
+         state: 'WV',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Wisconsin
+        // ****************************
+
+        {name: 'State - Parcels',
+         id: 'wi-state-parcels',
+         url: 'https://mapservices.legis.wisconsin.gov/arcgis/rest/services/WLIP/PARCELS/FeatureServer/0',
+         labelFields: ['SITEADRESS'],
+         state: 'WI',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Wyoming
+        // ****************************
+
+        {name: 'State - Parcels',
+         id: 'wy-state-co-parcels',
+         url: 'http://gis.wyo.gov/arcgis/rest/services/ets/Parcels2017/MapServer/0',
+         labelFields: ['LOCATIONAD'],
+         state: 'WY',
+         style: DEFAULT_STATE_PARCEL_STYLE},
+
+        {name: 'Albany Co - Parcels',
+         id: 'wy-albany-co-parcels',
+         url: 'http://arcmobile.co.albany.wy.us/arcgis/rest/services/AlbanyCounty/Ownership/MapServer/0',
+         labelFields: ['LOCATIONAD'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Campbell Co - Address Points',
+         id: 'wy-campbell-co-pts',
+         url: 'https://services3.arcgis.com/4bXlKnUVV4OdWWbc/ArcGIS/rest/services/SiteAddresses/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Campbell Co - Parcels',
+         id: 'wy-campbell-co-parcels',
+         url: 'https://services3.arcgis.com/4bXlKnUVV4OdWWbc/arcgis/rest/services/TaxParcels_50d4a788a5ca4c03806c8566c5f15d03/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Carbon Co - Parcels',
+         id: 'wy-carbon-co-parcels',
+         url: 'http://arcmobile.co.albany.wy.us/arcgis/rest/services/CarbonCounty/CarbonCntyWebMap/MapServer/4',
+         labelFields: ['SiteAddres'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // Parcel polygon layer is shifted SE of actual position. ( Sundance WY ) need to check other areas of county.
+        {name: 'Crook Co - Parcels',
+         id: 'wy-crook-co-parcels',
+         url: 'http://gis.crookcounty.wy.gov/arcgis/rest/services/Assessor_Data/MapServer/4',
+         labelFields: ['STREET_NAME'],
+         //layerOffset: {x: -30, y: +20},
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Goshen Co - Parcels',
+         id: 'wy-goshen-co-parcels',
+         url: 'http://gis.goshencounty.org/webadaptor/rest/services/GoshenWAB/MapServer/4',
+         labelFields: ['StreetNo','StreetDire','StreetName','StreetSuff'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Laramie Co - Address Points',
+         id: 'wy-laramie-co-pts',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/CountyBaseMap/MapServer/134',
+         labelFields: ['address'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Laramie Co - Parcels SLOW',
+         id: 'wy-laramie-co-parcels',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/CountyBaseMap/MapServer/136',
+         labelFields: ['streetno','streetdir','streetname','streetsuf'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cheyenne / Laramie Co - Address Points',
+         id: 'wy-cheyenne-laramie-co-pts',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/features/CountyBaseMapFeatures/MapServer/0',
+         labelFields: ['address'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cheyenne / Laramie Co - Parcels SLOW',
+         id: 'wy-cheyenne-laramie-co-parcels',
+         url: 'https://maps.laramiecounty.com/arcgis/rest/services/features/CountyBaseMapFeatures/MapServer/2',
+         labelFields: ['streetno','streetdir','streetname','streetsuf'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lincoln Co - Address Points',
+         id: 'wy-lincoln-co-pts',
+         url: 'https://maps.lcwy.org/arcgis/rest/services/PUBLIC/RuralAdd/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lincoln Co - Parcels (no labels)',
+         id: 'wy-lincoln-co-parcels',
+         url: 'https://maps.lcwy.org/arcgis/rest/services/PUBLIC/Parcels_arcgis/MapServer/8',
+         labelFields: [''],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Natrona Co - Address Points',
+         id: 'wy-natrona-co-pts',
+         url: 'https://maps.casperwy.gov/nrgisc/rest/services/Addressing/Addressing/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Natrona Co - Parcels (no labels)',
+         id: 'wy-natrona-co-parcels',
+         url: 'https://maps.casperwy.gov/nrgisc/rest/services/Parcel_Ownership/Parcel/MapServer/0',
+         labelFields: [''],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Niobrara Co - Parcels',
+         id: 'wy-niobrara-co-parcels',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/Niobrara_Assessor/FeatureServer/4',
+         labelFields: ['HouseNumber','StDirection','StreetName','StreetType'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sundance - City Address Points',
+         id: 'wy-sundance-city-pts',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/SundanceBaseMap/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sundance - City Parcels (no labels)',
+         id: 'wy-sundance-city-parcels',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/SundanceBaseMap/FeatureServer/3',
+         labelFields: [''],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Unita Co - Parcels',
+         id: 'wy-unita-co-parcels',
+         url: 'https://services.arcgis.com/3lhSvleboHW33hAj/arcgis/rest/services/UintaCounty/FeatureServer/0',
+         labelFields: ['ADDNO','RDNAME'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Evanston - City Parcels',
+         id: 'wy-evanston-city-parcels',
+         url: 'https://services.arcgis.com/3lhSvleboHW33hAj/ArcGIS/rest/services/MyMapService/FeatureServer/0',
+         labelFields: ['ADDNO','RDNAME'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washakie Co - Parcels',
+         id: 'wy-washakie-co-parcels',
+         url: 'https://services.arcgis.com/VXqKERHDPaVIWXWc/arcgis/rest/services/2017_WashCoParcelData/FeatureServer/0',
+         labelFields: ['ADDRESSLOC'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Weston Co - Address Points',
+         id: 'wy-weston-co-pts',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/WestonViewer/FeatureServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'WY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Weston Co - Parcels',
+         id: 'wy-weston-co-parcels',
+         url: 'https://services2.arcgis.com/3vf4sgqBAWcEpmNB/ArcGIS/rest/services/WestonViewer/FeatureServer/7',
+         labelFields: ['LOCATION_A'],
+         state: 'WY',
+         style: DEFAULT_PARCEL_STYLE}
+
+    ];
+
+    let STATES = {
+        _states:[
+            ['US (Country)','US'],['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
+            ['Federated States Of Micronesia','FM'],['Florida','FL'],['Georgia','GA'],['Guam','GU'],['Hawaii','HI'],['Idaho','ID'],['Illinois','IL'],['Indiana','IN'],['Iowa','IA'],['Kansas','KS'],
+            ['Kentucky','KY'],['Louisiana','LA'],['Maine','ME'],['Marshall Islands','MH'],['Maryland','MD'],['Massachusetts','MA'],['Michigan','MI'],['Minnesota','MN'],['Mississippi','MS'],['Missouri','MO'],
+            ['Montana','MT'],['Nebraska','NE'],['Nevada','NV'],['New Hampshire','NH'],['New Jersey','NJ'],['New Mexico','NM'],['New York','NY'],['North Carolina','NC'],['North Dakota','ND'],
+            ['Northern Mariana Islands','MP'],['Ohio','OH'],['Oklahoma','OK'],['Oregon','OR'],['Palau','PW'],['Pennsylvania','PA'],['Puerto Rico','PR'],['Rhode Island','RI'],['South Carolina','SC'],
+            ['South Dakota','SD'],['Tennessee','TN'],['Texas','TX'],['Utah','UT'],['Vermont','VT'],['Virgin Islands','VI'],['Virginia','VA'],['Washington','WA'],['West Virginia','WV'],['Wisconsin','WI'],['Wyoming','WY']
+        ],
+        toAbbr: function(fullName) { return this._states.find(a => a[0] === fullName)[1]; },
+        toFullName: function(abbr) { return this._states.find(a => a[1] === abbr)[0]; },
+        toFullNameArray: function() { return this._states.map(a => a[0]); },
+        toAbbrArray: function() { return this._states.map(a => a[1]); }
+    };
+    let DEFAULT_VISIBLE_AT_ZOOM = 6;
+
+    let SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
+    let _alertUpdate = false;
+    let _debugLevel = 0;
+    let _scriptVersion = GM_info.script.version;
+    let _scriptVersionChanges = [
+        GM_info.script.name + '\nv' + _scriptVersion + '\n\nWhat\'s New\n------------------------------\n',
+        '\n- Update for new WME layers menu.'
+    ].join('');
+    let _mapLayer = null;
+    let _settings = {};
+
+    function log(message, level) {
+        if (message && (!level || (level <= _debugLevel))) {
+            console.log('GIS Layers: ', message);
+        }
+    }
+
+    function loadSettingsFromStorage() {
+        let loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
+        let defaultSettings = {
+            lastVersion: null,
+            visibleLayers: [],
+            selectedStates: [],
+            enabled: true
+        };
+        _settings = loadedSettings ? loadedSettings : defaultSettings;
+        for (let prop in defaultSettings) {
+            if (!_settings.hasOwnProperty(prop)) {
+                _settings[prop] = defaultSettings[prop];
+            }
+        }
+    }
+
+    function saveSettingsToStorage() {
+        if (localStorage) {
+            _settings.lastVersion = _scriptVersion;
+            localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
+            log('Settings saved', 1);
+        }
+    }
+
+    function getUrl(extent, gisLayer) {
+        if (gisLayer.spatialReference) {
+            let proj = new OL.Projection('EPSG:' + gisLayer.spatialReference);
+            extent.transform(W.map.getProjection(), proj);
+        }
+        let geometry = { xmin:extent.left, ymin:extent.bottom, xmax:extent.right, ymax:extent.top, spatialReference: {wkid: gisLayer.spatialReference ? gisLayer.spatialReference : 102100, latestWkid: gisLayer.spatialReference ? gisLayer.spatialReference : 3857} };
+        let geometryStr = JSON.stringify(geometry);
+        let url = gisLayer.url + '/query?geometry=' + encodeURIComponent(geometryStr);
+        let fields = gisLayer.labelFields;
+        if (gisLayer.labelHeaderFields) {
+            fields = fields.concat(gisLayer.labelHeaderFields);
+        }
+        if (gisLayer.distinctFields) {
+            fields = fields.concat(gisLayer.distinctFields);
+        }
+        url += gisLayer.token ? '&token=' + gisLayer.token : '';
+        url += '&outFields=' + encodeURIComponent(fields.join(','));
+        url += '&returnGeometry=true';
+        url += '&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=' + (gisLayer.spatialReference ? gisLayer.spatialReference : '102100') + '&outSR=3857&f=json';
+        if (gisLayer.where) {
+            url += '&where=' + encodeURIComponent(gisLayer.where);
+        }
+        return url;
+    }
+
+    function processFeatures(data, token, gisLayer) {
+        let features = [];
+        if (data.skipIt) {
+            // do nothing
+        } else if (data.error) {
+            log('Error in layer "' + gisLayer.name + '": ' + data.error.message);
+        } else {
+            let items = data.features;
+            if (!token.cancel) {
+                let error = false;
+                if (gisLayer.debug) debugger;
+                let distinctValues = [];
+                items.forEach(function(item) {
+                    let skipIt = false;
+                    if (!token.cancel && !error) {
+                        let feature;
+                        let featureGeometry;
+                        let area;
+                        if (gisLayer.distinctFields) {
+                            if (distinctValues.some( v => gisLayer.distinctFields.every(fld => v[fld] === item.attributes[fld]) )) {
+                                skipIt = true;
+                            } else {
+                                let dist = {};
+                                gisLayer.distinctFields.forEach(fld => dist[fld] = item.attributes[fld]);
+                                distinctValues.push(dist);
+                            }
+                        }
+                        if (!skipIt) {
+                            let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
+                            if (item.geometry.x) {
+                                featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
+                            } else if (item.geometry.rings) {
+                                let rings = [];
+                                item.geometry.rings.forEach(function(ringIn) {
+                                    let pnts= [];
+                                    for(let i=0;i<ringIn.length;i++){
+                                        pnts.push(new OL.Geometry.Point(ringIn[i][0] + layerOffset.x, ringIn[i][1] + layerOffset.y));
+                                    }
+                                    rings.push(new OL.Geometry.LinearRing(pnts));
+                                });
+                                featureGeometry = new OL.Geometry.Polygon(rings);
+                                if (gisLayer.areaToPoint) {
+                                    featureGeometry = featureGeometry.getCentroid();
+                                } else {
+                                    area = featureGeometry.getArea();
+                                }
+                            } else if (data.geometryType === 'esriGeometryPolyline') {
+                                let pointList = [];
+                                item.geometry.paths.forEach(function(path){
+                                    path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
+                                });
+                                featureGeometry = new OL.Geometry.LineString(pointList);
+                            } else {
+                                log('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
+                                error = true;
+                            }
+                            if (!error) {
+                                let hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
+                                let hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
+                                let displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                let label = '';
+                                if (gisLayer.labelHeaderFields) {
+                                    label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
+                                }
+                                if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
+                                    label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
+                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label).trim();
+                                }
+                                let attributes = {
+                                    layerID: gisLayer.id,
+                                    label: label
+                                };
+                                feature = new OL.Feature.Vector(featureGeometry,attributes);
+                                features.push(feature);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        if (!token.cancel) {
+            _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+            _mapLayer.addFeatures(features);
+
+            if (features.length) {
+                $('label[for="gis-layer_' + gisLayer.id + '"]').css({color:'#00a009'});
+            }
+        }
+    }  // END processFeatures()
+
+    let _ignoreFetch = false;
+    let _lastToken = {};
+    function fetchFeatures() {
+        if (_ignoreFetch) return;
+        _lastToken.cancel = true;
+        _lastToken = {cancel: false, features: [], layersProcessed: 0};
+        let states = W.model.states.getObjectArray().map(state => state.name);
+        $('.gis-state-layer-label').css({'color':'#777'});
+        _gisLayers.forEach(gisLayer => {
+            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
+            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
+            let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
+            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            if (isValidUrl && isInState && isVisible && isValidZoom) {
+                let url = getUrl(W.map.getExtent(), gisLayer);
+                GM_xmlhttpRequest({
+                    url: url,
+                    context: _lastToken,
+                    method: 'GET',
+                    onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
+                    onerror: function(res) { log('HTTP request error:',JSON.stringify(res)); }
+                });
+            } else {
+                processFeatures({skipIt: true}, _lastToken, gisLayer);
+            }
+        });
+    }
+
+    function showScriptInfoAlert() {
+        /* Check version and alert on update */
+        if (_alertUpdate && _scriptVersion !== _settings.lastVersion) {
+            alert(_scriptVersionChanges);
+        }
+    }
+
+    function setEnabled(value) {
+        _settings.enabled = value;
+        saveSettingsToStorage();
+        _mapLayer.setVisibility(value);
+        let color = value ? '#00bd00' : '#777';
+        $('span#gis-layers-power-btn').css({color:color});
+        if (value) fetchFeatures();
+        $('#layer-switcher-item_gis_layers').prop('checked',value);
+    }
+
+    function initLayer(){
+        let rules = _gisLayers.map(gisLayer => {
+            return new OL.Rule({
+                filter: new OL.Filter.Comparison({
+                    type: OL.Filter.Comparison.EQUAL_TO,
+                    property: "layerID",
+                    value: gisLayer.id
+                }),
+                symbolizer: gisLayer.style
+            });
+        });
+
+        let style = new OL.Style(DEFAULT_STYLE, { rules: rules } );
+
+        _mapLayer = new OL.Layer.Vector("GIS Layers", {
+            uniqueName: "__wmeGISLayers",
+            styleMap: new OL.StyleMap(style)
+        });
+        _mapLayer.setVisibility(_settings.enabled);
+        W.map.addLayer(_mapLayer);
+
+    } // END InitLayer
+
+
+    function onLayerToggleChanged(checked, layerID) {
+        let idx = _settings.visibleLayers.indexOf(layerID);
+        if (checked) {
+            if (idx === -1) _settings.visibleLayers.push(layerID);
+        } else {
+            if (idx > -1) _settings.visibleLayers.splice(idx, 1);
+        }
+        saveSettingsToStorage();
+        fetchFeatures();
+    }
+
+    function initLayersTab() {
+        let states = _gisLayers.map(l => l.state).unique().filter(st => _settings.selectedStates.indexOf(st) > -1);
+        $('#panel-gis-state-layers').empty();
+        $('#panel-gis-state-layers').append(
+            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
+                return $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                    $('<div>').css({'font-size':'11px'}).append(
+                        $('<span>').append(
+                            'Select ',
+                            $('<a>', {href:"#"}).text("All").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                _ignoreFetch = false;
+                                fetchFeatures();
+                            }),
+                            " / ",
+                            $('<a>', {href:'#'}).text("None").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                _ignoreFetch = false;
+                                fetchFeatures();
+                            })
+                        )
+                    ),
+                    $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
+                    $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
+                        _gisLayers.filter(l => l.state === st).map(gisLayer => {
+                            let id = 'gis-layer_' + gisLayer.id;
+                            return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                                $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
+                                $('<label>', {for:id, class:'gis-state-layer-label'}).css({'white-space':'pre-line'}).text(gisLayer.name)
+                            );
+                        })
+                    )
+                );
+            })
+        );
+    }
+
+    function onStateCheckChanged(checked, st) {
+        let idx = _settings.selectedStates.indexOf(st);
+        if (checked) {
+            if (idx === -1) _settings.selectedStates.push(st);
+        } else {
+            if (idx > -1) _settings.selectedStates.splice(idx, 1);
+        }
+        saveSettingsToStorage();
+        initLayersTab();
+        fetchFeatures();
+    }
+
+    function initSettingsTab() {
+        let states = _gisLayers.map(l => l.state).unique();
+        $('#panel-gis-layers-settings').append(
+            $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Layer Categories')),
+                $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
+                    states.map(st => {
+                        let fullName = STATES.toFullName(st);
+                        let id = 'gis-layer-enable-state-' + st;
+                        return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                            $('<input>', {type:'checkbox', id:id, class:'gis-layers-state-checkbox'}).change(function() { onStateCheckChanged($(this).is(':checked'), st); }).prop('checked', _settings.selectedStates.indexOf(st) > -1),
+                            $('<label>', {for:id}).css({'white-space':'pre-line'}).text(fullName)
+                        );
+                    })
+                )
+            )
+        );
+    }
+
+    function initTab() {
+        initSettingsTab();
+        initLayersTab();
+        let color = _settings.enabled ? '#00bd00' : '#777';
+        $('a[href="#sidepanel-gis-l"]').prepend(
+            $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
+                evt.stopPropagation();
+                setEnabled(!_settings.enabled);
+            })
+        );
+    }
+
+    function onMapMove() {
+        if (_settings.enabled) fetchFeatures();
+    }
+
+    function onLayerCheckboxChanged(checked) {
+        setEnabled(checked);
+    }
+
+    function initGui() {
+        if (_dev_mode) {
+            DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
+            DEFAULT_PARCEL_STYLE.fillColor = DEFAULT_STYLE.strokeColor;
+        }
+
+        initLayer();
+
+        let content = $('<div>').append(
+            $('<span>', {style:'font-size:14px;font-weight:600'}).text('GIS Layers'),
+            $('<span>', {style:'font-size:11px;margin-left:10px;color:#aaa;'}).text(GM_info.script.version),
+            '<ul class="nav nav-tabs">' +
+            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">Layers</a></li>' +
+            '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
+            '</ul>',
+            $('<div>', {class:'tab-content',style:'padding:8px;padding-top:2px'}).append(
+                $('<div>', {class:'tab-pane active', id:'panel-gis-state-layers'}),
+                $('<div>', {class:'tab-pane', id:'panel-gis-layers-settings'})
+            )
+        ).html();
+
+        new Tab('GIS-L', content, initTab, null);
+        WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
+        W.map.events.register("moveend",null,onMapMove);
+        showScriptInfoAlert();
+    }
+
+    function init() {
+        // *** NOTE: This may be needed to add projections for non-standard coordinate systems.
+        // *** It's a wrapper around proj4js 2.x to simulate proj4js 1.1 (used in OpenLayers 2)
+        // unsafeWindow.Proj4js = {
+        //     Proj: function(code) {
+        //         return proj4(Proj4js.defs[code]);
+        //     },
+        //     defs: proj4.defs,
+        //     transform: proj4
+        // };
+
+        // *** NOTE: This was added for Perry County, KY.  The transform worked, but the coordinate system Perry county seems to be using doesn't match up with EPSG:2272.
+        // proj4.defs('EPSG:2272','+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs');
+
+        loadSettingsFromStorage();
+        initGui();
+        fetchFeatures();
+        log('Initialized.', 1);
+    }
+
+    function bootstrap() {
+        if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
+            log('Initializing...', 1);
+            init();
+        } else {
+            log('Bootstrap failed. Trying again...', 1);
+            setTimeout(function () {
+                bootstrap();
+            }, 1000);
+        }
+    }
+
+    // Modified from WazeWrap
+    class Tab {
+        constructor(name, content, callback, context) {
+            this.TAB_SELECTOR = '#user-tabs ul.nav-tabs';
+            this.CONTENT_SELECTOR = '#user-info div.tab-content';
+            this.callback = null;
+            this.$content = null;
+            this.context = null;
+            this.$tab = null;
+
+            let idName, i = 0;
+
+            if (name && 'string' === typeof name &&
+                content && 'string' === typeof content) {
+                if (callback && 'function' === typeof callback) {
+                    this.callback = callback;
+                    this.context = context || callback;
+                }
+                /* Sanitize name for html id attribute */
+                idName = name.toLowerCase().replace(/[^a-z-_]/g, '');
+                /* Make sure id will be unique on page */
+                while (
+                    $('#sidepanel-' + (i ? idName + i : idName)).length > 0) {
+                    i++;
+                }
+                if (i) {
+                    idName = idName + i;
+                }
+                /* Create tab and content */
+                this.$tab = $('<li/>')
+                    .append($('<a/>')
+                            .attr({
+                    'href': '#sidepanel-' + idName,
+                    'data-toggle': 'tab'
+                })
+                            .text(name));
+                this.$content = $('<div/>')
+                    .addClass('tab-pane')
+                    .attr('id', 'sidepanel-' + idName)
+                    .html(content);
+
+                this.appendTab();
+                let that = this;
+                if (W.prefs) {
+                    W.prefs.on('change:isImperial', function(){that.appendTab();});
+                }
+                W.app.modeController.model.bind('change:mode', function(){that.appendTab();});
+            }
+        }
+
+        append(content) {
+            this.$content.append(content);
+        }
+
+        appendTab() {
+            $(this.TAB_SELECTOR).append(this.$tab);
+            $(this.CONTENT_SELECTOR).first().append(this.$content);
+            if (this.callback) {
+                this.callback.call(this.context);
+            }
+        }
+
+        clearContent() {
+            this.$content.empty();
+        }
+
+        destroy() {
+            this.$tab.remove();
+            this.$content.remove();
+        }
+    } // END Tab
+
+    log('Bootstrap...', 1);
+    bootstrap();
+})();
