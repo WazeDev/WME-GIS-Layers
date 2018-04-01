@@ -93,6 +93,7 @@
 // @connect      ccgisonline.com
 // @connect      ccgov.org
 // @connect      ccpa.net
+// @connect      cdmsmith.com
 // @connect      cedar-rapids.org
 // @connect      centralilmaps.com
 // @connect      centrecountypa.gov
@@ -130,6 +131,7 @@
 // @connect      countyofkane.org
 // @connect      countyofnewaygo.com
 // @connect      cowleycounty.org
+// @connect      cranstonri.org
 // @connect      crawfordcountypa.net
 // @connect      cstx.gov
 // @connect      dancgis.org
@@ -154,6 +156,7 @@
 // @connect      dunwoodyga.gov
 // @connect      dupageco.org
 // @connect      dutchessny.gov
+// @connect      eastgreenwichri.com
 // @connect      efsedge.com
 // @connect      elpasotexas.gov
 // @connect      eaglecounty.us
@@ -347,6 +350,7 @@
 // @connect      pottcounty.org
 // @connect      pottcounty-ia.gov
 // @connect      property-appraiser.org
+// @connect      providenceri.gov
 // @connect      putnamco.org
 // @connect      putnam-fl.com
 // @connect      qac.org
@@ -378,6 +382,7 @@
 // @connect      siouxfalls.org
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      southkingstownri.com
 // @connect      springfieldmo.gov
 // @connect      starkcountyohio.gov
 // @connect      stclairco.com
@@ -8500,6 +8505,80 @@ Doesn't have a Shape field.
          url: 'http://arcweb.ycpc.org/arcgis/rest/services/Projects/Parcel_Tax_Finder_FeatureService/FeatureServer/0',
          labelFields: ['PROPADR'],
          state: 'PA',
+         style: DEFAULT_PARCEL_STYLE},
+
+
+        // Rhode Island
+        // ************************************
+
+        {name: 'State - E911 Address Points',
+         id: 'ri-state-pts',
+         url: 'https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/E911_Sites/FeatureServer/0',
+         labelFields: ['PrimaryAdd'],
+         state: 'RI',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Charlestown - Parcels',
+         id: 'ri-charlestown-parcels',
+         url: 'http://server1.mapxpress.net:6080/arcgis/rest/services/Charlestown/Parcels/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cranston - Parcels',
+         id: 'ri-cranston-parcels',
+         url: 'https://gis.cranstonri.org/arcgis/rest/services/Assessor_Web/MapServer/23',
+         labelFields: ['Location'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'East Greenwich - Parcels',
+         id: 'ri-east-greenwich-parcels',
+         url: 'http://gis.eastgreenwichri.com/egags/rest/services/parcels/MapServer/0',
+         labelFields: ['PropertyAddress1'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'East Providence - Parcels',
+         id: 'ri-east-providence-parcels',
+         url: 'http://gisdemo1.cdmsmith.com/arcgis/rest/services/EastProvidence_Operational/MapServer/1',
+         labelFields: ['ST_NUM'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hopkinton - Parcels',
+         id: 'ri-hopkinton-parcels',
+         url: 'http://server1.mapxpress.net:6080/arcgis/rest/services/Hopkinton/Basemap/MapServer/48',
+         labelFields: ['LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Newport - Parcels',
+         id: 'ri-newport-parcels',
+         url: 'https://utility.arcgis.com/usrsvcs/servers/59096748da8b4993a1eb9dd92164a720/rest/services/Assessors/Parcels_cache/MapServer/0',
+         labelFields: ['Street_Number','Street_Name'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Providence - Parcels',
+         id: 'ri-providence-parcels',
+         url: 'https://webgis.providenceri.gov/server/rest/services/Tax/Parcels/MapServer/10',
+         labelFields: ['CAMAExtract_ParcAddress'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'South Kingston - Parcels',
+         id: 'ri-south-kingston-parcels',
+         url: 'http://gis.southkingstownri.com/arcgis/rest/services/SouthKingstown_OperationalMap_Pub/MapServer/4',
+         labelFields: ['VISION_GIS_ASSESS.LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Westerly - Parcels',
+         id: 'ri-westerly-parcels',
+         url: 'http://server1.mapxpress.net:6080/arcgis/rest/services/Westerly/Active_I/MapServer/14',
+         labelFields: ['LOCATION'],
+         state: 'RI',
          style: DEFAULT_PARCEL_STYLE},
 
 
