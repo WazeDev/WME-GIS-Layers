@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.30.001
+// @version      2018.04.01.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -268,6 +268,7 @@
 // @connect      ma.us
 // @connect      madisoncountyky.us
 // @connect      mahoningcountyoh.gov
+// @connect      maine.gov
 // @connect      mapxpress.net
 // @connect      marioncountyfl.org
 // @connect      matsugov.us
@@ -5091,6 +5092,32 @@ Not a valid Address Point Layer
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
+
+        // Maine
+        // ************************************
+
+        {name: 'Maine - Organized Parcels',
+         id: 'me-Maine-organized-parcels',
+         url: 'https://gis2.maine.gov/arcgis/rest/services/PlanningCadastre/Maine_Parcels_Organized_Towns/MapServer/0',
+         labelFields: ['PROPLOCNUM','PROP_LOC'],
+         processLabel: function(label) { return label.replace(/^[0\D]+/,''); },
+         state: 'ME',
+         style: DEFAULT_PARCEL_STYLE},
+
+        /* 2018-04-01 Huybee3 - Doesn't seem to be working
+        {name: 'Maine - Unorganized Parcels',
+         id: 'me-Maine-unorganized-parcels',
+         url: 'https://gis2.maine.gov/arcgis/rest/services/mrs/MRS_Parcels_Unorganized/MapServer/0',
+         labelFields: ['TPL'],
+         state: 'ME',
+         style: DEFAULT_PARCEL_STYLE}, */
+
+        {name: 'Maine - Address Points',
+         id: 'me-Maine-pts',
+         url: 'https://gis2.maine.gov/arcgis/rest/services/Location/Maine_E911_Addresses_Roads_PSAP/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'ME',
+         style: DEFAULT_PT_STYLE},
 
         // Maryland
         // ************************************
