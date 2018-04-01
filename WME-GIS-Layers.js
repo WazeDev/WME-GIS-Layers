@@ -508,14 +508,14 @@
         r1: /^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi,
         // Strip SPACE 5 Digits from end of string, use with replace ''
         r2: /\s\d{5}$/,
-		// Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
-		r3: /(~|,|;).*$/,
-		// Move the digits after the last space to before the rest of the string using, us with replace '$2 $1'
-		r4: /^(.*)\s(\d+).*/,
-		// Insert newline between digits (including "-") and everything after the digits, except (and before) a ",", use with replace '$1\n$2'
-		r5: /^([-\d]+)\s+([^,]+).*/,
-		// Insert newline between digits and everything after the digits, use with replace '$1\n$2'
-		r6: /^(\d+)\s+(.*)/,
+        // Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
+        r3: /(~|,|;).*$/,
+        // Move the digits after the last space to before the rest of the string using, us with replace '$2 $1'
+        r4: /^(.*)\s(\d+).*/,
+        // Insert newline between digits (including "-") and everything after the digits, except (and before) a ",", use with replace '$1\n$2'
+        r5: /^([-\d]+)\s+([^,]+).*/,
+        // Insert newline between digits and everything after the digits, use with replace '$1\n$2'
+        r6: /^(\d+)\s+(.*)/,
     };
 
     let _gisLayers = [
