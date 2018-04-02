@@ -127,6 +127,7 @@
 // @connect      columbiapa.org
 // @connect      cookcountyil.gov
 // @connect      coppelltx.gov
+// @connect      coralsprings.org
 // @connect      countyofkane.org
 // @connect      countyofnewaygo.com
 // @connect      cowleycounty.org
@@ -2117,6 +2118,20 @@ Not a valid Address Point Layer
          labelFields: ['FULLADDR'],
          state: 'FL',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Coral Springs - City Address Points',
+         id: 'fl-coral-springs-city-points',
+         url: 'https://springsgis.coralsprings.org/arcgis/rest/services/DMZ/DMZ_BCPA_Lookup/MapServer/10',
+         labelFields: ['SiteAddr'],
+         state: 'FL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Coral Springs - City Parcels (no labels)',
+         id: 'fl-coral-springs-city-parcels',
+         url: 'https://springsgis.coralsprings.org/arcgis/rest/services/DMZ/DMZ_BCPA_Lookup/MapServer/5',
+         labelFields: [],
+         state: 'FL',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Duval Co - Parcels',
          id: 'fl-duval-co-parcels',
