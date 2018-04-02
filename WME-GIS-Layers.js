@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.01.001
+// @version      2018.04.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -22,8 +22,10 @@
 // @connect      161.6.109.206
 // @connect      184.12.255.122
 // @connect      204.63.176.116
+// @connect      206.74.124.99
 // @connect      206.176.83.74
 // @connect      216.81.174.57
+// @connect      216.110.207.61
 // @connect      1stdistrict.org
 // @connect      aacounty.org
 // @connect      abilenetx.com
@@ -105,6 +107,7 @@
 // @connect      christiancountymo.gov
 // @connect      citruspa.org
 // @connect      cityhs.net
+// @connect      cityofaikensc.gov
 // @connect      cityofaspen.com
 // @connect      cityofboise.org
 // @connect      cityofboston.gov
@@ -143,6 +146,7 @@
 // @connect      dekalbcountyga.gov
 // @connect      deltacounty.com
 // @connect      dentoncounty.com
+// @connect      deschutes.org
 // @connect      desotocountyms.gov
 // @connect      dfwmaps.com
 // @connect      digitaldataservices.com
@@ -227,6 +231,7 @@
 // @connect      interdev.com
 // @connect      iowa.gov
 // @connect      ircgov.com
+// @connect      jacksoncounty.org
 // @connect      jacksongov.org
 // @connect      jccal.org
 // @connect      jeffco.us
@@ -246,6 +251,7 @@
 // @connect      lakecountyil.gov
 // @connect      lakecountyohio.gov
 // @connect      landmarkgeospatial.com
+// @connect      lanecounty.org
 // @connect      laramiecounty.com
 // @connect      larimer.org
 // @connect      latisviewer.com
@@ -298,6 +304,7 @@
 // @connect      ms.gov
 // @connect      ms.us
 // @connect      mt.gov
+// @connect      multco.us
 // @connect      mygisonline.com
 // @connect      mymanatee.org
 // @connect      nashville.gov
@@ -321,6 +328,7 @@
 // @connect      odessa-tx.gov
 // @connect      oh.us
 // @connect      okaloosafl.com
+// @connect      or.us
 // @connect      orangeburgcounty.org
 // @connect      orangecountygov.com
 // @connect      oswegocounty.com
@@ -8023,6 +8031,262 @@ Doesn't have a Shape field.
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
+        // Oregon
+        // ************************************
+
+        {name: 'Benton Co - Parcels',
+         id: 'or-benton-co-parcels',
+         url: 'https://gis.co.benton.or.us/arcgis/rest/services/Public/TaxlotsView/MapServer/0',
+         labelFields: ['Situs_Addr1'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Benton Co - Address Points',
+         id: 'or-benton-co-pts',
+         url: 'https://gis.co.benton.or.us/arcgis/rest/services/Public/AddressService/MapServer/1',
+         labelFields: ['STREET'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Coos Co - Parcels',
+         id: 'or-coos-co-pts',
+         url: 'https://services.arcgis.com/or6I5QjRIBzpPc8G/arcgis/rest/services/GIS_Online_March_2018/FeatureServer/4/',
+         labelFields: ['SITUSSTR'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Coos Co - Address Points - Not found
+
+        {name: 'Crook Co - Parcels (no data)',
+         id: 'or-crook-co-parcels',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Addressing/AddressingGroup/MapServer/5',
+         labelFields: [''],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Crook Co - Address Points',
+         id: 'or-crook-co-pts',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Addressing/AddressingGroup/MapServer/0',
+         labelFields: ['full_address'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Curry Co - Parcels',
+         id: 'or-curry-co-parcels',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Curry/GeneralMap/MapServer/20',
+         labelFields: ['CurryAssessmentRollExport_Situs_addr'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Curry Co - Address Points',
+         id: 'or-curry-co-pts',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Curry/GeneralMap/MapServer/6',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Deschutes Co - Parcels',
+         id: 'or-deschutes-co-parcels',
+         url: 'http://maps.deschutes.org/arcgis/rest/services/Operational_Layers/MapServer/0',
+         labelFields: ['Taxlot_Assessor_Account.Address'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Deschutes Co - Address Points - Not found
+
+        // Gilliam Co - Parcels - bad data - http://lcmaps.lanecounty.org/arcgis/rest/services/Gilliam/GilliamBaseMap/MapServer/237
+        // Gilliam Co - Address Points - Not found
+
+        {name: 'Harney Co - Parcels',
+         id: 'or-harney-co-parcels',
+         url: 'https://services3.arcgis.com/e3KSI9Py4B7m3xu6/ArcGIS/rest/services/02_arcgis_online_Address_and_Tax_Lots/FeatureServer/1',
+         labelFields: ['HOUSE_NUMBER','DIRECTION','STREET_NAME','STREET_TYPE'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Harney Co - Parcel Points',
+         id: 'or-harney-co-pts',
+         url: 'https://services3.arcgis.com/e3KSI9Py4B7m3xu6/ArcGIS/rest/services/02_arcgis_online_Address_and_Tax_Lots/FeatureServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hood River Co - Parcels',
+         id: 'or-hood-river-co-parcels',
+         url: 'http://webmap.co.hood-river.or.us/arcgis/rest/services/PARCELS/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hood River Co - Address Points',
+         id: 'or-hood-river-co-pts',
+         url: 'http://webmap.co.hood-river.or.us/arcgis/rest/services/SiteAddress/MapServer/0',
+         labelFields: ['HOUSE_NUMBER','PREFIX_DIRECTION','STREET_NAME','STREET_TYPE'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jackson Co - Parcels',
+         id: 'or-jackson-co-parcels',
+         url: 'https://spatial.jacksoncounty.org/arcgis/rest/services/OpenData/ReferenceData/MapServer/3',
+         labelFields: ['SITEADD'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jackson Co - Address Points',
+         id: 'or-jackson-co-pts',
+         url: 'https://spatial.jacksoncounty.org/arcgis/rest/services/OpenData/ReferenceData/MapServer/1',
+         labelFields: ['PREADDRNUM','ADDRNUM','ADDRNUMSUF','FULLNAME'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'or-jefferson-co-parcels',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Jefferson/Assessment/MapServer/1',
+         labelFields: ['HOUSE_NUMB','PRE_DIRECT','DIRECTION','STREET_NAM','STREET_TYP'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'or-jefferson-co-pts',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Jefferson/General/MapServer/0',
+         labelFields: ['addNumPre','addNum','addNumSuf','lgcyPreDir','lgcyName','lgcyType','lgcyPstDir'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Josephine Co - Parcels',
+         id: 'or-josephine-co-parcels',
+         url: 'http://gis2.co.josephine.or.us/arcgis/rest/services/JOCO_TaxLots/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Josephine Co - Address Points',
+         id: 'or-josephine-co-pts',
+         url: 'http://gis2.co.josephine.or.us/arcgis/rest/services/JOCO_Site_Address2/MapServer/0',
+         labelFields: ['NUMBER','PREFIX','STREETNAME','TYPE','SUFFIX'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Klamath Co - Parcels',
+         id: 'or-klamath-co-parcels',
+         url: 'https://services.arcgis.com/H6Mh1bySxR4oHx6x/ArcGIS/rest/services/KC_Taxlots/FeatureServer/0',
+         labelFields: ['SITUS_ADDRESS'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Klamath Co - Address Points - Not found
+
+        {name: 'Lake Co - Parcels',
+         id: 'or-lake-co-parcels',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Lake/LakeBaseMap/MapServer/235',
+         labelFields: ['OtherCounties_dbo_LakeCountyOwnerAndSitusInfo_SiteAddNam'],
+         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Address Points',
+         id: 'or-lake-co-pts',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Lake/LakeBaseMap/MapServer/229',
+         labelFields: ['ADDR_NUM','STREETNAME'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lane Co - Parcels (no data)',
+         id: 'or-lane-co-parcels',
+         url: 'https://lcmaps.lanecounty.org/arcgis/rest/services/LaneCountyMaps/AddressParcel/MapServer/2',
+         labelFields: [''],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lane Co - Address Points',
+         id: 'or-lane-co-pts',
+         url: 'https://lcmaps.lanecounty.org/arcgis/rest/services/LaneCountyMaps/AddressParcel/MapServer/0',
+         labelFields: ['concat_address'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Marion Co - Parcels',
+         id: 'or-marion-co-parcels',
+         url: 'https://services1.arcgis.com/sYGZnQPdJ0azuLyn/ArcGIS/rest/services/Parcels_pub/FeatureServer/1',
+         labelFields: ['SITUS'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marion Co - Parcel Points',
+         id: 'or-Marion-co-pts',
+         url: 'https://services1.arcgis.com/sYGZnQPdJ0azuLyn/ArcGIS/rest/services/AddressPts/FeatureServer/0',
+         labelFields: ['SITUS'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Malheur Co - Parcels',
+         id: 'or-malheur-co-parcels',
+         url: 'https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/TLFeb2018/FeatureServer/0',
+         labelFields: ['SITUSADD'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Malheur Co - Address Points - Not found
+
+        {name: 'Multnomah Co - Parcels',
+         id: 'or-multnomah-co-parcels',
+         url: 'http://www3.multco.us/arcgispublic/rest/services/Countywide/General/MapServer/7',
+         labelFields: ['SITUSADDR'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Multnomah Co - Address Points',
+         id: 'or-multnomah-co-pts',
+         url: 'http://www3.multco.us/arcgispublic/rest/services/EmergencyManagement/MasterAddress_Metro/MapServer/0',
+         labelFields: ['FULLADD'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Polk Co - Parcels',
+         id: 'or-polk-co-parcels',
+         url: 'https://geoservices.co.polk.or.us/gis/rest/services/collector/TaxlotAppr/MapServer/0',
+         labelFields: ['SiteAddNam'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This layer seems to cover all of Polk County despite being named 'Salem Addresses'
+        {name: 'Polk Co - Address Points',
+         id: 'or-polk-co-pts',
+         url: 'https://geoservices.co.polk.or.us/gis/rest/services/Feature_Services/SiteAddress/MapServer/0',
+         labelFields: ['STREET_NUM','PREFIX','STREET','STREET_TYP','SUFFIX'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wasco Co - Parcels',
+         id: 'or-wasco-co-parcels',
+         url: 'http://216.110.207.61/arcgis/rest/services/BaseMap/MapServer/6/',
+         labelFields: [''],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        /* Layer not working due to shape field not named 'SHAPE'
+        {name: 'Wasco Co - Address Points',
+         id: 'or-wasco-co-pts',
+         url: 'http://216.110.207.61/arcgis/rest/services/Services/PublicAddresses/MapServer/0',
+         labelFields: ['STRUCTNO','STRUCTNOSU','PREDIR','PRETYPE','STREETNAME','STREETTYPE','SUFDIR'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'Washington Co - Parcels',
+         id: 'or-washington-co-parcels',
+         url: 'http://mtbachelor.co.washington.or.us/arcgiswa2/rest/services/LUT_ops/AGS_OpsAssets/MapServer/50',
+         labelFields: ['SITEADDR'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Address Points',
+         id: 'or-washington-co-pts',
+         url: 'http://mtbachelor.co.washington.or.us/arcgiswa2/rest/services/LUT_ops/AGS_OpsAssets/MapServer/51',
+         labelFields: ['SITEADDR'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        // Wheeler Co - bad data - http://lcmaps.lanecounty.org/arcgis/rest/services/Wheeler/WheelerBaseMap/MapServer/231
+
+
         // Pennsylvania
         // **********************************
 
@@ -8931,6 +9195,21 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Aiken - City Parcels (no data)',
+         id: 'sc-aiken-city-parcels',
+         url: 'https://gis.cityofaikensc.gov/arcgis/rest/services/PublicGIS/MapServer/13',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Aiken - City Address Points',
+         id: 'sc-aiken-city-pts',
+         url: 'https://gis.cityofaikensc.gov/arcgis/rest/services/PublicGIS/MapServer/0',
+         labelFields: ['WholeAddress'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Charleston - City Address Points',
          id: 'sc-charleston-city-pts',
          url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/25',
@@ -8942,6 +9221,20 @@ Doesn't have a Shape field.
          id: 'sc-mount-pleasant-city-pts',
          url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/26',
          labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'North Augusta - City Parcels',
+         id: 'sc-north-augusta-city-parcels',
+         url: 'http://206.74.124.99/arcgis/rest/services/AGS_CONAenduserArcSDE1_Dynamic_PublicSite/MapServer/2',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'North Augusta - City Address Points',
+         id: 'sc-north-augusta-city-pts',
+         url: 'http://206.74.124.99/arcgis/rest/services/AGS_CONAenduserArcSDE1_Dynamic_PublicSite/MapServer/1',
+         labelFields: ['FULL_HOUSE','FULLSTREET'],
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
