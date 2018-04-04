@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.03.28.002
+// @version      2018.04.02.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -14,14 +14,18 @@
 // @connect      23.96.59.134
 // @connect      50.120.220.154
 // @connect      54.213.14.253
+// @connect      63.238.120.156
 // @connect      72.10.206.73
+// @connect      131.156.137.22
 // @connect      136.234.11.196
 // @connect      136.234.13.165
 // @connect      161.6.109.206
 // @connect      184.12.255.122
 // @connect      204.63.176.116
+// @connect      206.74.124.99
 // @connect      206.176.83.74
 // @connect      216.81.174.57
+// @connect      216.110.207.61
 // @connect      1stdistrict.org
 // @connect      aacounty.org
 // @connect      abilenetx.com
@@ -29,6 +33,8 @@
 // @connect      adacountyassessor.org
 // @connect      adamscounty.org
 // @connect      adamscounty.us
+// @connect      adamscountyarcserver.com
+// @connect      adcogov.org
 // @connect      aecomonline.net
 // @connect      agdmaps.com
 // @connect      ak.us
@@ -40,6 +46,7 @@
 // @connect      andersoncountysc.org
 // @connect      apsu.edu
 // @connect      ar.us
+// @connect      arapahoegov.com
 // @connect      arcgis.com
 // @connect      arkansas.gov
 // @connect      arlingtonva.us
@@ -59,11 +66,15 @@
 // @connect      berkeleywv.org
 // @connect      bgadd.org
 // @connect      bgky.org
+// @connect      bhamaps.com
 // @connect      bisconsultants.com
 // @connect      bonnercounty.us
 // @connect      boonecountygis.com
+// @connect      boonecountyil.org
+// @connect      bouldercounty.org
 // @connect      brevardcounty.us
 // @connect      brookhavenga.gov
+// @connect      broomfield.org
 // @connect      broward.org
 // @connect      brunswickcountync.gov
 // @connect      bryan-county.org
@@ -80,10 +91,13 @@
 // @connect      casscountynd.gov
 // @connect      cattco.org
 // @connect      cayugacounty.us
+// @connect      ccgisc.org
 // @connect      ccgisonline.com
 // @connect      ccgov.org
 // @connect      ccpa.net
+// @connect      cdmsmith.com
 // @connect      cedar-rapids.org
+// @connect      centralilmaps.com
 // @connect      centrecountypa.gov
 // @connect      charlestoncounty.org
 // @connect      charlottecountyfl.gov
@@ -93,6 +107,8 @@
 // @connect      christiancountymo.gov
 // @connect      citruspa.org
 // @connect      cityhs.net
+// @connect      cityofaikensc.gov
+// @connect      cityofaspen.com
 // @connect      cityofboise.org
 // @connect      cityofboston.gov
 // @connect      cityofcarrollton.com
@@ -106,14 +122,20 @@
 // @connect      clintoncountypa.com
 // @connect      cmpdd.org
 // @connect      cobbgis.org
+// @connect      co.gov
+// @connect      co.us
 // @connect      coj.net
 // @connect      colliergov.net
+// @connect      coloradosprings.gov
 // @connect      columbiacountyga.gov
 // @connect      columbiapa.org
 // @connect      cookcountyil.gov
 // @connect      coppelltx.gov
+// @connect      coralsprings.org
+// @connect      countyofkane.org
 // @connect      countyofnewaygo.com
 // @connect      cowleycounty.org
+// @connect      cranstonri.org
 // @connect      crawfordcountypa.net
 // @connect      cstx.gov
 // @connect      dancgis.org
@@ -121,21 +143,28 @@
 // @connect      dbqco.org
 // @connect      dc.gov
 // @connect      dcad.org
+// @connect      de.us
 // @connect      dekalbcountyga.gov
+// @connect      deltacounty.com
 // @connect      dentoncounty.com
+// @connect      deschutes.org
 // @connect      desotocountyms.gov
 // @connect      dfwmaps.com
+// @connect      digitaldataservices.com
 // @connect      districtiii.org
 // @connect      dmcwebgis.com
 // @connect      dmgov.org
 // @connect      dogis.org
 // @connect      dorchestercounty.net
 // @connect      douglascountyks.org
+// @connect      douglasil.com
 // @connect      dunwoodyga.gov
 // @connect      dupageco.org
 // @connect      dutchessny.gov
+// @connect      eastgreenwichri.com
 // @connect      efsedge.com
 // @connect      elpasotexas.gov
+// @connect      eaglecounty.us
 // @connect      emapsplus.com
 // @connect      emmetcounty.org
 // @connect      erie.gov
@@ -157,6 +186,7 @@
 // @connect      fultoncountyoh.com
 // @connect      fwb.org
 // @connect      ga.us
+// @connect      garfield-county.com
 // @connect      garlandtx.gov
 // @connect      garrettcounty.org
 // @connect      gcgis.org
@@ -172,8 +202,10 @@
 // @connect      gocolumbiamo.com
 // @connect      goshencounty.org
 // @connect      gptx.org
+// @connect      grandgis.com
 // @connect      greenegovernment.com
 // @connect      greenwoodsc.gov
+// @connect      grundyco.org
 // @connect      gscplanning.com
 // @connect      hamilton-co.org
 // @connect      hamiltontn.gov
@@ -200,10 +232,13 @@
 // @connect      interdev.com
 // @connect      iowa.gov
 // @connect      ircgov.com
+// @connect      jacksoncounty.org
 // @connect      jacksongov.org
 // @connect      jccal.org
+// @connect      jeffco.us
 // @connect      jeffparish.net
 // @connect      johnsoncitytn.org
+// @connect      k3gis.com
 // @connect      kanawhacountyassessor.com
 // @connect      kansasgis.org
 // @connect      kcgov.us
@@ -217,6 +252,7 @@
 // @connect      lakecountyil.gov
 // @connect      lakecountyohio.gov
 // @connect      landmarkgeospatial.com
+// @connect      lanecounty.org
 // @connect      laramiecounty.com
 // @connect      larimer.org
 // @connect      latisviewer.com
@@ -224,6 +260,7 @@
 // @connect      lawrenceks.org
 // @connect      lcounty.com
 // @connect      lcwy.org
+// @connect      leecountyil.com
 // @connect      leoncountyfl.gov
 // @connect      lex-co.com
 // @connect      lexingtonky.gov
@@ -238,16 +275,20 @@
 // @connect      ma.us
 // @connect      madisoncountyky.us
 // @connect      mahoningcountyoh.gov
+// @connect      maine.gov
 // @connect      mapxpress.net
 // @connect      marioncountyfl.org
 // @connect      matsugov.us
 // @connect      maurycounty-tn.gov
 // @connect      mcegisohio.org
+// @connect      mcgisweb.org
 // @connect      mcgtn.org
+// @connect      mchenrycountygis.org
 // @connect      mckinneytexas.org
 // @connect      md.gov
 // @connect      md.us
 // @connect      mercercountyohio.org
+// @connect      mesacounty.us
 // @connect      miamidade.gov
 // @connect      midmogis.org
 // @connect      missoulacounty.us
@@ -260,12 +301,16 @@
 // @connect      monroegis.org
 // @connect      montcopa.org
 // @connect      montgomerycountymd.gov
+// @connect      montrosecounty.net
 // @connect      ms.gov
 // @connect      ms.us
 // @connect      mt.gov
+// @connect      multco.us
+// @connect      mygisonline.com
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
+// @connect      nccde.org
 // @connect      nd.gov
 // @connect      nd.us
 // @connect      ne.gov
@@ -284,6 +329,8 @@
 // @connect      odessa-tx.gov
 // @connect      oh.us
 // @connect      okaloosafl.com
+// @connect      okc.gov
+// @connect      or.us
 // @connect      orangeburgcounty.org
 // @connect      orangecountygov.com
 // @connect      oswegocounty.com
@@ -293,15 +340,18 @@
 // @connect      pagis.org
 // @connect      palmcoastgov.com
 // @connect      pandai.com
+// @connect      parkco.us
 // @connect      parkcounty.org
 // @connect      pascocountyfl.net
 // @connect      paslc.org
 // @connect      pcnygis.com
 // @connect      perryco.org
+// @connect      peoriacounty.org
 // @connect      pgatlas.com
 // @connect      phila.gov
 // @connect      pikepa.org
 // @connect      pinellascounty.org
+// @connect      pitkincounty.com
 // @connect      planogis.org
 // @connect      plantation.org
 // @connect      polkcountyiowa.gov
@@ -311,9 +361,11 @@
 // @connect      pottcounty.org
 // @connect      pottcounty-ia.gov
 // @connect      property-appraiser.org
+// @connect      providenceri.gov
 // @connect      putnamco.org
 // @connect      putnam-fl.com
 // @connect      qac.org
+// @connect      rapc.info
 // @connect      rcgov.org
 // @connect      renogov.org
 // @connect      renvillecountymn.com
@@ -328,6 +380,7 @@
 // @connect      sanantonio.gov
 // @connect      sanduskycountygis.org
 // @connect      sandyspringsga.gov
+// @connect      sanmiguelcountyco.gov
 // @connect      sarpy.com
 // @connect      sccmo.org
 // @connect      scgov.net
@@ -340,15 +393,21 @@
 // @connect      siouxfalls.org
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      southkingstownri.com
+// @connect      springfieldmo.gov
 // @connect      starkcountyohio.gov
 // @connect      stclairco.com
+// @connect      stlouis-mo.gov
 // @connect      stlouisco.com
 // @connect      stlouiscountymn.gov
 // @connect      suffolkcountyny.gov
+// @connect      summitcountyco.gov
 // @connect      summitoh.net
 // @connect      sumtercountysc.org
+// @connect      sussexcountyde.gov
 // @connect      talbgov.org
 // @connect      tampagov.net
+// @connect      tazewell.com
 // @connect      tgisites.com
 // @connect      thempc.org
 // @connect      thomsonreuters.com
@@ -377,6 +436,7 @@
 // @connect      williamsoncounty-tn.gov
 // @connect      wilsontngis.com
 // @connect      wisconsin.gov
+// @connect      wiu.edu
 // @connect      worldviewsolutions.com
 // @connect      wvu.edu
 // @connect      wy.gov
@@ -454,6 +514,23 @@
         labelYOffset: 10,
         pointRadius: 2,
         fontSize: 10
+    };
+
+    let _regexReplace = {
+        // Strip leading zeros or blank full label for any label starting with a non-digit or is a Zero Address, use with '' as replace.
+        r0: /^(0+(\s.*)?|\D.*)/,
+        // Strip Everything After Street Type to end of the string by use $1 and $2 capture groups, use with replace '$1$2'
+        r1: /^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi,
+        // Strip SPACE 5 Digits from end of string, use with replace ''
+        r2: /\s\d{5}$/,
+        // Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
+        r3: /(~|,|;).*$/,
+        // Move the digits after the last space to before the rest of the string using, us with replace '$2 $1'
+        r4: /^(.*)\s(\d+).*/,
+        // Insert newline between digits (including "-") and everything after the digits, except (and before) a ",", use with replace '$1\n$2'
+        r5: /^([-\d]+)\s+([^,]+).*/,
+        // Insert newline between digits and everything after the digits, use with replace '$1\n$2'
+        r6: /^(\d+)\s+(.*)/,
     };
 
     let _gisLayers = [
@@ -901,7 +978,7 @@
          id: 'ar-ashley-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ashley_County/Vector/MapServer/16',
          labelFields: ['Ashley.DBO.Ashley_CAMA_PRMF.Street_Number','Ashley.DBO.Ashley_CAMA_PRMF.Street_Dir','Ashley.DBO.Ashley_CAMA_PRMF.Street_Name','Ashley.DBO.Ashley_CAMA_PRMF.Street_Type','Ashley.DBO.Ashley_CAMA_PRMF.Street_Type_Suffix'],
-         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -916,7 +993,7 @@
          id: 'ar-benton-co-parcels',
          url: 'http://gis.bentoncountyar.gov/arcgis/rest/services/Basemaps/Cadastral/MapServer/14',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -931,7 +1008,7 @@
          id: 'ar-bryant-city-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/BryantCity/Bryant_Master_Map1/MapServer/69',
          labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -974,7 +1051,7 @@
          id: 'ar-craighead-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Craighead/Vector/MapServer/9',
          labelFields: ['Craighead.DBO.Craighead_CAMA.PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -982,7 +1059,7 @@
          id: 'ar-craighead-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Craighead/Vector/MapServer/16',
          labelFields: ['Craighead.DBO.Craighead_CAMA.PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -990,7 +1067,7 @@
          id: 'ar-desha-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Desha_County/Vector/MapServer/8',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -998,7 +1075,7 @@
          id: 'ar-desha-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Desha_County/Vector/MapServer/14',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1006,7 +1083,7 @@
          id: 'ar-drew-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Drew_County/Vector/MapServer/7',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1014,7 +1091,7 @@
          id: 'ar-drew-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Drew_County/Vector/MapServer/13',
          labelFields: ['drew.DBO.DREW_PRMF.Street_Number','drew.DBO.DREW_PRMF.Street_Dir','drew.DBO.DREW_PRMF.Street_Name','drew.DBO.DREW_PRMF.Street_Type','drew.DBO.DREW_PRMF.Street_Type_Suffix'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1029,7 +1106,7 @@
          id: 'ar-faulkner-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Faulkner_County/Vector/MapServer/6',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1037,7 +1114,7 @@
          id: 'ar-grant-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/0',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1059,7 +1136,7 @@
          id: 'ar-howard-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Howard_County/Howard_Vector/MapServer/22',
          labelFields: ['Howard.DBO.HowardCama_GISOut.PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1088,7 +1165,7 @@
          id: 'ar-hot-springs-village-city-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/62',
          labelFields: ['PhyAddress'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1103,7 +1180,7 @@
          id: 'ar-johnson-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Johnson_County/Johnson_County_Vector/MapServer/14',
          labelFields: ['Johnson.DBO.Johnson_CAMA_GISOut.PH_ADD'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1111,7 +1188,7 @@
          id: 'ar-lincoln-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lincoln_County/VectorAssessor/MapServer/6',
          labelFields: ['ADR_NUM','NUM_SUF','FULNAM'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1119,7 +1196,7 @@
          id: 'ar-lincoln-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lincoln_County/VectorAssessor/MapServer/13',
          labelFields: ['Street_Num','Street_Dir','Street_Nam','Street_Typ'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1127,7 +1204,7 @@
          id: 'ar-lonoke-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lonoke/Lonoke_Vector/MapServer/0',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1135,7 +1212,7 @@
          id: 'ar-lonoke-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Lonoke/Lonoke_Vector/MapServer/12',
          labelFields: ['Lonoke.DBO.PADM.SNUM','Lonoke.DBO.PADM.SDIR','Lonoke.DBO.PADM.SSTR','Lonoke.DBO.PADM.SSTP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1150,7 +1227,7 @@
          id: 'ar-north-little-rock-city-parcels',
          url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/46',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1165,7 +1242,7 @@
          id: 'ar-ouachita-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/18',
          labelFields: ['Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Number','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Dir','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Name','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type_Suffix'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1180,7 +1257,7 @@
          id: 'ar-pike-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Pike_County/Pike_Vector/MapServer/15',
          labelFields: ['Pike.DBO.Pike_PADM.SNUM','Pike.DBO.Pike_PADM.SDIR','Pike.DBO.Pike_PADM.SSTR','Pike.DBO.Pike_PADM.SSTP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1195,7 +1272,7 @@
          id: 'ar-poinsett-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Poinsett_County/Vector/MapServer/18',
          labelFields: ['Poinsett.DBO.PADM.SNUM','Poinsett.DBO.PADM.SDIR','Poinsett.DBO.PADM.SSTR','Poinsett.DBO.PADM.SSTP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1210,7 +1287,7 @@
          id: 'ar-pulaski-co-parcels',
          url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/40',
          labelFields: ['PH_ADD'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1225,7 +1302,7 @@
          id: 'ar-saline-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/23',
          labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_RD_NUM','Saline2.DBO.SalineCo_CAMA.PH_PRE_DIR','Saline2.DBO.SalineCo_CAMA.PH_RD_NAM','Saline2.DBO.SalineCo_CAMA.PH_RD_TYP'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1233,7 +1310,7 @@
          id: 'ar-sheridan-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/1',
          labelFields: ['ADR_NUM','PPRE_DIR','PSTR_NAM','PSTR_TYPE','PSUF_DIR'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1241,7 +1318,7 @@
          id: 'ar-tull-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/2',
          labelFields: ['ADR_NUM','PSTR_FULNAM'],
-         processLabel: function(label) { return label.replace(/^\D.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
          style: DEFAULT_PT_STYLE},
 
@@ -1372,6 +1449,42 @@
         // Colorado
         // ***********************************
 
+        {name: 'Adams Co - Address Points',
+         id: 'co-adams-co-points',
+         url: 'https://gisapp.adcogov.org/arcgis/rest/services/AdamsCountyBasic/MapServer/32',
+         labelFields: ['ADDR_FULL'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Adams Co - Parcels',
+         id: 'co-adams-co-parcels',
+         url: 'https://gisapp.adcogov.org/arcgis/rest/services/AdamsCountyBasic/MapServer/33',
+         labelFields: ['CONCATADDR1'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alamosa Co - Parcels',
+         id: 'co-alamosa-co-parcels',
+         url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/AlamosaParcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Arapahoe Co - Address Points',
+         id: 'co-arapahoe-co-points',
+         url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/3',
+         labelFields: ['Full_Address'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Arapahoe Co - Parcels',
+         id: 'co-arapahoe-co-parcels',
+         url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/158',
+         labelFields: ['Situs_Address'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Archuleta Co - Parcels',
          id: 'co-archuleta-co-parcels',
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/Parcels/FeatureServer/0',
@@ -1379,17 +1492,232 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Fremont Co - Address Points',
+        {name: 'Aspen - City Address Points',
+         id: 'co-aspen-city-points',
+         url: 'https://gismap.cityofaspen.com/astro/rest/services/MapAspen/MapAspenNoAnno/MapServer/50',
+         labelFields: ['ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Aspen - City Parcels',
+         id: 'co-aspen-city-parcels',
+         url: 'https://gismap.cityofaspen.com/astro/rest/services/MapAspen/MapAspenNoAnno/MapServer/55',
+         labelFields: ['SITUS_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Boulder Co - Address Points',
+         id: 'co-boulder-co-points',
+         url: 'http://maps.bouldercounty.org/arcgis/rest/services/PARCELS/ADDRESS_POINTS/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Boulder Co - Parcels',
+         id: 'co-boulder-co-parcels',
+         url: 'http://maps.bouldercounty.org/arcgis/rest/services/PARCELS/PARCELS_OWNER/MapServer/0',
+         labelFields: ['SITE_STR_NUM','SITE_STR_UNIT','SITE_STR_PFX','SITE_STREET','SITE_STR_SFX'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Broomfield Co - Address Points',
+         id: 'co-broomfield-co-points',
+         url: 'http://gis.broomfield.org/ArcGIS/rest/services/Assessor/Subdivisions_Parcels_2D/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Broomfield Co - Parcels',
+         id: 'co-broomfield-co-parcels',
+         url: 'http://gis.broomfield.org/ArcGIS/rest/services/Assessor/Subdivisions_Parcels_2D/MapServer/1',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Colorado Springs - City Address Points',
+         id: 'co-colorado-springs-city-points',
+         url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/122',
+         labelFields: ['STREET','SUBADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Colorado Springs - City Parcels',
+         id: 'co-colorado-springs-city-parcels',
+         url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/2',
+         labelFields: ['MAINADDRES'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Commerce City - City Address Points',
+         id: 'co-commerce-city-city-points',
+         url: 'http://63.238.120.156/arcgis/rest/services/OpenData/AddressPoints/MapServer/0',
+         labelFields: ['ADDR_HN','SUBADDR_TYPE','SUBADDR_UNIT','ADDR_PD','ADDR_SN','ADDR_ST','ADDR_SD'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Commerce City - City Parcels',
+         id: 'co-commerce-city-city-parcels',
+         url: 'http://63.238.120.156/arcgis/rest/services/OpenData/Parcel/MapServer/0',
+         labelFields: ['ADDR_COMPLETE'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Conejos Co - Parcels',
+         id: 'co-conejos-co-parcels',
+         url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/ConejosParcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Costilla Co - Parcels',
+         id: 'co-costilla-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/CostillaCOFeatures/FeatureServer/2',
+         labelFields: ['GIS_Site_Address'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Delta Co - Address Points',
+         id: 'co-delta-co-points',
+         url: 'http://maps.deltacounty.com/arcgis/rest/services/PARCEL_MAP_B_SERVICE/MapServer/0',
+         labelFields: ['Full_Address'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Delta Co - Parcels',
+         id: 'co-delta-co-parcels',
+         url: 'http://maps.deltacounty.com/arcgis/rest/services/PARCEL_MAP_B_SERVICE/MapServer/9',
+         labelFields: ['Full_Add'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Denver Co - Parcels',
+         id: 'co-denver-co-parcels',
+         url: 'https://services.arcgis.com/ue9rwulIoeLEI9bj/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['SITUS_AD_1'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Douglas Co - Address Points',
+         id: 'co-douglas-co-points',
+         url: 'https://apps.douglas.co.us/arcgis/rest/services/Parcels/AddressPoints_WM/MapServer/1',
+         labelFields: ['ADDRESS_SEARCH.STREET_NAME_FULL'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Douglas Co - Parcels (no labels)',
+         id: 'co-douglas-co-parcels',
+         url: 'https://apps.douglas.co.us/arcgis/rest/services/Parcels/Parcels_WM_Dynamic/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Eagle Co - Address Points',
+         id: 'co-eagle-co-points',
+         url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Address_ForLabel/MapServer/0',
+         labelFields: ['Address'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Eagle Co - Parcels (no labels)',
+         id: 'co-eagle-co-parcels',
+         url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Parcel_Viewer/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+/*        {name: 'Fremont Co - Address Points',
          id: 'co-fremont-co-pts',
          url: 'http://fremontgis.com/arcgis_102/rest/services/FremontCO_GIS_Layers/MapServer/160',
          labelFields: ['GL_ADR_FUL'],
          state: 'CO',
          style: DEFAULT_PT_STYLE},
+Not a valid Address Point Layer
+*/
 
         {name: 'Fremont Co - Parcels',
          id: 'co-fremont-co-parcels',
          url: 'http://fremontgis.com/arcgis_102/rest/services/parcels/MapServer/0',
          labelFields: ['SITE_ADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Garfield Co - Parcels',
+         id: 'co-garfield-co-parcels',
+         url: 'http://gis.garfield-county.com/arcgis/rest/services/Development/GC_ParcelsNew/MapServer/0',
+         labelFields: ['PHYSADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Gilpin Co - Address Points',
+         id: 'co-gilpin-co-points',
+         url: 'https://data1.digitaldataservices.com/arcgis/rest/services/GilpinCounty/Gilpin_ParcelOverlay/MapServer/0',
+         labelFields: ['fulladdr'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Gilpin Co - Parcels',
+         id: 'co-gilpin-co-parcels',
+         url: 'https://data1.digitaldataservices.com/arcgis/rest/services/GilpinCounty/Gilpin_ParcelOverlay/MapServer/3',
+         labelFields: ['gilpin.sde.AssessorTaxRoll.siteaddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Grand Co - Address Points',
+         id: 'co-grand-co-points',
+         url: 'http://grandgis.com/arcgis/rest/services/gcAddressPoints/MapServer/0',
+         labelFields: ['STR_NUM','ST_PDIR','ROAD_NAME'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Grand Co - Parcels',
+         id: 'co-grand-co-parcels',
+         url: 'http://grandgis.com/arcgis/rest/services/ParcelsNew/MapServer/0',
+         labelFields: ['GIS_ADD'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Jefferson Co - Address Points',
+         id: 'co-jefferson-co-points',
+         url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Address/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'co-jefferson-co-parcels',
+         url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Parcel/MapServer/0',
+         labelFields: ['PRPADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Parcels',
+         id: 'co-lake-co-parcels',
+         url: 'https://services1.arcgis.com/38PTfoP8IjlBsxZN/ArcGIS/rest/services/LC_Parcels/FeatureServer/0',
+         labelFields: ['PASHOUSE','PASST','PASSNAM'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'La Plata Co - Address Points',
+         id: 'co-la-plata-co-pts',
+         url: 'http://lpcgis.laplata.co.us/arcgis/rest/services/Map_LayersJSC/MapServer/75',
+         labelFields: ['PROPERTY_A'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'La Plata Co - Parcels',
+         id: 'co-la-plata-co-parcels',
+         url: 'http://lpcgis.laplata.co.us/arcgis/rest/services/Map_LayersJSC/MapServer/77',
+         labelFields: ['SITE_ADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -1407,6 +1735,220 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Las Animas Co - Address Points',
+         id: 'co-las-animas-co-points',
+         url: 'https://services7.arcgis.com/NWWOCaXnjdetEWUz/ArcGIS/rest/services/Las_Animas_County_GIS/FeatureServer/4',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Las Animas Co - Parcels',
+         id: 'co-las-animas-co-parcels',
+         url: 'https://services7.arcgis.com/NWWOCaXnjdetEWUz/ArcGIS/rest/services/Las_Animas_County_GIS/FeatureServer/5',
+         labelFields: ['FullAddress'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Logan Co - Parcels',
+         id: 'co-logan-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/LoganCOFeatures/FeatureServer/2',
+         labelFields: ['GIS_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mesa Co - Parcels',
+         id: 'co-mesa-co-parcels',
+         url: 'https://mcgis.mesacounty.us/arcgis/rest/services/maps/ParcelOnly4Query/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mineral Co - Parcels',
+         id: 'co-mineral-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MineralCOFeatures/FeatureServer/1',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montezuma Co - Address Points',
+         id: 'co-montezuma-co-points',
+         url: 'http://gis-server.co.montezuma.co.us/arcgis/rest/services/Address_Verification_Viewer/MapServer/0',
+         labelFields: ['StreetNo','StreetDir','StreetName','StreetSuf','StDirSuffx'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Montezuma Co - Parcels',
+         id: 'co-montezuma-co-parcels',
+         url: 'http://gis-server.co.montezuma.co.us/arcgis/rest/services/Address_Verification_Viewer/MapServer/1',
+         labelFields: ['LOCATIONADDRESS'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Montrose Co - Address Points',
+         id: 'co-montrose-co-points',
+         url: 'https://mcmap2.montrosecounty.net/arcgis/rest/services/MontroseCOaddress/MapServer/0',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Montrose Co - Parcels',
+         id: 'co-montrose-co-parcels',
+         url: 'https://mcmap2.montrosecounty.net/arcgis/rest/services/MontroseCOparcellabels/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Morgan Co - Parcels',
+         id: 'co-morgan-co-parcels',
+         url: 'https://services6.arcgis.com/iSzqv8eal4TO2oVb/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Otero Co - Parcels',
+         id: 'co-otero-co-parcels',
+         url: 'https://services3.arcgis.com/iHv2akjE3QDYWb0T/ArcGIS/rest/services/esri_OteroParcels_2018/FeatureServer/0',
+         labelFields: ['PRCLADRS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1').replace(/^LAND\s.*/, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Park Co - Address Points',
+         id: 'co-park-co-points',
+         url: 'http://maps.parkco.us/arcgis/rest/services/Addressing/Public_Addressing_Search/MapServer/0',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Park Co - Parcels (no label)',
+         id: 'co-park-co-parcels',
+         url: 'http://maps.parkco.us/arcgis/rest/services/basemaps/Parcels_Main/MapServer/4',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pitkin Co - Parcels (no labels)',
+         id: 'co-pitkin-co-parcels',
+         url: 'https://maps.pitkincounty.com/arcgis/rest/services/Projects/AssessorsParcels/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Pueblo Co - Address Points',
+         id: 'co-pueblo-co-points',
+         url: 'http://maps.co.pueblo.co.us/outside/rest/services/pueblo_county_address_points/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pueblo Co - Parcels (no labels)',
+         id: 'co-pueblo-co-parcels',
+         url: 'http://maps.co.pueblo.co.us/outside/rest/services/pueblo_county_parcels/MapServer/1',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rio Blanco Co - Address Points',
+         id: 'co-rio-blanco-co-points',
+         url: 'https://services1.arcgis.com/pfZ4YwxhgKucWn2S/ArcGIS/rest/services/RioBlancoCOfeatures/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rio Blanco Co - Parcels',
+         id: 'co-rio-blanco-co-parcels',
+         url: 'https://services1.arcgis.com/pfZ4YwxhgKucWn2S/ArcGIS/rest/services/RioBlancoCOfeatures/FeatureServer/17',
+         labelFields: ['STREETNO','STREETNAME'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rio Grande Co - Parcels (no labels)',
+         id: 'co-rio-grande-co-parcels',
+         url: 'http://maps.co.pueblo.co.us/outside/rest/services/riogrande/riogrande_county_parcels/MapServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Routt Co - Address Points',
+         id: 'co-routt-co-points',
+         url: 'http://maps.co.routt.co.us/arcgis/rest/services/PublicData/AddressPoints/MapServer/0',
+         labelFields: ['Label'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Routt Co - Parcels',
+         id: 'co-routt-co-parcels',
+         url: 'http://maps.co.routt.co.us/arcgis/rest/services/PublicData/Parcels/MapServer/0',
+         labelFields: ['PhysicalAddress'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Saguache Co - Parcels (no labels)',
+         id: 'co-saguache-co-parcels',
+         url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/SaguacheParcels/FeatureServer/0',
+         labelFields: [],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Miguel Co - Address Points',
+         id: 'co-san-miguel-co-points',
+         url: 'https://maps.sanmiguelcountyco.gov/gis/rest/services/public/property_new/MapServer/0',
+         labelFields: ['FSA'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'San Miguel Co - Parcels',
+         id: 'co-san-miguel-co-parcels',
+         url: 'https://maps.sanmiguelcountyco.gov/gis/rest/services/public/property_new/MapServer/2',
+         labelFields: ['STREETADDR'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Sedgwick Co - Address Points',
+         id: 'co-sedgwick-co-points',
+         url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/1',
+         labelFields: ['Address_Nu','Direction','Street','Suffix'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sedgwick Co - Parcels',
+         id: 'co-sedgwick-co-parcels',
+         url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/3',
+         labelFields: ['Situs_Addr'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Summit Co - Parcels',
+         id: 'co-summit-co-parcels',
+         url: 'https://gis.summitcountyco.gov/arcgis/rest/services/ParcelQueryTool/SummitMap1_v10/MapServer/0',
+         labelFields: ['TextString'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+         {name: 'Teller Co - Address Points',
+         id: 'co-teller-co-points',
+         url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Property/MapServer/5',
+         labelFields: ['STREET'],
+         state: 'CO',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Teller Co - Parcels',
+         id: 'co-teller-co-parcels',
+         url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['Teller_County.SDE.PARCEL.SITUSSTNUM','Teller_County.SDE.PARCEL.STRNAME'],
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Yuma Co - Parcels',
+         id: 'co-yuma-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/YumaCOFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'CO',
+         style: DEFAULT_PARCEL_STYLE},
 
         // Connecticut
         // ***********************************
@@ -1417,6 +1959,52 @@
          labelFields: ['ParcelAddress1'],
          state: 'CT',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // Delaware
+        // ************************************
+
+        {name: 'New Castle Co - Parcels',
+         id: 'de-new-castle-co-parcels',
+         url: 'https://gis.nccde.org/agsserver/rest/services/BaseMaps/BaseLayers/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'DE',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Castle Co - Address Points',
+         id: 'de-new-castle-co-points',
+         url: 'https://gis.nccde.org/agsserver/rest/services/BaseMaps/Addresses/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'DE',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kent Co - Parcels',
+         id: 'de-kent-co-parcels',
+         url: 'http://co.kent.de.us/arcgis/rest/services/KentCountyParcels/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'DE',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kent Co - Address Points',
+         id: 'de-kent-co-points',
+         url: 'http://co.kent.de.us/arcgis/rest/services/Structure/MapServer/0',
+         labelFields: ['FullAddr'],
+         state: 'DE',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sussex Co - Parcels (no data)',
+         id: 'de-sussex-co-parcels',
+         url: 'https://maps.sussexcountyde.gov/gis/rest/services/County_Layers/ParcelLines/MapServer/0',
+         labelFields: [''],
+         state: 'DE',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sussex Co - Address Points',
+         id: 'de-sussex-co-points',
+         url: 'https://maps.sussexcountyde.gov/gis/rest/services/County_Layers/911Addresses/MapServer/0',
+         labelFields: ['Address'],
+         state: 'DE',
+         style: DEFAULT_PT_STYLE},
 
 
         // District of Columbia
@@ -1545,6 +2133,20 @@
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Coral Springs - City Address Points',
+         id: 'fl-coral-springs-city-points',
+         url: 'https://springsgis.coralsprings.org/arcgis/rest/services/DMZ/DMZ_BCPA_Lookup/MapServer/10',
+         labelFields: ['SiteAddr'],
+         state: 'FL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Coral Springs - City Parcels (no labels)',
+         id: 'fl-coral-springs-city-parcels',
+         url: 'https://springsgis.coralsprings.org/arcgis/rest/services/DMZ/DMZ_BCPA_Lookup/MapServer/5',
+         labelFields: [],
+         state: 'FL',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Duval Co - Parcels',
          id: 'fl-duval-co-parcels',
          url: 'http://maps.coj.net/coj/rest/services/CityBiz/ParcelsProd/MapServer/0',
@@ -1569,7 +2171,7 @@
         {name: 'Ft. Walton Beach - City Addr Points',
          id: 'fl-ft-walton-beach-co-pts',
          url: 'https://gis.fwb.org/arcgis/rest/services/Maps/Addresses/MapServer/1',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          labelFields: ['SITE_ADDR'],
          state: 'FL',
          style: DEFAULT_PT_STYLE},
@@ -1640,7 +2242,7 @@
         {name: 'Lake Co - Parcels',
          id: 'fl-lake-co-parcels',
          url: 'https://gis.lakecountyfl.gov/lakegis/rest/services/InteractiveMap/MapServer/20',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          labelFields: ['PropertyAddress'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
@@ -1663,7 +2265,7 @@
          id: 'fl-manatee-co-pts',
          url: 'https://www.mymanatee.org/arcgis01/rest/services/commonoperational/addresslabels/MapServer/0',
          labelFields: ['FULL_ADDRESS_POSTAL'],
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
@@ -1733,7 +2335,7 @@
         {name: 'Okaloosa Co - Address Points',
          id: 'fl-okaloosa-co-pts',
          url: 'http://webgis.okaloosafl.com/webgis/proxy/proxy.ashx?http://204.49.20.72/arcgis/rest/services/internet_webgis/MapServer/24',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          labelFields: ['SITE_ADDR'],
          state: 'FL',
          style: DEFAULT_PT_STYLE},
@@ -1832,7 +2434,7 @@
         {name: 'Port Orange - City Parcels',
          id: 'fl-port-orange-city-parcels',
          url: 'http://gisweb.port-orange.org:6080/arcgis/rest/services/Services/PARCEL_POLYGONS/MapServer/0',
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          labelFields: ['SITUS_ADDR'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
@@ -1841,7 +2443,7 @@
          id: 'fl-putnam-co-pts',
          url: 'http://gis.putnam-fl.com/putgis/rest/services/Operational/ParcelsPlus/MapServer/0',
          labelFields: ['FULLADDR'],
-         processLabel: function(label) { return label.replace(/,.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
@@ -2246,7 +2848,7 @@
          id: 'id-ada-co-parcels',
          url: 'http://www.adacountyassessor.org/arcgis/rest/services/External/ExternalMap/MapServer/24',
          labelFields: ['PROP_ADD'],
-         processLabel: function(label) { return label.replace(/,.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
          state: 'ID',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2510,10 +3112,100 @@
         // Illinois
         // ************************************
 
+        {name: 'Adams Co - Parcels',
+         id: 'il-adams-co-parcels',
+         url: 'https://www.adamscountyarcserver.com/adamscountyarcserver/rest/services/Adams_County_Basemap_Complete/MapServer/14',
+         labelFields: ['SITE_AD'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Adams Co - Address Points',
+         id: 'il-adams-co-pts',
+         url: 'https://www.adamscountyarcserver.com/adamscountyarcserver/rest/services/Adams_County_Basemap_Complete/MapServer/1',
+         labelFields: ['PRIMNO','PREDIR','STNAME','SUFFIX','POSTDIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Alexander Co - No GIS
+        // Bond Co - No GIS
+
+        {name: 'Boone Co - Parcels',
+         id: 'il-boone-co-parcels',
+         url: 'http://maps.boonecountyil.org/arcgis/rest/services/Ownership_Parcels/MapServer/0',
+         labelFields: ['add_full'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Boone Co - Address Points',
+         id: 'il-boone-co-pts',
+         url: 'http://maps.boonecountyil.org/arcgis/rest/services/Address_Labels/MapServer/0',
+         labelFields: ['Full_Address'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Brown Co - No GIS
+        // Bureau Co - No GIS
+        // Calhoun Co - No GIS
+        // Carroll Co - No GIS, $$$
+        // Cass Co - qPublic
+
+        {name: 'Champaign Co - Parcels (no data)',
+         id: 'il-champaign-co-parcels',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/ArcGISOnline/AGO_TaxParcels/Mapserver/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Champaign Co - Address Points',
+         id: 'il-champaign-co-pts',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/ArcGISOnline/AddressPoints/Mapserver/0',
+         labelFields: ['StreetAddress'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Christian Co - Parcels',
+         id: 'il-christian-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_christian_co_il_taxmap/MapServer/0',
+         labelFields: ['SiteAddres'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Christian Co - Address Points - Not found
+
+        {name: 'Clark Co - Parcels',
+         id: 'il-clark-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ClarkILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Clark Co - Address Points - Not found
+
+        {name: 'Clay Co - Parcels',
+         id: 'il-clay-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ClayILFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Clay Co - Address Points - Not found
+
+        {name: 'Clinton Co - Parcels',
+         id: 'il-clinton-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ClintonILFeatures/FeatureServer/1',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Clinton Co - Address Points - Not found
+
+        // Coles Co - Parcels - Unreliable address data
+        // Coles Co - Address Points - Not found
+
         {name: 'Cook Co - Parcels',
          id: 'il-cook-co-parcels',
          url: 'https://gis1.cookcountyil.gov/arcgis/rest/services/cookVwrDynmc/MapServer/44',
-         labelFields: [''],
+         labelFields: ['HouseNo','Dir','Street','Suffix'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2524,10 +3216,247 @@
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Crawford Co - Parcels',
+         id: 'il-crawford-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/CrawfordILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Crawford Co - Address Points - Not found
+
+        {name: 'Cumberland Co - Parcels',
+         id: 'il-cumberland-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_cumberland_co_il_gismap/MapServer/0',
+         labelFields: ['SITEADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Cumberland Co - Address Points - Not found
+
+        {name: 'DeWitt Co - Parcels',
+         id: 'il-dewitt-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/DeWittILFeatures/FeatureServer/5',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // DeWitt Co - Address Points - Not found
+
+        // DeKalb Co - Compass GIS
+
+        {name: 'Douglas Co - Parcels',
+         id: 'il-douglas-co-parcels',
+         url: 'https://douglasil.com/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Douglas Co - Address Points',
+         id: 'il-douglas-co-pts',
+         url: 'https://douglasil.com/arcgis/rest/services/911Addresses/MapServer/0',
+         labelFields: ['House','Dir','Street','Suffix'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'DuPage Co - Parcels',
          id: 'il-dupage-co-parcels',
          url: 'http://gis.dupageco.org/arcgis/rest/services/DuPage_County_IL/ParcelsWithRealEstateCC/MapServer/0',
          labelFields: ['PROPADDRL1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'DuPage Co - Address Points',
+         id: 'il-dupage-co-pts',
+         url: 'http://gis.dupageco.org/arcgis/rest/services/DuPage_County_IL/AddressPointsUnderDevelopment/MapServer/0',
+         labelFields: ['STREET_NUM','STREET_NAME','STREET_TYPE','STREET_SUFFIX_DIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Edgar Co - Parcels',
+         id: 'il-edgar-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_edgar_co_il_taxmap_PAT_CIC/MapServer/0',
+         labelFields: ['PropertyAddress1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Fayette Co - Address Points - Not found
+
+        // Edwards Co - No GIS
+
+        {name: 'Effingham Co - Parcels',
+         id: 'il-effingham-co-parcels',
+         url: 'https://services.arcgis.com/vj0V9Lal6oiz0YXp/ArcGIS/rest/services/Features/FeatureServer/3',
+         labelFields: ['SiteAddress','SiteCSZ'],
+         processLabel: function(label) { return label.replace(new RegExp((label.match(/ \d{5} (.*)/))[1],'g'),'').trim(); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Effingham Co - Address Points - Not found
+
+        {name: 'Fayette Co - Parcels',
+         id: 'il-fayette-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/FayetteILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Fayette Co - Address Points - Not found
+
+        {name: 'Ford Co - Parcels',
+         id: 'il-ford-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/FordILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Ford Co - Address Points - Not found
+
+        {name: 'Franklin Co - Parcels',
+         id: 'il-franklin-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/FranklinILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Franklin Co - Address Points - Not found
+
+        {name: 'Fulton Co - Parcels',
+         id: 'il-fulton-co-parcels',
+         url: 'https://services7.arcgis.com/O9Z7JkIFFJ6nOIIq/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Fulton Co - Address Points - Not found
+
+        // Gallatin Co - No GIS
+        // Greene Co - No GIS
+
+        {name: 'Grundy Co - Parcels',
+         id: 'il-grundy-co-parcels',
+         url: 'http://maps.grundyco.org/arcgis/rest/services/CountyWebsiteMaps/CountyParcelsBaseLayer_ParcelFabric_SPIE/MapServer/0',
+         labelFields: ['GrundyParcels.dbo.GISParcelsLegalDescriptionIncluded.SitusAddr1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Grundy Co - Address Points - Not found
+
+        {name: 'Hamilton Co - Parcels',
+         id: 'il-hamilton-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/HamiltonILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Hamilton Co - Address Points - Not found
+
+        // Hancock Co - No GIS
+        // Hardon Co - No GIS
+        // Henderson Co - No GIS
+
+        {name: 'Henry Co - Parcels',
+         id: 'il-henry-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/HenryILFeatures/FeatureServer/7',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Henry Co - Address Points - Not found
+
+        {name: 'Iroquois Co - Parcels (bad data)',
+         id: 'il-iroquois-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_Iroquois_co_il_taxmap_PAT/MapServer/146',
+         labelFields: ['site_address'], //address information is imperfect
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Iroquois Co - Address Points - Not found
+
+        {name: 'Jackson Co - Parcels',
+         id: 'il-jackson-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_jackson_co_il_taxmap/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Jackson Co - Address Points - Not found
+
+        // Jasper Co - No GIS
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'il-jefferson-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/JeffersonILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Jefferson Co - Address Points - Not found
+
+        {name: 'Jersey Co - Parcels',
+         id: 'il-jersey-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/JerseyILFeatures/FeatureServer/6',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Jersey Co - Address Points - Not found
+
+        // Jo Daviess County - No data $$$
+        // Johnson Co - No GIS
+
+        {name: 'Kane Co - Parcels',
+         id: 'il-kane-co-parcels',
+         url: 'http://gistech.countyofkane.org/DotNet2/proxy.ashx?http://gistech.countyofkane.org/ArcGIS/rest/services/KaneGISx/MapServer/13',
+         labelFields: ['SiteAddres'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kane Co - Address Points',
+         id: 'il-kane-co-pts',
+         url: 'http://gistech.countyofkane.org/DotNet2/proxy.ashx?http://gistech.countyofkane.org/ArcGIS/rest/services/KaneGISx/MapServer/9',
+         labelFields: ['FULL_ADR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kankakee Co - Parcels',
+         id: 'il-kankakee-co-parcels',
+         url: 'http://k3gis.com:6080/arcgis/rest/services/Cadastral/Subdivisions_TaxParcels/MapServer/0',
+         labelFields: ['site_addr'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kankakee Co - Address Points',
+         id: 'il-kankakee-co-pts',
+         url: 'http://k3gis.com:6080/arcgis/rest/services/Cadastral/Address_Points/MapServer/0',
+         labelFields: ['house_number','house_number_suffix','prefix_directional','street_name','street_suffix','post_directional'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kendall Co - Parcels',
+         id: 'il-kendall-co-parcels',
+         url: 'http://gis.co.kendall.il.us/arcgis/rest/services/CADASTRAL/parcels_pub/MapServer/0',
+         labelFields: ['KENDGIS.DBO.GIS_DATA.site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kendall Co - Structures',
+         id: 'il-kendall-co-structures',
+         url: 'http://gis.co.kendall.il.us/arcgis/rest/services/BASEMAPS/CADBase_pub/MapServer/0',
+         labelFields: ['ADDRESS_WHOLE'],
+         state: 'IL',
+         style: DEFAULT_STRUCTURE_STYLE},
+
+        {name: 'Kendall Co - Address Points',
+         id: 'il-kendall-co-pts',
+         url: 'http://gis.co.kendall.il.us/arcgis/rest/services/911/Site_Address_pub/MapServer/0',
+         labelFields: ['HOUSE_NUMB','HOUSE_NU_1','PREFIX_DIR','STREET_NAM','STREET_SUF','POST_DIREC'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Knox Co - Parcels',
+         id: 'il-knox-co-parcels',
+         url: 'http://gis.co.knox.il.us/arcgis/rest/services/Test_1/Parcel_service_V4/MapServer/10',
+         labelFields: ['GIS_Table.dbo.gis_data.site_addr'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Knox Co - Address Points - Not found
+
+        {name: 'Lake Co - Parcels',
+         id: 'il-lake-co-parcels',
+         url: 'https://maps.lakecountyil.gov/arcgis/rest/services/GISMapping/WABParcels/MapServer/2',
+         labelFields: ['pla_number','pla_numsuf','pla_direct','pla_name','pla_type','pla_suffix'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2538,6 +3467,186 @@
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'LaSalle Co - Parcels',
+         id: 'il-lasalle-co-parcels',
+         url: 'http://131.156.137.22/arcgis/rest/services/Lasalle_IL_PAT_TaxMap/MapServer/142',
+         labelFields: ['SiteAddress'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // LaSalle Co - Address Points - Not found
+
+        {name: 'Lawrence Co - Parcels',
+         id: 'il-lawrence-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_lawrence_co_il_taxmap/MapServer/0',
+         labelFields: ['location'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // LaSalle Co - Address Points - Not found
+
+        {name: 'Lee Co - Parcels',
+         id: 'il-lee-co-parcels',
+         url: 'https://gis.leecountyil.com/server/rest/services/Parcel_Polygons/MapServer/0',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lee Co - Address Points',
+         id: 'il-lee-co-pts',
+         url: 'https://gis.leecountyil.com/server/rest/services/Addresses/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Livingston Co - No GIS
+
+        {name: 'Logan Co - Parcels',
+         id: 'il-logan-co-parcels',
+         url: 'http://www.centralilmaps.com/arcgis/rest/services/Logan_Flex_Property/MapServer/4',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Logan Co - Address Points - Not found
+
+        {name: 'Macon Co - Parcels',
+         id: 'il-macon-co-parcels',
+         url: 'http://macongis.co.macon.il.us/arcgis/rest/services/ParcelViewer/Parcels/MapServer/0',
+         labelFields: ['SiteAddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Macon Co - Address Points',
+         id: 'il-macon-co-pts',
+         url: 'http://macongis.co.macon.il.us/arcgis/rest/services/AGOL/Addresses/MapServer/0',
+         labelFields: ['HOUSE_NUMBER','PRE_DIR','STREET_NAME','STREET_TYPE','SUF_ST_DIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Macoupin Co - Parcels',
+         id: 'il-macoupin-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_macoupin_co_il_taxmap/MapServer/0',
+         labelFields: ['Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Macoupin Co - Address Points - Not found
+
+        // Madison Co - ArcGIS - password protected data
+
+        {name: 'Marion Co - Parcels',
+         id: 'il-marion-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/MarionILFeatures/FeatureServer/6',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Marion Co - Address Points - Not found
+
+        // Marshall Co - No GIS
+        // Mason Co - WTH
+
+        {name: 'Massac Co - Parcels',
+         id: 'il-massac-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_massac_co_il_taxmap/MapServer/0',
+         labelFields: ['Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Massac Co - Address Points',
+         id: 'il-massac-co-pts',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_massac_co_il_gis/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'McDonough Co - Parcels',
+         id: 'il-mcdonough-co-parcels',
+         url: 'http://gis.wiu.edu/arcgis/rest/services/mcdonough_highway/MapServer/21',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McDonough Co - Address Points',
+         id: 'il-mcdonough-co-pts',
+         url: 'http://gis.wiu.edu/arcgis/rest/services/mcdonough_highway/MapServer/0',
+         labelFields: ['FULL_ADD'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'McHenry Co - Parcels',
+         id: 'il-mchenry-co-parcels',
+         url: 'http://www.mchenrycountygis.org/arcgis/rest/services/parcels/MapServer/0',
+         labelFields: ['SiteAddressStreet'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // McHenry Co - Address Points - Not found
+
+        {name: 'McLean Co - Parcels (no data)',
+         id: 'il-mclean-co-parcels',
+         url: 'https://www.mcgisweb.org/mcgis/rest/services/ArcGISOpenData/ArcGISOpenData/MapServer/2',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'McLean Co - Address Points',
+         id: 'il-mclean-co-pts',
+         url: 'https://www.mcgisweb.org/mcgis/rest/services/ArcGISOpenData/ArcGISOpenData/MapServer/0',
+         labelFields: ['ADDR_NUM','PrefixDirection','StreetName','SuffixType','SuffixDirection'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Menard Co - Parcels',
+         id: 'il-menard-co-parcels',
+         url: 'https://services5.arcgis.com/OYmyJWdTtTeTShSg/ArcGIS/rest/services/November_2017_Tax_Parcels/FeatureServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Menard Co - Address Points - Incomplete data
+
+        // Mercer Co - No GIS
+
+        {name: 'Monroe Co - Parcels',
+         id: 'il-monroe-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/MonroeILFeatures/FeatureServer/9',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Monroe Co - Address Points - Not found
+
+        // Montgomery Co - qPublic
+
+        {name: 'Morgan Co - Parcels',
+         id: 'il-morgan-co-parcels',
+         url: 'https://services3.arcgis.com/95PFahBF8eyGEfuc/ArcGIS/rest/services/TaxParcels/FeatureServer/0',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Morgan Co - Address Points',
+         id: 'il-morgan-co-pts',
+         url: 'https://services3.arcgis.com/95PFahBF8eyGEfuc/ArcGIS/rest/services/MorganAddresses/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Moultrie Co - Parcels',
+         id: 'il-moultrie-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_moultrie_co_il_taxmap3_web_mercator/MapServer/0',
+         labelFields: ['Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Moultrie Co - Address Points - Not found
+
+        // Ogle Co - qPublic
+
+        {name: 'Peoria Co - Parcels',
+         id: 'il-peoria-co-parcels',
+         url: 'https://gis.peoriacounty.org/arcgis/rest/services/DP/LandRecords/MapServer/27',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Peoria Co - Address Points',
          id: 'il-peoria-co-pts',
          url: 'https://services.arcgis.com/iPiPjILCMYxPZWTc/arcgis/rest/services/Addresses/FeatureServer/0',
@@ -2545,20 +3654,37 @@
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Peoria Co - Parcels (no labels)',
-         id: 'il-peoria-co-parcels-2',
-         url: 'https://services.arcgis.com/iPiPjILCMYxPZWTc/ArcGIS/rest/services/Tax_Parcels/FeatureServer/0',
+        // Perry Co - No GIS
+
+        {name: 'Piatt Co - Parcels',
+         id: 'il-piatt-co-parcels',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/Webmap_Piatt/ParcelSearch/MapServer/0',
          labelFields: [''],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
-        // 2018-03-15 (mapomatic) This service seems to have stopped working for some reason.
-        // {name: 'Peoria Co - Parcels',
-        //  id: 'il-peoria-co-parcels',
-        //  url: 'https://gis.peoriacounty.org/arcgis/rest/services/DP/LandRecords/MapServer/27',
-        //  labelFields: ['prop_street'],
-        //  state: 'IL',
-        //  style: DEFAULT_PARCEL_STYLE},
+        {name: 'Piatt Co - Address Points',
+         id: 'il-Piatt-co-pts',
+         url: 'http://services.ccgisc.org/proxy/proxy.ashx?https://server.ccgisc.org/arcgisserver/rest/services/ArcGISOnline_Piatt/AddressPoints/MapServer/0',
+         labelFields: ['Address'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Pike Co - No GIS
+        // Pope Co - No GIS
+        // Pulaski Co - No GIS
+        // Putnam Co - WTH
+
+        {name: 'Randolph Co - Parcels',
+         id: 'il-randolph-co-parcels',
+         url: 'https://services5.arcgis.com/pweYHqdOby1TE9DD/arcgis/rest/services/TaxParcelsFull/FeatureServer/0/',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Randolph Co - Address Points - Not found
+
+        // Richland Co - WTH
+        // Rock Island Co - No GIS
 
         {name: 'St. Clair Co - Parcels',
          id: 'il-stclair-co-parcels',
@@ -2566,11 +3692,121 @@
          labelFields: ['SITEADR1'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
+        // St. Clair Co - Address Points - Not found
+
+        // Saline Co - No GIS
+
+        {name: 'Sangamon Co - Parcels (no data)',
+         id: 'il-sangamon-co-parcels',
+         url: 'http://gismaps.co.sangamon.il.us/tpv/proxy.ashx?http://aberdeen/ArcGIS/rest/services/ParcelPoly/MapServer/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sangamon Co - Address Points',
+         id: 'il-sangamon-co-pts',
+         url: 'http://gismaps.co.sangamon.il.us/tpv/proxy.ashx?http://aberdeen/ArcGIS/rest/services/AddressVerify/MapServer/0',
+         labelFields: ['HN','HNSFFX','PREDIR','PRE_TYPE','STNAME','STTYPE','SUFDIR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Schuyler Co - Parcels',
+         id: 'il-schuyler-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_schuyler_co_il_taxmap/MapServer/0',
+         labelFields: ['site_address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Schuyler Co - Address Points - Not found
+
+        // Scott Co - No GIS
+
+        {name: 'Shelby Co - Parcels',
+         id: 'il-shelby-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_shelby_co_il_taxmap/MapServer/0',
+         labelFields: ['SiteAddres'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Schelby Co - Address Points - Not found
+
+        {name: 'Stark Co - Parcels',
+         id: 'il-stark-co-parcels',
+         url: 'https://services6.arcgis.com/IMZwRRU1qL5MDxBH/arcgis/rest/services/LandParcels/FeatureServer/0/',
+         labelFields: ['SiteAddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Stark Co - Address Points',
+         id: 'il-stark-co-pts',
+         url: 'https://services6.arcgis.com/IMZwRRU1qL5MDxBH/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
+         labelFields: ['House','Dir','Suffix','Street','Type','Addr_new'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Stephenson Co - Parcels',
+         id: 'il-stephenson-co-parcels',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Parcels/MapServer/3',
+         labelFields: ['site_addre'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Stephenson Co - Address Points - Not found
+
+        {name: 'Tazewell Co - Parcels (no data)',
+         id: 'il-tazewell-co-parcels',
+         url: 'https://gis.tazewell.com/maps/rest/services/WAB/TazCo_Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tazewell Co - Address Points',
+         id: 'il-tazewell-co-pts',
+         url: 'https://gis.tazewell.com/maps/rest/services/WAB/TazCo_AddressPts/MapServer/0',
+         labelFields: ['FullAddress'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        // Union Co - No GIS
+
+        {name: 'Vermillion Co - Parcels',
+         id: 'il-vermillion-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_vermilion_co_il_taxmap/MapServer/0',
+         labelFields: ['FullSiteAddress1'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Vermillion Co - Address Points - Not found
+
+        // Wabash Co - No GIS
+        // Warren Co - No GIS
+        // Washington Co - No GIS
+        // Wayne Co - No GIS
+
+        {name: 'White Co - Parcels',
+         id: 'il-white-co-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/WhiteILFeatures/FeatureServer/3',
+         labelFields: ['TSC_Site_Address'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // White Co - Address Points - Not found
+
+        {name: 'Whiteside Co - Parcels',
+         id: 'il-whiteside-co-parcels',
+         url: 'https://services.arcgis.com/l0M0OC6J9QAHCiGx/ArcGIS/rest/services/TaxParcelQuery/FeatureServer/0',
+         labelFields: ['SITEADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Whiteside Co - Address Points',
+         id: 'il-whitesided-co-pts',
+         url: 'https://services.arcgis.com/l0M0OC6J9QAHCiGx/ArcGIS/rest/services/SiteAddresses/FeatureServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Will Co - Parcels',
          id: 'il-will-co-parcels',
          url: 'http://apps.willcogis.org/arcgis/rest/services/BasemapLayers/ParcelsLY_Dynamic/MapServer/0',
-         labelFields: [''],
+         labelFields: ['HOUSENUMBE','ADDR_FRACT','PREFIXDIRE','PREFIXTYPE','STREETNAME','SUFFIXTYPE','SUFFIXDIRE','ADDR_OTHER'],
          state: 'IL',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2578,6 +3814,49 @@
          id: 'il-will-co-pts',
          url: 'http://apps.willcogis.org/arcgis/rest/services/BasemapLayers/AddressPoints/MapServer/0',
          labelFields: ['gisedit.DBO.Address_Points.HOUSENUMBE','gisedit.DBO.Address_Points.PREFIXDIRE','gisedit.DBO.Address_Points.STREETNAME','gisedit.DBO.Address_Points.SUFFIXTYPE'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Williamson Co - Parcels',
+         id: 'il-williamson-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_williamson_co_il_taxmap/MapServer/0',
+         labelFields: ['ADDRESS'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+        // Williamson Co - Address Points - Not found
+
+        {name: 'Winnebago Co - Parcels',
+         id: 'il-winnebago-co-parcels',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Parcels/MapServer/1',
+         labelFields: ['LOPHouseNumber','LOPHouseNbrSuffix','LOPPrefixDirectional','LOPStreetName','LOPStreetSuffix','LOPPostDirectional'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Winnebago Co - Address Points',
+         id: 'il-winnebago-co-pts',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Layers/MapServer/16',
+         labelFields: [''],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Woodford Co - Parcels',
+         id: 'il-woodford-co-parcels',
+         url: 'http://www.centralilmaps.com/arcgis/rest/services/Woodford/WoodfordGIS_Flex_New_20160509/MapServer/11',
+         labelFields: ['SiteAddres'],
+         state: 'IL',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Woodford Co - Address Points',
+         id: 'il-woodford-co-pts',
+         url: 'http://www.centralilmaps.com/arcgis/rest/services/Woodford/WoodfordGIS_Flex_New_20160509/MapServer/1',
+         labelFields: ['SiteAddres'],
+         state: 'IL',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rockford - City Address Points',
+         id: 'il-rockford-city-pts',
+         url: 'http://www.wingis.org/proxy/proxy.ashx?http://map.wingis.org/ArcGIS/rest/services/1_Layers/MapServer/17',
+         labelFields: ['STNO','PREFIX','STNAME','SUFFIX','POSTDIR'],
          state: 'IL',
          style: DEFAULT_PT_STYLE},
 
@@ -2699,7 +3978,7 @@
          id: 'ia-des-moines-co-parcels',
          url: 'https://www.dmcwebgis.com/arcgis/rest/services/Assessor/IdentifiableLayersJuly/MapServer/0',
          labelFields: ['SiteAdd'],
-         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
          state: 'IA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2904,7 +4183,7 @@
          id: 'ks-doniphan-co-Parcels',
          url: 'https://doniphangis.integritygis.com/Geocortex/Essentials/REST/sites/Doniphan_County_KS/map/mapservices/3/rest/services/x/MapServer/11',
          labelFields: ['SitusAddress'],
-         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2926,7 +4205,7 @@
          id: 'ks-finney-co-Parcels',
          url: 'https://www.finneycountygis.com/arcgis/rest/services/Finney_County_Appraisers/ParcelBoundaries/MapServer/0',
          labelFields: ['SitusAddress'],
-         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2941,7 +4220,7 @@
          id: 'ks-franklin-co-Parcels',
          url: 'https://services2.integritygis.com/arcgis/rest/services/Public/Ottawa_TylerTech/MapServer/1',
          labelFields: ['PropertyAd'],
-         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -2956,7 +4235,7 @@
          id: 'ks-harper-co-Parcels',
          url: 'http://harpergis.integritygis.com/Geocortex/Essentials/REST/sites/Harper_County_KS/map/mapservices/1/rest/services/x/MapServer/22',
          labelFields: ['SitusAddress'],
-         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3020,7 +4299,7 @@
          id: 'ks-riley-co-Parcels',
          url: 'https://gis.rileycountyks.gov/arcgis/rest/services/BasemapV2_1/MapServer/17',
          labelFields: ['Property_A'],
-         processLabel: function(label) { return label.replace(/,.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3035,7 +4314,7 @@
          id: 'ks-reno-co-Parcels',
          url: 'http://renogis3.renogov.org/arcgis/rest/services/Test/WebLayers/MapServer/7',
          labelFields: ['Appraiser_Data_Export.PROPADD'],
-         processLabel: function(label) { return label.replace(/,.*/,'').replace(/^0+\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r3, '').replace(_regexReplace.r0, ''); },
          state: 'KS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3223,7 +4502,7 @@
          id: 'ky-henderson-co-pts',
          url: 'http://gis.hendersonky.us/arcgis/rest/services/Public/Addresses/FeatureServer/0',
          labelFields: ['FULL_ADDR'],
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'KY',
          style: DEFAULT_PT_STYLE},
 
@@ -3404,7 +4683,7 @@
          id: 'la-catahoula-parish-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Catahoula_Parish/Vector/MapServer/14',
          labelFields: ['Catahoula.DBO.Parcels_09012016.Phy_Address'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3412,7 +4691,7 @@
          id: 'la-catahoula-parish-parcels-2',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Catahoula_Services/MapServer/1',
          labelFields: ['par_address'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3533,7 +4812,7 @@
          id: 'la-iberia-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberia_Parcels/MapServer/3',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3550,7 +4829,7 @@
          id: 'la-iberville-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Iberville_Services/MapServer/3',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3629,7 +4908,7 @@
          id: 'la-lasalle-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LaSalle_Services/MapServer/7',
          labelFields: ['Address_Number','Street_Direction','Street_Name'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3638,7 +4917,7 @@
          id: 'la-livingston-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Livingston_Services/MapServer/8',
          labelFields: ['Par_Address'],
-         processLabel: function(label) { return label.replace(/^~/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3695,7 +4974,7 @@
          id: 'la-new-iberia-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/NewIberia_Services/MapServer/17',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3706,6 +4985,14 @@
          labelFields: ['SITUS_NUM','SITUS_DIR','SITUS_STREET','SITUS_TYPE'],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Rapides Parish - Address Points',
+         id: 'la-rapides-parish-points',
+         url: 'https://rapcgis.rapc.info/server/rest/services/RAPC/addresses/MapServer/0',
+         labelFields: ['Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'LA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Red River Parish - Address Points',
          id: 'la-red-river-parish-points',
@@ -3719,7 +5006,7 @@
          id: 'la-red-river-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/RedRiver_Services/MapServer/11',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3736,7 +5023,7 @@
          id: 'la-st-charles-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StCharles_Services/MapServer/5',
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
-         processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3761,7 +5048,7 @@
          id: 'la-st-martin-parish-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/StMartin_Services/MapServer/15',
          labelFields: ['HOUSE_NO','ST_DIR','STREET_NAM','ST_SUFFIX'],
-         processLabel: function(label) { return label.replace(/^0+\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
@@ -3802,7 +5089,6 @@
          id: 'la-vernon-parish-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Vernon_Parish/Vernon_Vector/MapServer/19',
          labelFields: ['Vernon.DBO.Vernon_CAMA.Address_Number','Vernon.DBO.Vernon_CAMA.Street_Name'],
-   //      processLabel: function(label) { return label.replace(/^(0+\s.*|\D+)/,''); },
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3846,6 +5132,32 @@
          state: 'LA',
          style: DEFAULT_PARCEL_STYLE},
 
+        // Maine
+        // ************************************
+
+        {name: 'Maine - Organized Parcels',
+         id: 'me-Maine-organized-parcels',
+         url: 'https://gis2.maine.gov/arcgis/rest/services/PlanningCadastre/Maine_Parcels_Organized_Towns/MapServer/0',
+         labelFields: ['PROPLOCNUM','PROP_LOC'],
+         processLabel: function(label) { return label.replace(/^[0\D]+/,''); },
+         state: 'ME',
+         style: DEFAULT_PARCEL_STYLE},
+
+        /* 2018-04-01 Huybee3 - Doesn't seem to be working
+        {name: 'Maine - Unorganized Parcels',
+         id: 'me-Maine-unorganized-parcels',
+         url: 'https://gis2.maine.gov/arcgis/rest/services/mrs/MRS_Parcels_Unorganized/MapServer/0',
+         labelFields: ['TPL'],
+         state: 'ME',
+         style: DEFAULT_PARCEL_STYLE}, */
+
+        {name: 'Maine - Address Points',
+         id: 'me-Maine-pts',
+         url: 'https://gis2.maine.gov/arcgis/rest/services/Location/Maine_E911_Addresses_Roads_PSAP/MapServer/1',
+         labelFields: ['ADDRESS'],
+         state: 'ME',
+         style: DEFAULT_PT_STYLE},
+
         // Maryland
         // ************************************
 
@@ -3867,7 +5179,7 @@
         {name: 'Allegany Co - Parcels',
          id: 'md-allegany-county-parcels',
          url: 'http://alleganygis.allconet.org/allcogis/rest/services/Parcels/MapServer/0',
-         labelFields: [],
+         labelFields: ['address'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3881,7 +5193,7 @@
         {name: 'Anne Arundel Co - Parcels',
          id: 'md-anne-arundel-county-parcels',
          url: 'http://gis-world3.aacounty.org/arcgis/rest/services/Public/MyAA/MapServer/7',
-         labelFields: [],
+         labelFields: ['ASST_HOUSE_NO','ASST_STREET_DIR','ASST_STREET_NAME','ASST_STREET_TYPE'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3892,6 +5204,15 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Baltimore - City Parcels',
+         id: 'md-baltimore-city-parcels',
+         url: 'http://gis.baltimorecity.gov/egis/rest/services/cityview/Realproperty/MapServer/0',
+         labelFields: ['FULLADDR'],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+        // Baltimore - City Address Points (data not found. close, but not quite)
+        // gis.baltimorecity.gov/egis/rest/services/Pictometry/Pictometry_Layers/MapServer/1
+
         {name: 'Baltimore Co - Parcels',
          id: 'md-baltimore-co-parcels',
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Property/Property/MapServer/1',
@@ -3899,14 +5220,25 @@
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Baltimore Co- Address Points',
+        {name: 'Baltimore Co - Address Points',
          id: 'md-baltimore-county-points',
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Facilities/Address/MapServer/0',
          labelFields: ['ADDRLABEL'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Carroll Co - Parcels',
+        // Calvert Co - Parcels (does not have a Shape field)
+        // calvertgis.co.cal.md.us/arcgis/rest/services/PropertyMap/MapServer/2
+        {name: 'Calvert Co - Address Points',
+         id: 'md-calvert-county-points',
+         url: 'http://calvertgis.co.cal.md.us/arcgis/rest/services/Basemaps/Topo_Base_Map_2011_Version2/MapServer/2',
+         labelFields: ['ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PT_STYLE},
+
+        // Caroline Co - No GIS
+
+        {name: 'Carroll Co - Parcels (no data)',
          id: 'md-carroll-county-parcels',
          url: 'https://services.arcgis.com/Uf0DiYpD9NOFO5YH/ArcGIS/rest/services/Parcels_CarrollCounty/FeatureServer/0',
          labelFields: [],
@@ -3923,7 +5255,7 @@
         {name: 'Cecil Co - Parcels',
          id: 'md-cecil-county-parcels',
          url: 'https://cecilmaps.ccgov.org/arcgis/rest/services/ConsolidatedWebService/MapServer/60',
-         labelFields: [],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3934,10 +5266,13 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        // Charles Co - No GIS
+        // Dorchester Co - No GIS
+
         {name: 'Frederick Co - Parcels',
          id: 'md-frederick-county-parcels',
          url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/Planning/Parcels/MapServer/0',
-         labelFields: [],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3948,6 +5283,13 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Garrett Co - Parcels',
+         id: 'md-garrett-county-parcels',
+         url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/7',
+         labelFields: ['ADDRESS'],
+         state: 'MD',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Garrett Co - Address Points',
          id: 'md-garrett-county-points',
          url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/2',
@@ -3955,10 +5297,14 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        // Harford Co - No GIS
+        // Howard Co - OpenLayers
+        // Kent Co - No GIS
+
         {name: 'Montgomery Co - Parcels',
          id: 'md-montgomery-county-parcels',
          url: 'http://gis4.montgomerycountymd.gov/arcgis/rest/services/general/property/MapServer/0',
-         labelFields: [''],
+         labelFields: ['PREMISE_ADDR_HOUSENO','PREMISE_ADDR_DIRECTION','PREMISE_ADDR_STREET','PREMISE_ADDR_STREET_TYPE'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3969,7 +5315,7 @@
          state: 'MD',
          style: DEFAULT_STRUCTURE_STYLE},
 
-        {name: 'Prince George\'s Co - Parcels',
+        {name: 'Prince George\'s Co - Parcels (no data)',
          id: 'md-prince-george-county-parcels',
          url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/69',
          labelFields: [''],
@@ -3986,7 +5332,7 @@
         {name: 'Queene Anne\'s Co - Parcels',
          id: 'md-queen-anne-county-parcels',
          url: 'https://gis.qac.org/arcgis/rest/services/QAC_PUBLIC/QAC_Basemap/MapServer/3',
-         labelFields: [''],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -3997,7 +5343,7 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'St. Mary\'s Co - Parcels',
+        {name: 'St. Mary\'s Co - Parcels (no data)',
          id: 'md-stmary-county-parcels',
          url: 'http://gtg.smcg.co.saint-marys.md.us/arcgis/rest/services/NewMaps/ZoningMap/MapServer/1',
          labelFields: [],
@@ -4011,10 +5357,12 @@
          state: 'MD',
          style: DEFAULT_PT_STYLE},
 
+        // Somerset Co - No GIS
+
         {name: 'Talbot Co - Parcels',
          id: 'md-talbot-county-parcels',
          url: 'http://maps.talbgov.org/arcgis/rest/services/TalbotWebMaps/PublicLandUse/MapServer/0',
-         labelFields: [''],
+         labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4028,7 +5376,7 @@
         {name: 'Washington Co - Parcels',
          id: 'md-washington-county-parcels',
          url: 'https://maps.washco-md.net/arcgis/rest/services/Parcel/Parcels/MapServer/0',
-         labelFields: [''],
+         labelFields: ['PremNum','PremNumSuff','PremDir','PremName','PremType'],
          state: 'MD',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4038,6 +5386,9 @@
          labelFields: ['ADDRESS'],
          state: 'MD',
          style: DEFAULT_PT_STYLE},
+
+        // Wicomico Co - No GIS
+        // Worcester Co - No GIS
 
 
         // Massachusetts
@@ -4521,7 +5872,7 @@
          id: 'mn-olmsted-co-pts',
          url: 'https://gweb01.co.olmsted.mn.us/arcgis/rest/services/Parcel_Information/MapServer/0',
          labelFields: ['CONDADD1'],
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'MN',
          style: DEFAULT_PT_STYLE},
 
@@ -4683,7 +6034,7 @@
          id: 'mn-steele-co-parcels',
          url: 'https://www.co.steele.mn.us/arcgis/rest/services/Steele_LINK_public/MapServer/0',
          labelFields: ['SteeleMNTaxData.dbo.tblParcelJoin.QRYADDRESS'],
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'MN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4698,7 +6049,7 @@
          id: 'mn-wadena-co-parcels',
          url: 'http://gis.co.wadena.mn.us/arcgis/rest/services/WADENAPUBLIC/MapServer/0',
          labelFields: ['GISData.dbo.tblParcelJoin.PHYSICAL_ADDRESS'],
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'MN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4753,7 +6104,7 @@
          id: 'ms-state-parcels1',
          url: 'http://www.gisonline.ms.gov/arcgis/rest/services/MDEQ/Basemap/MapServer/104',
          labelFields: ['SITEADD'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: "PARNO NOT IN ('1','2','3')",
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4762,7 +6113,7 @@
          id: 'ms-state-parcels2',
          url: 'http://www.gisonline.ms.gov/arcgis/rest/services/MDEQ/Basemap/MapServer/105',
          labelFields: ['ADDR2'],
-         processLabel: function(label) { return label.replace(/^0\s?/,'').replace(/"/g,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, '').replace(/"/g,''); },
          //where: "PARNO NOT IN ('1','2','3')",
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4795,7 +6146,7 @@
          id: 'ms-brandon-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Brandon2016/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4803,7 +6154,7 @@
          id: 'ms-biloxi-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Biloxi_Services/MapServer/6',
          labelFields: ['STNUM','DIR','ST_NAME'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4812,7 +6163,7 @@
          id: 'ms-clinton-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Clinton/MapServer/24',
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4827,7 +6178,7 @@
          id: 'ms-coahoma-co-parcels',
          url: 'http://www.efsedge.com/arcgis/rest/services/Coahoma_County/Vector/MapServer/3',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4842,7 +6193,7 @@
          id: 'ms-copiah-co-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Copiah_County/MapServer/3',
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4872,7 +6223,7 @@
          id: 'ms-diamondhead-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diamondhead_Services/MapServer/13',
          labelFields: ['ADDRESS'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4881,7 +6232,7 @@
          id: 'ms-diberville-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/2',
          labelFields: ['SIT_NO','SIT_NAME'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PT_STYLE},
@@ -4890,7 +6241,7 @@
          id: 'ms-diberville-city-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/17',
          labelFields: ['STREET_NUM','STREET_NAM'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4907,7 +6258,7 @@
          id: 'ms-hinds-co-parcels',
          url: 'http://gisweb.co.hinds.ms.us/arcgis/rest/services/HindsParcelMap/MapServer/2',
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4915,7 +6266,7 @@
          id: 'ms-jackson-co-parcels',
          url: 'https://webmap.co.jackson.ms.us/arcgis/rest/services/JacksonCounty/Parcel_2_Web/MapServer/2',
          labelFields: ['STRN','STRD','STRNM','STYPE'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4923,7 +6274,7 @@
          id: 'ms-lamar-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/LamarCounty_Services/MapServer/59',
          labelFields: ['StreetNumber','StreetName'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -4946,7 +6297,7 @@
          id: 'ms-madison-co-parcel',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Madison_County/MapServer/11',
          labelFields: ['STREET_NUM','STREET_NAM'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -4954,7 +6305,7 @@
          id: 'ms-magee-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/MageeViewer/MapServer/4',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5000,7 +6351,7 @@
          id: 'ms-pearl-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/15',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5008,7 +6359,7 @@
          id: 'ms-pelahatchie-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Pelahatchie/MapServer/16',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5023,7 +6374,7 @@
          id: 'ms-pontotoc-co-parcels',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Pontotoc_Services/MapServer/5',
          labelFields: ['StreetNumber','StreetName'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
@@ -5039,7 +6390,7 @@
          id: 'ms-quitman-co-parcel',
          url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/4',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5054,7 +6405,7 @@
          id: 'ms-rankin-co-parcel',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5076,7 +6427,7 @@
          id: 'ms-warren-co-parcels-2',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/Warren_County/MapServer/4',
          labelFields: ['STREET_NUM','STREET_NAM'],
-         processLabel: function(label) { return label.replace(/^0+\s?.*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5098,7 +6449,7 @@
          id: 'ms-yazoo-city-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/YazooCity/MapServer/4',
          labelFields: ['STR_NUM','STR_NAME'],
-         processLabel: function(label) { return label.replace(/^(0+\s?|\D).*/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5259,6 +6610,21 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        // Greene Co - Info from city of Springfield MO, has countywide data
+        {name: 'Greene Co - Parcels',
+         id: 'mo-greene-co-parcels',
+         url: 'http://maps.springfieldmo.gov/arcgis/rest/services/Maps/GisViewer/MapServer/64',
+         labelFields: ['L_ADRNO','L_ADRDIR','L_ADRSTR','L_ADRSUF'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greene Co - Address Points',
+         id: 'mo-greene-co-points',
+         url: 'http://maps.springfieldmo.gov/arcgis/rest/services/Maps/GisViewer/MapServer/62',
+         labelFields: ['PRIM_NUM','SUB_NUM','PRE_DIR','STR_NAM','STR_TYPE'],
+         state: 'MO',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Henry Co - Parcels',
          id: 'mo-henry-co-parcels',
          url: 'http://arcserve1.hornershifrin.com/Geocortex/Essentials/REST/sites/HenryCountyMoOverview/map/mapservices/17/rest/services/x/MapServer/1',
@@ -5277,6 +6643,13 @@
          id: 'mo-holts-summit-city-parcels',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Missouri/CityofHoltsSummit/MapServer/10',
          labelFields: [],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iron Co - Parcels',
+         id: 'mo-iron-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/IronCo/IronAssess/MapServer/0',
+         labelFields: ['SITE_ADD'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5378,6 +6751,13 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Perry Co - Parcels',
+         id: 'mo-perry-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/PerryCo/PerryAssess/MapServer/0',
+         labelFields: ['SITE_ADD'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Phelps Co - Parcels',
          id: 'mo-phelps-co-parcels',
          url: 'https://phelpsgis.integritygis.com/Geocortex/Essentials/REST/sites/Phelps_County_MO_Public/map/mapservices/7/rest/services/x/MapServer/27',
@@ -5428,6 +6808,20 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'St. Francois Co - Parcels',
+         id: 'mo-stfrancois-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/StFranCo/CityBase/MapServer/6',
+         labelFields: ['REALGISDATA__ADDRESS_1'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'St. Louis City - Parcels',
+         id: 'mo-stl-city-parcels',
+         url: 'https://stlgis.stlouis-mo.gov/arcgis/rest/services/public/STL_PUBLICMAP/MapServer/1',
+         labelFields: ['ADDRNUM','ADDRSUF','STREETPRE','STREETNAME','STREETSUF','STRSUFDIR'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'St. Louis Co - Address Points',
          id: 'mo-stlouis-co-points',
          url: 'http://maps.stlouisco.com/arcgis/rest/services/OpenData/OpenData/MapServer/0',
@@ -5442,10 +6836,24 @@
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Scott Co - Parcels',
+         id: 'mo-scott-co-parcels',
+         url: 'https://www.semogis.com/arcgis/rest/services/ScottCo/ScottAssess/MapServer/0',
+         labelFields: ['SITE_ADDRESS'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
         {name: 'Vernon Co - Parcels (no labels)',
          id: 'mo-vernon-co-parcels',
          url: 'http://vernongis.integritygis.com/Geocortex/Essentials/REST/sites/Vernon_County_MO/map/mapservices/1/rest/services/x/MapServer/6',
          labelFields: ['PARCELPIN'],
+         state: 'MO',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Parcels',
+         id: 'mo-washington-co-parcels',
+         url: 'http://www.semogis.com/arcgis/rest/services/WashCo/WashAssess/MapServer/0',
+         labelFields: ['HOUSENUM','ADDRESS'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -5640,7 +7048,7 @@
          id: 'nv-washoe-co-parcels',
          url: 'http://wcgisweb.washoecounty.us/arcgis/rest/services/BaseLayersQueryWebMercator/MapServer/2',
          labelFields: ['STREETNUM','STREETDIR','STREET'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'NV',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6410,7 +7818,7 @@
          id: 'oh-Ashtabula-co-parcels',
          url: 'http://gis2.ashtabulacounty.us/arcgis/rest/services/MyMapService/MapServer/1',
          labelFields: ['Location_Address'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OH',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6583,7 +7991,7 @@
          id: 'ok-acog-cos-okc-area-parcels',
          url: 'http://arcgis4.roktech.net/arcgis/rest/services/ACOG/acog_query/MapServer/16',
          labelFields: ['PARCEL_ADDRESS'],
-         processLabel: function(label) { return label.replace(/^0+/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6591,7 +7999,7 @@
          id: 'ok-Creek-co-parcels',
          url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsCREEK_all/MapServer/0',
          labelFields: ['ADDRESS'],
-         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS] )?(\d+)$/,'$3 $2$1').replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS] )?(\d+)$/,'$3 $2$1').replace(_regexReplace.r0, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6600,7 +8008,7 @@
          url: 'https://services.arcgis.com/bmlPdrfZm3kfidAc/ArcGIS/rest/services/ParcelS/FeatureServer/0',
          where: "Nbhd <> ''",
          labelFields: ['Situs'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6617,7 +8025,37 @@ Doesn't have a Shape field.
          id: 'ok-oklahoma-co-parcels',
          url: 'https://oklahomacounty.geocortex.com/arcgis/rest/services/ParcelData/OklahomaCountyAllParcelsDataNEW/MapServer/4',
          labelFields: ['location'],
-         processLabel: function(label) { return label.replace(/^(.*?) ([EWNS]+ )?(.*(Ave|Dr|St|Ct|Cir|Blvd|Pl|Ln|Fwy|Rd|Ter(r)?|Way)).*/gi, '$1 $2$3').replace(/^0+.*/, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
+         state: 'OK',
+         style: DEFAULT_PARCEL_STYLE},
+
+/* Oklahoma City has it's own public facing API system. The developer portal details the API, which would include a JSON return from a URL GET / POST.
+   however, this would require a special URL creation function apart from the sandard ESRI ARCGIS URL builder. It could potentially require a special
+   JSON parse as I haven't had time to look at the actual JSON return from this special URL to see if it matches ESRI ARCGIS datasets.
+   Developer API: https://data.okc.gov/portal/page/api
+   Catalog of Maps: https://data.okc.gov/portal/page/catalog
+   Address Layer Map: https://data.okc.gov/portal/page/viewer?datasetName=Address%20Zoning&view=map
+
+   While browsing the Address layer map and applying different 'filters', I was able to locate the gis.okc.gov arcgis REST url. However, the data
+   we would normally prefer to use (the one the map more than likely colates to, does not support the QUERY function:
+   REST URL we would normally use: https://gis.okc.gov/arcgis/rest/services/Public/Data_OKC_Gov_Application_Service/MapServer
+   REST URL that allows query, and appears to be apart of the Map system used for the Catalog above (Accela?),  but may contain incomplete data:
+   https://gis.okc.gov/arcgis/rest/services/Accela/AccelaActionCenter/MapServer
+*/
+
+        {name: 'Oklahoma City - City Address Points',
+         id: 'ok-oklahoma-city-city-points',
+         url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AccelaActionCenter/MapServer/11',
+         labelFields: ['ADDRESS','FULLSTREETNAME'],
+         processLabel: function(label) { return label.replace(/^99999.*/, ''); },
+         state: 'OK',
+         style: DEFAULT_PT_STYLE},
+
+         {name: 'Oklahoma City - City Parcels',
+         id: 'ok-oklahoma-city-city-parcels',
+//         url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AccelaActionCenter/MapServer/0', // Missing poly's in newer areas 2018.03.31
+         url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AGIS_PPLS_DEV/MapServer/4',
+         labelFields: ['LotAddress'],
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6625,7 +8063,7 @@ Doesn't have a Shape field.
          id: 'ok-Osage-co-parcels',
          url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsOSAGE/MapServer/0',
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^0+/,'').replace(/\\/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, '').replace(/\\/,''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6634,7 +8072,7 @@ Doesn't have a Shape field.
          url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsROGERS/MapServer/0',
          where: "CAMA<>''",
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -6650,9 +8088,265 @@ Doesn't have a Shape field.
          id: 'ok-Wagoner-co-parcels',
          url: 'http://map7.incog.org/arcgis7wa/rest/services/parcelsWAGONER/FeatureServer/0',
          labelFields: ['Situs'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
+
+        // Oregon
+        // ************************************
+
+        {name: 'Benton Co - Parcels',
+         id: 'or-benton-co-parcels',
+         url: 'https://gis.co.benton.or.us/arcgis/rest/services/Public/TaxlotsView/MapServer/0',
+         labelFields: ['Situs_Addr1'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Benton Co - Address Points',
+         id: 'or-benton-co-pts',
+         url: 'https://gis.co.benton.or.us/arcgis/rest/services/Public/AddressService/MapServer/1',
+         labelFields: ['STREET'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Coos Co - Parcels',
+         id: 'or-coos-co-pts',
+         url: 'https://services.arcgis.com/or6I5QjRIBzpPc8G/arcgis/rest/services/GIS_Online_March_2018/FeatureServer/4/',
+         labelFields: ['SITUSSTR'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Coos Co - Address Points - Not found
+
+        {name: 'Crook Co - Parcels (no data)',
+         id: 'or-crook-co-parcels',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Addressing/AddressingGroup/MapServer/5',
+         labelFields: [''],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Crook Co - Address Points',
+         id: 'or-crook-co-pts',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Addressing/AddressingGroup/MapServer/0',
+         labelFields: ['full_address'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Curry Co - Parcels',
+         id: 'or-curry-co-parcels',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Curry/GeneralMap/MapServer/20',
+         labelFields: ['CurryAssessmentRollExport_Situs_addr'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Curry Co - Address Points',
+         id: 'or-curry-co-pts',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Curry/GeneralMap/MapServer/6',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Deschutes Co - Parcels',
+         id: 'or-deschutes-co-parcels',
+         url: 'http://maps.deschutes.org/arcgis/rest/services/Operational_Layers/MapServer/0',
+         labelFields: ['Taxlot_Assessor_Account.Address'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Deschutes Co - Address Points - Not found
+
+        // Gilliam Co - Parcels - bad data - http://lcmaps.lanecounty.org/arcgis/rest/services/Gilliam/GilliamBaseMap/MapServer/237
+        // Gilliam Co - Address Points - Not found
+
+        {name: 'Harney Co - Parcels',
+         id: 'or-harney-co-parcels',
+         url: 'https://services3.arcgis.com/e3KSI9Py4B7m3xu6/ArcGIS/rest/services/02_arcgis_online_Address_and_Tax_Lots/FeatureServer/1',
+         labelFields: ['HOUSE_NUMBER','DIRECTION','STREET_NAME','STREET_TYPE'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Harney Co - Parcel Points',
+         id: 'or-harney-co-pts',
+         url: 'https://services3.arcgis.com/e3KSI9Py4B7m3xu6/ArcGIS/rest/services/02_arcgis_online_Address_and_Tax_Lots/FeatureServer/0',
+         labelFields: ['FULLADDRESS'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hood River Co - Parcels',
+         id: 'or-hood-river-co-parcels',
+         url: 'http://webmap.co.hood-river.or.us/arcgis/rest/services/PARCELS/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hood River Co - Address Points',
+         id: 'or-hood-river-co-pts',
+         url: 'http://webmap.co.hood-river.or.us/arcgis/rest/services/SiteAddress/MapServer/0',
+         labelFields: ['HOUSE_NUMBER','PREFIX_DIRECTION','STREET_NAME','STREET_TYPE'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jackson Co - Parcels',
+         id: 'or-jackson-co-parcels',
+         url: 'https://spatial.jacksoncounty.org/arcgis/rest/services/OpenData/ReferenceData/MapServer/3',
+         labelFields: ['SITEADD'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jackson Co - Address Points',
+         id: 'or-jackson-co-pts',
+         url: 'https://spatial.jacksoncounty.org/arcgis/rest/services/OpenData/ReferenceData/MapServer/1',
+         labelFields: ['PREADDRNUM','ADDRNUM','ADDRNUMSUF','FULLNAME'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'or-jefferson-co-parcels',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Jefferson/Assessment/MapServer/1',
+         labelFields: ['HOUSE_NUMB','PRE_DIRECT','DIRECTION','STREET_NAM','STREET_TYP'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Jefferson Co - Address Points',
+         id: 'or-jefferson-co-pts',
+         url: 'http://eservices.co.crook.or.us/mapping/rest/services/Jefferson/General/MapServer/0',
+         labelFields: ['addNumPre','addNum','addNumSuf','lgcyPreDir','lgcyName','lgcyType','lgcyPstDir'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Josephine Co - Parcels',
+         id: 'or-josephine-co-parcels',
+         url: 'http://gis2.co.josephine.or.us/arcgis/rest/services/JOCO_TaxLots/MapServer/0',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Josephine Co - Address Points',
+         id: 'or-josephine-co-pts',
+         url: 'http://gis2.co.josephine.or.us/arcgis/rest/services/JOCO_Site_Address2/MapServer/0',
+         labelFields: ['NUMBER','PREFIX','STREETNAME','TYPE','SUFFIX'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Klamath Co - Parcels',
+         id: 'or-klamath-co-parcels',
+         url: 'https://services.arcgis.com/H6Mh1bySxR4oHx6x/ArcGIS/rest/services/KC_Taxlots/FeatureServer/0',
+         labelFields: ['SITUS_ADDRESS'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Klamath Co - Address Points - Not found
+
+        {name: 'Lake Co - Parcels',
+         id: 'or-lake-co-parcels',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Lake/LakeBaseMap/MapServer/235',
+         labelFields: ['OtherCounties_dbo_LakeCountyOwnerAndSitusInfo_SiteAddNam'],
+         processLabel: function(label) { return label.replace(/^\D.*/,''); },
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Address Points',
+         id: 'or-lake-co-pts',
+         url: 'http://lcmaps.lanecounty.org/arcgis/rest/services/Lake/LakeBaseMap/MapServer/229',
+         labelFields: ['ADDR_NUM','STREETNAME'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lane Co - Parcels (no data)',
+         id: 'or-lane-co-parcels',
+         url: 'https://lcmaps.lanecounty.org/arcgis/rest/services/LaneCountyMaps/AddressParcel/MapServer/2',
+         labelFields: [''],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lane Co - Address Points',
+         id: 'or-lane-co-pts',
+         url: 'https://lcmaps.lanecounty.org/arcgis/rest/services/LaneCountyMaps/AddressParcel/MapServer/0',
+         labelFields: ['concat_address'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Marion Co - Parcels',
+         id: 'or-marion-co-parcels',
+         url: 'https://services1.arcgis.com/sYGZnQPdJ0azuLyn/ArcGIS/rest/services/Parcels_pub/FeatureServer/1',
+         labelFields: ['SITUS'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marion Co - Parcel Points',
+         id: 'or-Marion-co-pts',
+         url: 'https://services1.arcgis.com/sYGZnQPdJ0azuLyn/ArcGIS/rest/services/AddressPts/FeatureServer/0',
+         labelFields: ['SITUS'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Malheur Co - Parcels',
+         id: 'or-malheur-co-parcels',
+         url: 'https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/TLFeb2018/FeatureServer/0',
+         labelFields: ['SITUSADD'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+        // Malheur Co - Address Points - Not found
+
+        {name: 'Multnomah Co - Parcels',
+         id: 'or-multnomah-co-parcels',
+         url: 'http://www3.multco.us/arcgispublic/rest/services/Countywide/General/MapServer/7',
+         labelFields: ['SITUSADDR'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Multnomah Co - Address Points',
+         id: 'or-multnomah-co-pts',
+         url: 'http://www3.multco.us/arcgispublic/rest/services/EmergencyManagement/MasterAddress_Metro/MapServer/0',
+         labelFields: ['FULLADD'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Polk Co - Parcels',
+         id: 'or-polk-co-parcels',
+         url: 'https://geoservices.co.polk.or.us/gis/rest/services/collector/TaxlotAppr/MapServer/0',
+         labelFields: ['SiteAddNam'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        // This layer seems to cover all of Polk County despite being named 'Salem Addresses'
+        {name: 'Polk Co - Address Points',
+         id: 'or-polk-co-pts',
+         url: 'https://geoservices.co.polk.or.us/gis/rest/services/Feature_Services/SiteAddress/MapServer/0',
+         labelFields: ['STREET_NUM','PREFIX','STREET','STREET_TYP','SUFFIX'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wasco Co - Parcels',
+         id: 'or-wasco-co-parcels',
+         url: 'http://216.110.207.61/arcgis/rest/services/BaseMap/MapServer/6/',
+         labelFields: [''],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        /* Layer not working due to shape field not named 'SHAPE'
+        {name: 'Wasco Co - Address Points',
+         id: 'or-wasco-co-pts',
+         url: 'http://216.110.207.61/arcgis/rest/services/Services/PublicAddresses/MapServer/0',
+         labelFields: ['STRUCTNO','STRUCTNOSU','PREDIR','PRETYPE','STREETNAME','STREETTYPE','SUFDIR'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'Washington Co - Parcels',
+         id: 'or-washington-co-parcels',
+         url: 'http://mtbachelor.co.washington.or.us/arcgiswa2/rest/services/LUT_ops/AGS_OpsAssets/MapServer/50',
+         labelFields: ['SITEADDR'],
+         state: 'OR',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Address Points',
+         id: 'or-washington-co-pts',
+         url: 'http://mtbachelor.co.washington.or.us/arcgiswa2/rest/services/LUT_ops/AGS_OpsAssets/MapServer/51',
+         labelFields: ['SITEADDR'],
+         state: 'OR',
+         style: DEFAULT_PT_STYLE},
+
+        // Wheeler Co - bad data - http://lcmaps.lanecounty.org/arcgis/rest/services/Wheeler/WheelerBaseMap/MapServer/231
+
 
         // Pennsylvania
         // **********************************
@@ -6703,7 +8397,7 @@ Doesn't have a Shape field.
          id: 'pa-berks-co-pts',
          url: 'https://gis.co.berks.pa.us/arcgis/rest/services/Pictometry/PictometryWFS/MapServer/0',
          labelFields: ['FULLSTREETADDRESS'],
-         processLabel: function(label) { return label.replace(/\s\d{5}$/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
@@ -6900,7 +8594,7 @@ Doesn't have a Shape field.
          id: 'pa-juniata-co-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Juniata/Public/MapServer/1',
          labelFields: ['Hse_Num','Pre_Dir','Street_Name'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7166,6 +8860,80 @@ Doesn't have a Shape field.
          style: DEFAULT_PARCEL_STYLE},
 
 
+        // Rhode Island
+        // ************************************
+
+        {name: 'State - E911 Address Points',
+         id: 'ri-state-pts',
+         url: 'https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/E911_Sites/FeatureServer/0',
+         labelFields: ['PrimaryAdd'],
+         state: 'RI',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Charlestown - Parcels',
+         id: 'ri-charlestown-parcels',
+         url: 'http://server1.mapxpress.net:6080/arcgis/rest/services/Charlestown/Parcels/MapServer/0',
+         labelFields: ['LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cranston - Parcels',
+         id: 'ri-cranston-parcels',
+         url: 'https://gis.cranstonri.org/arcgis/rest/services/Assessor_Web/MapServer/23',
+         labelFields: ['Location'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'East Greenwich - Parcels',
+         id: 'ri-east-greenwich-parcels',
+         url: 'http://gis.eastgreenwichri.com/egags/rest/services/parcels/MapServer/0',
+         labelFields: ['PropertyAddress1'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'East Providence - Parcels',
+         id: 'ri-east-providence-parcels',
+         url: 'http://gisdemo1.cdmsmith.com/arcgis/rest/services/EastProvidence_Operational/MapServer/1',
+         labelFields: ['ST_NUM'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hopkinton - Parcels',
+         id: 'ri-hopkinton-parcels',
+         url: 'http://server1.mapxpress.net:6080/arcgis/rest/services/Hopkinton/Basemap/MapServer/48',
+         labelFields: ['LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Newport - Parcels',
+         id: 'ri-newport-parcels',
+         url: 'https://utility.arcgis.com/usrsvcs/servers/59096748da8b4993a1eb9dd92164a720/rest/services/Assessors/Parcels_cache/MapServer/0',
+         labelFields: ['Street_Number','Street_Name'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Providence - Parcels',
+         id: 'ri-providence-parcels',
+         url: 'https://webgis.providenceri.gov/server/rest/services/Tax/Parcels/MapServer/10',
+         labelFields: ['CAMAExtract_ParcAddress'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'South Kingston - Parcels',
+         id: 'ri-south-kingston-parcels',
+         url: 'http://gis.southkingstownri.com/arcgis/rest/services/SouthKingstown_OperationalMap_Pub/MapServer/4',
+         labelFields: ['VISION_GIS_ASSESS.LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Westerly - Parcels',
+         id: 'ri-westerly-parcels',
+         url: 'http://server1.mapxpress.net:6080/arcgis/rest/services/Westerly/Active_I/MapServer/14',
+         labelFields: ['LOCATION'],
+         state: 'RI',
+         style: DEFAULT_PARCEL_STYLE},
+
+
         // South Caolina
         // *********************************
 
@@ -7175,8 +8943,9 @@ Doesn't have a Shape field.
 
         {name: 'Anderson Co - Parcels',
          id: 'sc-anderson-co-parcels',
-         url: 'http://propertyviewer.andersoncountysc.org/arcgis/rest/services/NewPropertyViewer/MapServer/7',
-         labelFields: [''],
+         url: 'http://propertyviewer.andersoncountysc.org/arcgis/rest/services/Address_Viewer/MapServer/5',
+         labelFields: ['PHYS_ADDR'],
+         processLabel: function(label) { return label.replace(/.* (\d.*)/,'$1'); },
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7193,7 +8962,7 @@ Doesn't have a Shape field.
         {name: 'Beaufort Co - Parcels',
          id: 'sc-beaufort-co-parcels',
          url: 'http://webgis.bcgov.net/arcgis/rest/services/Parcels/MapServer/0',
-         labelFields: [''],
+         labelFields: ['GisData_DBO_GisFile_SitusAddre'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7207,7 +8976,7 @@ Doesn't have a Shape field.
         {name: 'Berkeley Co - Parcels',
          id: 'sc-berkeley-co-parcels',
          url: 'http://gis.berkeleycountysc.gov/arcgis/rest/services/desktop/internet_map/MapServer/3',
-         labelFields: [''],
+         labelFields: ['GIS_Address'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7218,7 +8987,7 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Calhoun Co - Parcels',
+        {name: 'Calhoun Co - Parcels (no data)',
          id: 'sc-calhoun-co-parcels',
          url: 'https://gis.aecomonline.net/arcgis/rest/services/CalhounCO/WebParcels/MapServer/127',
          labelFields: [''],
@@ -7235,7 +9004,7 @@ Doesn't have a Shape field.
         {name: 'Charleston Co - Parcels',
          id: 'sc-charleston-co-parcels',
          url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/4',
-         labelFields: [''],
+         labelFields: ['FEATURES.SDE.CAMA.PROP_ST_NO','FEATURES.SDE.CAMA.PROP_ST_NAME','FEATURES.SDE.CAMA.PROP_TYPE'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7271,7 +9040,7 @@ Doesn't have a Shape field.
         {name: 'Dorchester Co - Parcels',
          id: 'sc-dorchester-co-parcels',
          url: 'https://gisservices.dorchestercounty.net/arcgis/rest/services/BI_Base_Counter_Publish/MapServer/4',
-         labelFields: [''],
+         labelFields: ['PROPERTY_LOCATION'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7288,7 +9057,7 @@ Doesn't have a Shape field.
         {name: 'Florence Co - Parcels',
          id: 'sc-florence-co-parcels',
          url: 'https://arc2000.florenceco.org/arcgis/rest/services/AGOL_Base/MapServer/8',
-         labelFields: [''],
+         labelFields: ['ADDR_SITE'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7301,12 +9070,12 @@ Doesn't have a Shape field.
 
         {name: 'Georgetown Co - Parcels',
          id: 'sc-georgetown-co-parcels',
-         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/2',
-         labelFields: [''],
+         url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WillCW/MapServer/2',
+         labelFields: ['Georgetown2018.dbo.GISVIEW3.Housenum','Georgetown2018.dbo.GISVIEW3.Street'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Georgetown Co - 911 Address Points',
+        {name: 'Georgetown Co - Address Points',
          id: 'sc-georgetown-co-pts',
          url: 'http://gis1.georgetowncountysc.org:6080/arcgis/rest/services/WebMapServer/MapServer/8',
          labelFields: ['ADDRESS'],
@@ -7316,7 +9085,7 @@ Doesn't have a Shape field.
         {name: 'Greenville Co - Parcels',
          id: 'sc-greenville-co-parcels',
          url: 'https://www.gcgis.org/arcgis/rest/services/GCGIA/Greenville_Base/MapServer/34',
-         labelFields: [''],
+         labelFields: ['STRNUM','LOCATE'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7329,8 +9098,8 @@ Doesn't have a Shape field.
 
         {name: 'Greenwood Co - Parcels',
          id: 'sc-greenwood-co-parcels',
-         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/36',
-         labelFields: [''],
+         url: 'https://www.greenwoodsc.gov/arcgis1051/rest/services/Map_Layers_JS/MapServer/38',
+         labelFields: ['SiteAddress'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7343,7 +9112,7 @@ Doesn't have a Shape field.
 
         // Hampton Co - qPublic $$$
 
-        {name: 'Horry Co - Parcels',
+        {name: 'Horry Co - Parcels (no data)',
          id: 'sc-horry-co-parcels',
          url: 'http://www.horrycounty.org/gisweb/rest/services/Public/Parcels/MapServer/1',
          labelFields: [''],
@@ -7361,7 +9130,7 @@ Doesn't have a Shape field.
         // Kershaw Co - WTH
         // Lancaster Co - qPublic
 
-        {name: 'Laurens Co - Parcels',
+        {name: 'Laurens Co - Parcels (no data)',
          id: 'sc-laurens-co-parcels',
          url: 'http://www.laurenscountygis.org/ArcGIS/rest/services/WebParcels/MapServer/65',
          labelFields: [''],
@@ -7380,7 +9149,7 @@ Doesn't have a Shape field.
         {name: 'Lexington Co - Parcels',
          id: 'sc-lexington-co-parcels',
          url: 'http://maps.lex-co.com/arcgis/rest/services/Property/MapServer/0',
-         labelFields: [''],
+         labelFields: ['PROPADDR'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7398,7 +9167,7 @@ Doesn't have a Shape field.
         {name: 'Newberry Co - Parcels',
          id: 'sc-newberry-co-parcels',
          url: 'http://map.newberrycounty.net/arcgis/rest/services/Basemaps/ParcelPublicAccess/MapServer/5',
-         labelFields: [''],
+         labelFields: ['Street_Number_E911','Street_Name_E911'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7411,14 +9180,14 @@ Doesn't have a Shape field.
 
         // Oconee Co - qPublic
 
-        {name: 'Orangeburg Co - Parcels',
+        {name: 'Orangeburg Co - Parcels (no data)',
          id: 'sc-orangeburg-co-parcels',
          url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/TaxParcels_web/MapServer/1',
          labelFields: [''],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Orangeburg Co - Address Points (no data)',
+        {name: 'Orangeburg Co - Address Points',
          id: 'sc-orangeburg-co-pts',
          url: 'http://gis2.orangeburgcounty.org/dataportal/rest/services/SiteAddressesView/MapServer/0',
          labelFields: ['ADD_STNUM','ADD_STREET','ADD_EXT'],
@@ -7431,7 +9200,7 @@ Doesn't have a Shape field.
         {name: 'Saluda Co - Parcels',
          id: 'sc-saluda-co-parcels',
          url: 'http://www.saludacountysc.net/arcgis/rest/services/ParcelSearch/PublicWebsite/MapServer/4',
-         labelFields: [''],
+         labelFields: ['SDE.DBO.AssessorData.Street_Number_E911','SDE.DBO.AssessorData.Street_Name_E911'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7442,7 +9211,7 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Spartanburg Co - Parcels',
+        {name: 'Spartanburg Co - Parcels (no data)',
          id: 'sc-spartanburg-co-parcels',
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/SouthCarolina/SpartanburgSC/MapServer/24',
          labelFields: [''],
@@ -7459,7 +9228,7 @@ Doesn't have a Shape field.
         {name: 'Sumter Co - Parcels',
          id: 'sc-sumter-co-parcels',
          url: 'http://svr4.sumtercountysc.org:6080/arcgis/rest/services/Parcel_Search/County_Map_PS/MapServer/1',
-         labelFields: [''],
+         labelFields: ['ADDRESS','STREET'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7476,7 +9245,7 @@ Doesn't have a Shape field.
         {name: 'York Co - Parcels',
          id: 'sc-york-co-parcels',
          url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/3',
-         labelFields: [''],
+         labelFields: ['STREETNUM','STREETNAME'],
          state: 'SC',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7484,6 +9253,21 @@ Doesn't have a Shape field.
          id: 'sc-york-co-pts',
          url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/0',
          labelFields: ['WHOLE_ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Aiken - City Parcels (no data)',
+         id: 'sc-aiken-city-parcels',
+         url: 'https://gis.cityofaikensc.gov/arcgis/rest/services/PublicGIS/MapServer/13',
+         labelFields: [''],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Aiken - City Address Points',
+         id: 'sc-aiken-city-pts',
+         url: 'https://gis.cityofaikensc.gov/arcgis/rest/services/PublicGIS/MapServer/0',
+         labelFields: ['WholeAddress'],
+         processLabel: function(label) { return label.replace(/,.*$/,''); },
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
@@ -7498,6 +9282,20 @@ Doesn't have a Shape field.
          id: 'sc-mount-pleasant-city-pts',
          url: 'https://ccgisapps.charlestoncounty.org/arcgis/rest/services/Public_Search/Public_Search/MapServer/26',
          labelFields: ['ADDRESS'],
+         state: 'SC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'North Augusta - City Parcels',
+         id: 'sc-north-augusta-city-parcels',
+         url: 'http://206.74.124.99/arcgis/rest/services/AGS_CONAenduserArcSDE1_Dynamic_PublicSite/MapServer/2',
+         labelFields: ['STREET_NUM','STREET_NAM'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'North Augusta - City Address Points',
+         id: 'sc-north-augusta-city-pts',
+         url: 'http://206.74.124.99/arcgis/rest/services/AGS_CONAenduserArcSDE1_Dynamic_PublicSite/MapServer/1',
+         labelFields: ['FULL_HOUSE','FULLSTREET'],
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
@@ -7879,7 +9677,7 @@ Doesn't have a Shape field.
          id: 'tn-multi-county-pts-1',
          url: 'https://gis.johnsoncitytn.org/arcgis/rest/services/Address/SiteAddressPoint/MapServer/0',
          labelFields: ['FULLADDR'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'TN',
          style: DEFAULT_PT_STYLE},
 
@@ -7902,7 +9700,7 @@ Doesn't have a Shape field.
          id: 'tn-Davidson-co-parcels',
          url: 'http://maps.nashville.gov/arcgis/rest/services/Cadastral/Parcels/MapServer/0',
          labelFields: ['PropHouse','PropStreet'],
-         processLabel: function(label) { return label.replace(/^0\s+/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -7966,7 +9764,7 @@ Doesn't have a Shape field.
          url: 'http://maps.maurycounty-tn.gov/arcgis/rest/services/TaxParcelQuery/MapServer/0',
          where: "PARCELID <> ''",
          labelFields: ['SITEADDRESS'],
-         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1'); },
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8004,7 +9802,7 @@ Doesn't have a Shape field.
          url: 'http://services.putnamco.org/arcgis/rest/services/TaxParcelQuery/MapServer/0',
          where: "PARCELID<>''",
          labelFields: ['SITEADDRESS'],
-         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1'); },
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8042,7 +9840,7 @@ Doesn't have a Shape field.
          id: 'tn-Sevier-co-parcels',
          url: 'https://services1.arcgis.com/Qu4yM4JJvNoC2GKw/ArcGIS/rest/services/Parcel_Sevier_County/FeatureServer/0',
          labelFields: ['ADDRESS'],
-         processLabel: function(label) { return label.replace(/^(.*)\s(\d+)$/,'$2 $1'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1'); },
          state: 'TN',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8114,7 +9912,7 @@ Doesn't have a Shape field.
          id: 'tx-abilene-city-address',
          url: 'https://gis.abilenetx.com/arcgis/rest/services/Address_Points/MapServer/0',
          labelFields: ['FULLADDR'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8122,7 +9920,7 @@ Doesn't have a Shape field.
          id: 'tx-amarillo-city-parcels',
          url: 'https://services6.arcgis.com/Vdk8uHgdgYx8ZqS6/ArcGIS/rest/services/TaxAccountParcelsArcGISOnline/FeatureServer/0',
          labelFields: ['Address','STREET_PFX','STREET','STREET_SFX'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8130,7 +9928,7 @@ Doesn't have a Shape field.
          id: 'tx-andrews-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/AndrewsMapSearch/MapServer/1',
          labelFields: ['Andrews.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8138,7 +9936,7 @@ Doesn't have a Shape field.
          id: 'tx-angelina-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/AngelinaMapSearch/MapServer/7',
          labelFields: ['Angelina.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8146,7 +9944,7 @@ Doesn't have a Shape field.
          id: 'tx-anna-city-parcels',
          url: 'https://services5.arcgis.com/DvFgDXTY4DS4ZXFx/ArcGIS/rest/services/ClippedParcels/FeatureServer/0',
          labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8154,7 +9952,7 @@ Doesn't have a Shape field.
          id: 'tx-aransas-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/AransasMapSearch/MapServer/1',
          labelFields: ['Aransas.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8162,7 +9960,7 @@ Doesn't have a Shape field.
          id: 'tx-Atascosa-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/AtascosaMapSearch/MapServer/7',
          labelFields: ['Atascosa.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8170,7 +9968,7 @@ Doesn't have a Shape field.
          id: 'tx-austin-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/AustinWeb/MapServer/0',
          labelFields: ['AustinCad.DBO.Accounts.situs_num','AustinCad.DBO.Accounts.situs_street_prefx','AustinCad.DBO.Accounts.situs_street','AustinCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8178,7 +9976,7 @@ Doesn't have a Shape field.
          id: 'tx-bandera-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BanderaMapSearch/MapServer/6',
          labelFields: ['Bandera.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8186,7 +9984,7 @@ Doesn't have a Shape field.
          id: 'tx-bastrop-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/BastropWeb/MapServer/0',
          labelFields: ['BastropCad.DBO.Accounts.situs_num','BastropCad.DBO.Accounts.situs_street_prefx','BastropCad.DBO.Accounts.situs_street','BastropCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8194,7 +9992,7 @@ Doesn't have a Shape field.
          id: 'tx-bee-co-parcels',
          url: 'https://services7.arcgis.com/cPZChP7n2kRoyp30/ArcGIS/rest/services/Bee_CAD/FeatureServer/3',
          labelFields: ['Prop_Street_Number','Prop_Street','Prop_Street_Dir'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8202,7 +10000,7 @@ Doesn't have a Shape field.
          id: 'tx-bell-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BellMapSearch/MapServer/1',
          labelFields: ['Bell.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8210,7 +10008,7 @@ Doesn't have a Shape field.
          id: 'tx-bexar-co-parcels',
          url: 'http://www.bcad.org/arcgis/rest/services/PAMapSearch/MapServer/6',
          labelFields: ['PAMaps.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8218,7 +10016,7 @@ Doesn't have a Shape field.
          id: 'tx-brazoria-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrazoriaMapSearch/MapServer/8',
          labelFields: ['Brazoria.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8226,7 +10024,7 @@ Doesn't have a Shape field.
          id: 'tx-brazos-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/BrazosWeb/MapServer/0',
          labelFields: ['BrazosCad.DBO.Accounts.situs_num','BrazosCad.DBO.Accounts.situs_street_prefx','BrazosCad.DBO.Accounts.situs_street','BrazosCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8234,7 +10032,7 @@ Doesn't have a Shape field.
          id: 'tx-brown-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BrownMapSearch/MapServer/1',
          labelFields: ['Brown.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8242,7 +10040,7 @@ Doesn't have a Shape field.
          id: 'tx-bryan-co-parcels',
          url: 'https://maps.bryantx.gov/arcgis/rest/services/Address/AddressManagement/MapServer/2',
          labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8250,7 +10048,7 @@ Doesn't have a Shape field.
          id: 'tx-burleson-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/BurlesonWeb/MapServer/0',
          labelFields: ['BurlesonCad.dbo.Accounts.situs_num','BurlesonCad.dbo.Accounts.situs_street_prefx','BurlesonCad.dbo.Accounts.situs_street','BurlesonCad.dbo.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8258,7 +10056,7 @@ Doesn't have a Shape field.
          id: 'tx-burnet-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/BurnetMapSearch/MapServer/7',
          labelFields: ['Burnet.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8266,7 +10064,7 @@ Doesn't have a Shape field.
          id: 'tx-calhoun-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/CalhounMapSearch/MapServer/7',
          labelFields: ['Calhoun.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8274,7 +10072,7 @@ Doesn't have a Shape field.
          id: 'tx-camp-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/CampWeb/MapServer/0',
          labelFields: ['CampCad.DBO.Accounts.situs_num','CampCad.DBO.Accounts.situs_street_prefx','CampCad.DBO.Accounts.situs_street','CampCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8282,7 +10080,7 @@ Doesn't have a Shape field.
          id: 'tx-carson-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/CarsonWeb/MapServer/0',
          labelFields: ['CarsonCad.DBO.Accounts.situs_num','CarsonCad.DBO.Accounts.situs_street_prefx','CarsonCad.DBO.Accounts.situs_street','CarsonCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8290,7 +10088,7 @@ Doesn't have a Shape field.
 //         id: 'tx-carrollton-city-parcels',
 //         url: 'http://maps.cityofcarrollton.com/arcgis/rest/services/Webclstr1/BaseMap/MapServer/6',
 //         labelFields: ['STR_NUM','STR_DIR','STR_NAME','STR_SUF'],
-//         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+//         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
 //         state: 'TX',
 //         style: DEFAULT_PARCEL_STYLE},
 
@@ -8298,7 +10096,7 @@ Doesn't have a Shape field.
          id: 'tx-cass-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/CassMapSearch/MapServer/1',
          labelFields: ['Cass.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8306,7 +10104,7 @@ Doesn't have a Shape field.
          id: 'tx-cherokee-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/CherokeeMapSearch/MapServer/7',
          labelFields: ['Cherokee.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8314,7 +10112,7 @@ Doesn't have a Shape field.
          id: 'tx-cochran-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/CochranMapSearch/MapServer/6',
          labelFields: ['Cochran.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8338,7 +10136,7 @@ Doesn't have a Shape field.
          id: 'tx-colorado-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ColoradoMapSearch/MapServer/7',
          labelFields: ['Colorado.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8346,7 +10144,7 @@ Doesn't have a Shape field.
          id: 'tx-comal-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ComalMapSearch/MapServer/7',
          labelFields: ['Comal.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8354,7 +10152,7 @@ Doesn't have a Shape field.
          id: 'tx-comanche-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/ComancheWeb/MapServer/0',
          labelFields: ['ComancheCad.DBO.Accounts.situs_num','ComancheCad.DBO.Accounts.situs_street_prefx','ComancheCad.DBO.Accounts.situs_street','ComancheCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8362,7 +10160,7 @@ Doesn't have a Shape field.
          id: 'tx-coookie-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
          labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8370,7 +10168,7 @@ Doesn't have a Shape field.
          id:  'tx-coppell-city-parcels',
          url:  'https://map.coppelltx.gov/gis/rest/services/External/MapLayers/MapServer/11',
          labelFields:  ['STREET_NUM','FULL_STREET_NAME' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8378,7 +10176,7 @@ Doesn't have a Shape field.
          id:  'tx-coryell-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/CoryellWeb/MapServer/0',
          labelFields:  ['CoryellCad.DBO.Accounts.situs_num', 'CoryellCad.DBO.Accounts.situs_street_prefx', 'CoryellCad.DBO.Accounts.situs_street', 'CoryellCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8386,7 +10184,7 @@ Doesn't have a Shape field.
          id:  'tx-crane-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/CraneWeb/MapServer/0',
          labelFields:  ['CraneCad.DBO.TempAccounts.situs_num', 'CraneCad.DBO.TempAccounts.situs_street_prefx', 'CraneCad.DBO.TempAccounts.situs_street', 'CraneCad.DBO.TempAccounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8394,7 +10192,7 @@ Doesn't have a Shape field.
          id:  'tx-dallam-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/DallamWeb/MapServer/0',
          labelFields:  ['DallamCad.DBO.Accounts.situs_num', 'DallamCad.DBO.Accounts.situs_street_prefx', 'DallamCad.DBO.Accounts.situs_street', 'DallamCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8402,7 +10200,7 @@ Doesn't have a Shape field.
          id: 'tx-dallas-city-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8410,7 +10208,7 @@ Doesn't have a Shape field.
          id: 'tx-dallas-co-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8418,7 +10216,7 @@ Doesn't have a Shape field.
          id: 'tx-deafsmith-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/DeafSmithMapSearch/MapServer/7',
          labelFields: ['DeafSmith.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8426,7 +10224,7 @@ Doesn't have a Shape field.
          id:  'tx-decatur-city-parcels',
          url:  'https://services1.arcgis.com/PLOR6Lqgjdua9pO5/arcgis/rest/services/Layers/FeatureServer/0/',
          labelFields:  ['HOUSENUM', 'PREDIR', 'STREETNAME', 'STTYPE' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8434,7 +10232,7 @@ Doesn't have a Shape field.
          id:  'tx-delta-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/DeltaWeb/MapServer/0',
          labelFields:  ['DeltaCad.DBO.Accounts.situs_num', 'DeltaCad.DBO.Accounts.situs_street_prefx', 'DeltaCad.DBO.Accounts.situs_street', 'DeltaCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8442,7 +10240,7 @@ Doesn't have a Shape field.
          id: 'tx-denton-co-parcels',
          url: 'http://gis.dentoncounty.com/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['SITUS'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8450,7 +10248,7 @@ Doesn't have a Shape field.
          id:  'tx-dimmit-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/DimmitWeb/MapServer/0',
          labelFields:  ['DimmitCad.DBO.Accounts.situs_num', 'DimmitCad.DBO.Accounts.situs_street_prefx', 'DimmitCad.DBO.Accounts.situs_street', 'DimmitCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8458,7 +10256,7 @@ Doesn't have a Shape field.
          id:  'tx-duval-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/DuvalWeb/MapServer/0',
          labelFields:  ['DuvalCad.DBO.Accounts.situs_num', 'DuvalCad.DBO.Accounts.situs_street_prefx', 'DuvalCad.DBO.Accounts.situs_street', 'DuvalCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8466,7 +10264,7 @@ Doesn't have a Shape field.
          id:  'tx-ellis-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/EllisWeb/MapServer/0',
          labelFields:  ['EllisCad.DBO.Accounts.situs_num', 'EllisCad.DBO.Accounts.situs_street_prefx', 'EllisCad.DBO.Accounts.situs_street', 'EllisCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8474,7 +10272,7 @@ Doesn't have a Shape field.
          id: 'tx-el-paso-co-parcels',
          url: 'http://gis.elpasotexas.gov/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['CAD_2018.DBO.ParcelAttribute.SITUS_NUM','CAD_2018.DBO.ParcelAttribute.SITUS_STRE'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8482,7 +10280,7 @@ Doesn't have a Shape field.
          id: 'tx-falls-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/FallsMapSearch/MapServer/7',
          labelFields: ['Falls.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8490,7 +10288,7 @@ Doesn't have a Shape field.
          id:  'tx-fannin-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/FanninWeb/MapServer/0',
          labelFields:  ['FanninCad.DBO.Accounts.situs_num', 'FanninCad.DBO.Accounts.situs_street_prefx', 'FanninCad.DBO.Accounts.situs_street', 'FanninCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8498,7 +10296,7 @@ Doesn't have a Shape field.
          id:  'tx-fayette-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/FayetteWeb/MapServer/0',
          labelFields:  ['FayetteCad.DBO.Accounts.situs_num', 'FayetteCad.DBO.Accounts.situs_street_prefx', 'FayetteCad.DBO.Accounts.situs_street', 'FayetteCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8506,7 +10304,7 @@ Doesn't have a Shape field.
          id: 'tx-fort-bend-address',
          url: 'https://arcgisweb.co.fort-bend.tx.us/arcgis/rest/services/General/Address_Points/MapServer/0',
          labelFields: ['STREET_NUM','STREET_NAM','STREET_SUF'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8514,7 +10312,7 @@ Doesn't have a Shape field.
          id: 'tx-fort-worth-parcels',
          url: 'https://mapitwest.fortworthtexas.gov/ags/rest/services/FWGISData/FW_GIS_DATA/MapServer/13',
          labelFields: ['ADDR_NO','PREFIX','STREET_NAME','STREET_TYPE','SUFFIX'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8522,7 +10320,7 @@ Doesn't have a Shape field.
          id: 'tx-flower-mound-city-parcels',
          url: 'https://gismaps.flower-mound.com/wafmp/rest/services/Basemap/Parcels_MS/MapServer/0',
          labelFields: ['ADDRESS_1'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8530,7 +10328,7 @@ Doesn't have a Shape field.
          id:  'tx-freestone-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/FreestoneWeb/MapServer/0',
          labelFields:  ['FreestoneCad.DBO.Accounts.situs_num', 'FreestoneCad.DBO.Accounts.situs_street_prefx', 'FreestoneCad.DBO.Accounts.situs_street', 'FreestoneCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8538,7 +10336,7 @@ Doesn't have a Shape field.
          id: 'tx-frisco-city-parcels',
          url: 'http://mapcache.friscotexas.gov/arcgis/rest/services/Resident/MapServer/10',
          labelFields: ['Address'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8546,7 +10344,7 @@ Doesn't have a Shape field.
          id:  'tx-gaines-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GainesWeb/MapServer/0',
          labelFields:  ['GainesCad.DBO.Accounts.situs_num', 'GainesCad.DBO.Accounts.situs_street_prefx', 'GainesCad.DBO.Accounts.situs_street', 'GainesCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8562,7 +10360,7 @@ Doesn't have a Shape field.
          id: 'tx-garland-city-address',
          url: 'https://maps.garlandtx.gov/arcgis/rest/services/OpenData/OPENDATA_BaseLayers/MapServer/5',
          labelFields: ['STREETNUM','STREETPREFIX','STREETNAME','STREETTYPE','STREETSUFFIX'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8570,7 +10368,7 @@ Doesn't have a Shape field.
          id: 'tx-gillespie-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/GillespieMapSearch/MapServer/7',
          labelFields: ['Gillespie.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8578,7 +10376,7 @@ Doesn't have a Shape field.
 //         id:  'tx-glasscock-co-parcels',
 //         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GlasscockWeb/MapServer/0',
 //         labelFields:  ['GlasscockCad.DBO.Accounts.situs_num', 'GlasscockCad.DBO.Accounts.situs_street_prefx', 'GlasscockCad.DBO.Accounts.situs_street', 'GlasscockCad.DBO.Accounts.situs_street_sufix' ],
-//         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
 //         state:  'TX',
 //         style:  DEFAULT_PARCEL_STYLE },
 
@@ -8586,7 +10384,7 @@ Doesn't have a Shape field.
          id: 'tx-goliad-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/GoliadMapSearch/MapServer/7',
          labelFields: ['Goliad.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8594,7 +10392,7 @@ Doesn't have a Shape field.
          id:  'tx-granbury-city-parcels',
          url:  'https://gis.newedgeservices.com/arcgis/rest/services/Granbury/GranburyWebMap_PublicSite/MapServer/4',
          labelFields:  ['GranburyGIS.SDE.Parcels.vm_situs' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8602,7 +10400,7 @@ Doesn't have a Shape field.
          id:  'tx-grandprairie-city-parcels',
          url:  'https://gis.gptx.org/srv103/rest/services/Maps/BaseMap/MapServer/15',
          labelFields:  ['STR_NUM', 'STR_NAME', 'STR_TYPE' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8610,7 +10408,7 @@ Doesn't have a Shape field.
          id:  'tx-gray-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
          labelFields:  ['GrayCad.DBO.Accounts.situs_num', 'GrayCad.DBO.Accounts.situs_street_prefx', 'GrayCad.DBO.Accounts.situs_street', 'GrayCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8618,7 +10416,7 @@ Doesn't have a Shape field.
          id:  'tx-grayson-co-parcels',
          url:  'http://maps.co.grayson.tx.us/gcgis/rest/services/Grayson/Addresses/MapServer/5',
          labelFields:  ['SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8626,7 +10424,7 @@ Doesn't have a Shape field.
          id: 'tx-gregg-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/GreggWeb/MapServer/0/',
          labelFields: ['GreggCad.dbo.Accounts.situs_num','GreggCad.dbo.Accounts.situs_street_prefx','GreggCad.dbo.Accounts.situs_street','GreggCad.dbo.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8634,7 +10432,7 @@ Doesn't have a Shape field.
          id:  'tx-grimes-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrimesWeb/MapServer/0',
          labelFields:  ['GrimesCad.DBO.Accounts.situs_num', 'GrimesCad.DBO.Accounts.situs_street_prefx', 'GrimesCad.DBO.Accounts.situs_street', 'GrimesCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8642,7 +10440,7 @@ Doesn't have a Shape field.
          id: 'tx-guadalupe-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/GuadalupeMapSearch/MapServer/7',
          labelFields: ['Guadalupe.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8650,7 +10448,7 @@ Doesn't have a Shape field.
          id:  'tx-hansford-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HansfordWeb/MapServer/0',
          labelFields:  ['HansfordCad.DBO.Accounts.situs_num', 'HansfordCad.DBO.Accounts.situs_street_prefx', 'HansfordCad.DBO.Accounts.situs_street', 'HansfordCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8658,7 +10456,7 @@ Doesn't have a Shape field.
          id: 'tx-harris-co-parcels',
          url: 'https://arcweb.hcad.org/server/rest/services/public/public_query/MapServer/0',
          labelFields: ['address'],
-         processLabel: function(label) { return label.replace(/^0\s.*/,'').replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, '').replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8666,7 +10464,7 @@ Doesn't have a Shape field.
          id:  'tx-hartley-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HartleyWeb/MapServer/0',
          labelFields:  ['HartleyCad.DBO.Accounts.situs_num', 'HartleyCad.DBO.Accounts.situs_street_prefx', 'HartleyCad.DBO.Accounts.situs_street', 'HartleyCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8674,7 +10472,7 @@ Doesn't have a Shape field.
          id:  'tx-hays-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HaysWeb/MapServer/0',
          labelFields:  ['HaysCad.dbo.Accounts.situs_num', 'HaysCad.dbo.Accounts.situs_street_prefx', 'HaysCad.dbo.Accounts.situs_street', 'HaysCad.dbo.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8682,7 +10480,7 @@ Doesn't have a Shape field.
          id:  'tx-highland-village-city-parcels',
          url:  'https://maps.highlandvillage.org/arcgis/rest/services/Maps/Basemap/MapServer/6',
          labelFields:  ['SITUS' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8690,7 +10488,7 @@ Doesn't have a Shape field.
 //         id:  'tx-hockley-co-parcels',
 //         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HockleyWeb/MapServer/0',
 //         labelFields:  ['HockleyCad.DBO.Accounts.situs_num', 'HockleyCad.DBO.Accounts.situs_street_prefx', 'HockleyCad.DBO.Accounts.situs_street', 'HockleyCad.DBO.Accounts.situs_street_sufix' ],
-//         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
 //         state:  'TX',
 //         style:  DEFAULT_PARCEL_STYLE },
 
@@ -8698,7 +10496,7 @@ Doesn't have a Shape field.
          id:  'tx-howard-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HowardWeb/MapServer/0',
          labelFields:  ['HowardCad.DBO.Accounts.situs_num', 'HowardCad.DBO.Accounts.situs_street_prefx', 'HowardCad.DBO.Accounts.situs_street', 'HowardCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8706,7 +10504,7 @@ Doesn't have a Shape field.
          id:  'tx-hunt-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/HuntWeb/MapServer/0',
          labelFields:  ['HuntCad.DBO.Accounts.situs_num', 'HuntCad.DBO.Accounts.situs_street_prefx', 'HuntCad.DBO.Accounts.situs_street', 'HuntCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8714,7 +10512,7 @@ Doesn't have a Shape field.
          id:  'tx-irving-city-parcels',
          url:  'https://services3.arcgis.com/OfsJXUlu8pSkbl7B/ArcGIS/rest/services/CertifiedTax/FeatureServer/0',
          labelFields:  ['STREET_NUM', 'STREET_NAM', 'STREET_SUF' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8729,7 +10527,7 @@ Doesn't have a Shape field.
          id:  'tx-johnson-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/JohnsonWeb/MapServer/0',
          labelFields:  ['SITUS' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8737,7 +10535,7 @@ Doesn't have a Shape field.
          id: 'tx-kaufman-co-parcels',
          url: 'https://gis.bisconsultants.com/bisgis/rest/services/KaufmanWeb/MapServer/0',
          labelFields: ['KaufmanCad.DBO.Accounts.situs_num','KaufmanCad.DBO.Accounts.situs_street_prefx','KaufmanCad.DBO.Accounts.situs_street','KaufmanCad.DBO.Accounts.situs_street_sufix'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8745,7 +10543,7 @@ Doesn't have a Shape field.
          id: 'tx-kendall-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/KendallMapSearch/MapServer/7',
          labelFields: ['Kendall.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8753,7 +10551,7 @@ Doesn't have a Shape field.
          id: 'tx-kerr-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/KerrMapSearch/MapServer/4',
          labelFields: ['Kerr.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8761,7 +10559,7 @@ Doesn't have a Shape field.
          id: 'tx-kimble-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/KimbleMapSearch/MapServer/7',
          labelFields: ['Kimble.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8776,7 +10574,7 @@ Doesn't have a Shape field.
          id: 'tx-kinney-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/KinneyMapSearch/MapServer/1',
          labelFields: ['Kinney.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8784,7 +10582,7 @@ Doesn't have a Shape field.
          id: 'tx-kleberg-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/KlebergMapSearch/MapServer/1',
          labelFields: ['Kleberg.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8792,7 +10590,7 @@ Doesn't have a Shape field.
          id:  'tx-la salle-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/LaSalleWeb/MapServer/0',
          labelFields:  ['LasalleCad.DBO.Accounts.situs_num', 'LasalleCad.DBO.Accounts.situs_street_prefx', 'LasalleCad.DBO.Accounts.situs_street', 'LasalleCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8800,7 +10598,7 @@ Doesn't have a Shape field.
          id:  'tx-lamar-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/LamarWeb/MapServer/0',
          labelFields:  ['LamarCad.DBO.Accounts.situs_num', 'LamarCad.DBO.Accounts.situs_street_prefx', 'LamarCad.DBO.Accounts.situs_street', 'LamarCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8808,7 +10606,7 @@ Doesn't have a Shape field.
          id:  'tx-lancaster-city-parcels',
          url:  'https://services1.arcgis.com/hUry7JDhk1zQOJdo/ArcGIS/rest/services/Zoning_Webmap/FeatureServer/3',
          labelFields:  ['SiteNum', 'SiteDir', 'SiteStreet', 'SiteSuffix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8816,7 +10614,7 @@ Doesn't have a Shape field.
          id: 'tx-lavaca-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/LavacaMapSearch/MapServer/7',
          labelFields: ['Lavaca.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8824,7 +10622,7 @@ Doesn't have a Shape field.
          id:  'tx-lee-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/LeeWeb/MapServer/0',
          labelFields:  ['LeeCad.DBO.Accounts.situs_num', 'LeeCad.DBO.Accounts.situs_street_prefx', 'LeeCad.DBO.Accounts.situs_street', 'LeeCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8832,7 +10630,7 @@ Doesn't have a Shape field.
          id:  'tx-liberty-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/LibertyWeb/MapServer/0',
          labelFields:  ['LibertyCad.DBO.Accounts.situs_num', 'LibertyCad.DBO.Accounts.situs_street_prefx', 'LibertyCad.DBO.Accounts.situs_street', 'LibertyCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8840,7 +10638,7 @@ Doesn't have a Shape field.
          id:  'tx-live oak-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/LiveOakWeb/MapServer/0',
          labelFields:  ['LiveOakCad.dbo.Accounts.situs_num', 'LiveOakCad.dbo.Accounts.situs_street_prefx', 'LiveOakCad.dbo.Accounts.situs_street', 'LiveOakCad.dbo.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8848,7 +10646,7 @@ Doesn't have a Shape field.
          id:  'tx-longview-city-address',
          url:  'https://cloud.longviewtexas.gov/arcgis/rest/services/WebMaps/WebMapServices/MapServer/3',
          labelFields:  ['STREET_NUM','DIR','STREET','TYPE' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8870,7 +10668,7 @@ Doesn't have a Shape field.
          id:  'tx-madison-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/MadisonWeb/MapServer/0',
          labelFields:  ['MadisonCad.DBO.Accounts.situs_num', 'MadisonCad.DBO.Accounts.situs_street_prefx', 'MadisonCad.DBO.Accounts.situs_street', 'MadisonCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8878,7 +10676,7 @@ Doesn't have a Shape field.
          id:  'tx-mansfield-city-parcels',
          url:  'http://gis4.dfwmaps.com/arcgis/rest/services/ICMansfield/Mansfield_Baselayers/MapServer/4',
          labelFields:  ['ADDRESS' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8886,7 +10684,7 @@ Doesn't have a Shape field.
          id:  'tx-marion-co-parcels',
          url:  'http://gis.pandai.com/arcgis/rest/services/Marion/Marion_Parcel_Cama_JOIN/MapServer/0',
          labelFields:  ['MarionCADGIS.DBO.MapDATA.Prop_Street_Number', 'MarionCADGIS.DBO.MapDATA.Prop_Street', 'MarionCADGIS.DBO.MapDATA.Prop_Street_Dir' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8894,7 +10692,7 @@ Doesn't have a Shape field.
          id: 'tx-maverick-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/MaverickMapSearch/MapServer/1',
          labelFields: [ 'Maverick.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8902,7 +10700,7 @@ Doesn't have a Shape field.
          id:  'tx-mcculloch-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/McCullochWeb/MapServer/0',
          labelFields:  ['McCullochCad.DBO.Accounts.situs_num', 'McCullochCad.DBO.Accounts.situs_street_prefx', 'McCullochCad.DBO.Accounts.situs_street', 'McCullochCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8910,7 +10708,7 @@ Doesn't have a Shape field.
          id:  'tx-mckinney-co-parcels',
          url:  'http://maps.mckinneytexas.org/mckinney/rest/services/MapServices/BaseLayers/MapServer/1',
          labelFields:  ['SitusAdd' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8918,7 +10716,7 @@ Doesn't have a Shape field.
          id: 'tx-mclennan-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/MclennanMapSearch/MapServer/7',
          labelFields: [ 'Mclennan.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8926,7 +10724,7 @@ Doesn't have a Shape field.
          id:  'tx-mcmullen-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/McMullenWeb/MapServer/0',
          labelFields:  ['McMullenCad.DBO.Accounts.situs_num', 'McMullenCad.DBO.Accounts.situs_street_prefx', 'McMullenCad.DBO.Accounts.situs_street', 'McMullenCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8934,7 +10732,7 @@ Doesn't have a Shape field.
          id:  'tx-medina-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/MedinaWeb/MapServer/0',
          labelFields:  ['MedinaCad.DBO.Accounts.situs_num', 'MedinaCad.DBO.Accounts.situs_street_prefx', 'MedinaCad.DBO.Accounts.situs_street', 'MedinaCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8943,7 +10741,7 @@ Doesn't have a Shape field.
 //         id:  'tx-menard-co-parcels',
 //         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MenardWeb/MapServer/0',
 //         labelFields:  ['MenardCad.DBO.Accounts.situs_num', 'MenardCad.DBO.Accounts.situs_street_prefx', 'MenardCad.DBO.Accounts.situs_street', 'MenardCad.DBO.Accounts.situs_street_sufix' ],
-//         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
 //         state:  'TX',
 //         style:  DEFAULT_PARCEL_STYLE },
 
@@ -8951,7 +10749,7 @@ Doesn't have a Shape field.
          id:  'tx-midland-city-parcels',
          url:  'https://midland.newedgeservices.com/arcgis/rest/services/Cityworks/BaseMap_and_Trans/MapServer/2',
          labelFields:  ['MidlandGIS.SDE.BM_Parcel.SITENUM', 'MidlandGIS.SDE.BM_Parcel.ADDRESS' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8959,7 +10757,7 @@ Doesn't have a Shape field.
          id:  'tx-mills-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/MillsWeb/MapServer/0',
          labelFields:  ['MillsCad.DBO.Accounts.situs_num', 'MillsCad.DBO.Accounts.situs_street_prefx', 'MillsCad.DBO.Accounts.situs_street', 'MillsCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8967,7 +10765,7 @@ Doesn't have a Shape field.
          id: 'tx-montgomery-co-parcels',
          url: 'https://services1.arcgis.com/PRoAPGnMSUqvTrzq/ArcGIS/rest/services/Tax_Parcel_Public_View/FeatureServer/0',
          labelFields: ['PropertyAd'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8975,7 +10773,7 @@ Doesn't have a Shape field.
          id:  'tx-moore-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/MooreWeb/MapServer/0',
          labelFields:  ['MooreCad.DBO.Accounts.situs_num', 'MooreCad.DBO.Accounts.situs_street_prefx', 'MooreCad.DBO.Accounts.situs_street', 'MooreCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8983,7 +10781,7 @@ Doesn't have a Shape field.
          id: 'tx-newton-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/NewtonMapSearch/MapServer/7',
          labelFields: [ 'Newton.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -8991,7 +10789,7 @@ Doesn't have a Shape field.
          id:  'tx-nolan-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/NolanWeb/MapServer/0',
          labelFields:  ['NolanCad.DBO.Accounts.situs_num', 'NolanCad.DBO.Accounts.situs_street_prefx', 'NolanCad.DBO.Accounts.situs_street', 'NolanCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -8999,7 +10797,7 @@ Doesn't have a Shape field.
          id:  'tx-north-richland-hills-parcels',
          url:  'http://gis4.dfwmaps.com/arcgis/rest/services/ICNRH/NRH_Baselayers_VE/MapServer/1',
          labelFields:  ['Situs_Addr' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9007,7 +10805,7 @@ Doesn't have a Shape field.
          id: 'tx-nueces-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/NuecesMapSearch/MapServer/8',
          labelFields: [ 'Nueces.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9015,7 +10813,7 @@ Doesn't have a Shape field.
          id:  'tx-ochiltree-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/OchiltreeWeb/MapServer/0',
          labelFields:  ['OchiltreeCad.DBO.Accounts.situs_num', 'OchiltreeCad.DBO.Accounts.situs_street_prefx', 'OchiltreeCad.DBO.Accounts.situs_street', 'OchiltreeCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9023,7 +10821,7 @@ Doesn't have a Shape field.
          id:  'tx-odessa-city-address',
          url:  'https://gis2.odessa-tx.gov/arcgis/rest/services/Basemaps/GeneralPurposeDefaultBasemap/MapServer/3',
          labelFields:  ['FULLADDR' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9031,7 +10829,7 @@ Doesn't have a Shape field.
          id:  'tx-orange-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/OrangeWeb/MapServer/0',
          labelFields:  ['OrangeCad.DBO.Accounts.situs_num', 'OrangeCad.DBO.Accounts.situs_street_prefx', 'OrangeCad.DBO.Accounts.situs_street', 'OrangeCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9039,7 +10837,7 @@ Doesn't have a Shape field.
          id:  'tx-parmer-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/ParmerWeb/MapServer/0',
          labelFields:  ['ParmerCad.DBO.Accounts.situs_num', 'ParmerCad.DBO.Accounts.situs_street_prefx', 'ParmerCad.DBO.Accounts.situs_street', 'ParmerCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9047,7 +10845,7 @@ Doesn't have a Shape field.
          id:  'tx-pearland-city-parcels',
          url:  'https://copgisweb.ci.pearland.tx.us/arcgis/rest/services/InteractiveMap/Parcels2017Nov/MapServer/0',
          labelFields:  ['situs_num','situs_street_prefx','situs_street','situs_street_suffix'],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9055,7 +10853,7 @@ Doesn't have a Shape field.
          id: 'tx-plano-city-parcels',
          url: 'http://maps.planogis.org/arcgiswad/rest/services/BaseLayers/Parcels/MapServer/0',
          labelFields: ['SITUS_NUM','SITUS_STREET_PREFX','SITUS_STREET','SITUS_STREET_SUFIX'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+(.*)/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r6, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9063,7 +10861,7 @@ Doesn't have a Shape field.
          id: 'tx-polk-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/PolkMapSearch/MapServer/8',
          labelFields: [ 'Polk.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9071,7 +10869,7 @@ Doesn't have a Shape field.
          id: 'tx-porter-city-parcels',
          url: 'https://services1.arcgis.com/PRoAPGnMSUqvTrzq/ArcGIS/rest/services/Tax_Parcel_Public_View/FeatureServer/0',
          labelFields: [ 'PropertyAd' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9079,7 +10877,7 @@ Doesn't have a Shape field.
          id: 'tx-prosper-city-address',
          url: 'https://gis.newedgeservices.com/arcgis/rest/services/Prosper/ProsperMap/MapServer/40',
          labelFields: [ 'STR_NUMBER' , 'STR_DIRECTION', 'STR_NAME', 'STR_SUFFIX'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9087,7 +10885,7 @@ Doesn't have a Shape field.
          id:  'tx-rains-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/RainsWeb/MapServer/0',
          labelFields:  ['RainsCad.DBO.Accounts.situs_num', 'RainsCad.DBO.Accounts.situs_street_prefx', 'RainsCad.DBO.Accounts.situs_street', 'RainsCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9095,7 +10893,7 @@ Doesn't have a Shape field.
          id: 'tx-real-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/RealMapSearch/MapServer/1',
          labelFields: [ 'Real.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9103,7 +10901,7 @@ Doesn't have a Shape field.
          id:  'tx-red river-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/RedRiverWeb/MapServer/0',
          labelFields:  ['RedRiverCad.DBO.Accounts.situs_num', 'RedRiverCad.DBO.Accounts.situs_street_prefx', 'RedRiverCad.DBO.Accounts.situs_street', 'RedRiverCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9111,7 +10909,7 @@ Doesn't have a Shape field.
          id:  'tx-reeves-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/ReevesWeb/MapServer/0',
          labelFields:  ['ReevesCad.DBO.Accounts.situs_num', 'ReevesCad.DBO.Accounts.situs_street_prefx','ReevesCad.DBO.Accounts.situs_street','ReevesCad.DBO.Accounts.situs_street_sufix'],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9119,7 +10917,7 @@ Doesn't have a Shape field.
          id: 'tx-rockwall-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/RockwallMapSearch/MapServer/1',
          labelFields: ['Rockwall.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9128,7 +10926,7 @@ Doesn't have a Shape field.
 //         id: 'tx-rowlett-city-parcels',
 //         url: 'http://emap.rowlett.com/arcgis/rest/services/BaseMap/Basemap/MapServer/8',
 //         labelFields: ['STR_NUM','STR_NAME','STR_TYPE'],
-//         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+//         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
 //         state: 'TX',
 //         style: DEFAULT_PARCEL_STYLE},
 
@@ -9136,7 +10934,7 @@ Doesn't have a Shape field.
          id: 'tx-sanantonio-city-parcels',
          url: 'https://qagis1.sanantonio.gov/ArcGIS/rest/services/BrowseSAOperationalLayers/MapServer/1',
          labelFields: [ 'Address' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9144,7 +10942,7 @@ Doesn't have a Shape field.
          id: 'tx-sanjacinto-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/SanJacintoMapSearch/MapServer/7',
          labelFields: [ 'SanJacinto.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9152,7 +10950,7 @@ Doesn't have a Shape field.
          id:  'tx-schleicher-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/SchleicherWeb/MapServer/0',
          labelFields:  ['SchleicherCad.DBO.Accounts.situs_num', 'SchleicherCad.DBO.Accounts.situs_street_prefx', 'SchleicherCad.DBO.Accounts.situs_street', 'SchleicherCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9160,7 +10958,7 @@ Doesn't have a Shape field.
          id: 'tx-scurry-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ScurryMapSearch/MapServer/7',
          labelFields: [ 'Scurry.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9168,7 +10966,7 @@ Doesn't have a Shape field.
          id:  'tx-shackelford-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/ShackelfordWeb/MapServer/0',
          labelFields:  ['ShackelfordCad.DBO.Accounts.situs_num', 'ShackelfordCad.DBO.Accounts.situs_street_prefx', 'ShackelfordCad.DBO.Accounts.situs_street', 'ShackelfordCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9176,7 +10974,7 @@ Doesn't have a Shape field.
          id: 'tx-shelby-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ShelbyMapSearch/MapServer/7',
          labelFields: [ 'Shelby.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9184,7 +10982,7 @@ Doesn't have a Shape field.
          id: 'tx-sherman-city-parcels',
          url: 'http://maps.ci.sherman.tx.us/arcgis/rest/services/ParcelPublishing/MapServer/8',
          labelFields: [ 'SitusNumbe', 'SitusStree', 'SitusStr_1', 'SitusStr_2' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9192,7 +10990,7 @@ Doesn't have a Shape field.
          id: 'tx-smith-co-address',
          url: 'https://www.smithcountymapsite.org/publicgis/rest/services/Maps/AddressPoints/MapServer/0',
          labelFields: ['ADDRNUM','FULLNAME'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9200,7 +10998,7 @@ Doesn't have a Shape field.
          id: 'tx-stevens-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/StevensMapSearch/MapServer/6',
          labelFields: [ 'Stevens.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9208,7 +11006,7 @@ Doesn't have a Shape field.
          id: 'tx-sutton-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/SuttonMapSearch/MapServer/6',
          labelFields: [ 'Sutton.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9216,7 +11014,7 @@ Doesn't have a Shape field.
          id: 'tx-swisher-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/SwisherMapSearch/MapServer/7',
          labelFields: [ 'Swisher.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9224,7 +11022,7 @@ Doesn't have a Shape field.
          id: 'tx-tarrant-co-parcels',
          url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
          labelFields: ['SitusAddress'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9232,7 +11030,7 @@ Doesn't have a Shape field.
          id:  'tx-temple-city-parcels',
          url:  'https://arcgiswap01.ci.temple.tx.us/arcgis/rest/services/Services/Parcels/FeatureServer/0',
          labelFields:  ['PRIMARY_ADD' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9240,7 +11038,7 @@ Doesn't have a Shape field.
          id:  'tx-terrell-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/TerrellWeb/MapServer/0',
          labelFields:  ['TerrellCad.DBO.TempAccounts.situs_num', 'TerrellCad.DBO.TempAccounts.situs_street_prefx', 'TerrellCad.DBO.TempAccounts.situs_street', 'TerrellCad.DBO.TempAccounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9248,7 +11046,7 @@ Doesn't have a Shape field.
          id:  'tx-titus-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/TitusWeb/MapServer/0',
          labelFields:  ['TitusCad.DBO.Accounts.situs_num', 'TitusCad.DBO.Accounts.situs_street_prefx', 'TitusCad.DBO.Accounts.situs_street', 'TitusCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9256,7 +11054,7 @@ Doesn't have a Shape field.
          id:  'tx-travis-co-parcels',
          url:  'http://propaccess.traviscad.org/arcgis/rest/services/TravisMapSearch/MapServer/8',
          labelFields:  ['GIS_Data.dbo.web_map_property.situs' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9264,7 +11062,7 @@ Doesn't have a Shape field.
          id: 'tx-tyler-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/TylerMapSearch/MapServer/1',
          labelFields: [ 'Tyler.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9272,7 +11070,7 @@ Doesn't have a Shape field.
          id:  'tx-trinity-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/TrinityWeb/MapServer/0',
          labelFields:  ['TrinityCad.DBO.Accounts.situs_num', 'TrinityCad.DBO.Accounts.situs_street_prefx', 'TrinityCad.DBO.Accounts.situs_street', 'TrinityCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9280,7 +11078,7 @@ Doesn't have a Shape field.
          id: 'tx-upshur-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/UpshurMapSearch/MapServer/7',
          labelFields: [ 'Upshur.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9288,7 +11086,7 @@ Doesn't have a Shape field.
          id: 'tx-upton-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/UptonMapSearch/MapServer/6',
          labelFields: [ 'Upton.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9296,7 +11094,7 @@ Doesn't have a Shape field.
          id:  'tx-uvalde-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/UvaldeWeb/MapServer/0',
          labelFields:  ['UvaldeCad.DBO.Accounts.situs_num', 'UvaldeCad.DBO.Accounts.situs_street_prefx', 'UvaldeCad.DBO.Accounts.situs_street', 'UvaldeCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9304,7 +11102,7 @@ Doesn't have a Shape field.
          id: 'tx-valverde-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ValVerdeMapSearch/MapServer/7',
          labelFields: [ 'ValVerde.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9312,7 +11110,7 @@ Doesn't have a Shape field.
          id:  'tx-van zandt-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/VanZandtWeb/MapServer/0',
          labelFields:  ['VanZandtCad.DBO.Accounts.situs_num', 'VanZandtCad.DBO.Accounts.situs_street_prefx', 'VanZandtCad.DBO.Accounts.situs_street', 'VanZandtCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9320,7 +11118,7 @@ Doesn't have a Shape field.
          id:  'tx-walker-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/WalkerWeb/MapServer/0',
          labelFields:  ['WalkerCad.DBO.Accounts.situs_num', 'WalkerCad.DBO.Accounts.situs_street_prefx', 'WalkerCad.DBO.Accounts.situs_street', 'WalkerCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9328,7 +11126,7 @@ Doesn't have a Shape field.
          id: 'tx-walla-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WallaMapSearch/MapServer/6',
          labelFields: [ 'Walla.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9336,7 +11134,7 @@ Doesn't have a Shape field.
          id: 'tx-waller-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WallerMapSearch/MapServer/1',
          labelFields: [ 'Waller.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9344,7 +11142,7 @@ Doesn't have a Shape field.
          id:  'tx-washington-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/WashingtonWeb/MapServer/0',
          labelFields:  ['WashingtonCad.DBO.OriginalAccounts.Situs_Address' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9352,7 +11150,7 @@ Doesn't have a Shape field.
          id: 'tx-waxahachie-city-parcels',
          url: 'http://arcgis.waxahachie.com/arcgis/rest/services/CityofWaxahachieMainInteractiveMap/MapServer/21',
          labelFields: [ 'situs_num' ,'situs_stre', 'situs_st_1', 'situs_st_2'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9360,7 +11158,7 @@ Doesn't have a Shape field.
          id: 'tx-weatherford-city-address',
          url: 'https://gis.weatherfordtx.gov/arcgis/rest/services/Public_Basemap/MapServer/0',
          labelFields: [ 'ADD_FULLNAME'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9368,7 +11166,7 @@ Doesn't have a Shape field.
          id: 'tx-webb-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WebbMapSearch/MapServer/7',
          labelFields: [ 'Webb.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9376,7 +11174,7 @@ Doesn't have a Shape field.
          id:  'tx-wharton-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/WhartonWeb/MapServer/0',
          labelFields:  ['WhartonCad.DBO.Accounts.situs_num', 'WhartonCad.DBO.Accounts.situs_street_prefx', 'WhartonCad.DBO.Accounts.situs_street', 'WhartonCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9384,7 +11182,7 @@ Doesn't have a Shape field.
          id: 'tx-wichita-co-parcels',
          url: 'https://propaccess.wadtx.com/arcgis/rest/services/WichitaMapSearch/MapServer/7',
          labelFields: ['GISData.dbo.web_map_property.situs'],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9392,7 +11190,7 @@ Doesn't have a Shape field.
          id: 'tx-williamson-co-address',
          url: 'https://gis.wilco.org/arcgis/rest/services/public/county_address/MapServer/0',
          labelFields: ['ADDR_NUMBER','RD_FULLNAME'],
-         processLabel: function(label) { return label.replace(/^(\d+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9400,7 +11198,7 @@ Doesn't have a Shape field.
          id: 'tx-wilson-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WilsonMapSearch/MapServer/1',
          labelFields: [ 'Wilson.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9408,7 +11206,7 @@ Doesn't have a Shape field.
          id: 'tx-winkler-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/WinklerMapSearch/MapServer/7',
          labelFields: [ 'Winkler.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9416,7 +11214,7 @@ Doesn't have a Shape field.
          id:  'tx-wood-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/WoodWeb/MapServer/0',
          labelFields:  ['WoodCad.DBO.Accounts.situs_num', 'WoodCad.DBO.Accounts.situs_street_prefx', 'WoodCad.DBO.Accounts.situs_street', 'WoodCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9424,7 +11222,7 @@ Doesn't have a Shape field.
          id: 'tx-yoakum-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/YoakumMapSearch/MapServer/7',
          labelFields: [ 'Yoakum.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9432,7 +11230,7 @@ Doesn't have a Shape field.
          id:  'tx-young-co-parcels',
          url:  'https://gis.bisconsultants.com/bisgis/rest/services/YoungWeb/MapServer/0',
          labelFields:  ['YoungCad.DBO.Accounts.situs_num', 'YoungCad.DBO.Accounts.situs_street_prefx', 'YoungCad.DBO.Accounts.situs_street', 'YoungCad.DBO.Accounts.situs_street_sufix' ],
-         processLabel:  function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
@@ -9440,7 +11238,7 @@ Doesn't have a Shape field.
          id: 'tx-zapata-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZapataMapSearch/MapServer/1',
          labelFields: [ 'Zapata.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9448,7 +11246,7 @@ Doesn't have a Shape field.
          id: 'tx-zavala-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZavalaMapSearch/MapServer/6',
          labelFields: [ 'Zavala.dbo.web_map_property.situs' ],
-         processLabel: function(label) { return label.replace(/^([-\d]+)\s+([^,]+).*/,'$1\n$2'); },
+         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9636,7 +11434,7 @@ Doesn't have a Shape field.
          id: 'va-dinwiddie-co-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/dinwiddie/Public/MapServer/15',
          labelFields: ['MHSE_','MDIRCT','MSTRT','MSTTYP','MSDIRS'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9644,7 +11442,7 @@ Doesn't have a Shape field.
          id: 'va-emporia-city-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/emporia/main_public/MapServer/5',
          labelFields: ['HseNum','StreetName'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9659,7 +11457,7 @@ Doesn't have a Shape field.
          id: 'va-farmville-city-parcels',
          url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Farmville/Farmville_WL_P/MapServer/9',
          labelFields: ['ParcelAddress'],
-         processLabel: function(label) { return label.replace(/^0+/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9674,7 +11472,7 @@ Doesn't have a Shape field.
          id: 'va-franklin-co-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Franklin/Public/MapServer/2',
          labelFields: ['MHSE_','MDIRCT','MSTRT','MSTTYP','MSDIRS'],
-         processLabel: function(label) { return label.replace(/^0\s?/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9710,7 +11508,7 @@ Doesn't have a Shape field.
          id: 'va-lexington-city-parcels',
          url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Lexington/Lexington_WL_P/MapServer/2',
          labelFields: ['ParcelAddress1'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9879,7 +11677,7 @@ Doesn't have a Shape field.
          id: 'va-warren-co-parcels',
          url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Warren/Warren_WL_P/MapServer/1',
          labelFields: ['PARCELADDRESS'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9887,7 +11685,7 @@ Doesn't have a Shape field.
          id: 'va-waynesboro-city-parcels',
          url: 'http://gis.worldviewsolutions.com/arcgis/rest/services/Waynesboro/Public/MapServer/12',
          labelFields: ['FULLADDRESS'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'VA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9910,7 +11708,7 @@ Doesn't have a Shape field.
         //  url: 'https://maps2.timmons.com/arcgis/rest/services/WL_Williamsburg/Williamsburg_WL_P/MapServer/2',
         //  labelHeaderFields: ['StrNumUnit'],
         //  labelFields: ['BusinessName'],
-        //  //processLabel: function(label) { return label.replace(/^0\s/,''); },
+        //  //processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
         //  state: 'VA',
         //  style: DEFAULT_STRUCTURE_STYLE},
 
@@ -9920,7 +11718,7 @@ Doesn't have a Shape field.
          id: 'wa-state-parcels',
          url: 'https://services.arcgis.com/jsIt88o09Q0r1j8h/ArcGIS/rest/services/Parcels2017gdb/FeatureServer/0',
          labelFields: ['SITUS_ADDRESS'],
-         processLabel: function(label) { return label.replace(/\n.*/,'').replace(/,.*/,''); },
+         processLabel: function(label) { return label.replace(/\n.*/,'').replace(_regexReplace.r3, ''); },
          state: 'WA',
          style: DEFAULT_PARCEL_STYLE},
 
@@ -9960,7 +11758,7 @@ Doesn't have a Shape field.
          id: 'wv-Brooke-co-pts',
          url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017address2/FeatureServer/0',
          labelFields: ['ADDRESS'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
@@ -9976,7 +11774,7 @@ Doesn't have a Shape field.
          id: 'wv-Cabell-co-pts',
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CabellWV_Service/FeatureServer/0',
          labelFields: ['ADDR_LABEL','SA_STREET'],
-         processLabel: function(label) { return label.replace(/^0\s/,''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
@@ -10116,7 +11914,7 @@ Doesn't have a Shape field.
          id: 'wv-Mercer-co-pts',
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MercerWV_Service/FeatureServer/8',
          labelFields: ['FULL_ADD'],
-         processLabel: function(label) { return label.replace(/^0 /, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
@@ -10124,7 +11922,7 @@ Doesn't have a Shape field.
          id: 'wv-Monongalia-co-pts',
          url: 'https://ags.agdmaps.com/arcgis/rest/services/MonongaliaWV/MapServer/138',
          labelFields: ['FULL_ADDRESS'],
-         processLabel: function(label) { return label.replace(/^0 /, ''); },
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
