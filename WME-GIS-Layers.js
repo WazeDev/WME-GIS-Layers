@@ -10124,9 +10124,9 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Collin co - Address Points',
-         id: 'tx-collin-co-address-points',
-         url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/181',
+         {name: 'Collin Co - Parcels',
+         id: 'tx-collin-co-parcels',
+         url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/182',
          labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
          processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
          state: 'TX',
