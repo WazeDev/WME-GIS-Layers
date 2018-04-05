@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.02.002
+// @version      2018.04.05.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13,6 +13,7 @@
 //
 // @connect      23.96.59.134
 // @connect      50.120.220.154
+// @connect      52.37.30.30
 // @connect      54.213.14.253
 // @connect      63.238.120.156
 // @connect      72.10.206.73
@@ -64,6 +65,7 @@
 // @connect      bentoncountyar.gov
 // @connect      berkeleycountysc.gov
 // @connect      berkeleywv.org
+// @connect      bernco.gov
 // @connect      bgadd.org
 // @connect      bgky.org
 // @connect      bhamaps.com
@@ -82,7 +84,10 @@
 // @connect      bucoks.com
 // @connect      burleighco.com
 // @connect      butlercountyauditor.org
+// @connect      ca.gov
+// @connect      ca.us
 // @connect      cabellassessor.com
+// @connect      cabq.gov
 // @connect      calhouncounty.org
 // @connect      cambriacountypa.gov
 // @connect      canyonco.org
@@ -134,6 +139,7 @@
 // @connect      coralsprings.org
 // @connect      countyofkane.org
 // @connect      countyofnewaygo.com
+// @connect      countyofriverside.us
 // @connect      cowleycounty.org
 // @connect      cranstonri.org
 // @connect      crawfordcountypa.net
@@ -155,6 +161,7 @@
 // @connect      dmcwebgis.com
 // @connect      dmgov.org
 // @connect      dogis.org
+// @connect      donaanacounty.org
 // @connect      dorchestercounty.net
 // @connect      douglascountyks.org
 // @connect      douglasil.com
@@ -248,6 +255,7 @@
 // @connect      kentcountymi.gov
 // @connect      kpb.us
 // @connect      ky.gov
+// @connect      lacounty.gov
 // @connect      lakecountyfl.gov
 // @connect      lakecountyil.gov
 // @connect      lakecountyohio.gov
@@ -271,6 +279,7 @@
 // @connect      lojic.org
 // @connect      longviewtexas.gov
 // @connect      loraincountyauditor.com
+// @connect      losalamosnm.us
 // @connect      lyco.org
 // @connect      ma.us
 // @connect      madisoncountyky.us
@@ -318,6 +327,7 @@
 // @connect      newedgeservices.com
 // @connect      niagaracounty.com
 // @connect      nj.us
+// @connect      nm.us
 // @connect      nola.gov
 // @connect      normanok.gov
 // @connect      norrycopa.net
@@ -325,6 +335,7 @@
 // @connect      ny.gov
 // @connect      ny.us
 // @connect      oakgov.com
+// @connect      ocgis.com
 // @connect      ocpafl.org
 // @connect      odessa-tx.gov
 // @connect      oh.us
@@ -374,10 +385,12 @@
 // @connect      roktech.net
 // @connect      romega.us
 // @connect      rowlett.com
+// @connect      rrnm.gov
 // @connect      rsdigital.com
 // @connect      rutherfordcountytn.gov
 // @connect      saludacountysc.net
 // @connect      sanantonio.gov
+// @connect      sandag.org
 // @connect      sanduskycountygis.org
 // @connect      sandyspringsga.gov
 // @connect      sanmiguelcountyco.gov
@@ -391,6 +404,7 @@
 // @connect      showmeboone.com
 // @connect      siouxcounty.org
 // @connect      siouxfalls.org
+// @connect      sjcounty.net
 // @connect      smithcountymapsite.org
 // @connect      snco.us
 // @connect      southkingstownri.com
@@ -418,8 +432,10 @@
 // @connect      tuscaloosa-al.gov
 // @connect      tx.us
 // @connect      ulstercountyny.gov
+// @connect      unh.edu
 // @connect      unionco.org
 // @connect      vcgov.org
+// @connect      ventura.org
 // @connect      virginia.gov
 // @connect      wadtx.com
 // @connect      warrencountyny.gov
@@ -1338,6 +1354,109 @@
 
         // California
         // ***********************************
+
+        {name: 'Kern Co - Parcels',
+         id: 'ca-kern-parcels',
+         url: 'http://maps.co.kern.ca.us/Geocortex/Essentials/REST/sites/KernEssentialsPub/map/mapservices/0/rest/services/x/MapServer/88',
+         labelFields: ['STNUM_SITE','STFRA_SITE','STDIR_SITE','STNAM_SITE','STSUF_SITE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kern Co - Address Points',
+         id: 'ca-kern-pts',
+         url: 'http://maps.co.kern.ca.us/Geocortex/Essentials/REST/sites/KernEssentialsPub/map/mapservices/0/rest/services/x/MapServer/187',
+         labelFields: ['ADR_NUM','ADR_PRE','ADR_NAME','ADR_TYPE','ADR_SUF'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Los Angeles Co - Parcels',
+         id: 'ca-los-angeles-co-parcels',
+         url: 'http://arcgis.gis.lacounty.gov/arcgis/rest/services/DRP/GISNET3_Public/MapServer/35',
+         labelFields: ['SitusAddress'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Napa Co - Parcels (no data)',
+         id: 'ca-napa-co-parcels',
+         url: 'http://gis.napa.ca.gov/arcgis/rest/services/External/Basemap/MapServer/3',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Napa Co - Address Points',
+         id: 'ca-napa-co-points',
+         url: 'http://gis.napa.ca.gov/arcgis/rest/services/External/Basemap/MapServer/0',
+         labelFields: ['Address'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Orange Co - Parcels',
+         id: 'ca-orange-co-parcels',
+         url: 'https://www.ocgis.com/arcpub/rest/services/Map_Layers/Parcels/MapServer/0',
+         labelFields: ['SITE_ADDRESS'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        /* Layer works but requires token that expires
+        {name: 'Riverside Co - Parcels',
+         id: 'ca-riverside-parcels',
+         url: 'https://gis.countyofriverside.us/arcgis_public/rest/services/App_MMC/mmc_service/MapServer/6',
+         token: '7HbMK4eyUZtnb2ycSEdw4kW61n9z_T2TVV7g8z-FxIAEArH21aAq28kPqLnlBzAb',
+         labelFields: ['SITUS_STREET'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE}, */
+
+        /* Layer works but requires token that expires
+        {name: 'Riverside Co - Address Points',
+         id: 'ca-riverside-pts',
+         url: 'https://gis.countyofriverside.us/arcgis_public/rest/services/App_MMC/mmc_service/MapServer/2',
+         token: '7HbMK4eyUZtnb2ycSEdw4kW61n9z_T2TVV7g8z-FxIAEArH21aAq28kPqLnlBzAb',
+         labelFields: ['HOUSE_NUMBER','DIR','STREET_NAME','STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'San Diego Co - Parcels',
+         id: 'ca-san-diego-parcels',
+         url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/Parcels/MapServer/0',
+         labelFields: ['SITUS_ADDRESS','SITUS_PRE_DIR','SITUS_STREET','SITUS_POST_DIR','SITUS_SUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Diego Co - Address Points',
+         id: 'ca-san-diego-pts',
+         url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/ADDRESS_APN/MapServer/0',
+         labelFields: ['ADDRNMBR','ADDRFRAC','ADDRPDIR','ADDRNAME','ADDRPOSTD','ADDRSFX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Trinity Co - Parcels',
+         id: 'ca-trinity-co-parcels',
+         url: 'https://services2.arcgis.com/32siQkg0O6da8zFF/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['STREET_NUMBER','STREET_NAME','STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Trinity Co - Address Points',
+         id: 'ca-trinity-co-points',
+         url: 'https://services2.arcgis.com/32siQkg0O6da8zFF/ArcGIS/rest/services/Address_Points/FeatureServer/0',
+         labelFields: ['STREET_NUMBER','STREET_NAME','STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ventura Co - Parcels',
+         id: 'ca-ventura-co-parcels',
+         url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/2',
+         labelFields: ['SITUS_NR','SITUS_DIR','SITUS_STRE','SITUS_TYP'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ventura Co - Address Points',
+         id: 'ca-ventura-co-pts',
+         url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/1',
+         labelFields: ['ADDRESS','STREET_DIR','STREET_NAM','STREET_SUF'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Alameda Co (partial) - House #s',
          id: 'ca-Alameda-co-pts-1',
@@ -7053,6 +7172,17 @@ Not a valid Address Point Layer
          style: DEFAULT_PARCEL_STYLE},
 
 
+        // New Hampshire
+        // ************************************
+
+        {name: 'State - Parcels',
+         id: 'nh-state-parcels',
+         url: 'https://granitweb.sr.unh.edu/granit/rest/services/MapServices/Parcels/MapServer/0',
+         labelFields: ['Address'],
+         state: 'NH',
+         style: DEFAULT_PARCEL_STYLE},
+
+
         // New Jersey
         // ************************************
 
@@ -7069,6 +7199,117 @@ Not a valid Address Point Layer
          labelFields: ['PROP_LOC'],
          state: 'NJ',
          style: DEFAULT_PARCEL_STYLE},
+
+
+        // New Mexico
+        // ************************************
+
+        {name: 'Bernalillo Co - Parcels',
+         id: 'nm-bernalillo-parcels',
+         url: 'http://ash.bernco.gov/arcgis/rest/services/Public_ParcelSearch/MapServer/5',
+         labelFields: ['SITUSADD'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Chaves Co - Parcels',
+         id: 'nm-chaves-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/arcgis/rest/services/ChavesNMFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Cibola Co - Parcels',
+         id: 'nm-cibola-parcels',
+         url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/CibolaNMFeatures/FeatureServer/4',
+         labelFields: ['TSC_Site_Address'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Doña Ana Co - Parcels',
+         id: 'nm-dona-ana-parcels',
+         url: 'http://maps.donaanacounty.org/arcgis/rest/services/Parcel/MapServer/0',
+         labelFields: ['SITUSADDRS'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Los Alamos Co - Parcels',
+         id: 'nm-los-alamos-parcels',
+         url: 'http://gis.losalamosnm.us/arcgis/rest/services/parcelviewer/ParcelViewerBaseLayers/MapServer/3',
+         labelFields: ['ADDRESS'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Los Alamos Co - Address Points',
+         id: 'nm-los-alamos-pts',
+         url: 'http://gis.losalamosnm.us/arcgis/rest/services/parcelviewer/ParcelViewerBaseLayers/MapServer/0',
+         labelFields: ['NUMBER','POSTNUMBER','FULL_STREET_NAME'],
+         state: 'NM',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'San Juan Co - Parcels',
+         id: 'nm-san-juan-parcels',
+         url: 'http://maps.sjcounty.net/arcgis/rest/services/Maps/PublicWebMap2/MapServer/5',
+         labelFields: ['Assessor.GIS.PARCEL_DATA.LocationAddress'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Juan Co - Address Points',
+         id: 'nm-san-juan-pts',
+         url: 'http://maps.sjcounty.net/arcgis/rest/services/Maps/PublicWebMap2/MapServer/2',
+         labelFields: ['NUMBER','RDNAME'],
+         state: 'NM',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Sandoval Co - Parcels',
+         id: 'nm-sandoval-parcels',
+         url: 'http://services3.arcgis.com/CkhxOCyQmitz4nLa/ArcGIS/rest/services/Sandoval_County_Parcels/FeatureServer/0',
+         labelFields: ['Situs'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Santa Fe Co - Parcels',
+         id: 'nm-santa-fe-parcels',
+         url: 'https://services3.arcgis.com/OrtlXpzQGtgBGqsz/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['Situs_Line'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Valencia Co - Parcels',
+         id: 'nm-valencia-parcels',
+         url: 'http://arcgisce.co.valencia.nm.us/arcgis/rest/services/NewTylerMap/MapServer/1',
+         labelFields: ['Situs'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alamongordo - City Parcels',
+         id: 'nm-alamongordo-city-parcels',
+         url: 'https://services1.arcgis.com/tZhkGVr1gXGPSz0S/ArcGIS/rest/services/Parcels_ETJ/FeatureServer/0',
+         labelFields: ['house_no','str_name'],
+         state: 'NM',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Albuquerque - City Address Points',
+         id: 'nm-albuquerque-city-pts',
+         url: 'http://coagisweb.cabq.gov/arcgis/rest/services/public/fullviewer/MapServer/7',
+         labelFields: ['STREETNUMBER','STREETNAME','STREETDESIGNATION','STREETQUADRANT'],
+         state: 'NM',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Rio Rancho - City Address Points',
+         id: 'nm-rio-rancho-city-pts',
+         url: 'https://gis.rrnm.gov/arcgis/rest/services/Collector/Address_Collector/MapServer/0',
+         labelFields: ['StrAddr'],
+         state: 'NM',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Santa Fe - City Address Points',
+         id: 'nm-santa-fe-city-pts',
+         url: 'http://52.37.30.30/arcgis/rest/services/AdvancedViewer2/MapServer/1',
+         labelFields: ['ADDRESS_NO','PREFIX','ROAD_NAME','SUFFIX','POSTDIR'],
+         state: 'NM',
+         style: DEFAULT_PT_STYLE},
 
 
         // New York
@@ -9252,7 +9493,7 @@ Doesn't have a Shape field.
         {name: 'York Co - Address Points',
          id: 'sc-york-co-pts',
          url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/0',
-         labelFields: ['WHOLE_ADDRESS'],
+         labelFields: ['GSSTNO','GSSDIR','GSSNAM','GSSTYP','GSSSF'],
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
