@@ -84,6 +84,8 @@
 // @connect      bucoks.com
 // @connect      burleighco.com
 // @connect      butlercountyauditor.org
+// @connect      ca.gov
+// @connect      ca.us
 // @connect      cabellassessor.com
 // @connect      cabq.gov
 // @connect      calhouncounty.org
@@ -137,6 +139,7 @@
 // @connect      coralsprings.org
 // @connect      countyofkane.org
 // @connect      countyofnewaygo.com
+// @connect      countyofriverside.us
 // @connect      cowleycounty.org
 // @connect      cranstonri.org
 // @connect      crawfordcountypa.net
@@ -252,6 +255,7 @@
 // @connect      kentcountymi.gov
 // @connect      kpb.us
 // @connect      ky.gov
+// @connect      lacounty.gov
 // @connect      lakecountyfl.gov
 // @connect      lakecountyil.gov
 // @connect      lakecountyohio.gov
@@ -331,6 +335,7 @@
 // @connect      ny.gov
 // @connect      ny.us
 // @connect      oakgov.com
+// @connect      ocgis.com
 // @connect      ocpafl.org
 // @connect      odessa-tx.gov
 // @connect      oh.us
@@ -385,6 +390,7 @@
 // @connect      rutherfordcountytn.gov
 // @connect      saludacountysc.net
 // @connect      sanantonio.gov
+// @connect      sandag.org
 // @connect      sanduskycountygis.org
 // @connect      sandyspringsga.gov
 // @connect      sanmiguelcountyco.gov
@@ -429,6 +435,7 @@
 // @connect      unh.edu
 // @connect      unionco.org
 // @connect      vcgov.org
+// @connect      ventura.org
 // @connect      virginia.gov
 // @connect      wadtx.com
 // @connect      warrencountyny.gov
@@ -1347,6 +1354,109 @@
 
         // California
         // ***********************************
+
+        {name: 'Kern Co - Parcels',
+         id: 'ca-kern-parcels',
+         url: 'http://maps.co.kern.ca.us/Geocortex/Essentials/REST/sites/KernEssentialsPub/map/mapservices/0/rest/services/x/MapServer/88',
+         labelFields: ['STNUM_SITE','STFRA_SITE','STDIR_SITE','STNAM_SITE','STSUF_SITE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kern Co - Address Points',
+         id: 'ca-kern-pts',
+         url: 'http://maps.co.kern.ca.us/Geocortex/Essentials/REST/sites/KernEssentialsPub/map/mapservices/0/rest/services/x/MapServer/187',
+         labelFields: ['ADR_NUM','ADR_PRE','ADR_NAME','ADR_TYPE','ADR_SUF'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Los Angeles Co - Parcels',
+         id: 'ca-los-angeles-co-parcels',
+         url: 'http://arcgis.gis.lacounty.gov/arcgis/rest/services/DRP/GISNET3_Public/MapServer/35',
+         labelFields: ['SitusAddress'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Napa Co - Parcels (no data)',
+         id: 'ca-napa-co-parcels',
+         url: 'http://gis.napa.ca.gov/arcgis/rest/services/External/Basemap/MapServer/3',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Napa Co - Address Points',
+         id: 'ca-napa-co-points',
+         url: 'http://gis.napa.ca.gov/arcgis/rest/services/External/Basemap/MapServer/0',
+         labelFields: ['Address'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Orange Co - Parcels',
+         id: 'ca-orange-co-parcels',
+         url: 'https://www.ocgis.com/arcpub/rest/services/Map_Layers/Parcels/MapServer/0',
+         labelFields: ['SITE_ADDRESS'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        /* Layer works but requires token that expires
+        {name: 'Riverside Co - Parcels',
+         id: 'ca-riverside-parcels',
+         url: 'https://gis.countyofriverside.us/arcgis_public/rest/services/App_MMC/mmc_service/MapServer/6',
+         token: '7HbMK4eyUZtnb2ycSEdw4kW61n9z_T2TVV7g8z-FxIAEArH21aAq28kPqLnlBzAb',
+         labelFields: ['SITUS_STREET'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE}, */
+
+        /* Layer works but requires token that expires
+        {name: 'Riverside Co - Address Points',
+         id: 'ca-riverside-pts',
+         url: 'https://gis.countyofriverside.us/arcgis_public/rest/services/App_MMC/mmc_service/MapServer/2',
+         token: '7HbMK4eyUZtnb2ycSEdw4kW61n9z_T2TVV7g8z-FxIAEArH21aAq28kPqLnlBzAb',
+         labelFields: ['HOUSE_NUMBER','DIR','STREET_NAME','STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'San Diego Co - Parcels',
+         id: 'ca-san-diego-parcels',
+         url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/Parcels/MapServer/0',
+         labelFields: ['SITUS_ADDRESS','SITUS_PRE_DIR','SITUS_STREET','SITUS_POST_DIR','SITUS_SUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Diego Co - Address Points',
+         id: 'ca-san-diego-pts',
+         url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/ADDRESS_APN/MapServer/0',
+         labelFields: ['ADDRNMBR','ADDRFRAC','ADDRPDIR','ADDRNAME','ADDRPOSTD','ADDRSFX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Trinity Co - Parcels',
+         id: 'ca-trinity-co-parcels',
+         url: 'https://services2.arcgis.com/32siQkg0O6da8zFF/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['STREET_NUMBER','STREET_NAME','STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Trinity Co - Address Points',
+         id: 'ca-trinity-co-points',
+         url: 'https://services2.arcgis.com/32siQkg0O6da8zFF/ArcGIS/rest/services/Address_Points/FeatureServer/0',
+         labelFields: ['STREET_NUMBER','STREET_NAME','STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ventura Co - Parcels',
+         id: 'ca-ventura-co-parcels',
+         url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/2',
+         labelFields: ['SITUS_NR','SITUS_DIR','SITUS_STRE','SITUS_TYP'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ventura Co - Address Points',
+         id: 'ca-ventura-co-pts',
+         url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/1',
+         labelFields: ['ADDRESS','STREET_DIR','STREET_NAM','STREET_SUF'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Alameda Co (partial) - House #s',
          id: 'ca-Alameda-co-pts-1',
@@ -9383,7 +9493,7 @@ Doesn't have a Shape field.
         {name: 'York Co - Address Points',
          id: 'sc-york-co-pts',
          url: 'https://maps2.yorkcountygov.com/agsn2/rest/services/essentials/Labels/MapServer/0',
-         labelFields: ['WHOLE_ADDRESS'],
+         labelFields: ['GSSTNO','GSSDIR','GSSNAM','GSSTYP','GSSSF'],
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
