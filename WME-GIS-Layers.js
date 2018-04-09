@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.09.001
+// @version      2018.04.09.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -85,6 +85,7 @@
 // @connect      bucoks.com
 // @connect      burleighco.com
 // @connect      butlercountyauditor.org
+// @connect      buttecounty.net
 // @connect      ca.gov
 // @connect      ca.us
 // @connect      cabellassessor.com
@@ -97,6 +98,7 @@
 // @connect      casscountynd.gov
 // @connect      cattco.org
 // @connect      cayugacounty.us
+// @connect      cccounty.us
 // @connect      ccgisc.org
 // @connect      ccgisonline.com
 // @connect      ccgov.org
@@ -170,6 +172,7 @@
 // @connect      dupageco.org
 // @connect      dutchessny.gov
 // @connect      eastgreenwichri.com
+// @connect      edcgov.us
 // @connect      efsedge.com
 // @connect      elpasotexas.gov
 // @connect      eaglecounty.us
@@ -198,6 +201,7 @@
 // @connect      garlandtx.gov
 // @connect      garrettcounty.org
 // @connect      gcgis.org
+// @connect      gcppwa.net
 // @connect      geocortex.com
 // @connect      geodataportal.net
 // @connect      geoportalmaps.com
@@ -287,6 +291,7 @@
 // @connect      mahoningcountyoh.gov
 // @connect      maine.gov
 // @connect      mapxpress.net
+// @connect      marinpublic.com
 // @connect      marioncountyfl.org
 // @connect      matsugov.us
 // @connect      maurycounty-tn.gov
@@ -389,6 +394,7 @@
 // @connect      rrnm.gov
 // @connect      rsdigital.com
 // @connect      rutherfordcountytn.gov
+// @connect      saccounty.net
 // @connect      saludacountysc.net
 // @connect      sanantonio.gov
 // @connect      sandag.org
@@ -396,6 +402,7 @@
 // @connect      sandyspringsga.gov
 // @connect      sanmiguelcountyco.gov
 // @connect      sarpy.com
+// @connect      sccgov.org
 // @connect      sccmo.org
 // @connect      scgov.net
 // @connect      sciotocountyengineer.org
@@ -408,8 +415,10 @@
 // @connect      sjcounty.net
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      solanocounty.com
 // @connect      southkingstownri.com
 // @connect      springfieldmo.gov
+// @connect      stancounty.com
 // @connect      starkcountyohio.gov
 // @connect      stclairco.com
 // @connect      stlouis-mo.gov
@@ -461,6 +470,7 @@
 // @connect      wycokck.org
 // @connect      wyo.gov
 // @connect      ycpc.org
+// @connect      yolocounty.org
 // @connect      yorkcountygov.com
 // @connect      yumacountyaz.gov
 // ==/UserScript==
@@ -1356,6 +1366,85 @@
         // California
         // ***********************************
 
+        {name: 'Alpine Co - Parcels',
+         id: 'ca-alpine-co-parcels',
+         url: 'https://services1.arcgis.com/9z9tEfqo0TExR9C8/ArcGIS/rest/services/Alpine_OperationalLayers_Service/FeatureServer/0',
+         labelFields: ['Situs_House_','Situs_House_Alpha','Situs_Street_Direction','Situs_Street','Situs_Street_Suffix'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alpine Co - Address Points',
+         id: 'ca-alpine-co-pts',
+         url: 'https://services1.arcgis.com/9z9tEfqo0TExR9C8/ArcGIS/rest/services/Alpine_ReferenceLayers_Service/FeatureServer/0',
+         labelFields: ['Situs_House_Number','Situs_Street_Direction','Situs_Street','Situs_Street_Suffix'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Butte Co - Parcels',
+         id: 'ca-butte-co-parcels',
+         url: 'http://gis.buttecounty.net/arcgis/rest/services/Public/DSSearch/MapServer/2',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Butte Co - Address Points',
+         id: 'ca-butte-co-pts',
+         url: 'http://gis.buttecounty.net/arcgis/rest/services/Public/DSSearch/MapServer/0',
+         labelFields: ['HOUSE_NUM','PRE_DIR','STREET_NAM','STREET_TYP','SUF_DIR'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Colusa Co - Parcels',
+         id: 'ca-colusa-co-parcels',
+         url: 'https://services5.arcgis.com/RHVBVx0fVmUtvfJV/ArcGIS/rest/services/Parcels_2017_Lite/FeatureServer/0',
+         labelFields: ['SITUS_1'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Contra Costa Co - Parcels',
+         id: 'ca-contra-costa-parcels',
+         url: 'https://gis.cccounty.us/arcgis/rest/services/Internet/CCMAP/MapServer/0',
+         labelFields: ['n_str_nbr','n_str_nm','n_str_suf'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Contra Costa Co - Address Points (max 50)',
+         id: 'ca-contra-costa-pts',
+         url: 'https://gis.cccounty.us/arcgis/rest/services/Internet/BASE_DATA_WEB/MapServer/6', // (limited to max 50 records)
+         labelFields: ['street_number','prefix_type','prefix_direction','street_name','street_type','suffix_direction'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'El Dorado Co - Parcels',
+         id: 'ca-el-dorado-co-parcels',
+         url: 'http://gem.edcgov.us/arcgis/rest/services/parcel/addressSQL_WAB/MapServer/0',
+         labelFields: ['SITUS_ADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Glenn Co - Parcels',
+         id: 'ca-glenn-co-parcels',
+         url: 'http://gis.gcppwa.net/arcgis/rest/services/Districts/GCDistricts/MapServer/0',
+         labelFields: ['SiteAddress1'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Inyo Co - Parcels',
+         id: 'ca-inco-co-parcels',
+         url: 'https://services.arcgis.com/0jRlQ17Qmni5zEMr/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['ParcAdd1','ParcAdd2'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Inyo Co - Address Points',
+         id: 'ca-inyo-co-pts',
+         url: 'https://services.arcgis.com/0jRlQ17Qmni5zEMr/arcgis/rest/services/AddressPoints/FeatureServer/0/',
+         labelFields: ['ST_NUM','STREET'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Kern Co - Parcels',
          id: 'ca-kern-parcels',
          url: 'http://maps.co.kern.ca.us/Geocortex/Essentials/REST/sites/KernEssentialsPub/map/mapservices/0/rest/services/x/MapServer/88',
@@ -1376,6 +1465,62 @@
          labelFields: ['SitusAddress'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marin Co - Parcels',
+         id: 'ca-marin-co-parcels',
+         url: 'https://gis.marinpublic.com/arcgis/rest/services/BaseMap2/Basemap/MapServer/13',
+         labelFields: ['SitusFormatted'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marin Co - Parcel Points',
+         id: 'ca-marin-co-pts',
+         url: 'https://gis.marinpublic.com/arcgis/rest/services/BaseMap2/Basemap/MapServer/11',
+         labelFields: ['Formatted'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Merced Co - Parcels (no data)',
+         id: 'ca-merced-co-parcels',
+         url: 'https://map.co.merced.ca.us/arcgis/rest/services/internet/basemap_web/MapServer/11',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Merced Co - Address Points',
+         id: 'ca-merced-co-pts',
+         url: 'https://map.co.merced.ca.us/arcgis/rest/services/internet/basemap_web/MapServer/10',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mono Co - Parcels',
+         id: 'ca-mono-co-parcels',
+         url: 'https://gis.mono.ca.gov/arcgis/rest/services/Data_Cadastral/Tax_Parcels/MapServer/0',
+         labelFields: ['Address','StreetPrefix','Street','StreetSuffix'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mono Co - Address Points',
+         id: 'ca-mono-co-pts',
+         url: 'https://gis.mono.ca.gov/arcgis/rest/services/Data_e911/Address_Points/MapServer/1',
+         labelFields: ['Address','StreetPrefix','Street','StreetSuffix'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monterey Co - Parcels (no data_',
+         id: 'ca-monterey-parcels',
+         url: 'http://gis.co.monterey.ca.us/Geocortex/Essentials/external/REST/sites/Base_Map_Out/map/mapservices/0/GeoREST/MapServer/1',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Monterey Co - Parcel Points',
+         id: 'ca-monterey-pts',
+         url: 'http://gis.co.monterey.ca.us/Geocortex/Essentials/external/REST/sites/Base_Map_Out/map/mapservices/0/GeoREST/MapServer/11',
+         labelFields: ['NUMBER_','PREFIX','STREET','STREET_ALI','SUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Napa Co - Parcels (no data)',
          id: 'ca-napa-co-parcels',
@@ -1417,6 +1562,20 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE}, */
 
+        {name: 'Sacramento Co - Parcels',
+         id: 'ca-sacramento-parcels',
+         url: 'https://mapservices.gis.saccounty.net/arcgis/rest/services/AGIS_SACCO/MapServer/2',
+         labelFields: ['STREET_NBR','STREET_NAM'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sacramento Co - Address Points',
+         id: 'ca-sacramento-pts',
+         url: 'https://mapservices.gis.saccounty.net/arcgis/rest/services/AGIS_SACCO/MapServer/0',
+         labelFields: ['STREET_NUMBER','FULLSTREET'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'San Diego Co - Parcels',
          id: 'ca-san-diego-parcels',
          url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/Parcels/MapServer/0',
@@ -1428,6 +1587,72 @@
          id: 'ca-san-diego-pts',
          url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/ADDRESS_APN/MapServer/0',
          labelFields: ['ADDRNMBR','ADDRFRAC','ADDRPDIR','ADDRNAME','ADDRPOSTD','ADDRSFX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Santa Clara Co - Parcels',
+         id: 'ca-santa-clara-parcels',
+         url: 'https://www.sccgov.org/gis/rest/services/opendata/SCCOpenData1/MapServer/28',
+         labelFields: ['SITUS_HOUSE_NUMBER','SITUS_HOUSE_NUMBER_SUFFIX','SITUS_STREET_DIRECTION','SITUS_STREET_NAME','SITUS_STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Santa Clara Co - Address Points',
+         id: 'ca-santa-clara-pts',
+         url: 'https://www.sccgov.org/gis/rest/services/opendata/SCCOpenData1/MapServer/0',
+         labelFields: ['HOUSENUMTEXT','STREETPREFIX','STREETNAME','STREETTYPE','STREETSUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Santa Cruz Co - Parcels',
+         id: 'ca-santa-cruz-co-parcels',
+         url: 'http://gis.co.santa-cruz.ca.us/sccgis/rest/services/Public_jsGISWEB/MapServer/16',
+         labelFields: ['SITEADD'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Shasta Co - Parcels',
+         id: 'ca-shasta-co-parcels',
+         url: 'https://maps.co.shasta.ca.us/arcgis/rest/services/Internet/ShastaCountyMapBaseSrvc/MapServer/3',
+         labelFields: ['Situs_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Shasta Co - Address Points',
+         id: 'ca-shasta-co-pts',
+         url: 'https://maps.co.shasta.ca.us/arcgis/rest/services/Internet/ShastaCountyMapCadastreSrvc/MapServer/0',
+         labelFields: ['AddressNumber','PrefixDir','PrefixType','StreetName','StreetType','SuffixDir'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Solano Co - Parcels',
+         id: 'ca-solano-co-parcels',
+         url: 'https://regis.solanocounty.com/server/rest/services/iSolano/ParcelsLat3NO/MapServer/0',
+         labelFields: ['sitenum','siteroad'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Solano Co - Parcel Points',
+         id: 'ca-solano-co-pts',
+         url: 'https://regis.solanocounty.com/server/rest/services/iSolano/Addresses/MapServer/1',
+         labelFields: ['SITENUM','SITEROAD'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Stanislaus Co - Parcels',
+         id: 'ca-stanislaus-parcels',
+         url: 'http://gis.stancounty.com/stangis_map_services/ArcGIS/rest/services/maps/Public_parcels/MapServer/0',
+         labelFields: ['Situs2'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Stanislaus Co - Address Points',
+         id: 'ca-stanislaus-pts',
+         url: 'http://gis.stancounty.com/stangis_map_services/ArcGIS/rest/services/maps/masteraddress_apn/MapServer/0',
+         labelFields: ['l1_full_address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
@@ -1445,6 +1670,20 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Tulare Co - Parcels',
+         id: 'ca-tulare-parcels',
+         url: 'https://gis.tularecounty.ca.gov:6443/arcgis/rest/services/Public/Parcel_Service_Public/MapServer/0',
+         labelFields: ['S_NUMB','S_DIR','S_STREET','S_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tulare Co - Address Points',
+         id: 'ca-tulare-pts',
+         url: 'https://gis.tularecounty.ca.gov:6443/arcgis/rest/services/Public/Address_points/FeatureServer/0',
+         labelFields: ['G_NUMBER','G_PREFIX','G_STREET','G_SUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Ventura Co - Parcels',
          id: 'ca-ventura-co-parcels',
          url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/2',
@@ -1458,6 +1697,14 @@
          labelFields: ['ADDRESS','STREET_DIR','STREET_NAM','STREET_SUF'],
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Yolo Co - Parcels',
+         id: 'ca-yolo-co-parcels',
+         url: 'http://yolo-gis-prod.yolocounty.org:6080/arcgis/rest/services/ParcelsOnlyPublic/MapServer/4',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Alameda Co (partial) - House #s',
          id: 'ca-Alameda-co-pts-1',
@@ -9368,7 +9615,13 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
-        // Jasper Co - qPublic
+        {name: 'Jasper Co - Parcels',
+         id: 'sc-jasper-co-parcels',
+         url: 'http://services3.arcgis.com/oJaBluQKw5aLHpzj/arcgis/rest/services/JasperCountyTaxParcels/FeatureServer/0',
+         labelFields: ['StreetNumb','StreetName'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
         // Kershaw Co - WTH
         // Lancaster Co - qPublic
 
