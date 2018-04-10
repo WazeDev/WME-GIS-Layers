@@ -69,6 +69,7 @@
 // @connect      bgadd.org
 // @connect      bgky.org
 // @connect      bhamaps.com
+// @connect      bisclient.com
 // @connect      bisconsultants.com
 // @connect      bonnercounty.us
 // @connect      boonecountygis.com
@@ -84,6 +85,7 @@
 // @connect      bucoks.com
 // @connect      burleighco.com
 // @connect      butlercountyauditor.org
+// @connect      buttecounty.net
 // @connect      ca.gov
 // @connect      ca.us
 // @connect      cabellassessor.com
@@ -96,6 +98,7 @@
 // @connect      casscountynd.gov
 // @connect      cattco.org
 // @connect      cayugacounty.us
+// @connect      cccounty.us
 // @connect      ccgisc.org
 // @connect      ccgisonline.com
 // @connect      ccgov.org
@@ -169,6 +172,7 @@
 // @connect      dupageco.org
 // @connect      dutchessny.gov
 // @connect      eastgreenwichri.com
+// @connect      edcgov.us
 // @connect      efsedge.com
 // @connect      elpasotexas.gov
 // @connect      eaglecounty.us
@@ -197,6 +201,7 @@
 // @connect      garlandtx.gov
 // @connect      garrettcounty.org
 // @connect      gcgis.org
+// @connect      gcppwa.net
 // @connect      geocortex.com
 // @connect      geodataportal.net
 // @connect      geoportalmaps.com
@@ -286,6 +291,7 @@
 // @connect      mahoningcountyoh.gov
 // @connect      maine.gov
 // @connect      mapxpress.net
+// @connect      marinpublic.com
 // @connect      marioncountyfl.org
 // @connect      matsugov.us
 // @connect      maurycounty-tn.gov
@@ -388,6 +394,7 @@
 // @connect      rrnm.gov
 // @connect      rsdigital.com
 // @connect      rutherfordcountytn.gov
+// @connect      saccounty.net
 // @connect      saludacountysc.net
 // @connect      sanantonio.gov
 // @connect      sandag.org
@@ -395,6 +402,7 @@
 // @connect      sandyspringsga.gov
 // @connect      sanmiguelcountyco.gov
 // @connect      sarpy.com
+// @connect      sccgov.org
 // @connect      sccmo.org
 // @connect      scgov.net
 // @connect      sciotocountyengineer.org
@@ -407,8 +415,10 @@
 // @connect      sjcounty.net
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      solanocounty.com
 // @connect      southkingstownri.com
 // @connect      springfieldmo.gov
+// @connect      stancounty.com
 // @connect      starkcountyohio.gov
 // @connect      stclairco.com
 // @connect      stlouis-mo.gov
@@ -460,6 +470,7 @@
 // @connect      wycokck.org
 // @connect      wyo.gov
 // @connect      ycpc.org
+// @connect      yolocounty.org
 // @connect      yorkcountygov.com
 // @connect      yumacountyaz.gov
 // ==/UserScript==
@@ -1355,6 +1366,85 @@
         // California
         // ***********************************
 
+        {name: 'Alpine Co - Parcels',
+         id: 'ca-alpine-co-parcels',
+         url: 'https://services1.arcgis.com/9z9tEfqo0TExR9C8/ArcGIS/rest/services/Alpine_OperationalLayers_Service/FeatureServer/0',
+         labelFields: ['Situs_House_','Situs_House_Alpha','Situs_Street_Direction','Situs_Street','Situs_Street_Suffix'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Alpine Co - Address Points',
+         id: 'ca-alpine-co-pts',
+         url: 'https://services1.arcgis.com/9z9tEfqo0TExR9C8/ArcGIS/rest/services/Alpine_ReferenceLayers_Service/FeatureServer/0',
+         labelFields: ['Situs_House_Number','Situs_Street_Direction','Situs_Street','Situs_Street_Suffix'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Butte Co - Parcels',
+         id: 'ca-butte-co-parcels',
+         url: 'http://gis.buttecounty.net/arcgis/rest/services/Public/DSSearch/MapServer/2',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Butte Co - Address Points',
+         id: 'ca-butte-co-pts',
+         url: 'http://gis.buttecounty.net/arcgis/rest/services/Public/DSSearch/MapServer/0',
+         labelFields: ['HOUSE_NUM','PRE_DIR','STREET_NAM','STREET_TYP','SUF_DIR'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Colusa Co - Parcels',
+         id: 'ca-colusa-co-parcels',
+         url: 'https://services5.arcgis.com/RHVBVx0fVmUtvfJV/ArcGIS/rest/services/Parcels_2017_Lite/FeatureServer/0',
+         labelFields: ['SITUS_1'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Contra Costa Co - Parcels',
+         id: 'ca-contra-costa-parcels',
+         url: 'https://gis.cccounty.us/arcgis/rest/services/Internet/CCMAP/MapServer/0',
+         labelFields: ['n_str_nbr','n_str_nm','n_str_suf'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Contra Costa Co - Address Points (max 50)',
+         id: 'ca-contra-costa-pts',
+         url: 'https://gis.cccounty.us/arcgis/rest/services/Internet/BASE_DATA_WEB/MapServer/6', // (limited to max 50 records)
+         labelFields: ['street_number','prefix_type','prefix_direction','street_name','street_type','suffix_direction'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'El Dorado Co - Parcels',
+         id: 'ca-el-dorado-co-parcels',
+         url: 'http://gem.edcgov.us/arcgis/rest/services/parcel/addressSQL_WAB/MapServer/0',
+         labelFields: ['SITUS_ADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Glenn Co - Parcels',
+         id: 'ca-glenn-co-parcels',
+         url: 'http://gis.gcppwa.net/arcgis/rest/services/Districts/GCDistricts/MapServer/0',
+         labelFields: ['SiteAddress1'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Inyo Co - Parcels',
+         id: 'ca-inco-co-parcels',
+         url: 'https://services.arcgis.com/0jRlQ17Qmni5zEMr/ArcGIS/rest/services/Parcels/FeatureServer/0',
+         labelFields: ['ParcAdd1','ParcAdd2'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Inyo Co - Address Points',
+         id: 'ca-inyo-co-pts',
+         url: 'https://services.arcgis.com/0jRlQ17Qmni5zEMr/arcgis/rest/services/AddressPoints/FeatureServer/0/',
+         labelFields: ['ST_NUM','STREET'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Kern Co - Parcels',
          id: 'ca-kern-parcels',
          url: 'http://maps.co.kern.ca.us/Geocortex/Essentials/REST/sites/KernEssentialsPub/map/mapservices/0/rest/services/x/MapServer/88',
@@ -1375,6 +1465,62 @@
          labelFields: ['SitusAddress'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marin Co - Parcels',
+         id: 'ca-marin-co-parcels',
+         url: 'https://gis.marinpublic.com/arcgis/rest/services/BaseMap2/Basemap/MapServer/13',
+         labelFields: ['SitusFormatted'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marin Co - Parcel Points',
+         id: 'ca-marin-co-pts',
+         url: 'https://gis.marinpublic.com/arcgis/rest/services/BaseMap2/Basemap/MapServer/11',
+         labelFields: ['Formatted'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Merced Co - Parcels (no data)',
+         id: 'ca-merced-co-parcels',
+         url: 'https://map.co.merced.ca.us/arcgis/rest/services/internet/basemap_web/MapServer/11',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Merced Co - Address Points',
+         id: 'ca-merced-co-pts',
+         url: 'https://map.co.merced.ca.us/arcgis/rest/services/internet/basemap_web/MapServer/10',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mono Co - Parcels',
+         id: 'ca-mono-co-parcels',
+         url: 'https://gis.mono.ca.gov/arcgis/rest/services/Data_Cadastral/Tax_Parcels/MapServer/0',
+         labelFields: ['Address','StreetPrefix','Street','StreetSuffix'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mono Co - Address Points',
+         id: 'ca-mono-co-pts',
+         url: 'https://gis.mono.ca.gov/arcgis/rest/services/Data_e911/Address_Points/MapServer/1',
+         labelFields: ['Address','StreetPrefix','Street','StreetSuffix'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monterey Co - Parcels (no data_',
+         id: 'ca-monterey-parcels',
+         url: 'http://gis.co.monterey.ca.us/Geocortex/Essentials/external/REST/sites/Base_Map_Out/map/mapservices/0/GeoREST/MapServer/1',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Monterey Co - Parcel Points',
+         id: 'ca-monterey-pts',
+         url: 'http://gis.co.monterey.ca.us/Geocortex/Essentials/external/REST/sites/Base_Map_Out/map/mapservices/0/GeoREST/MapServer/11',
+         labelFields: ['NUMBER_','PREFIX','STREET','STREET_ALI','SUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Napa Co - Parcels (no data)',
          id: 'ca-napa-co-parcels',
@@ -1416,6 +1562,20 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE}, */
 
+        {name: 'Sacramento Co - Parcels',
+         id: 'ca-sacramento-parcels',
+         url: 'https://mapservices.gis.saccounty.net/arcgis/rest/services/AGIS_SACCO/MapServer/2',
+         labelFields: ['STREET_NBR','STREET_NAM'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Sacramento Co - Address Points',
+         id: 'ca-sacramento-pts',
+         url: 'https://mapservices.gis.saccounty.net/arcgis/rest/services/AGIS_SACCO/MapServer/0',
+         labelFields: ['STREET_NUMBER','FULLSTREET'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'San Diego Co - Parcels',
          id: 'ca-san-diego-parcels',
          url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/Parcels/MapServer/0',
@@ -1427,6 +1587,72 @@
          id: 'ca-san-diego-pts',
          url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/ADDRESS_APN/MapServer/0',
          labelFields: ['ADDRNMBR','ADDRFRAC','ADDRPDIR','ADDRNAME','ADDRPOSTD','ADDRSFX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Santa Clara Co - Parcels',
+         id: 'ca-santa-clara-parcels',
+         url: 'https://www.sccgov.org/gis/rest/services/opendata/SCCOpenData1/MapServer/28',
+         labelFields: ['SITUS_HOUSE_NUMBER','SITUS_HOUSE_NUMBER_SUFFIX','SITUS_STREET_DIRECTION','SITUS_STREET_NAME','SITUS_STREET_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Santa Clara Co - Address Points',
+         id: 'ca-santa-clara-pts',
+         url: 'https://www.sccgov.org/gis/rest/services/opendata/SCCOpenData1/MapServer/0',
+         labelFields: ['HOUSENUMTEXT','STREETPREFIX','STREETNAME','STREETTYPE','STREETSUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Santa Cruz Co - Parcels',
+         id: 'ca-santa-cruz-co-parcels',
+         url: 'http://gis.co.santa-cruz.ca.us/sccgis/rest/services/Public_jsGISWEB/MapServer/16',
+         labelFields: ['SITEADD'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Shasta Co - Parcels',
+         id: 'ca-shasta-co-parcels',
+         url: 'https://maps.co.shasta.ca.us/arcgis/rest/services/Internet/ShastaCountyMapBaseSrvc/MapServer/3',
+         labelFields: ['Situs_Address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Shasta Co - Address Points',
+         id: 'ca-shasta-co-pts',
+         url: 'https://maps.co.shasta.ca.us/arcgis/rest/services/Internet/ShastaCountyMapCadastreSrvc/MapServer/0',
+         labelFields: ['AddressNumber','PrefixDir','PrefixType','StreetName','StreetType','SuffixDir'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Solano Co - Parcels',
+         id: 'ca-solano-co-parcels',
+         url: 'https://regis.solanocounty.com/server/rest/services/iSolano/ParcelsLat3NO/MapServer/0',
+         labelFields: ['sitenum','siteroad'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Solano Co - Parcel Points',
+         id: 'ca-solano-co-pts',
+         url: 'https://regis.solanocounty.com/server/rest/services/iSolano/Addresses/MapServer/1',
+         labelFields: ['SITENUM','SITEROAD'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Stanislaus Co - Parcels',
+         id: 'ca-stanislaus-parcels',
+         url: 'http://gis.stancounty.com/stangis_map_services/ArcGIS/rest/services/maps/Public_parcels/MapServer/0',
+         labelFields: ['Situs2'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Stanislaus Co - Address Points',
+         id: 'ca-stanislaus-pts',
+         url: 'http://gis.stancounty.com/stangis_map_services/ArcGIS/rest/services/maps/masteraddress_apn/MapServer/0',
+         labelFields: ['l1_full_address'],
+         processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
@@ -1444,6 +1670,20 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Tulare Co - Parcels',
+         id: 'ca-tulare-parcels',
+         url: 'https://gis.tularecounty.ca.gov:6443/arcgis/rest/services/Public/Parcel_Service_Public/MapServer/0',
+         labelFields: ['S_NUMB','S_DIR','S_STREET','S_TYPE'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Tulare Co - Address Points',
+         id: 'ca-tulare-pts',
+         url: 'https://gis.tularecounty.ca.gov:6443/arcgis/rest/services/Public/Address_points/FeatureServer/0',
+         labelFields: ['G_NUMBER','G_PREFIX','G_STREET','G_SUFFIX'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Ventura Co - Parcels',
          id: 'ca-ventura-co-parcels',
          url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/2',
@@ -1457,6 +1697,14 @@
          labelFields: ['ADDRESS','STREET_DIR','STREET_NAM','STREET_SUF'],
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Yolo Co - Parcels',
+         id: 'ca-yolo-co-parcels',
+         url: 'http://yolo-gis-prod.yolocounty.org:6080/arcgis/rest/services/ParcelsOnlyPublic/MapServer/4',
+         labelFields: ['SITUS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Alameda Co (partial) - House #s',
          id: 'ca-Alameda-co-pts-1',
@@ -9367,7 +9615,13 @@ Doesn't have a Shape field.
          state: 'SC',
          style: DEFAULT_PT_STYLE},
 
-        // Jasper Co - qPublic
+        {name: 'Jasper Co - Parcels',
+         id: 'sc-jasper-co-parcels',
+         url: 'http://services3.arcgis.com/oJaBluQKw5aLHpzj/arcgis/rest/services/JasperCountyTaxParcels/FeatureServer/0',
+         labelFields: ['StreetNumb','StreetName'],
+         state: 'SC',
+         style: DEFAULT_PARCEL_STYLE},
+
         // Kershaw Co - WTH
         // Lancaster Co - qPublic
 
@@ -10663,7 +10917,7 @@ Doesn't have a Shape field.
 
         {name: 'Gregg Co - Parcels',
          id: 'tx-gregg-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/GreggWeb/MapServer/0/',
+         url: 'https://gis.bisclient.com/maps03/rest/services/GreggWeb/MapServer/0',
          labelFields: ['GreggCad.dbo.Accounts.situs_num','GreggCad.dbo.Accounts.situs_street_prefx','GreggCad.dbo.Accounts.situs_street','GreggCad.dbo.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -10711,7 +10965,7 @@ Doesn't have a Shape field.
 
         {name:  'Hays Co - Parcels',
          id:  'tx-hays-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HaysWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/HaysWeb/MapServer/0',
          labelFields:  ['HaysCad.dbo.Accounts.situs_num', 'HaysCad.dbo.Accounts.situs_street_prefx', 'HaysCad.dbo.Accounts.situs_street', 'HaysCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -10774,7 +11028,7 @@ Doesn't have a Shape field.
 
         {name: 'Kaufman Co - Parcels',
          id: 'tx-kaufman-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/KaufmanWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps03/rest/services/KaufmanWeb/MapServer/0',
          labelFields: ['KaufmanCad.DBO.Accounts.situs_num','KaufmanCad.DBO.Accounts.situs_street_prefx','KaufmanCad.DBO.Accounts.situs_street','KaufmanCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11012,8 +11266,16 @@ Doesn't have a Shape field.
 
         {name:  'Moore Co - Parcels',
          id:  'tx-moore-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MooreWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/MooreWeb/MapServer/0',
          labelFields:  ['MooreCad.DBO.Accounts.situs_num', 'MooreCad.DBO.Accounts.situs_street_prefx', 'MooreCad.DBO.Accounts.situs_street', 'MooreCad.DBO.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Navarro Co - Parcels',
+         id:  'tx-navarro-co-parcels',
+         url:  'https://gis.bisclient.com/maps03/rest/services/NavarroWeb/MapServer/0',
+         labelFields:  ['NavarroCad.dbo.Accounts.situs_num', 'NavarroCad.dbo.Accounts.situs_street_prefx', 'NavarroCad.dbo.Accounts.situs_street', 'NavarroCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -11028,7 +11290,7 @@ Doesn't have a Shape field.
 
         {name:  'Nolan Co - Parcels',
          id:  'tx-nolan-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/NolanWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/NolanWeb/MapServer/0',
          labelFields:  ['NolanCad.DBO.Accounts.situs_num', 'NolanCad.DBO.Accounts.situs_street_prefx', 'NolanCad.DBO.Accounts.situs_street', 'NolanCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11052,7 +11314,7 @@ Doesn't have a Shape field.
 
         {name:  'Ochiltree Co - Parcels',
          id:  'tx-ochiltree-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/OchiltreeWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/OchiltreeWeb/MapServer/0',
          labelFields:  ['OchiltreeCad.DBO.Accounts.situs_num', 'OchiltreeCad.DBO.Accounts.situs_street_prefx', 'OchiltreeCad.DBO.Accounts.situs_street', 'OchiltreeCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11068,7 +11330,7 @@ Doesn't have a Shape field.
 
         {name:  'Orange Co - Parcels',
          id:  'tx-orange-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/OrangeWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/OrangeWeb/MapServer/0',
          labelFields:  ['OrangeCad.DBO.Accounts.situs_num', 'OrangeCad.DBO.Accounts.situs_street_prefx', 'OrangeCad.DBO.Accounts.situs_street', 'OrangeCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11076,7 +11338,7 @@ Doesn't have a Shape field.
 
         {name:  'Parmer Co - Parcels',
          id:  'tx-parmer-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/ParmerWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/ParmerWeb/MapServer/0',
          labelFields:  ['ParmerCad.DBO.Accounts.situs_num', 'ParmerCad.DBO.Accounts.situs_street_prefx', 'ParmerCad.DBO.Accounts.situs_street', 'ParmerCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11086,6 +11348,14 @@ Doesn't have a Shape field.
          id:  'tx-pearland-city-parcels',
          url:  'https://copgisweb.ci.pearland.tx.us/arcgis/rest/services/InteractiveMap/Parcels2017Nov/MapServer/0',
          labelFields:  ['situs_num','situs_street_prefx','situs_street','situs_street_suffix'],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Pecos Co - Parcels',
+         id:  'tx-pecos-co-parcels',
+         url:  'https://gis.bisclient.com/maps03/rest/services/PecosWeb/MapServer/0',
+         labelFields:  ['PecosCad.dbo.Accounts.situs_num', 'PecosCad.dbo.Accounts.situs_street_prefx', 'PecosCad.dbo.Accounts.situs_street', 'PecosCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -11124,7 +11394,7 @@ Doesn't have a Shape field.
 
         {name:  'Rains Co - Parcels',
          id:  'tx-rains-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/RainsWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/RainsWeb/MapServer/0',
          labelFields:  ['RainsCad.DBO.Accounts.situs_num', 'RainsCad.DBO.Accounts.situs_street_prefx', 'RainsCad.DBO.Accounts.situs_street', 'RainsCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11140,7 +11410,7 @@ Doesn't have a Shape field.
 
         {name:  'Red River Co - Parcels',
          id:  'tx-red river-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/RedRiverWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/RedRiverWeb/MapServer/0',
          labelFields:  ['RedRiverCad.DBO.Accounts.situs_num', 'RedRiverCad.DBO.Accounts.situs_street_prefx', 'RedRiverCad.DBO.Accounts.situs_street', 'RedRiverCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11148,8 +11418,16 @@ Doesn't have a Shape field.
 
         {name:  'Reeves Co - Parcels',
          id:  'tx-reeves-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/ReevesWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/ReevesWeb/MapServer/0',
          labelFields:  ['ReevesCad.DBO.Accounts.situs_num', 'ReevesCad.DBO.Accounts.situs_street_prefx','ReevesCad.DBO.Accounts.situs_street','ReevesCad.DBO.Accounts.situs_street_sufix'],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'Robertson Co - Parcels',
+         id:  'tx-robertson-co-parcels',
+         url:  'https://gis.bisclient.com/maps03/rest/services/RobertsonWeb/MapServer/0',
+         labelFields:  ['RobertsonCad.dbo.Accounts.situs_num', 'RobertsonCad.dbo.Accounts.situs_street_prefx', 'RobertsonCad.dbo.Accounts.situs_street', 'RobertsonCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
@@ -11187,9 +11465,25 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name:  'San Patricio Co - Parcels',
+         id:  'tx-sanpatricio-co-parcels',
+         url:  'https://gis.bisclient.com/maps03/rest/services/SanPatricioWeb/MapServer/0',
+         labelFields:  ['SanPatricioCad.dbo.Accounts.situs_num', 'SanPatricioCad.dbo.Accounts.situs_street_prefx', 'SanPatricioCad.dbo.Accounts.situs_street', 'SanPatricioCad.dbo.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
+        {name:  'San Saba Co - Parcels',
+         id:  'tx-sansaba-co-parcels',
+         url:  'https://gis.bisclient.com/maps03/rest/services/SanSabaWeb/MapServer/0',
+         labelFields:  ['SanSabaCad.dbo.Accounts.situs_num', 'SanSabaCad.dbo.Accounts.situs_street_prefx', 'SanSabaCad.dbo.Accounts.situs_street', 'SanSabaCad.dbo.Accounts.situs_street_sufix' ],
+         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+         state:  'TX',
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name:  'Schleicher Co - Parcels',
          id:  'tx-schleicher-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/SchleicherWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/SchleicherWeb/MapServer/0',
          labelFields:  ['SchleicherCad.DBO.Accounts.situs_num', 'SchleicherCad.DBO.Accounts.situs_street_prefx', 'SchleicherCad.DBO.Accounts.situs_street', 'SchleicherCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11205,7 +11499,7 @@ Doesn't have a Shape field.
 
         {name:  'Shackelford Co - Parcels',
          id:  'tx-shackelford-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/ShackelfordWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/ShackelfordWeb/MapServer/0',
          labelFields:  ['ShackelfordCad.DBO.Accounts.situs_num', 'ShackelfordCad.DBO.Accounts.situs_street_prefx', 'ShackelfordCad.DBO.Accounts.situs_street', 'ShackelfordCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11277,7 +11571,7 @@ Doesn't have a Shape field.
 
         {name:  'Terrell Co - Parcels',
          id:  'tx-terrell-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/TerrellWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/TerrellWeb/MapServer/0',
          labelFields:  ['TerrellCad.DBO.TempAccounts.situs_num', 'TerrellCad.DBO.TempAccounts.situs_street_prefx', 'TerrellCad.DBO.TempAccounts.situs_street', 'TerrellCad.DBO.TempAccounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11285,7 +11579,7 @@ Doesn't have a Shape field.
 
         {name:  'Titus Co - Parcels',
          id:  'tx-titus-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/TitusWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/TitusWeb/MapServer/0',
          labelFields:  ['TitusCad.DBO.Accounts.situs_num', 'TitusCad.DBO.Accounts.situs_street_prefx', 'TitusCad.DBO.Accounts.situs_street', 'TitusCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11309,7 +11603,7 @@ Doesn't have a Shape field.
 
         {name:  'Trinity Co - Parcels',
          id:  'tx-trinity-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/TrinityWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/TrinityWeb/MapServer/0',
          labelFields:  ['TrinityCad.DBO.Accounts.situs_num', 'TrinityCad.DBO.Accounts.situs_street_prefx', 'TrinityCad.DBO.Accounts.situs_street', 'TrinityCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11333,7 +11627,7 @@ Doesn't have a Shape field.
 
         {name:  'Uvalde Co - Parcels',
          id:  'tx-uvalde-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/UvaldeWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/UvaldeWeb/MapServer/0',
          labelFields:  ['UvaldeCad.DBO.Accounts.situs_num', 'UvaldeCad.DBO.Accounts.situs_street_prefx', 'UvaldeCad.DBO.Accounts.situs_street', 'UvaldeCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11349,7 +11643,7 @@ Doesn't have a Shape field.
 
         {name:  'Van Zandt Co - Parcels',
          id:  'tx-van zandt-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/VanZandtWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/VanZandtWeb/MapServer/0',
          labelFields:  ['VanZandtCad.DBO.Accounts.situs_num', 'VanZandtCad.DBO.Accounts.situs_street_prefx', 'VanZandtCad.DBO.Accounts.situs_street', 'VanZandtCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11357,7 +11651,7 @@ Doesn't have a Shape field.
 
         {name:  'Walker Co - Parcels',
          id:  'tx-walker-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WalkerWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/WalkerWeb/MapServer/0',
          labelFields:  ['WalkerCad.DBO.Accounts.situs_num', 'WalkerCad.DBO.Accounts.situs_street_prefx', 'WalkerCad.DBO.Accounts.situs_street', 'WalkerCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11381,7 +11675,7 @@ Doesn't have a Shape field.
 
         {name:  'Washington Co - Parcels',
          id:  'tx-washington-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WashingtonWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/WashingtonWeb/MapServer/0',
          labelFields:  ['WashingtonCad.DBO.OriginalAccounts.Situs_Address' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11413,7 +11707,7 @@ Doesn't have a Shape field.
 
         {name:  'Wharton Co - Parcels',
          id:  'tx-wharton-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WhartonWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/WhartonWeb/MapServer/0',
          labelFields:  ['WhartonCad.DBO.Accounts.situs_num', 'WhartonCad.DBO.Accounts.situs_street_prefx', 'WhartonCad.DBO.Accounts.situs_street', 'WhartonCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11437,7 +11731,7 @@ Doesn't have a Shape field.
 
         {name: 'Wilson Co - Parcels',
          id: 'tx-wilson-co-parcels',
-         url: 'https://webmap.trueautomation.com/arcgis/rest/services/WilsonMapSearch/MapServer/1',
+         url: 'https://gis.bisclient.com/maps03/rest/services/WilsonMapSearch/MapServer/1',
          labelFields: [ 'Wilson.dbo.web_map_property.situs' ],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11453,7 +11747,7 @@ Doesn't have a Shape field.
 
         {name:  'Wood Co - Parcels',
          id:  'tx-wood-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/WoodWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/WoodWeb/MapServer/0',
          labelFields:  ['WoodCad.DBO.Accounts.situs_num', 'WoodCad.DBO.Accounts.situs_street_prefx', 'WoodCad.DBO.Accounts.situs_street', 'WoodCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11469,7 +11763,7 @@ Doesn't have a Shape field.
 
         {name:  'Young Co - Parcels',
          id:  'tx-young-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/YoungWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps03/rest/services/YoungWeb/MapServer/0',
          labelFields:  ['YoungCad.DBO.Accounts.situs_num', 'YoungCad.DBO.Accounts.situs_street_prefx', 'YoungCad.DBO.Accounts.situs_street', 'YoungCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
