@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.09.002
+// @version      2018.04.10.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13055,7 +13055,7 @@ Doesn't have a Shape field.
     }
 
     function initLayersTab() {
-        let states = _gisLayers.map(l => l.state).unique().filter(st => _settings.selectedStates.indexOf(st) > -1);
+        let states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
         $('#panel-gis-state-layers').empty();
         $('#panel-gis-state-layers').append(
             $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
@@ -13106,7 +13106,7 @@ Doesn't have a Shape field.
     }
 
     function initSettingsTab() {
-        let states = _gisLayers.map(l => l.state).unique();
+        let states = _.uniq(_gisLayers.map(l => l.state));
         $('#panel-gis-layers-settings').append(
             $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                 $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Layer Categories')),
