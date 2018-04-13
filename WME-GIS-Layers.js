@@ -10757,7 +10757,7 @@ Doesn't have a Shape field.
 
         {name:  'Ellis Co - Parcels',
          id:  'tx-ellis-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/EllisWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/EllisWeb/MapServer/0',
          labelFields:  ['EllisCad.DBO.Accounts.situs_num', 'EllisCad.DBO.Accounts.situs_street_prefx', 'EllisCad.DBO.Accounts.situs_street', 'EllisCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12819,7 +12819,6 @@ Doesn't have a Shape field.
 
     let SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     let _alertUpdate = false;
-    let _debugLevel = 0;
     let _scriptVersion = GM_info.script.version;
     let _scriptVersionChanges = [
         GM_info.script.name + '\nv' + _scriptVersion + '\n\nWhat\'s New\n------------------------------\n',
@@ -12828,11 +12827,11 @@ Doesn't have a Shape field.
     let _mapLayer = null;
     let _settings = {};
 
-    function log(message, level) {
-        if (message && (!level || (level <= _debugLevel))) {
-            console.log('GIS Layers: ', message);
-        }
-    }
+    const DEBUG = false;
+    function log(message) { console.log('GIS Layers:', message); }
+    function logError(message) { console.error('GIS Layers:', message); }
+    function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
+    function logWarning(message) { console.warn('GIS Layers:', message); }
 
     function loadSettingsFromStorage() {
         let loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
@@ -12854,7 +12853,7 @@ Doesn't have a Shape field.
         if (localStorage) {
             _settings.lastVersion = _scriptVersion;
             localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
-            log('Settings saved', 1);
+            log('Settings saved');
         }
     }
 
@@ -12888,7 +12887,7 @@ Doesn't have a Shape field.
         if (data.skipIt) {
             // do nothing
         } else if (data.error) {
-            log('Error in layer "' + gisLayer.name + '": ' + data.error.message);
+            logError('Error in layer "' + gisLayer.name + '": ' + data.error.message);
         } else {
             let items = data.features;
             if (!token.cancel) {
@@ -12936,7 +12935,7 @@ Doesn't have a Shape field.
                                 });
                                 featureGeometry = new OL.Geometry.LineString(pointList);
                             } else {
-                                log('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
+                                logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
                                 error = true;
                             }
                             if (!error) {
@@ -12993,8 +12992,17 @@ Doesn't have a Shape field.
                     url: url,
                     context: _lastToken,
                     method: 'GET',
-                    onload: function(res) { processFeatures($.parseJSON(res.responseText), res.context, gisLayer); },
-                    onerror: function(res) { log('HTTP request error:',JSON.stringify(res)); }
+                    onload: function(res) {
+                        if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
+                            processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
+                        } else {
+                            logDebug('HTTP request error: ' + JSON.stringify(res));
+                            logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
+                        }},
+                    onerror: function(res) { 
+                        logDebug('xmlhttpRequest error:' + JSON.stringify(res));
+                        logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
+                    }
                 });
             } else {
                 processFeatures({skipIt: true}, _lastToken, gisLayer);
@@ -13188,15 +13196,15 @@ Doesn't have a Shape field.
         loadSettingsFromStorage();
         initGui();
         fetchFeatures();
-        log('Initialized.', 1);
+        log('Initialized.');
     }
 
     function bootstrap() {
         if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
-            log('Initializing...', 1);
+            log('Initializing...');
             init();
         } else {
-            log('Bootstrap failed. Trying again...', 1);
+            log('Bootstrap failed. Trying again...');
             setTimeout(function () {
                 bootstrap();
             }, 1000);
@@ -13275,6 +13283,6 @@ Doesn't have a Shape field.
         }
     } // END Tab
 
-    log('Bootstrap...', 1);
+    log('Bootstrap...');
     bootstrap();
 })();
