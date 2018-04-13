@@ -260,6 +260,7 @@
 // @connect      kcor.org
 // @connect      kcsgis.com
 // @connect      kentcountymi.gov
+// @connect      kingcounty.gov
 // @connect      kingscountygis.com
 // @connect      kpb.us
 // @connect      ky.gov
@@ -420,8 +421,10 @@
 // @connect      smcgov.org
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      snoco.org
 // @connect      solanocounty.com
 // @connect      southkingstownri.com
+// @connect      spokanecounty.org
 // @connect      springfieldmo.gov
 // @connect      stancounty.com
 // @connect      starkcountyohio.gov
@@ -453,6 +456,7 @@
 // @connect      ventura.org
 // @connect      virginia.gov
 // @connect      wadtx.com
+// @connect      wallawallagis.com
 // @connect      warrencountyny.gov
 // @connect      washco-md.net
 // @connect      washoecounty.us
@@ -12467,8 +12471,10 @@ Doesn't have a Shape field.
         //  state: 'VA',
         //  style: DEFAULT_STRUCTURE_STYLE},
 
+
         // Washington
         // ****************************
+
         {name: 'Washington - State Parcels',
          id: 'wa-state-parcels',
          url: 'https://services.arcgis.com/jsIt88o09Q0r1j8h/ArcGIS/rest/services/Parcels2017gdb/FeatureServer/0',
@@ -12476,6 +12482,34 @@ Doesn't have a Shape field.
          processLabel: function(label) { return label.replace(/\n.*/,'').replace(_regexReplace.r3, ''); },
          state: 'WA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'King Co - Address Points',
+         id: 'wa-king-co-pts',
+         url: 'https://gisdata.kingcounty.gov/arcgis/rest/services/OpenDataPortal/admin__address_point/MapServer/642',
+         labelFields: ['ADDR_FULL'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Snohomish Co - Address Points',
+         id: 'wa-snohomish-co-pts',
+         url: 'http://gismaps.snoco.org/snocogis/rest/services/buildings/buildings/MapServer/1',
+         labelFields: ['ADDR_NUM','ADDR_NUM_SUFFIX','PREFIX','NAME','PRETYPE','TYPE','SUFFIX'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Spokane Co - Address Points',
+         id: 'wa-spokane-co-pts',
+         url: 'http://gis.spokanecounty.org/arcgis/rest/services/OpenData/Property/MapServer/12',
+         labelFields: ['ADDRNUM','ADDRNUMSUF','PrefixDirection','PrefixType','StreetName','StreetType'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Walla Walla Co - Address Points',
+         id: 'wa-walla-walla-co-pts',
+         url: 'http://wallawallagis.com/adaptor/rest/services/Basemaps/Identify/MapServer/18',
+         labelFields: ['GISDATA.DBO.SITES.NEWSTR'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
 
 
         // West Virginia
