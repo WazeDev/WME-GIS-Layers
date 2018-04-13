@@ -12831,23 +12831,11 @@ Doesn't have a Shape field.
     let _mapLayer = null;
     let _settings = {};
 
-    function log(message, level) {
-        if (message) {
-            switch( level ) {
-                case _debugLevel:
-                    console.debug('GIS Layers: ', message);
-                    break;
-                case _errorLevel:
-                    console.error('GIS Layers: ', message);
-                    break;
-                case _warningLevel:
-                    console.warn('GIS Layers: ', message);
-                    break;
-                default:
-                    console.log('GIS Layers: ', message);
-            }
-        }
-    }
+    const DEBUG = false;
+    function log(message) { console.log('GIS Layers:', message); }
+    function logError(message) { console.error('GIS Layers:', message); }
+    function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
+    function logWarning(message) { console.warn('GIS Layers:', message); }
 
     function loadSettingsFromStorage() {
         let loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
@@ -12869,7 +12857,7 @@ Doesn't have a Shape field.
         if (localStorage) {
             _settings.lastVersion = _scriptVersion;
             localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
-            log('Settings saved', _infoLevel);
+            log('Settings saved');
         }
     }
 
@@ -12903,7 +12891,7 @@ Doesn't have a Shape field.
         if (data.skipIt) {
             // do nothing
         } else if (data.error) {
-            log('Error in layer "' + gisLayer.name + '": ' + data.error.message, _errorLevel);
+            logError('Error in layer "' + gisLayer.name + '": ' + data.error.message);
         } else {
             let items = data.features;
             if (!token.cancel) {
@@ -12951,7 +12939,7 @@ Doesn't have a Shape field.
                                 });
                                 featureGeometry = new OL.Geometry.LineString(pointList);
                             } else {
-                                log('Error: Unexpected feature type in layer "' + gisLayer.name + '"', _errorLevel);
+                                logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
                                 error = true;
                             }
                             if (!error) {
@@ -13012,9 +13000,9 @@ Doesn't have a Shape field.
                         if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
                             processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
                         } else {
-                            log('HTTP request error: '.concat(JSON.stringify(res)), _errorLevel);
+                            logError('HTTP request error: '.concat(JSON.stringify(res)));
                         }},
-                    onerror: function(res) { log('HTTP request error: '.concat(JSON.stringify(res)), _errorLevel); }
+                    onerror: function(res) { logError('HTTP request error: '.concat(JSON.stringify(res))); }
                 });
             } else {
                 processFeatures({skipIt: true}, _lastToken, gisLayer);
@@ -13208,15 +13196,15 @@ Doesn't have a Shape field.
         loadSettingsFromStorage();
         initGui();
         fetchFeatures();
-        log('Initialized.', _infoLevel);
+        log('Initialized.');
     }
 
     function bootstrap() {
         if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
-            log('Initializing...', _infoLevel);
+            log('Initializing...');
             init();
         } else {
-            log('Bootstrap failed. Trying again...', _infoLevel);
+            log('Bootstrap failed. Trying again...');
             setTimeout(function () {
                 bootstrap();
             }, 1000);
@@ -13295,6 +13283,6 @@ Doesn't have a Shape field.
         }
     } // END Tab
 
-    log('Bootstrap...', _infoLevel);
+    log('Bootstrap...');
     bootstrap();
 })();
