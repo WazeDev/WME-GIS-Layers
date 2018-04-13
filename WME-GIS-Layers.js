@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.13.001
+// @version      2018.04.13.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -79,10 +79,10 @@
 // @connect      brookhavenga.gov
 // @connect      broomfield.org
 // @connect      broward.org
-// @connect      brunswickcountync.gov
 // @connect      bryan-county.org
 // @connect      bryantx.gov
 // @connect      bucoks.com
+// @connect      buncombecounty.org
 // @connect      burleighco.com
 // @connect      butlercountyauditor.org
 // @connect      buttecounty.net
@@ -306,6 +306,7 @@
 // @connect      mckinneytexas.org
 // @connect      md.gov
 // @connect      md.us
+// @connect      mecklenburgcountync.gov
 // @connect      mercercountyohio.org
 // @connect      mesacounty.us
 // @connect      miamidade.gov
@@ -329,13 +330,16 @@
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
+// @connect      nc.us
 // @connect      nccde.org
+// @connect      nconemap.gov
 // @connect      nd.gov
 // @connect      nd.us
 // @connect      ne.gov
 // @connect      nevcounty.net
 // @connect      newberrycounty.net
 // @connect      newedgeservices.com
+// @connect      nhcgov.com
 // @connect      niagaracounty.com
 // @connect      nj.us
 // @connect      nm.us
@@ -387,6 +391,7 @@
 // @connect      putnamco.org
 // @connect      putnam-fl.com
 // @connect      qac.org
+// @connect      raleighnc.gov
 // @connect      rapc.info
 // @connect      rcgov.org
 // @connect      renogov.org
@@ -8247,10 +8252,160 @@ Not a valid Address Point Layer
         // North Carolina
         // ************************************
 
-        {name: 'Brunswick Co - Address Points',
-         id: 'nc-brunswick-co-points',
-         url: 'https://geo.brunswickcountync.gov/arcgis/rest/services/Mapping/DataViewer/MapServer/0',
-         labelFields: ['ST_ADDR'],
+        {name: 'State - Parcels',
+         id: 'nc-state-parcels',
+         url: 'https://services.nconemap.gov/secure/rest/services/NC1Map_Parcels/MapServer/1',
+         labelFields: ['SITEADD'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'State - Address Points (2014)',
+         id: 'nc-state-pts',
+         url: 'https://services.nconemap.gov/secure/rest/services/NC1Map_Location/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Anson Co - Parcels',
+         id: 'nc-anson-co-parcels',
+         url: 'http://atlas.co.anson.nc.us/ArcGIS/rest/services/ParcelPublicAccess/MapServer/6',
+         labelFields: ['SITEADDRESS'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Anson Co - Address Points',
+         id: 'nc-anson-co-pts',
+         url: 'http://atlas.co.anson.nc.us/ArcGIS/rest/services/Basic/MapServer/0',
+         labelFields: ['NUMBER','STREET'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Buncombe Co - Parcels',
+         id: 'nc-buncombe-co-parcels',
+         url: 'http://gis.buncombecounty.org/arcgis/rest/services/opendata/MapServer/1',
+         labelFields: ['HouseNumber','NumberSuffix','direction','streetname','StreetType','PostDirection'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Buncombe Co - Address Points',
+         id: 'nc-buncombe-co-pts',
+         url: 'http://gis.buncombecounty.org/arcgis/rest/services/opendata/MapServer/2',
+         labelFields: ['street_number','street_prefix','street_name','street_type','street_postdirection'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Durham Co - Parcels',
+         id: 'nc-durham-co-parcels',
+         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Durham/base/MapServer/89',
+         labelFields: ['SITE_ADDRE'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Durham Co - Address Points',
+         id: 'nc-durham-co-pts',
+         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Durham/base/MapServer/46',
+         labelFields: ['HOUSENUM','HOUSENUMSU','STREETDIR','STREETNAME','STREETTYPE','STDIRSUF'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Forsyth Co - Parcels',
+         id: 'nc-forsyth-co-parcels',
+         url: 'http://maps.co.forsyth.nc.us/arcgis/rest/services/terra/MapServer/7',
+         labelFields: ['PropertyAddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Forsyth Co - Address Points',
+         id: 'nc-forsyth-co-pts',
+         url: 'http://maps.co.forsyth.nc.us/arcgis/rest/services/Addressing/AddressSearch/MapServer/0',
+         labelFields: ['ADDRNUM','ADDRNUMSUB','STDIR','STNAME','STTYPE'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Guilford Co - Parcels',
+         id: 'nc-guilford-co-parcels',
+         url: 'http://gis.co.guilford.nc.us/arcgis/rest/services/Guilford_Parcels/GC_Parcels/MapServer/0',
+         labelFields: ['PHYADDR_STR_NUM','PHYADDR_DIR_PFX','PHYADDR_STR','PHYADDR_STR_TYPE','PHYADDR_STR_SFX'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Guildford Co - Address Points',
+         id: 'nc-guildford-co-pts',
+         url: 'http://gis.co.guilford.nc.us/arcgis/rest/services/Addressing/GC_Address_points/MapServer/0',
+         labelFields: ['ADDR_NUMBE','PRE_DIRECT','STREET_NAM','STREET_TYP','POST_DIREC'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Iredell Co - Parcels',
+         id: 'nc-iredell-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/NorthCarolina/Iredell/MapServer/106',
+         labelFields: ['HouseNumber','SDIR','STREET','STYPE'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iredell Co - Address Points',
+         id: 'nc-iredell-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/NorthCarolina/Iredell/MapServer/25',
+         labelFields: ['FullAddr'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mecklenburg Co - Parcels (no data)',
+         id: 'nc-mecklenburg-co-parcels',
+         url: 'http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/labels/MapServer/2',
+         labelFields: [''],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mecklenburg Co - Address Points',
+         id: 'nc-mecklenburg-co-pts',
+         url: 'http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/labels/MapServer/1',
+         labelFields: ['address'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'New Hanover Co - Parcels (no data)',
+         id: 'nc-new-hanover-co-parcels',
+         url: 'http://geo.nhcgov.com/gis/rest/services/Layers/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Hanover Co - Address Points',
+         id: 'nc-new-hanover-co-pts',
+         url: 'http://geo.nhcgov.com/gis/rest/services/Layers/Addressing/MapServer/0',
+         labelFields: ['NUMBER','SUBNUM','DIR','STREET','TYPE'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Union Co - Parcels',
+         id: 'nc-union-co-parcels',
+         url: 'http://gis-web.co.union.nc.us/arcgis/rest/services/GoMaps/UnionGoMaps/MapServer/10',
+         labelFields: ['PropertyStreet'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Union Co - Address Points',
+         id: 'nc-union-co-pts',
+         url: 'http://gis-web.co.union.nc.us/arcgis/rest/services/GoMaps/UnionGoMaps/MapServer/7',
+         labelFields: ['DISPLAY'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wake Co - Parcels',
+         id: 'nc-wake-co-parcels',
+         url: 'https://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['SITE_ADDRESS'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wake Co - Address Points',
+         id: 'nc-wake-co-pts',
+         url: 'https://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/1',
+         labelFields: ['FULLADDR'],
          state: 'NC',
          style: DEFAULT_PT_STYLE},
 
