@@ -13000,9 +13000,13 @@ Doesn't have a Shape field.
                         if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
                             processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
                         } else {
-                            logError('HTTP request error: '.concat(JSON.stringify(res)));
+                            logDebug('HTTP request error: ' + JSON.stringify(res));
+                            logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
                         }},
-                    onerror: function(res) { logError('HTTP request error: '.concat(JSON.stringify(res))); }
+                    onerror: function(res) { 
+                        logDebug('xmlhttpRequest error:' + JSON.stringify(res));
+                        logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
+                    }
                 });
             } else {
                 processFeatures({skipIt: true}, _lastToken, gisLayer);
