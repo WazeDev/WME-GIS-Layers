@@ -12819,10 +12819,6 @@ Doesn't have a Shape field.
 
     let SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     let _alertUpdate = false;
-    let _debugLevel = 0;
-    let _errorLevel = 1;
-    let _warningLevel = 2;
-    let _infoLevel = 3;
     let _scriptVersion = GM_info.script.version;
     let _scriptVersionChanges = [
         GM_info.script.name + '\nv' + _scriptVersion + '\n\nWhat\'s New\n------------------------------\n',
