@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.13.004
+// @version      2018.04.14.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -7253,14 +7253,14 @@ Not a valid Address Point Layer
 
         {name: 'Jackson Co - Address Points',
          id: 'mo-jackson-co-points',
-         url: 'http://arcgisweb.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/0',
+         url: 'http://jcgis.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/0',
          labelFields: ['FULLADDR'],
          state: 'MO',
          style: DEFAULT_PT_STYLE},
 
         {name: 'Jackson Co - Parcels',
          id: 'mo-jackson-co-parcels',
-         url: 'http://arcgisweb.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/4',
+         url: 'http://jcgis.jacksongov.org/arcgis/rest/services/Cadastral/ParcelsAndAddresses/MapServer/4',
          labelFields: ['SitusAddress'],
          state: 'MO',
          style: DEFAULT_PARCEL_STYLE},
