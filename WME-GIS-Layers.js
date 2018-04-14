@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.13.003
+// @version      2018.04.13.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -492,6 +492,7 @@
 /* global W */
 /* global GM_info */
 /* global WazeWrap */
+/* global _ */
 
 (function() {
     'use strict';
@@ -570,7 +571,7 @@
         // Insert newline between digits (including "-") and everything after the digits, except (and before) a ",", use with replace '$1\n$2'
         r5: /^([-\d]+)\s+([^,]+).*/,
         // Insert newline between digits and everything after the digits, use with replace '$1\n$2'
-        r6: /^(\d+)\s+(.*)/,
+        r6: /^(\d+)\s+(.*)/
     };
 
     let _gisLayers = [
@@ -2788,6 +2789,7 @@ Not a valid Address Point Layer
         {name: 'Hernando Co - Parcels',
          id: 'fl-hernando-co-parcels',
          url: 'https://www.hernandocountygis-fl.us/arcgis10_3/rest/services/PANEW/MapServer/6',
+         where: "MAIL_FLAG<>'G' OR SITUS_HOUSENO<>'0'",
          labelFields: ['SITUS_ADDRESS'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
