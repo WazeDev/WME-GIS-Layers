@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.14.001
+// @version      2018.04.14.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -496,8 +496,6 @@
 
 (function() {
     'use strict';
-
-    let _dev_mode = false;
 
     let DEFAULT_STYLE = {
         fillColor: '#000',
@@ -1195,7 +1193,7 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Hot Springs Village - City Address Points',
+        {name: 'Hot Springs Village - City Address Points',
          id: 'ar-hot-springs-village-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/65',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
@@ -1302,7 +1300,7 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Poinsett Co - Address Points',
+        {name: 'Poinsett Co - Address Points',
          id: 'ar-poinsett-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Poinsett_County/Vector/MapServer/0',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAM','PSTR_TYPE'],
@@ -1317,7 +1315,7 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Pulaski Co - Address Points',
+        {name: 'Pulaski Co - Address Points',
          id: 'ar-pulaski-co-points',
          url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/9',
          labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
@@ -2067,7 +2065,7 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Arapahoe Co - Address Points',
+        {name: 'Arapahoe Co - Address Points',
          id: 'co-arapahoe-co-points',
          url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/3',
          labelFields: ['Full_Address'],
@@ -2146,7 +2144,7 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Commerce City - City Address Points',
+        {name: 'Commerce City - City Address Points',
          id: 'co-commerce-city-city-points',
          url: 'http://63.238.120.156/arcgis/rest/services/OpenData/AddressPoints/MapServer/0',
          labelFields: ['ADDR_HN','SUBADDR_TYPE','SUBADDR_UNIT','ADDR_PD','ADDR_SN','ADDR_ST','ADDR_SD'],
@@ -2176,7 +2174,7 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Delta Co - Address Points',
+        {name: 'Delta Co - Address Points',
          id: 'co-delta-co-points',
          url: 'http://maps.deltacounty.com/arcgis/rest/services/PARCEL_MAP_B_SERVICE/MapServer/0',
          labelFields: ['Full_Address'],
@@ -2212,7 +2210,7 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Eagle Co - Address Points',
+        {name: 'Eagle Co - Address Points',
          id: 'co-eagle-co-points',
          url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Address_ForLabel/MapServer/0',
          labelFields: ['Address'],
@@ -2226,7 +2224,7 @@
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-/*        {name: 'Fremont Co - Address Points',
+        /*        {name: 'Fremont Co - Address Points',
          id: 'co-fremont-co-pts',
          url: 'http://fremontgis.com/arcgis_102/rest/services/FremontCO_GIS_Layers/MapServer/160',
          labelFields: ['GL_ADR_FUL'],
@@ -2251,7 +2249,7 @@ Not a valid Address Point Layer
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Gilpin Co - Address Points',
+        {name: 'Gilpin Co - Address Points',
          id: 'co-gilpin-co-points',
          url: 'https://data1.digitaldataservices.com/arcgis/rest/services/GilpinCounty/Gilpin_ParcelOverlay/MapServer/0',
          labelFields: ['fulladdr'],
@@ -2280,7 +2278,7 @@ Not a valid Address Point Layer
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Jefferson Co - Address Points',
+        {name: 'Jefferson Co - Address Points',
          id: 'co-jefferson-co-points',
          url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Address/MapServer/0',
          labelFields: ['ADDRESS'],
@@ -2503,7 +2501,7 @@ Not a valid Address Point Layer
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Sedgwick Co - Address Points',
+        {name: 'Sedgwick Co - Address Points',
          id: 'co-sedgwick-co-points',
          url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/1',
          labelFields: ['Address_Nu','Direction','Street','Suffix'],
@@ -2524,7 +2522,7 @@ Not a valid Address Point Layer
          state: 'CO',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Teller Co - Address Points',
+        {name: 'Teller Co - Address Points',
          id: 'co-teller-co-points',
          url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Property/MapServer/5',
          labelFields: ['STREET'],
@@ -6740,7 +6738,7 @@ Not a valid Address Point Layer
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Brandon - City Parcels',
+        {name: 'Brandon - City Parcels',
          id: 'ms-brandon-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Brandon2016/MapServer/8',
          labelFields: ['STREET_NUM','STREET'],
@@ -6826,7 +6824,7 @@ Not a valid Address Point Layer
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'D\'Iberville - City Address Points',
+        {name: 'D\'Iberville - City Address Points',
          id: 'ms-diberville-city-points',
          url: 'https://atlas.geoportalmaps.com/proxy.ashx?https://services.geoportalmaps.com/arcgis/rest/services/Diberville_Services/MapServer/2',
          labelFields: ['SIT_NO','SIT_NAME'],
@@ -6899,7 +6897,7 @@ Not a valid Address Point Layer
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Magee - City Parcels',
+        {name: 'Magee - City Parcels',
          id: 'ms-magee-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/MageeViewer/MapServer/4',
          labelFields: ['STREET_NUM','STREET'],
@@ -6953,7 +6951,7 @@ Not a valid Address Point Layer
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Pelahatchie - City Parcels',
+        {name: 'Pelahatchie - City Parcels',
          id: 'ms-pelahatchie-city-parcels',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/Pelahatchie/MapServer/16',
          labelFields: ['STREET_NUM','STREET'],
@@ -6992,7 +6990,7 @@ Not a valid Address Point Layer
          state: 'MS',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Rankin Co - Address Points',
+        {name: 'Rankin Co - Address Points',
          id: 'ms-rankin-co-pts',
          url: 'http://gis.cmpdd.org/arcgis/rest/services/County/RankinCounty/MapServer/3',
          labelFields: ['FULL_ADDRE'],
@@ -8882,7 +8880,7 @@ Not a valid Address Point Layer
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
-/*        {name: 'Norman - City Parcels',
+        /*        {name: 'Norman - City Parcels',
          id: 'ok-norman-city-parcels',
          url: 'http://maps.normanok.gov/arcgis/rest/services/GeneralBaseMap/MapServer/42',
 //         labelFields: ['F_ADD','T_ADD','PRE_DIR','STREET_NAME','STREET_TYPE','SUF_DIR'],
@@ -8899,7 +8897,7 @@ Doesn't have a Shape field.
          state: 'OK',
          style: DEFAULT_PARCEL_STYLE},
 
-/* Oklahoma City has it's own public facing API system. The developer portal details the API, which would include a JSON return from a URL GET / POST.
+        /* Oklahoma City has it's own public facing API system. The developer portal details the API, which would include a JSON return from a URL GET / POST.
    however, this would require a special URL creation function apart from the sandard ESRI ARCGIS URL builder. It could potentially require a special
    JSON parse as I haven't had time to look at the actual JSON return from this special URL to see if it matches ESRI ARCGIS datasets.
    Developer API: https://data.okc.gov/portal/page/api
@@ -8921,9 +8919,9 @@ Doesn't have a Shape field.
          state: 'OK',
          style: DEFAULT_PT_STYLE},
 
-         {name: 'Oklahoma City - City Parcels',
+        {name: 'Oklahoma City - City Parcels',
          id: 'ok-oklahoma-city-city-parcels',
-//         url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AccelaActionCenter/MapServer/0', // Missing poly's in newer areas 2018.03.31
+         //         url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AccelaActionCenter/MapServer/0', // Missing poly's in newer areas 2018.03.31
          url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AGIS_PPLS_DEV/MapServer/4',
          labelFields: ['LotAddress'],
          state: 'OK',
@@ -10960,13 +10958,13 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-//        {name: 'Carrollton City - Parcels',
-//         id: 'tx-carrollton-city-parcels',
-//         url: 'http://maps.cityofcarrollton.com/arcgis/rest/services/Webclstr1/BaseMap/MapServer/6',
-//         labelFields: ['STR_NUM','STR_DIR','STR_NAME','STR_SUF'],
-//         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
-//         state: 'TX',
-//         style: DEFAULT_PARCEL_STYLE},
+        //        {name: 'Carrollton City - Parcels',
+        //         id: 'tx-carrollton-city-parcels',
+        //         url: 'http://maps.cityofcarrollton.com/arcgis/rest/services/Webclstr1/BaseMap/MapServer/6',
+        //         labelFields: ['STR_NUM','STR_DIR','STR_NAME','STR_SUF'],
+        //         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+        //         state: 'TX',
+        //         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Cass Co - Parcels',
          id: 'tx-cass-co-parcels',
@@ -11000,7 +10998,7 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-         {name: 'Collin Co - Parcels',
+        {name: 'Collin Co - Parcels',
          id: 'tx-collin-co-parcels',
          url: 'http://gis.co.collin.tx.us/arcgis/rest/services/basemap/basemap14/MapServer/182',
          labelFields: ['situs_num','situs_stre','situs_st_1','situs_st_2'],
@@ -11072,7 +11070,7 @@ Doesn't have a Shape field.
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-		 {name: 'Dallas - City Parcels',
+        {name: 'Dallas - City Parcels',
          id: 'tx-dallas-city-parcels',
          url: 'https://maps.dcad.org/prdwa/rest/services/Property/ParcelQuery/MapServer/4',
          labelFields: ['SITEADDRESS'],
@@ -11248,13 +11246,13 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-//        {name:  'Glasscock Co - Parcels',
-//         id:  'tx-glasscock-co-parcels',
-//         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GlasscockWeb/MapServer/0',
-//         labelFields:  ['GlasscockCad.DBO.Accounts.situs_num', 'GlasscockCad.DBO.Accounts.situs_street_prefx', 'GlasscockCad.DBO.Accounts.situs_street', 'GlasscockCad.DBO.Accounts.situs_street_sufix' ],
-//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
-//         state:  'TX',
-//         style:  DEFAULT_PARCEL_STYLE },
+        //        {name:  'Glasscock Co - Parcels',
+        //         id:  'tx-glasscock-co-parcels',
+        //         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GlasscockWeb/MapServer/0',
+        //         labelFields:  ['GlasscockCad.DBO.Accounts.situs_num', 'GlasscockCad.DBO.Accounts.situs_street_prefx', 'GlasscockCad.DBO.Accounts.situs_street', 'GlasscockCad.DBO.Accounts.situs_street_sufix' ],
+        //         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+        //         state:  'TX',
+        //         style:  DEFAULT_PARCEL_STYLE },
 
         {name: 'Goliad Co - Parcels',
          id: 'tx-goliad-co-parcels',
@@ -11360,13 +11358,13 @@ Doesn't have a Shape field.
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-//        {name:  'Hockley Co - Parcels',
-//         id:  'tx-hockley-co-parcels',
-//         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HockleyWeb/MapServer/0',
-//         labelFields:  ['HockleyCad.DBO.Accounts.situs_num', 'HockleyCad.DBO.Accounts.situs_street_prefx', 'HockleyCad.DBO.Accounts.situs_street', 'HockleyCad.DBO.Accounts.situs_street_sufix' ],
-//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
-//         state:  'TX',
-//         style:  DEFAULT_PARCEL_STYLE },
+        //        {name:  'Hockley Co - Parcels',
+        //         id:  'tx-hockley-co-parcels',
+        //         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HockleyWeb/MapServer/0',
+        //         labelFields:  ['HockleyCad.DBO.Accounts.situs_num', 'HockleyCad.DBO.Accounts.situs_street_prefx', 'HockleyCad.DBO.Accounts.situs_street', 'HockleyCad.DBO.Accounts.situs_street_sufix' ],
+        //         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+        //         state:  'TX',
+        //         style:  DEFAULT_PARCEL_STYLE },
 
         {name:  'Howard Co - Parcels',
          id:  'tx-howard-co-parcels',
@@ -11612,14 +11610,14 @@ Doesn't have a Shape field.
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-//  Missing data in parcel information
-//        {name:  'Menard Co - Parcels',
-//         id:  'tx-menard-co-parcels',
-//         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MenardWeb/MapServer/0',
-//         labelFields:  ['MenardCad.DBO.Accounts.situs_num', 'MenardCad.DBO.Accounts.situs_street_prefx', 'MenardCad.DBO.Accounts.situs_street', 'MenardCad.DBO.Accounts.situs_street_sufix' ],
-//         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
-//         state:  'TX',
-//         style:  DEFAULT_PARCEL_STYLE },
+        //  Missing data in parcel information
+        //        {name:  'Menard Co - Parcels',
+        //         id:  'tx-menard-co-parcels',
+        //         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MenardWeb/MapServer/0',
+        //         labelFields:  ['MenardCad.DBO.Accounts.situs_num', 'MenardCad.DBO.Accounts.situs_street_prefx', 'MenardCad.DBO.Accounts.situs_street', 'MenardCad.DBO.Accounts.situs_street_sufix' ],
+        //         processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+        //         state:  'TX',
+        //         style:  DEFAULT_PARCEL_STYLE },
 
         {name:  'Midland City - Parcels',
          id:  'tx-midland-city-parcels',
@@ -11821,14 +11819,14 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-// Rowlett has no shape data in the GIS Parcels
-//        {name: 'Rowlett City - Parcels',
-//         id: 'tx-rowlett-city-parcels',
-//         url: 'http://emap.rowlett.com/arcgis/rest/services/BaseMap/Basemap/MapServer/8',
-//         labelFields: ['STR_NUM','STR_NAME','STR_TYPE'],
-//         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
-//         state: 'TX',
-//         style: DEFAULT_PARCEL_STYLE},
+        // Rowlett has no shape data in the GIS Parcels
+        //        {name: 'Rowlett City - Parcels',
+        //         id: 'tx-rowlett-city-parcels',
+        //         url: 'http://emap.rowlett.com/arcgis/rest/services/BaseMap/Basemap/MapServer/8',
+        //         labelFields: ['STR_NUM','STR_NAME','STR_TYPE'],
+        //         processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
+        //         state: 'TX',
+        //         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'San Antonio City - Parcels',
          id: 'tx-sanantonio-city-parcels',
@@ -12158,7 +12156,7 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-	{name: 'Zavala Co - Parcels',
+        {name: 'Zavala Co - Parcels',
          id: 'tx-zavala-co-parcels',
          url: 'https://webmap.trueautomation.com/arcgis/rest/services/ZavalaMapSearch/MapServer/6',
          labelFields: [ 'Zavala.dbo.web_map_property.situs' ],
@@ -13212,7 +13210,7 @@ Doesn't have a Shape field.
 
     ];
 
-    let STATES = {
+    const STATES = {
         _states:[
             ['US (Country)','US'],['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
             ['Federated States Of Micronesia','FM'],['Florida','FL'],['Georgia','GA'],['Guam','GU'],['Hawaii','HI'],['Idaho','ID'],['Illinois','IL'],['Indiana','IN'],['Iowa','IA'],['Kansas','KS'],
@@ -13226,17 +13224,19 @@ Doesn't have a Shape field.
         toFullNameArray: function() { return this._states.map(a => a[0]); },
         toAbbrArray: function() { return this._states.map(a => a[1]); }
     };
-    let DEFAULT_VISIBLE_AT_ZOOM = 6;
-
-    let SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
-    let _alertUpdate = false;
-    let _scriptVersion = GM_info.script.version;
-    let _scriptVersionChanges = [
-        GM_info.script.name + '\nv' + _scriptVersion + '\n\nWhat\'s New\n------------------------------\n',
+    const DEFAULT_VISIBLE_AT_ZOOM = 6;
+    const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
+    const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2010/State_County/MapServer/1/';
+    const ALERT_UPDATE = false;
+    const SCRIPT_VERSION = GM_info.script.version;
+    const SCRIPT_VERSION_CHANGES = [
+        GM_info.script.name + '\nv' + SCRIPT_VERSION + '\n\nWhat\'s New\n------------------------------\n',
         '\n- Update for new WME layers menu.'
     ].join('');
     let _mapLayer = null;
     let _settings = {};
+    let _ignoreFetch = false;
+    let _lastToken = {};
 
     const DEBUG = false;
     function log(message) { console.log('GIS Layers:', message); }
@@ -13250,7 +13250,8 @@ Doesn't have a Shape field.
             lastVersion: null,
             visibleLayers: [],
             selectedStates: [],
-            enabled: true
+            enabled: true,
+            fillParcels: false
         };
         _settings = loadedSettings ? loadedSettings : defaultSettings;
         for (let prop in defaultSettings) {
@@ -13262,7 +13263,7 @@ Doesn't have a Shape field.
 
     function saveSettingsToStorage() {
         if (localStorage) {
-            _settings.lastVersion = _scriptVersion;
+            _settings.lastVersion = SCRIPT_VERSION;
             localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
             log('Settings saved');
         }
@@ -13293,6 +13294,14 @@ Doesn't have a Shape field.
         return url;
     }
 
+    // TBD...
+    // ******************************************
+    function processCounties(data, token) {
+    }
+    function fetchCounties() {
+    }
+    // ******************************************
+
     function processFeatures(data, token, gisLayer) {
         let features = [];
         if (data.skipIt) {
@@ -13305,7 +13314,7 @@ Doesn't have a Shape field.
                 let error = false;
                 if (gisLayer.debug) debugger;
                 let distinctValues = [];
-                items.forEach(function(item) {
+                items.forEach(item => {
                     let skipIt = false;
                     if (!token.cancel && !error) {
                         let feature;
@@ -13383,8 +13392,6 @@ Doesn't have a Shape field.
         }
     }  // END processFeatures()
 
-    let _ignoreFetch = false;
-    let _lastToken = {};
     function fetchFeatures() {
         if (_ignoreFetch) return;
         _lastToken.cancel = true;
@@ -13410,7 +13417,7 @@ Doesn't have a Shape field.
                             logDebug('HTTP request error: ' + JSON.stringify(res));
                             logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
                         }},
-                    onerror: function(res) { 
+                    onerror: function(res) {
                         logDebug('xmlhttpRequest error:' + JSON.stringify(res));
                         logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
                     }
@@ -13423,8 +13430,8 @@ Doesn't have a Shape field.
 
     function showScriptInfoAlert() {
         /* Check version and alert on update */
-        if (_alertUpdate && _scriptVersion !== _settings.lastVersion) {
-            alert(_scriptVersionChanges);
+        if (ALERT_UPDATE && SCRIPT_VERSION !== _settings.lastVersion) {
+            alert(SCRIPT_VERSION_CHANGES);
         }
     }
 
@@ -13436,6 +13443,49 @@ Doesn't have a Shape field.
         $('span#gis-layers-power-btn').css({color:color});
         if (value) fetchFeatures();
         $('#layer-switcher-item_gis_layers').prop('checked',value);
+    }
+
+    function onLayerToggleChanged(checked, layerID) {
+        let idx = _settings.visibleLayers.indexOf(layerID);
+        if (checked) {
+            if (idx === -1) _settings.visibleLayers.push(layerID);
+        } else {
+            if (idx > -1) _settings.visibleLayers.splice(idx, 1);
+        }
+        saveSettingsToStorage();
+        fetchFeatures();
+    }
+
+    function onStateCheckChanged(checked, st) {
+        let idx = _settings.selectedStates.indexOf(st);
+        if (checked) {
+            if (idx === -1) _settings.selectedStates.push(st);
+        } else {
+            if (idx > -1) _settings.selectedStates.splice(idx, 1);
+        }
+        saveSettingsToStorage();
+        initLayersTab();
+        fetchFeatures();
+    }
+
+    function onLayerCheckboxChanged(checked) {
+        setEnabled(checked);
+    }
+
+    function onMapMove() {
+        if (_settings.enabled) fetchFeatures();
+    }
+
+    function onFillParcelsCheckedChanged(checked) {
+        if (checked) {
+            DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
+            DEFAULT_PARCEL_STYLE.fillColor = DEFAULT_STYLE.strokeColor;
+        } else {
+            DEFAULT_PARCEL_STYLE.fillOpacity = 0;
+        }
+        _settings.fillParcels = checked;
+        saveSettingsToStorage();
+        fetchFeatures();
     }
 
     function initLayer(){
@@ -13460,18 +13510,6 @@ Doesn't have a Shape field.
         W.map.addLayer(_mapLayer);
 
     } // END InitLayer
-
-
-    function onLayerToggleChanged(checked, layerID) {
-        let idx = _settings.visibleLayers.indexOf(layerID);
-        if (checked) {
-            if (idx === -1) _settings.visibleLayers.push(layerID);
-        } else {
-            if (idx > -1) _settings.visibleLayers.splice(idx, 1);
-        }
-        saveSettingsToStorage();
-        fetchFeatures();
-    }
 
     function initLayersTab() {
         let states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
@@ -13512,18 +13550,6 @@ Doesn't have a Shape field.
         );
     }
 
-    function onStateCheckChanged(checked, st) {
-        let idx = _settings.selectedStates.indexOf(st);
-        if (checked) {
-            if (idx === -1) _settings.selectedStates.push(st);
-        } else {
-            if (idx > -1) _settings.selectedStates.splice(idx, 1);
-        }
-        saveSettingsToStorage();
-        initLayersTab();
-        fetchFeatures();
-    }
-
     function initSettingsTab() {
         let states = _.uniq(_gisLayers.map(l => l.state));
         $('#panel-gis-layers-settings').append(
@@ -13541,6 +13567,17 @@ Doesn't have a Shape field.
                 )
             )
         );
+        $('#panel-gis-layers-settings').append(
+            $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Appearance')),
+                // $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
+                $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                    $('<input>', {type:'checkbox', id:'fill-parcels'}).change(function() { onFillParcelsCheckedChanged($(this).is(':checked')); }).prop('checked', _settings.fillParcels),
+                    $('<label>', {for:'fill-parcels'}).css({'white-space':'pre-line'}).text('Fill parcels')
+                )
+                // )
+            )
+        );
     }
 
     function initTab() {
@@ -13555,20 +13592,7 @@ Doesn't have a Shape field.
         );
     }
 
-    function onMapMove() {
-        if (_settings.enabled) fetchFeatures();
-    }
-
-    function onLayerCheckboxChanged(checked) {
-        setEnabled(checked);
-    }
-
     function initGui() {
-        if (_dev_mode) {
-            DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
-            DEFAULT_PARCEL_STYLE.fillColor = DEFAULT_STYLE.strokeColor;
-        }
-
         initLayer();
 
         let content = $('<div>').append(
@@ -13694,6 +13718,5 @@ Doesn't have a Shape field.
         }
     } // END Tab
 
-    log('Bootstrap...');
     bootstrap();
 })();
