@@ -285,7 +285,6 @@
 // @connect      linkgis.org
 // @connect      linncounty.org
 // @connect      livingstoncounty.us
-// @connect      lojic.org
 // @connect      longviewtexas.gov
 // @connect      loraincountyauditor.com
 // @connect      losalamosnm.us
@@ -5065,12 +5064,13 @@ Not a valid Address Point Layer
          state: 'KY',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Jefferson Co - Address Points',
-         id: 'ky-jefferson-co-pts',
-         url: 'https://ags1.lojic.org/arcgis/rest/services/Metro/EMA/MapServer/1',
-         labelFields: ['HOUSENO','DIR', 'STRNAME', 'TYPE'],
-         state: 'KY',
-         style: DEFAULT_PT_STYLE},
+        // No longer works.  Token required.
+        // {name: 'Jefferson Co - Address Points',
+        //  id: 'ky-jefferson-co-pts',
+        //  url: 'https://ags1.lojic.org/arcgis/rest/services/Metro/EMA/MapServer/1',
+        //  labelFields: ['HOUSENO','DIR', 'STRNAME', 'TYPE'],
+        //  state: 'KY',
+        //  style: DEFAULT_PT_STYLE},
 
         {name: 'Jessamine Co - Address Points',
          id: 'ky-jessamine-co-pts',
