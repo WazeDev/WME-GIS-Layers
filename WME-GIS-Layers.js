@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.14.002
+// @version      2018.04.14.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13472,10 +13472,6 @@ Doesn't have a Shape field.
         setEnabled(checked);
     }
 
-    function onMapMove() {
-        if (_settings.enabled) fetchFeatures();
-    }
-
     function onFillParcelsCheckedChanged(checked) {
         if (checked) {
             DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
@@ -13486,6 +13482,10 @@ Doesn't have a Shape field.
         _settings.fillParcels = checked;
         saveSettingsToStorage();
         fetchFeatures();
+    }
+
+    function onMapMove() {
+        if (_settings.enabled) fetchFeatures();
     }
 
     function initLayer(){
@@ -13499,6 +13499,13 @@ Doesn't have a Shape field.
                 symbolizer: gisLayer.style
             });
         });
+
+        if (_settings.fillParcels) {
+            DEFAULT_PARCEL_STYLE.fillOpacity = 0.2;
+            DEFAULT_PARCEL_STYLE.fillColor = DEFAULT_STYLE.strokeColor;
+        } else {
+            DEFAULT_PARCEL_STYLE.fillOpacity = 0;
+        }
 
         let style = new OL.Style(DEFAULT_STYLE, { rules: rules } );
 
