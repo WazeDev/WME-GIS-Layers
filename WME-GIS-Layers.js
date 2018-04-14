@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.13.001
+// @version      2018.04.13.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -79,10 +79,10 @@
 // @connect      brookhavenga.gov
 // @connect      broomfield.org
 // @connect      broward.org
-// @connect      brunswickcountync.gov
 // @connect      bryan-county.org
 // @connect      bryantx.gov
 // @connect      bucoks.com
+// @connect      buncombecounty.org
 // @connect      burleighco.com
 // @connect      butlercountyauditor.org
 // @connect      buttecounty.net
@@ -140,6 +140,7 @@
 // @connect      cookcountyil.gov
 // @connect      coppelltx.gov
 // @connect      coralsprings.org
+// @connect      cosb.us
 // @connect      countyofkane.org
 // @connect      countyofnewaygo.com
 // @connect      countyofriverside.us
@@ -206,6 +207,7 @@
 // @connect      geodataportal.net
 // @connect      geoportalmaps.com
 // @connect      geopowered.com
+// @connect      geoviewer8.com
 // @connect      georgetowncountysc.org
 // @connect      gfgis.com
 // @connect      gishost.com
@@ -258,6 +260,8 @@
 // @connect      kcor.org
 // @connect      kcsgis.com
 // @connect      kentcountymi.gov
+// @connect      kingcounty.gov
+// @connect      kingscountygis.com
 // @connect      kpb.us
 // @connect      ky.gov
 // @connect      lacounty.gov
@@ -302,6 +306,7 @@
 // @connect      mckinneytexas.org
 // @connect      md.gov
 // @connect      md.us
+// @connect      mecklenburgcountync.gov
 // @connect      mercercountyohio.org
 // @connect      mesacounty.us
 // @connect      miamidade.gov
@@ -325,12 +330,16 @@
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
+// @connect      nc.us
 // @connect      nccde.org
+// @connect      nconemap.gov
 // @connect      nd.gov
 // @connect      nd.us
 // @connect      ne.gov
+// @connect      nevcounty.net
 // @connect      newberrycounty.net
 // @connect      newedgeservices.com
+// @connect      nhcgov.com
 // @connect      niagaracounty.com
 // @connect      nj.us
 // @connect      nm.us
@@ -382,6 +391,7 @@
 // @connect      putnamco.org
 // @connect      putnam-fl.com
 // @connect      qac.org
+// @connect      raleighnc.gov
 // @connect      rapc.info
 // @connect      rcgov.org
 // @connect      renogov.org
@@ -413,10 +423,13 @@
 // @connect      siouxcounty.org
 // @connect      siouxfalls.org
 // @connect      sjcounty.net
+// @connect      smcgov.org
 // @connect      smithcountymapsite.org
 // @connect      snco.us
+// @connect      snoco.org
 // @connect      solanocounty.com
 // @connect      southkingstownri.com
+// @connect      spokanecounty.org
 // @connect      springfieldmo.gov
 // @connect      stancounty.com
 // @connect      starkcountyohio.gov
@@ -448,6 +461,7 @@
 // @connect      ventura.org
 // @connect      virginia.gov
 // @connect      wadtx.com
+// @connect      wallawallagis.com
 // @connect      warrencountyny.gov
 // @connect      washco-md.net
 // @connect      washoecounty.us
@@ -1366,6 +1380,17 @@
         // California
         // ***********************************
 
+        /* Layer works but requires token that expires
+        {name: 'Alameda Co - Parcels',
+         id: 'ca-alameda-parcels',
+         url: 'http://gis.acgov.org/arcgis/rest/services/AlamedaCounty_Cache/Parcels/MapServer/0',
+         token: 'RPDwrzRz9rPqCMKjVEVSrj1vYv6eRK7drZ-8TgM-qpnl6KD2OHQ4HVhAIEEXVy9X',
+         labelFields: ['SitusStreetNumber','SitusStreetName'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE}, */
+        // Alameda Co - Address Points - Layer not found
+
         {name: 'Alpine Co - Parcels',
          id: 'ca-alpine-co-parcels',
          url: 'https://services1.arcgis.com/9z9tEfqo0TExR9C8/ArcGIS/rest/services/Alpine_OperationalLayers_Service/FeatureServer/0',
@@ -1379,6 +1404,8 @@
          labelFields: ['Situs_House_Number','Situs_Street_Direction','Situs_Street','Situs_Street_Suffix'],
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        // Amador Co - No GIS
 
         {name: 'Butte Co - Parcels',
          id: 'ca-butte-co-parcels',
@@ -1395,12 +1422,27 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Calaveras Co - Parcels',
+         id: 'ca-calaveras-co-parcels',
+         url: 'http://mapserver.co.calaveras.ca.us/ArcGIS/rest/services/PARCELS/PARCELS/MapServer/0',
+         labelFields: ['STRNUM','STRDIRECT','STREET'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Calaveras Co - Address Points',
+         id: 'ca-calaveras-co-pts',
+         url: 'http://mapserver.co.calaveras.ca.us/ArcGIS/rest/services/GIS/ADDRESSPOINTS/MapServer/0',
+         labelFields: ['MAINADD'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Colusa Co - Parcels',
          id: 'ca-colusa-co-parcels',
          url: 'https://services5.arcgis.com/RHVBVx0fVmUtvfJV/ArcGIS/rest/services/Parcels_2017_Lite/FeatureServer/0',
          labelFields: ['SITUS_1'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // Colusa Co - Address Points - Layer not found
 
         {name: 'Contra Costa Co - Parcels',
          id: 'ca-contra-costa-parcels',
@@ -1416,6 +1458,14 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Del Norte Co - Parcels',
+         id: 'ca-del-norte-co-parcels',
+         url: 'https://services3.arcgis.com/IkUDY1vRIUWiVvcz/ArcGIS/rest/services/DN_Parcels/FeatureServer/0',
+         labelFields: ['StreetNum','StreetDire','Street','StreetType'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Del Norte Co - Address Points - Layer not found
+
         {name: 'El Dorado Co - Parcels',
          id: 'ca-el-dorado-co-parcels',
          url: 'http://gem.edcgov.us/arcgis/rest/services/parcel/addressSQL_WAB/MapServer/0',
@@ -1423,6 +1473,21 @@
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // El Dorado Co - Address Points - Layer not found
+
+        {name: 'Fresno Co - Parcels (no data',
+         id: 'ca-fresno-co-parcels',
+         url: 'https://gisprod10.co.fresno.ca.us/server/rest/services/PublicWorks/PublicWorks_Zoning/MapServer/9',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fresno Co - Address Points',
+         id: 'ca-fresno-co-pts',
+         url: 'https://gisprod10.co.fresno.ca.us/server/rest/services/PublicWorks/PublicWorks_Zoning/MapServer/8',
+         labelFields: ['ADDRESS_NUMBER','ADDRESS_FRACTION','STREET_DIRECTION','STREET_NAME','STREET_TYPE','STREET_POST_DIRECTION'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Glenn Co - Parcels',
          id: 'ca-glenn-co-parcels',
@@ -1430,6 +1495,32 @@
          labelFields: ['SiteAddress1'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // Glenn Co - Address Points - Layer not found
+
+        {name: 'Humboldt Co - Parcels',
+         id: 'ca-humboldt-co-parcels',
+         url: 'https://webgis.co.humboldt.ca.us/arcgis/rest/services/Accela_Parcels_Roads/MapServer/2',
+         labelFields: ['FULLADDR'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Humboldt Co - Address Points',
+         id: 'ca-humboldt-co-pts',
+         url: 'https://webgis.co.humboldt.ca.us/arcgis/rest/services/Accela_Parcels_Roads/MapServer/1',
+         labelFields: ['SITHSNBR','SITHSNBRSF','SITSTDIR','SITSTNAME','SITSTTYPE'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        // Layer works but requires token that expires
+        {name: 'Imperial Co - Parcels',
+         id: 'ca-imperial-parcels',
+         url: 'http://services.geoviewer8.com/arcgis/rest/services/ImperialCounty_Public/MapServer/16',
+         token: 'dFMh-vUZYj11u_Xr7tHUaitAL-d3TbB46Mc1gGxxK37Qr1xqSUk2ZCfIrEMomylS',
+         labelFields: ['GCHouNum','GCPreDir','GCPreTyp','GCStName','GCStType','GCSufDir'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Imperial Co - Address Points - Layer not found
 
         {name: 'Inyo Co - Parcels',
          id: 'ca-inco-co-parcels',
@@ -1459,12 +1550,43 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Kings Co - Parcels (no data)',
+         id: 'ca-kings-parcels',
+         url: 'http://kingscountygis.com:6080/arcgis/rest/services/Kings/MapServer/32',
+         labelFields: [''],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Kings Co - Address Points',
+         id: 'ca-kings-pts',
+         url: 'http://kingscountygis.com:6080/arcgis/rest/services/Kings/MapServer/9',
+         labelFields: ['STREET_NBR','STREET_DIR','STREET_NAM','STREET_TYP'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lake Co - Parcels',
+         id: 'ca-lake-co-parcels',
+         url: 'http://gispublic.co.lake.ca.us:6080/arcgis/rest/services/parcellabels/MapServer/0',
+         labelFields: ['SITUS1'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Lake Co - Address Points - Layer not found
+
         {name: 'Los Angeles Co - Parcels',
          id: 'ca-los-angeles-co-parcels',
          url: 'http://arcgis.gis.lacounty.gov/arcgis/rest/services/DRP/GISNET3_Public/MapServer/35',
          labelFields: ['SitusAddress'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // Los Angeles Co - Address Points - Layer not found
+
+        {name: 'Madera Co - Parcels',
+         id: 'ca-madera-parcels',
+         url: 'https://services1.arcgis.com/GriG8qPTrSXw8mwN/ArcGIS/rest/services/Madera_County_Complete/FeatureServer/3',
+         labelFields: ['Situs'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Madera Co - Address Points - Layer not found
 
         {name: 'Marin Co - Parcels',
          id: 'ca-marin-co-parcels',
@@ -1479,6 +1601,9 @@
          labelFields: ['Formatted'],
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        // Mariposa Co - No GIS
+        // Mendocino Co - No GIS
 
         {name: 'Merced Co - Parcels (no data)',
          id: 'ca-merced-co-parcels',
@@ -1508,7 +1633,7 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Monterey Co - Parcels (no data_',
+        {name: 'Monterey Co - Parcels (no data)',
          id: 'ca-monterey-parcels',
          url: 'http://gis.co.monterey.ca.us/Geocortex/Essentials/external/REST/sites/Base_Map_Out/map/mapservices/0/GeoREST/MapServer/1',
          labelFields: [''],
@@ -1536,12 +1661,31 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Nevada Co - Parcels',
+         id: 'ca-nevada-co-parcels',
+         url: 'http://gis.nevcounty.net/arcgis/rest/services/web_public/Open_Data_Layers_Nevada_County/MapServer/100',
+         labelFields: ['HouseNumber','PreDirectionalStreet','PreTypeStreet','StreetName','PostTypeStreet','PostDirectionalStreet'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Nevada Co - Address Points - Layer not found
+
         {name: 'Orange Co - Parcels',
          id: 'ca-orange-co-parcels',
          url: 'https://www.ocgis.com/arcpub/rest/services/Map_Layers/Parcels/MapServer/0',
          labelFields: ['SITE_ADDRESS'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // Orange Co - Address Points - Layer not found
+
+        // Placer Co - WMS service only
+
+        {name: 'Plumas Co - Parcels',
+         id: 'ca-plumas-co-parcels',
+         url: 'http://maps.placer.ca.gov/arcgis/rest/services/Parcels/ParcelsGeocortex/MapServer/0',
+         labelFields: ['FULLSTREET'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Plumas Co - Address Points - Layer not found
 
         /* Layer works but requires token that expires
         {name: 'Riverside Co - Parcels',
@@ -1576,19 +1720,77 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'San Benito Co - Parcels',
+         id: 'ca-san-benito-co-parcels',
+         url: 'http://gis.cosb.us/Geocortex/Essentials/REST/sites/SBC/map/mapservices/7/rest/services/x/MapServer/7',
+         labelFields: ['Situs1'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Benito Co - Address Points',
+         id: 'ca-san-benito-co-pts',
+         url: 'http://gis.cosb.us/Geocortex/Essentials/REST/sites/SBC/map/mapservices/47/rest/services/x/MapServer/0',
+         labelFields: ['ADDRESS','PREDIR','STNAME','TYPE'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'San Bernardino Co - Parcels',
+         id: 'ca-san-bernardino-co-parcels',
+         url: 'http://maps.sanbag.ca.gov:6080/arcgis/rest/services/parcels/MapServer/0',
+         labelFields: ['NUMBER','PREDIR','STREETNAME','STREETTYPE'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // San Bernardino Co - Address Points - Layer not found
+
         {name: 'San Diego Co - Parcels',
-         id: 'ca-san-diego-parcels',
+         id: 'ca-san-diego-co-parcels',
          url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/Parcels/MapServer/0',
          labelFields: ['SITUS_ADDRESS','SITUS_PRE_DIR','SITUS_STREET','SITUS_POST_DIR','SITUS_SUFFIX'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'San Diego Co - Address Points',
-         id: 'ca-san-diego-pts',
+         id: 'ca-san-diego-co-pts',
          url: 'http://sdgis.sandag.org/sdgis/rest/services/RDW/ADDRESS_APN/MapServer/0',
          labelFields: ['ADDRNMBR','ADDRFRAC','ADDRPDIR','ADDRNAME','ADDRPOSTD','ADDRSFX'],
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        // San Francisco Co - Incompatible GIS
+        // San Joaquin Co - Incompatible GIS
+
+        {name: 'San Luis Obispo Co - Parcels',
+         id: 'ca-san-luis-obispo-co-parcels',
+         url: 'https://gis.slocounty.ca.gov/arcgis/rest/services/Planning/PLN_WEB_SERVICES/MapServer/0',
+         labelFields: ['SITUS_1','DIRECTION_','STREET_1','TYPE_1'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Luis Obispo Co - Address Points',
+         id: 'ca-san-luis-obispo-co-pts',
+         url: 'https://gis.slocounty.ca.gov/arcgis/rest/services/Public/opendata/MapServer/0',
+         labelFields: ['StNumber','StPreDir','StName','StType','StPostDir'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'San Mateo Co - Parcels',
+         id: 'ca-san-mateo-co-parcels',
+         url: 'http://maps.smcgov.org/arcgis/rest/services/PLN/PLN_LAYERS_DMZ/MapServer/0',
+         labelFields: ['SITUS_ADDR'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'San Mateo Co - Address Points',
+         id: 'ca-san-mateo-co-pts',
+         url: 'http://maps.smcgov.org/arcgis/rest/services/PLN/PLN_LAYERS_DMZ/MapServer/33',
+         labelFields: ['SITUS_ADDR'],
+         state: 'CA',
+         style: DEFAULT_PT_STYLE},
+
+        // Santa Barbara Co - Incompatible GIS
 
         {name: 'Santa Clara Co - Parcels',
          id: 'ca-santa-clara-parcels',
@@ -1610,6 +1812,7 @@
          labelFields: ['SITEADD'],
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // Santa Cruz Co - Address Points - Layer not found
 
         {name: 'Shasta Co - Parcels',
          id: 'ca-shasta-co-parcels',
@@ -1626,6 +1829,8 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        // Sierra Co - GIS not working
+
         {name: 'Solano Co - Parcels',
          id: 'ca-solano-co-parcels',
          url: 'https://regis.solanocounty.com/server/rest/services/iSolano/ParcelsLat3NO/MapServer/0',
@@ -1639,6 +1844,8 @@
          labelFields: ['SITENUM','SITEROAD'],
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        // Sonoma Co - No usable GIS data found
 
         {name: 'Stanislaus Co - Parcels',
          id: 'ca-stanislaus-parcels',
@@ -1655,6 +1862,17 @@
          processLabel: function(label) { return label.replace(_regexReplace.r3, ''); },
          state: 'CA',
          style: DEFAULT_PT_STYLE},
+
+        {name: 'Sutter Co - Parcels',
+         id: 'ca-sutter-co-parcels',
+         url: 'https://services6.arcgis.com/rHMUPKWdiOvdGXkw/ArcGIS/rest/services/Tax_Parcels/FeatureServer/0',
+         labelFields: ['SITUS_ADD'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Sutter Co - Address Points - Layer not working, enforces minimum zoom
+
+        // Tehama Co - No GIS
 
         {name: 'Trinity Co - Parcels',
          id: 'ca-trinity-co-parcels',
@@ -1684,6 +1902,14 @@
          state: 'CA',
          style: DEFAULT_PT_STYLE},
 
+        {name: 'Tuolumne Co - Parcels',
+         id: 'ca-tuolumne-co-parcels',
+         url: 'http://gis.co.tuolumne.ca.us:8093/arcgis/rest/services/GeneralPlanParcels/MapServer/0',
+         labelFields: ['HOUSE_NUM','STREET_NAME'],
+         state: 'CA',
+         style: DEFAULT_PARCEL_STYLE},
+        // Tuolumne Co - Address Points - Layer not found
+
         {name: 'Ventura Co - Parcels',
          id: 'ca-ventura-co-parcels',
          url: 'http://gis.ventura.org/arcgis/rest/services/SDs/OjaiAccela/MapServer/2',
@@ -1705,6 +1931,9 @@
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CA',
          style: DEFAULT_PARCEL_STYLE},
+        // Yolo Co - Address Points - Layer not found
+
+        // Yuba Co - No GIS
 
         {name: 'Alameda Co (partial) - House #s',
          id: 'ca-Alameda-co-pts-1',
@@ -8023,10 +8252,160 @@ Not a valid Address Point Layer
         // North Carolina
         // ************************************
 
-        {name: 'Brunswick Co - Address Points',
-         id: 'nc-brunswick-co-points',
-         url: 'https://geo.brunswickcountync.gov/arcgis/rest/services/Mapping/DataViewer/MapServer/0',
-         labelFields: ['ST_ADDR'],
+        {name: 'State - Parcels',
+         id: 'nc-state-parcels',
+         url: 'https://services.nconemap.gov/secure/rest/services/NC1Map_Parcels/MapServer/1',
+         labelFields: ['SITEADD'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'State - Address Points (2014)',
+         id: 'nc-state-pts',
+         url: 'https://services.nconemap.gov/secure/rest/services/NC1Map_Location/MapServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Anson Co - Parcels',
+         id: 'nc-anson-co-parcels',
+         url: 'http://atlas.co.anson.nc.us/ArcGIS/rest/services/ParcelPublicAccess/MapServer/6',
+         labelFields: ['SITEADDRESS'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Anson Co - Address Points',
+         id: 'nc-anson-co-pts',
+         url: 'http://atlas.co.anson.nc.us/ArcGIS/rest/services/Basic/MapServer/0',
+         labelFields: ['NUMBER','STREET'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Buncombe Co - Parcels',
+         id: 'nc-buncombe-co-parcels',
+         url: 'http://gis.buncombecounty.org/arcgis/rest/services/opendata/MapServer/1',
+         labelFields: ['HouseNumber','NumberSuffix','direction','streetname','StreetType','PostDirection'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Buncombe Co - Address Points',
+         id: 'nc-buncombe-co-pts',
+         url: 'http://gis.buncombecounty.org/arcgis/rest/services/opendata/MapServer/2',
+         labelFields: ['street_number','street_prefix','street_name','street_type','street_postdirection'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Durham Co - Parcels',
+         id: 'nc-durham-co-parcels',
+         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Durham/base/MapServer/89',
+         labelFields: ['SITE_ADDRE'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Durham Co - Address Points',
+         id: 'nc-durham-co-pts',
+         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Durham/base/MapServer/46',
+         labelFields: ['HOUSENUM','HOUSENUMSU','STREETDIR','STREETNAME','STREETTYPE','STDIRSUF'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Forsyth Co - Parcels',
+         id: 'nc-forsyth-co-parcels',
+         url: 'http://maps.co.forsyth.nc.us/arcgis/rest/services/terra/MapServer/7',
+         labelFields: ['PropertyAddress'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Forsyth Co - Address Points',
+         id: 'nc-forsyth-co-pts',
+         url: 'http://maps.co.forsyth.nc.us/arcgis/rest/services/Addressing/AddressSearch/MapServer/0',
+         labelFields: ['ADDRNUM','ADDRNUMSUB','STDIR','STNAME','STTYPE'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Guilford Co - Parcels',
+         id: 'nc-guilford-co-parcels',
+         url: 'http://gis.co.guilford.nc.us/arcgis/rest/services/Guilford_Parcels/GC_Parcels/MapServer/0',
+         labelFields: ['PHYADDR_STR_NUM','PHYADDR_DIR_PFX','PHYADDR_STR','PHYADDR_STR_TYPE','PHYADDR_STR_SFX'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Guildford Co - Address Points',
+         id: 'nc-guildford-co-pts',
+         url: 'http://gis.co.guilford.nc.us/arcgis/rest/services/Addressing/GC_Address_points/MapServer/0',
+         labelFields: ['ADDR_NUMBE','PRE_DIRECT','STREET_NAM','STREET_TYP','POST_DIREC'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Iredell Co - Parcels',
+         id: 'nc-iredell-co-parcels',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/NorthCarolina/Iredell/MapServer/106',
+         labelFields: ['HouseNumber','SDIR','STREET','STYPE'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Iredell Co - Address Points',
+         id: 'nc-iredell-co-pts',
+         url: 'https://arcgis.mobile311.com/arcgis/rest/services/NorthCarolina/Iredell/MapServer/25',
+         labelFields: ['FullAddr'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Mecklenburg Co - Parcels (no data)',
+         id: 'nc-mecklenburg-co-parcels',
+         url: 'http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/labels/MapServer/2',
+         labelFields: [''],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mecklenburg Co - Address Points',
+         id: 'nc-mecklenburg-co-pts',
+         url: 'http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/labels/MapServer/1',
+         labelFields: ['address'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'New Hanover Co - Parcels (no data)',
+         id: 'nc-new-hanover-co-parcels',
+         url: 'http://geo.nhcgov.com/gis/rest/services/Layers/Parcels/MapServer/0',
+         labelFields: [''],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'New Hanover Co - Address Points',
+         id: 'nc-new-hanover-co-pts',
+         url: 'http://geo.nhcgov.com/gis/rest/services/Layers/Addressing/MapServer/0',
+         labelFields: ['NUMBER','SUBNUM','DIR','STREET','TYPE'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Union Co - Parcels',
+         id: 'nc-union-co-parcels',
+         url: 'http://gis-web.co.union.nc.us/arcgis/rest/services/GoMaps/UnionGoMaps/MapServer/10',
+         labelFields: ['PropertyStreet'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Union Co - Address Points',
+         id: 'nc-union-co-pts',
+         url: 'http://gis-web.co.union.nc.us/arcgis/rest/services/GoMaps/UnionGoMaps/MapServer/7',
+         labelFields: ['DISPLAY'],
+         state: 'NC',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wake Co - Parcels',
+         id: 'nc-wake-co-parcels',
+         url: 'https://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/0',
+         labelFields: ['SITE_ADDRESS'],
+         state: 'NC',
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Wake Co - Address Points',
+         id: 'nc-wake-co-pts',
+         url: 'https://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/1',
+         labelFields: ['FULLADDR'],
          state: 'NC',
          style: DEFAULT_PT_STYLE},
 
@@ -12247,8 +12626,10 @@ Doesn't have a Shape field.
         //  state: 'VA',
         //  style: DEFAULT_STRUCTURE_STYLE},
 
+
         // Washington
         // ****************************
+
         {name: 'Washington - State Parcels',
          id: 'wa-state-parcels',
          url: 'https://services.arcgis.com/jsIt88o09Q0r1j8h/ArcGIS/rest/services/Parcels2017gdb/FeatureServer/0',
@@ -12256,6 +12637,34 @@ Doesn't have a Shape field.
          processLabel: function(label) { return label.replace(/\n.*/,'').replace(_regexReplace.r3, ''); },
          state: 'WA',
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'King Co - Address Points',
+         id: 'wa-king-co-pts',
+         url: 'https://gisdata.kingcounty.gov/arcgis/rest/services/OpenDataPortal/admin__address_point/MapServer/642',
+         labelFields: ['ADDR_FULL'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Snohomish Co - Address Points',
+         id: 'wa-snohomish-co-pts',
+         url: 'http://gismaps.snoco.org/snocogis/rest/services/buildings/buildings/MapServer/1',
+         labelFields: ['ADDR_NUM','ADDR_NUM_SUFFIX','PREFIX','NAME','PRETYPE','TYPE','SUFFIX'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Spokane Co - Address Points',
+         id: 'wa-spokane-co-pts',
+         url: 'http://gis.spokanecounty.org/arcgis/rest/services/OpenData/Property/MapServer/12',
+         labelFields: ['ADDRNUM','ADDRNUMSUF','PrefixDirection','PrefixType','StreetName','StreetType'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Walla Walla Co - Address Points',
+         id: 'wa-walla-walla-co-pts',
+         url: 'http://wallawallagis.com/adaptor/rest/services/Basemaps/Identify/MapServer/18',
+         labelFields: ['GISDATA.DBO.SITES.NEWSTR'],
+         state: 'WA',
+         style: DEFAULT_PT_STYLE},
 
 
         // West Virginia
