@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.15.001
+// @version      2018.04.15.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -107,6 +107,7 @@
 // @connect      cedar-rapids.org
 // @connect      centralilmaps.com
 // @connect      centrecountypa.gov
+// @connect      census.gov
 // @connect      charlestoncounty.org
 // @connect      charlottecountyfl.gov
 // @connect      chautauquacounty.com
@@ -4985,6 +4986,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Anderson/AndersonStructureDynamic/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Anderson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Boone Co - Structures',
@@ -4992,6 +4994,7 @@ Not a valid Address Point Layer
          url: 'https://secure.boonecountygis.com/server/rest/services/BuildingFootprints/MapServer/0',
          labelFields: ['SITEADD1'],
          state: 'KY',
+         counties: ['Boone'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Boone Co - Parcels',
@@ -4999,6 +5002,7 @@ Not a valid Address Point Layer
          url: 'https://secure.boonecountygis.com/server/rest/services/ParcelLayers/MapServer/0',
          labelFields: ['SITEADD1'],
          state: 'KY',
+         counties: ['Boone'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Boyle Co - Address Points',
@@ -5006,6 +5010,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Boyle/BoyleBaseStructures/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Boyle'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Campbell Co - Parcels',
@@ -5013,6 +5018,7 @@ Not a valid Address Point Layer
          url: 'https://linkgis.org/arcgisweb/rest/services/CC_KC_PCTheme/MapServer/7',
          labelFields: ['LOC_ADD'],
          state: 'KY',
+         counties: ['Campbell'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Campbell Co - Structures',
@@ -5020,6 +5026,7 @@ Not a valid Address Point Layer
          url: 'https://linkgis.org/arcgisweb/rest/services/Buildings/MapServer/3',
          labelFields: ['PROPERTY_L','PROPERTY_1','PROPERTY_2'],
          state: 'KY',
+         counties: ['Campbell'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Clark Co - Address Points',
@@ -5027,6 +5034,7 @@ Not a valid Address Point Layer
          url: 'http://gis.ccgisonline.com:6080/arcgis/rest/services/BASELAYERS/ADDRESSES/MapServer/0',
          labelFields: ['STRADD','PRE_DIR','STR_NAME','STREET_TYP','STREET_DIR'],
          state: 'KY',
+         counties: ['Clark'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Fayette Co - Address Points',
@@ -5034,6 +5042,7 @@ Not a valid Address Point Layer
          url: 'https://maps.lexingtonky.gov/lfucggis/rest/services/property/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Fayette'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Fayette Co - Parcels',
@@ -5041,6 +5050,7 @@ Not a valid Address Point Layer
          url: 'https://maps.lexingtonky.gov/lfucggis/rest/services/parcels/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Fayette'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Franklin Co - Parcels',
@@ -5049,6 +5059,7 @@ Not a valid Address Point Layer
          where: "MAPNUM <> ''",
          labelFields: ['streetNo','strName'],
          state: 'KY',
+         counties: ['Franklin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Franklin Co - Address Points',
@@ -5056,6 +5067,7 @@ Not a valid Address Point Layer
          url: 'https://services2.arcgis.com/1Mn98EWnWi3Ezwj3/ArcGIS/rest/services/Addresses/FeatureServer/0',
          labelFields: ['FULLNAME'],
          state: 'KY',
+         counties: ['Franklin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Garrard Co - Address Points',
@@ -5063,6 +5075,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Garrard/GarrardCountyWater/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Garrard'],
          style: DEFAULT_PT_STYLE},
 
         // No longer works.  Token required.
@@ -5078,6 +5091,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/JessamineKY_Map_Package/MapServer/6',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Jessamine'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hardin Co - Address Points',
@@ -5085,6 +5099,7 @@ Not a valid Address Point Layer
          url: 'http://services1.arcgis.com/fYwcHOBzInDTQxh0/ArcGIS/rest/services/Address_PointsJAN2017/FeatureServer/0',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Hardin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hardin Co - Parcels',
@@ -5093,6 +5108,7 @@ Not a valid Address Point Layer
          labelFields: ['PROPERTY_L'],
          where: "MAP<>''",
          state: 'KY',
+         counties: ['Hardin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Henderson Co - Address Points',
@@ -5101,6 +5117,7 @@ Not a valid Address Point Layer
          labelFields: ['FULL_ADDR'],
          processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'KY',
+         counties: ['Henderson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Kenton Co - Parcels',
@@ -5108,6 +5125,7 @@ Not a valid Address Point Layer
          url: 'http://kcgis.kcor.org/arcgis/rest/services/Parcel_Layer/MapServer/1',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Kenton'],
          style: DEFAULT_PARCEL_STYLE},
 
         // *** Logan county uses this server, but no address data: http://161.6.109.206/wkugis/rest/services/
@@ -5117,6 +5135,7 @@ Not a valid Address Point Layer
          url: 'https://arcserver.madisoncountyky.us/arcgis/rest/services/County_Web_Maps/Structures/MapServer/0',
          labelFields: ['ADDNUMBER', 'STREET'],
          state: 'KY',
+         counties: ['Madison'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Magoffin Co - Address Points',
@@ -5124,6 +5143,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Magoffin/PhoneScrub/FeatureServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Magoffin'],
          style: DEFAULT_PT_STYLE},
 
         // *** NOTE: Marshall county uses ArcGIS, but I wasn't able to find their REST server.
@@ -5133,6 +5153,7 @@ Not a valid Address Point Layer
          url: 'http://map-gis.paducahky.gov/arcgis/rest/services/BaseLayersPub/MapServer/2',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['McCracken'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'McCracken Co - Paducah - Address Points',
@@ -5140,6 +5161,7 @@ Not a valid Address Point Layer
          url: 'http://map-gis.paducahky.gov/arcgis/rest/services/BaseLayersPub/MapServer/1',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['McCracken'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Mercer Co - Address Points',
@@ -5147,6 +5169,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Mercer/MercerStructuresDynamic/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Mercer'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pendleton Co - Parcels',
@@ -5154,6 +5177,7 @@ Not a valid Address Point Layer
          url: 'https://linkgis.org/arcgisweb/rest/services/CC_KC_PCTheme/MapServer/18',
          labelFields: ['Location_2'],
          state: 'KY',
+         counties: ['Pendleton'],
          style: DEFAULT_PARCEL_STYLE},
 
         // NOTE: I tried to get this to work.  Created a proj4js projection for EPSG:2272.  That worked to transform coordinates, but they were wrong because
@@ -5171,6 +5195,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Powell/PowellStructureDynamic/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Powell'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Scott Co - Address Points',
@@ -5178,6 +5203,7 @@ Not a valid Address Point Layer
          url: 'http://gis.gscplanning.com/arcgis/rest/services/Addresses/MapServer/0',
          labelFields: ['COMPLETE_A'],
          state: 'KY',
+         counties: ['Scott'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Shelby Co - Parcels',
@@ -5185,6 +5211,7 @@ Not a valid Address Point Layer
          url: 'https://services2.arcgis.com/VqPd1Ybcc46AvijK/ArcGIS/rest/services/Parcels_Service062717/FeatureServer/0',
          labelFields: ['Location'],
          state: 'KY',
+         counties: ['Shelby'],
          style: DEFAULT_PARCEL_STYLE},
 
         // From the Bowling Green GIS site...
@@ -5193,6 +5220,7 @@ Not a valid Address Point Layer
          url: 'http://gis.bgky.org/arcgis/rest/services/ParcelsPVA/MapServer/1',
          labelFields: ['LOCATION'],
          state: 'KY',
+         counties: ['Warren'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Warren Co - WKU - Structures',
@@ -5201,6 +5229,7 @@ Not a valid Address Point Layer
          labelHeaderFields: ['Bldg_Name'],
          labelFields: ['Address'],
          state: 'KY',
+         counties: ['Warren'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Webster Co - Parcels',
@@ -5210,6 +5239,7 @@ Not a valid Address Point Layer
          visibleAtZoom: 5,
          labelFields: ['Property_L'],
          state: 'KY',
+         counties: ['Webster'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Woodford Co - Address Points',
@@ -5217,6 +5247,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Woodford/WebMapDynamic/MapServer/1',
          labelFields: ['FULLADDR'],
          state: 'KY',
+         counties: ['Woodford'],
          style: DEFAULT_PT_STYLE},
 
 
@@ -13239,7 +13270,7 @@ Doesn't have a Shape field.
     let _ignoreFetch = false;
     let _lastToken = {};
 
-    const DEBUG = false;
+    const DEBUG = true;
     function log(message) { console.log('GIS Layers:', message); }
     function logError(message) { console.error('GIS Layers:', message); }
     function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
@@ -13295,13 +13326,30 @@ Doesn't have a Shape field.
         return url;
     }
 
-    // TBD...
-    // ******************************************
-    function processCounties(data, token) {
+    function getCountiesUrl(extent) {
+        let geometry = { xmin:extent.left, ymin:extent.bottom, xmax:extent.right, ymax:extent.top, spatialReference: {wkid: 102100, latestWkid: 3857} };
+        let url = COUNTIES_URL + '/query?geometry=' + encodeURIComponent(JSON.stringify(geometry));
+        return url + '&outFields=BASENAME&returnGeometry=false&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
     }
-    function fetchCounties() {
+
+    function getLayersInModelStates() {
+        let statesInModel = W.model.states.getObjectArray().map(state => state.name);
+        let layers = [];
+        _gisLayers.forEach(gisLayer => {
+            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
+            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
+            let isInState = gisLayer.state === 'US' || statesInModel.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
+            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            if (isValidUrl && isInState && isVisible && isValidZoom) {
+                layers.push(gisLayer);
+            } else {
+                // If the layer is not to be mapped, remove any existing features.
+                _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+            }
+        });
+        return layers;
     }
-    // ******************************************
 
     function processFeatures(data, token, gisLayer) {
         let features = [];
@@ -13397,36 +13445,57 @@ Doesn't have a Shape field.
         if (_ignoreFetch) return;
         _lastToken.cancel = true;
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
-        let states = W.model.states.getObjectArray().map(state => state.name);
         $('.gis-state-layer-label').css({'color':'#777'});
-        _gisLayers.forEach(gisLayer => {
-            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
-            let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
-            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
-            if (isValidUrl && isInState && isVisible && isValidZoom) {
-                let url = getUrl(W.map.getExtent(), gisLayer);
-                GM_xmlhttpRequest({
-                    url: url,
-                    context: _lastToken,
-                    method: 'GET',
-                    onload: function(res) {
-                        if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
-                            processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
+        let layersToFetch = getLayersInModelStates();
+        if (layersToFetch.length) {
+            let extent = W.map.getExtent();
+            GM_xmlhttpRequest({
+                url: getCountiesUrl(extent),
+                method: 'GET',
+                onload: function(res) {
+                    if (res.status < 400) {
+                        let data = $.parseJSON(res.responseText);
+                        if (data.error) {
+                            logError('Error in US Census counties data: ' + data.error.message);
                         } else {
-                            logDebug('HTTP request error: ' + JSON.stringify(res));
-                            logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
-                        }},
-                    onerror: function(res) {
-                        logDebug('xmlhttpRequest error:' + JSON.stringify(res));
-                        logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
+                            let countiesInExtent = data.features.map(feature => feature.attributes.BASENAME);
+                            layersToFetch = layersToFetch.filter(layer => {
+                                let hasCounties = layer.hasOwnProperty('counties');
+                                return (hasCounties && layer.counties.some(county => countiesInExtent.indexOf(county) > -1)) || !hasCounties;
+                            });
+                            logDebug('Fetching ' + layersToFetch.length + ' layers...');
+                            logDebug(layersToFetch);
+                            layersToFetch.forEach(gisLayer => {
+                                let url = getUrl(extent, gisLayer);
+                                GM_xmlhttpRequest({
+                                    url: url,
+                                    context: _lastToken,
+                                    method: 'GET',
+                                    onload: function(res) {
+                                        if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
+                                            processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
+                                        } else {
+                                            logDebug('HTTP request error: ' + JSON.stringify(res));
+                                            logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
+                                        }},
+                                    onerror: function(res) {
+                                        logDebug('xmlhttpRequest error:' + JSON.stringify(res));
+                                        logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
+                                    }
+                                });
+                            });
+                        }
+                    } else {
+                        logDebug('HTTP request error: ' + JSON.stringify(res));
+                        logError('Could not fetch counties from US Census site.  Request returned ' + res.status);
                     }
-                });
-            } else {
-                processFeatures({skipIt: true}, _lastToken, gisLayer);
-            }
-        });
+                },
+                onerror: function(res) {
+                    logDebug('xmlhttpRequest error:' + JSON.stringify(res));
+                    logError('Could not fetch counties from US Census site.  An error was thrown.');
+                }
+            });
+        }
     }
 
     function showScriptInfoAlert() {
@@ -13643,7 +13712,7 @@ Doesn't have a Shape field.
     }
 
     function bootstrap() {
-        if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
+        if (W && W.loginManager && W.map && W.loginManager.isLoggedIn() && W.model && W.model.states && W.model.states.getObjectArray().length) {
             log('Initializing...');
             init();
         } else {
