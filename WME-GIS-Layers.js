@@ -11935,7 +11935,7 @@ Doesn't have a Shape field.
         {name: 'Tarrant Co - Parcels',
          id: 'tx-tarrant-co-parcels',
          url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
-         labelFields: ['SitusAddress'],
+         labelFields: ['SitusAddre'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -13355,6 +13355,7 @@ Doesn't have a Shape field.
                                 });
                                 featureGeometry = new OL.Geometry.LineString(pointList);
                             } else {
+                                logDebug('Unexpected feature type in layer: ' + JSON.stringify(item));
                                 logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
                                 error = true;
                             }
@@ -13412,6 +13413,7 @@ Doesn't have a Shape field.
                     method: 'GET',
                     onload: function(res) {
                         if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
+                            logDebug('Process Features: ' + JSON.stringify(res));
                             processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
                         } else {
                             logDebug('HTTP request error: ' + JSON.stringify(res));
