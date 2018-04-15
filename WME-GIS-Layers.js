@@ -11280,7 +11280,7 @@ Doesn't have a Shape field.
 
         {name:  'Gray Co - Parcels',
          id:  'tx-gray-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/GrayWeb/MapServer/0',
          labelFields:  ['GrayCad.DBO.Accounts.situs_num', 'GrayCad.DBO.Accounts.situs_street_prefx', 'GrayCad.DBO.Accounts.situs_street', 'GrayCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
