@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.15.002
+// @version      2018.04.15.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13458,10 +13458,11 @@ Doesn't have a Shape field.
                         if (data.error) {
                             logError('Error in US Census counties data: ' + data.error.message);
                         } else {
-                            let countiesInExtent = data.features.map(feature => feature.attributes.BASENAME);
+                            let countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
+                            logDebug('US Census counties: ' + countiesInExtent.join(', '))
                             layersToFetch = layersToFetch.filter(layer => {
                                 let hasCounties = layer.hasOwnProperty('counties');
-                                return (hasCounties && layer.counties.some(county => countiesInExtent.indexOf(county) > -1)) || !hasCounties;
+                                return (hasCounties && layer.counties.some(county => countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
                             });
                             logDebug('Fetching ' + layersToFetch.length + ' layers...');
                             logDebug(layersToFetch);
