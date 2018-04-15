@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.14.003
+// @version      2018.04.15.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -329,6 +329,7 @@
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
+// @connect      nassauflpa.com
 // @connect      nc.us
 // @connect      nccde.org
 // @connect      nconemap.gov
@@ -2915,14 +2916,14 @@ Not a valid Address Point Layer
 
         {name: 'Nassau Co - Address Points',
          id: 'fl-nassau-co-pts',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Nassau/Nassau_GoMaps4/MapServer/2',
+         url: 'https://maps.nassauflpa.com/ncflpa_arcgis/rest/services/nassau/TaxMap4_Citrix/MapServer/9',
          labelFields: ['FULLADDRESS'],
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
         {name: 'Nassau Co - Parcels',
          id: 'fl-nassau-co-parcels',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Nassau/Nassau_GoMaps4/MapServer/0',
+         url: 'https://maps.nassauflpa.com/ncflpa_arcgis/rest/services/nassau/TaxMap4_Citrix/MapServer/144',
          labelFields: ['HOUSE_NO','HSESUF','STREET','ST_MD'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
