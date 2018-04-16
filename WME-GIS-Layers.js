@@ -13281,9 +13281,10 @@ Doesn't have a Shape field.
         let defaultSettings = {
             lastVersion: null,
             visibleLayers: [],
+            onlyShowApplicableLayers: false,
             selectedStates: [],
             enabled: true,
-            fillParcels: false
+            fillParcels: false,
         };
         _settings = loadedSettings ? loadedSettings : defaultSettings;
         for (let prop in defaultSettings) {
@@ -13332,23 +13333,42 @@ Doesn't have a Shape field.
         return url + '&outFields=BASENAME&returnGeometry=false&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
     }
 
-    function getLayersInModelStates() {
+    let _countiesInExtent = [];
+
+    function getFetchableLayers(getInvisible) {
         let statesInModel = W.model.states.getObjectArray().map(state => state.name);
-        let layers = [];
-        _gisLayers.forEach(gisLayer => {
+        return _gisLayers.filter(gisLayer => {
             let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
+            let isVisible = (getInvisible || _settings.visibleLayers.indexOf(gisLayer.id) > -1) && _settings.selectedStates.indexOf(gisLayer.state) > -1;
             let isInState = gisLayer.state === 'US' || statesInModel.indexOf(STATES.toFullName(gisLayer.state)) > -1;
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
             let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
-            if (isValidUrl && isInState && isVisible && isValidZoom) {
-                layers.push(gisLayer);
+            return isValidUrl && isInState && isVisible && isValidZoom;
+        });
+    }
+
+    function filterLayerCheckboxes() {
+        console.log('APPLICABLE LAYERS');
+        let applicableLayers = getFetchableLayers(true).filter(layer => {
+            let hasCounties = layer.hasOwnProperty('counties');
+            return (hasCounties && layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
+        });
+        var statesToHide = STATES.toAbbrArray();
+
+        _gisLayers.forEach(gisLayer => {
+            let id = '#gis-layer-' + gisLayer.id + '-container';
+            if(!_settings.onlyShowApplicableLayers || applicableLayers.indexOf(gisLayer) > -1){
+                $(id).show();
+                $('#gis-layers-for-' + gisLayer.state).show();
+                let idx = statesToHide.indexOf(gisLayer.state);
+                if (idx > -1) statesToHide.splice(idx, 1);
             } else {
-                // If the layer is not to be mapped, remove any existing features.
-                _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+                $(id).hide();
             }
         });
-        return layers;
+        if (_settings.onlyShowApplicableLayers) {
+            statesToHide.forEach(st => $('#gis-layers-for-' + st).hide());
+        }
     }
 
     function processFeatures(data, token, gisLayer) {
@@ -13446,7 +13466,15 @@ Doesn't have a Shape field.
         _lastToken.cancel = true;
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
         $('.gis-state-layer-label').css({'color':'#777'});
-        let layersToFetch = getLayersInModelStates();
+        let layersToFetch = getFetchableLayers();
+
+        // Remove features of any layers that won't be mapped.
+        _gisLayers.forEach(gisLayer => {
+            if (layersToFetch.indexOf(gisLayer) === -1)  {
+                _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+            }
+        });
+
         if (layersToFetch.length) {
             let extent = W.map.getExtent();
             GM_xmlhttpRequest({
@@ -13458,12 +13486,13 @@ Doesn't have a Shape field.
                         if (data.error) {
                             logError('Error in US Census counties data: ' + data.error.message);
                         } else {
-                            let countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
-                            logDebug('US Census counties: ' + countiesInExtent.join(', '))
+                            _countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
+                            logDebug('US Census counties: ' + _countiesInExtent.join(', '));
                             layersToFetch = layersToFetch.filter(layer => {
                                 let hasCounties = layer.hasOwnProperty('counties');
-                                return (hasCounties && layer.counties.some(county => countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
+                                return (hasCounties && layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
                             });
+                            filterLayerCheckboxes();
                             logDebug('Fetching ' + layersToFetch.length + ' layers...');
                             logDebug(layersToFetch);
                             layersToFetch.forEach(gisLayer => {
@@ -13496,6 +13525,8 @@ Doesn't have a Shape field.
                     logError('Could not fetch counties from US Census site.  An error was thrown.');
                 }
             });
+        } else {
+            filterLayerCheckboxes();
         }
     }
 
@@ -13523,6 +13554,12 @@ Doesn't have a Shape field.
         } else {
             if (idx > -1) _settings.visibleLayers.splice(idx, 1);
         }
+        saveSettingsToStorage();
+        fetchFeatures();
+    }
+
+    function onOnlyShowApplicableLayersChanged(checked) {
+        _settings.onlyShowApplicableLayers = checked;
         saveSettingsToStorage();
         fetchFeatures();
     }
@@ -13593,8 +13630,12 @@ Doesn't have a Shape field.
         let states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
         $('#panel-gis-state-layers').empty();
         $('#panel-gis-state-layers').append(
+            $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                $('<input>', {type:'checkbox', id:'only-show-applicable-gis-layers'}).change(function() { onOnlyShowApplicableLayersChanged($(this).is(':checked')); }).prop('checked', _settings.onlyShowApplicableLayers > -1),
+                $('<label>', {for:'only-show-applicable-gis-layers'}).css({'white-space':'pre-line'}).text('Only show applicable layers')
+            ),
             $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
-                return $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                return $('<fieldset>', {id:'gis-layers-for-' + st, style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                     $('<div>').css({'font-size':'11px'}).append(
                         $('<span>').append(
                             'Select ',
@@ -13616,8 +13657,8 @@ Doesn't have a Shape field.
                     $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
                     $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                         _gisLayers.filter(l => l.state === st).map(gisLayer => {
-                            let id = 'gis-layer_' + gisLayer.id;
-                            return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                            let id = 'gis-layer-' + gisLayer.id;
+                            return $('<div>', {class: 'controls-container', id: id+'-container'}).css({'padding-top':'2px'}).append(
                                 $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
                                 $('<label>', {for:id, class:'gis-state-layer-label'}).css({'white-space':'pre-line'}).text(gisLayer.name)
                             );
