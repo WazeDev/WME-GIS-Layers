@@ -12637,7 +12637,7 @@ Doesn't have a Shape field.
         {name: 'Tarrant Co - Parcels',
          id: 'tx-tarrant-co-parcels',
          url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
-         labelFields: ['SitusAddress'],
+         labelFields: ['SitusAddre'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
