@@ -13342,7 +13342,7 @@ Doesn't have a Shape field.
             let isVisible = (getInvisible || _settings.visibleLayers.indexOf(gisLayer.id) > -1) && _settings.selectedStates.indexOf(gisLayer.state) > -1;
             let isInState = gisLayer.state === 'US' || statesInModel.indexOf(STATES.toFullName(gisLayer.state)) > -1;
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            let isValidZoom = getInvisible || W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
             return isValidUrl && isInState && isVisible && isValidZoom;
         });
     }
@@ -13456,7 +13456,7 @@ Doesn't have a Shape field.
             _mapLayer.addFeatures(features);
 
             if (features.length) {
-                $('label[for="gis-layer_' + gisLayer.id + '"]').css({color:'#00a009'});
+                $('label[for="gis-layer-' + gisLayer.id + '"]').css({color:'#00a009'});
             }
         }
     }  // END processFeatures()
@@ -13475,7 +13475,7 @@ Doesn't have a Shape field.
             }
         });
 
-        if (layersToFetch.length) {
+        //if (layersToFetch.length) {
             let extent = W.map.getExtent();
             GM_xmlhttpRequest({
                 url: getCountiesUrl(extent),
@@ -13525,9 +13525,9 @@ Doesn't have a Shape field.
                     logError('Could not fetch counties from US Census site.  An error was thrown.');
                 }
             });
-        } else {
-            filterLayerCheckboxes();
-        }
+        //} else {
+        //    filterLayerCheckboxes();
+        //}
     }
 
     function showScriptInfoAlert() {
