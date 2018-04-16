@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.14.003
+// @version      2018.04.15.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -51,6 +51,7 @@
 // @connect      arcgis.com
 // @connect      arkansas.gov
 // @connect      arlingtonva.us
+// @connect      ashland-ohio.com
 // @connect      ashtabulacounty.us
 // @connect      atlantaregional.com
 // @connect      auglaizecounty.org
@@ -107,6 +108,7 @@
 // @connect      cedar-rapids.org
 // @connect      centralilmaps.com
 // @connect      centrecountypa.gov
+// @connect      census.gov
 // @connect      charlestoncounty.org
 // @connect      charlottecountyfl.gov
 // @connect      chautauquacounty.com
@@ -329,6 +331,7 @@
 // @connect      mymanatee.org
 // @connect      nashville.gov
 // @connect      nassaucountyny.gov
+// @connect      nassauflpa.com
 // @connect      nc.us
 // @connect      nccde.org
 // @connect      nconemap.gov
@@ -353,6 +356,7 @@
 // @connect      ocpafl.org
 // @connect      odessa-tx.gov
 // @connect      oh.us
+// @connect      ohio.gov
 // @connect      okaloosafl.com
 // @connect      okc.gov
 // @connect      or.us
@@ -396,6 +400,7 @@
 // @connect      renogov.org
 // @connect      renvillecountymn.com
 // @connect      rexburg.org
+// @connect      richlandcountyauditor.org
 // @connect      rileycountyks.gov
 // @connect      roktech.net
 // @connect      romega.us
@@ -2915,14 +2920,14 @@ Not a valid Address Point Layer
 
         {name: 'Nassau Co - Address Points',
          id: 'fl-nassau-co-pts',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Nassau/Nassau_GoMaps4/MapServer/2',
+         url: 'https://maps.nassauflpa.com/ncflpa_arcgis/rest/services/nassau/TaxMap4_Citrix/MapServer/9',
          labelFields: ['FULLADDRESS'],
          state: 'FL',
          style: DEFAULT_PT_STYLE},
 
         {name: 'Nassau Co - Parcels',
          id: 'fl-nassau-co-parcels',
-         url: 'http://arcgis4.roktech.net/arcgis/rest/services/Nassau/Nassau_GoMaps4/MapServer/0',
+         url: 'https://maps.nassauflpa.com/ncflpa_arcgis/rest/services/nassau/TaxMap4_Citrix/MapServer/144',
          labelFields: ['HOUSE_NO','HSESUF','STREET','ST_MD'],
          state: 'FL',
          style: DEFAULT_PARCEL_STYLE},
@@ -4984,6 +4989,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Anderson/AndersonStructureDynamic/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Anderson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Boone Co - Structures',
@@ -4991,6 +4997,7 @@ Not a valid Address Point Layer
          url: 'https://secure.boonecountygis.com/server/rest/services/BuildingFootprints/MapServer/0',
          labelFields: ['SITEADD1'],
          state: 'KY',
+         counties: ['Boone'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Boone Co - Parcels',
@@ -4998,6 +5005,7 @@ Not a valid Address Point Layer
          url: 'https://secure.boonecountygis.com/server/rest/services/ParcelLayers/MapServer/0',
          labelFields: ['SITEADD1'],
          state: 'KY',
+         counties: ['Boone'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Boyle Co - Address Points',
@@ -5005,6 +5013,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Boyle/BoyleBaseStructures/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Boyle'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Campbell Co - Parcels',
@@ -5012,6 +5021,7 @@ Not a valid Address Point Layer
          url: 'https://linkgis.org/arcgisweb/rest/services/CC_KC_PCTheme/MapServer/7',
          labelFields: ['LOC_ADD'],
          state: 'KY',
+         counties: ['Campbell'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Campbell Co - Structures',
@@ -5019,6 +5029,7 @@ Not a valid Address Point Layer
          url: 'https://linkgis.org/arcgisweb/rest/services/Buildings/MapServer/3',
          labelFields: ['PROPERTY_L','PROPERTY_1','PROPERTY_2'],
          state: 'KY',
+         counties: ['Campbell'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Clark Co - Address Points',
@@ -5026,6 +5037,7 @@ Not a valid Address Point Layer
          url: 'http://gis.ccgisonline.com:6080/arcgis/rest/services/BASELAYERS/ADDRESSES/MapServer/0',
          labelFields: ['STRADD','PRE_DIR','STR_NAME','STREET_TYP','STREET_DIR'],
          state: 'KY',
+         counties: ['Clark'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Fayette Co - Address Points',
@@ -5033,6 +5045,7 @@ Not a valid Address Point Layer
          url: 'https://maps.lexingtonky.gov/lfucggis/rest/services/property/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Fayette'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Fayette Co - Parcels',
@@ -5040,6 +5053,7 @@ Not a valid Address Point Layer
          url: 'https://maps.lexingtonky.gov/lfucggis/rest/services/parcels/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Fayette'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Franklin Co - Parcels',
@@ -5048,6 +5062,7 @@ Not a valid Address Point Layer
          where: "MAPNUM <> ''",
          labelFields: ['streetNo','strName'],
          state: 'KY',
+         counties: ['Franklin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Franklin Co - Address Points',
@@ -5055,6 +5070,7 @@ Not a valid Address Point Layer
          url: 'https://services2.arcgis.com/1Mn98EWnWi3Ezwj3/ArcGIS/rest/services/Addresses/FeatureServer/0',
          labelFields: ['FULLNAME'],
          state: 'KY',
+         counties: ['Franklin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Garrard Co - Address Points',
@@ -5062,6 +5078,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Garrard/GarrardCountyWater/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Garrard'],
          style: DEFAULT_PT_STYLE},
 
         // No longer works.  Token required.
@@ -5077,6 +5094,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/JessamineKY_Map_Package/MapServer/6',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Jessamine'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hardin Co - Address Points',
@@ -5084,6 +5102,7 @@ Not a valid Address Point Layer
          url: 'http://services1.arcgis.com/fYwcHOBzInDTQxh0/ArcGIS/rest/services/Address_PointsJAN2017/FeatureServer/0',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Hardin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hardin Co - Parcels',
@@ -5092,6 +5111,7 @@ Not a valid Address Point Layer
          labelFields: ['PROPERTY_L'],
          where: "MAP<>''",
          state: 'KY',
+         counties: ['Hardin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Henderson Co - Address Points',
@@ -5100,6 +5120,7 @@ Not a valid Address Point Layer
          labelFields: ['FULL_ADDR'],
          processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'KY',
+         counties: ['Henderson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Kenton Co - Parcels',
@@ -5107,6 +5128,7 @@ Not a valid Address Point Layer
          url: 'http://kcgis.kcor.org/arcgis/rest/services/Parcel_Layer/MapServer/1',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['Kenton'],
          style: DEFAULT_PARCEL_STYLE},
 
         // *** Logan county uses this server, but no address data: http://161.6.109.206/wkugis/rest/services/
@@ -5116,6 +5138,7 @@ Not a valid Address Point Layer
          url: 'https://arcserver.madisoncountyky.us/arcgis/rest/services/County_Web_Maps/Structures/MapServer/0',
          labelFields: ['ADDNUMBER', 'STREET'],
          state: 'KY',
+         counties: ['Madison'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Magoffin Co - Address Points',
@@ -5123,6 +5146,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Magoffin/PhoneScrub/FeatureServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Magoffin'],
          style: DEFAULT_PT_STYLE},
 
         // *** NOTE: Marshall county uses ArcGIS, but I wasn't able to find their REST server.
@@ -5132,6 +5156,7 @@ Not a valid Address Point Layer
          url: 'http://map-gis.paducahky.gov/arcgis/rest/services/BaseLayersPub/MapServer/2',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['McCracken'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'McCracken Co - Paducah - Address Points',
@@ -5139,6 +5164,7 @@ Not a valid Address Point Layer
          url: 'http://map-gis.paducahky.gov/arcgis/rest/services/BaseLayersPub/MapServer/1',
          labelFields: ['ADDRESS'],
          state: 'KY',
+         counties: ['McCracken'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Mercer Co - Address Points',
@@ -5146,6 +5172,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Mercer/MercerStructuresDynamic/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Mercer'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pendleton Co - Parcels',
@@ -5153,6 +5180,7 @@ Not a valid Address Point Layer
          url: 'https://linkgis.org/arcgisweb/rest/services/CC_KC_PCTheme/MapServer/18',
          labelFields: ['Location_2'],
          state: 'KY',
+         counties: ['Pendleton'],
          style: DEFAULT_PARCEL_STYLE},
 
         // NOTE: I tried to get this to work.  Created a proj4js projection for EPSG:2272.  That worked to transform coordinates, but they were wrong because
@@ -5170,6 +5198,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Powell/PowellStructureDynamic/MapServer/0',
          labelFields: ['NUMBER_','RD_NAME'],
          state: 'KY',
+         counties: ['Powell'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Scott Co - Address Points',
@@ -5177,6 +5206,7 @@ Not a valid Address Point Layer
          url: 'http://gis.gscplanning.com/arcgis/rest/services/Addresses/MapServer/0',
          labelFields: ['COMPLETE_A'],
          state: 'KY',
+         counties: ['Scott'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Shelby Co - Parcels',
@@ -5184,6 +5214,7 @@ Not a valid Address Point Layer
          url: 'https://services2.arcgis.com/VqPd1Ybcc46AvijK/ArcGIS/rest/services/Parcels_Service062717/FeatureServer/0',
          labelFields: ['Location'],
          state: 'KY',
+         counties: ['Shelby'],
          style: DEFAULT_PARCEL_STYLE},
 
         // From the Bowling Green GIS site...
@@ -5192,6 +5223,7 @@ Not a valid Address Point Layer
          url: 'http://gis.bgky.org/arcgis/rest/services/ParcelsPVA/MapServer/1',
          labelFields: ['LOCATION'],
          state: 'KY',
+         counties: ['Warren'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Warren Co - WKU - Structures',
@@ -5200,6 +5232,7 @@ Not a valid Address Point Layer
          labelHeaderFields: ['Bldg_Name'],
          labelFields: ['Address'],
          state: 'KY',
+         counties: ['Warren'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Webster Co - Parcels',
@@ -5209,6 +5242,7 @@ Not a valid Address Point Layer
          visibleAtZoom: 5,
          labelFields: ['Property_L'],
          state: 'KY',
+         counties: ['Webster'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Woodford Co - Address Points',
@@ -5216,6 +5250,7 @@ Not a valid Address Point Layer
          url: 'https://maps2.bgadd.org/arcgis/rest/services/Woodford/WebMapDynamic/MapServer/1',
          labelFields: ['FULLADDR'],
          state: 'KY',
+         counties: ['Woodford'],
          style: DEFAULT_PT_STYLE},
 
 
@@ -8675,12 +8710,45 @@ Not a valid Address Point Layer
         // Ohio
         // ************************************
 
+        {name: 'Adams Co - Address Points',
+         id: 'oh-adams-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Adams_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Adams'],
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Allen Co - Parcels',
          id: 'oh-allen-co-parcels',
          url: 'http://gis.allencountyohio.com/arcgis/rest/services/test/MapServer/0',
          labelFields: ['HOUSENO','ST_DIR','STREET','ST_DESC'],
          state: 'OH',
+         counties: ['Allen'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Allen Co - Address Points',
+         id: 'oh-allen-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Allen/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Allen'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ashland Co - Parcels',
+         id: 'oh-ashland-co-parcels',
+         url: 'http://gis.ashland-ohio.com/arcgis/rest/services/Maps/ParcelLayer/MapServer/0',
+         labelFields: ['SITEADDRESS'],
+         state: 'OH',
+         counties: ['Ashland'],
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ashland Co - Address Points',
+         id: 'oh-ashland-co-pts',
+         url: 'http://gis.ashland-ohio.com/arcgis/rest/services/BaseMap/BuildingsAddresses/MapServer/0',
+         labelFields: ['ADDRNUM','FULLNAME'],
+         state: 'OH',
+         counties: ['Ashland'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Ashtabula Co - Parcels',
          id: 'oh-Ashtabula-co-parcels',
@@ -8688,35 +8756,96 @@ Not a valid Address Point Layer
          labelFields: ['Location_Address'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OH',
+         counties: ['Ashtabula'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ashtabula Co - Address Points',
+         id: 'oh-ashtabula-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Ashtabula_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Ashtabula'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Athens Co - Address Points',
+         id: 'oh-athens-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Athens_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Athens'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Auglaize Co - Parcels',
          id: 'oh-Auglaize-co-parcels',
          url: 'http://gis.auglaizecounty.org/arcgis/rest/services/AuglaizeCounty/MapServer/24',
          labelFields: ['NO_','STREET'],
          state: 'OH',
+         counties: ['Auglaize'],
          style: DEFAULT_PARCEL_STYLE},
 
-        // NOTE: Query returns results, but not showing anything in arcgis maps.  Maybe no geometry?
-        // {name: 'Butler Co - Address Points',
-        //  id: 'oh-butler-co-points',
-        //  url: 'https://maps.butlercountyauditor.org/arcgis/rest/services/Fiber_Service/MapServer/0',
-        //  labelFields: ['BLDG_ADDRE'],
-        //  state: 'OH',
-        //  style: DEFAULT_PT_STYLE},
+        {name: 'Auglaize Co - Address Points',
+         id: 'oh-auglaize-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Auglaize_LBRS/MapServer/0',
+         labelFields: ['ADDR_NUM','PRE_DIR','PRE_TYPE','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         counties: ['Auglaize'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Belmont Co - Parcels',
+         id: 'oh-belmont-co-parcels',
+         url: 'http://services2.bhamaps.com/arcgis/rest/services/AGS_Belmont_co_oh_PAT_GIS/MapServer/10',
+         labelFields: ['PROPADD1'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'OH',
+         counties: ['Belmont'],
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Brown Co - Address Points',
+         id: 'oh-brown-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Brown_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Brown'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Butler Co - Parcels',
          id: 'oh-butler-co-parcels',
          url: 'https://maps.butlercountyauditor.org/arcgis/rest/services/basemap/MapServer/1',
          labelFields: ['LOCATION'],
          state: 'OH',
+         counties: ['Butler'],
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Clermont Co - Address Points',
-         id: 'oh-clermont-co-points',
-         url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/AddressPointsLabeled/MapServer/1',
+        {name: 'Butler Co - Address Points',
+         id: 'oh-butler-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Butler_LBRS/MapServer/0',
          labelFields: ['LSN'],
          state: 'OH',
+         counties: ['Butler'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Carroll Co - Address Points',
+         id: 'oh-carroll-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/carroll_lbrs/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Carroll'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Champaign Co - Address Points',
+         id: 'oh-champaign-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Champaign_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Champaign'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Clark Co - Address Points',
+         id: 'oh-clark-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Clark_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Clark'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Clermont Co - Parcels',
@@ -8724,13 +8853,96 @@ Not a valid Address Point Layer
          url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/ParcelLabelsWithOwner/MapServer/18',
          labelFields: ['ADRNO','ADRDIR','ADRSTR','ADRSUF'],
          state: 'OH',
+         counties: ['Clermont'],
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Franklin Co - Address Points',
-         id: 'oh-franklin-co-pts',
-         url: 'http://maps.franklincountyauditor.com/fcaags/rest/services/BaseMap/SiteAddressesWGS84/MapServer/0',
-         labelFields: ['SITEADDRESS_1'],
+        {name: 'Clermont Co - Address Points',
+         id: 'oh-clermont-co-points',
+         url: 'http://maps.clermontauditor.org/arcgis/rest/services/Parcels/AddressPointsLabeled/MapServer/1',
+         labelFields: ['LSN'],
          state: 'OH',
+         counties: ['Clermont'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Clinton Co - Address Points',
+         id: 'oh-clinton-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Clinton_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Clinton'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Columbiana Co - Address Points',
+         id: 'oh-columbiana-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Columbiana_LBRS/MapServer/0',
+         labelFields: ['HOUSENUM','ST_PREFIX','ST_NAME','ST_TYPE','ST_SUFFIX','ST_SUFFIX2'],
+         state: 'OH',
+         counties: ['Columbiana'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Crawford Co - Address Points',
+         id: 'oh-crawford-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Crawford_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Crawford'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Cuyahoga Co - Address Points',
+         id: 'oh-cuyahoga-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Cuyahoga_LBRS/MapServer/0',
+         labelFields: ['ADDR_NUM','PRE_DIR','PRE_TYPE','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         counties: ['Cuyahoga'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Darke Co - Address Points',
+         id: 'oh-darke-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Darke_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Darke'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Defiance Co - Address Points',
+         id: 'oh-defiance-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Defiance_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Defiance'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Delaware Co - Address Points',
+         id: 'oh-delaware-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Delaware_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Delaware'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Erie Co - Address Points',
+         id: 'oh-erie-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Erie_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Erie'],
+         style: DEFAULT_PT_STYLE},
+
+        /* Layer not working (Huybee3 2018-04-15)
+        {name: 'Fairfield Co - Address Points',
+         id: 'oh-fairfield-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Fairfield_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Fairfield'],
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'Fayette Co - Address Points',
+         id: 'oh-fayette-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Fayette_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Fayette'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Franklin Co - Parcels',
@@ -8738,76 +8950,437 @@ Not a valid Address Point Layer
          url: 'http://maps.franklincountyauditor.com/fcaags/rest/services/Services/ParcelFeatures/MapServer/1',
          labelFields: ['SITEADDRESS'],
          state: 'OH',
+         counties: ['Franklin'],
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Fulton Co - Address Points',
-         id: 'oh-Fulton-co-pts',
-         url: 'http://gis.fultoncountyoh.com/arcgis/rest/services/LocalGov/Site_Address_Points/MapServer/0',
+        {name: 'Franklin Co - Address Points',
+         id: 'oh-franklin-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Franklin_LBRS/MapServer/0',
          labelFields: ['LSN'],
          state: 'OH',
+         counties: ['Franklin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Fulton Co - Parcels',
-         id: 'oh-Fulton-co-parcels',
+         id: 'oh-fulton-co-parcels',
          url: 'http://gis.fultoncountyoh.com/arcgis/rest/services/LocalGov/Base/MapServer/5',
          labelFields: ['mlocStrNo','mlocStrDir','mlocStrNam','mlocStrSuf'],
          state: 'OH',
+         counties: ['Fulton'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Fulton Co - Address Points',
+         id: 'oh-fulton-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Fulton_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Fulton'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Gallia Co - Address Points',
+         id: 'oh-gallia-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Gallia_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Gallia'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Geauga Co - Parcels',
+         id: 'oh-geauga-co-parcels',
+         url: 'http://geaugarealink.co.geauga.oh.us/ArcGIS/rest/services/MapService/GeaugaParcelData/MapServer/14',
+         labelFields: ['LOCATION_A'],
+         state: 'OH',
+         counties: ['Geauga'],
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Greene Co - Address Points',
+         id: 'oh-greene-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Greene_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Greene'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Guernsey Co - Address Points',
+         id: 'oh-guernsey-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Guernsey_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Guernsey'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Hamilton Co - Parcels',
          id: 'oh-hamilton-co-parcels',
          url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Hamilton/HCE_Parcels_With_Auditor_Data/MapServer/0',
          labelFields: ['CAGIS.AUDREAL_VW.ADDRNO','CAGIS.AUDREAL_VW.ADDRST','CAGIS.AUDREAL_VW.ADDRSF'],
          state: 'OH',
+         counties: ['Hamilton'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Hamilton Co - Address Points',
+         id: 'oh-hamilton-co-pts',
+         url: 'http://cagisonline.hamilton-co.org/arcgis/rest/services/Countywide_Layers/IdentifyLayers/MapServer/4',
+         labelFields: ['ADDRESS'],
+         state: 'OH',
+         counties: ['Hamilton'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hancock Co - Address Points',
+         id: 'oh-hancock-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Hancock_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Hancock'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hardin Co - Address Points',
+         id: 'oh-hardin-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Hardin_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Hardin'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Harrison Co - Address Points',
+         id: 'oh-harrison-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Harrison_LBRS/MapServer/0',
+         labelFields: ['ADDR_NUM','PRE_DIR','PRE_TYPE','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         counties: ['Harrison'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Henry Co - Address Points',
+         id: 'oh-henry-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Henry_LBRS/MapServer/0',
+         labelFields: ['ADDR_NUM','PRE_DIR','PRE_TYPE','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         counties: ['Henry'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Highland Co - Address Points',
+         id: 'oh-highland-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Highland_LBRS/MapServer/0',
+         labelFields: ['ADDR_NUM','PRE_DIR','PRE_TYPE','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         counties: ['Highland'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Hocking Co - Address Points',
+         id: 'oh-hocking-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Hocking_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Hocking'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Holmes Co - Address Points',
+         id: 'oh-holmes-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Holmes_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Holmes'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Huron Co - Address Points',
+         id: 'oh-huron-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Huron_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Huron'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jackson Co - Address Points',
+         id: 'oh-jackson-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Jackson_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Jackson'],
+         style: DEFAULT_PT_STYLE},
+
+        /* Data in this layer is woefully incomplete
+        {name: 'Jefferson Co - Address Points',
+         id: 'oh-jefferson-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Jefferson_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Jefferson'],
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'Knox Co - Address Points',
+         id: 'oh-knox-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Knox_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Knox'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Lake Co - Parcels',
          id: 'oh-Lake-co-parcels',
          url: 'http://arcgis.lakecountyohio.gov/arcgis/rest/services/POL_Parcels/MapServer/1',
          labelFields: ['GIS_LocationAddress'],
          state: 'OH',
+         counties: ['Lake'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Lake Co - Address Points',
+         id: 'oh-lake-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Lake_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Lake'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lawrence Co - Address Points',
+         id: 'oh-lawrence-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Lawrence_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Lawrence'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Licking Co - Parcels',
          id: 'oh-Licking-co-parcels',
          url: 'https://apps.lcounty.com/arcgis/rest/services/TaxMapWeb/TAXMAPWEB/MapServer/3',
          labelFields: ['STREET1'],
          state: 'OH',
+         counties: ['Licking'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Licking Co - Address Points',
+         id: 'oh-licking-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Licking_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Licking'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Logan Co - Address Points',
+         id: 'oh-logan-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Logan_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Logan'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Lorain Co - Address Points',
          id: 'oh-Lorain-co-pts',
          url: 'http://www.loraincountyauditor.com/arcgis/rest/services/Site_Address/MapServer/0',
          labelFields: ['ST_NUM','ST_NUM_SUF','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
          state: 'OH',
+         counties: ['Lorain'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Lucas Co - Address Points',
+         id: 'oh-lucas-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Lucas_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Lucas'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Madison Co - Address Points',
+         id: 'oh-madison-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Madison_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Madison'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Mahoning Co - Parcels',
          id: 'oh-Mahoning-co-parcels',
-         url: 'http://gisapp.mahoningcountyoh.gov/arcgis/rest/services/AddressPortal/AddressPoints/MapServer/0',
-         labelFields: ['ADDRESS'],
+         url: 'http://gisapp.mahoningcountyoh.gov/arcgis/rest/services/PUBLIC_WEBSITE_CADASTRAL/MapServer/1',
+         labelFields: ['LOCNUM','LOCPREF','LOCSTREET','LOCSUFFIX','LOCSUFFIXD'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OH',
+         counties: ['Mahoning'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Mahoning Co - Address Points',
+         id: 'oh-mahoning-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Mahoning_LBRS/MapServer/0',
+         labelFields: ['ADDR_NUM','PRE_DIR','PRE_TYPE','STR_NAME','STR_TYPE','SUF_DIR'],
+         state: 'OH',
+         counties: ['Mahoning'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Marion Co - Parcels',
          id: 'oh-Marion-co-parcels',
          url: 'http://mcogis.co.marion.oh.us/arcgis/rest/services/WEB_APP_PARCELS/MapServer/1',
          labelFields: ['OWNER3'],
          state: 'OH',
+         counties: ['Marion'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Marion Co - Address Points',
+         id: 'oh-marion-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Marion_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Marion'],
+         style: DEFAULT_PT_STYLE},
+
+        // Medina Co - GeoMoose
+
+        {name: 'Meigs Co - Address Points',
+         id: 'oh-meigs-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Meigs_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Meigs'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Mercer Co - Parcels',
          id: 'oh-Mercer-co-parcels',
          url: 'http://www.mercercountyohio.org/arcgis/rest/services/ParcelTextB/MapServer/0',
          labelFields: ['BasicInfo.Address'],
          state: 'OH',
+         counties: ['Mercer'],
          style: DEFAULT_PARCEL_STYLE},
+
+        /* Layer not working (Huybee3 2018-04-15)
+        {name: 'Mercer Co - Address Points',
+         id: 'oh-mercer-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Mercer_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Mercer'],
+         style: DEFAULT_PT_STYLE}, */
+
+        {name: 'Miami Co - Address Points',
+         id: 'oh-miami-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Miami_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Miami'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Monroe Co - Address Points',
+         id: 'oh-monroe-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Monroe_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Monroe'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Montgomery Co - Address Points',
          id: 'oh-montgomery-co-points',
          url: 'http://www.mcegisohio.org/arcgis/rest/services/PUBLIC/AUDGIS_MVRP/MapServer/2',
          labelFields: ['ADDR_NUM','STR_NAME','STR_TYPE','SUF_DIR'],
          state: 'OH',
+         counties: ['Montgomery'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Morgan Co - Address Points',
+         id: 'oh-morgan-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Morgan_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Morgan'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Morrow Co - Address Points',
+         id: 'oh-morrow-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Morrow_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Morrow'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Muskingum Co - Address Points',
+         id: 'oh-muskingum-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Muskingum_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Muskingum'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Noble Co - Address Points',
+         id: 'oh-noble-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Noble_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Noble'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Ottawa Co - Address Points',
+         id: 'oh-ottawa-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Ottawa_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Ottawa'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Paulding Co - Address Points',
+         id: 'oh-paulding-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Paulding_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Paulding'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Perry Co - Address Points',
+         id: 'oh-perry-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Perry_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Perry'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pickaway Co - Address Points',
+         id: 'oh-pickaway-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Pickaway_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Pickaway'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Pike Co - Address Points',
+         id: 'oh-pike-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Pike_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Pike'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Portage Co - Address Points',
+         id: 'oh-portage-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Portage_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Portage'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Preble Co - Address Points',
+         id: 'oh-preble-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Preble_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Preble'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Putnam Co - Address Points',
+         id: 'oh-putnam-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Putnam_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Putnam'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Richland Co - Parcels',
+         id: 'oh-richland-co-parcels',
+         url: 'http://www.richlandcountyauditor.org/pt/maps/proxy/proxy.ashx?https://maps.richlandcountyoh.us/richlandgis/rest/services/Parcel_CAMA/MapServer/0',
+         labelFields: ['PARCEL_ADDRESS'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
+         state: 'OH',
+         counties: ['Richland'],
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Ross Co - Address Points',
+         id: 'oh-ross-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Ross_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Ross'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Sandusky Co - Address Points',
@@ -8815,6 +9388,7 @@ Not a valid Address Point Layer
          url: 'http://www.sanduskycountygis.org/arcgis/rest/services/SandGISViewer_2015/MapServer/26',
          labelFields: ['LSN'],
          state: 'OH',
+         counties: ['Sandusky'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Scioto Co - Parcels',
@@ -8822,35 +9396,163 @@ Not a valid Address Point Layer
          url: 'https://www.sciotocountyengineer.org/arcgis/rest/services/OneView/ParcelsSearch/MapServer/0',
          labelFields: ['StreetAddressFull'],
          state: 'OH',
+         counties: ['Scioto'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Seneca Co - Address Points',
+         id: 'oh-seneca-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Seneca_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Seneca'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Shelby Co - Address Points',
+         id: 'oh-shelby-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Shelby_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Shelby'],
+         style: DEFAULT_PT_STYLE},
 
         {name: 'Stark Co - Parcels',
          id: 'oh-Stark-co-parcels',
          url: 'https://webdmz.starkcountyohio.gov/arcgis/rest/services/ParcelTaxMapCache/MapServer/25',
          labelFields: ['HOUSE_NUMBER','PREDIRECTIONAL','STREET_NAME','STREET_TYPE','POST_DIRECTIONAL'],
          state: 'OH',
+         counties: ['Stark'],
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Stark Co - Address Points',
+         id: 'oh-stark-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Stark_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Stark'],
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Summit Co - Parcels',
-         id: 'oh-Summit-co-parcels',
+         id: 'oh-summit-co-parcels',
          url: 'http://summitmaps.summitoh.net/arcgis/rest/services/DynamicParcels/MapServer/0',
          labelFields: ['ADDR'],
          state: 'OH',
+         counties: ['Summit'],
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Summit Co - Address Points',
+         id: 'oh-summit-co-pts',
+         url: 'http://summitmaps.summitoh.net/arcgis/rest/services/LBRS_Mercator/MapServer/0',
+         labelFields: ['HOUSENUM','ST_PREFIX','ST_NAME','ST_TYPE','ST_SUFFIX','ST_SUFFIX2'],
+         state: 'OH',
+         counties: ['Summit'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Trumbull Co - Address Points',
+         id: 'oh-trumbull-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Trumbull_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Trumbull'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Tuscarawas Co - Address Points',
+         id: 'oh-tuscarawas-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Tuscarawas_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Tuscarawas'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Union Co - Parcels',
+         id: 'oh-union-co-parcels',
+         url: 'http://www4.co.union.oh.us/unioncountyohio/rest/services/parcel/MapServer/0',
+         labelFields: ['Address'],
+         state: 'OH',
+         counties: ['Union'],
+         style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Union Co - Address Points',
+         id: 'oh-union-co-pts',
+         url: 'http://www4.co.union.oh.us/unioncountyohio/rest/services/Address/MapServer/0',
+         labelFields: ['HouseNumbe','PrefixDire','PrefixType','StreetName','StreetType','SuffixDire'],
+         state: 'OH',
+         counties: ['Union'],
+         style: DEFAULT_PT_STYLE},
+
         {name: 'Van Wert Co - Parcels',
-         id: 'oh-Van-Wert-co-parcels',
+         id: 'oh-van-wert-co-parcels',
          url: 'http://www.tgisites.com/arcgis/rest/services/VanWert/Parcels/MapServer/0',
          labelFields: ['STNUM','STNAM','STTYPE'],
+         processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OH',
+         counties: ['Van Wert'],
          style: DEFAULT_PARCEL_STYLE},
+
+        /* Layers not working (Huybee3 2018-04-15)
+        {name: 'Vanwert Co - Address Points',
+         id: 'oh-van-wert-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Vanwert_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Vanwert'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Vinton Co - Address Points',
+         id: 'oh-vinton-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Vinton_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Vinton'],
+         style: DEFAULT_PT_STYLE}, */
 
         {name: 'Warren Co - Parcels',
          id: 'oh-warren-co-parcels',
          url: 'http://webmap1.co.warren.oh.us/ArcGIS/rest/services/Dynamic/ParcelLabelsAddr/MapServer/0',
          labelFields: ['Address_Line_1'],
          state: 'OH',
+         counties: ['Warren'],
          style: DEFAULT_PARCEL_STYLE},
+
+        {name: 'Washington Co - Address Points',
+         id: 'oh-washington-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Washington_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Washington'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wayne Co - Address Points',
+         id: 'oh-wayne-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Wayne_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Wayne'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Williams Co - Address Points',
+         id: 'oh-williams-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Williams_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Williams'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Wood Co - Address Points',
+         id: 'oh-wood-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Wood_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Wood'],
+         style: DEFAULT_PT_STYLE},
+
+        /* Layers not working (Huybee3 2018-04-15)
+        {name: 'Wyandot Co - Address Points',
+         id: 'oh-wyandot-co-pts',
+         url: 'http://geo.oit.ohio.gov/arcgis/rest/services/LBRS/Wyandot_LBRS/MapServer/0',
+         labelFields: ['LSN'],
+         state: 'OH',
+         counties: ['Wyandot'],
+         style: DEFAULT_PT_STYLE}, */
 
         // Oklahoma
         // **********************************
@@ -13238,7 +13940,7 @@ Doesn't have a Shape field.
     let _ignoreFetch = false;
     let _lastToken = {};
 
-    const DEBUG = false;
+    const DEBUG = true;
     function log(message) { console.log('GIS Layers:', message); }
     function logError(message) { console.error('GIS Layers:', message); }
     function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
@@ -13294,13 +13996,30 @@ Doesn't have a Shape field.
         return url;
     }
 
-    // TBD...
-    // ******************************************
-    function processCounties(data, token) {
+    function getCountiesUrl(extent) {
+        let geometry = { xmin:extent.left, ymin:extent.bottom, xmax:extent.right, ymax:extent.top, spatialReference: {wkid: 102100, latestWkid: 3857} };
+        let url = COUNTIES_URL + '/query?geometry=' + encodeURIComponent(JSON.stringify(geometry));
+        return url + '&outFields=BASENAME&returnGeometry=false&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
     }
-    function fetchCounties() {
+
+    function getLayersInModelStates() {
+        let statesInModel = W.model.states.getObjectArray().map(state => state.name);
+        let layers = [];
+        _gisLayers.forEach(gisLayer => {
+            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
+            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
+            let isInState = gisLayer.state === 'US' || statesInModel.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
+            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            if (isValidUrl && isInState && isVisible && isValidZoom) {
+                layers.push(gisLayer);
+            } else {
+                // If the layer is not to be mapped, remove any existing features.
+                _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+            }
+        });
+        return layers;
     }
-    // ******************************************
 
     function processFeatures(data, token, gisLayer) {
         let features = [];
@@ -13397,37 +14116,58 @@ Doesn't have a Shape field.
         if (_ignoreFetch) return;
         _lastToken.cancel = true;
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
-        let states = W.model.states.getObjectArray().map(state => state.name);
         $('.gis-state-layer-label').css({'color':'#777'});
-        _gisLayers.forEach(gisLayer => {
-            let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-            let isVisible = _settings.visibleLayers.indexOf(gisLayer.id) > -1 && _settings.selectedStates.indexOf(gisLayer.state) > -1;
-            let isInState = gisLayer.state === 'US' || states.indexOf(STATES.toFullName(gisLayer.state)) > -1;
-            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-            let isValidZoom = W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
-            if (isValidUrl && isInState && isVisible && isValidZoom) {
-                let url = getUrl(W.map.getExtent(), gisLayer);
-                GM_xmlhttpRequest({
-                    url: url,
-                    context: _lastToken,
-                    method: 'GET',
-                    onload: function(res) {
-                        if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
-                            logDebug('Process Features: ' + JSON.stringify(res));
-                            processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
+        let layersToFetch = getLayersInModelStates();
+        if (layersToFetch.length) {
+            let extent = W.map.getExtent();
+            GM_xmlhttpRequest({
+                url: getCountiesUrl(extent),
+                method: 'GET',
+                onload: function(res) {
+                    if (res.status < 400) {
+                        let data = $.parseJSON(res.responseText);
+                        if (data.error) {
+                            logError('Error in US Census counties data: ' + data.error.message);
                         } else {
-                            logDebug('HTTP request error: ' + JSON.stringify(res));
-                            logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
-                        }},
-                    onerror: function(res) {
-                        logDebug('xmlhttpRequest error:' + JSON.stringify(res));
-                        logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
+                            let countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
+                            logDebug('US Census counties: ' + countiesInExtent.join(', '))
+                            layersToFetch = layersToFetch.filter(layer => {
+                                let hasCounties = layer.hasOwnProperty('counties');
+                                return (hasCounties && layer.counties.some(county => countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
+                            });
+                            logDebug('Fetching ' + layersToFetch.length + ' layers...');
+                            logDebug(layersToFetch);
+                            layersToFetch.forEach(gisLayer => {
+                                let url = getUrl(extent, gisLayer);
+                                GM_xmlhttpRequest({
+                                    url: url,
+                                    context: _lastToken,
+                                    method: 'GET',
+                                    onload: function(res) {
+                                        if (res.status < 400) { // Handle stupid issue where http 4## is considered success //
+                                            processFeatures($.parseJSON(res.responseText), res.context, gisLayer);
+                                        } else {
+                                            logDebug('HTTP request error: ' + JSON.stringify(res));
+                                            logError('Could not fetch layer "' + gisLayer.id + '". Request returned ' + res.status);
+                                        }},
+                                    onerror: function(res) {
+                                        logDebug('xmlhttpRequest error:' + JSON.stringify(res));
+                                        logError('Could not fetch layer "' + gisLayer.id + '". An error was thrown.');
+                                    }
+                                });
+                            });
+                        }
+                    } else {
+                        logDebug('HTTP request error: ' + JSON.stringify(res));
+                        logError('Could not fetch counties from US Census site.  Request returned ' + res.status);
                     }
-                });
-            } else {
-                processFeatures({skipIt: true}, _lastToken, gisLayer);
-            }
-        });
+                },
+                onerror: function(res) {
+                    logDebug('xmlhttpRequest error:' + JSON.stringify(res));
+                    logError('Could not fetch counties from US Census site.  An error was thrown.');
+                }
+            });
+        }
     }
 
     function showScriptInfoAlert() {
@@ -13644,7 +14384,7 @@ Doesn't have a Shape field.
     }
 
     function bootstrap() {
-        if (W && W.loginManager && W.map && W.loginManager.isLoggedIn()) {
+        if (W && W.loginManager && W.map && W.loginManager.isLoggedIn() && W.model && W.model.states && W.model.states.getObjectArray().length) {
             log('Initializing...');
             init();
         } else {
