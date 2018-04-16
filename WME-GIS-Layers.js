@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.15.003
+// @version      2018.04.16.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -12637,7 +12637,7 @@ Doesn't have a Shape field.
         {name: 'Tarrant Co - Parcels',
          id: 'tx-tarrant-co-parcels',
          url: 'https://services2.arcgis.com/5S5T6XdxjqI5BK2Y/ArcGIS/rest/services/TADMap/FeatureServer/0',
-         labelFields: ['SitusAddress'],
+         labelFields: ['SitusAddre'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
