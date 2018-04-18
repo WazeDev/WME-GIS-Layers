@@ -12078,7 +12078,7 @@ Doesn't have a Shape field.
 
         {name:  'Hunt Co - Parcels',
          id:  'tx-hunt-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HuntWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HuntWeb/MapServer/0',
          labelFields:  ['HuntCad.DBO.Accounts.situs_num', 'HuntCad.DBO.Accounts.situs_street_prefx', 'HuntCad.DBO.Accounts.situs_street', 'HuntCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12280,8 +12280,8 @@ Doesn't have a Shape field.
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-        {name:  'McKinney Co - Parcels',
-         id:  'tx-mckinney-co-parcels',
+        {name:  'McKinney City - Parcels',
+         id:  'tx-mckinney-city-parcels',
          url:  'http://maps.mckinneytexas.org/mckinney/rest/services/MapServices/BaseLayers/MapServer/1',
          labelFields:  ['SitusAdd' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
