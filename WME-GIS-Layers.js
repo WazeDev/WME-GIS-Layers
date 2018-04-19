@@ -71,7 +71,6 @@
 // @connect      bgky.org
 // @connect      bhamaps.com
 // @connect      bisclient.com
-// @connect      bisconsultants.com
 // @connect      bonnercounty.us
 // @connect      boonecountygis.com
 // @connect      boonecountyil.org
@@ -11542,7 +11541,7 @@ Doesn't have a Shape field.
 
         {name: 'Austin Co - Parcels',
          id: 'tx-austin-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/AustinWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/AustinWeb/MapServer/0',
          labelFields: ['AustinCad.DBO.Accounts.situs_num','AustinCad.DBO.Accounts.situs_street_prefx','AustinCad.DBO.Accounts.situs_street','AustinCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11558,7 +11557,7 @@ Doesn't have a Shape field.
 
         {name: 'Bastrop Co - Parcels',
          id: 'tx-bastrop-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BastropWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/BastropWeb/MapServer/0',
          labelFields: ['BastropCad.DBO.Accounts.situs_num','BastropCad.DBO.Accounts.situs_street_prefx','BastropCad.DBO.Accounts.situs_street','BastropCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11598,7 +11597,7 @@ Doesn't have a Shape field.
 
         {name: 'Brazos Co - Parcels',
          id: 'tx-brazos-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BrazosWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/BrazosWeb/MapServer/0',
          labelFields: ['BrazosCad.DBO.Accounts.situs_num','BrazosCad.DBO.Accounts.situs_street_prefx','BrazosCad.DBO.Accounts.situs_street','BrazosCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11622,7 +11621,7 @@ Doesn't have a Shape field.
 
         {name: 'Burleson Co - Parcels',
          id: 'tx-burleson-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BurlesonWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/BurlesonWeb/MapServer/0',
          labelFields: ['BurlesonCad.dbo.Accounts.situs_num','BurlesonCad.dbo.Accounts.situs_street_prefx','BurlesonCad.dbo.Accounts.situs_street','BurlesonCad.dbo.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11646,7 +11645,7 @@ Doesn't have a Shape field.
 
         {name: 'Camp Co - Parcels',
          id: 'tx-camp-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CampWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/CampWeb/MapServer/0',
          labelFields: ['CampCad.DBO.Accounts.situs_num','CampCad.DBO.Accounts.situs_street_prefx','CampCad.DBO.Accounts.situs_street','CampCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11654,7 +11653,7 @@ Doesn't have a Shape field.
 
         {name: 'Carson Co - Parcels',
          id: 'tx-carson-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CarsonWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/CarsonWeb/MapServer/0',
          labelFields: ['CarsonCad.DBO.Accounts.situs_num','CarsonCad.DBO.Accounts.situs_street_prefx','CarsonCad.DBO.Accounts.situs_street','CarsonCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11692,10 +11691,10 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'College Station City - Buildings',
-         id: 'tx-college-station-city-buildings',
-         url: 'https://maps.cstx.gov/cstx/rest/services/College_Station_Basemap/MapServer/13',
-         labelFields: ['FULL_ADDRESS'],
+        {name: 'College Station City - Parcels',
+         id: 'tx-college-station-city-parcels',
+         url: 'https://maps.cstx.gov/cstx/rest/services/AGOL_DevelopmentMap/MapServer/26',
+         labelFields: ['ADDRESS'],
          processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -11726,15 +11725,15 @@ Doesn't have a Shape field.
 
         {name: 'Comanche Co - Parcels',
          id: 'tx-comanche-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/ComancheWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/ComancheWeb/MapServer/0',
          labelFields: ['ComancheCad.DBO.Accounts.situs_num','ComancheCad.DBO.Accounts.situs_street_prefx','ComancheCad.DBO.Accounts.situs_street','ComancheCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Cooke Co - Parcels',
-         id: 'tx-coookie-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
+         id: 'tx-coooke-co-parcels',
+         url: 'https://gis.bisclient.com/maps01/rest/services/CookeWeb/MapServer/0',
          labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11750,7 +11749,7 @@ Doesn't have a Shape field.
 
         {name:  'Coryell Co - Parcels',
          id:  'tx-coryell-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/CoryellWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/CoryellWeb/MapServer/0',
          labelFields:  ['CoryellCad.DBO.Accounts.situs_num', 'CoryellCad.DBO.Accounts.situs_street_prefx', 'CoryellCad.DBO.Accounts.situs_street', 'CoryellCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11758,7 +11757,7 @@ Doesn't have a Shape field.
 
         {name:  'Crane Co - Parcels',
          id:  'tx-crane-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/CraneWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/CraneWeb/MapServer/0',
          labelFields:  ['CraneCad.DBO.TempAccounts.situs_num', 'CraneCad.DBO.TempAccounts.situs_street_prefx', 'CraneCad.DBO.TempAccounts.situs_street', 'CraneCad.DBO.TempAccounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11766,7 +11765,7 @@ Doesn't have a Shape field.
 
         {name:  'Dallam Co - Parcels',
          id:  'tx-dallam-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DallamWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DallamWeb/MapServer/0',
          labelFields:  ['DallamCad.DBO.Accounts.situs_num', 'DallamCad.DBO.Accounts.situs_street_prefx', 'DallamCad.DBO.Accounts.situs_street', 'DallamCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11806,7 +11805,7 @@ Doesn't have a Shape field.
 
         {name:  'Delta Co - Parcels',
          id:  'tx-delta-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DeltaWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DeltaWeb/MapServer/0',
          labelFields:  ['DeltaCad.DBO.Accounts.situs_num', 'DeltaCad.DBO.Accounts.situs_street_prefx', 'DeltaCad.DBO.Accounts.situs_street', 'DeltaCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11822,7 +11821,7 @@ Doesn't have a Shape field.
 
         {name:  'Dimmit Co - Parcels',
          id:  'tx-dimmit-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DimmitWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DimmitWeb/MapServer/0',
          labelFields:  ['DimmitCad.DBO.Accounts.situs_num', 'DimmitCad.DBO.Accounts.situs_street_prefx', 'DimmitCad.DBO.Accounts.situs_street', 'DimmitCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11830,7 +11829,7 @@ Doesn't have a Shape field.
 
         {name:  'Duval Co - Parcels',
          id:  'tx-duval-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DuvalWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DuvalWeb/MapServer/0',
          labelFields:  ['DuvalCad.DBO.Accounts.situs_num', 'DuvalCad.DBO.Accounts.situs_street_prefx', 'DuvalCad.DBO.Accounts.situs_street', 'DuvalCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11862,7 +11861,7 @@ Doesn't have a Shape field.
 
         {name:  'Fannin Co - Parcels',
          id:  'tx-fannin-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FanninWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/FanninWeb/MapServer/0',
          labelFields:  ['FanninCad.DBO.Accounts.situs_num', 'FanninCad.DBO.Accounts.situs_street_prefx', 'FanninCad.DBO.Accounts.situs_street', 'FanninCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11870,7 +11869,7 @@ Doesn't have a Shape field.
 
         {name:  'Fayette Co - Parcels',
          id:  'tx-fayette-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FayetteWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/FayetteWeb/MapServer/0',
          labelFields:  ['FayetteCad.DBO.Accounts.situs_num', 'FayetteCad.DBO.Accounts.situs_street_prefx', 'FayetteCad.DBO.Accounts.situs_street', 'FayetteCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11902,7 +11901,7 @@ Doesn't have a Shape field.
 
         {name:  'Freestone Co - Parcels',
          id:  'tx-freestone-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FreestoneWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/FreestoneWeb/MapServer/0',
          labelFields:  ['FreestoneCad.DBO.Accounts.situs_num', 'FreestoneCad.DBO.Accounts.situs_street_prefx', 'FreestoneCad.DBO.Accounts.situs_street', 'FreestoneCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11918,7 +11917,7 @@ Doesn't have a Shape field.
 
         {name:  'Gaines Co - Parcels',
          id:  'tx-gaines-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GainesWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/GainesWeb/MapServer/0',
          labelFields:  ['GainesCad.DBO.Accounts.situs_num', 'GainesCad.DBO.Accounts.situs_street_prefx', 'GainesCad.DBO.Accounts.situs_street', 'GainesCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12006,7 +12005,7 @@ Doesn't have a Shape field.
 
         {name:  'Grimes Co - Parcels',
          id:  'tx-grimes-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrimesWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/GrimesWeb/MapServer/0',
          labelFields:  ['GrimesCad.DBO.Accounts.situs_num', 'GrimesCad.DBO.Accounts.situs_street_prefx', 'GrimesCad.DBO.Accounts.situs_street', 'GrimesCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12022,7 +12021,7 @@ Doesn't have a Shape field.
 
         {name:  'Hansford Co - Parcels',
          id:  'tx-hansford-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HansfordWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HansfordWeb/MapServer/0',
          labelFields:  ['HansfordCad.DBO.Accounts.situs_num', 'HansfordCad.DBO.Accounts.situs_street_prefx', 'HansfordCad.DBO.Accounts.situs_street', 'HansfordCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12038,7 +12037,7 @@ Doesn't have a Shape field.
 
         {name:  'Hartley Co - Parcels',
          id:  'tx-hartley-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HartleyWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HartleyWeb/MapServer/0',
          labelFields:  ['HartleyCad.DBO.Accounts.situs_num', 'HartleyCad.DBO.Accounts.situs_street_prefx', 'HartleyCad.DBO.Accounts.situs_street', 'HartleyCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12070,7 +12069,7 @@ Doesn't have a Shape field.
 
         {name:  'Howard Co - Parcels',
          id:  'tx-howard-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HowardWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HowardWeb/MapServer/0',
          labelFields:  ['HowardCad.DBO.Accounts.situs_num', 'HowardCad.DBO.Accounts.situs_street_prefx', 'HowardCad.DBO.Accounts.situs_street', 'HowardCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12101,7 +12100,7 @@ Doesn't have a Shape field.
 
         {name:  'Johnson Co - Parcels',
          id:  'tx-johnson-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/JohnsonWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/JohnsonWeb/MapServer/0',
          labelFields:  ['SITUS' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12163,8 +12162,8 @@ Doesn't have a Shape field.
          style: DEFAULT_PARCEL_STYLE},
 
         {name:  'La Salle Co - Parcels',
-         id:  'tx-la salle-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LaSalleWeb/MapServer/0',
+         id:  'tx-lasalle-co-parcels',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LaSalleWeb/MapServer/0',
          labelFields:  ['LasalleCad.DBO.Accounts.situs_num', 'LasalleCad.DBO.Accounts.situs_street_prefx', 'LasalleCad.DBO.Accounts.situs_street', 'LasalleCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12172,7 +12171,7 @@ Doesn't have a Shape field.
 
         {name:  'Lamar Co - Parcels',
          id:  'tx-lamar-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LamarWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LamarWeb/MapServer/0',
          labelFields:  ['LamarCad.DBO.Accounts.situs_num', 'LamarCad.DBO.Accounts.situs_street_prefx', 'LamarCad.DBO.Accounts.situs_street', 'LamarCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12196,7 +12195,7 @@ Doesn't have a Shape field.
 
         {name:  'Lee Co - Parcels',
          id:  'tx-lee-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LeeWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LeeWeb/MapServer/0',
          labelFields:  ['LeeCad.DBO.Accounts.situs_num', 'LeeCad.DBO.Accounts.situs_street_prefx', 'LeeCad.DBO.Accounts.situs_street', 'LeeCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12204,7 +12203,7 @@ Doesn't have a Shape field.
 
         {name:  'Liberty Co - Parcels',
          id:  'tx-liberty-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LibertyWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LibertyWeb/MapServer/0',
          labelFields:  ['LibertyCad.DBO.Accounts.situs_num', 'LibertyCad.DBO.Accounts.situs_street_prefx', 'LibertyCad.DBO.Accounts.situs_street', 'LibertyCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12212,7 +12211,7 @@ Doesn't have a Shape field.
 
         {name:  'Live Oak Co - Parcels',
          id:  'tx-live oak-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LiveOakWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LiveOakWeb/MapServer/0',
          labelFields:  ['LiveOakCad.dbo.Accounts.situs_num', 'LiveOakCad.dbo.Accounts.situs_street_prefx', 'LiveOakCad.dbo.Accounts.situs_street', 'LiveOakCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12242,7 +12241,7 @@ Doesn't have a Shape field.
 
         {name:  'Madison Co - Parcels',
          id:  'tx-madison-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MadisonWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/MadisonWeb/MapServer/0',
          labelFields:  ['MadisonCad.DBO.Accounts.situs_num', 'MadisonCad.DBO.Accounts.situs_street_prefx', 'MadisonCad.DBO.Accounts.situs_street', 'MadisonCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12274,7 +12273,7 @@ Doesn't have a Shape field.
 
         {name:  'McCulloch Co - Parcels',
          id:  'tx-mcculloch-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/McCullochWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/McCullochWeb/MapServer/0',
          labelFields:  ['McCullochCad.DBO.Accounts.situs_num', 'McCullochCad.DBO.Accounts.situs_street_prefx', 'McCullochCad.DBO.Accounts.situs_street', 'McCullochCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12298,7 +12297,7 @@ Doesn't have a Shape field.
 
         {name:  'McMullen Co - Parcels',
          id:  'tx-mcmullen-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/McMullenWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/McMullenWeb/MapServer/0',
          labelFields:  ['McMullenCad.DBO.Accounts.situs_num', 'McMullenCad.DBO.Accounts.situs_street_prefx', 'McMullenCad.DBO.Accounts.situs_street', 'McMullenCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12306,7 +12305,7 @@ Doesn't have a Shape field.
 
         {name:  'Medina Co - Parcels',
          id:  'tx-medina-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MedinaWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/MedinaWeb/MapServer/0',
          labelFields:  ['MedinaCad.DBO.Accounts.situs_num', 'MedinaCad.DBO.Accounts.situs_street_prefx', 'MedinaCad.DBO.Accounts.situs_street', 'MedinaCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12331,7 +12330,7 @@ Doesn't have a Shape field.
 
         {name:  'Mills Co - Parcels',
          id:  'tx-mills-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MillsWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/MillsWeb/MapServer/0',
          labelFields:  ['MillsCad.DBO.Accounts.situs_num', 'MillsCad.DBO.Accounts.situs_street_prefx', 'MillsCad.DBO.Accounts.situs_street', 'MillsCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
