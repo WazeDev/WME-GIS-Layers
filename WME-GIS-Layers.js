@@ -11492,6 +11492,15 @@ Doesn't have a Shape field.
         // Texas
         // ****************************
 
+       {name: 'Highway Mile Markers',
+         id: 'tx-mm',
+         url: 'https://services.arcgis.com/KTcxiTD9dsQw4r7Z/ArcGIS/rest/services/TxDOT_Reference_Markers/FeatureServer/0',
+         labelFields: ['MRKR_NBR'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'TX',
+         style: DEFAULT_MM_STYLE},
+
         {name: 'Abilene - City Address Points',
          id: 'tx-abilene-city-address',
          url: 'https://gis.abilenetx.com/arcgis/rest/services/Address_Points/MapServer/0',
