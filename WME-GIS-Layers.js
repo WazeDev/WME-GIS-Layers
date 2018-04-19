@@ -1010,6 +1010,15 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Highway Mile Markers',
+         id: 'ar-mm',
+         url: 'http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Transportation/MapServer/2',
+         labelFields: ['mile'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'AR',
+         style: DEFAULT_MM_STYLE},
+
         {name: 'Ashley Co - Address Points',
          id: 'ar-ashley-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ashley_County/Vector/MapServer/38',
@@ -14010,6 +14019,7 @@ Doesn't have a Shape field.
         if (gisLayer.where) {
             url += '&where=' + encodeURIComponent(gisLayer.where);
         }
+        logDebug('Request URL: ' + url);
         return url;
     }
 
@@ -14069,6 +14079,9 @@ Doesn't have a Shape field.
                             let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
                             if (item.geometry.x) {
                                 featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
+                            } else if (item.geometry.points) {
+                                // @TODO Fix for multiple points instead of just grabbing first.
+                                featureGeometry = new OL.Geometry.Point(item.geometry.points[0][0] + layerOffset.x, item.geometry.points[0][1] + layerOffset.y);
                             } else if (item.geometry.rings) {
                                 let rings = [];
                                 item.geometry.rings.forEach(function(ringIn) {
