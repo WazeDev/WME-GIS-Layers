@@ -3436,6 +3436,15 @@ Not a valid Address Point Layer
         // Idaho
         // ************************************
 
+        {name: 'Highway Mile Markers',
+         id: 'id-mm',
+         url: 'https://gis.itd.idaho.gov/arcgisprod/rest/services/ArcGISOnline/MilePointLayers/MapServer/3',
+         labelFields: ['MP'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'ID',
+         style: DEFAULT_MM_STYLE},
+
         {name: 'Ada Co - Address Points',
          id: 'id-ada-co-pts',
          url: 'http://www.adacountyassessor.org/arcgis/rest/services/External/ExternalMap/MapServer/16',
