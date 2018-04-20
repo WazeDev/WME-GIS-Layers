@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.16.001
+// @version      2018.04.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -71,7 +71,6 @@
 // @connect      bgky.org
 // @connect      bhamaps.com
 // @connect      bisclient.com
-// @connect      bisconsultants.com
 // @connect      bonnercounty.us
 // @connect      boonecountygis.com
 // @connect      boonecountyil.org
@@ -1011,11 +1010,21 @@
          state: 'AR',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name: 'Highway Mile Markers',
+         id: 'ar-mm',
+         url: 'http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Transportation/MapServer/2',
+         labelFields: ['mile'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'AR',
+         style: DEFAULT_MM_STYLE},
+
         {name: 'Ashley Co - Address Points',
          id: 'ar-ashley-co-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Ashley_County/Vector/MapServer/38',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
          state: 'AR',
+         counties: ['Ashley'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Ashley Co - Parcels',
@@ -1024,6 +1033,7 @@
          labelFields: ['Ashley.DBO.Ashley_CAMA_PRMF.Street_Number','Ashley.DBO.Ashley_CAMA_PRMF.Street_Dir','Ashley.DBO.Ashley_CAMA_PRMF.Street_Name','Ashley.DBO.Ashley_CAMA_PRMF.Street_Type','Ashley.DBO.Ashley_CAMA_PRMF.Street_Type_Suffix'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Ashley'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Benton Co - Address Points',
@@ -1031,6 +1041,7 @@
          url: 'http://gis.bentoncountyar.gov/arcgis/rest/services/Basemaps/Cadastral/MapServer/2',
          labelFields: ['FULL_ADDR'],
          state: 'AR',
+         counties: ['Benton'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Benton Co - Parcels',
@@ -1039,6 +1050,7 @@
          labelFields: ['PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Benton'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Bryant - City Address Points',
@@ -1046,6 +1058,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/BryantCity/Bryant_Master_Map1/MapServer/13',
          labelFields: ['ADR_NUM','ADR_NUM_SUF','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
          state: 'AR',
+         counties: ['Saline'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Bryant - City Parcels',
@@ -1054,6 +1067,7 @@
          labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Saline'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Chicot Co - Address Points',
@@ -1061,6 +1075,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Chicot_County/Vector/MapServer/7',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
          state: 'AR',
+         counties: ['Chicot'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Chicot Co - Parcels',
@@ -1068,13 +1083,15 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Chicot_County/Vector/MapServer/14',
          labelFields: ['Chicot.DBO.Chicot_CAMA.PH_ADD'],
          state: 'AR',
+         counties: ['Chicot'],
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Clarksville- City Address Points',
+        {name: 'Clarksville - City Address Points',
          id: 'ar-clarksville-city-points',
          url: 'http://www.efsedge.com/arcgis/rest/services/Johnson_County/Johnson_County_Vector/MapServer/8',
          labelFields: ['NewAddNum','Street_Nam'],
          state: 'AR',
+         counties: ['Johnson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Columbia Co - Address Points',
@@ -1082,6 +1099,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Columbia_County/Vector/MapServer/9',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
          state: 'AR',
+         counties: ['Columbia'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Columbia Co - Parcels',
@@ -1089,6 +1107,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Columbia_County/Vector/MapServer/15',
          labelFields: ['PH_ADD'],
          state: 'AR',
+         counties: ['Columbia'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Craighead Co - Address Points',
@@ -1097,6 +1116,7 @@
          labelFields: ['Craighead.DBO.Craighead_CAMA.PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Craighead'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Craighead Co - Parcels',
@@ -1105,6 +1125,7 @@
          labelFields: ['Craighead.DBO.Craighead_CAMA.PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Craighead'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Desha Co - Address Points',
@@ -1113,6 +1134,7 @@
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Desha'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Desha Co - Parcels',
@@ -1121,6 +1143,7 @@
          labelFields: ['PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Desha'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Drew Co - Address Points',
@@ -1129,6 +1152,7 @@
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR','PSTR_MOD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Drew'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Drew Co - Parcels',
@@ -1137,6 +1161,7 @@
          labelFields: ['drew.DBO.DREW_PRMF.Street_Number','drew.DBO.DREW_PRMF.Street_Dir','drew.DBO.DREW_PRMF.Street_Name','drew.DBO.DREW_PRMF.Street_Type','drew.DBO.DREW_PRMF.Street_Type_Suffix'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Drew'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Faulkner Co - Address Points',
@@ -1144,6 +1169,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Faulkner_County/Vector/MapServer/0',
          labelFields: ['FULL_ADD'],
          state: 'AR',
+         counties: ['Faulkner'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Faulkner Co - Parcels',
@@ -1152,6 +1178,7 @@
          labelFields: ['PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Faulkner'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Grant Co - Address Points',
@@ -1160,6 +1187,7 @@
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Grant'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Grant Co - Parcels',
@@ -1167,6 +1195,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Grant/Grant_Vector/MapServer/23',
          labelFields: ['Grant2.DBO.PADM2.SNUM','Grant2.DBO.PADM2.SNUMS','Grant2.DBO.PADM2.SDIR','Grant2.DBO.PADM2.SSTR','Grant2.DBO.PADM2.SSTP'],
          state: 'AR',
+         counties: ['Grant'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Howard Co - Address Points',
@@ -1174,6 +1203,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Howard_County/Howard_Vector/MapServer/0',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
          state: 'AR',
+         counties: ['Howard'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Howard Co - Parcels',
@@ -1182,6 +1212,7 @@
          labelFields: ['Howard.DBO.HowardCama_GISOut.PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Howard'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hot Springs - City Address Points',
@@ -1189,6 +1220,7 @@
          url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/0',
          labelFields: ['ADR_NUM','ADR_UNIT_TYP','ADR_UNIT_ID','PSTR_FULNAM'],
          state: 'AR',
+         counties: ['Garland'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hot Springs - City Parcels (no labels)',
@@ -1196,6 +1228,7 @@
          url: 'http://maps.cityhs.net/arcgiswebadaptor/rest/services/CHSCityWorks_Addressing/MapServer/13',
          labelFields: [],
          state: 'AR',
+         counties: ['Garland'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hot Springs Village - City Address Points',
@@ -1203,6 +1236,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/HSV/Vector2/MapServer/65',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
          state: 'AR',
+         counties: ['Garland', 'Saline'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hot Springs Village - City Parcels',
@@ -1211,6 +1245,7 @@
          labelFields: ['PhyAddress'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Garland', 'Saline'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Johnson Co - Address Points',
@@ -1218,6 +1253,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Johnson_County/Johnson_County_Vector/MapServer/7',
          labelFields: ['HNUM','STREET'],
          state: 'AR',
+         counties: ['Johnson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Johnson Co - Parcels',
@@ -1226,6 +1262,7 @@
          labelFields: ['Johnson.DBO.Johnson_CAMA_GISOut.PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Johnson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lincoln Co - Address Points',
@@ -1234,6 +1271,7 @@
          labelFields: ['ADR_NUM','NUM_SUF','FULNAM'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Lincoln'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Lincoln Co - Parcels',
@@ -1242,6 +1280,7 @@
          labelFields: ['Street_Num','Street_Dir','Street_Nam','Street_Typ'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Lincoln'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lonoke Co - Address Points',
@@ -1250,6 +1289,7 @@
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE','PSUF_DIR'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Lonoke'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Lonoke Co - Parcels',
@@ -1258,6 +1298,7 @@
          labelFields: ['Lonoke.DBO.PADM.SNUM','Lonoke.DBO.PADM.SDIR','Lonoke.DBO.PADM.SSTR','Lonoke.DBO.PADM.SSTP'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Lonoke'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'North Little Rock - City Address Points',
@@ -1265,6 +1306,7 @@
          url: 'http://pagis.org/arcgis/rest/services/APPS_NLR/Apps_BaseMapNLRZoningLandUse/MapServer/11',
          labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
          state: 'AR',
+         counties: ['Pulaski'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'North Little Rock - City Parcels',
@@ -1273,6 +1315,7 @@
          labelFields: ['PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Pulaski'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Ouachita Co - Address Points',
@@ -1280,6 +1323,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Ouachita_County/Ouachita_Vector/MapServer/5',
          labelFields: ['adr_num','ADDR_SN','ADDR_ST'],
          state: 'AR',
+         counties: ['Ouachita'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Ouachita Co - Parcels',
@@ -1288,6 +1332,7 @@
          labelFields: ['Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Number','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Dir','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Name','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type','Ouachita.DBO.OUACHITA_CAMA_PRMF.Street_Type_Suffix'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Ouachita'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pike Co - Address Points',
@@ -1295,6 +1340,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Pike_County/Pike_Vector/MapServer/6',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
          state: 'AR',
+         counties: ['Pike'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pike Co - Parcels',
@@ -1303,6 +1349,7 @@
          labelFields: ['Pike.DBO.Pike_PADM.SNUM','Pike.DBO.Pike_PADM.SDIR','Pike.DBO.Pike_PADM.SSTR','Pike.DBO.Pike_PADM.SSTP'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Pike'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Poinsett Co - Address Points',
@@ -1310,6 +1357,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Poinsett_County/Vector/MapServer/0',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAM','PSTR_TYPE'],
          state: 'AR',
+         counties: ['Poinsett'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Poinsett Co - Parcels',
@@ -1318,6 +1366,7 @@
          labelFields: ['Poinsett.DBO.PADM.SNUM','Poinsett.DBO.PADM.SDIR','Poinsett.DBO.PADM.SSTR','Poinsett.DBO.PADM.SSTP'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Poinsett'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pulaski Co - Address Points',
@@ -1325,6 +1374,7 @@
          url: 'http://pagis.org/arcgis/rest/services/APPS/Apps_BaseMap/MapServer/9',
          labelFields: ['HOUSENUM','UNIT','PREFIX','STREETNAME','STREETTYPE','SUFFIX'],
          state: 'AR',
+         counties: ['Pulaski'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pulaski Co - Parcels',
@@ -1333,6 +1383,7 @@
          labelFields: ['PH_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Pulaski'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Saline Co - Address Points',
@@ -1340,6 +1391,7 @@
          url: 'http://www.efsedge.com/arcgis/rest/services/Saline_County/Vector2/MapServer/11',
          labelFields: ['ADR_NUM','PRE_DIR','PSTR_NAME','PSTR_TYPE'],
          state: 'AR',
+         counties: ['Saline'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Saline Co - Parcels',
@@ -1348,6 +1400,7 @@
          labelFields: ['Saline2.DBO.SalineCo_CAMA.PH_RD_NUM','Saline2.DBO.SalineCo_CAMA.PH_PRE_DIR','Saline2.DBO.SalineCo_CAMA.PH_RD_NAM','Saline2.DBO.SalineCo_CAMA.PH_RD_TYP'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Saline'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Sheridan - City Address Points',
@@ -1356,6 +1409,7 @@
          labelFields: ['ADR_NUM','PPRE_DIR','PSTR_NAM','PSTR_TYPE','PSUF_DIR'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Grant'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Tull - City Address Points',
@@ -1364,6 +1418,7 @@
          labelFields: ['ADR_NUM','PSTR_FULNAM'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'AR',
+         counties: ['Grant'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Washington Co - Address Points',
@@ -1371,6 +1426,7 @@
          url: 'http://arcserv.co.washington.ar.us/wcgis/rest/services/demo_IT/WashcoDynamic2/MapServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'AR',
+         counties: ['Washington'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Washington Co - Parcels (no labels)',
@@ -1378,6 +1434,7 @@
          url: 'http://arcserv.co.washington.ar.us/wcgis/rest/services/demo_IT/WashcoDynamic2/MapServer/14',
          labelFields: [],
          state: 'AR',
+         counties: ['Washington'],
          style: DEFAULT_PARCEL_STYLE},
 
         // California
@@ -2053,6 +2110,7 @@
          url: 'https://gisapp.adcogov.org/arcgis/rest/services/AdamsCountyBasic/MapServer/32',
          labelFields: ['ADDR_FULL'],
          state: 'CO',
+         counties: ['Adams'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Adams Co - Parcels',
@@ -2060,6 +2118,7 @@
          url: 'https://gisapp.adcogov.org/arcgis/rest/services/AdamsCountyBasic/MapServer/33',
          labelFields: ['CONCATADDR1'],
          state: 'CO',
+         counties: ['Adams'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Alamosa Co - Parcels',
@@ -2068,6 +2127,7 @@
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Alamosa'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Arapahoe Co - Address Points',
@@ -2075,6 +2135,7 @@
          url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/3',
          labelFields: ['Full_Address'],
          state: 'CO',
+         counties: ['Arapahoe'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Arapahoe Co - Parcels',
@@ -2082,6 +2143,7 @@
          url: 'https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP_3_8_2/MapServer/158',
          labelFields: ['Situs_Address'],
          state: 'CO',
+         counties: ['Arapahoe'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Archuleta Co - Parcels',
@@ -2089,6 +2151,7 @@
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: ['SITUS'],
          state: 'CO',
+         counties: ['Archuleta'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Aspen - City Address Points',
@@ -2096,6 +2159,7 @@
          url: 'https://gismap.cityofaspen.com/astro/rest/services/MapAspen/MapAspenNoAnno/MapServer/50',
          labelFields: ['ADDRESS'],
          state: 'CO',
+         counties: ['Pitkin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Aspen - City Parcels',
@@ -2103,6 +2167,7 @@
          url: 'https://gismap.cityofaspen.com/astro/rest/services/MapAspen/MapAspenNoAnno/MapServer/55',
          labelFields: ['SITUS_ADDRESS'],
          state: 'CO',
+         counties: ['Pitkin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Boulder Co - Address Points',
@@ -2110,6 +2175,7 @@
          url: 'http://maps.bouldercounty.org/arcgis/rest/services/PARCELS/ADDRESS_POINTS/MapServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'CO',
+         counties: ['Boulder'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Boulder Co - Parcels',
@@ -2118,6 +2184,7 @@
          labelFields: ['SITE_STR_NUM','SITE_STR_UNIT','SITE_STR_PFX','SITE_STREET','SITE_STR_SFX'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Boulder'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Broomfield Co - Address Points',
@@ -2125,6 +2192,7 @@
          url: 'http://gis.broomfield.org/ArcGIS/rest/services/Assessor/Subdivisions_Parcels_2D/MapServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'CO',
+         counties: ['Broomfield'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Broomfield Co - Parcels',
@@ -2132,6 +2200,7 @@
          url: 'http://gis.broomfield.org/ArcGIS/rest/services/Assessor/Subdivisions_Parcels_2D/MapServer/1',
          labelFields: ['FULL_ADDRESS'],
          state: 'CO',
+         counties: ['Broomfield'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Colorado Springs - City Address Points',
@@ -2139,6 +2208,7 @@
          url: 'https://gis.coloradosprings.gov/arcgis/rest/services/springsview/SpringsView_AllLayers/MapServer/122',
          labelFields: ['STREET','SUBADDRESS'],
          state: 'CO',
+         counties: ['El Paso'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Colorado Springs - City Parcels',
@@ -2147,6 +2217,7 @@
          labelFields: ['MAINADDRES'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['El Paso'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Commerce City - City Address Points',
@@ -2154,6 +2225,7 @@
          url: 'http://63.238.120.156/arcgis/rest/services/OpenData/AddressPoints/MapServer/0',
          labelFields: ['ADDR_HN','SUBADDR_TYPE','SUBADDR_UNIT','ADDR_PD','ADDR_SN','ADDR_ST','ADDR_SD'],
          state: 'CO',
+         counties: ['Adams'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Commerce City - City Parcels',
@@ -2162,6 +2234,7 @@
          labelFields: ['ADDR_COMPLETE'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Adams'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Conejos Co - Parcels',
@@ -2170,6 +2243,7 @@
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Conejos'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Costilla Co - Parcels',
@@ -2177,6 +2251,7 @@
          url: 'https://services.arcgis.com/4YineAQdtmx0tv46/ArcGIS/rest/services/CostillaCOFeatures/FeatureServer/2',
          labelFields: ['GIS_Site_Address'],
          state: 'CO',
+         counties: ['Costilla'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Delta Co - Address Points',
@@ -2184,6 +2259,7 @@
          url: 'http://maps.deltacounty.com/arcgis/rest/services/PARCEL_MAP_B_SERVICE/MapServer/0',
          labelFields: ['Full_Address'],
          state: 'CO',
+         counties: ['Delta'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Delta Co - Parcels',
@@ -2192,6 +2268,7 @@
          labelFields: ['Full_Add'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Delta'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Denver Co - Parcels',
@@ -2199,6 +2276,7 @@
          url: 'https://services.arcgis.com/ue9rwulIoeLEI9bj/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: ['SITUS_AD_1'],
          state: 'CO',
+         counties: ['Denver'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Douglas Co - Address Points',
@@ -2206,6 +2284,7 @@
          url: 'https://apps.douglas.co.us/arcgis/rest/services/Parcels/AddressPoints_WM/MapServer/1',
          labelFields: ['ADDRESS_SEARCH.STREET_NAME_FULL'],
          state: 'CO',
+         counties: ['Douglas'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Douglas Co - Parcels (no labels)',
@@ -2213,6 +2292,7 @@
          url: 'https://apps.douglas.co.us/arcgis/rest/services/Parcels/Parcels_WM_Dynamic/MapServer/0',
          labelFields: [],
          state: 'CO',
+         counties: ['Douglas'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Eagle Co - Address Points',
@@ -2220,6 +2300,7 @@
          url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Address_ForLabel/MapServer/0',
          labelFields: ['Address'],
          state: 'CO',
+         counties: ['Eagle'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Eagle Co - Parcels (no labels)',
@@ -2227,6 +2308,7 @@
          url: 'https://gismap.eaglecounty.us/arcgiswa/rest/services/FlexApp/Parcel_Viewer/MapServer/0',
          labelFields: [],
          state: 'CO',
+         counties: ['Eagle'],
          style: DEFAULT_PARCEL_STYLE},
 
         /*        {name: 'Fremont Co - Address Points',
@@ -2234,6 +2316,7 @@
          url: 'http://fremontgis.com/arcgis_102/rest/services/FremontCO_GIS_Layers/MapServer/160',
          labelFields: ['GL_ADR_FUL'],
          state: 'CO',
+         counties: ['Fremont'],
          style: DEFAULT_PT_STYLE},
 Not a valid Address Point Layer
 */
@@ -2244,6 +2327,7 @@ Not a valid Address Point Layer
          labelFields: ['SITE_ADDR'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Fremont'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Garfield Co - Parcels',
@@ -2252,6 +2336,7 @@ Not a valid Address Point Layer
          labelFields: ['PHYSADDRESS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Garfield'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Gilpin Co - Address Points',
@@ -2259,6 +2344,7 @@ Not a valid Address Point Layer
          url: 'https://data1.digitaldataservices.com/arcgis/rest/services/GilpinCounty/Gilpin_ParcelOverlay/MapServer/0',
          labelFields: ['fulladdr'],
          state: 'CO',
+         counties: ['Gilpin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Gilpin Co - Parcels',
@@ -2267,6 +2353,7 @@ Not a valid Address Point Layer
          labelFields: ['gilpin.sde.AssessorTaxRoll.siteaddress'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Gilpin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Grand Co - Address Points',
@@ -2274,6 +2361,7 @@ Not a valid Address Point Layer
          url: 'http://grandgis.com/arcgis/rest/services/gcAddressPoints/MapServer/0',
          labelFields: ['STR_NUM','ST_PDIR','ROAD_NAME'],
          state: 'CO',
+         counties: ['Grand'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Grand Co - Parcels',
@@ -2281,6 +2369,7 @@ Not a valid Address Point Layer
          url: 'http://grandgis.com/arcgis/rest/services/ParcelsNew/MapServer/0',
          labelFields: ['GIS_ADD'],
          state: 'CO',
+         counties: ['Grand'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jefferson Co - Address Points',
@@ -2288,6 +2377,7 @@ Not a valid Address Point Layer
          url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Address/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'CO',
+         counties: ['Jefferson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Jefferson Co - Parcels',
@@ -2295,6 +2385,7 @@ Not a valid Address Point Layer
          url: 'http://mapservices2.jeffco.us/arcgis/rest/services/jMap/Parcel/MapServer/0',
          labelFields: ['PRPADDRESS'],
          state: 'CO',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lake Co - Parcels',
@@ -2303,6 +2394,7 @@ Not a valid Address Point Layer
          labelFields: ['PASHOUSE','PASST','PASSNAM'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Lake'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'La Plata Co - Address Points',
@@ -2310,6 +2402,7 @@ Not a valid Address Point Layer
          url: 'http://lpcgis.laplata.co.us/arcgis/rest/services/Map_LayersJSC/MapServer/75',
          labelFields: ['PROPERTY_A'],
          state: 'CO',
+         counties: ['La Plata'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'La Plata Co - Parcels',
@@ -2318,6 +2411,7 @@ Not a valid Address Point Layer
          labelFields: ['SITE_ADDR'],
          processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['La Plata'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Larimer Co - Address Points',
@@ -2325,6 +2419,7 @@ Not a valid Address Point Layer
          url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/0',
          labelFields: ['FULLADDRESS'],
          state: 'CO',
+         counties: ['Larimer'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Larimer Co - Parcels',
@@ -2332,6 +2427,7 @@ Not a valid Address Point Layer
          url: 'https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3',
          labelFields: ['LOCADDRESS'],
          state: 'CO',
+         counties: ['Larimer'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Las Animas Co - Address Points',
@@ -2339,6 +2435,7 @@ Not a valid Address Point Layer
          url: 'https://services7.arcgis.com/NWWOCaXnjdetEWUz/ArcGIS/rest/services/Las_Animas_County_GIS/FeatureServer/4',
          labelFields: ['FSA'],
          state: 'CO',
+         counties: ['Las Animas'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Las Animas Co - Parcels',
@@ -2346,6 +2443,7 @@ Not a valid Address Point Layer
          url: 'https://services7.arcgis.com/NWWOCaXnjdetEWUz/ArcGIS/rest/services/Las_Animas_County_GIS/FeatureServer/5',
          labelFields: ['FullAddress'],
          state: 'CO',
+         counties: ['Las Animas'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Logan Co - Parcels',
@@ -2354,6 +2452,7 @@ Not a valid Address Point Layer
          labelFields: ['GIS_Site_Address'],
          processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Logan'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Mesa Co - Parcels',
@@ -2361,6 +2460,7 @@ Not a valid Address Point Layer
          url: 'https://mcgis.mesacounty.us/arcgis/rest/services/maps/ParcelOnly4Query/MapServer/0',
          labelFields: ['LOCATION'],
          state: 'CO',
+         counties: ['Mesa'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Mineral Co - Parcels',
@@ -2369,6 +2469,7 @@ Not a valid Address Point Layer
          labelFields: ['TSC_Site_Address'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Mineral'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Montezuma Co - Address Points',
@@ -2376,6 +2477,7 @@ Not a valid Address Point Layer
          url: 'http://gis-server.co.montezuma.co.us/arcgis/rest/services/Address_Verification_Viewer/MapServer/0',
          labelFields: ['StreetNo','StreetDir','StreetName','StreetSuf','StDirSuffx'],
          state: 'CO',
+         counties: ['Montezuma'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Montezuma Co - Parcels',
@@ -2383,6 +2485,7 @@ Not a valid Address Point Layer
          url: 'http://gis-server.co.montezuma.co.us/arcgis/rest/services/Address_Verification_Viewer/MapServer/1',
          labelFields: ['LOCATIONADDRESS'],
          state: 'CO',
+         counties: ['Montezuma'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Montrose Co - Address Points',
@@ -2390,6 +2493,7 @@ Not a valid Address Point Layer
          url: 'https://mcmap2.montrosecounty.net/arcgis/rest/services/MontroseCOaddress/MapServer/0',
          labelFields: ['FSA'],
          state: 'CO',
+         counties: ['Montrose'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Montrose Co - Parcels',
@@ -2397,6 +2501,7 @@ Not a valid Address Point Layer
          url: 'https://mcmap2.montrosecounty.net/arcgis/rest/services/MontroseCOparcellabels/MapServer/0',
          labelFields: ['FULL_ADD'],
          state: 'CO',
+         counties: ['Montrose'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Morgan Co - Parcels',
@@ -2405,6 +2510,7 @@ Not a valid Address Point Layer
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Morgan'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Otero Co - Parcels',
@@ -2413,6 +2519,7 @@ Not a valid Address Point Layer
          labelFields: ['PRCLADRS'],
          processLabel: function(label) { return label.replace(_regexReplace.r4, '$2 $1').replace(/^LAND\s.*/, ''); },
          state: 'CO',
+         counties: ['Otero'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Park Co - Address Points',
@@ -2420,6 +2527,7 @@ Not a valid Address Point Layer
          url: 'http://maps.parkco.us/arcgis/rest/services/Addressing/Public_Addressing_Search/MapServer/0',
          labelFields: ['FSA'],
          state: 'CO',
+         counties: ['Park'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Park Co - Parcels (no label)',
@@ -2427,6 +2535,7 @@ Not a valid Address Point Layer
          url: 'http://maps.parkco.us/arcgis/rest/services/basemaps/Parcels_Main/MapServer/4',
          labelFields: [],
          state: 'CO',
+         counties: ['Park'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pitkin Co - Parcels (no labels)',
@@ -2434,6 +2543,7 @@ Not a valid Address Point Layer
          url: 'https://maps.pitkincounty.com/arcgis/rest/services/Projects/AssessorsParcels/MapServer/0',
          labelFields: [],
          state: 'CO',
+         counties: ['Pitkin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pueblo Co - Address Points',
@@ -2441,6 +2551,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.pueblo.co.us/outside/rest/services/pueblo_county_address_points/MapServer/0',
          labelFields: ['FULLADDR'],
          state: 'CO',
+         counties: ['Pueblo'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pueblo Co - Parcels (no labels)',
@@ -2448,6 +2559,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.pueblo.co.us/outside/rest/services/pueblo_county_parcels/MapServer/1',
          labelFields: [],
          state: 'CO',
+         counties: ['Pueblo'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Rio Blanco Co - Address Points',
@@ -2455,6 +2567,7 @@ Not a valid Address Point Layer
          url: 'https://services1.arcgis.com/pfZ4YwxhgKucWn2S/ArcGIS/rest/services/RioBlancoCOfeatures/FeatureServer/0',
          labelFields: ['FULLADDR'],
          state: 'CO',
+         counties: ['Rio Blanco'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Rio Blanco Co - Parcels',
@@ -2462,6 +2575,7 @@ Not a valid Address Point Layer
          url: 'https://services1.arcgis.com/pfZ4YwxhgKucWn2S/ArcGIS/rest/services/RioBlancoCOfeatures/FeatureServer/17',
          labelFields: ['STREETNO','STREETNAME'],
          state: 'CO',
+         counties: ['Rio Blanco'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Rio Grande Co - Parcels (no labels)',
@@ -2469,6 +2583,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.pueblo.co.us/outside/rest/services/riogrande/riogrande_county_parcels/MapServer/0',
          labelFields: [],
          state: 'CO',
+         counties: ['Rio Grande'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Routt Co - Address Points',
@@ -2476,6 +2591,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.routt.co.us/arcgis/rest/services/PublicData/AddressPoints/MapServer/0',
          labelFields: ['Label'],
          state: 'CO',
+         counties: ['Routt'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Routt Co - Parcels',
@@ -2483,6 +2599,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.routt.co.us/arcgis/rest/services/PublicData/Parcels/MapServer/0',
          labelFields: ['PhysicalAddress'],
          state: 'CO',
+         counties: ['Routt'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Saguache Co - Parcels (no labels)',
@@ -2490,6 +2607,7 @@ Not a valid Address Point Layer
          url: 'https://services1.arcgis.com/zH7gQ37AKcpvTX6d/ArcGIS/rest/services/SaguacheParcels/FeatureServer/0',
          labelFields: [],
          state: 'CO',
+         counties: ['Saguache'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'San Miguel Co - Address Points',
@@ -2497,6 +2615,7 @@ Not a valid Address Point Layer
          url: 'https://maps.sanmiguelcountyco.gov/gis/rest/services/public/property_new/MapServer/0',
          labelFields: ['FSA'],
          state: 'CO',
+         counties: ['San Miguel'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'San Miguel Co - Parcels',
@@ -2504,6 +2623,7 @@ Not a valid Address Point Layer
          url: 'https://maps.sanmiguelcountyco.gov/gis/rest/services/public/property_new/MapServer/2',
          labelFields: ['STREETADDR'],
          state: 'CO',
+         counties: ['San Miguel'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Sedgwick Co - Address Points',
@@ -2511,6 +2631,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/1',
          labelFields: ['Address_Nu','Direction','Street','Suffix'],
          state: 'CO',
+         counties: ['Sedgwick'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Sedgwick Co - Parcels',
@@ -2518,6 +2639,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.gov/copubgis/rest/services/SedgwickCounty/SedgwickServices1031/MapServer/3',
          labelFields: ['Situs_Addr'],
          state: 'CO',
+         counties: ['Sedgwick'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Summit Co - Parcels',
@@ -2525,6 +2647,7 @@ Not a valid Address Point Layer
          url: 'https://gis.summitcountyco.gov/arcgis/rest/services/ParcelQueryTool/SummitMap1_v10/MapServer/0',
          labelFields: ['TextString'],
          state: 'CO',
+         counties: ['Summit'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Teller Co - Address Points',
@@ -2532,6 +2655,7 @@ Not a valid Address Point Layer
          url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Property/MapServer/5',
          labelFields: ['STREET'],
          state: 'CO',
+         counties: ['Teller'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Teller Co - Parcels',
@@ -2539,6 +2663,7 @@ Not a valid Address Point Layer
          url: 'https://cdsd.co.teller.co.us/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['Teller_County.SDE.PARCEL.SITUSSTNUM','Teller_County.SDE.PARCEL.STRNAME'],
          state: 'CO',
+         counties: ['Teller'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Yuma Co - Parcels',
@@ -2547,6 +2672,7 @@ Not a valid Address Point Layer
          labelFields: ['TSC_Site_Address'],
          processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
          state: 'CO',
+         counties: ['Yuma'],
          style: DEFAULT_PARCEL_STYLE},
 
         // Connecticut
@@ -3436,6 +3562,15 @@ Not a valid Address Point Layer
 
         // Idaho
         // ************************************
+
+        {name: 'Highway Mile Markers',
+         id: 'id-mm',
+         url: 'https://gis.itd.idaho.gov/arcgisprod/rest/services/ArcGISOnline/MilePointLayers/MapServer/3',
+         labelFields: ['MP'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'ID',
+         style: DEFAULT_MM_STYLE},
 
         {name: 'Ada Co - Address Points',
          id: 'id-ada-co-pts',
@@ -5263,6 +5398,7 @@ Not a valid Address Point Layer
          labelFields: ['ADNUMCOMP','STCOMP'],
          where: [''],
          state: 'LA',
+         counties: ['Assumption'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Assumption Parish - Parcels',
@@ -5271,6 +5407,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Number','Street_Name'],
          where: [''],
          state: 'LA',
+         counties: ['Assumption'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Avoyelles Parish - Address Points',
@@ -5278,6 +5415,7 @@ Not a valid Address Point Layer
          url: 'http://www.efsedge.com/arcgis/rest/services/Avoyelles_Parish/Vector/MapServer/1',
          labelFields: ['Address'],
          state: 'LA',
+         counties: ['Avoyelles'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Avoyelles Parish - Parcels',
@@ -5285,6 +5423,7 @@ Not a valid Address Point Layer
          url: 'http://www.efsedge.com/arcgis/rest/services/Avoyelles_Parish/Vector/MapServer/6',
          labelFields: ['Avoyelles.DBO.Parcel_CAMA_01182018.Address_Number','Avoyelles.DBO.Parcel_CAMA_01182018.Street_Name'],
          state: 'LA',
+         counties: ['Avoyelles'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Avoyelles Parish - Parcels 2',
@@ -5293,6 +5432,7 @@ Not a valid Address Point Layer
          labelFields: ['Address'],
          where: [''],
          state: 'LA',
+         counties: ['Avoyelles'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Beauregard Parish - Parcels',
@@ -5301,6 +5441,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Dir', 'Street_Nam'],
          where: [''],
          state: 'LA',
+         counties: ['Beauregard'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Catahoula Parish - Address Points',
@@ -5308,6 +5449,7 @@ Not a valid Address Point Layer
          url: 'http://www.efsedge.com/arcgis/rest/services/Catahoula_Parish/Vector/MapServer/5',
          labelFields: ['New_Num_1','Apt_Lot_Ste','New_St_Rd_Name'],
          state: 'LA',
+         counties: ['Catahoula'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Catahoula Parish - Parcels',
@@ -5316,6 +5458,7 @@ Not a valid Address Point Layer
          labelFields: ['Catahoula.DBO.Parcels_09012016.Phy_Address'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'LA',
+         counties: ['Catahoula'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Catahoula Parish - Parcels 2',
@@ -5325,6 +5468,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
+         counties: ['Catahoula'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Claiborne Parish - Address Points',
@@ -5333,6 +5477,7 @@ Not a valid Address Point Layer
          labelFields: ['FULL_ADD'],
          where: [],
          state: 'LA',
+         counties: ['Claiborne'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Claiborne Parish - Parcels',
@@ -5341,6 +5486,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS_NU','STREET_DIR','STREET_NAM'],
          where: [],
          state: 'LA',
+         counties: ['Claiborne'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Concordia Parish - Address Points',
@@ -5349,6 +5495,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS'],
          where: [],
          state: 'LA',
+         counties: ['Concordia'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Concordia Parish - Parcels',
@@ -5357,6 +5504,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Number','Street_Direction','Street_Name'],
          where: [],
          state: 'LA',
+         counties: ['Concordia'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Covington - City Parcels 1',
@@ -5365,6 +5513,7 @@ Not a valid Address Point Layer
          labelFields: ['prop_number','prop_street'],
          where: [],
          state: 'LA',
+         counties: ['St. Tammany'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Covington - City Parcels 2',
@@ -5373,6 +5522,7 @@ Not a valid Address Point Layer
          labelFields: ['COMP_ADD'],
          where: [],
          state: 'LA',
+         counties: ['St. Tammany'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'DeSoto Parish - Address Points',
@@ -5381,6 +5531,7 @@ Not a valid Address Point Layer
          labelFields: ['ADD_NUM','STREET'],
          where: [],
          state: 'LA',
+         counties: ['DeSoto'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'DeSoto Parish - Parcels',
@@ -5389,6 +5540,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
          where: [],
          state: 'LA',
+         counties: ['DeSoto'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'East BR Parish - Address Points',
@@ -5397,6 +5549,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS_NU','FULL_ADDRESS'],
          where: [],
          state: 'LA',
+         counties: ['East Baton Rouge'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'East BR Parish - Parcels',
@@ -5405,6 +5558,7 @@ Not a valid Address Point Layer
          labelFields: ['PHYSADD'],
          where: [],
          state: 'LA',
+         counties: ['East Baton Rouge'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Franklin Parish - Address Points',
@@ -5413,6 +5567,7 @@ Not a valid Address Point Layer
          labelFields: ['Address','Street_Nam','Type'],
          where: [],
          state: 'LA',
+         counties: ['Franklin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Franklin Parish - Parcels',
@@ -5421,6 +5576,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Nam'],
          where: [],
          state: 'LA',
+         counties: ['Franklin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Gretna - City Address Points',
@@ -5429,6 +5585,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS','STREET'],
          where: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Gretna - City Parcels',
@@ -5437,6 +5594,7 @@ Not a valid Address Point Layer
          labelFields: ['ParcelAddr'],
          where: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Iberia Parish - Parcels',
@@ -5446,6 +5604,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
+         counties: ['Iberia'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Iberville Parish - Address Points',
@@ -5454,6 +5613,7 @@ Not a valid Address Point Layer
          labelFields: ['STRNUM','STREET','STR_TYPE'],
          where: [],
          state: 'LA',
+         counties: ['Iberville'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Iberville Parish - Parcels',
@@ -5463,6 +5623,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
+         counties: ['Iberville'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jefferson Parish - Address Points',
@@ -5470,6 +5631,7 @@ Not a valid Address Point Layer
          url: 'http://webmap.jeffparish.net/arcgis/rest/services/CODE/Code_Enforcement/MapServer/5',
          labelFields: ['ADDRESS', 'STREET', 'SUITE'],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Jefferson Parish - Address Points 2',
@@ -5478,6 +5640,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS','STREET'],
          where: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Jefferson Parish - Parcels (no labels)',
@@ -5485,6 +5648,7 @@ Not a valid Address Point Layer
          url: 'http://webmap.jeffparish.net/arcgis/rest/services/CODE/Code_Enforcement/MapServer/12',
          labelFields: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jefferson Parish - Parcels 2',
@@ -5493,6 +5657,7 @@ Not a valid Address Point Layer
          labelFields: ['par_address'],
          where: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Kenner - City Address Points',
@@ -5501,6 +5666,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS','STREET'],
          where: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Kenner - City Parcels',
@@ -5509,6 +5675,7 @@ Not a valid Address Point Layer
          labelFields: ['PAR_ADDRES'],
          where: [],
          state: 'LA',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lafourche Parish - Address Points',
@@ -5517,6 +5684,7 @@ Not a valid Address Point Layer
          labelFields: ['ADD_COMP'],
          where: [],
          state: 'LA',
+         counties: ['Lafourche'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Lafourche Parish - Parcels',
@@ -5533,6 +5701,7 @@ Not a valid Address Point Layer
          labelFields: ['NEWADDRESS'],
          where: [],
          state: 'LA',
+         counties: ['LaSalle'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'LaSalle Parish - Parcels',
@@ -5542,6 +5711,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
+         counties: ['LaSalle'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Livingston Parish - Parcels',
@@ -5551,6 +5721,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'LA',
+         counties: ['Livingston'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Mandeville - City Address Points',
@@ -5559,6 +5730,7 @@ Not a valid Address Point Layer
          labelFields: ['FULL_ADD'],
          where: [],
          state: 'LA',
+         counties: ['St. Tammany'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Mandeville - City Parcels',
@@ -5567,6 +5739,7 @@ Not a valid Address Point Layer
          labelFields: ['NUM_ER','DIRECTION','STR_NAME','STR_TYPE','STR_SFFX'],
          where: [],
          state: 'LA',
+         counties: ['St. Tammany'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Minden - City Address Points',
@@ -5575,6 +5748,7 @@ Not a valid Address Point Layer
          labelFields: ['FULLADD'],
          where: [''],
          state: 'LA',
+         counties: ['Webster'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Minden - City Parcels',
@@ -5583,6 +5757,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Nam'],
          where: [''],
          state: 'LA',
+         counties: ['Webster'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Natchitoches Parish - Parcels',
@@ -5591,6 +5766,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Number','Street_Direction','Street_Name'],
          where: [''],
          state: 'LA',
+         counties: ['Natchitoches'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'New Iberia - City Address Points',
@@ -5599,6 +5775,7 @@ Not a valid Address Point Layer
          labelFields: ['Address'],
          where: [''],
          state: 'LA',
+         counties: ['Iberia'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'New Iberia - City Parcels',
@@ -5608,6 +5785,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
+         counties: ['Iberia'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'New Orleans - City Parcels',
@@ -5615,6 +5793,7 @@ Not a valid Address Point Layer
          url: 'https://gis.nola.gov/arcgis/rest/services/GovernmentServices/PlanningServices/MapServer/1',
          labelFields: ['SITUS_NUM','SITUS_DIR','SITUS_STREET','SITUS_TYPE'],
          state: 'LA',
+         counties: ['Orleans'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Rapides Parish - Address Points',
@@ -5623,6 +5802,7 @@ Not a valid Address Point Layer
          labelFields: ['Address'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'LA',
+         counties: ['Rapides'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Red River Parish - Address Points',
@@ -5631,6 +5811,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS'],
          where: [''],
          state: 'LA',
+         counties: ['Red River'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Red River Parish - Parcels',
@@ -5640,6 +5821,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
+         counties: ['Red River'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St Charles Parish - Address Points',
@@ -5648,6 +5830,7 @@ Not a valid Address Point Layer
          labelFields: ['Address'],
          where: [''],
          state: 'LA',
+         counties: ['St. Charles'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'St Charles Parish - Parcels',
@@ -5657,6 +5840,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
+         counties: ['St. Charles'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St John the Baptist Parish - Address Points',
@@ -5665,6 +5849,7 @@ Not a valid Address Point Layer
          labelFields: ['STR_NUM','PRE_DIR','STR_NAME','STR_TYPE','POST_DIR'],
          where: [''],
          state: 'LA',
+         counties: ['St. John the Baptist'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'St John the Baptist Parish - Parcels',
@@ -5673,6 +5858,7 @@ Not a valid Address Point Layer
          labelFields: ['PAR_ADDR','PAR_STNM'],
          where: [''],
          state: 'LA',
+         counties: ['St. John the Baptist'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St Martin Parish - Parcels',
@@ -5682,6 +5868,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'LA',
+         counties: ['St. Martin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St Mary Parish - Parcels',
@@ -5690,6 +5877,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS_NUMBER','STREET_DIRECTION','STREET_NAME'],
          where: [''],
          state: 'LA',
+         counties: ['St. Mary'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St Tammany Parish - Parcels',
@@ -5698,6 +5886,7 @@ Not a valid Address Point Layer
          labelFields: ['prop_number','prop_street'],
          where: [''],
          state: 'LA',
+         counties: ['St. Tammany'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Terrebonne Parish - Address Points',
@@ -5706,6 +5895,7 @@ Not a valid Address Point Layer
          labelFields: ['MUN_NO','DIR','STREET','DESIGNATIO'],
          where: [''],
          state: 'LA',
+         counties: ['Terrebonne'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Terrebonne Parish - Parcels',
@@ -5714,6 +5904,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Nam'],
          where: [''],
          state: 'LA',
+         counties: ['Terrebonne'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Vernon Parish - Parcels',
@@ -5721,6 +5912,7 @@ Not a valid Address Point Layer
          url: 'http://www.efsedge.com/arcgis/rest/services/Vernon_Parish/Vernon_Vector/MapServer/19',
          labelFields: ['Vernon.DBO.Vernon_CAMA.Address_Number','Vernon.DBO.Vernon_CAMA.Street_Name'],
          state: 'LA',
+         counties: ['Vernon'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Washington Parish - Parcels',
@@ -5729,6 +5921,7 @@ Not a valid Address Point Layer
          labelFields: ['PHYSICAL_A','PHYSICAL_S'],
          where: [''],
          state: 'LA',
+         counties: ['Washington'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Webster Parish - Address Points',
@@ -5737,6 +5930,7 @@ Not a valid Address Point Layer
          labelFields: ['FULLADD'],
          where: [''],
          state: 'LA',
+         counties: ['Webster'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Webster Parish - Parcels',
@@ -5745,6 +5939,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
          where: [''],
          state: 'LA',
+         counties: ['Webster'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'West Feliciana Parish - Address Points',
@@ -5753,6 +5948,7 @@ Not a valid Address Point Layer
          labelFields: ['FULLADDRES'],
          where: [''],
          state: 'LA',
+         counties: ['West Feliciana'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'West Feliciana Parish - Parcels',
@@ -5761,6 +5957,7 @@ Not a valid Address Point Layer
          labelFields: ['Address_Nu','Street_Dir','Street_Nam'],
          where: [''],
          state: 'LA',
+         counties: ['West Feliciana'],
          style: DEFAULT_PARCEL_STYLE},
 
         // Maine
@@ -6755,6 +6952,7 @@ Not a valid Address Point Layer
          labelFields: ['StreetNumber','StreetName'],
          where: [''],
          state: 'MS',
+         counties: ['Adams'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Bay Saint Louis - City Address Points',
@@ -6763,6 +6961,7 @@ Not a valid Address Point Layer
          labelFields: ['FULLADD'],
          where: [''],
          state: 'MS',
+         counties: ['Hancock'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Bay Saint Louis - City Parcels (NO LABELS)',
@@ -6771,6 +6970,7 @@ Not a valid Address Point Layer
          labelFields: [''],
          where: [''],
          state: 'MS',
+         counties: ['Hancock'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Brandon - City Parcels',
@@ -6779,6 +6979,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Rankin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Biloxi - City Parcels',
@@ -6788,6 +6989,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'MS',
+         counties: ['Harrison'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Clinton - City Parcels',
@@ -6796,6 +6998,7 @@ Not a valid Address Point Layer
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Hinds'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Coahoma Co - Address Points',
@@ -6803,6 +7006,7 @@ Not a valid Address Point Layer
          url: 'http://www.efsedge.com/arcgis/rest/services/Coahoma_County/Vector/MapServer/7',
          labelFields: ['NUMBER','PREFIX_DIR','ST_NAME','STREET_TYP','SUFFIX_DIR'],
          state: 'MS',
+         counties: ['Coahoma'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Coahoma Co - Parcels',
@@ -6811,6 +7015,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Coahoma'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Copiah Co - Address Points',
@@ -6818,6 +7023,7 @@ Not a valid Address Point Layer
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CopiahLabelTest/FeatureServer/1',
          labelFields: ['NUMERICS','ROAD_NAME'],
          state: 'MS',
+         counties: ['Copiah'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Copiah Co - Parcels',
@@ -6826,20 +7032,23 @@ Not a valid Address Point Layer
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Copiah'],
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'De Soto Co - Address Points',
-         id: 'ms-de-soto-co-pts',
-         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/87',
+        {name: 'DeSoto Co - Address Points',
+         id: 'ms-desoto-co-points',
+         url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/88',
          labelFields: ['FULL_ADDR'],
          state: 'MS',
+         counties: ['DeSoto'],
          style: DEFAULT_PT_STYLE},
 
-        {name: 'De Soto Co - Parcels',
-         id: 'ms-de-soto-co-parcel',
+        {name: 'DeSoto Co - Parcels',
+         id: 'ms-desoto-co-parcels',
          url: 'http://maps.desotocountyms.gov/arcgis/rest/services/Layers/MapServer/25',
          labelFields: ['FULL_ADDR'],
          state: 'MS',
+         counties: ['DeSoto'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Diamondhead - City Address Points',
@@ -6848,6 +7057,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDNUM','STREETNAME'],
          where: [],
          state: 'MS',
+         counties: ['Hancock'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Diamondhead - City Parcels',
@@ -6857,6 +7067,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
+         counties: ['Hancock'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'D\'Iberville - City Address Points',
@@ -6866,6 +7077,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
+         counties: ['Harrison'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'D\'Iberville - City Parcels',
@@ -6875,6 +7087,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
+         counties: ['Harrison'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hancock Co - Parcels',
@@ -6883,6 +7096,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS'],
          where: [''],
          state: 'MS',
+         counties: ['Hancock'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hinds Co - Parcels',
@@ -6891,6 +7105,7 @@ Not a valid Address Point Layer
          labelFields: ['loc_num','loc_apt','loc_ns','loc_alpha'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Hinds'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jackson Co - Parcels',
@@ -6899,6 +7114,7 @@ Not a valid Address Point Layer
          labelFields: ['STRN','STRD','STRNM','STYPE'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Jackson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lamar Co - Parcels',
@@ -6908,6 +7124,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [''],
          state: 'MS',
+         counties: ['Lamar'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lincoln Co - Address Points',
@@ -6915,6 +7132,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/109',
          labelFields: ['SITUS'],
          state: 'MS',
+         counties: ['Lincoln'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Lincoln Co - Parcels',
@@ -6922,6 +7140,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/LincolnMS/MapServer/103',
          labelFields: ['STREET_NUMBER','STREET_NAME'],
          state: 'MS',
+         counties: ['Lincoln'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Madison Co - Parcels',
@@ -6930,6 +7149,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET_NAM'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Madison'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Magee - City Parcels',
@@ -6938,6 +7158,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Simpson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Marion Co - Address Points',
@@ -6945,6 +7166,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/MarionMS/MapServer/41',
          labelFields: ['SITUS'],
          state: 'MS',
+         counties: ['Marion'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Marion Co - Parcels',
@@ -6952,6 +7174,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/MarionMS/MapServer/48',
          labelFields: ['PROP_ADD_NUM','PROP_STREET'],
          state: 'MS',
+         counties: ['Marion'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Ocean Springs - City Address Points',
@@ -6960,6 +7183,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS','STREET_NAM'],
          where: [],
          state: 'MS',
+         counties: ['Jackson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Ocean Springs - City Parcels',
@@ -6969,6 +7193,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(/OCEAN SPR.*/,''); },
          where: [],
          state: 'MS',
+         counties: ['Jackson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pearl - City Address Points',
@@ -6976,6 +7201,7 @@ Not a valid Address Point Layer
          url: 'http://gis.cmpdd.org/arcgis/rest/services/Cities/CityofPearl/MapServer/1',
          labelFields: ['FULL_ADDRE'],
          state: 'MS',
+         counties: ['Rankin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pearl - City Parcels',
@@ -6984,6 +7210,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Rankin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pelahatchie - City Parcels',
@@ -6992,6 +7219,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Rankin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pike Co - Parcels',
@@ -6999,6 +7227,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/PikeMS/MapServer/22',
          labelFields: ['PROP_ADD_NUM','PROP_STREET'],
          state: 'MS',
+         counties: ['Pike'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pontotoc Co - Parcels',
@@ -7008,6 +7237,7 @@ Not a valid Address Point Layer
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          where: [],
          state: 'MS',
+         counties: ['Pontotoc'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Quitman Co - Address Points',
@@ -7015,6 +7245,7 @@ Not a valid Address Point Layer
          url: 'http://www.efsedge.com/arcgis/rest/services/Quitman_County/Vector/MapServer/0',
          labelFields: ['FULL_ADDR'],
          state: 'MS',
+         counties: ['Quitman'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Quitman Co - Parcels',
@@ -7023,6 +7254,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Quitman'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Rankin Co - Address Points',
@@ -7038,6 +7270,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Rankin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Warren Co - Address Points',
@@ -7045,6 +7278,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/WarrenMS/MapServer/161',
          labelFields: ['SITUS'],
          state: 'MS',
+         counties: ['Warren'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Warren Co - Parcels',
@@ -7052,6 +7286,7 @@ Not a valid Address Point Layer
          url: 'https://ags.agdmaps.com/arcgis/rest/services/WarrenMS/MapServer/166',
          labelFields: ['STREET_NUM','STREET'],
          state: 'MS',
+         counties: ['Warren'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Warren Co - Parcels 2',
@@ -7060,6 +7295,7 @@ Not a valid Address Point Layer
          labelFields: ['STREET_NUM','STREET_NAM'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Warren'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Winston Co - Address Points',
@@ -7067,6 +7303,7 @@ Not a valid Address Point Layer
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/1',
          labelFields: ['ADDR'],
          state: 'MS',
+         counties: ['Winston'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Winston Co - Parcels (no labels)',
@@ -7074,6 +7311,7 @@ Not a valid Address Point Layer
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/Mississippi/LouisvilleMS/MapServer/10',
          labelFields: [],
          state: 'MS',
+         counties: ['Winston'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Yazoo City - City Parcels',
@@ -7082,6 +7320,7 @@ Not a valid Address Point Layer
          labelFields: ['STR_NUM','STR_NAME'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'MS',
+         counties: ['Yazoo'],
          style: DEFAULT_PARCEL_STYLE},
 
         // Missouri
@@ -9563,6 +9802,7 @@ Not a valid Address Point Layer
          labelFields: ['PARCEL_ADDRESS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
+         counties: ['Canadian', 'Cleveland', 'Grady', 'Logan', 'McClain', 'Oklahoma'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Creek Co - Parcels',
@@ -9571,6 +9811,7 @@ Not a valid Address Point Layer
          labelFields: ['ADDRESS'],
          processLabel: function(label) { return label.replace(/^(.*?) ([EWNS] )?(\d+)$/,'$3 $2$1').replace(_regexReplace.r0, ''); },
          state: 'OK',
+         counties: ['Creek'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Delaware Co - Parcels',
@@ -9580,6 +9821,7 @@ Not a valid Address Point Layer
          labelFields: ['Situs'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
+         counties: ['Delaware'],
          style: DEFAULT_PARCEL_STYLE},
 
         /*        {name: 'Norman - City Parcels',
@@ -9597,6 +9839,7 @@ Doesn't have a Shape field.
          labelFields: ['location'],
          processLabel: function(label) { return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r0, ''); },
          state: 'OK',
+         counties: ['Oklahoma'],
          style: DEFAULT_PARCEL_STYLE},
 
         /* Oklahoma City has it's own public facing API system. The developer portal details the API, which would include a JSON return from a URL GET / POST.
@@ -9619,6 +9862,7 @@ Doesn't have a Shape field.
          labelFields: ['ADDRESS','FULLSTREETNAME'],
          processLabel: function(label) { return label.replace(/^99999.*/, ''); },
          state: 'OK',
+         counties: ['Oklahoma', 'Canadian', 'Cleveland', 'Pottawatomie'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Oklahoma City - City Parcels',
@@ -9627,6 +9871,7 @@ Doesn't have a Shape field.
          url: 'https://gis.okc.gov/arcgis/rest/services/Accela/AGIS_PPLS_DEV/MapServer/4',
          labelFields: ['LotAddress'],
          state: 'OK',
+         counties: ['Oklahoma', 'Canadian', 'Cleveland', 'Pottawatomie'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Osage Co - Parcels',
@@ -9635,6 +9880,7 @@ Doesn't have a Shape field.
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, '').replace(/\\/,''); },
          state: 'OK',
+         counties: ['Osage'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Rogers Co - Parcels',
@@ -9644,6 +9890,7 @@ Doesn't have a Shape field.
          labelFields: ['SITUS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
+         counties: ['Rogers'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Tulsa Co - Parcels',
@@ -9652,6 +9899,7 @@ Doesn't have a Shape field.
          where: "PAR_TYPE = 'PARCEL'",
          labelFields: ['PROP_ADD'],
          state: 'OK',
+         counties: ['Tulsa'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wagoner Co - Parcels',
@@ -9660,6 +9908,7 @@ Doesn't have a Shape field.
          labelFields: ['Situs'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'OK',
+         counties: ['Wagoner'],
          style: DEFAULT_PARCEL_STYLE},
 
         // Oregon
@@ -11484,6 +11733,15 @@ Doesn't have a Shape field.
         // Texas
         // ****************************
 
+       {name: 'Highway Mile Markers',
+         id: 'tx-mm',
+         url: 'https://services.arcgis.com/KTcxiTD9dsQw4r7Z/ArcGIS/rest/services/TxDOT_Reference_Markers/FeatureServer/0',
+         labelFields: ['MRKR_NBR'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'TX',
+         style: DEFAULT_MM_STYLE},
+
         {name: 'Abilene - City Address Points',
          id: 'tx-abilene-city-address',
          url: 'https://gis.abilenetx.com/arcgis/rest/services/Address_Points/MapServer/0',
@@ -11542,7 +11800,7 @@ Doesn't have a Shape field.
 
         {name: 'Austin Co - Parcels',
          id: 'tx-austin-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/AustinWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/AustinWeb/MapServer/0',
          labelFields: ['AustinCad.DBO.Accounts.situs_num','AustinCad.DBO.Accounts.situs_street_prefx','AustinCad.DBO.Accounts.situs_street','AustinCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11558,7 +11816,7 @@ Doesn't have a Shape field.
 
         {name: 'Bastrop Co - Parcels',
          id: 'tx-bastrop-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BastropWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/BastropWeb/MapServer/0',
          labelFields: ['BastropCad.DBO.Accounts.situs_num','BastropCad.DBO.Accounts.situs_street_prefx','BastropCad.DBO.Accounts.situs_street','BastropCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11598,7 +11856,7 @@ Doesn't have a Shape field.
 
         {name: 'Brazos Co - Parcels',
          id: 'tx-brazos-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BrazosWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/BrazosWeb/MapServer/0',
          labelFields: ['BrazosCad.DBO.Accounts.situs_num','BrazosCad.DBO.Accounts.situs_street_prefx','BrazosCad.DBO.Accounts.situs_street','BrazosCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11622,7 +11880,7 @@ Doesn't have a Shape field.
 
         {name: 'Burleson Co - Parcels',
          id: 'tx-burleson-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/BurlesonWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/BurlesonWeb/MapServer/0',
          labelFields: ['BurlesonCad.dbo.Accounts.situs_num','BurlesonCad.dbo.Accounts.situs_street_prefx','BurlesonCad.dbo.Accounts.situs_street','BurlesonCad.dbo.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11646,7 +11904,7 @@ Doesn't have a Shape field.
 
         {name: 'Camp Co - Parcels',
          id: 'tx-camp-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CampWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/CampWeb/MapServer/0',
          labelFields: ['CampCad.DBO.Accounts.situs_num','CampCad.DBO.Accounts.situs_street_prefx','CampCad.DBO.Accounts.situs_street','CampCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11654,7 +11912,7 @@ Doesn't have a Shape field.
 
         {name: 'Carson Co - Parcels',
          id: 'tx-carson-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CarsonWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/CarsonWeb/MapServer/0',
          labelFields: ['CarsonCad.DBO.Accounts.situs_num','CarsonCad.DBO.Accounts.situs_street_prefx','CarsonCad.DBO.Accounts.situs_street','CarsonCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11692,10 +11950,10 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'College Station City - Buildings',
-         id: 'tx-college-station-city-buildings',
-         url: 'https://maps.cstx.gov/cstx/rest/services/College_Station_Basemap/MapServer/13',
-         labelFields: ['FULL_ADDRESS'],
+        {name: 'College Station City - Parcels',
+         id: 'tx-college-station-city-parcels',
+         url: 'https://maps.cstx.gov/cstx/rest/services/AGOL_DevelopmentMap/MapServer/26',
+         labelFields: ['ADDRESS'],
          processLabel: function(label) { return label.replace(/^(\d+)(.*)/,'$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
@@ -11726,15 +11984,15 @@ Doesn't have a Shape field.
 
         {name: 'Comanche Co - Parcels',
          id: 'tx-comanche-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/ComancheWeb/MapServer/0',
+         url: 'https://gis.bisclient.com/maps01/rest/services/ComancheWeb/MapServer/0',
          labelFields: ['ComancheCad.DBO.Accounts.situs_num','ComancheCad.DBO.Accounts.situs_street_prefx','ComancheCad.DBO.Accounts.situs_street','ComancheCad.DBO.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Cooke Co - Parcels',
-         id: 'tx-coookie-co-parcels',
-         url: 'https://gis.bisconsultants.com/bisgis/rest/services/CookeWeb/MapServer/0',
+         id: 'tx-coooke-co-parcels',
+         url: 'https://gis.bisclient.com/maps01/rest/services/CookeWeb/MapServer/0',
          labelFields: ['CookeCad.dbo.Accounts.situs_num','CookeCad.dbo.Accounts.situs_street_prefx','CookeCad.dbo.Accounts.situs_street','CookeCad.dbo.Accounts.situs_street_sufix'],
          processLabel: function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state: 'TX',
@@ -11750,7 +12008,7 @@ Doesn't have a Shape field.
 
         {name:  'Coryell Co - Parcels',
          id:  'tx-coryell-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/CoryellWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/CoryellWeb/MapServer/0',
          labelFields:  ['CoryellCad.DBO.Accounts.situs_num', 'CoryellCad.DBO.Accounts.situs_street_prefx', 'CoryellCad.DBO.Accounts.situs_street', 'CoryellCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11758,7 +12016,7 @@ Doesn't have a Shape field.
 
         {name:  'Crane Co - Parcels',
          id:  'tx-crane-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/CraneWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/CraneWeb/MapServer/0',
          labelFields:  ['CraneCad.DBO.TempAccounts.situs_num', 'CraneCad.DBO.TempAccounts.situs_street_prefx', 'CraneCad.DBO.TempAccounts.situs_street', 'CraneCad.DBO.TempAccounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11766,7 +12024,7 @@ Doesn't have a Shape field.
 
         {name:  'Dallam Co - Parcels',
          id:  'tx-dallam-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DallamWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DallamWeb/MapServer/0',
          labelFields:  ['DallamCad.DBO.Accounts.situs_num', 'DallamCad.DBO.Accounts.situs_street_prefx', 'DallamCad.DBO.Accounts.situs_street', 'DallamCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11806,7 +12064,7 @@ Doesn't have a Shape field.
 
         {name:  'Delta Co - Parcels',
          id:  'tx-delta-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DeltaWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DeltaWeb/MapServer/0',
          labelFields:  ['DeltaCad.DBO.Accounts.situs_num', 'DeltaCad.DBO.Accounts.situs_street_prefx', 'DeltaCad.DBO.Accounts.situs_street', 'DeltaCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11822,7 +12080,7 @@ Doesn't have a Shape field.
 
         {name:  'Dimmit Co - Parcels',
          id:  'tx-dimmit-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DimmitWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DimmitWeb/MapServer/0',
          labelFields:  ['DimmitCad.DBO.Accounts.situs_num', 'DimmitCad.DBO.Accounts.situs_street_prefx', 'DimmitCad.DBO.Accounts.situs_street', 'DimmitCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11830,7 +12088,7 @@ Doesn't have a Shape field.
 
         {name:  'Duval Co - Parcels',
          id:  'tx-duval-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/DuvalWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps01/rest/services/DuvalWeb/MapServer/0',
          labelFields:  ['DuvalCad.DBO.Accounts.situs_num', 'DuvalCad.DBO.Accounts.situs_street_prefx', 'DuvalCad.DBO.Accounts.situs_street', 'DuvalCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11862,7 +12120,7 @@ Doesn't have a Shape field.
 
         {name:  'Fannin Co - Parcels',
          id:  'tx-fannin-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FanninWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/FanninWeb/MapServer/0',
          labelFields:  ['FanninCad.DBO.Accounts.situs_num', 'FanninCad.DBO.Accounts.situs_street_prefx', 'FanninCad.DBO.Accounts.situs_street', 'FanninCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11870,7 +12128,7 @@ Doesn't have a Shape field.
 
         {name:  'Fayette Co - Parcels',
          id:  'tx-fayette-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FayetteWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/FayetteWeb/MapServer/0',
          labelFields:  ['FayetteCad.DBO.Accounts.situs_num', 'FayetteCad.DBO.Accounts.situs_street_prefx', 'FayetteCad.DBO.Accounts.situs_street', 'FayetteCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11902,7 +12160,7 @@ Doesn't have a Shape field.
 
         {name:  'Freestone Co - Parcels',
          id:  'tx-freestone-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/FreestoneWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/FreestoneWeb/MapServer/0',
          labelFields:  ['FreestoneCad.DBO.Accounts.situs_num', 'FreestoneCad.DBO.Accounts.situs_street_prefx', 'FreestoneCad.DBO.Accounts.situs_street', 'FreestoneCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11918,7 +12176,7 @@ Doesn't have a Shape field.
 
         {name:  'Gaines Co - Parcels',
          id:  'tx-gaines-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GainesWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/GainesWeb/MapServer/0',
          labelFields:  ['GainesCad.DBO.Accounts.situs_num', 'GainesCad.DBO.Accounts.situs_street_prefx', 'GainesCad.DBO.Accounts.situs_street', 'GainesCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -11982,7 +12240,7 @@ Doesn't have a Shape field.
 
         {name:  'Gray Co - Parcels',
          id:  'tx-gray-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrayWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/GrayWeb/MapServer/0',
          labelFields:  ['GrayCad.DBO.Accounts.situs_num', 'GrayCad.DBO.Accounts.situs_street_prefx', 'GrayCad.DBO.Accounts.situs_street', 'GrayCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12006,7 +12264,7 @@ Doesn't have a Shape field.
 
         {name:  'Grimes Co - Parcels',
          id:  'tx-grimes-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/GrimesWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/GrimesWeb/MapServer/0',
          labelFields:  ['GrimesCad.DBO.Accounts.situs_num', 'GrimesCad.DBO.Accounts.situs_street_prefx', 'GrimesCad.DBO.Accounts.situs_street', 'GrimesCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12022,7 +12280,7 @@ Doesn't have a Shape field.
 
         {name:  'Hansford Co - Parcels',
          id:  'tx-hansford-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HansfordWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HansfordWeb/MapServer/0',
          labelFields:  ['HansfordCad.DBO.Accounts.situs_num', 'HansfordCad.DBO.Accounts.situs_street_prefx', 'HansfordCad.DBO.Accounts.situs_street', 'HansfordCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12038,7 +12296,7 @@ Doesn't have a Shape field.
 
         {name:  'Hartley Co - Parcels',
          id:  'tx-hartley-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HartleyWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HartleyWeb/MapServer/0',
          labelFields:  ['HartleyCad.DBO.Accounts.situs_num', 'HartleyCad.DBO.Accounts.situs_street_prefx', 'HartleyCad.DBO.Accounts.situs_street', 'HartleyCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12070,7 +12328,7 @@ Doesn't have a Shape field.
 
         {name:  'Howard Co - Parcels',
          id:  'tx-howard-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HowardWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HowardWeb/MapServer/0',
          labelFields:  ['HowardCad.DBO.Accounts.situs_num', 'HowardCad.DBO.Accounts.situs_street_prefx', 'HowardCad.DBO.Accounts.situs_street', 'HowardCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12078,7 +12336,7 @@ Doesn't have a Shape field.
 
         {name:  'Hunt Co - Parcels',
          id:  'tx-hunt-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/HuntWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/HuntWeb/MapServer/0',
          labelFields:  ['HuntCad.DBO.Accounts.situs_num', 'HuntCad.DBO.Accounts.situs_street_prefx', 'HuntCad.DBO.Accounts.situs_street', 'HuntCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12101,7 +12359,7 @@ Doesn't have a Shape field.
 
         {name:  'Johnson Co - Parcels',
          id:  'tx-johnson-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/JohnsonWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/JohnsonWeb/MapServer/0',
          labelFields:  ['SITUS' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12163,8 +12421,8 @@ Doesn't have a Shape field.
          style: DEFAULT_PARCEL_STYLE},
 
         {name:  'La Salle Co - Parcels',
-         id:  'tx-la salle-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LaSalleWeb/MapServer/0',
+         id:  'tx-lasalle-co-parcels',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LaSalleWeb/MapServer/0',
          labelFields:  ['LasalleCad.DBO.Accounts.situs_num', 'LasalleCad.DBO.Accounts.situs_street_prefx', 'LasalleCad.DBO.Accounts.situs_street', 'LasalleCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12172,7 +12430,7 @@ Doesn't have a Shape field.
 
         {name:  'Lamar Co - Parcels',
          id:  'tx-lamar-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LamarWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LamarWeb/MapServer/0',
          labelFields:  ['LamarCad.DBO.Accounts.situs_num', 'LamarCad.DBO.Accounts.situs_street_prefx', 'LamarCad.DBO.Accounts.situs_street', 'LamarCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12196,7 +12454,7 @@ Doesn't have a Shape field.
 
         {name:  'Lee Co - Parcels',
          id:  'tx-lee-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LeeWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LeeWeb/MapServer/0',
          labelFields:  ['LeeCad.DBO.Accounts.situs_num', 'LeeCad.DBO.Accounts.situs_street_prefx', 'LeeCad.DBO.Accounts.situs_street', 'LeeCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12204,7 +12462,7 @@ Doesn't have a Shape field.
 
         {name:  'Liberty Co - Parcels',
          id:  'tx-liberty-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LibertyWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LibertyWeb/MapServer/0',
          labelFields:  ['LibertyCad.DBO.Accounts.situs_num', 'LibertyCad.DBO.Accounts.situs_street_prefx', 'LibertyCad.DBO.Accounts.situs_street', 'LibertyCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12212,7 +12470,7 @@ Doesn't have a Shape field.
 
         {name:  'Live Oak Co - Parcels',
          id:  'tx-live oak-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/LiveOakWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/LiveOakWeb/MapServer/0',
          labelFields:  ['LiveOakCad.dbo.Accounts.situs_num', 'LiveOakCad.dbo.Accounts.situs_street_prefx', 'LiveOakCad.dbo.Accounts.situs_street', 'LiveOakCad.dbo.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12242,7 +12500,7 @@ Doesn't have a Shape field.
 
         {name:  'Madison Co - Parcels',
          id:  'tx-madison-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MadisonWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/MadisonWeb/MapServer/0',
          labelFields:  ['MadisonCad.DBO.Accounts.situs_num', 'MadisonCad.DBO.Accounts.situs_street_prefx', 'MadisonCad.DBO.Accounts.situs_street', 'MadisonCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12274,14 +12532,14 @@ Doesn't have a Shape field.
 
         {name:  'McCulloch Co - Parcels',
          id:  'tx-mcculloch-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/McCullochWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/McCullochWeb/MapServer/0',
          labelFields:  ['McCullochCad.DBO.Accounts.situs_num', 'McCullochCad.DBO.Accounts.situs_street_prefx', 'McCullochCad.DBO.Accounts.situs_street', 'McCullochCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
          style:  DEFAULT_PARCEL_STYLE },
 
-        {name:  'McKinney Co - Parcels',
-         id:  'tx-mckinney-co-parcels',
+        {name:  'McKinney City - Parcels',
+         id:  'tx-mckinney-city-parcels',
          url:  'http://maps.mckinneytexas.org/mckinney/rest/services/MapServices/BaseLayers/MapServer/1',
          labelFields:  ['SitusAdd' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
@@ -12298,7 +12556,7 @@ Doesn't have a Shape field.
 
         {name:  'McMullen Co - Parcels',
          id:  'tx-mcmullen-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/McMullenWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/McMullenWeb/MapServer/0',
          labelFields:  ['McMullenCad.DBO.Accounts.situs_num', 'McMullenCad.DBO.Accounts.situs_street_prefx', 'McMullenCad.DBO.Accounts.situs_street', 'McMullenCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12306,7 +12564,7 @@ Doesn't have a Shape field.
 
         {name:  'Medina Co - Parcels',
          id:  'tx-medina-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MedinaWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/MedinaWeb/MapServer/0',
          labelFields:  ['MedinaCad.DBO.Accounts.situs_num', 'MedinaCad.DBO.Accounts.situs_street_prefx', 'MedinaCad.DBO.Accounts.situs_street', 'MedinaCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -12331,7 +12589,7 @@ Doesn't have a Shape field.
 
         {name:  'Mills Co - Parcels',
          id:  'tx-mills-co-parcels',
-         url:  'https://gis.bisconsultants.com/bisgis/rest/services/MillsWeb/MapServer/0',
+         url:  'https://gis.bisclient.com/maps02/rest/services/MillsWeb/MapServer/0',
          labelFields:  ['MillsCad.DBO.Accounts.situs_num', 'MillsCad.DBO.Accounts.situs_street_prefx', 'MillsCad.DBO.Accounts.situs_street', 'MillsCad.DBO.Accounts.situs_street_sufix' ],
          processLabel:  function(label) { return label.replace(_regexReplace.r5, '$1\n$2'); },
          state:  'TX',
@@ -13994,6 +14252,7 @@ Doesn't have a Shape field.
         if (gisLayer.where) {
             url += '&where=' + encodeURIComponent(gisLayer.where);
         }
+        logDebug('Request URL: ' + url);
         return url;
     }
 
@@ -14072,6 +14331,9 @@ Doesn't have a Shape field.
                             let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
                             if (item.geometry.x) {
                                 featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
+                            } else if (item.geometry.points) {
+                                // @TODO Fix for multiple points instead of just grabbing first.
+                                featureGeometry = new OL.Geometry.Point(item.geometry.points[0][0] + layerOffset.x, item.geometry.points[0][1] + layerOffset.y);
                             } else if (item.geometry.rings) {
                                 let rings = [];
                                 item.geometry.rings.forEach(function(ringIn) {
@@ -14094,6 +14356,7 @@ Doesn't have a Shape field.
                                 });
                                 featureGeometry = new OL.Geometry.LineString(pointList);
                             } else {
+                                logDebug('Unexpected feature type in layer: ' + JSON.stringify(item));
                                 logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
                                 error = true;
                             }
