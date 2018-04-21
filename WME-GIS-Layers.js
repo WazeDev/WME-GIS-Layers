@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.20.003
+// @version      2018.04.21.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13693,6 +13693,7 @@ Doesn't have a Shape field.
         {name: 'State - Parcels',
          id: 'wv-state-parcels',
          url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/PlanningCadastre/WV_Parcels/MapServer/5',
+         where: "Cnty_ID not in (1,4,5,7,8,9,10,11,12,13,16,18,21,22,23,24,25,27,30,31,32,33,41,44,45,47,48,49,50,51,53,54,55)",
          labelFields: ['PhyNum','PhyDir','PhyStreet','PhySufx'],
          state: 'WV',
          style: DEFAULT_STATE_PARCEL_STYLE},
@@ -13704,12 +13705,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Berkeley Co - Parcels (no labels)',
-         id: 'wv-Berkeley-co-parcels',
-         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Parcels/MapServer/0',
-         labelFields: [''],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Berkeley Co - Parcels (no labels)',
+        //  id: 'wv-Berkeley-co-parcels',
+        //  url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Parcels/MapServer/0',
+        //  labelFields: [''],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Brooke Co - Address Points',
          id: 'wv-Brooke-co-pts',
@@ -13719,12 +13721,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Brooke Co - Parcels',
-         id: 'wv-Brooke-co-parcels',
-         url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017_public_parcels/FeatureServer/0',
-         labelFields: ['PARCEL_ADD'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Brooke Co - Parcels',
+        //  id: 'wv-Brooke-co-parcels',
+        //  url: 'https://services2.arcgis.com/R294F7hIrPFzPZNg/ArcGIS/rest/services/2017_public_parcels/FeatureServer/0',
+        //  labelFields: ['PARCEL_ADD'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         // This layer was discovered on the same server as Cabell parcel layer #2, but not sure if it's "official".
         {name: 'Cabell Co - Address Points',
@@ -13751,19 +13754,21 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Doddridge Co - Parcels (LIMITED DATA)',
-         id: 'wv-Doddridge-co-parcels',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Doddridge/DoddridgeOperational/MapServer/78',
-         labelFields: ['PARCELADDRESS'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Doddridge Co - Parcels (LIMITED DATA)',
+        //  id: 'wv-Doddridge-co-parcels',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Doddridge/DoddridgeOperational/MapServer/78',
+        //  labelFields: ['PARCELADDRESS'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Gilmer Co - Parcels',
-         id: 'wv-Gilmer-co-parcels',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Gilmer/GilmerOperational/MapServer/57',
-         labelFields: ['PARCELADDRESS'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Gilmer Co - Parcels',
+        //  id: 'wv-Gilmer-co-parcels',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Gilmer/GilmerOperational/MapServer/57',
+        //  labelFields: ['PARCELADDRESS'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Greenbrier Co - Address Points',
          id: 'wv-Greenbrier-co-pts',
@@ -13772,12 +13777,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Greenbrier Co - Parcels',
-         id: 'wv-Greenbrier-co-parcels',
-         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/6',
-         labelFields: ['situsaddr'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Greenbrier Co - Parcels',
+        //  id: 'wv-Greenbrier-co-parcels',
+        //  url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/6',
+        //  labelFields: ['situsaddr'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hampshire Co - Address Points',
          id: 'wv-Hampshire-co-pts',
@@ -13830,12 +13836,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Jefferson Co - Address Points',
-         id: 'wv-Jefferson-co-pts',
-         url: 'http://184.12.255.122:6080/arcgis/rest/services/MyGov/Addressing/MapServer/0',
-         labelFields: ['FULLADDR'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Jefferson Co - Address Points',
+        //  id: 'wv-Jefferson-co-pts',
+        //  url: 'http://184.12.255.122:6080/arcgis/rest/services/MyGov/Addressing/MapServer/0',
+        //  labelFields: ['FULLADDR'],
+        //  state: 'WV',
+        //  style: DEFAULT_PT_STYLE},
 
         {name: 'Jefferson Co - Parcels',
          id: 'wv-Jefferson-co-parcels',
@@ -13851,12 +13858,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Lewis Co - Parcels',
-         id: 'wv-Lewis-co-parcels',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Lewis/LewisOperational/MapServer/54',
-         labelFields: ['PARCELADDRESS'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Lewis Co - Parcels',
+        //  id: 'wv-Lewis-co-parcels',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Lewis/LewisOperational/MapServer/54',
+        //  labelFields: ['PARCELADDRESS'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lincoln Co - Address Points',
          id: 'wv-Lincoln-co-pts',
@@ -13898,12 +13906,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Ohio Co - Parcels',
-         id: 'wv-Ohio-co-parcels',
-         url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/dpl/FeatureServer/0',
-         labelFields: ['PARCEL_ADD'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Ohio Co - Parcels',
+        //  id: 'wv-Ohio-co-parcels',
+        //  url: 'https://services3.arcgis.com/jVFk4Vk9E5P2ulzi/ArcGIS/rest/services/dpl/FeatureServer/0',
+        //  labelFields: ['PARCEL_ADD'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Pendleton Co - Address Points',
          id: 'wv-Pendleton-co-pts',
@@ -13921,15 +13930,15 @@ Doesn't have a Shape field.
 
         // 2018-03-08 (mapomatic) Also found this for Preston Co, which has parcels and address points.
         // Not sure which is the "correct" one.  https://ags.agdmaps.com/arcgis/rest/services/PrestonWV/MapServer
+        // 2018-04-21 (mom) Doing a quick review, it appears the "PrestonNew" layer is the latest.
+        // {name: 'Preston Co - Address Points',
+        //  id: 'wv-Preston-co-pts',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/46',
+        //  labelFields: ['Number','Street'],
+        //  state: 'WV',
+        //  style: DEFAULT_PT_STYLE},
 
         {name: 'Preston Co - Address Points',
-         id: 'wv-Preston-co-pts',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/46',
-         labelFields: ['Number','Street'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
-
-        {name: 'Preston Co - NEW Address Points',
          id: 'wv-Preston-co-NEW-pts',
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/PrestonNew/PrestonOperational/MapServer/46',
          labelFields: ['ADDR_NUM','Street'],
@@ -13950,12 +13959,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Randolph Co - Address Points',
-         id: 'wv-Randolph-co-pts',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/74',
-         labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Randolph Co - Address Points',
+        //  id: 'wv-Randolph-co-pts',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/74',
+        //  labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
+        //  state: 'WV',
+        //  style: DEFAULT_PT_STYLE},
 
         {name: 'Randolph Co - Parcels',
          id: 'wv-Randolph-co-parcels',
@@ -13980,40 +13990,45 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Tyler Co - Address Points',
-         id: 'wv-Tyler-co-pts',
-         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/Tyler_Site/FeatureServer/0',
-         labelFields: ['ADDR_LABEL'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Tyler Co - Address Points',
+        //  id: 'wv-Tyler-co-pts',
+        //  url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/Tyler_Site/FeatureServer/0',
+        //  labelFields: ['ADDR_LABEL'],
+        //  state: 'WV',
+        //  style: DEFAULT_PT_STYLE},
 
-        {name: 'Upshur Co - Address Points',
-         id: 'wv-Upshur-co-pts',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/1',
-         labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Upshur Co - Address Points',
+        //  id: 'wv-Upshur-co-pts',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/1',
+        //  labelFields: ['ADDRESS_NUMBER','STREET_NAME'],
+        //  state: 'WV',
+        //  style: DEFAULT_PT_STYLE},
 
-        {name: 'Upshur Co - Parcels #1',
-         id: 'wv-Upshur-co-parcels-1',
-         url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/UpshurTaxParcelsCAMA/FeatureServer/0',
-         labelFields: ['PARCEL_ADD'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Upshur Co - Parcels #1',
+        //  id: 'wv-Upshur-co-parcels-1',
+        //  url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/UpshurTaxParcelsCAMA/FeatureServer/0',
+        //  labelFields: ['PARCEL_ADD'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Upshur Co - Parcels #2',
-         id: 'wv-Upshur-co-parcels',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/2',
-         labelFields: ['PARCELADDRESS'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Upshur Co - Parcels #2',
+        //  id: 'wv-Upshur-co-parcels',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Upshur/UpshurOperational/MapServer/2',
+        //  labelFields: ['PARCELADDRESS'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Webster Co - Address Points',
-         id: 'wv-Webster-co-pts',
-         url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WebsterWV_Service/FeatureServer/0',
-         labelFields: ['ADDRESS'],
-         state: 'WV',
-         style: DEFAULT_PT_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Webster Co - Address Points',
+        //  id: 'wv-Webster-co-pts',
+        //  url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WebsterWV_Service/FeatureServer/0',
+        //  labelFields: ['ADDRESS'],
+        //  state: 'WV',
+        //  style: DEFAULT_PT_STYLE},
 
         {name: 'Wetzel Co - Address Points',
          id: 'wv-Wetzel-co-pts',
@@ -14036,12 +14051,13 @@ Doesn't have a Shape field.
          state: 'WV',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Wyoming Co - Parcels',
-         id: 'wv-Wyoming-co-parcels',
-         url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Wyoming/WyomingOperational/MapServer/17',
-         labelFields: ['ADDRESS'],
-         state: 'WV',
-         style: DEFAULT_PARCEL_STYLE},
+        // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
+        // {name: 'Wyoming Co - Parcels',
+        //  id: 'wv-Wyoming-co-parcels',
+        //  url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Wyoming/WyomingOperational/MapServer/17',
+        //  labelFields: ['ADDRESS'],
+        //  state: 'WV',
+        //  style: DEFAULT_PARCEL_STYLE},
 
 
         // Wisconsin
@@ -14445,7 +14461,7 @@ Doesn't have a Shape field.
                             logError('Error in US Census counties data: ' + data.error.message);
                         } else {
                             let countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
-                            logDebug('US Census counties: ' + countiesInExtent.join(', '))
+                            logDebug('US Census counties: ' + countiesInExtent.join(', '));
                             layersToFetch = layersToFetch.filter(layer => {
                                 let hasCounties = layer.hasOwnProperty('counties');
                                 return (hasCounties && layer.counties.some(county => countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
@@ -14691,6 +14707,8 @@ Doesn't have a Shape field.
 
         // *** NOTE: This was added for Perry County, KY.  The transform worked, but the coordinate system Perry county seems to be using doesn't match up with EPSG:2272.
         // proj4.defs('EPSG:2272','+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs');
+
+        //console.log(_gisLayers.map(l => l.state + '\t' + l.name).join('\n'));
 
         loadSettingsFromStorage();
         initGui();
