@@ -991,6 +991,7 @@
          url: 'http://gis.yumacountyaz.gov/ArcGIS/rest/services/YumaCounty/MapServer/128',
          labelFields: ['SITUS_ADDR'],
          state: 'AZ',
+         counties: ['Yuma'],
          style: DEFAULT_PARCEL_STYLE},
 
         // Arkansas
@@ -8546,6 +8547,7 @@ Not a valid Address Point Layer
          url: 'http://atlas.co.anson.nc.us/ArcGIS/rest/services/ParcelPublicAccess/MapServer/6',
          labelFields: ['SITEADDRESS'],
          state: 'NC',
+         counties: ['Anson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Anson Co - Address Points',
@@ -8553,6 +8555,7 @@ Not a valid Address Point Layer
          url: 'http://atlas.co.anson.nc.us/ArcGIS/rest/services/Basic/MapServer/0',
          labelFields: ['NUMBER','STREET'],
          state: 'NC',
+         counties: ['Anson'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Buncombe Co - Parcels',
@@ -8560,6 +8563,7 @@ Not a valid Address Point Layer
          url: 'http://gis.buncombecounty.org/arcgis/rest/services/opendata/MapServer/1',
          labelFields: ['HouseNumber','NumberSuffix','direction','streetname','StreetType','PostDirection'],
          state: 'NC',
+         counties: ['Buncombe'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Buncombe Co - Address Points',
@@ -8567,6 +8571,7 @@ Not a valid Address Point Layer
          url: 'http://gis.buncombecounty.org/arcgis/rest/services/opendata/MapServer/2',
          labelFields: ['street_number','street_prefix','street_name','street_type','street_postdirection'],
          state: 'NC',
+         counties: ['Buncombe'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Durham Co - Parcels',
@@ -8574,6 +8579,7 @@ Not a valid Address Point Layer
          url: 'http://arcgis4.roktech.net/arcgis/rest/services/Durham/base/MapServer/89',
          labelFields: ['SITE_ADDRE'],
          state: 'NC',
+         counties: ['Durham'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Durham Co - Address Points',
@@ -8581,6 +8587,7 @@ Not a valid Address Point Layer
          url: 'http://arcgis4.roktech.net/arcgis/rest/services/Durham/base/MapServer/46',
          labelFields: ['HOUSENUM','HOUSENUMSU','STREETDIR','STREETNAME','STREETTYPE','STDIRSUF'],
          state: 'NC',
+         counties: ['Durham'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Forsyth Co - Parcels',
@@ -8589,6 +8596,7 @@ Not a valid Address Point Layer
          labelFields: ['PropertyAddress'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'NC',
+         counties: ['Forsyth'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Forsyth Co - Address Points',
@@ -8596,6 +8604,7 @@ Not a valid Address Point Layer
          url: 'http://maps.co.forsyth.nc.us/arcgis/rest/services/Addressing/AddressSearch/MapServer/0',
          labelFields: ['ADDRNUM','ADDRNUMSUB','STDIR','STNAME','STTYPE'],
          state: 'NC',
+         counties: ['Forsyth'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Guilford Co - Parcels',
@@ -8603,6 +8612,7 @@ Not a valid Address Point Layer
          url: 'http://gis.co.guilford.nc.us/arcgis/rest/services/Guilford_Parcels/GC_Parcels/MapServer/0',
          labelFields: ['PHYADDR_STR_NUM','PHYADDR_DIR_PFX','PHYADDR_STR','PHYADDR_STR_TYPE','PHYADDR_STR_SFX'],
          state: 'NC',
+         counties: ['Guildford'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Guildford Co - Address Points',
@@ -8610,6 +8620,7 @@ Not a valid Address Point Layer
          url: 'http://gis.co.guilford.nc.us/arcgis/rest/services/Addressing/GC_Address_points/MapServer/0',
          labelFields: ['ADDR_NUMBE','PRE_DIRECT','STREET_NAM','STREET_TYP','POST_DIREC'],
          state: 'NC',
+         counties: ['Guildford'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Iredell Co - Parcels',
@@ -8618,6 +8629,7 @@ Not a valid Address Point Layer
          labelFields: ['HouseNumber','SDIR','STREET','STYPE'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'NC',
+         counties: ['Iredell'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Iredell Co - Address Points',
@@ -8625,6 +8637,7 @@ Not a valid Address Point Layer
          url: 'https://arcgis.mobile311.com/arcgis/rest/services/NorthCarolina/Iredell/MapServer/25',
          labelFields: ['FullAddr'],
          state: 'NC',
+         counties: ['Iredell'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Mecklenburg Co - Parcels (no data)',
@@ -8632,6 +8645,7 @@ Not a valid Address Point Layer
          url: 'http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/labels/MapServer/2',
          labelFields: [''],
          state: 'NC',
+         counties: ['Mecklenburg'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Mecklenburg Co - Address Points',
@@ -8639,6 +8653,7 @@ Not a valid Address Point Layer
          url: 'http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/labels/MapServer/1',
          labelFields: ['address'],
          state: 'NC',
+         counties: ['Mecklenburg'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'New Hanover Co - Parcels (no data)',
@@ -8646,6 +8661,7 @@ Not a valid Address Point Layer
          url: 'http://geo.nhcgov.com/gis/rest/services/Layers/Parcels/MapServer/0',
          labelFields: [''],
          state: 'NC',
+         counties: ['New Hanover'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'New Hanover Co - Address Points',
@@ -8653,6 +8669,7 @@ Not a valid Address Point Layer
          url: 'http://geo.nhcgov.com/gis/rest/services/Layers/Addressing/MapServer/0',
          labelFields: ['NUMBER','SUBNUM','DIR','STREET','TYPE'],
          state: 'NC',
+         counties: ['New Hanover'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Union Co - Parcels',
@@ -8660,6 +8677,7 @@ Not a valid Address Point Layer
          url: 'http://gis-web.co.union.nc.us/arcgis/rest/services/GoMaps/UnionGoMaps/MapServer/10',
          labelFields: ['PropertyStreet'],
          state: 'NC',
+         counties: ['Union'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Union Co - Address Points',
@@ -8667,6 +8685,7 @@ Not a valid Address Point Layer
          url: 'http://gis-web.co.union.nc.us/arcgis/rest/services/GoMaps/UnionGoMaps/MapServer/7',
          labelFields: ['DISPLAY'],
          state: 'NC',
+         counties: ['Union'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Wake Co - Parcels',
@@ -8674,6 +8693,7 @@ Not a valid Address Point Layer
          url: 'https://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/0',
          labelFields: ['SITE_ADDRESS'],
          state: 'NC',
+         counties: ['Wake'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wake Co - Address Points',
@@ -8681,6 +8701,7 @@ Not a valid Address Point Layer
          url: 'https://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/1',
          labelFields: ['FULLADDR'],
          state: 'NC',
+         counties: ['Wake'],
          style: DEFAULT_PT_STYLE},
 
 
@@ -12723,6 +12744,29 @@ Doesn't have a Shape field.
          state: 'TX',
          style: DEFAULT_PARCEL_STYLE},
 
+        {name:  'Potter & Randall Co - Parcels',
+         id:  'tx-potterrandall-co-parcels',
+         url:  'https://gis.bisclient.com/maps01/rest/services/PotterRandallWeb/MapServer/0',
+         labelFields:  ['PotterRandallCad.dbo.Accounts.situs_num', 'PotterRandallCad.dbo.Accounts.situs_street_prefx', 'PotterRandallCad.dbo.Accounts.situs_street', 'PotterRandallCad.dbo.Accounts.situs_street_sufix', 'PotterRandallCad.dbo.Accounts.addr_line1' ],
+         processLabel:  function(label, labelValues) {
+             let hn = labelValues['PotterRandallCad.dbo.Accounts.situs_num'];
+             let street = ['PotterRandallCad.dbo.Accounts.situs_street_prefx', 'PotterRandallCad.dbo.Accounts.situs_street', 'PotterRandallCad.dbo.Accounts.situs_street_sufix'].map(fieldName => labelValues[fieldName]).join(' ').trim().replace(/\s{2,}/g,' ');
+             if (!hn) {
+                 let ownerAddr = labelValues['PotterRandallCad.dbo.Accounts.addr_line1'];
+                 if (ownerAddr) {
+                     ownerAddr = ownerAddr.trim().replace(/\s{2,}/g,' ');
+                     let match = ownerAddr.match(/^(\d+) (.*)/);
+                     if (match && match[2] === street) {
+                         hn = match[1] + ' *';
+                     }
+                 }
+             }
+             return (hn ? hn + '\n' : '') + street;
+         },
+         state:  'TX',
+         counties: ['Potter','Randall'],
+         style:  DEFAULT_PARCEL_STYLE },
+
         {name: 'Prosper City - address',
          id: 'tx-prosper-city-address',
          url: 'https://gis.newedgeservices.com/arcgis/rest/services/Prosper/ProsperMap/MapServer/40',
@@ -14350,7 +14394,7 @@ Doesn't have a Shape field.
                                 }
                                 if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
                                     label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
-                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label).trim();
+                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label, item.attributes).trim();
                                 }
                                 let attributes = {
                                     layerID: gisLayer.id,
