@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.20.002
+// @version      2018.04.20.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -10350,15 +10350,15 @@ Doesn't have a Shape field.
 
         {name: 'Crawford Co - Address Points',
          id: 'pa-crawford-co-pts',
-         url: 'http://gis.crawfordcountypa.net:6080/arcgis/rest/services/AddressParcelSearch_Advanced/MapServer/2',
-         labelFields: ['HSENUMBER','PREFIXDIR','STREETNAME','STREETSUF','POSTDIR'],
+         url: 'https://gis.crawfordcountypa.net:6443/arcgis/rest/services/AddressPoints_OD/FeatureServer/0',
+         labelFields: ['AD_HSENUMBER','AD_ADD_EXT','AD_STREET'],
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
         {name: 'Crawford Co - Parcels (no labels)',
          id: 'pa-crawford-co-parcels',
-         url: 'http://gis.crawfordcountypa.net:6080/arcgis/rest/services/CrawfordCounty/MapServer/3',
-         labelFields: ['SHAPE'],
+         url: 'https://gis.crawfordcountypa.net:6443/arcgis/rest/services/TaxParcel_OD/FeatureServer/0',
+         labelFields: [''],
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
