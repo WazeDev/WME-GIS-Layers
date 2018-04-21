@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.21.001
+// @version      2018.04.21.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -13687,6 +13687,7 @@ Doesn't have a Shape field.
          id: 'wv-state-pts',
          url: 'https://services.wvgis.wvu.edu/arcgis/rest/services/Location/wv_address_labels_WVDHSEM_wm/MapServer/0',
          labelFields: ['FULLADDR'],
+         processLabel: function(label) { return label.replace(_regexReplace.r2, ''); },
          state: 'WV',
          style: DEFAULT_STATE_PT_STYLE},
 
@@ -13700,9 +13701,10 @@ Doesn't have a Shape field.
 
         {name: 'Berkeley Co - Address Points',
          id: 'wv-Berkeley-co-pts',
-         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/Addresses/MapServer/0',
+         url: 'http://maps.berkeleywv.org/speedo/rest/services/BC_Layers/BC_ADDRESSES/MapServer/0',
          labelFields: ['FULLADDR'],
          state: 'WV',
+         counties: ['Berkeley'],
          style: DEFAULT_PT_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13719,6 +13721,7 @@ Doesn't have a Shape field.
          labelFields: ['ADDRESS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
+         counties: ['Brooke'],
          style: DEFAULT_PT_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13736,6 +13739,7 @@ Doesn't have a Shape field.
          labelFields: ['ADDR_LABEL','SA_STREET'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
+         counties: ['Cabell'],
          style: DEFAULT_PT_STYLE},
 
         // This layer is used by the Cabell assessor website.
@@ -13744,6 +13748,7 @@ Doesn't have a Shape field.
          url: 'https://mapping.cabellassessor.com/arcgis/rest/services/Parcels17/MapServer/0',
          labelFields: ['IAS_DATA_location'],
          state: 'WV',
+         counties: ['Cabell'],
          style: DEFAULT_PARCEL_STYLE},
 
         // This layer was discovered, but doesn't appear to be used on the county website.
@@ -13752,6 +13757,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/CabellWV_Service/FeatureServer/6',
          labelFields: ['situsaddr'],
          state: 'WV',
+         counties: ['Cabell'],
          style: DEFAULT_PARCEL_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13775,6 +13781,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/GreenbrierService/FeatureServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'WV',
+         counties: ['Greenbrier'],
          style: DEFAULT_PT_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13790,6 +13797,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HampshireMapService/FeatureServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'WV',
+         counties: ['Hampshire'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hampshire Co - Parcels',
@@ -13797,6 +13805,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HampshireMapService/FeatureServer/4',
          labelFields: ['situsaddr'],
          state: 'WV',
+         counties: ['Hampshire'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hancock Co - Address Points',
@@ -13804,6 +13813,7 @@ Doesn't have a Shape field.
          url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/AddressPoints/FeatureServer/0',
          labelFields: ['FULL_ADDRE'],
          state: 'WV',
+         counties: ['Hancock'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Hancock Co - Parcels',
@@ -13811,6 +13821,7 @@ Doesn't have a Shape field.
          url: 'https://services2.arcgis.com/tvHADotIheMdYJmO/ArcGIS/rest/services/Parcels/FeatureServer/0',
          labelFields: ['PARCEL_ADD'],
          state: 'WV',
+         counties: ['Hancock'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Hardy Co - Address Points',
@@ -13818,6 +13829,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/HardyMapService/FeatureServer/0',
          labelFields: ['ADDRESS'],
          state: 'WV',
+         counties: ['Hardy'],
          style: DEFAULT_PT_STYLE},
 
         // 2018-03-07 (mapomatic) Hardy Co has a parcel layer, but no address fields
@@ -13827,6 +13839,7 @@ Doesn't have a Shape field.
          url: 'https://psportal.harrisoncountywv.com/server/rest/services/ftrAddress/MapServer/2',
          labelFields: ['ADDRNUM','FULLNAME'],
          state: 'WV',
+         counties: ['Harrison'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Harrison Co - Parcels',
@@ -13834,6 +13847,7 @@ Doesn't have a Shape field.
          url: 'https://psportal.harrisoncountywv.com/server/rest/services/Assessor/Parcels/MapServer/0',
          labelFields: ['LOC2'],
          state: 'WV',
+         counties: ['Harrison'],
          style: DEFAULT_PARCEL_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13849,6 +13863,7 @@ Doesn't have a Shape field.
          url: 'http://184.12.255.122:6080/arcgis/rest/services/Parcels/2018parcels1/MapServer/0',
          labelFields: ['PARCEL_ADD'],
          state: 'WV',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Kanawha Co - Parcels',
@@ -13856,6 +13871,7 @@ Doesn't have a Shape field.
          url: 'https://gis.kanawhacountyassessor.com:6443/arcgis/rest/services/Parcel_Viewer/Parcels_4_Jan_2018/MapServer/1',
          labelFields: ['Prop_Location'],
          state: 'WV',
+         counties: ['Kanawha'],
          style: DEFAULT_PARCEL_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13871,6 +13887,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/Lincoln_WV_Service/FeatureServer/8',
          labelFields: ['ADDR'],
          state: 'WV',
+         counties: ['Lincoln'],
          style: DEFAULT_PT_STYLE},
 
         // 2018-03-07 (mapomatic) Lincoln Co has a parcel layer, but no address fields
@@ -13881,6 +13898,7 @@ Doesn't have a Shape field.
          labelFields: ['FULL_ADD'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
+         counties: ['Mercer'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Monongalia Co - Address Points',
@@ -13889,6 +13907,7 @@ Doesn't have a Shape field.
          labelFields: ['FULL_ADDRESS'],
          processLabel: function(label) { return label.replace(_regexReplace.r0, ''); },
          state: 'WV',
+         counties: ['Monongalia'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Monroe Co - Address Points',
@@ -13896,6 +13915,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/MonroeFieldService/FeatureServer/2',
          labelFields: ['ADDRESS'],
          state: 'WV',
+         counties: ['Monroe'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Ohio Co - Address Points',
@@ -13904,6 +13924,7 @@ Doesn't have a Shape field.
          labelFields: ['ADDR'],
          processLabel: function(label) { return label.replace(/((\w+ )+)(\d+)$/,'$3 $1').trim(); },
          state: 'WV',
+         counties: ['Ohio'],
          style: DEFAULT_PT_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13919,6 +13940,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/PendletonWV_911Service/FeatureServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'WV',
+         counties: ['Pendleton'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Pocahontas Co - Address Points',
@@ -13926,6 +13948,7 @@ Doesn't have a Shape field.
          url: 'https://services5.arcgis.com/BS7xAap9C8CqR5BC/ArcGIS/rest/services/Address_Labels/FeatureServer/0',
          labelFields: ['ADDRESS'],
          state: 'WV',
+         counties: ['Pocahontas'],
          style: DEFAULT_PT_STYLE},
 
         // 2018-03-08 (mapomatic) Also found this for Preston Co, which has parcels and address points.
@@ -13943,6 +13966,7 @@ Doesn't have a Shape field.
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/PrestonNew/PrestonOperational/MapServer/46',
          labelFields: ['ADDR_NUM','Street'],
          state: 'WV',
+         counties: ['Preston'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Preston Co - Parcels',
@@ -13950,6 +13974,7 @@ Doesn't have a Shape field.
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Preston/PrestonOperational/MapServer/98',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
+         counties: ['Preston'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Putnam Co - Parcels',
@@ -13957,6 +13982,7 @@ Doesn't have a Shape field.
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Putnam/PutnamOperational/MapServer/33',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
+         counties: ['Putnam'],
          style: DEFAULT_PARCEL_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -13972,6 +13998,7 @@ Doesn't have a Shape field.
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Randolph/RandolphOperational/MapServer/79',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
+         counties: ['Randolph'],
          style: DEFAULT_PARCEL_STYLE},
 
         // This is the parcel layer from the Taylor county website
@@ -13980,6 +14007,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/TaylorWV_Service/FeatureServer/3',
          labelFields: ['situsaddr'],
          state: 'WV',
+         counties: ['Taylor'],
          style: DEFAULT_PARCEL_STYLE},
 
         // This parcel layer was discovered on the landmarkgeospatial server, but doesn't appear to be used on the Taylor co website?
@@ -13988,6 +14016,7 @@ Doesn't have a Shape field.
          url: 'http://www.landmarkgeospatial.com/ArcGIS/rest/services/Taylor/TaylorOperational2/MapServer/80',
          labelFields: ['PARCELADDRESS'],
          state: 'WV',
+         counties: ['Taylor'],
          style: DEFAULT_PARCEL_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
@@ -14035,6 +14064,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WetzelWV/FeatureServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'WV',
+         counties: ['Wetzel'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Wetzel Co - Parcels',
@@ -14042,6 +14072,7 @@ Doesn't have a Shape field.
          url: 'https://services5.arcgis.com/iFLcr1FkuXKlFoEe/ArcGIS/rest/services/WC_TM/FeatureServer/0',
          labelFields: ['PARCEL_ADD'],
          state: 'WV',
+         counties: ['Wetzel'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Wood Co - Address Points',
@@ -14049,6 +14080,7 @@ Doesn't have a Shape field.
          url: 'https://services3.arcgis.com/nJbIFHiSnaX0z0hS/ArcGIS/rest/services/WoodWV/FeatureServer/6',
          labelFields: ['FullAddr'],
          state: 'WV',
+         counties: ['Wood'],
          style: DEFAULT_PT_STYLE},
 
         // ** 2018-04-21 (mom) WV users didn't want this (possibly inaccurate) **
