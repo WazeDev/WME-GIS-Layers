@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.20.001
+// @version      2018.04.20.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -8969,6 +8969,15 @@ Not a valid Address Point Layer
 
         // Ohio
         // ************************************
+
+        {name: 'Interstate Mile Markers',
+         id: 'oh-interstate-mm',
+         url: 'https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Roadway_Information/MapServer/1',
+         labelFields: ['MILEPOST'],
+         visibleAtZoom: 0,
+         labelsVisibleAtZoom: 0,
+         state: 'OH',
+         style: DEFAULT_MM_STYLE},
 
         {name: 'Adams Co - Address Points',
          id: 'oh-adams-co-pts',
