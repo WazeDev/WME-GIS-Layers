@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.21.002
+// @version      2018.04.21.003
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -608,6 +608,7 @@
          url: 'http://emapsplus.com/arcgis/rest/services/Alabama/AutaugaEmaps/MapServer/0',
          labelFields: [''],
          state: 'AL',
+         counties: ['Autauga'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Baldwin Co - E911 Address Points',
@@ -615,6 +616,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Baldwin/AL05_BOR/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'AL',
+         counties: ['Baldwin'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Baldwin Co - Parcels',
@@ -622,6 +624,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Baldwin/Public/MapServer/31',
          labelFields: ['PropStreetNumber','PropStreetName'],
          state: 'AL',
+         counties: ['Baldwin'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Blount Co - Parcels (no labels)',
@@ -629,6 +632,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Blount/Public/MapServer/32',
          labelFields: [''],
          state: 'AL',
+         counties: ['Blount'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Calhoun Co - Parcels',
@@ -636,6 +640,7 @@
          url: 'http://gis.calhouncounty.org/arcgis2/rest/services/ParcelViewerWM/MapServer/68',
          labelFields: ['STREET_ADDRESS'],
          state: 'AL',
+         counties: ['Calhoun'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Colbert Co - Parcels',
@@ -643,6 +648,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Colbert/Public/MapServer/43',
          labelFields: ['Situs_House_No','Situs_Street_Name'],
          state: 'AL',
+         counties: ['Colbert'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Cullman Co - Parcels',
@@ -650,6 +656,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Cullman/Public/MapServer/107',
          labelFields: ['SitusAddNumber','SitusAddName'],
          state: 'AL',
+         counties: ['Cullman'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Elmore Co - Parcels',
@@ -657,6 +664,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Elmore/Public/MapServer/133',
          labelFields: ['PropertyAddr1'],
          state: 'AL',
+         counties: ['Elmore'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Etowah Co - Parcels',
@@ -664,6 +672,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Etowah/Public/MapServer/41',
          labelFields: ['SitusStreetNumber','SitusStreetName'],
          state: 'AL',
+         counties: ['Etowah'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jefferson Co - Parcels',
@@ -671,6 +680,7 @@
          url: 'http://jeffcogis.jccal.org/jccarcgis/rest/services/Public/BasemapJC/MapServer/0',
          labelFields: ['ADDR_PSPR'],
          state: 'AL',
+         counties: ['Jefferson'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lauderdale Co - Parcels',
@@ -678,6 +688,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Lauderdale/Public/MapServer/120',
          labelFields: ['SitusAddNumber','SitusAddName'],
          state: 'AL',
+         counties: ['Lauderdale'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Lawrence Co - Address Points',
@@ -685,6 +696,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Lawrence/LawrenceCounty_GIS_Public/MapServer/32',
          labelFields: ['FULLADDR'],
          state: 'AL',
+         counties: ['Lawrence'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Lawrence Co - Parcels',
@@ -692,6 +704,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Lawrence/Public/MapServer/49',
          labelFields: ['SitusAddFullAddress'],
          state: 'AL',
+         counties: ['Lawrence'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Limestone Co - Address Points',
@@ -699,6 +712,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Athens_Limestone/Public/MapServer/0',
          labelFields: ['Address'],
          state: 'AL',
+         counties: ['Limestone'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Limestone Co - Parcels',
@@ -706,6 +720,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Athens_Limestone/Public/MapServer/38',
          labelFields: ['SITEADDRESS'],
          state: 'AL',
+         counties: ['Limestone'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Madison Co - Parcels (no labels)',
@@ -713,6 +728,7 @@
          url: 'http://emapsplus.com/arcgis/rest/services/Alabama/MadisonEmapsDMO/MapServer/0',
          labelFields: [''],
          state: 'AL',
+         counties: ['Madison'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Marshall Co - Parcels',
@@ -720,6 +736,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Marshall/Public/MapServer/37',
          labelFields: ['SitusAddress'],
          state: 'AL',
+         counties: ['Marshall'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Montgomery Co - Parcels',
@@ -727,6 +744,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Montgomery/Public/MapServer/29',
          labelFields: ['PropertyAddr1'],
          state: 'AL',
+         counties: ['Montgomery'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Morgan Co - Address Points',
@@ -734,6 +752,7 @@
          url: 'http://al.decatur.geopowered.com/Proxy.ashx?http://services3.geopowered.com/arcgis/rest/services/DecaturAL/DecaturAL_Layers/mapserver/3',
          labelFields: ['ST_NUMBER','ST_PREFIX','ST_NAME','ST_TYPE','ST_SUFFIX'],
          state: 'AL',
+         counties: ['Morgan'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Morgan Co - Parcels',
@@ -741,6 +760,7 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Morgan/Public/MapServer/118',
          labelFields: ['PropAddr1'],
          state: 'AL',
+         counties: ['Morgan'],
          style: DEFAULT_PARCEL_STYLE},
 
         // THIS SEEMS TO MATCH THE LAYER ABOVE, WITH A SLIGHT OFFSET.
@@ -751,25 +771,22 @@
         //  state: 'AL',
         //  style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Mobile - City Address Points',
+        // 2014-04-21 (mom) This is from the Mobile city server, but applies to the whole county.
+        {name: 'Mobile Co - Address Points',
          id: 'al-mobile-city-points',
          url: 'http://maps.cityofmobile.org/arcgis/rest/services/BaseData_FS/MapServer/50',
          labelFields: ['ADDRESS'],
          state: 'AL',
+         counties: ['Mobile'],
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Mobile - City Parcels',
+        // 2014-04-21 (mom) This is from the Mobile city server, but applies to the whole county.
+        {name: 'Mobile Co - Parcels',
          id: 'al-mobile-cityy-parcels',
          url: 'http://maps.cityofmobile.org/arcgis/rest/services/BaseData_FS/MapServer/21',
          labelFields: ['streetno','streetname','streetdir'],
          state: 'AL',
-         style: DEFAULT_PARCEL_STYLE},
-
-        {name: 'Northport - City Parcels',
-         id: 'al-northport-city-parcels',
-         url: 'https://services2.arcgis.com/3u10F1chkeawsUZY/arcgis/rest/services/20170808_NorthportBoundary/FeatureServer/3',
-         labelFields: ['pcliLocati'],
-         state: 'AL',
+         counties: ['Mobile'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Shelby Co - Address Points',
@@ -777,6 +794,7 @@
          url: 'https://maps.shelbyal.com/arcgis/rest/services/ShelbyALBaseMap/MapServer/0',
          labelFields: ['Full_Add_Num','Street_Name','Street_Post_Type'],
          state: 'AL',
+         counties: ['Shelby'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Shelby Co - Parcels (no labels)',
@@ -784,6 +802,7 @@
          url: 'https://maps.shelbyal.com/arcgis/rest/services/ShelbyALBaseMap/MapServer/18',
          labelFields: [''],
          state: 'AL',
+         counties: ['Shelby'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St. Clair Co - 911 Address Points',
@@ -791,6 +810,7 @@
          url: 'https://map.stclairco.com/arcgis/rest/services/E911Data/MapServer/3',
          labelFields: ['FullAddres'],
          state: 'AL',
+         counties: ['St. Clair'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'St. Clair Co - Parcels',
@@ -798,6 +818,7 @@
          url: 'https://map.stclairco.com/arcgis/rest/services/PublicParcelViewer/MapServer/57',
          labelFields: ['STREET_ADDRESS'],
          state: 'AL',
+         counties: ['St. Clair'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Talladega Co - Parcels',
@@ -805,21 +826,35 @@
          url: 'http://web3.kcsgis.com/kcsgis/rest/services/Talladega/Public/MapServer/50',
          labelFields: ['SitusAddNumber','SitusAddName'],
          state: 'AL',
+         counties: ['Talladega'],
          style: DEFAULT_PARCEL_STYLE},
 
-        {name: 'Tuscaloosa - City Address Points',
+        // 2014-04-21 (mom) This comes from the Tuscaloosa city server.  I've renamed it because it applies to the whole county.
+        {name: 'Tuscaloosa Co - Address Points',
          id: 'al-tuscaloosa-city-pts',
          url: 'http://tuscgis.tuscaloosa-al.gov/arcgis/rest/services/ADDRESSES_WGS/MapServer/0',
          labelFields: ['PROPADDR'],
          state: 'AL',
+         counties: ['Tuscaloosa'],
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Tuscaloosa - City Parcels (no labels)',
-         id: 'al-tuscaloosa-city-parcels',
-         url: 'http://tuscgis.tuscaloosa-al.gov/arcgis/rest/services/Parcels_WGS/MapServer/0',
-         labelFields: [],
+        // 2014-04-21 (mom) This comes from the Northport city server.  I've renamed it because it applies to the whole county.
+        {name: 'Tuscaloosa Co - Parcels',
+         id: 'al-northport-city-parcels',
+         url: 'https://services2.arcgis.com/3u10F1chkeawsUZY/arcgis/rest/services/20170808_NorthportBoundary/FeatureServer/3',
+         labelFields: ['pcliLocati'],
          state: 'AL',
+         counties: ['Tuscaloosa'],
          style: DEFAULT_PARCEL_STYLE},
+
+        // 2018-04-21 (mom) This appears to be similar to the Northport city layer info, but missing labels.
+        // {name: 'Tuscaloosa - City Parcels (no labels)',
+        //  id: 'al-tuscaloosa-city-parcels',
+        //  url: 'http://tuscgis.tuscaloosa-al.gov/arcgis/rest/services/Parcels_WGS/MapServer/0',
+        //  labelFields: [],
+        //  state: 'AL',
+        //  counties: [''],
+        //  style: DEFAULT_PARCEL_STYLE},
 
         // Alaska
         // ************************************
