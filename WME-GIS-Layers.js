@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.22.003
+// @version      2018.04.22.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -14775,8 +14775,23 @@ Doesn't have a Shape field.
         // *** NOTE: This was added for Perry County, KY.  The transform worked, but the coordinate system Perry county seems to be using doesn't match up with EPSG:2272.
         // proj4.defs('EPSG:2272','+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs');
 
-        //console.log(_gisLayers.map(l => l.state + '\t' + l.name).join('\n'));
-
+        // ** This will be used to export layer definitions to the spreadsheet.  Can be removed once the spreadsheet is active.
+        // console.log(
+        //     _gisLayers.map(l => [
+        //         l.state,
+        //         l.name,
+        //         l.id,
+        //         l.counties ? l.counties.join(', ') : '',
+        //         l.url,
+        //         l.where ? l.where : '',
+        //         l.labelFields ? l.labelFields.join(', ') : '',
+        //         l.processLabel ? '"' + l.processLabel.toString().replace(/^function\(.*?\)\s*{/,'').replace(/}$/,'').replace(/"/g,'""').trim() + '"': '',
+        //         l.style === DEFAULT_PARCEL_STYLE ? 'parcels' : l.style === DEFAULT_PT_STYLE ? 'points' : l.style === DEFAULT_MM_STYLE ? 'mm' : l.style === DEFAULT_STATE_PT_STYLE ? 'st-points' : l.style === DEFAULT_STATE_PARCEL_STYLE ? 'st-parcels' : l.style === DEFAULT_STRUCTURE_STYLE ? 'structures' : l.style === DEFAULT_CITY_STYLE ? 'cities' : '',
+        //         l.hasOwnProperty('visibleAtZoom') ? l.visibleAtZoom : '',
+        //         l.hasOwnProperty('labelsVisibleAtZoom') ? l.labelsVisibleAtZoom : '',
+        //         1
+        //     ].join('\t')).join('\n')
+        // );
         loadSettingsFromStorage();
         initGui();
         fetchFeatures();
