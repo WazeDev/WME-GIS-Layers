@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.22.001
+// @version      2018.04.22.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -10238,15 +10238,15 @@ Doesn't have a Shape field.
 
         {name: 'Adams Co - Address Points',
          id: 'pa-adams-co-pts',
-         url: 'https://mapping.adamscounty.us/arcgis/rest/services/Maps/Deeds2/MapServer/10',
+         url: 'https://mapping.adamscounty.us/arcgis/rest/services/AGOL/Address_Parcels/MapServer/0',
          labelFields: ['ST_NUM','PRE_DIR','ST_NAME','ST_TYPE','POST_DIR'],
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Adams Co - Parcels (no labels)',
+        {name: 'Adams Co - Parcels',
          id: 'pa-adams-co-parcels',
-         url: 'https://mapping.adamscounty.us/arcgis/rest/services/Maps/cama_parcel/MapServer/1',
-         labelFields: [''],
+         url: 'https://mapping.adamscounty.us/arcgis/rest/services/AGOL/ParcelOwners/MapServer/0',
+         labelFields: ['COMBINED_SITUS'],
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
 
