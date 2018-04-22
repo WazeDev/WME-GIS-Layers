@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.21.003
+// @version      2018.04.22.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -6840,17 +6840,18 @@ Not a valid Address Point Layer
 
         {name: 'Sait Louis Co - Address Points',
          id: 'mn-saint-louis-co-pts',
-         url: 'https://arcgiswapub.stlouiscountymn.gov/arcgis/rest/services/CountyLandExplorer/CLE_PLSSCadastralParcels/MapServer/30',
+         url: 'https://utility.arcgis.com/usrsvcs/servers/9388d7928c6840e0a57eb60b65c75922/rest/services/CountyLandExplorer/CLE_PLSSCadastralParcels/MapServer/30',
          labelFields: ['Address'],
          state: 'MN',
          style: DEFAULT_PT_STYLE},
 
-        {name: 'Sait Louis Co - Parcels',
-         id: 'mn-saint-louis-co-parcels',
-         url: 'https://arcgiswapub.stlouiscountymn.gov/arcgis/rest/services/CountyLandExplorer/CLE_Labels/MapServer/3',
-         labelFields: ['PHYSADDR'],
-         state: 'MN',
-         style: DEFAULT_PARCEL_STYLE},
+        // 2018-04-22 (mom) Can't seem to get this working.  Reports "Invalid URL".
+        // {name: 'Sait Louis Co - Parcels',
+        //  id: 'mn-saint-louis-co-parcels',
+        //  url: 'https://utility.arcgis.com/usrsvcs/servers/9388d7928c6840e0a57eb60b65c75922/rest/services/CountyLandExplorer/CLE_Labels/MapServer/3',
+        //  labelFields: ['PHYSADDR'],
+        //  state: 'MN',
+        //  style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Scott Co - Parcels',
          id: 'mn-scott-co-parcels',
