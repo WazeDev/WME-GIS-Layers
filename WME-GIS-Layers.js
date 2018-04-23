@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.22.004
+// @version      2018.04.22.005
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -334,6 +334,7 @@
 // @connect      nc.us
 // @connect      nccde.org
 // @connect      nconemap.gov
+// @connect      ncpub.org
 // @connect      nd.gov
 // @connect      nd.us
 // @connect      ne.gov
@@ -10561,14 +10562,14 @@ Doesn't have a Shape field.
 
         {name: 'Northampton Co - Address Points',
          id: 'pa-northampton-co-pts',
-         url: 'https://gis.northamptoncounty.org/arcgisweb/rest/services/Assessment_Services/Land_Records_LGM/MapServer/3',
+         url: 'http://www.ncpub.org/_web/maps/proxy/proxy.ashx?https://gis.northamptoncounty.org/arcgisweb/rest/services/Assessment_Services/Land_Records_LGM/MapServer/3',
          labelFields: ['FULLADDR'],
          state: 'PA',
          style: DEFAULT_PT_STYLE},
 
         {name: 'Northampton Co - Parcels',
          id: 'pa-northampton-co-parcels',
-         url: 'https://gis.northamptoncounty.org/arcgisweb/rest/services/Assessment_Services/Land_Records_LGM/MapServer/1',
+         url: 'https://gis.northamptoncounty.org/arcgisweb/rest/services/Assessment_Services/Land_Records_WM/MapServer/0',
          labelFields: ['LOCATION'],
          state: 'PA',
          style: DEFAULT_PARCEL_STYLE},
