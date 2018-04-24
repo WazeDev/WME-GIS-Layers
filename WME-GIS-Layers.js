@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.22.005
+// @version      2018.04.23.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -263,6 +263,7 @@
 // @connect      kentcountymi.gov
 // @connect      kingcounty.gov
 // @connect      kingscountygis.com
+// @connect      kitsapgov.com
 // @connect      kpb.us
 // @connect      ky.gov
 // @connect      lacounty.gov
@@ -464,6 +465,7 @@
 // @connect      vcgov.org
 // @connect      ventura.org
 // @connect      virginia.gov
+// @connect      wa.us
 // @connect      wadtx.com
 // @connect      wallawallagis.com
 // @connect      warrencountyny.gov
@@ -6046,6 +6048,7 @@ Not a valid Address Point Layer
          url: 'http://alleganygis.allconet.org/allcogis/rest/services/Parcels/MapServer/0',
          labelFields: ['address'],
          state: 'MD',
+         counties: ['Allegany'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Allegany Co - Address Points',
@@ -6053,6 +6056,7 @@ Not a valid Address Point Layer
          url: 'http://alleganygis.allconet.org/allcogis/rest/services/AddressPoints/MapServer/0',
          labelFields: ['addrnum','fullname'],
          state: 'MD',
+         counties: ['Allegany'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Anne Arundel Co - Parcels',
@@ -6060,6 +6064,7 @@ Not a valid Address Point Layer
          url: 'http://gis-world3.aacounty.org/arcgis/rest/services/Public/MyAA/MapServer/7',
          labelFields: ['ASST_HOUSE_NO','ASST_STREET_DIR','ASST_STREET_NAME','ASST_STREET_TYPE'],
          state: 'MD',
+         counties: ['Anne Arundel'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Anne Arundel Co - Address Points',
@@ -6067,6 +6072,7 @@ Not a valid Address Point Layer
          url: 'http://gis-world3.aacounty.org/arcgis/rest/services/Public/MyAA/MapServer/0',
          labelFields: ['ST_NUMBER','ST_NUMSUFF','ST_PREFIXD','ST_NAME','ST_TYPE','ST_SUFFIXD'],
          state: 'MD',
+         counties: ['Anne Arundel'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Baltimore - City Parcels',
@@ -6083,6 +6089,7 @@ Not a valid Address Point Layer
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Property/Property/MapServer/1',
          labelFields: ['PREMISE_ADDRESS'],
          state: 'MD',
+         counties: ['Baltimore'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Baltimore Co - Address Points',
@@ -6090,6 +6097,7 @@ Not a valid Address Point Layer
          url: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Facilities/Address/MapServer/0',
          labelFields: ['ADDRLABEL'],
          state: 'MD',
+         counties: ['Baltimore'],
          style: DEFAULT_PT_STYLE},
 
         // Calvert Co - Parcels (does not have a Shape field)
@@ -6099,6 +6107,7 @@ Not a valid Address Point Layer
          url: 'http://calvertgis.co.cal.md.us/arcgis/rest/services/Basemaps/Topo_Base_Map_2011_Version2/MapServer/2',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Calvert'],
          style: DEFAULT_PT_STYLE},
 
         // Caroline Co - No GIS
@@ -6108,6 +6117,7 @@ Not a valid Address Point Layer
          url: 'https://services.arcgis.com/Uf0DiYpD9NOFO5YH/ArcGIS/rest/services/Parcels_CarrollCounty/FeatureServer/0',
          labelFields: [],
          state: 'MD',
+         counties: ['Carroll'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Carroll Co - Address Points',
@@ -6115,6 +6125,7 @@ Not a valid Address Point Layer
          url: 'https://services.arcgis.com/Uf0DiYpD9NOFO5YH/arcgis/rest/services/AddressPoints_CarrollCounty/FeatureServer/0',
          labelFields: ['Full_Addre'],
          state: 'MD',
+         counties: ['Carroll'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Cecil Co - Parcels',
@@ -6122,6 +6133,7 @@ Not a valid Address Point Layer
          url: 'https://cecilmaps.ccgov.org/arcgis/rest/services/ConsolidatedWebService/MapServer/60',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Cecil'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Cecil Co - Address Points',
@@ -6129,6 +6141,7 @@ Not a valid Address Point Layer
          url: 'https://cecilmaps.ccgov.org/arcgis/rest/services/ConsolidatedWebService/MapServer/1',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Cecil'],
          style: DEFAULT_PT_STYLE},
 
         // Charles Co - No GIS
@@ -6139,6 +6152,7 @@ Not a valid Address Point Layer
          url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/Planning/Parcels/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Frederick'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Frederick Co - Address Points',
@@ -6146,6 +6160,7 @@ Not a valid Address Point Layer
          url: 'https://maps.frederickcountymd.gov/arcgis/rest/services/Planning/AddressLabels/MapServer/1',
          labelFields: ['NUM_FULL','ST_FULL'],
          state: 'MD',
+         counties: ['Frederick'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Garrett Co - Parcels',
@@ -6153,6 +6168,7 @@ Not a valid Address Point Layer
          url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/7',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Garrett'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Garrett Co - Address Points',
@@ -6160,6 +6176,7 @@ Not a valid Address Point Layer
          url: 'https://maps.garrettcounty.org/arcweb/rest/services/P_and_Z/Parcels_and_Zoning/MapServer/2',
          labelFields: ['STRUCTURE_NUMBER','STRUCTURE_NUMBER_SUFFIX','PREFIX_DIRECTIONAL','STREET_NAME','STREET_TYPE','SUFFIX_DIRECTIONAL'],
          state: 'MD',
+         counties: ['Garrett'],
          style: DEFAULT_PT_STYLE},
 
         // Harford Co - No GIS
@@ -6171,6 +6188,7 @@ Not a valid Address Point Layer
          url: 'http://gis4.montgomerycountymd.gov/arcgis/rest/services/general/property/MapServer/0',
          labelFields: ['PREMISE_ADDR_HOUSENO','PREMISE_ADDR_DIRECTION','PREMISE_ADDR_STREET','PREMISE_ADDR_STREET_TYPE'],
          state: 'MD',
+         counties: ['Montgomery'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Montgomery Co - Structures',
@@ -6178,6 +6196,7 @@ Not a valid Address Point Layer
          url: 'https://gis3.montgomerycountymd.gov/arcgis/rest/services/GDX/buildings/MapServer/0',
          labelFields: ['ADDRNUM','PRE_DIR','STREET_NAME','STREET_TYPE'],
          state: 'MD',
+         counties: ['Montgomery'],
          style: DEFAULT_STRUCTURE_STYLE},
 
         {name: 'Prince George\'s Co - Parcels (no data)',
@@ -6185,6 +6204,7 @@ Not a valid Address Point Layer
          url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/69',
          labelFields: [''],
          state: 'MD',
+         counties: ['Prince George\'s'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Prince George\'s Co - Address Points',
@@ -6192,6 +6212,7 @@ Not a valid Address Point Layer
          url: 'http://gis.pgatlas.com/pgatlas/rest/services/Administrative/MapServer/0',
          labelFields: ['COMPLETE_ADDRESS_NUMBER','COMPLETE_STREET_NAME'],
          state: 'MD',
+         counties: ['Prince George\'s'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Queene Anne\'s Co - Parcels',
@@ -6199,6 +6220,7 @@ Not a valid Address Point Layer
          url: 'https://gis.qac.org/arcgis/rest/services/QAC_PUBLIC/QAC_Basemap/MapServer/3',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Queen Anne\'s'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Queene Anne\'s Co - Address Points',
@@ -6206,6 +6228,7 @@ Not a valid Address Point Layer
          url: 'https://gis.qac.org/arcgis/rest/services/QAC_PUBLIC/QAC_Basemap/MapServer/0',
          labelFields: ['FULL_ADDRESS'],
          state: 'MD',
+         counties: ['Queen Anne\'s'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'St. Mary\'s Co - Parcels (no data)',
@@ -6213,6 +6236,7 @@ Not a valid Address Point Layer
          url: 'http://gtg.smcg.co.saint-marys.md.us/arcgis/rest/services/NewMaps/ZoningMap/MapServer/1',
          labelFields: [],
          state: 'MD',
+         counties: ['St. Mary\'s'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'St. Mary\'s Co - Address Points',
@@ -6220,6 +6244,7 @@ Not a valid Address Point Layer
          url: 'http://gtg.smcg.co.saint-marys.md.us/arcgis/rest/services/NewMaps/ZoningMap/MapServer/0',
          labelFields: ['STREET_ADD','STREET_APA'],
          state: 'MD',
+         counties: ['St. Mary\'s'],
          style: DEFAULT_PT_STYLE},
 
         // Somerset Co - No GIS
@@ -6229,6 +6254,7 @@ Not a valid Address Point Layer
          url: 'http://maps.talbgov.org/arcgis/rest/services/TalbotWebMaps/PublicLandUse/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Talbot'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Talbot Co - Address Points',
@@ -6236,6 +6262,7 @@ Not a valid Address Point Layer
          url: 'http://maps.talbgov.org/arcgis/rest/services/TalbotWebMaps/PublicLandUse/MapServer/2',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Talbot'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Washington Co - Parcels',
@@ -6243,6 +6270,7 @@ Not a valid Address Point Layer
          url: 'https://maps.washco-md.net/arcgis/rest/services/Parcel/Parcels/MapServer/0',
          labelFields: ['PremNum','PremNumSuff','PremDir','PremName','PremType'],
          state: 'MD',
+         counties: ['Washington'],
          style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Washington Co - Address Points',
@@ -6250,6 +6278,7 @@ Not a valid Address Point Layer
          url: 'https://maps.washco-md.net/arcgis/rest/services/General/AddressPoints/MapServer/0',
          labelFields: ['ADDRESS'],
          state: 'MD',
+         counties: ['Washington'],
          style: DEFAULT_PT_STYLE},
 
         // Wicomico Co - No GIS
@@ -13692,6 +13721,15 @@ Doesn't have a Shape field.
          url: 'https://gisdata.kingcounty.gov/arcgis/rest/services/OpenDataPortal/admin__address_point/MapServer/642',
          labelFields: ['ADDR_FULL'],
          state: 'WA',
+         counties: ['King'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Kitsap Co - Address Points',
+         id: 'wa-kitsap-co-pts',
+         url: 'https://ags.kitsapgov.com/psearch/proxy/proxy.ashx?https://agspubsrv.kitsapgov.com/kcgispub/rest/services/Public/SiteAddr_ZipCode/MapServer/0',
+         labelFields: ['STREET_ADDR'],
+         state: 'WA',
+         counties: ['Kitsap'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Snohomish Co - Address Points',
@@ -13699,6 +13737,7 @@ Doesn't have a Shape field.
          url: 'http://gismaps.snoco.org/snocogis/rest/services/buildings/buildings/MapServer/1',
          labelFields: ['ADDR_NUM','ADDR_NUM_SUFFIX','PREFIX','NAME','PRETYPE','TYPE','SUFFIX'],
          state: 'WA',
+         counties: ['Snohomish'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Spokane Co - Address Points',
@@ -13706,6 +13745,16 @@ Doesn't have a Shape field.
          url: 'http://gis.spokanecounty.org/arcgis/rest/services/OpenData/Property/MapServer/12',
          labelFields: ['ADDRNUM','ADDRNUMSUF','PrefixDirection','PrefixType','StreetName','StreetType'],
          state: 'WA',
+         counties: ['Spokane'],
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Thurston Co - Address Points',
+         id: 'wa-thurston-co-pts',
+         url: 'https://map.co.thurston.wa.us/arcgis/rest/services/Thurston/Thurston_AddressPoints_TCOMM/FeatureServer/0',
+         labelFields: ['ADDRESS'],
+         processLabel: function(label) { return label.replace(/\n.*/,'').replace(_regexReplace.r3, ''); },
+         state: 'WA',
+         counties: ['Thurston'],
          style: DEFAULT_PT_STYLE},
 
         {name: 'Walla Walla Co - Address Points',
@@ -13713,6 +13762,7 @@ Doesn't have a Shape field.
          url: 'http://wallawallagis.com/adaptor/rest/services/Basemaps/Identify/MapServer/18',
          labelFields: ['GISDATA.DBO.SITES.NEWSTR'],
          state: 'WA',
+         counties: ['Walla Walla'],
          style: DEFAULT_PT_STYLE},
 
 
