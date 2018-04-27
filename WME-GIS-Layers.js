@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers - SPREADSHEET
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.27.001
+// @version      2018.04.27.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
