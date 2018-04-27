@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         WME GIS Layers
+// @name         WME GIS Layers - SPREADSHEET
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.23.001
+// @version      2018.04.27.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -89,8 +89,6 @@
         }
     };
 
-    let _gisLayers = [];
-
     let _regexReplace = {
         // Strip leading zeros or blank full label for any label starting with a non-digit or is a Zero Address, use with '' as replace.
         r0: /^(0+(\s.*)?|\D.*)/,
@@ -108,9 +106,11 @@
         r6: /^(\d+)\s+(.*)/
     };
 
+    let _gisLayers = [];
+
     let _layerRefinements = [
         {id: 'us-post-offices',
-         labelHeaderFields: ['LOCALE_NAME'],
+         labelHeaderFields: ['LOCALE_NAME']
         },
 
         {id: 'ky-warren-co-wku-structures',
@@ -571,8 +571,6 @@
         showScriptInfoAlert();
     }
 
-    // https://docs.google.com/spreadsheets/d/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/edit#gid=0
-    // https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/oj7k5j6/public/values
     function loadSpreadsheetAsync() {
         return new Promise((resolve, reject) => {
             $.get({
@@ -589,7 +587,7 @@
                         if (entryIdx === 0) {
                             // The minimum script version that the spreadsheet supports.
                             if (SCRIPT_VERSION < cellValue) {
-                                result.error = 'Script must be updated to at least version ' + value + ' before layer definitions can be loaded.';
+                                result.error = 'Script must be updated to at least version ' + cellValue + ' before layer definitions can be loaded.';
                             }
                         } else if (entryIdx === 1) {
                             // Process field names
@@ -609,7 +607,12 @@
                                         if (fldName === 'counties' || fldName === 'labelFields') {
                                             value = value.split(',').map(item => item.trim());
                                         } else if (fldName === 'processLabel') {
-                                            value = eval('(function(label, fieldValues){' + value + '})');
+                                            try {
+                                                value = eval('(function(label, fieldValues){' + value + '})');
+                                            } catch (ex) {
+                                                logError('Error loading label processing function for layer "' + layerDef.id + '".');
+                                                logDebug(ex);
+                                            }
                                         } else if (fldName === 'style') {
                                             if (LAYER_STYLES.hasOwnProperty(value)) {
                                                 value = LAYER_STYLES[value];
@@ -618,6 +621,8 @@
                                             // *** THIS NEEDS TO BE TESTED ***
                                         }
                                         layerDef[fldName] = value;
+                                    } else if (fldName === 'labelFields') {
+                                        layerDef[fldName] = [''];
                                     }
                                 });
                                 _gisLayers.push(layerDef);
@@ -656,7 +661,7 @@
                 }
             });
             let t1 = performance.now();
-            logDebug("Layer definition loading took " + Math.round(t1 - t0) + " ms.");
+            logDebug('Loaded ' + _gisLayers.length + ' layer definitions in ' + Math.round(t1 - t0) + ' ms.');
 
             // *** NOTE: This may be needed to add projections for non-standard coordinate systems.
             // *** It's a wrapper around proj4js 2.x to simulate proj4js 1.1 (used in OpenLayers 2)
