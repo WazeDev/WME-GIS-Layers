@@ -562,6 +562,15 @@
         fontSize: 10
     };
 
+    let DEFAULT_POSTOFFICE_STYLE =  {
+        strokeColor: '#000',
+        fontColor: "#f84",
+        fillColor: '#f84',
+        fontSize: '13',
+        fontWeight: 'bold',
+        labelYOffset: -20
+    };
+
     let _regexReplace = {
         // Strip leading zeros or blank full label for any label starting with a non-digit or is a Zero Address, use with '' as replace.
         r0: /^(0+(\s.*)?|\D.*)/,
@@ -593,14 +602,7 @@
          labelsVisibleAtZoom: 5,
          visibleAtZoom: 2,
          state: 'US',
-         style: {
-             strokeColor: '#000',
-             fontColor: "#f84",
-             fillColor: '#f84',
-             fontSize: '13',
-             fontWeight: 'bold',
-             labelYOffset: -20
-         }},
+         style: DEFAULT_POSTOFFICE_STYLE},
 
 
         // Alabama
@@ -5255,13 +5257,20 @@ Not a valid Address Point Layer
          counties: ['Garrard'],
          style: DEFAULT_PT_STYLE},
 
-        // No longer works.  Token required.
-        // {name: 'Jefferson Co - Address Points',
-        //  id: 'ky-jefferson-co-pts',
-        //  url: 'https://ags1.lojic.org/arcgis/rest/services/Metro/EMA/MapServer/1',
-        //  labelFields: ['HOUSENO','DIR', 'STRNAME', 'TYPE'],
-        //  state: 'KY',
-        //  style: DEFAULT_PT_STYLE},
+        {name: 'Jefferson Co - Address Points',
+         id: 'ky-jefferson-co-pts',
+         url: 'https://services1.arcgis.com/79kfd2K6fskCAkyg/arcgis/rest/services/OpenDataAddresses/FeatureServer/0',
+         labelFields: ['FULL_ADDRESS'],
+         state: 'KY',
+         style: DEFAULT_PT_STYLE},
+
+        {name: 'Jefferson Co - Parcels',
+         id: 'ky-jefferson-co-parcels',
+         where: "Lot <> 'SROW'",
+         url: 'https://services1.arcgis.com/79kfd2K6fskCAkyg/ArcGIS/rest/services/AllParcels/FeatureServer/0',
+         labelFields: ['Address'],
+         state: 'KY',
+         style: DEFAULT_PARCEL_STYLE},
 
         {name: 'Jessamine Co - Address Points',
          id: 'ky-jessamine-co-pts',
@@ -14806,7 +14815,7 @@ Doesn't have a Shape field.
             )
         ).html();
 
-        new Tab('GIS-L', content, initTab, null);
+        new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
         WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
         W.map.events.register("moveend",null,onMapMove);
         showScriptInfoAlert();
@@ -14826,23 +14835,23 @@ Doesn't have a Shape field.
         // *** NOTE: This was added for Perry County, KY.  The transform worked, but the coordinate system Perry county seems to be using doesn't match up with EPSG:2272.
         // proj4.defs('EPSG:2272','+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs');
 
-        // ** This will be used to export layer definitions to the spreadsheet.  Can be removed once the spreadsheet is active.
-        // console.log(
-        //     _gisLayers.map(l => [
-        //         l.state,
-        //         l.name,
-        //         l.id,
-        //         l.counties ? l.counties.join(', ') : '',
-        //         l.url,
-        //         l.where ? l.where : '',
-        //         l.labelFields ? l.labelFields.join(', ') : '',
-        //         l.processLabel ? '"' + l.processLabel.toString().replace(/^function\(.*?\)\s*{/,'').replace(/}$/,'').replace(/"/g,'""').trim() + '"': '',
-        //         l.style === DEFAULT_PARCEL_STYLE ? 'parcels' : l.style === DEFAULT_PT_STYLE ? 'points' : l.style === DEFAULT_MM_STYLE ? 'mm' : l.style === DEFAULT_STATE_PT_STYLE ? 'st-points' : l.style === DEFAULT_STATE_PARCEL_STYLE ? 'st-parcels' : l.style === DEFAULT_STRUCTURE_STYLE ? 'structures' : l.style === DEFAULT_CITY_STYLE ? 'cities' : '',
-        //         l.hasOwnProperty('visibleAtZoom') ? l.visibleAtZoom : '',
-        //         l.hasOwnProperty('labelsVisibleAtZoom') ? l.labelsVisibleAtZoom : '',
-        //         1
-        //     ].join('\t')).join('\n')
-        // );
+        //** This will be used to export layer definitions to the spreadsheet.  Can be removed once the spreadsheet is active.
+//        console.log(
+//            _gisLayers.map(l => [
+//                l.state,
+//                l.name,
+//                l.id,
+//                l.counties ? l.counties.join(', ') : '',
+//                l.url,
+//                l.where ? l.where : '',
+//                l.labelFields ? l.labelFields.join(', ') : '',
+//                l.processLabel ? '"' + l.processLabel.toString().replace(/^function\(.*?\)\s*{/,'').replace(/}$/,'').replace(/"/g,'""').trim() + '"': '',
+//                l.style === DEFAULT_PARCEL_STYLE ? 'parcels' : l.style === DEFAULT_PT_STYLE ? 'points' : l.style === DEFAULT_MM_STYLE ? 'milemarkers' : l.style === DEFAULT_STATE_PT_STYLE ? 'state_points' : l.style === DEFAULT_STATE_PARCEL_STYLE ? 'state_parcels' : l.style === DEFAULT_STRUCTURE_STYLE ? 'structures' : l.style === DEFAULT_CITY_STYLE ? 'cities' : l.style === DEFAULT_POSTOFFICE_STYLE ? 'post_offices' : '',
+//                l.hasOwnProperty('visibleAtZoom') ? l.visibleAtZoom : '',
+//                l.hasOwnProperty('labelsVisibleAtZoom') ? l.labelsVisibleAtZoom : '',
+//                1
+//            ].join('\t')).join('\n')
+//        );
         loadSettingsFromStorage();
         initGui();
         fetchFeatures();
@@ -14860,78 +14869,6 @@ Doesn't have a Shape field.
             }, 1000);
         }
     }
-
-    // Modified from WazeWrap
-    class Tab {
-        constructor(name, content, callback, context) {
-            this.TAB_SELECTOR = '#user-tabs ul.nav-tabs';
-            this.CONTENT_SELECTOR = '#user-info div.tab-content';
-            this.callback = null;
-            this.$content = null;
-            this.context = null;
-            this.$tab = null;
-
-            let idName, i = 0;
-
-            if (name && 'string' === typeof name &&
-                content && 'string' === typeof content) {
-                if (callback && 'function' === typeof callback) {
-                    this.callback = callback;
-                    this.context = context || callback;
-                }
-                /* Sanitize name for html id attribute */
-                idName = name.toLowerCase().replace(/[^a-z-_]/g, '');
-                /* Make sure id will be unique on page */
-                while (
-                    $('#sidepanel-' + (i ? idName + i : idName)).length > 0) {
-                    i++;
-                }
-                if (i) {
-                    idName = idName + i;
-                }
-                /* Create tab and content */
-                this.$tab = $('<li/>')
-                    .append($('<a/>')
-                            .attr({
-                    'href': '#sidepanel-' + idName,
-                    'data-toggle': 'tab'
-                })
-                            .text(name));
-                this.$content = $('<div/>')
-                    .addClass('tab-pane')
-                    .attr('id', 'sidepanel-' + idName)
-                    .html(content);
-
-                this.appendTab();
-                let that = this;
-                if (W.prefs) {
-                    W.prefs.on('change:isImperial', function(){that.appendTab();});
-                }
-                W.app.modeController.model.bind('change:mode', function(){that.appendTab();});
-            }
-        }
-
-        append(content) {
-            this.$content.append(content);
-        }
-
-        appendTab() {
-            $(this.TAB_SELECTOR).append(this.$tab);
-            $(this.CONTENT_SELECTOR).first().append(this.$content);
-            if (this.callback) {
-                this.callback.call(this.context);
-            }
-        }
-
-        clearContent() {
-            this.$content.empty();
-        }
-
-        destroy() {
-            this.$tab.remove();
-            this.$content.remove();
-        }
-    } // END Tab
 
     bootstrap();
 })();
