@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers - SPREADSHEET
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.04.27.002
+// @version      2018.05.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -21,6 +21,17 @@
 
 (function() {
     'use strict';
+
+    // **************************************************************************************************************
+    // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
+    //            that may cause old code to break.  This # should match the version listed in the spreadsheet
+    //            i.e. update them at the same time.
+
+    const LAYER_DEF_VERSION = '2018.04.27.001';
+
+    // **************************************************************************************************************
+
+    const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
     const LAYER_DEF_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/oj7k5j6/public/values?alt=json';
 
     const DEFAULT_STYLE = {
