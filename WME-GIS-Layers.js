@@ -100,15 +100,6 @@
         }
     };
 
-    let DEFAULT_POSTOFFICE_STYLE =  {
-        strokeColor: '#000',
-        fontColor: "#f84",
-        fillColor: '#f84',
-        fontSize: '13',
-        fontWeight: 'bold',
-        labelYOffset: -20
-    };
-
     let _regexReplace = {
         // Strip leading zeros or blank full label for any label starting with a non-digit or is a Zero Address, use with '' as replace.
         r0: /^(0+(\s.*)?|\D.*)/,
