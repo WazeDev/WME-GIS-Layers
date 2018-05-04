@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.04.001
+// @version      2018.05.04.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -642,7 +642,9 @@
                                         layerDef[fldName] = [''];
                                     }
                                 });
-                                _gisLayers.push(layerDef);
+                                if (layerDef.enabled && ["0","false","no","n"].indexOf(layerDef.enabled.toString().trim().toLowerCase()) === -1) {
+                                    _gisLayers.push(layerDef);
+                                }
                             }
                         }
                     }
