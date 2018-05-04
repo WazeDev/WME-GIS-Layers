@@ -96,7 +96,7 @@
             fillOpacity: 0,
             labelYOffset: 10,
             pointRadius: 2,
-            fontSize: 10
+            fontSize: 12
         }
     };
 
@@ -485,33 +485,39 @@
         $('#panel-gis-state-layers').append(
             $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
-                    $('<div>').css({'font-size':'11px'}).append(
-                        $('<span>').append(
-                            'Select ',
-                            $('<a>', {href:"#"}).text("All").click(function(){
-                                _ignoreFetch = true;
-                                $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
-                                _ignoreFetch = false;
-                                fetchFeatures();
-                            }),
-                            " / ",
-                            $('<a>', {href:'#'}).text("None").click(function(){
-                                _ignoreFetch = true;
-                                $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
-                                _ignoreFetch = false;
-                                fetchFeatures();
+                    $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<i>', {class:'fa fa-fw fa-chevron-down', style:'cursor: pointer;font-size: 12px;margin-right: 4px'}).click(function() {
+                        $(this).toggleClass("fa fa-fw fa-chevron-down");
+                        $(this).toggleClass("fa fa-fw fa-chevron-right");
+                        $(`#${st}_body`).toggleClass("collapse");
+                    }), $('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
+                    $('<div>', {id:`${st}_body`}).append(
+                        $('<div>').css({'font-size':'11px'}).append(
+                            $('<span>').append(
+                                'Select ',
+                                $('<a>', {href:"#"}).text("All").click(function(){
+                                    _ignoreFetch = true;
+                                    $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                    _ignoreFetch = false;
+                                    fetchFeatures();
+                                }),
+                                " / ",
+                                $('<a>', {href:'#'}).text("None").click(function(){
+                                    _ignoreFetch = true;
+                                    $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                    _ignoreFetch = false;
+                                    fetchFeatures();
+                                })
+                            )
+                        ),
+                        $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
+                            _gisLayers.filter(l => l.state === st).map(gisLayer => {
+                                let id = 'gis-layer_' + gisLayer.id;
+                                return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                                    $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
+                                    $('<label>', {for:id, class:'gis-state-layer-label'}).css({'white-space':'pre-line'}).text(gisLayer.name)
+                                );
                             })
                         )
-                    ),
-                    $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
-                    $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
-                        _gisLayers.filter(l => l.state === st).map(gisLayer => {
-                            let id = 'gis-layer_' + gisLayer.id;
-                            return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
-                                $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
-                                $('<label>', {for:id, class:'gis-state-layer-label'}).css({'white-space':'pre-line'}).text(gisLayer.name)
-                            );
-                        })
                     )
                 );
             })
