@@ -47,6 +47,35 @@
     };
 
     const LAYER_STYLES = {
+        cities: {
+            fillOpacity: 0.3,
+            fillColor: '#f65',
+            strokeColor: '#f65',
+            fontColor: '#f62'
+        },
+        forests_parks: {
+            fillOpacity: 0.2,
+            fillColor: '#585',
+            strokeColor: '#484',
+            fontColor: '#484'
+        },
+        milemarkers: {
+            strokeColor: '#fff',
+            fontColor: '#fff',
+            fillOpacity: 0,
+            labelYOffset: 10,
+            pointRadius: 2,
+            fontSize: 12
+        },
+        parcels: {
+            fillOpacity: 0
+        },
+        points: {
+            strokeColor: '#000',
+            fontColor: "#0ff",
+            fillColor: '#0ff',
+            labelYOffset: -15
+        },
         post_offices: {
             strokeColor: '#000',
             fontColor: "#f84",
@@ -55,48 +84,21 @@
             fontWeight: 'bold',
             labelYOffset: -20
         },
-        parcels: {
-            fillOpacity: 0
-        },
         state_parcels: {
             fillOpacity: 0,
             strokeColor: '#f51',
             fontColor: '#f62'
         },
-        cities: {
-            fillOpacity: 0.3,
-            fillColor: '#f65',
-            strokeColor: '#f65',
-            fontColor: '#f62'
-        },
-
-        structures: {
-            fillOpacity: 0,
-            strokeColor: '#f7f',
-            fontColor: '#f7f'
-        },
-
-        points: {
-            strokeColor: '#000',
-            fontColor: "#0ff",
-            fillColor: '#0ff',
-            labelYOffset: -15
-        },
-
         state_points: {
             strokeColor: '#000',
             fontColor: "#0af",
             fillColor: '#0af',
             labelYOffset: -15
         },
-
-        milemarkers: {
-            strokeColor: '#fff',
-            fontColor: '#fff',
+        structures: {
             fillOpacity: 0,
-            labelYOffset: 10,
-            pointRadius: 2,
-            fontSize: 12
+            strokeColor: '#f7f',
+            fontColor: '#f7f'
         }
     };
 
