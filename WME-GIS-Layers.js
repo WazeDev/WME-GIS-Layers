@@ -173,7 +173,7 @@
             onlyShowApplicableLayers: false,
             selectedStates: [],
             enabled: true,
-            fillParcels: false,
+            fillParcels: false
         };
         _settings = loadedSettings ? loadedSettings : defaultSettings;
         for (let prop in defaultSettings) {
@@ -526,7 +526,7 @@
                 $('<input>', {type:'checkbox', id:'only-show-applicable-gis-layers'}).change(function() { onOnlyShowApplicableLayersChanged($(this).is(':checked')); }).prop('checked', _settings.onlyShowApplicableLayers > -1),
                 $('<label>', {for:'only-show-applicable-gis-layers'}).css({'white-space':'pre-line'}).text('Only show applicable layers')
             ),
-            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => { 
+            $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {id:'gis-layers-for-' + st, style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                     $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<i>', {class:'fa fa-fw fa-chevron-down', style:'cursor: pointer;font-size: 12px;margin-right: 4px'}).click(function() {
                         $(this).toggleClass("fa fa-fw fa-chevron-down");
@@ -554,8 +554,8 @@
                         ),
                         $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                             _gisLayers.filter(l => l.state === st).map(gisLayer => {
-                                let id = 'gis-layer_' + gisLayer.id;
-                                return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                                let id = 'gis-layer-' + gisLayer.id;
+                                return $('<div>', {class: 'controls-container', id: id+'-container'}).css({'padding-top':'2px'}).append(
                                     $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
                                     $('<label>', {for:id, class:'gis-state-layer-label'}).css({'white-space':'pre-line'}).text(gisLayer.name)
                                 );
