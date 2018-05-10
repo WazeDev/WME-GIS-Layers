@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.08.001
+// @version      2018.05.10.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -133,17 +133,18 @@
 
     const STATES = {
         _states:[
-            ['US (Country)','US'],['Alabama','AL'],['Alaska','AK'],['American Samoa','AS'],['Arizona','AZ'],['Arkansas','AR'],['California','CA'],['Colorado','CO'],['Connecticut','CT'],['Delaware','DE'],['District of Columbia','DC'],
-            ['Federated States Of Micronesia','FM'],['Florida','FL'],['Georgia','GA'],['Guam','GU'],['Hawaii','HI'],['Idaho','ID'],['Illinois','IL'],['Indiana','IN'],['Iowa','IA'],['Kansas','KS'],
-            ['Kentucky','KY'],['Louisiana','LA'],['Maine','ME'],['Marshall Islands','MH'],['Maryland','MD'],['Massachusetts','MA'],['Michigan','MI'],['Minnesota','MN'],['Mississippi','MS'],['Missouri','MO'],
-            ['Montana','MT'],['Nebraska','NE'],['Nevada','NV'],['New Hampshire','NH'],['New Jersey','NJ'],['New Mexico','NM'],['New York','NY'],['North Carolina','NC'],['North Dakota','ND'],
-            ['Northern Mariana Islands','MP'],['Ohio','OH'],['Oklahoma','OK'],['Oregon','OR'],['Palau','PW'],['Pennsylvania','PA'],['Puerto Rico','PR'],['Rhode Island','RI'],['South Carolina','SC'],
-            ['South Dakota','SD'],['Tennessee','TN'],['Texas','TX'],['Utah','UT'],['Vermont','VT'],['Virgin Islands','VI'],['Virginia','VA'],['Washington','WA'],['West Virginia','WV'],['Wisconsin','WI'],['Wyoming','WY']
+            ['US (Country)','US',-1],['Alabama','AL',1],['Alaska','AK',2],['American Samoa','AS',60],['Arizona','AZ',4],['Arkansas','AR',5],['California','CA',6],['Colorado','CO',8],['Connecticut','CT',9],['Delaware','DE',10],['District of Columbia','DC',11],
+            ['Florida','FL',12],['Georgia','GA',13],['Guam','GU',66],['Hawaii','HI',15],['Idaho','ID',16],['Illinois','IL',17],['Indiana','IN',18],['Iowa','IA',19],['Kansas','KS',20],
+            ['Kentucky','KY',21],['Louisiana','LA',22],['Maine','ME',23],['Maryland','MD',24],['Massachusetts','MA',25],['Michigan','MI',26],['Minnesota','MN',27],['Mississippi','MS',28],['Missouri','MO',29],
+            ['Montana','MT',30],['Nebraska','NE',31],['Nevada','NV',32],['New Hampshire','NH',33],['New Jersey','NJ',34],['New Mexico','NM',35],['New York','NY',36],['North Carolina','NC',37],['North Dakota','ND',38],
+            ['Northern Mariana Islands','MP',69],['Ohio','OH',39],['Oklahoma','OK',40],['Oregon','OR',41],['Pennsylvania','PA',42],['Puerto Rico','PR',72],['Rhode Island','RI',44],['South Carolina','SC',45],
+            ['South Dakota','SD',46],['Tennessee','TN',47],['Texas','TX',48],['Utah','UT',49],['Vermont','VT',50],['Virgin Islands','VI',78],['Virginia','VA',51],['Washington','WA',53],['West Virginia','WV',54],['Wisconsin','WI',55],['Wyoming','WY',56]
         ],
         toAbbr: function(fullName) { return this._states.find(a => a[0] === fullName)[1]; },
         toFullName: function(abbr) { return this._states.find(a => a[1] === abbr)[0]; },
         toFullNameArray: function() { return this._states.map(a => a[0]); },
-        toAbbrArray: function() { return this._states.map(a => a[1]); }
+        toAbbrArray: function() { return this._states.map(a => a[1]); },
+        fromId: function(id) { return this._states.find(a => a[2] === id); }
     };
     const DEFAULT_VISIBLE_AT_ZOOM = 6;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
@@ -220,17 +221,17 @@
     function getCountiesUrl(extent) {
         let geometry = { xmin:extent.left, ymin:extent.bottom, xmax:extent.right, ymax:extent.top, spatialReference: {wkid: 102100, latestWkid: 3857} };
         let url = COUNTIES_URL + '/query?geometry=' + encodeURIComponent(JSON.stringify(geometry));
-        return url + '&outFields=BASENAME&returnGeometry=false&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
+        return url + '&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
     }
 
     let _countiesInExtent = [];
+    let _statesInExtent = [];
 
     function getFetchableLayers(getInvisible) {
-        let statesInModel = W.model.states.getObjectArray().map(state => state.name);
         return _gisLayers.filter(gisLayer => {
             let isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
             let isVisible = (getInvisible || _settings.visibleLayers.indexOf(gisLayer.id) > -1) && _settings.selectedStates.indexOf(gisLayer.state) > -1;
-            let isInState = gisLayer.state === 'US' || statesInModel.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            let isInState = gisLayer.state === 'US' || _statesInExtent.indexOf(STATES.toFullName(gisLayer.state)) > -1;
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
             let isValidZoom = getInvisible || W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
             return isValidUrl && isInState && isVisible && isValidZoom;
@@ -238,7 +239,6 @@
     }
 
     function filterLayerCheckboxes() {
-        console.log('APPLICABLE LAYERS');
         let applicableLayers = getFetchableLayers(true).filter(layer => {
             let hasCounties = layer.hasOwnProperty('counties');
             return (hasCounties && layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
@@ -359,14 +359,8 @@
         _lastToken.cancel = true;
         _lastToken = {cancel: false, features: [], layersProcessed: 0};
         $('.gis-state-layer-label').css({'color':'#777'});
-        let layersToFetch = getFetchableLayers();
 
-        // Remove features of any layers that won't be mapped.
-        _gisLayers.forEach(gisLayer => {
-            if (layersToFetch.indexOf(gisLayer) === -1)  {
-                _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
-            }
-        });
+        let _layersCleared = false;
 
         //if (layersToFetch.length) {
             let extent = W.map.getExtent();
@@ -381,10 +375,22 @@
                         } else {
                             _countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
                             logDebug('US Census counties: ' + _countiesInExtent.join(', '));
-                            layersToFetch = layersToFetch.filter(layer => {
-                                let hasCounties = layer.hasOwnProperty('counties');
-                                return (hasCounties && layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1)) || !hasCounties;
-                            });
+                            _statesInExtent = _.unique(data.features.map(feature => STATES.fromId(parseInt(feature.attributes.STATE))[0]));
+
+                            let layersToFetch;
+                            if (!_layersCleared) {
+                                _layersCleared = true;
+                                 layersToFetch = getFetchableLayers();
+
+                                // Remove features of any layers that won't be mapped.
+                                _gisLayers.forEach(gisLayer => {
+                                    if (layersToFetch.indexOf(gisLayer) === -1)  {
+                                        _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+                                    }
+                                });
+                            }
+
+                            layersToFetch = layersToFetch.filter( layer => !layer.hasOwnProperty('counties') || layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1) );
                             filterLayerCheckboxes();
                             logDebug('Fetching ' + layersToFetch.length + ' layers...');
                             logDebug(layersToFetch);
