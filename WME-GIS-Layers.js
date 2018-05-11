@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.10.001
+// @version      2018.05.11.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -606,13 +606,15 @@
     function initTab() {
         initSettingsTab();
         initLayersTab();
-        let color = _settings.enabled ? '#00bd00' : '#777';
-        $('a[href="#sidepanel-gis-l"]').prepend(
-            $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
-                evt.stopPropagation();
-                setEnabled(!_settings.enabled);
-            })
-        );
+        if (!$('#gis-layers-power-btn').length) {
+            let color = _settings.enabled ? '#00bd00' : '#777';
+            $('a[href="#sidepanel-gis-l"]').prepend(
+                $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
+                    evt.stopPropagation();
+                    setEnabled(!_settings.enabled);
+                })
+            );
+        }
     }
 
     function initGui() {
