@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.11.001
+// @version      2018.05.11.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -453,8 +453,10 @@
         } else {
             if (idx > -1) _settings.visibleLayers.splice(idx, 1);
         }
-        saveSettingsToStorage();
-        fetchFeatures();
+        if (!_ignoreFetch) {
+            saveSettingsToStorage();
+            fetchFeatures();
+        }
     }
 
     function onOnlyShowApplicableLayersChanged(checked) {
@@ -470,9 +472,11 @@
         } else {
             if (idx > -1) _settings.selectedStates.splice(idx, 1);
         }
-        saveSettingsToStorage();
-        initLayersTab();
-        fetchFeatures();
+        if (!_ignoreFetch) {
+            saveSettingsToStorage();
+            initLayersTab();
+            fetchFeatures();
+        }
     }
 
     function onLayerCheckboxChanged(checked) {
@@ -547,6 +551,7 @@
                                     _ignoreFetch = true;
                                     $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
                                     _ignoreFetch = false;
+                                    saveSettingsToStorage();
                                     fetchFeatures();
                                 }),
                                 " / ",
@@ -554,6 +559,7 @@
                                     _ignoreFetch = true;
                                     $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
                                     _ignoreFetch = false;
+                                    saveSettingsToStorage();
                                     fetchFeatures();
                                 })
                             )
@@ -561,7 +567,7 @@
                         $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
                             _gisLayers.filter(l => l.state === st).map(gisLayer => {
                                 let id = 'gis-layer-' + gisLayer.id;
-                                return $('<div>', {class: 'controls-container', id: id+'-container'}).css({'padding-top':'2px'}).append(
+                                return $('<div>', {class: 'controls-container', id: id+'-container'}).css({'padding-top':'2px', 'display':'block'}).append(
                                     $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
                                     $('<label>', {for:id, class:'gis-state-layer-label'}).css({'white-space':'pre-line'}).text(gisLayer.name)
                                 );
@@ -578,15 +584,39 @@
         $('#panel-gis-layers-settings').append(
             $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                 $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Layer Categories')),
-                $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
-                    states.map(st => {
-                        let fullName = STATES.toFullName(st);
-                        let id = 'gis-layer-enable-state-' + st;
-                        return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
-                            $('<input>', {type:'checkbox', id:id, class:'gis-layers-state-checkbox'}).change(function() { onStateCheckChanged($(this).is(':checked'), st); }).prop('checked', _settings.selectedStates.indexOf(st) > -1),
-                            $('<label>', {for:id}).css({'white-space':'pre-line'}).text(fullName)
-                        );
-                    })
+                $('<div>', {id:'states_body'}).append(
+                    $('<div>').css({'font-size':'11px'}).append(
+                        $('<span>').append(
+                            'Select ',
+                            $('<a>', {href:"#"}).text("All").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                _ignoreFetch = false;
+                                saveSettingsToStorage();
+                                initLayersTab();
+                                fetchFeatures();
+                            }),
+                            " / ",
+                            $('<a>', {href:'#'}).text("None").click(function(){
+                                _ignoreFetch = true;
+                                $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                _ignoreFetch = false;
+                                saveSettingsToStorage();
+                                initLayersTab();
+                                fetchFeatures();
+                            })
+                        )
+                    ),
+                    $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
+                        states.map(st => {
+                            let fullName = STATES.toFullName(st);
+                            let id = 'gis-layer-enable-state-' + st;
+                            return $('<div>', {class: 'controls-container'}).css({'padding-top':'2px','display':'block'}).append(
+                                $('<input>', {type:'checkbox', id:id, class:'gis-layers-state-checkbox'}).change(function() { onStateCheckChanged($(this).is(':checked'), st); }).prop('checked', _settings.selectedStates.indexOf(st) > -1),
+                                $('<label>', {for:id}).css({'white-space':'pre-line'}).text(fullName)
+                            );
+                        })
+                    )
                 )
             )
         );
