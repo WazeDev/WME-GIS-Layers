@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.11.002
+// @version      2018.05.15.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -289,55 +289,57 @@
                         }
                         if (!skipIt) {
                             let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
-                            if (item.geometry.x) {
-                                featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
-                            } else if (item.geometry.points) {
-                                // @TODO Fix for multiple points instead of just grabbing first.
-                                featureGeometry = new OL.Geometry.Point(item.geometry.points[0][0] + layerOffset.x, item.geometry.points[0][1] + layerOffset.y);
-                            } else if (item.geometry.rings) {
-                                let rings = [];
-                                item.geometry.rings.forEach(function(ringIn) {
-                                    let pnts= [];
-                                    for(let i=0;i<ringIn.length;i++){
-                                        pnts.push(new OL.Geometry.Point(ringIn[i][0] + layerOffset.x, ringIn[i][1] + layerOffset.y));
+                            if (item.geometry) {
+                                if (item.geometry.x) {
+                                    featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
+                                } else if (item.geometry.points) {
+                                    // @TODO Fix for multiple points instead of just grabbing first.
+                                    featureGeometry = new OL.Geometry.Point(item.geometry.points[0][0] + layerOffset.x, item.geometry.points[0][1] + layerOffset.y);
+                                } else if (item.geometry.rings) {
+                                    let rings = [];
+                                    item.geometry.rings.forEach(function(ringIn) {
+                                        let pnts= [];
+                                        for(let i=0;i<ringIn.length;i++){
+                                            pnts.push(new OL.Geometry.Point(ringIn[i][0] + layerOffset.x, ringIn[i][1] + layerOffset.y));
+                                        }
+                                        rings.push(new OL.Geometry.LinearRing(pnts));
+                                    });
+                                    featureGeometry = new OL.Geometry.Polygon(rings);
+                                    if (gisLayer.areaToPoint) {
+                                        featureGeometry = featureGeometry.getCentroid();
+                                    } else {
+                                        area = featureGeometry.getArea();
                                     }
-                                    rings.push(new OL.Geometry.LinearRing(pnts));
-                                });
-                                featureGeometry = new OL.Geometry.Polygon(rings);
-                                if (gisLayer.areaToPoint) {
-                                    featureGeometry = featureGeometry.getCentroid();
+                                } else if (data.geometryType === 'esriGeometryPolyline') {
+                                    let pointList = [];
+                                    item.geometry.paths.forEach(function(path){
+                                        path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
+                                    });
+                                    featureGeometry = new OL.Geometry.LineString(pointList);
                                 } else {
-                                    area = featureGeometry.getArea();
+                                    logDebug('Unexpected feature type in layer: ' + JSON.stringify(item));
+                                    logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
+                                    error = true;
                                 }
-                            } else if (data.geometryType === 'esriGeometryPolyline') {
-                                let pointList = [];
-                                item.geometry.paths.forEach(function(path){
-                                    path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
-                                });
-                                featureGeometry = new OL.Geometry.LineString(pointList);
-                            } else {
-                                logDebug('Unexpected feature type in layer: ' + JSON.stringify(item));
-                                logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
-                                error = true;
-                            }
-                            if (!error) {
-                                let hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
-                                let hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
-                                let displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
-                                let label = '';
-                                if (gisLayer.labelHeaderFields) {
-                                    label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
+                                if (!error) {
+                                    let hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
+                                    let hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
+                                    let displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                    let label = '';
+                                    if (gisLayer.labelHeaderFields) {
+                                        label = gisLayer.labelHeaderFields.map(fieldName => item.attributes[fieldName]).join(' ').trim() + '\n';
+                                    }
+                                    if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
+                                        label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
+                                        if (gisLayer.processLabel) label = gisLayer.processLabel(label, item.attributes).trim();
+                                    }
+                                    let attributes = {
+                                        layerID: gisLayer.id,
+                                        label: label
+                                    };
+                                    feature = new OL.Feature.Vector(featureGeometry,attributes);
+                                    features.push(feature);
                                 }
-                                if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
-                                    label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
-                                    if (gisLayer.processLabel) label = gisLayer.processLabel(label, item.attributes).trim();
-                                }
-                                let attributes = {
-                                    layerID: gisLayer.id,
-                                    label: label
-                                };
-                                feature = new OL.Feature.Vector(featureGeometry,attributes);
-                                features.push(feature);
                             }
                         }
                     }
