@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.17.001
+// @version      2018.05.17.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -39,7 +39,8 @@
         pointRadius: 4,
         label : '${label}',
         strokeColor: '#ffa500',
-        strokeOpacity: '0.8',
+        strokeOpacity: '0.95',
+        strokeWidth: 1.5,
         fontColor: '#ffc520',
         fontSize: '13',
         labelOutlineColor: 'black',
@@ -62,6 +63,7 @@
         milemarkers: {
             strokeColor: '#fff',
             fontColor: '#fff',
+            fontWeight: 'bold',
             fillOpacity: 0,
             labelYOffset: 10,
             pointRadius: 2,
@@ -81,20 +83,19 @@
             strokeColor: '#000',
             fontColor: '#f84',
             fillColor: '#f84',
-            fontSize: '13',
             fontWeight: 'bold',
             labelYOffset: -10,
             labelAlign: 'ct'
         },
         state_parcels: {
             fillOpacity: 0,
-            strokeColor: '#f51',
-            fontColor: '#f62'
+            strokeColor: '#e62',
+            fontColor: '#e73'
         },
         state_points: {
             strokeColor: '#000',
-            fontColor: '#0af',
-            fillColor: '#0af',
+            fontColor: '#3cf',
+            fillColor: '#3cf',
             labelYOffset: -10,
             labelAlign: 'ct'
         },
