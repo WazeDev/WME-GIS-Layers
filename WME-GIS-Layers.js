@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.15.001
+// @version      2018.05.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -37,12 +37,12 @@
     const DEFAULT_STYLE = {
         fillColor: '#000',
         pointRadius: 4,
-        label : "${label}",
+        label : '${label}',
         strokeColor: '#ffa500',
         strokeOpacity: '0.8',
-        fontColor: "#ffc520",
+        fontColor: '#ffc520',
         fontSize: '13',
-        labelOutlineColor: "black",
+        labelOutlineColor: 'black',
         labelOutlineWidth: 3
     };
 
@@ -72,17 +72,19 @@
         },
         points: {
             strokeColor: '#000',
-            fontColor: "#0ff",
+            fontColor: '#0ff',
             fillColor: '#0ff',
-            labelYOffset: -15
+            labelYOffset: -10,
+            labelAlign: 'ct'
         },
         post_offices: {
             strokeColor: '#000',
-            fontColor: "#f84",
+            fontColor: '#f84',
             fillColor: '#f84',
             fontSize: '13',
             fontWeight: 'bold',
-            labelYOffset: -20
+            labelYOffset: -10,
+            labelAlign: 'ct'
         },
         state_parcels: {
             fillOpacity: 0,
@@ -91,9 +93,10 @@
         },
         state_points: {
             strokeColor: '#000',
-            fontColor: "#0af",
+            fontColor: '#0af',
             fillColor: '#0af',
-            labelYOffset: -15
+            labelYOffset: -10,
+            labelAlign: 'ct'
         },
         structures: {
             fillOpacity: 0,
@@ -347,6 +350,32 @@
             }
         }
         if (!token.cancel) {
+            // Check for duplicate geometries.
+            for (let i=0; i<features.length; i++) {
+                let f1 = features[i];
+                let c1 = f1.geometry.getCentroid();
+                let labels = [f1.attributes.label];
+                for (let j=i+1; j<features.length; j++) {
+                    let f2 = features[j];
+                    if (f2.geometry.getCentroid().distanceTo(c1) < 1) {
+                        features.splice(j,1);
+                        labels.push(f2.attributes.label);
+                        j--;
+                    }
+                }
+                labels = _.unique(labels);
+                if (labels.length > 1) {
+                    labels.forEach((label, idx) => labels[idx] = label.replace(/\n/g,' '));
+                    labels.sort();
+                    if (labels.length > 12) {
+                        let len = labels.length;
+                        labels = labels.slice(0,10);
+                        labels.push('(' + (len - 10) + ' more...)');
+                    }
+                    f1.attributes.label = _.unique(labels).join('\n');
+                }
+            }
+
             _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
             _mapLayer.addFeatures(features);
 
@@ -510,7 +539,7 @@
             return new OL.Rule({
                 filter: new OL.Filter.Comparison({
                     type: OL.Filter.Comparison.EQUAL_TO,
-                    property: "layerID",
+                    property: 'layerID',
                     value: gisLayer.id
                 }),
                 symbolizer: gisLayer.style
@@ -521,8 +550,8 @@
 
         let style = new OL.Style(DEFAULT_STYLE, { rules: rules } );
 
-        _mapLayer = new OL.Layer.Vector("GIS Layers", {
-            uniqueName: "__wmeGISLayers",
+        _mapLayer = new OL.Layer.Vector('GIS Layers', {
+            uniqueName: '__wmeGISLayers',
             styleMap: new OL.StyleMap(style)
         });
         _mapLayer.setVisibility(_settings.enabled);
@@ -541,25 +570,25 @@
             $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {id:'gis-layers-for-' + st, style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                     $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<i>', {class:'fa fa-fw fa-chevron-down', style:'cursor: pointer;font-size: 12px;margin-right: 4px'}).click(function() {
-                        $(this).toggleClass("fa fa-fw fa-chevron-down");
-                        $(this).toggleClass("fa fa-fw fa-chevron-right");
-                        $(`#${st}_body`).toggleClass("collapse");
+                        $(this).toggleClass('fa fa-fw fa-chevron-down');
+                        $(this).toggleClass('fa fa-fw fa-chevron-right');
+                        $(`#${st}_body`).toggleClass('collapse');
                     }), $('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
                     $('<div>', {id:`${st}_body`}).append(
                         $('<div>').css({'font-size':'11px'}).append(
                             $('<span>').append(
                                 'Select ',
-                                $('<a>', {href:"#"}).text("All").click(function(){
+                                $('<a>', {href:'#'}).text('All').click(function(){
                                     _ignoreFetch = true;
-                                    $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                    $(this).closest('fieldset').find('input').prop('checked', false).trigger('click');
                                     _ignoreFetch = false;
                                     saveSettingsToStorage();
                                     fetchFeatures();
                                 }),
-                                " / ",
-                                $('<a>', {href:'#'}).text("None").click(function(){
+                                ' / ',
+                                $('<a>', {href:'#'}).text('None').click(function(){
                                     _ignoreFetch = true;
-                                    $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                    $(this).closest('fieldset').find('input').prop('checked', true).trigger('click');
                                     _ignoreFetch = false;
                                     saveSettingsToStorage();
                                     fetchFeatures();
@@ -590,18 +619,18 @@
                     $('<div>').css({'font-size':'11px'}).append(
                         $('<span>').append(
                             'Select ',
-                            $('<a>', {href:"#"}).text("All").click(function(){
+                            $('<a>', {href:'#'}).text('All').click(function(){
                                 _ignoreFetch = true;
-                                $(this).closest('fieldset').find("input").prop('checked', false).trigger('click');
+                                $(this).closest('fieldset').find('input').prop('checked', false).trigger('click');
                                 _ignoreFetch = false;
                                 saveSettingsToStorage();
                                 initLayersTab();
                                 fetchFeatures();
                             }),
-                            " / ",
-                            $('<a>', {href:'#'}).text("None").click(function(){
+                            ' / ',
+                            $('<a>', {href:'#'}).text('None').click(function(){
                                 _ignoreFetch = true;
-                                $(this).closest('fieldset').find("input").prop('checked', true).trigger('click');
+                                $(this).closest('fieldset').find('input').prop('checked', true).trigger('click');
                                 _ignoreFetch = false;
                                 saveSettingsToStorage();
                                 initLayersTab();
@@ -667,7 +696,7 @@
 
         new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
         WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
-        W.map.events.register("moveend",null,onMapMove);
+        W.map.events.register('moveend',null,onMapMove);
         showScriptInfoAlert();
     }
 
@@ -681,6 +710,7 @@
                     const EXPECTED_FIELD_NAMES = ['state','name','id','counties','url','where','labelFields','processLabel','style','visibleAtZoom','labelsVisibleAtZoom','enabled'];
                     let ssFieldNames;
                     let result = {error:null};
+                    let checkFieldNames = fldName => ssFieldNames.indexOf(fldName) > -1;
 
                     for(let entryIdx = 0; entryIdx < data.feed.entry.length && !result.error; entryIdx++) {
                         let cellValue = data.feed.entry[entryIdx].title.$t;
@@ -694,7 +724,7 @@
                             ssFieldNames = cellValue.split('|').map(fldName => fldName.trim());
                             if (ssFieldNames.length < EXPECTED_FIELD_NAMES.length) {
                                 result.error = 'Expected ' + EXPECTED_FIELD_NAMES.length + ' columns in layer definition data.  Spreadsheet returned ' + ssFieldNames.length + '.';
-                            } else if (!EXPECTED_FIELD_NAMES.every(fldName => ssFieldNames.indexOf(fldName) > -1)) {
+                            } else if (!EXPECTED_FIELD_NAMES.every(fldName => checkFieldNames(fldName))) {
                                 result.error = 'Script expected to see the following column names in the layer definition spreadsheet:\n' + EXPECTED_FIELD_NAMES.join(', ') + '\nBut the spreadsheet returned these:\n' + ssFieldNames.join(', ');
                             }
                         } else {
@@ -725,7 +755,7 @@
                                         layerDef[fldName] = [''];
                                     }
                                 });
-                                if (layerDef.enabled && ["0","false","no","n"].indexOf(layerDef.enabled.toString().trim().toLowerCase()) === -1) {
+                                if (layerDef.enabled && ['0','false','no','n'].indexOf(layerDef.enabled.toString().trim().toLowerCase()) === -1) {
                                     _gisLayers.push(layerDef);
                                 }
                             }
@@ -733,7 +763,7 @@
                     }
                     resolve(result);
                 },
-                error: function(data) {
+                error: function() {
                     reject({message: 'An error occurred while loading the GIS layer definition spreadsheet.'});
                 }
             });
