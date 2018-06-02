@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.05.17.002
+// @version      2018.06.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -55,10 +55,10 @@
             fontColor: '#f62'
         },
         forests_parks: {
-            fillOpacity: 0.2,
+            fillOpacity: 0.4,
             fillColor: '#585',
             strokeColor: '#484',
-            fontColor: '#484'
+            fontColor: '#8b8'
         },
         milemarkers: {
             strokeColor: '#fff',
@@ -265,6 +265,7 @@
         }
     }
 
+    const ROAD_ABBR = [[/\bAVENUE$/,'AVE'], [/\bCIRCLE$/,'CIR'], [/\bCOURT$/,'CT'], [/\bDRIVE$/,'DR'], [/\bLANE$/,'LN'], [/\bPARK$/,'PK'], [/\bPLACE$/,'PL'], [/\bROAD$/,'RD'], [/\bSTREET$/,'ST'],  [/\bTERRACE$/,'TER']];
     function processFeatures(data, token, gisLayer) {
         let features = [];
         if (data.skipIt) {
@@ -366,7 +367,12 @@
                 }
                 labels = _.unique(labels);
                 if (labels.length > 1) {
-                    labels.forEach((label, idx) => labels[idx] = label.replace(/\n/g,' '));
+                    labels.forEach((label, idx) => {
+                        label = label.replace(/\n/g,' ').replace(/\s{2,}/,' ').replace(/\bUNIT\s.{1,5}$/i,'').trim();
+                        ROAD_ABBR.forEach(abbr => label = label.replace(abbr[0], abbr[1]));
+                        labels[idx] = label;
+                    });
+                    labels = _.unique(labels);
                     labels.sort();
                     if (labels.length > 12) {
                         let len = labels.length;
@@ -374,6 +380,10 @@
                         labels.push('(' + (len - 10) + ' more...)');
                     }
                     f1.attributes.label = _.unique(labels).join('\n');
+                } else {
+                    let label = f1.attributes.label;
+                    ROAD_ABBR.forEach(abbr => label = label.replace(abbr[0], abbr[1]));
+                    f1.attributes.label = label;
                 }
             }
 
@@ -472,7 +482,7 @@
         _settings.enabled = value;
         saveSettingsToStorage();
         _mapLayer.setVisibility(value);
-        let color = value ? '#00bd00' : '#777';
+        let color = value ? '#00bd00' : '#ccc';
         $('span#gis-layers-power-btn').css({color:color});
         if (value) fetchFeatures();
         $('#layer-switcher-item_gis_layers').prop('checked',value);
@@ -669,7 +679,7 @@
         initSettingsTab();
         initLayersTab();
         if (!$('#gis-layers-power-btn').length) {
-            let color = _settings.enabled ? '#00bd00' : '#777';
+            let color = _settings.enabled ? '#00bd00' : '#ccc';
             $('a[href="#sidepanel-gis-l"]').prepend(
                 $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
                     evt.stopPropagation();
