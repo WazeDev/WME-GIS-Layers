@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.06.02.001
+// @version      2018.06.04.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -33,6 +33,7 @@
 
     const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
     const LAYER_DEF_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/oj7k5j6/public/values?alt=json';
+    const PRIVATE_LAYERS = {'nc-henderson-sl-signs': ['the_cre8r','mapomatic']}; // case sensitive -- use all lower case
 
     const DEFAULT_STYLE = {
         fillColor: '#000',
@@ -571,6 +572,7 @@
     } // END InitLayer
 
     function initLayersTab() {
+        let user = W.loginManager.user.userName.toLowerCase();
         let states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
         $('#panel-gis-state-layers').empty();
         $('#panel-gis-state-layers').append(
@@ -607,7 +609,7 @@
                             )
                         ),
                         $('<div>', {class:'controls-container', style:'padding-top:0px;'}).append(
-                            _gisLayers.filter(l => l.state === st).map(gisLayer => {
+                            _gisLayers.filter(l => (l.state === st && (!PRIVATE_LAYERS.hasOwnProperty(l.id) || PRIVATE_LAYERS[l.id].indexOf(user) > -1))).map(gisLayer => {
                                 let id = 'gis-layer-' + gisLayer.id;
                                 return $('<div>', {class: 'controls-container', id: id+'-container'}).css({'padding-top':'2px', 'display':'block'}).append(
                                     $('<input>', {type:'checkbox', id:id}).change(function() { onLayerToggleChanged($(this).is(':checked'), gisLayer.id); }).prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
