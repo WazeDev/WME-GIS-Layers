@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.06.04.001
+// @version      2018.06.07.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -31,6 +31,7 @@
 
     // **************************************************************************************************************
 
+    const SCRIPT_AUTHOR = 'MapOMatic';  // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
     const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
     const LAYER_DEF_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/oj7k5j6/public/values?alt=json';
     const PRIVATE_LAYERS = {'nc-henderson-sl-signs': ['the_cre8r','mapomatic']}; // case sensitive -- use all lower case
@@ -179,7 +180,8 @@
             onlyShowApplicableLayers: false,
             selectedStates: [],
             enabled: true,
-            fillParcels: false
+            fillParcels: false,
+            addrLabelDisplay: 'all'
         };
         _settings = loadedSettings ? loadedSettings : defaultSettings;
         for (let prop in defaultSettings) {
@@ -338,6 +340,15 @@
                                     if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
                                         label += gisLayer.labelFields.map(fieldName => item.attributes[fieldName]).join(' ').trim();
                                         if (gisLayer.processLabel) label = gisLayer.processLabel(label, item.attributes).trim();
+                                    }
+                                    if (label && [LAYER_STYLES.points, LAYER_STYLES.parcels, LAYER_STYLES.state_points, LAYER_STYLES.state_parcels].indexOf(gisLayer.style) > -1) {
+                                        if (_settings.addrLabelDisplay === 'hn') {
+                                            let m = label.match(/^\d+/);
+                                            label = m ? m[0] : '';
+                                        } else if (_settings.addrLabelDisplay === 'street') {
+                                            let m = label.match(/^(?:\d+\s)?(.*)/);
+                                            label = m ? m[1].trim() : '';
+                                        }
                                     }
                                     let attributes = {
                                         layerID: gisLayer.id,
@@ -625,7 +636,24 @@
 
     function initSettingsTab() {
         let states = _.uniq(_gisLayers.map(l => l.state));
+        let createRadioBtn = (name, value, text, checked) => {
+            let id = `${name}-${value}`;
+            return [$('<input>', {type:'radio', id:id, name:name, value:value}).prop('checked',checked),$('<label>', {for:id}).text(text).css({paddingLeft:'15px', marginRight:'4px'})];
+        };
         $('#panel-gis-layers-settings').append(
+            $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+                $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Labels')),
+                $('<div>', {id:'labelSettings'}).append(
+                    $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
+                        $('<label>',{style:'font-weight:normal;'}).text('Addresses:'),
+                        createRadioBtn('gisAddrDisplay', 'hn', 'HN', _settings.addrLabelDisplay === 'hn'),
+                        createRadioBtn('gisAddrDisplay', 'street', 'Street', _settings.addrLabelDisplay === 'street'),
+                        createRadioBtn('gisAddrDisplay', 'all', 'Both', _settings.addrLabelDisplay === 'all'),
+                        $('<i>', {class:'waze-tooltip', id:'gisAddrDisplayInfo', 'data-toggle':'tooltip', style:'margin-left:8px; font-size:12px', 'data-placement':'bottom',
+                                  'title':`This may not work properly for all layers. Please report issues to ${SCRIPT_AUTHOR}.`}).tooltip()
+                    )
+                )
+            ),
             $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
                 $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Layer Categories')),
                 $('<div>', {id:'states_body'}).append(
@@ -675,6 +703,11 @@
                 // )
             )
         );
+        $('input[name=gisAddrDisplay]').on('change', function() {
+            _settings.addrLabelDisplay = $(this).val();
+            saveSettingsToStorage();
+            fetchFeatures();
+        });
     }
 
     function initTab() {
