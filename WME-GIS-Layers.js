@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.06.07.001
+// @version      2018.06.09.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -105,6 +105,11 @@
             fillOpacity: 0,
             strokeColor: '#f7f',
             fontColor: '#f7f'
+        },
+        roads: {
+            strokeWidth: 3,
+            strokeColor: '#f0f',
+            strokeOpacity: 0.6
         }
     };
 
@@ -324,6 +329,7 @@
                                         path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x, point[1] + layerOffset.y)));
                                     });
                                     featureGeometry = new OL.Geometry.LineString(pointList);
+                                    featureGeometry.skipDupeCheck = true;
                                 } else {
                                     logDebug('Unexpected feature type in layer: ' + JSON.stringify(item));
                                     logError('Error: Unexpected feature type in layer "' + gisLayer.name + '"');
@@ -367,35 +373,37 @@
             // Check for duplicate geometries.
             for (let i=0; i<features.length; i++) {
                 let f1 = features[i];
-                let c1 = f1.geometry.getCentroid();
-                let labels = [f1.attributes.label];
-                for (let j=i+1; j<features.length; j++) {
-                    let f2 = features[j];
-                    if (f2.geometry.getCentroid().distanceTo(c1) < 1) {
-                        features.splice(j,1);
-                        labels.push(f2.attributes.label);
-                        j--;
+                if (!f1.geometry.skipDupeCheck) {
+                    let c1 = f1.geometry.getCentroid();
+                    let labels = [f1.attributes.label];
+                    for (let j=i+1; j<features.length; j++) {
+                        let f2 = features[j];
+                        if (!f2.geometry.skipDupeCheck && f2.geometry.getCentroid().distanceTo(c1) < 1) {
+                            features.splice(j,1);
+                            labels.push(f2.attributes.label);
+                            j--;
+                        }
                     }
-                }
-                labels = _.unique(labels);
-                if (labels.length > 1) {
-                    labels.forEach((label, idx) => {
-                        label = label.replace(/\n/g,' ').replace(/\s{2,}/,' ').replace(/\bUNIT\s.{1,5}$/i,'').trim();
-                        ROAD_ABBR.forEach(abbr => label = label.replace(abbr[0], abbr[1]));
-                        labels[idx] = label;
-                    });
                     labels = _.unique(labels);
-                    labels.sort();
-                    if (labels.length > 12) {
-                        let len = labels.length;
-                        labels = labels.slice(0,10);
-                        labels.push('(' + (len - 10) + ' more...)');
+                    if (labels.length > 1) {
+                        labels.forEach((label, idx) => {
+                            label = label.replace(/\n/g,' ').replace(/\s{2,}/,' ').replace(/\bUNIT\s.{1,5}$/i,'').trim();
+                            ROAD_ABBR.forEach(abbr => label = label.replace(abbr[0], abbr[1]));
+                            labels[idx] = label;
+                        });
+                        labels = _.unique(labels);
+                        labels.sort();
+                        if (labels.length > 12) {
+                            let len = labels.length;
+                            labels = labels.slice(0,10);
+                            labels.push('(' + (len - 10) + ' more...)');
+                        }
+                        f1.attributes.label = _.unique(labels).join('\n');
+                    } else {
+                        let label = f1.attributes.label;
+                        ROAD_ABBR.forEach(abbr => label = label.replace(abbr[0], abbr[1]));
+                        f1.attributes.label = label;
                     }
-                    f1.attributes.label = _.unique(labels).join('\n');
-                } else {
-                    let label = f1.attributes.label;
-                    ROAD_ABBR.forEach(abbr => label = label.replace(abbr[0], abbr[1]));
-                    f1.attributes.label = label;
                 }
             }
 
