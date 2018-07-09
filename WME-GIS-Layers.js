@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.06.13.001
+// @version      2018.07.08.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -294,7 +294,8 @@
             fontSize: 12
         },
         parcels: {
-            fillOpacity: 0
+            fillOpacity: 0,
+            fillColor: '#ffa500'
         },
         points: {
             strokeColor: '#000',
@@ -314,6 +315,7 @@
         state_parcels: {
             fillOpacity: 0,
             strokeColor: '#e62',
+            fillColor: '#e62',
             fontColor: '#e73'
         },
         state_points: {
@@ -550,6 +552,12 @@
                         }
                         if (!skipIt) {
                             let layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : {x: 0, y: 0};
+                            // Special handling for this layer, because it doesn't have a geometry property.  Coordinates are stored in the attributes.
+                            if (gisLayer.id === 'nc-richmond-co-pts') {
+                                let pt = new OL.Geometry.Point(item.attributes.XCOOR, item.attributes.YCOOR);
+                                pt.transform(W.map.displayProjection, W.map.projection);
+                                item.geometry = pt;
+                            }
                             if (item.geometry) {
                                 if (item.geometry.x) {
                                     featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y);
@@ -797,12 +805,9 @@
     }
 
     function setFillParcels(doFill) {
-        if (doFill) {
-            LAYER_STYLES.parcels.fillOpacity = 0.2;
-            LAYER_STYLES.parcels.fillColor = DEFAULT_STYLE.strokeColor;
-        } else {
-            LAYER_STYLES.parcels.fillOpacity = 0;
-        }
+        [LAYER_STYLES.parcels, LAYER_STYLES.state_parcels].forEach(style => {
+            style.fillOpacity = doFill ? 0.2 : 0;
+        });
     }
 
     function onFillParcelsCheckedChanged(checked) {
