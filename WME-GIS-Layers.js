@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.08.11.001
+// @version      2018.08.18.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1592,7 +1592,7 @@
     }
 
     function bootstrap() {
-        if (W && W.loginManager && W.map && W.loginManager.isLoggedIn() && W.model && W.model.states && W.model.states.getObjectArray().length) {
+        if (W && W.loginManager && W.map && W.loginManager.user && W.model && W.model.states && W.model.states.getObjectArray().length) {
             log('Initializing...');
             init();
         } else {
