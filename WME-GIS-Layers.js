@@ -357,7 +357,7 @@
 // @connect gismaps.wichita.gov
 // @connect gismapserver.leegov.com
 // @connect gisp.co.genesee.ny.us
-// @connect gisp2.forsythco.com
+// @connect geo.forsythco.com
 // @connect gisprod10.co.fresno.ca.us
 // @connect gisprodops.chesco.org
 // @connect gisprpxy.itd.state.ma.us
