@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.09.24.001
+// @version      2018.12.01.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -16,19 +16,19 @@
 // @connect 131.187.129.114
 // @connect 136.234.11.196
 // @connect 136.234.13.165
-// @connect 161.6.109.206
 // @connect 184.12.255.122
 // @connect 204.63.176.116
 // @connect 206.176.83.74
 // @connect 206.74.124.99
 // @connect 216.110.207.61
+// @connect 216.167.160.20
 // @connect 216.81.174.57
 // @connect 23.96.59.134
-// @connect 50.120.220.154
 // @connect 52.37.30.30
 // @connect 54.213.14.253
 // @connect 63.238.120.156
 // @connect 72.10.206.73
+// @connect a2maps.a2gov.org
 // @connect adairgis.integritygis.com
 // @connect agis.charlottecountyfl.gov
 // @connect ags.agdmaps.com
@@ -59,8 +59,10 @@
 // @connect arcgis.sprocketcomm.com
 // @connect arcgis.tampagov.net
 // @connect arcgis.tuscaloosa-al.gov
+// @connect arcgis.vgsi.com
 // @connect arcgis.waxahachie.com
 // @connect arcgis.wycokck.org
+// @connect arcgis.yumacountyaz.gov
 // @connect arcgis2.williamsoncounty-tn.gov
 // @connect arcgis4.roktech.net
 // @connect arcgisce.co.valencia.nm.us
@@ -102,28 +104,27 @@
 // @connect co.kent.de.us
 // @connect coagisweb.cabq.gov
 // @connect coopergis.integritygis.com
-// @connect copgisweb.ci.pearland.tx.us
 // @connect crgis.cedar-rapids.org
 // @connect data.wsdot.wa.gov
 // @connect data1.digitaldataservices.com
 // @connect dc-web.co.douglas.mn.us
+// @connect dcimapapps.countyofdane.com
 // @connect doniphangis.integritygis.com
 // @connect douglasgis.integritygis.com
 // @connect douglasil.com
 // @connect dtdapps.coloradodot.info
 // @connect dungis.dunwoodyga.gov
+// @connect ecgis.co.ellis.tx.us
 // @connect egis.pinellascounty.org
 // @connect elb2.39dn.com
 // @connect emapsplus.com
 // @connect epv.ci.juneau.ak.us
 // @connect eservices.co.crook.or.us
 // @connect essex-gis.co.essex.ny.us
-// @connect ewebmap.ci.lubbock.tx.us
 // @connect fremontgis.com
 // @connect geaugarealink.co.geauga.oh.us
 // @connect gem.edcgov.us
 // @connect geo.forsythco.com
-// @connect geo.nhcgov.com
 // @connect geo.oit.ohio.gov
 // @connect geodata.hawaii.gov
 // @connect geodata.md.gov
@@ -146,7 +147,6 @@
 // @connect gis.arapahoegov.com
 // @connect gis.arkansas.gov
 // @connect gis.arlingtonva.us
-// @connect gis.ashland-ohio.com
 // @connect gis.auglaizecounty.org
 // @connect gis.azdot.gov
 // @connect gis.baltimorecity.gov
@@ -167,6 +167,7 @@
 // @connect gis.cayugacounty.us
 // @connect gis.cccounty.us
 // @connect gis.ccgisonline.com
+// @connect gis.ccgov.net
 // @connect gis.ccpa.net
 // @connect gis.cherokeega.com
 // @connect gis.citruspa.org
@@ -190,6 +191,7 @@
 // @connect gis.co.kendall.il.us
 // @connect gis.co.knox.il.us
 // @connect gis.co.lancaster.pa.us
+// @connect gis.co.marathon.wi.us
 // @connect gis.co.mifflin.pa.us
 // @connect gis.co.mille-lacs.mn.us
 // @connect gis.co.monterey.ca.us
@@ -198,6 +200,7 @@
 // @connect gis.co.pope.mn.us
 // @connect gis.co.roseau.mn.us
 // @connect gis.co.santa-cruz.ca.us
+// @connect gis.co.sauk.wi.us
 // @connect gis.co.stearns.mn.us
 // @connect gis.co.tuolumne.ca.us
 // @connect gis.co.wadena.mn.us
@@ -211,6 +214,7 @@
 // @connect gis.cranstonri.org
 // @connect gis.crawfordcountypa.net
 // @connect gis.crookcounty.wy.gov
+// @connect gis.dallascityhall.com
 // @connect gis.dauphincounty.org
 // @connect gis.dbqco.org
 // @connect gis.dentoncounty.com
@@ -224,6 +228,7 @@
 // @connect gis.ebparks.org
 // @connect gis.elpasotexas.gov
 // @connect gis.emmetcounty.org
+// @connect gis.fairfield-city.org
 // @connect gis.fnsb.us
 // @connect gis.franklincountypa.gov
 // @connect gis.fultoncountyga.gov
@@ -237,11 +242,14 @@
 // @connect gis.gocolumbiamo.com
 // @connect gis.goshencounty.org
 // @connect gis.gptx.org
+// @connect gis.grand-island.com
 // @connect gis.greenegovernment.com
 // @connect gis.gscplanning.com
+// @connect gis.gwinnettcounty.com
 // @connect gis.hcpafl.org
 // @connect gis.hendersonky.us
 // @connect gis.hennepin.us
+// @connect gis.icao.int
 // @connect gis.in.gov
 // @connect gis.interdev.com
 // @connect gis.iowadot.gov
@@ -251,12 +259,14 @@
 // @connect gis.johnsoncitytn.org
 // @connect gis.kanawhacountyassessor.com
 // @connect gis.kentcountymi.gov
+// @connect gis.lacrossecounty.org
 // @connect gis.lakecountyfl.gov
 // @connect gis.latah.id.us
 // @connect gis.leecountyil.com
 // @connect gis.leoc.net
 // @connect gis.libertycountyga.com
 // @connect gis.linncounty.org
+// @connect gis.littleelm.org
 // @connect gis.losalamosnm.us
 // @connect gis.luzernecounty.org
 // @connect gis.lyco.org
@@ -265,6 +275,7 @@
 // @connect gis.marioncountyfl.org
 // @connect gis.massdot.state.ma.us
 // @connect gis.mcassessor.maricopa.gov
+// @connect gis.mercercountyohio.org
 // @connect gis.missoulacounty.us
 // @connect gis.mono.ca.gov
 // @connect gis.mytoddcounty.com
@@ -274,6 +285,7 @@
 // @connect gis.nevadadot.com
 // @connect gis.nevcounty.net
 // @connect gis.newedgeservices.com
+// @connect gis.nhcgov.com
 // @connect gis.niagaracounty.com
 // @connect gis.nola.gov
 // @connect gis.norrycopa.net
@@ -285,6 +297,7 @@
 // @connect gis.owensboro.org
 // @connect gis.pandai.com
 // @connect gis.parkcounty.org
+// @connect gis.pearlandtx.gov
 // @connect gis.peoriacounty.org
 // @connect gis.perryco.org
 // @connect gis.personcounty.net
@@ -294,9 +307,11 @@
 // @connect gis.pittcountync.gov
 // @connect gis.plantation.org
 // @connect gis.polkcountyiowa.gov
+// @connect gis.port-orange.org
 // @connect gis.pottcounty-ia.gov
 // @connect gis.putnam-fl.com
 // @connect gis.qac.org
+// @connect gis.rapides911.org
 // @connect gis.rcgov.org
 // @connect gis.renvillecountymn.com
 // @connect gis.rileycountyks.gov
@@ -317,18 +332,17 @@
 // @connect gis.ulstercountyny.gov
 // @connect gis.ventura.org
 // @connect gis.weatherfordtx.gov
-// @connect gis.whitfieldcountyga.com
 // @connect gis.wilco.org
 // @connect gis.wiu.edu
 // @connect gis.worldviewsolutions.com
 // @connect gis.wyo.gov
 // @connect gis.yavapai.us
-// @connect gis.yumacountyaz.gov
 // @connect gis1.cookcountyil.gov
 // @connect gis1.georgetowncountysc.org
 // @connect gis1.hcpao.org
 // @connect gis10.dot.ga.gov
 // @connect gis11.services.ncdot.gov
+// @connect gis2.arlingtontx.gov
 // @connect gis2.ashtabulacounty.us
 // @connect gis2.cambriacountypa.gov
 // @connect gis2.co.dakota.mn.us
@@ -343,8 +357,8 @@
 // @connect gis2.siouxfalls.org
 // @connect gis3.gisworkshop.com
 // @connect gis3.montgomerycountymd.gov
-// @connect gis4.dfwmaps.com
 // @connect gis4.montgomerycountymd.gov
+// @connect gisago-qa.mcgi.state.mi.us
 // @connect gisago.mcgi.state.mi.us
 // @connect gisapp.adcogov.org
 // @connect gisapp.mahoningcountyoh.gov
@@ -359,6 +373,7 @@
 // @connect gismap.co.norman.mn.us
 // @connect gismap.eaglecounty.us
 // @connect gismaps.cityofboise.org
+// @connect gismaps.co.cerro-gordo.ia.us
 // @connect gismaps.co.sangamon.il.us
 // @connect gismaps.columbiapa.org
 // @connect gismaps.flower-mound.com
@@ -375,7 +390,7 @@
 // @connect gispublic.co.lake.ca.us
 // @connect gissd.sandag.org
 // @connect gisserver.christiancountymo.gov
-// @connect gisserver1.co.teton.id.us
+// @connect gisserver18.co.teton.id.us
 // @connect gisservicemt.gov
 // @connect gisservices.chathamnc.org
 // @connect gisservices.co.anoka.mn.us
@@ -393,13 +408,10 @@
 // @connect gisweb.co.wilkin.mn.us
 // @connect gisweb.jeffcowa.us
 // @connect gisweb.miamidade.gov
-// @connect gisweb.port-orange.org
-// @connect gisweb2.azwater.gov
 // @connect giswww.westchestergov.com
 // @connect git.co.tioga.ny.us
 // @connect grandgis.com
 // @connect granitweb.sr.unh.edu
-// @connect gtg.smcg.co.saint-marys.md.us
 // @connect gweb01.co.olmsted.mn.us
 // @connect harpergis.integritygis.com
 // @connect harrisonms.geopowered.com
@@ -413,7 +425,6 @@
 // @connect ira.property-appraiser.org
 // @connect jcgis.jacksongov.org
 // @connect jeffcogis.jccal.org
-// @connect jessie.rexburg.org
 // @connect k3gis.com
 // @connect kcearth.kcgov.us
 // @connect kcgis.kcor.org
@@ -426,8 +437,11 @@
 // @connect lgmap.wdm.iowa.gov
 // @connect lincolngis.integritygis.com
 // @connect linkgis.org
+// @connect lio.milwaukeecountywi.gov
 // @connect lpcgis.laplata.co.us
+// @connect lrs.co.columbia.wi.us
 // @connect macongis.co.macon.il.us
+// @connect madison.rexburg.org
 // @connect map-gis.paducahky.gov
 // @connect map.claycountymn.gov
 // @connect map.co.clearwater.mn.us
@@ -450,14 +464,15 @@
 // @connect mapping.cabellassessor.com
 // @connect mapping.huntingdoncounty.net
 // @connect mapping.modot.org
-// @connect mappingmonroe.monroecounty.gov
 // @connect maps.alexandriava.gov
 // @connect maps.berkeleywv.org
 // @connect maps.bonnercounty.us
 // @connect maps.boonecountyil.org
 // @connect maps.bouldercounty.org
+// @connect maps.brazoriacountytx.gov
 // @connect maps.bryantx.gov
 // @connect maps.butlercountyauditor.org
+// @connect maps.canyonco.org
 // @connect maps.casperwy.gov
 // @connect maps.chautauquacounty.com
 // @connect maps.ci.liberty.mo.us
@@ -468,7 +483,6 @@
 // @connect maps.clermontauditor.org
 // @connect maps.clintoncountypa.com
 // @connect maps.co.blaine.id.us
-// @connect maps.co.bonneville.id.us
 // @connect maps.co.butler.pa.us
 // @connect maps.co.forsyth.nc.us
 // @connect maps.co.goodhue.mn.us
@@ -513,6 +527,7 @@
 // @connect maps.lex-co.com
 // @connect maps.lexingtonky.gov
 // @connect maps.lincolncountysd.org
+// @connect maps.matsugov.us
 // @connect maps.maurycounty-tn.gov
 // @connect maps.mckinneytexas.org
 // @connect maps.meshekgis.com
@@ -539,8 +554,8 @@
 // @connect maps.sussexcountyde.gov
 // @connect maps.talbgov.org
 // @connect maps.udot.utah.gov
+// @connect maps.vcgi.vermont.gov
 // @connect maps.vcgov.org
-// @connect maps.vermont.gov
 // @connect maps.wakegov.com
 // @connect maps.washco-md.net
 // @connect maps1.larimer.org
@@ -558,7 +573,7 @@
 // @connect mapsonline.columbiacountyga.gov
 // @connect mcggis.mcgtn.org
 // @connect mcgis.mesacounty.us
-// @connect mcgis.mohavecounty.us
+// @connect mcgis2.mohavecounty.us
 // @connect mcgis4.monroecounty-fl.gov
 // @connect mcmap2.montrosecounty.net
 // @connect mcogis.co.marion.oh.us
@@ -589,6 +604,7 @@
 // @connect propertyrecords.montcopa.org
 // @connect propertyviewer.andersoncountysc.org
 // @connect psportal.harrisoncountywv.com
+// @connect pubgis.ci.lubbock.tx.us
 // @connect publicmap.co.st-clair.il.us
 // @connect qagis1.sanantonio.gov
 // @connect rallsgis.integritygis.com
@@ -597,9 +613,10 @@
 // @connect regis.solanocounty.com
 // @connect renogis3.renogov.org
 // @connect romefloyd.agdmaps.com
+// @connect rpgis.isd.lacounty.gov
 // @connect rptsgisweb.oswegocounty.com
-// @connect sagiscloud.thempc.org
 // @connect scgis.siouxcounty.org
+// @connect scgisa.starkcountyohio.gov
 // @connect secure.boonecountygis.com
 // @connect seminolearcgis.seminolecountyfl.gov
 // @connect server1.mapxpress.net
@@ -614,21 +631,24 @@
 // @connect services1.arcgis.com
 // @connect services2.arcgis.com
 // @connect services2.bhamaps.com
+// @connect services2.geopowered.com
 // @connect services2.integritygis.com
 // @connect services3.arcgis.com
 // @connect services5.arcgis.com
 // @connect services6.arcgis.com
 // @connect services7.arcgis.com
+// @connect services8.arcgis.com
 // @connect services9.arcgis.com
 // @connect sjmap.org
 // @connect spatial.gishost.com
 // @connect spatial.jacksoncounty.org
 // @connect springsgis.coralsprings.org
 // @connect stlgis.stlouis-mo.gov
+// @connect stmgis.stmarysmd.com
 // @connect summitmaps.summitoh.net
 // @connect svr4.sumtercountysc.org
 // @connect tigerweb.geo.census.gov
-// @connect tiptontn.geopowered.com
+// @connect tiogagis.tiogacountypa.us
 // @connect tlcgisinter.leoncountyfl.gov
 // @connect tn.hardeman.geopowered.com
 // @connect tn.mcminn.geopowered.com
@@ -643,7 +663,6 @@
 // @connect wcsvrgis.washcopa.org
 // @connect web3.kcsgis.com
 // @connect weba.co.clayton.ga.us
-// @connect webdmz.starkcountyohio.gov
 // @connect webgis.bcgov.net
 // @connect webgis.bedfordcountyva.gov
 // @connect webgis.co.humboldt.ca.us
@@ -654,7 +673,6 @@
 // @connect webmap.jeffparish.net
 // @connect webmap.trueautomation.com
 // @connect webmap1.co.warren.oh.us
-// @connect webmapssecure.ewashtenaw.org
 // @connect webserverholis.honolulugis.org
 // @connect wfs.ksdot.org
 // @connect ww1.bucoks.com
@@ -664,9 +682,13 @@
 // @connect www.ancgis.com
 // @connect www.bcad.org
 // @connect www.bcgis.com
+// @connect www.cameroncad.org
 // @connect www.centralilmaps.com
 // @connect www.co.bingham.id.us
 // @connect www.co.chippewa.mn.us
+// @connect www.co.coles.il.us
+// @connect www.co.pierce.wi.us
+// @connect www.co.rock.wi.us
 // @connect www.co.steele.mn.us
 // @connect www.cobbgis.org
 // @connect www.cvcog911.org
@@ -688,7 +710,6 @@
 // @connect www.mcegisohio.org
 // @connect www.mcgisweb.org
 // @connect www.mchenrycountygis.org
-// @connect www.mercercountyohio.org
 // @connect www.midmogis.org
 // @connect www.monroegis.org
 // @connect www.mymanatee.org
@@ -710,6 +731,7 @@
 // @connect www.wcgis.us
 // @connect www.webgis.net
 // @connect www.wingis.org
+// @connect www2.ci.lancaster.oh.us
 // @connect www2.pottcounty.org
 // @connect www3.multco.us
 // @connect www4.co.union.oh.us
@@ -1301,6 +1323,11 @@
         if (_settings.enabled) fetchFeatures();
     }
 
+    function onRefreshLayersClick() {
+        $('#gis-layers-refresh').css({visibility:'hidden'});
+        init(false);
+    }
+
     function initLayer(){
         let rules = _gisLayers.map(gisLayer => {
             return new OL.Rule({
@@ -1316,14 +1343,21 @@
         setFillParcels(_settings.fillParcels);
 
         let style = new OL.Style(DEFAULT_STYLE, { rules: rules } );
+        let existingLayer;
+        let uniqueName;
 
+        uniqueName = 'wmeGISLayersDefault';
+        existingLayer = W.map.getLayerByUniqueName(uniqueName);
+        if (existingLayer) W.map.removeLayer(existingLayer);
         _mapLayer = new OL.Layer.Vector('GIS Layers - Default', {
-            uniqueName: 'wmeGISLayersDefault',
+            uniqueName: uniqueName,
             styleMap: new OL.StyleMap(style)
         });
 
+        uniqueName = 'wmeGISLayersRoads';
+        existingLayer = W.map.getLayerByUniqueName(uniqueName);
         _roadLayer = new OL.Layer.Vector('GIS Layers - Roads', {
-            uniqueName: 'wmeGISLayersRoads',
+            uniqueName: uniqueName,
             styleMap: new OL.StyleMap(ROAD_STYLE)
         });
 
@@ -1338,8 +1372,8 @@
     function initLayersTab() {
         let user = W.loginManager.user.userName.toLowerCase();
         let states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
-        $('#panel-gis-state-layers').empty();
-        $('#panel-gis-state-layers').append(
+
+        $('#panel-gis-state-layers').empty().append(
             $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
                 $('<input>', {type:'checkbox', id:'only-show-applicable-gis-layers'}).change(function() { onOnlyShowApplicableLayersChanged($(this).is(':checked')); }).prop('checked', _settings.onlyShowApplicableLayers),
                 $('<label>', {for:'only-show-applicable-gis-layers'}).css({'white-space':'pre-line'}).text('Only show applicable layers')
@@ -1393,8 +1427,8 @@
             let id = `${name}-${value}`;
             return [$('<input>', {type:'radio', id:id, name:name, value:value}).prop('checked',checked),$('<label>', {for:id}).text(text).css({paddingLeft:'15px', marginRight:'4px'})];
         };
-        $('#panel-gis-layers-settings').append(
-            $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
+        $('#panel-gis-layers-settings').empty().append(
+            $('<fieldset>', {style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;margin-top:-8px;'}).append(
                 $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text('Labels')),
                 $('<div>', {id:'labelSettings'}).append(
                     $('<div>', {class: 'controls-container'}).css({'padding-top':'2px'}).append(
@@ -1463,40 +1497,48 @@
         });
     }
 
-    function initTab() {
+    function initTab(firstCall = true) {
         initSettingsTab();
         initLayersTab();
-        if (!$('#gis-layers-power-btn').length) {
-            let color = _settings.enabled ? '#00bd00' : '#ccc';
-            $('a[href="#sidepanel-gis-l"]').prepend(
-                $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
-                    evt.stopPropagation();
-                    setEnabled(!_settings.enabled);
-                })
-            );
+        if (firstCall) {
+            if (!$('#gis-layers-power-btn').length) {
+                let color = _settings.enabled ? '#00bd00' : '#ccc';
+                $('a[href="#sidepanel-gis-l"]').prepend(
+                    $('<span>', {class:'fa fa-power-off', id:'gis-layers-power-btn', style:'margin-right: 5px;cursor: pointer;color: ' + color + ';font-size: 13px;', title:'Toggle GIS Layers'}).click(function(evt) {
+                        evt.stopPropagation();
+                        setEnabled(!_settings.enabled);
+                    })
+                );
+            }
+            $('#gis-layers-refresh').click(onRefreshLayersClick);
         }
     }
 
-    function initGui() {
+    function initGui(firstCall = true) {
         initLayer();
 
-        let content = $('<div>').append(
-            $('<span>', {style:'font-size:14px;font-weight:600'}).text('GIS Layers'),
-            $('<span>', {style:'font-size:11px;margin-left:10px;color:#aaa;'}).text(GM_info.script.version),
-            '<ul class="nav nav-tabs">' +
-            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">Layers</a></li>' +
-            '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
-            '</ul>',
-            $('<div>', {class:'tab-content',style:'padding:8px;padding-top:2px'}).append(
-                $('<div>', {class:'tab-pane active', id:'panel-gis-state-layers'}),
-                $('<div>', {class:'tab-pane', id:'panel-gis-layers-settings'})
-            )
-        ).html();
+        if (firstCall) {
+            let content = $('<div>').append(
+                $('<span>', {style:'font-size:14px;font-weight:600'}).text('GIS Layers'),
+                $('<span>', {style:'font-size:11px;margin-left:10px;color:#aaa;'}).text(GM_info.script.version),
+                $('<span>', {id: 'gis-layers-refresh', class:'fa fa-refresh', style:'padding-top: 3px;padding-right: 3px;cursor: pointer;float: right;', 'data-toggle':'tooltip', title:'Pull new layer info from master sheet and refresh all layers.'}),
+                '<ul class="nav nav-tabs">' +
+                '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">Layers</a></li>' +
+                '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
+                '</ul>',
+                $('<div>', {class:'tab-content',style:'padding:8px;padding-top:2px'}).append(
+                    $('<div>', {class:'tab-pane active', id:'panel-gis-state-layers'}),
+                    $('<div>', {class:'tab-pane', id:'panel-gis-layers-settings'})
+                )
+            ).html();
 
-        new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
-        WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
-        W.map.events.register('moveend',null,onMapMove);
-        showScriptInfoAlert();
+            new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
+            WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
+            W.map.events.register('moveend',null,onMapMove);
+            showScriptInfoAlert();
+        } else {
+            initTab(firstCall);
+        }
     }
 
     function loadSpreadsheetAsync() {
@@ -1570,8 +1612,9 @@
         });
     }
 
-    function init() {
-        installPathFollowingLabels();
+    function init(firstCall = true) {
+        _gisLayers = [];
+        if (firstCall) installPathFollowingLabels();
         let t0 = performance.now();
         loadSpreadsheetAsync().then(result => {
             if (result.error) {
@@ -1595,8 +1638,9 @@
             });
             logDebug('Loaded ' + _gisLayers.length + ' layer definitions in ' + Math.round(performance.now() - t0) + ' ms.');
             loadSettingsFromStorage();
-            initGui();
+            initGui(firstCall);
             fetchFeatures();
+            $('#gis-layers-refresh').css({visibility:'inherit'});
             log('Initialized.');
         }).catch(err => {
             let msg;
