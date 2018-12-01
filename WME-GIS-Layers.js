@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.12.01.001
+// @version      2018.12.01.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1324,8 +1324,12 @@
     }
 
     function onRefreshLayersClick() {
-        $('#gis-layers-refresh').css({visibility:'hidden'});
-        init(false);
+        let $btn = $('#gis-layers-refresh');
+        if (!$btn.hasClass('fa-spin')) {
+            $btn.css({cursor:'auto'});
+            $btn.addClass('fa-spin');
+            init(false);
+        }
     }
 
     function initLayer(){
@@ -1521,7 +1525,7 @@
             let content = $('<div>').append(
                 $('<span>', {style:'font-size:14px;font-weight:600'}).text('GIS Layers'),
                 $('<span>', {style:'font-size:11px;margin-left:10px;color:#aaa;'}).text(GM_info.script.version),
-                $('<span>', {id: 'gis-layers-refresh', class:'fa fa-refresh', style:'padding-top: 3px;padding-right: 3px;cursor: pointer;float: right;', 'data-toggle':'tooltip', title:'Pull new layer info from master sheet and refresh all layers.'}),
+                $('<span>', {id: 'gis-layers-refresh', class:'fa fa-refresh', style:'float: right;', 'data-toggle':'tooltip', title:'Pull new layer info from master sheet and refresh all layers.'}),
                 '<ul class="nav nav-tabs">' +
                 '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">Layers</a></li>' +
                 '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
@@ -1640,7 +1644,7 @@
             loadSettingsFromStorage();
             initGui(firstCall);
             fetchFeatures();
-            $('#gis-layers-refresh').css({visibility:'inherit'});
+            $('#gis-layers-refresh').removeClass('fa-spin').css({cursor:'pointer'});
             log('Initialized.');
         }).catch(err => {
             let msg;
