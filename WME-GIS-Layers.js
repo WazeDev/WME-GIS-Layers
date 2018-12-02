@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.12.01.002
+// @version      2018.12.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1384,11 +1384,14 @@
             ),
             $('.gis-layers-state-checkbox:checked').length === 0 ? $('<div>').text('Turn on layer categories in the Settings tab.') : states.map(st => {
                 return $('<fieldset>', {id:'gis-layers-for-' + st, style:'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'}).append(
-                    $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).append($('<i>', {class:'fa fa-fw fa-chevron-down', style:'cursor: pointer;font-size: 12px;margin-right: 4px'}).click(function() {
-                        $(this).toggleClass('fa fa-fw fa-chevron-down');
-                        $(this).toggleClass('fa fa-fw fa-chevron-right');
-                        $(`#${st}_body`).toggleClass('collapse');
-                    }), $('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase;'}).text(STATES.toFullName(st))),
+                    $('<legend>', {style:'margin-bottom:0px;border-bottom-style:none;width:auto;'}).click(function() {
+                        $($(this).children()[0]).toggleClass('fa fa-fw fa-chevron-down');
+                        $($(this).children()[0]).toggleClass('fa fa-fw fa-chevron-right');
+                        $($(this).siblings()[0]).toggleClass('collapse');
+                    }).append(
+                        $('<i>', {class:'fa fa-fw fa-chevron-down', style:'cursor: pointer;font-size: 12px;margin-right: 4px'}),
+                        $('<span>', {style:'font-size:14px;font-weight:600;text-transform: uppercase; cursor: pointer'}).text(STATES.toFullName(st))
+                    ),
                     $('<div>', {id:`${st}_body`}).append(
                         $('<div>').css({'font-size':'11px'}).append(
                             $('<span>').append(
