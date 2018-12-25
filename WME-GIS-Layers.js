@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2018.12.02.001
+// @version      2018.12.25.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -826,6 +826,11 @@
             fillColor: '#3cf',
             labelYOffset: -10,
             labelAlign: 'ct'
+        },
+        road_labels: {
+            strokeOpacity: 0,
+            fillOpacity: 0,
+            fontColor: '#faf'
         },
         structures: {
             fillOpacity: 0,
