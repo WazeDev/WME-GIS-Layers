@@ -1787,7 +1787,7 @@ function init(firstCall = true) {
                 });
             } else {
                 logDebug(`Refined layer "${layerRefinement.id}" does not have a corresponding layer defined`
-                    + 'in the spreadsheet.  It can probably be removed from the script.');
+                    + ' in the spreadsheet.  It can probably be removed from the script.');
             }
         });
         logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
