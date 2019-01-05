@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.01.05.001
+// @version      2019.01.05.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -24,6 +24,8 @@
 // @connect 216.167.160.20
 // @connect 216.81.174.57
 // @connect 23.96.59.134
+// @connect 311webservreq.cityofbeaumont.com
+// @connect 35.172.145.31
 // @connect 52.37.30.30
 // @connect 54.213.14.253
 // @connect 63.238.120.156
@@ -38,6 +40,7 @@
 // @connect ags2.scgov.net
 // @connect ags2maps.srcity.org
 // @connect ags3.lincoln.ne.gov
+// @connect ags3.scgov.net
 // @connect al.decatur.geopowered.com
 // @connect aldotgis.dot.state.al.us
 // @connect alleganygis.allconet.org
@@ -71,7 +74,6 @@
 // @connect arcgisweb.countyofnewaygo.com
 // @connect arcmobile.co.albany.wy.us
 // @connect arcserv.co.washington.ar.us
-// @connect arcserve1.hornershifrin.com
 // @connect arcserver.madisoncountyky.us
 // @connect arcweb.hcad.org
 // @connect arcweb.ycpc.org
@@ -91,6 +93,7 @@
 // @connect bsm.sfdpw.org
 // @connect buchanangis.integritygis.com
 // @connect c39gisserver.co.richland.nd.us
+// @connect ca.dep.state.fl.us
 // @connect cache.gis.lacounty.gov
 // @connect cagisonline.hamilton-co.org
 // @connect calvertgis.co.cal.md.us
@@ -104,6 +107,7 @@
 // @connect co.kent.de.us
 // @connect coagisweb.cabq.gov
 // @connect coopergis.integritygis.com
+// @connect cowen.gis.sc.gov
 // @connect crgis.cedar-rapids.org
 // @connect data.wsdot.wa.gov
 // @connect data1.digitaldataservices.com
@@ -173,6 +177,7 @@
 // @connect gis.citruspa.org
 // @connect gis.cityofaikensc.gov
 // @connect gis.cityofboston.gov
+// @connect gis.cityofmiddletown.com
 // @connect gis.clearfieldco.org
 // @connect gis.clearwatercounty.org
 // @connect gis.clevelandtn.gov
@@ -249,18 +254,19 @@
 // @connect gis.hcpafl.org
 // @connect gis.hendersonky.us
 // @connect gis.hennepin.us
-// @connect gis.icao.int
 // @connect gis.in.gov
 // @connect gis.interdev.com
 // @connect gis.iowadot.gov
 // @connect gis.ircgov.com
 // @connect gis.itd.idaho.gov
+// @connect gis.jccal.org
 // @connect gis.johnson-county.com
 // @connect gis.johnsoncitytn.org
 // @connect gis.kanawhacountyassessor.com
 // @connect gis.kentcountymi.gov
 // @connect gis.lacrossecounty.org
 // @connect gis.lakecountyfl.gov
+// @connect gis.lapazcountyaz.org
 // @connect gis.latah.id.us
 // @connect gis.leecountyil.com
 // @connect gis.leoc.net
@@ -282,6 +288,7 @@
 // @connect gis.napa.ca.gov
 // @connect gis.nassaucountyny.gov
 // @connect gis.nccde.org
+// @connect gis.neccog.org
 // @connect gis.nevadadot.com
 // @connect gis.nevcounty.net
 // @connect gis.newedgeservices.com
@@ -321,6 +328,7 @@
 // @connect gis.santacruzcountyaz.gov
 // @connect gis.slocounty.ca.gov
 // @connect gis.snco.us
+// @connect gis.southington.org
 // @connect gis.southkingstownri.com
 // @connect gis.spokanecounty.org
 // @connect gis.stancounty.com
@@ -366,6 +374,7 @@
 // @connect gisdata.dot.ca.gov
 // @connect gisdata.kingcounty.gov
 // @connect gisdemo1.cdmsmith.com
+// @connect gisdemo2.cdmsmith.com
 // @connect gisgate.co.clark.nv.us
 // @connect gismap.augustaga.gov
 // @connect gismap.cityofaspen.com
@@ -417,6 +426,7 @@
 // @connect harrisonms.geopowered.com
 // @connect haslet.halff.com
 // @connect helenamontanamaps.org
+// @connect henrygis.integritygis.com
 // @connect hgis.hialeahfl.gov
 // @connect hidgis.co.hidalgo.tx.us
 // @connect ims.districtiii.org
@@ -501,6 +511,7 @@
 // @connect maps.coj.net
 // @connect maps.crc.ga.gov
 // @connect maps.cstx.gov
+// @connect maps.ctmetro.org
 // @connect maps.dcad.org
 // @connect maps.dekalbcountyga.gov
 // @connect maps.deltacounty.com
@@ -561,6 +572,7 @@
 // @connect maps1.larimer.org
 // @connect maps2.bgadd.org
 // @connect maps2.cattco.org
+// @connect maps2.ci.euless.tx.us
 // @connect maps2.dcgis.dc.gov
 // @connect maps2.timmons.com
 // @connect maps2.yorkcountygov.com
@@ -594,6 +606,7 @@
 // @connect orfmaps.norfolk.gov
 // @connect pagis.org
 // @connect parcels.rsdigital.com
+// @connect parcels.utah.gov
 // @connect pascoview.pascocountyfl.net
 // @connect phelpsgis.integritygis.com
 // @connect pimamaps.pima.gov
@@ -625,6 +638,7 @@
 // @connect services.ccgisc.org
 // @connect services.geoviewer8.com
 // @connect services.gis.ca.gov
+// @connect services.kansasgis.org
 // @connect services.nconemap.gov
 // @connect services.putnamco.org
 // @connect services.wvgis.wvu.edu
@@ -661,6 +675,7 @@
 // @connect wallawallagis.com
 // @connect wcgisweb.washoecounty.us
 // @connect wcsvrgis.washcopa.org
+// @connect web2.kcsgis.com
 // @connect web3.kcsgis.com
 // @connect weba.co.clayton.ga.us
 // @connect webgis.bcgov.net
@@ -673,6 +688,7 @@
 // @connect webmap.jeffparish.net
 // @connect webmap.trueautomation.com
 // @connect webmap1.co.warren.oh.us
+// @connect webmaps.coconino.az.gov
 // @connect webserverholis.honolulugis.org
 // @connect wfs.ksdot.org
 // @connect ww1.bucoks.com
@@ -704,6 +720,7 @@
 // @connect www.greenwoodsc.gov
 // @connect www.hernandocountygis-fl.us
 // @connect www.horrycounty.org
+// @connect www.insideidaho.org
 // @connect www.landmarkgeospatial.com
 // @connect www.laurenscountygis.org
 // @connect www.loraincountyauditor.com
