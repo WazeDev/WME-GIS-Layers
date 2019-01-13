@@ -87,6 +87,7 @@
 // @connect bcgis.broward.org
 // @connect bcweb-adapters.bcpa.net
 // @connect bentongis.integritygis.com
+// @connect bocagis.ci.boca-raton.fl.us
 // @connect bradleytn.geopowered.com
 // @connect broadbandgis.bakerprojects.com
 // @connect bryangis.bryan-county.org
@@ -104,6 +105,7 @@
 // @connect cecilmaps.ccgov.org
 // @connect cloud.longviewtexas.gov
 // @connect cloud.sagis.org
+// @connect cloudgis.bonnercountyid.gov
 // @connect co.kent.de.us
 // @connect coagisweb.cabq.gov
 // @connect coopergis.integritygis.com
@@ -151,6 +153,7 @@
 // @connect gis.arapahoegov.com
 // @connect gis.arkansas.gov
 // @connect gis.arlingtonva.us
+// @connect gis.atlantaga.gov
 // @connect gis.auglaizecounty.org
 // @connect gis.azdot.gov
 // @connect gis.baltimorecity.gov
@@ -161,7 +164,6 @@
 // @connect gis.blairco.org
 // @connect gis.brevardcounty.us
 // @connect gis.brookhavenga.gov
-// @connect gis.broomfield.org
 // @connect gis.buncombecounty.org
 // @connect gis.burleighco.com
 // @connect gis.buttecounty.net
@@ -224,6 +226,7 @@
 // @connect gis.dbqco.org
 // @connect gis.dentoncounty.com
 // @connect gis.dogis.org
+// @connect gis.dot.nh.gov
 // @connect gis.dot.state.oh.us
 // @connect gis.douglascountyks.org
 // @connect gis.douglascountywa.net
@@ -252,7 +255,6 @@
 // @connect gis.gscplanning.com
 // @connect gis.gwinnettcounty.com
 // @connect gis.hcpafl.org
-// @connect gis.hendersonky.us
 // @connect gis.hennepin.us
 // @connect gis.in.gov
 // @connect gis.interdev.com
@@ -411,7 +413,6 @@
 // @connect gissites2.centrecountypa.gov
 // @connect gistech.countyofkane.org
 // @connect gisweb.casscountynd.gov
-// @connect gisweb.ci.boca-raton.fl.us
 // @connect gisweb.co.aitkin.mn.us
 // @connect gisweb.co.hinds.ms.us
 // @connect gisweb.co.wilkin.mn.us
@@ -476,7 +477,6 @@
 // @connect mapping.modot.org
 // @connect maps.alexandriava.gov
 // @connect maps.berkeleywv.org
-// @connect maps.bonnercounty.us
 // @connect maps.boonecountyil.org
 // @connect maps.bouldercounty.org
 // @connect maps.brazoriacountytx.gov
@@ -485,7 +485,6 @@
 // @connect maps.canyonco.org
 // @connect maps.casperwy.gov
 // @connect maps.chautauquacounty.com
-// @connect maps.ci.liberty.mo.us
 // @connect maps.ci.sherman.tx.us
 // @connect maps.cityhs.net
 // @connect maps.cityofmobile.org
@@ -537,6 +536,7 @@
 // @connect maps.lcwy.org
 // @connect maps.lex-co.com
 // @connect maps.lexingtonky.gov
+// @connect maps.libertymo.gov
 // @connect maps.lincolncountysd.org
 // @connect maps.matsugov.us
 // @connect maps.maurycounty-tn.gov
@@ -745,6 +745,7 @@
 // @connect www.tgisites.com
 // @connect www.unionco.org
 // @connect www.valorgis.com
+// @connect www.wataugacounty.org
 // @connect www.wcgis.us
 // @connect www.webgis.net
 // @connect www.wingis.org
