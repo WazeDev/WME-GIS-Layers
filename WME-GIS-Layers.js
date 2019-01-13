@@ -765,6 +765,7 @@
 /* global GM_xmlhttpRequest */
 /* global alert */
 /* global performance */
+/* global atob */
 
 // **************************************************************************************************************
 // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -777,7 +778,9 @@
 // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
 const SCRIPT_AUTHOR = 'MapOMatic';
 // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
-const LAYER_DEF_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/oj7k5j6/public/values?alt=json';
+const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/layerDefs';
+const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
+const DEC = s => atob(atob(s));
 const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
 const DEFAULT_STYLE = {
     fillColor: '#000',
@@ -1700,93 +1703,79 @@ function initGui(firstCall = true) {
     }
 }
 
-function loadSpreadsheetAsync() {
-    return new Promise((resolve, reject) => {
-        $.get({
-            url: LAYER_DEF_URL,
-            success(data) {
-                // Critical fields that must be present in the spreadsheet, or script cannot process the data correctly.
-                // If any of these are still null after processing the fields entry, there's a problem.
-                const EXPECTED_FIELD_NAMES = [
-                    'state', 'name', 'id', 'counties', 'url', 'where', 'labelFields',
-                    'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled'
-                ];
-                let ssFieldNames;
-                const result = { error: null };
-                const checkFieldNames = fldName => ssFieldNames.indexOf(fldName) > -1;
+async function loadSpreadsheetAsync() {
+    let data;
+    try {
+        data = await $.getJSON(`${LAYER_DEF_SPREADSHEET_URL}?${DEC(API_KEY)}`);
+    } catch (err) {
+        throw new Error(`Spreadsheet call failed. (${err.status}: ${err.statusText})`);
+    }
+    const [[minVersion], fieldNames, ...layerDefRows] = data.values;
+    const REQUIRED_FIELD_NAMES = [
+        'state', 'name', 'id', 'counties', 'url', 'where', 'labelFields',
+        'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled'
+    ];
+    const result = { error: null };
+    const checkFieldNames = fldName => fieldNames.indexOf(fldName) > -1;
 
-                for (let entryIdx = 0; entryIdx < data.feed.entry.length && !result.error; entryIdx++) {
-                    const cellValue = data.feed.entry[entryIdx].title.$t;
-                    if (entryIdx === 0) {
-                        // The minimum script version that the spreadsheet supports.
-                        if (SCRIPT_VERSION < cellValue) {
-                            result.error = `Script must be updated to at least version ${
-                                cellValue} before layer definitions can be loaded.`;
+    if (SCRIPT_VERSION < minVersion) {
+        result.error = `Script must be updated to at least version ${
+            minVersion} before layer definitions can be loaded.`;
+    } else if (fieldNames.length < REQUIRED_FIELD_NAMES.length) {
+        result.error = `Expected ${
+            REQUIRED_FIELD_NAMES.length} columns in layer definition data.  Spreadsheet returned ${
+            fieldNames.length}.`;
+    } else if (!REQUIRED_FIELD_NAMES.every(fldName => checkFieldNames(fldName))) {
+        result.error = 'Script expected to see the following column names in the layer '
+            + `definition spreadsheet:\n${REQUIRED_FIELD_NAMES.join(', ')}\n`
+            + `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
+    }
+    if (!result.error) {
+        layerDefRows.forEach(layerDefRow => {
+            const layerDef = {};
+            fieldNames.forEach((fldName, fldIdx) => {
+                let value = layerDefRow[fldIdx];
+                if (value.toString().length > 0) {
+                    if (fldName === 'counties' || fldName === 'labelFields') {
+                        value = value.split(',').map(item => item.trim());
+                    } else if (fldName === 'processLabel') {
+                        try {
+                            value = eval(`(function(label, fieldValues){${value}})`);
+                        } catch (ex) {
+                            logError(`Error loading label processing function for layer "${
+                                layerDef.id}".`);
+                            logDebug(ex);
                         }
-                    } else if (entryIdx === 1) {
-                        // Process field names
-                        ssFieldNames = cellValue.split('|').map(fldName => fldName.trim());
-                        if (ssFieldNames.length < EXPECTED_FIELD_NAMES.length) {
-                            result.error = `Expected ${
-                                EXPECTED_FIELD_NAMES.length} columns in layer definition data.  Spreadsheet returned ${
-                                ssFieldNames.length}.`;
-                        } else if (!EXPECTED_FIELD_NAMES.every(fldName => checkFieldNames(fldName))) {
-                            result.error = 'Script expected to see the following column names in the layer '
-                                + `definition spreadsheet:\n${EXPECTED_FIELD_NAMES.join(', ')}\n`
-                                + `But the spreadsheet returned these:\n${ssFieldNames.join(', ')}`;
+                    } else if (fldName === 'style') {
+                        layerDef.isRoadLayer = value === 'roads';
+                        if (LAYER_STYLES.hasOwnProperty(value)) {
+                            value = LAYER_STYLES[value];
                         }
-                    } else {
-                        const values = cellValue.split('|');
-                        if (values[ssFieldNames.indexOf('enabled')]) {
-                            const layerDef = {};
-                            ssFieldNames.forEach((fldName, fldIdx) => {
-                                let value = values[fldIdx];
-                                if (value.toString().length > 0) {
-                                    if (fldName === 'counties' || fldName === 'labelFields') {
-                                        value = value.split(',').map(item => item.trim());
-                                    } else if (fldName === 'processLabel') {
-                                        try {
-                                            value = eval(`(function(label, fieldValues){${value}})`);
-                                        } catch (ex) {
-                                            logError(`Error loading label processing function for layer "${
-                                                layerDef.id}".`);
-                                            logDebug(ex);
-                                        }
-                                    } else if (fldName === 'style') {
-                                        layerDef.isRoadLayer = value === 'roads';
-                                        if (LAYER_STYLES.hasOwnProperty(value)) {
-                                            value = LAYER_STYLES[value];
-                                        }
-                                        // If layer is not defined, allow the value to be set as-is because
-                                        // it could be a custom style.
-                                        // *** THIS NEEDS TO BE TESTED ***
-                                    }
-                                    layerDef[fldName] = value;
-                                } else if (fldName === 'labelFields') {
-                                    layerDef[fldName] = [''];
-                                }
-                            });
-                            if (layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
-                                .toString().trim().toLowerCase()) === -1) {
-                                _gisLayers.push(layerDef);
-                            }
-                        }
+                        // If layer is not defined, allow the value to be set as-is because
+                        // it could be a custom style.
+                        // *** THIS NEEDS TO BE TESTED ***
                     }
+                    layerDef[fldName] = value;
+                } else if (fldName === 'labelFields') {
+                    layerDef[fldName] = [''];
                 }
-                resolve(result);
-            },
-            error() {
-                reject(new Error('An error occurred while loading the GIS layer definition spreadsheet.'));
+            });
+            if (layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
+                .toString().trim().toLowerCase()) === -1) {
+                _gisLayers.push(layerDef);
             }
         });
-    });
+    }
+
+    return result;
 }
 
-function init(firstCall = true) {
+async function init(firstCall = true) {
     _gisLayers = [];
     if (firstCall) installPathFollowingLabels();
     const t0 = performance.now();
-    loadSpreadsheetAsync().then(result => {
+    try {
+        const result = await loadSpreadsheetAsync();
         if (result.error) {
             logError(result.error);
             return;
@@ -1813,10 +1802,9 @@ function init(firstCall = true) {
         fetchFeatures();
         $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
         log('Initialized.');
-    }).catch(err => {
-        err = err && err.message ? err.message : err;
+    } catch (err) {
         logError(err);
-    });
+    }
 }
 
 function bootstrap() {
