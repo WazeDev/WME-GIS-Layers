@@ -919,11 +919,6 @@ const _layerRefinements = [
     {
         id: 'us-post-offices',
         labelHeaderFields: ['LOCALE_NAME']
-    },
-
-    {
-        id: 'ky-warren-co-wku-structures',
-        labelHeaderFields: ['Bldg_Name']
     }
 ];
 
@@ -1732,11 +1727,11 @@ async function loadSpreadsheetAsync() {
             + `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
     }
     if (!result.error) {
-        layerDefRows.forEach(layerDefRow => {
-            const layerDef = {};
+        layerDefRows.filter(row => row.length).forEach(layerDefRow => {
+            const layerDef = { enabled: '0' };
             fieldNames.forEach((fldName, fldIdx) => {
-                let value = layerDefRow[fldIdx];
-                if (value.toString().length > 0) {
+                let value = layerDefRow[fldIdx].trim();
+                if (value.length > 0) {
                     if (fldName === 'counties' || fldName === 'labelFields') {
                         value = value.split(',').map(item => item.trim());
                     } else if (fldName === 'processLabel') {
