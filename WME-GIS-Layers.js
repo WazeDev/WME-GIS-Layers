@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.01.24.001
+// @version      2019.01.24.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1475,6 +1475,7 @@ function initLayer() {
 
     uniqueName = 'wmeGISLayersRoads';
     existingLayer = W.map.getLayerByUniqueName(uniqueName);
+    if (existingLayer) W.map.removeLayer(existingLayer);
     _roadLayer = new OL.Layer.Vector('GIS Layers - Roads', {
         uniqueName,
         styleMap: new OL.StyleMap(ROAD_STYLE)
