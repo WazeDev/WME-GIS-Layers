@@ -1731,8 +1731,9 @@ async function loadSpreadsheetAsync() {
         layerDefRows.filter(row => row.length).forEach(layerDefRow => {
             const layerDef = { enabled: '0' };
             fieldNames.forEach((fldName, fldIdx) => {
-                let value = layerDefRow[fldIdx].trim();
-                if (value.length > 0) {
+                let value = layerDefRow[fldIdx];
+                if (value !== undefined && value.trim().length > 0) {
+                    value = value.trim();
                     if (fldName === 'counties' || fldName === 'labelFields') {
                         value = value.split(',').map(item => item.trim());
                     } else if (fldName === 'processLabel') {
@@ -1747,10 +1748,14 @@ async function loadSpreadsheetAsync() {
                         layerDef.isRoadLayer = value === 'roads';
                         if (LAYER_STYLES.hasOwnProperty(value)) {
                             value = LAYER_STYLES[value];
+                        } else if (!layerDef.isRoadLayer) {
+                            // If style is not defined, try to read in as JSON (custom style)
+                            try {
+                                value = JSON.parse(value);
+                            } catch (ex) {
+                                // ignore error
+                            }
                         }
-                        // If layer is not defined, allow the value to be set as-is because
-                        // it could be a custom style.
-                        // *** THIS NEEDS TO BE TESTED ***
                     }
                     layerDef[fldName] = value;
                 } else if (fldName === 'labelFields') {
