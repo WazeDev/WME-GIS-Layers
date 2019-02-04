@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.02.01.001
+// @version      2019.02.04.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1141,7 +1141,7 @@ function processFeatures(data, token, gisLayer) {
                                     item.geometry.points[0][1] + layerOffset.y);
                             } else if (item.geometry.rings) {
                                 const rings = [];
-                                item.geometry.rings.forEach((ringIn) => {
+                                item.geometry.rings.forEach(ringIn => {
                                     const pnts = [];
                                     for (let i = 0; i < ringIn.length; i++) {
                                         pnts.push(new OL.Geometry.Point(ringIn[i][0] + layerOffset.x,
@@ -1157,7 +1157,7 @@ function processFeatures(data, token, gisLayer) {
                                 }
                             } else if (data.geometryType === 'esriGeometryPolyline') {
                                 const pointList = [];
-                                item.geometry.paths.forEach((path) => {
+                                item.geometry.paths.forEach(path => {
                                     path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x,
                                         point[1] + layerOffset.y)));
                                 });
@@ -1653,7 +1653,7 @@ function initTab(firstCall = true) {
                     id: 'gis-layers-power-btn',
                     style: `margin-right: 5px;cursor: pointer;color: ${color};font-size: 13px;`,
                     title: 'Toggle GIS Layers'
-                }).click((evt) => {
+                }).click(evt => {
                     evt.stopPropagation();
                     setEnabled(!_settings.enabled);
                 })
@@ -1738,6 +1738,7 @@ async function loadSpreadsheetAsync() {
                         value = value.split(',').map(item => item.trim());
                     } else if (fldName === 'processLabel') {
                         try {
+                            // eslint-disable-next-line no-eval
                             value = eval(`(function(label, fieldValues){${value}})`);
                         } catch (ex) {
                             logError(`Error loading label processing function for layer "${
@@ -1756,6 +1757,8 @@ async function loadSpreadsheetAsync() {
                                 // ignore error
                             }
                         }
+                    } else if (fldName === 'state') {
+                        value = value ? value.toUpperCase() : value;
                     }
                     layerDef[fldName] = value;
                 } else if (fldName === 'labelFields') {
