@@ -1543,7 +1543,8 @@ function initLayersTab() {
                                             .prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
                                         $('<label>', { for: id, class: 'gis-state-layer-label' })
                                             .css({ 'white-space': 'pre-line' })
-                                            .text(gisLayer.name)
+                                            .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
+                                            .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : ''),
                                     );
                             })
                     )
@@ -1761,11 +1762,10 @@ async function loadSpreadsheetAsync() {
                     } else if (fldName === 'state') {
                         value = value ? value.toUpperCase() : value;
                     } else if (fldName === 'restrictTo') {
-                        fldName = 'restricted';
                         try {
                             const { user } = W.loginManager;
                             const values = value.split(',').map(v => v.trim().toLowerCase());
-                            value = !values.some(entry => {
+                            layerDef.notAllowed = !values.some(entry => {
                                 const rankMatch = entry.match(/^r(\d)(\+am)?$/);
                                 if (rankMatch) {
                                     if (rankMatch[1] <= user.normalizedLevel && (!rankMatch[2] || user.isAreaManager)) {
@@ -1787,7 +1787,7 @@ async function loadSpreadsheetAsync() {
                     layerDef[fldName] = [''];
                 }
             });
-            if (!layerDef.restricted && layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
+            if (!layerDef.notAllowed && layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
                 .toString().trim().toLowerCase()) === -1) {
                 _gisLayers.push(layerDef);
             }
