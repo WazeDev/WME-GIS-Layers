@@ -1710,7 +1710,8 @@ async function loadSpreadsheetAsync() {
     const [[minVersion], fieldNames, ...layerDefRows] = data.values;
     const REQUIRED_FIELD_NAMES = [
         'state', 'name', 'id', 'counties', 'url', 'where', 'labelFields',
-        'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled'
+        'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled',
+        'restrictTo'
     ];
     const result = { error: null };
     const checkFieldNames = fldName => fieldNames.indexOf(fldName) > -1;
@@ -1759,13 +1760,34 @@ async function loadSpreadsheetAsync() {
                         }
                     } else if (fldName === 'state') {
                         value = value ? value.toUpperCase() : value;
+                    } else if (fldName === 'restrictTo') {
+                        fldName = 'restricted';
+                        try {
+                            const { user } = W.loginManager;
+                            const values = value.split(',').map(v => v.trim().toLowerCase());
+                            value = !values.some(entry => {
+                                const rankMatch = entry.match(/^r(\d)(\+am)?$/);
+                                if (rankMatch) {
+                                    if (rankMatch[1] <= user.normalizedLevel && (!rankMatch[2] || user.isAreaManager)) {
+                                        return true;
+                                    }
+                                } else if (entry === 'am' && user.isAreaManager) {
+                                    return true;
+                                } else if (entry === user.userName.toLowerCase()) {
+                                    return true;
+                                }
+                                return false;
+                            });
+                        } catch (ex) {
+                            logError(ex);
+                        }
                     }
                     layerDef[fldName] = value;
                 } else if (fldName === 'labelFields') {
                     layerDef[fldName] = [''];
                 }
             });
-            if (layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
+            if (!layerDef.restricted && layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
                 .toString().trim().toLowerCase()) === -1) {
                 _gisLayers.push(layerDef);
             }
