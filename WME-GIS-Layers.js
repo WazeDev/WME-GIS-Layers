@@ -1829,8 +1829,8 @@ async function loadSpreadsheetAsync() {
                     layerDef[fldName] = [''];
                 }
             });
-            if (!layerDef.notAllowed && layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
-                .toString().trim().toLowerCase()) === -1) {
+            const enabled = layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled.toString().trim().toLowerCase()) === -1;
+            if (!layerDef.notAllowed && (enabled || layerDef.restrictTo)) {
                 _gisLayers.push(layerDef);
             }
         });
