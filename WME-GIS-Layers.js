@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.03.12.002
+// @version      2019.03.29.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -809,6 +809,7 @@
 /* global alert */
 /* global performance */
 /* global atob */
+/* global window */
 
 // **************************************************************************************************************
 // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -818,6 +819,10 @@
 // const LAYER_DEF_VERSION = '2018.04.27.001';  // NOT ACTUALLY USED YET
 
 // **************************************************************************************************************
+const UPDATE_MESSAGE = `<ul>${[
+    'Added a shortcut key option to toggle displaying address labels as HN-only or full street address.'
+].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
+const FORUM_URL = 'https://www.waze.com/forum/viewtopic.php?f=819&t=249027';
 // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
 const SCRIPT_AUTHOR = 'MapOMatic';
 // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
@@ -1025,7 +1030,7 @@ function loadSettingsFromStorage() {
         selectedStates: [],
         enabled: true,
         fillParcels: false,
-        addrLabelDisplay: 'all'
+        toggleHnsOnlyShortcut: ''
     };
     _settings = loadedSettings || defaultSettings;
     Object.keys(defaultSettings).forEach(prop => {
@@ -1036,11 +1041,19 @@ function loadSettingsFromStorage() {
 }
 
 function saveSettingsToStorage() {
-    if (localStorage) {
-        _settings.lastVersion = SCRIPT_VERSION;
-        localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
-        log('Settings saved');
+    let keys = '';
+    const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
+    if (shortcut) {
+        if (shortcut.altKey) keys += 'A';
+        if (shortcut.shiftKey) keys += 'S';
+        if (shortcut.ctrlKey) keys += 'C';
+        if (keys.length) keys += '+';
+        if (shortcut.keyCode) keys += shortcut.keyCode;
     }
+    _settings.toggleHnsOnlyShortcut = keys;
+    _settings.lastVersion = SCRIPT_VERSION;
+    localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
+    log('Settings saved');
 }
 
 function getUrl(extent, gisLayer) {
@@ -1491,6 +1504,14 @@ function onGisAddrDisplayChange(evt) {
     fetchFeatures();
 }
 
+function onAddressDisplayShortcutKey() {
+    if (!$('#gisAddrDisplay-hn').is(':checked')) {
+        $('#gisAddrDisplay-hn').click();
+    } else {
+        $('#gisAddrDisplay-all').click();
+    }
+}
+
 function initLayer() {
     const rules = _gisLayers.map(gisLayer => new OL.Rule({
         filter: new OL.Filter.Comparison({
@@ -1841,7 +1862,13 @@ async function loadSpreadsheetAsync() {
 
 async function init(firstCall = true) {
     _gisLayers = [];
-    if (firstCall) installPathFollowingLabels();
+    if (firstCall) {
+        loadSettingsFromStorage();
+        installPathFollowingLabels();
+        new WazeWrap.Interface.Shortcut('GisLayersAddrDisplay', 'Toggle HN-only address labels (GIS Layers)',
+            'layers', 'layersToggleGisAddressLabelDisplay', _settings.toggleHnsOnlyShortcut, onAddressDisplayShortcutKey, null).add();
+        window.addEventListener('beforeunload', saveSettingsToStorage, false);
+    }
     const t0 = performance.now();
     try {
         const result = await loadSpreadsheetAsync();
@@ -1866,7 +1893,6 @@ async function init(firstCall = true) {
             }
         });
         logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
-        loadSettingsFromStorage();
         initGui(firstCall);
         fetchFeatures();
         $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
@@ -1880,6 +1906,7 @@ function bootstrap() {
     if (W && W.loginManager && W.map && W.loginManager.user && W.model
         && W.model.states && W.model.states.getObjectArray().length) {
         log('Initializing...');
+        WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, FORUM_URL);
         init();
     } else {
         log('Bootstrap failed. Trying again...');
