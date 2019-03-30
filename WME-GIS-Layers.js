@@ -1030,7 +1030,8 @@ function loadSettingsFromStorage() {
         selectedStates: [],
         enabled: true,
         fillParcels: false,
-        toggleHnsOnlyShortcut: ''
+        toggleHnsOnlyShortcut: '',
+        oneTimeAlerts: {}
     };
     _settings = loadedSettings || defaultSettings;
     Object.keys(defaultSettings).forEach(prop => {
@@ -1089,6 +1090,19 @@ function getUrl(extent, gisLayer) {
 
     logDebug(`Request URL: ${url}`);
     return url;
+}
+
+function hashString(value) {
+    let hash = 0;
+    if (value.length === 0) return hash;
+    for (let i = 0; i < value.length; i++) {
+        const chr = value.charCodeAt(i);
+        // eslint-disable-next-line no-bitwise
+        hash = ((hash << 5) - hash) + chr;
+        // eslint-disable-next-line no-bitwise
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
 }
 
 function getCountiesUrl(extent) {
@@ -1415,6 +1429,16 @@ function onGisLayerToggleChanged() {
     const layerId = $(this).data('layer-id');
     const idx = _settings.visibleLayers.indexOf(layerId);
     if (checked) {
+        const gisLayer = _gisLayers.find(l => l.id === layerId);
+        if (gisLayer.oneTimeAlert) {
+            const lastAlertHash = _settings.oneTimeAlerts[layerId];
+            const newAlertHash = hashString(gisLayer.oneTimeAlert);
+            if (lastAlertHash !== newAlertHash) {
+                alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
+                _settings.oneTimeAlerts[layerId] = newAlertHash;
+                saveSettingsToStorage();
+            }
+        }
         if (idx === -1) _settings.visibleLayers.push(layerId);
     } else if (idx > -1) _settings.visibleLayers.splice(idx, 1);
     if (!_ignoreFetch) {
@@ -1775,7 +1799,7 @@ async function loadSpreadsheetAsync() {
     const REQUIRED_FIELD_NAMES = [
         'state', 'name', 'id', 'counties', 'url', 'where', 'labelFields',
         'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled',
-        'restrictTo'
+        'restrictTo', 'oneTimeAlert'
     ];
     const result = { error: null };
     const checkFieldNames = fldName => fieldNames.indexOf(fldName) > -1;
