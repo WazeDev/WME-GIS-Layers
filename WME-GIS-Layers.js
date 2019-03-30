@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.03.30.001
+// @version      2019.03.30.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -820,7 +820,7 @@
 
 // **************************************************************************************************************
 const UPDATE_MESSAGE = `<ul>${[
-    'Added a shortcut key option to toggle displaying address labels as HN-only or full street address.'
+    'Added support for one-time alerts when enabling layers.'
 ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
 const FORUM_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
 // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
