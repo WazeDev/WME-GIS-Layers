@@ -6,6 +6,7 @@
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
+// @require      https://code.jquery.com/ui/1.11.4/jquery-ui.min.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
@@ -810,6 +811,7 @@
 /* global performance */
 /* global atob */
 /* global window */
+/* global jQuery */
 
 // **************************************************************************************************************
 // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -1020,6 +1022,164 @@ function log(message) { console.log('GIS Layers:', message); }
 function logError(message) { console.error('GIS Layers:', message); }
 function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
 // function logWarning(message) { console.warn('GIS Layers:', message); }
+
+let _layerSettingsDialog;
+
+class LayerSettingsDialog {
+    constructor() {
+        this._$titleText = $('<span>');
+        this._$closeButton = $('<span>', {
+            style: 'cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;',
+            class: 'fa fa-window-close'
+        }).click(() => this._onCloseButtonClick());
+        this._$shiftAmount = $('<input>', {
+            type: 'text',
+            value: '1',
+            class: 'form-control',
+            size: '1',
+            style: 'border-radius: 8px;height: 22px;padding: 0px 4px;width: 30px;display: inline;'
+        });
+        this._$shiftUpButton = LayerSettingsDialog._createShiftButton('fa-angle-up');
+        this._$shiftLeftButton = LayerSettingsDialog._createShiftButton('fa-angle-left');
+        this._$shiftRightButton = LayerSettingsDialog._createShiftButton('fa-angle-right');
+        this._$shiftDownButton = LayerSettingsDialog._createShiftButton('fa-angle-down');
+
+
+        this._dialogDiv = $('<div>', {
+            id: 'gisShiftDialog',
+            style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
+        }).append($('<div>').append( // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
+            // HEADER
+            $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(
+                this._$closeButton,
+                this._$titleText
+            ),
+            // BODY
+            $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
+                'Shift amount</br>',
+                this._$shiftAmount,
+                ' meter(s)&nbsp;',
+                $('<div>', { style: 'padding: 4px' }).append(
+                    $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
+                        $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                            $('<td>', { align: 'center' }),
+                            $('<td>', { align: 'center' }).append(this._$shiftUpButton),
+                            $('<td>', { align: 'center' })
+                        ),
+                        $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                            $('<td>', { align: 'center' }).append(this._$shiftLeftButton),
+                            $('<td>', { align: 'center' }),
+                            $('<td>', { align: 'center' }).append(this._$shiftRightButton)
+                        ),
+                        $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                            $('<td>', { align: 'center' }),
+                            $('<td>', { align: 'center' }).append(this._$shiftDownButton),
+                            $('<td>', { align: 'center' })
+                        )
+                    )
+                )
+            )
+        ));
+
+        // const html = '<div style="border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;">'
+        //     + '<span id="closeGisShiftDialogBtn" style="cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;" class="fa fa-window-close"></span><span id="gisShiftDialogHeaderText"></span></div>'
+        //     + '<div style="">'
+        //     + 'Shift amount</br><input type="text" name="shiftAmount" id="shiftAmount" class="form-control" size="1" style="" value="1"/> meter(s)&nbsp;'
+        //     + '<div style="padding: 4px;">'
+        //     + '<table style="">'
+        //     + '<tr style="width:20px;height:28px;">'
+        //     + '<td align="center"></td>'
+        //     + '<td align="center">'
+        //     // Single Shift Buttons
+        //     + '<button id="gisShiftUpBtn" class="form-control" style="">' // margin-left:23px;">';
+        //     + '<i class="fa fa-angle-up" style="vertical-align: super"> </i>'
+        //     + '<span id="UpBtnCaption" style="font-weight: bold;"></span>'
+        //     + '</span>'
+        //     + '</td>'
+        //     + '<td align="center"></td>'
+        //     + '</tr>'
+
+        //     + '<tr style="width:20px;height:28px;">'
+        //     + '<td align="center">'
+        //     + '<button id="gisShiftLeftBtn" class="form-control" style="cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;">' // position:relative;padding:2px;padding-left:3px;padding-right:3px;margin-left:0px;top:10px;">';
+        //     + '<i class="fa fa-angle-left" style="vertical-align: super"> </i>'
+        //     + '<span id="LeftBtnCaption" style="font-weight: bold;"></span>'
+        //     + '</span>'
+        //     + '</td>'
+
+        //     + '<td align="center"></td>'
+
+        //     + '<td align="center">'
+        //     + '<button id="gisShiftRightBtn" class="form-control" style="cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;"">' // position:relative;padding:2px;padding-left:3px;padding-right:3px;top:10px;margin-left:15px;">';
+        //     + '<i class="fa fa-angle-right" style="vertical-align: super"> </i>'
+        //     + '<span id="RightBtnCaption" style="font-weight: bold;"></span>'
+        //     + '</span>'
+        //     + '</td>'
+        //     + '</tr>'
+
+        //     + '<tr style="width:20px;height:28px;">'
+        //     + '<td align="center"></td>'
+
+        //     + '<td align="center">'
+        //     + '<button id="gisShiftDownBtn" class="form-control" style="cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;">' // ;position:relative;top:20px;margin-left:17px;">';
+        //     + '<i class="fa fa-angle-down" style="vertical-align: super"> </i>'
+        //     + '<span id="DownBtnCaption" style="font-weight: bold;"></span>'
+        //     + '</span>'
+        //     + '</td>'
+
+        //     + '<td align="center"></td>'
+        //     + '</tr>'
+        //     + '</table>'
+        //     + '</div></div>';
+
+        this.hide();
+        this._dialogDiv.appendTo('body');
+
+        if (typeof jQuery.ui !== 'undefined') {
+            $('#gisShiftDialog').draggable();
+        }
+    }
+
+    get gisLayer() {
+        return this._gisLayer;
+    }
+
+    set gisLayer(value) {
+        if (value !== this._gisLayer) {
+            this._gisLayer = value;
+            this.title = value.name;
+        }
+    }
+
+    get title() {
+        return this._$titleText.text();
+    }
+
+    set title(value) {
+        this._$titleText.text(value);
+    }
+
+    show() {
+        this._dialogDiv.show();
+    }
+
+    hide() {
+        this._dialogDiv.hide();
+    }
+
+    _onCloseButtonClick() {
+        this.hide();
+    }
+
+    static _createShiftButton(fontAwesomeClass) {
+        return $('<button>', {
+            class: 'form-control',
+            style: 'cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;'
+        }).append(
+            $('<i>', { class: 'fa', style: 'vertical-align: super' }).addClass(fontAwesomeClass)
+        );
+    }
+}
 
 function loadSettingsFromStorage() {
     const loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
@@ -1631,7 +1791,14 @@ function initLayersTab() {
                                         $('<label>', { for: id, class: 'gis-state-layer-label' })
                                             .css({ 'white-space': 'pre-line' })
                                             .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
-                                            .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : ''),
+                                            .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : '')
+                                            .contextmenu(evt => {
+                                                evt.preventDefault();
+                                                // TODO - enable the layer if it isn't already.
+                                                // Tried using click function on the evt target, but that didn't work.
+                                                _layerSettingsDialog.gisLayer = gisLayer;
+                                                _layerSettingsDialog.show();
+                                            })
                                     );
                             })
                     )
@@ -1892,6 +2059,7 @@ async function init(firstCall = true) {
         new WazeWrap.Interface.Shortcut('GisLayersAddrDisplay', 'Toggle HN-only address labels (GIS Layers)',
             'layers', 'layersToggleGisAddressLabelDisplay', _settings.toggleHnsOnlyShortcut, onAddressDisplayShortcutKey, null).add();
         window.addEventListener('beforeunload', saveSettingsToStorage, false);
+        _layerSettingsDialog = new LayerSettingsDialog();
     }
     const t0 = performance.now();
     try {
@@ -1928,7 +2096,7 @@ async function init(firstCall = true) {
 
 function bootstrap() {
     if (W && W.loginManager && W.map && W.loginManager.user && W.model
-        && W.model.states && W.model.states.getObjectArray().length) {
+        && W.model.states && W.model.states.getObjectArray().length && jQuery && jQuery.ui) {
         log('Initializing...');
         WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, FORUM_URL);
         init();
