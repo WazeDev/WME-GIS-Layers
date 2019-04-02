@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.04.02.003
+// @version      2019.04.02.004
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -2110,7 +2110,7 @@ async function init(firstCall = true) {
 
 function bootstrap() {
     if (W && W.loginManager && W.map && W.loginManager.user && W.model
-        && W.model.states && W.model.states.getObjectArray().length && jQuery && jQuery.ui) {
+        && W.model.states && W.model.states.getObjectArray().length) {
         log('Initializing...');
         WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, FORUM_URL);
         init();
