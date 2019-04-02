@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.04.02.004
+// @version      2019.04.02.005
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
+// @require      https://greasyfork.org/scripts/381289-jquery-ui-1-11-4-wazedev-custom-min-js/code/jquery-ui-1114wazedevcustomminjs.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
@@ -28,7 +29,9 @@
 // @connect 52.37.30.30
 // @connect 54.213.14.253
 // @connect 63.238.120.156
+// @connect 66.119.96.76
 // @connect 72.10.206.73
+// @connect 96.47.201.134
 // @connect a2maps.a2gov.org
 // @connect adairgis.integritygis.com
 // @connect agis.charlottecountyfl.gov
@@ -58,7 +61,6 @@
 // @connect arcgis.mobile311.com
 // @connect arcgis.racinecounty.com
 // @connect arcgis.sd.gov
-// @connect arcgis.sprocketcomm.com
 // @connect arcgis.tampagov.net
 // @connect arcgis.tuscaloosa-al.gov
 // @connect arcgis.vgsi.com
@@ -69,6 +71,7 @@
 // @connect arcgis4.roktech.net
 // @connect arcgisce.co.valencia.nm.us
 // @connect arcgiswap01.ci.temple.tx.us
+// @connect arcgisweb.carteretcountync.gov
 // @connect arcgisweb.co.fort-bend.tx.us
 // @connect arcgisweb.countyofnewaygo.com
 // @connect arcmobile.co.albany.wy.us
@@ -135,12 +138,12 @@
 // @connect fremontgis.com
 // @connect geaugarealink.co.geauga.oh.us
 // @connect gem.edcgov.us
+// @connect geo.brunswickcountync.gov
 // @connect geo.forsythco.com
 // @connect geo.oit.ohio.gov
 // @connect geodata.hawaii.gov
 // @connect geodata.md.gov
 // @connect geodata.sarpy.com
-// @connect geodata.state.nj.us
 // @connect geodataportal.net
 // @connect geopowered.wilson.wilsontngis.com
 // @connect geoservices.co.polk.or.us
@@ -171,8 +174,10 @@
 // @connect gis.brevardcounty.us
 // @connect gis.brookhavenga.gov
 // @connect gis.buncombecounty.org
+// @connect gis.burkenc.org
 // @connect gis.burleighco.com
 // @connect gis.buttecounty.net
+// @connect gis.caldwellcountync.org
 // @connect gis.calhouncounty.org
 // @connect gis.carboncounty.com
 // @connect gis.cayugacounty.us
@@ -181,6 +186,7 @@
 // @connect gis.ccgov.net
 // @connect gis.ccpa.net
 // @connect gis.cherokeega.com
+// @connect gis.ci.mcminnville.or.us
 // @connect gis.citruspa.org
 // @connect gis.cityofaikensc.gov
 // @connect gis.cityofboston.gov
@@ -320,7 +326,6 @@
 // @connect gis.perryco.org
 // @connect gis.personcounty.net
 // @connect gis.pgatlas.com
-// @connect gis.phila.gov
 // @connect gis.pikepa.org
 // @connect gis.pittcountync.gov
 // @connect gis.plantation.org
@@ -334,9 +339,9 @@
 // @connect gis.renvillecountymn.com
 // @connect gis.rileycountyks.gov
 // @connect gis.rrnm.gov
+// @connect gis.salkeiz.k12.or.us
 // @connect gis.sandyspringsga.gov
 // @connect gis.sangis.org
-// @connect gis.santacruzcountyaz.gov
 // @connect gis.sheboygancounty.com
 // @connect gis.slocounty.ca.gov
 // @connect gis.snco.us
@@ -404,6 +409,7 @@
 // @connect gismaps.cityofboise.org
 // @connect gismaps.co.cerro-gordo.ia.us
 // @connect gismaps.co.sangamon.il.us
+// @connect gismaps.coconino.az.gov
 // @connect gismaps.columbiapa.org
 // @connect gismaps.flower-mound.com
 // @connect gismaps.pinalcountyaz.gov
@@ -428,6 +434,7 @@
 // @connect gisservices.douglasnv.us
 // @connect gisservices.its.ny.gov
 // @connect gisservices.oakgov.com
+// @connect gisservices2.cabarruscounty.us
 // @connect gisservices2.suffolkcountyny.gov
 // @connect gissites2.centrecountypa.gov
 // @connect gistech.countyofkane.org
@@ -448,18 +455,21 @@
 // @connect harpergis.integritygis.com
 // @connect harrisonms.geopowered.com
 // @connect haslet.halff.com
+// @connect hazards.fema.gov
 // @connect helenamontanamaps.org
 // @connect henrygis.integritygis.com
 // @connect hgis.hialeahfl.gov
 // @connect hidgis.co.hidalgo.tx.us
 // @connect holtgis.integritygis.com
 // @connect host.cdmsmithgis.com
+// @connect idpgis.ncep.noaa.gov
 // @connect ims.districtiii.org
 // @connect intervector.leoncountyfl.gov
 // @connect iowagis.integritygis.com
 // @connect ira.property-appraiser.org
 // @connect jcgis.jacksongov.org
 // @connect jeffarcgis.jeffersoncountywi.gov
+// @connect joplingis.org
 // @connect k3gis.com
 // @connect kc-web-01.kenoshacounty.org
 // @connect kcearth.kcgov.us
@@ -502,6 +512,7 @@
 // @connect mapping.cabellassessor.com
 // @connect mapping.huntingdoncounty.net
 // @connect mapping.modot.org
+// @connect maps.alexandercountync.gov
 // @connect maps.alexandriava.gov
 // @connect maps.bayfieldcounty.org
 // @connect maps.berkeleywv.org
@@ -578,6 +589,7 @@
 // @connect maps.miamigov.com
 // @connect maps.nashville.gov
 // @connect maps.nassauflpa.com
+// @connect maps.nj.gov
 // @connect maps.normanok.gov
 // @connect maps.ocpafl.org
 // @connect maps.outdoornebraska.gov
@@ -618,6 +630,7 @@
 // @connect mapserver.co.calaveras.ca.us
 // @connect mapservices.gis.saccounty.net
 // @connect mapservices.legis.wisconsin.gov
+// @connect mapservices.santacruzcountyaz.gov
 // @connect mapservices2.jeffco.us
 // @connect mapsonline.columbiacountyga.gov
 // @connect mcggis.mcgtn.org
@@ -634,6 +647,7 @@
 // @connect mtbachelor.co.washington.or.us
 // @connect nbgis.newportbeachca.gov
 // @connect ndgishub.nd.gov
+// @connect nhgeodata.unh.edu
 // @connect oak.co.lake-of-the-woods.mn.us
 // @connect oc17maps.co.oconto.wi.us
 // @connect ocgis.orangecountygov.com
@@ -652,6 +666,7 @@
 // @connect propaccess.wadtx.com
 // @connect propertyrecords.montcopa.org
 // @connect propertyviewer.andersoncountysc.org
+// @connect proxy.roktech.net
 // @connect psportal.harrisoncountywv.com
 // @connect pubgis.ci.lubbock.tx.us
 // @connect public1.co.waupaca.wi.us
@@ -820,10 +835,11 @@
 // const LAYER_DEF_VERSION = '2018.04.27.001';  // NOT ACTUALLY USED YET
 
 // **************************************************************************************************************
-const UPDATE_MESSAGE = `<ul>${[
-    'Added ability to shift layers. Right click a layer in the list to bring up the layer settings window.'
-].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
-const FORUM_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
+const UPDATE_MESSAGE = '';
+// const UPDATE_MESSAGE = `<ul>${[
+//     'Added ability to shift layers. Right click a layer in the list to bring up the layer settings window.'
+// ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
+const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
 // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
 const SCRIPT_AUTHOR = 'MapOMatic';
 // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
@@ -2112,7 +2128,7 @@ function bootstrap() {
     if (W && W.loginManager && W.map && W.loginManager.user && W.model
         && W.model.states && W.model.states.getObjectArray().length) {
         log('Initializing...');
-        WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, FORUM_URL);
+        WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, GF_URL);
         init();
     } else {
         log('Bootstrap failed. Trying again...');
