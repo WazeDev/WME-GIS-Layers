@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.03.30.002
+// @version      2019.04.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1032,22 +1032,18 @@ class LayerSettingsDialog {
             style: 'cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;',
             class: 'fa fa-window-close'
         }).click(() => this._onCloseButtonClick());
-        this._$shiftAmount = $('<input>', {
-            type: 'text',
-            value: '1',
+        this._$shiftUpButton = LayerSettingsDialog._createShiftButton('fa-angle-up').click(() => this._onShiftButtonClick(0, 1));
+        this._$shiftLeftButton = LayerSettingsDialog._createShiftButton('fa-angle-left').click(() => this._onShiftButtonClick(-1, 0));
+        this._$shiftRightButton = LayerSettingsDialog._createShiftButton('fa-angle-right').click(() => this._onShiftButtonClick(1, 0));
+        this._$shiftDownButton = LayerSettingsDialog._createShiftButton('fa-angle-down').click(() => this._onShiftButtonClick(0, -1));
+        this._$resetButton = $('<button>', {
             class: 'form-control',
-            size: '1',
-            style: 'border-radius: 8px;height: 22px;padding: 0px 4px;width: 30px;display: inline;'
-        });
-        this._$shiftUpButton = LayerSettingsDialog._createShiftButton('fa-angle-up');
-        this._$shiftLeftButton = LayerSettingsDialog._createShiftButton('fa-angle-left');
-        this._$shiftRightButton = LayerSettingsDialog._createShiftButton('fa-angle-right');
-        this._$shiftDownButton = LayerSettingsDialog._createShiftButton('fa-angle-down');
-
+            style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px; display: inline-block; float: right;'
+        }).text('Reset').click(() => this._onResetButtonClick());
 
         this._dialogDiv = $('<div>', {
-            id: 'gisShiftDialog',
-            style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
+            style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid;'
+                + 'border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
         }).append($('<div>').append( // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
             // HEADER
             $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(
@@ -1056,9 +1052,15 @@ class LayerSettingsDialog {
             ),
             // BODY
             $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
-                'Shift amount</br>',
-                this._$shiftAmount,
-                ' meter(s)&nbsp;',
+                this._$resetButton,
+                $('<input>', {
+                    type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked'
+                }),
+                $('<label>', { for: 'gisLayerShiftAmt1' }).text('1m'),
+                $('<input>', {
+                    type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left: 6px'
+                }),
+                $('<label>', { for: 'gisLayerShiftAmt10' }).text('10m'),
                 $('<div>', { style: 'padding: 4px' }).append(
                     $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
                         $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
@@ -1081,62 +1083,15 @@ class LayerSettingsDialog {
             )
         ));
 
-        // const html = '<div style="border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;">'
-        //     + '<span id="closeGisShiftDialogBtn" style="cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;" class="fa fa-window-close"></span><span id="gisShiftDialogHeaderText"></span></div>'
-        //     + '<div style="">'
-        //     + 'Shift amount</br><input type="text" name="shiftAmount" id="shiftAmount" class="form-control" size="1" style="" value="1"/> meter(s)&nbsp;'
-        //     + '<div style="padding: 4px;">'
-        //     + '<table style="">'
-        //     + '<tr style="width:20px;height:28px;">'
-        //     + '<td align="center"></td>'
-        //     + '<td align="center">'
-        //     // Single Shift Buttons
-        //     + '<button id="gisShiftUpBtn" class="form-control" style="">' // margin-left:23px;">';
-        //     + '<i class="fa fa-angle-up" style="vertical-align: super"> </i>'
-        //     + '<span id="UpBtnCaption" style="font-weight: bold;"></span>'
-        //     + '</span>'
-        //     + '</td>'
-        //     + '<td align="center"></td>'
-        //     + '</tr>'
-
-        //     + '<tr style="width:20px;height:28px;">'
-        //     + '<td align="center">'
-        //     + '<button id="gisShiftLeftBtn" class="form-control" style="cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;">' // position:relative;padding:2px;padding-left:3px;padding-right:3px;margin-left:0px;top:10px;">';
-        //     + '<i class="fa fa-angle-left" style="vertical-align: super"> </i>'
-        //     + '<span id="LeftBtnCaption" style="font-weight: bold;"></span>'
-        //     + '</span>'
-        //     + '</td>'
-
-        //     + '<td align="center"></td>'
-
-        //     + '<td align="center">'
-        //     + '<button id="gisShiftRightBtn" class="form-control" style="cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;"">' // position:relative;padding:2px;padding-left:3px;padding-right:3px;top:10px;margin-left:15px;">';
-        //     + '<i class="fa fa-angle-right" style="vertical-align: super"> </i>'
-        //     + '<span id="RightBtnCaption" style="font-weight: bold;"></span>'
-        //     + '</span>'
-        //     + '</td>'
-        //     + '</tr>'
-
-        //     + '<tr style="width:20px;height:28px;">'
-        //     + '<td align="center"></td>'
-
-        //     + '<td align="center">'
-        //     + '<button id="gisShiftDownBtn" class="form-control" style="cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;">' // ;position:relative;top:20px;margin-left:17px;">';
-        //     + '<i class="fa fa-angle-down" style="vertical-align: super"> </i>'
-        //     + '<span id="DownBtnCaption" style="font-weight: bold;"></span>'
-        //     + '</span>'
-        //     + '</td>'
-
-        //     + '<td align="center"></td>'
-        //     + '</tr>'
-        //     + '</table>'
-        //     + '</div></div>';
-
         this.hide();
         this._dialogDiv.appendTo('body');
 
         if (typeof jQuery.ui !== 'undefined') {
-            $('#gisShiftDialog').draggable();
+            const that = this;
+            this._dialogDiv.draggable({
+                // Gotta nuke the height setting the dragging inserts otherwise the panel cannot dynamically resize
+                stop() { that._dialogDiv.css('height', ''); }
+            });
         }
     }
 
@@ -1159,6 +1114,11 @@ class LayerSettingsDialog {
         this._$titleText.text(value);
     }
 
+    // eslint-disable-next-line class-methods-use-this
+    getShiftAmount() {
+        return $('input[name=gisLayerShiftAmt]:checked').val();
+    }
+
     show() {
         this._dialogDiv.show();
     }
@@ -1169,6 +1129,37 @@ class LayerSettingsDialog {
 
     _onCloseButtonClick() {
         this.hide();
+    }
+
+    _onShiftButtonClick(x, y) {
+        const shiftAmount = this.getShiftAmount();
+        x *= shiftAmount;
+        y *= shiftAmount;
+        this._shiftLayerFeatures(x, y);
+        const { id } = this._gisLayer;
+        let offset = _settings.getLayerSetting(id, 'offset');
+        if (!offset) {
+            offset = { x: 0, y: 0 };
+            _settings.setLayerSetting(id, 'offset', offset);
+        }
+        offset.x += x;
+        offset.y += y;
+        saveSettingsToStorage();
+    }
+
+    _onResetButtonClick() {
+        const offset = _settings.getLayerSetting(this._gisLayer.id, 'offset');
+        if (offset) {
+            this._shiftLayerFeatures(offset.x * -1, offset.y * -1);
+            delete _settings.layers[this._gisLayer.id].offset;
+            saveSettingsToStorage();
+        }
+    }
+
+    _shiftLayerFeatures(x, y) {
+        const layer = this.gisLayer.isRoadLayer ? _roadLayer : _mapLayer;
+        layer.getFeaturesByAttribute('layerID', this.gisLayer.id).forEach(f => f.geometry.move(x, y));
+        layer.redraw();
     }
 
     static _createShiftButton(fontAwesomeClass) {
@@ -1191,7 +1182,8 @@ function loadSettingsFromStorage() {
         enabled: true,
         fillParcels: false,
         toggleHnsOnlyShortcut: '',
-        oneTimeAlerts: {}
+        oneTimeAlerts: {},
+        layers: {}
     };
     _settings = loadedSettings || defaultSettings;
     Object.keys(defaultSettings).forEach(prop => {
@@ -1199,6 +1191,22 @@ function loadSettingsFromStorage() {
             _settings[prop] = defaultSettings[prop];
         }
     });
+
+    _settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
+        const layerSettings = this.layers[layerID];
+        if (!layerSettings) {
+            return undefined;
+        }
+        return layerSettings[settingName];
+    };
+    _settings.setLayerSetting = function setLayerSetting(layerID, settingName, value) {
+        let layerSettings = this.layers[layerID];
+        if (!layerSettings) {
+            layerSettings = {};
+            this.layers[layerID] = layerSettings;
+        }
+        layerSettings[settingName] = value;
+    };
 }
 
 function saveSettingsToStorage() {
@@ -1222,11 +1230,15 @@ function getUrl(extent, gisLayer) {
         const proj = new OL.Projection(`EPSG:${gisLayer.spatialReference}`);
         extent.transform(W.map.getProjection(), proj);
     }
+    let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
+    if (!layerOffset) {
+        layerOffset = { x: 0, y: 0 };
+    }
     const geometry = {
-        xmin: extent.left,
-        ymin: extent.bottom,
-        xmax: extent.right,
-        ymax: extent.top,
+        xmin: extent.left - layerOffset.x,
+        ymin: extent.bottom - layerOffset.y,
+        xmax: extent.right - layerOffset.x,
+        ymax: extent.top - layerOffset.y,
         spatialReference: {
             wkid: gisLayer.spatialReference ? gisLayer.spatialReference : 102100,
             latestWkid: gisLayer.spatialReference ? gisLayer.spatialReference : 3857
@@ -1352,7 +1364,10 @@ function processFeatures(data, token, gisLayer) {
                         }
                     }
                     if (!skipIt) {
-                        const layerOffset = gisLayer.layerOffset ? gisLayer.layerOffset : { x: 0, y: 0 };
+                        let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
+                        if (!layerOffset) {
+                            layerOffset = { x: 0, y: 0 };
+                        }
                         // Special handling for this layer, because it doesn't have a geometry property.
                         // Coordinates are stored in the attributes.
                         if (gisLayer.id === 'nc-richmond-co-pts') {
