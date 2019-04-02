@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.04.02.001
+// @version      2019.04.02.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -822,7 +822,7 @@
 
 // **************************************************************************************************************
 const UPDATE_MESSAGE = `<ul>${[
-    'Added support for one-time alerts when enabling layers.'
+    'Added ability to shift layers. Right click a layer in the list to bring up the layer settings window.'
 ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
 const FORUM_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
 // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
