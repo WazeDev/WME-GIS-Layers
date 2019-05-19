@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.04.02.005
+// @version      2019.05.19.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -31,7 +31,6 @@
 // @connect 63.238.120.156
 // @connect 66.119.96.76
 // @connect 72.10.206.73
-// @connect 96.47.201.134
 // @connect a2maps.a2gov.org
 // @connect adairgis.integritygis.com
 // @connect agis.charlottecountyfl.gov
@@ -53,6 +52,7 @@
 // @connect apps.fs.usda.gov
 // @connect apps.lcounty.com
 // @connect apps.willcogis.org
+// @connect apps.wyoroad.info
 // @connect arc2000.florenceco.org
 // @connect arcgis.atlantaregional.com
 // @connect arcgis.cityofcapegirardeau.org
@@ -74,6 +74,7 @@
 // @connect arcgisweb.carteretcountync.gov
 // @connect arcgisweb.co.fort-bend.tx.us
 // @connect arcgisweb.countyofnewaygo.com
+// @connect arcgiswebadp3.morpc.org
 // @connect arcmobile.co.albany.wy.us
 // @connect arcserv.co.washington.ar.us
 // @connect arcserver.madisoncountyky.us
@@ -87,6 +88,7 @@
 // @connect batesgis.integritygis.com
 // @connect bcgis.baltimorecountymd.gov
 // @connect bcgis.broward.org
+// @connect bcmaps.bradfordco.org
 // @connect bcweb-adapters.bcpa.net
 // @connect bentongis.integritygis.com
 // @connect bocagis.ci.boca-raton.fl.us
@@ -103,7 +105,9 @@
 // @connect camdengis.integritygis.com
 // @connect cassgis.integritygis.com
 // @connect cassweb3.co.cass.mn.us
+// @connect ccgis.crawfordcountypa.net
 // @connect ccgisapps.charlestoncounty.org
+// @connect ccmap.cccounty.us
 // @connect cdsd.co.teller.co.us
 // @connect cecilmaps.ccgov.org
 // @connect cloud.longviewtexas.gov
@@ -112,7 +116,6 @@
 // @connect co.kent.de.us
 // @connect coagisweb.cabq.gov
 // @connect coopergis.integritygis.com
-// @connect cowen.gis.sc.gov
 // @connect crgis.cedar-rapids.org
 // @connect dadegis.integritygis.com
 // @connect dallasgis.integritygis.com
@@ -129,8 +132,10 @@
 // @connect ec2-13-59-57-177.us-east-2.compute.amazonaws.com
 // @connect ecgis.co.ellis.tx.us
 // @connect egis.pinellascounty.org
+// @connect elb.elevatemaps.io
 // @connect elb2.39dn.com
 // @connect emapsplus.com
+// @connect engineer.gomvo.org
 // @connect epv.ci.juneau.ak.us
 // @connect eservices.co.crook.or.us
 // @connect essex-gis.co.essex.ny.us
@@ -152,6 +157,7 @@
 // @connect gis-server.co.becker.mn.us
 // @connect gis-server.co.montezuma.co.us
 // @connect gis-web.co.union.nc.us
+// @connect gis-webpub.sonoma-county.org
 // @connect gis-world3.aacounty.org
 // @connect gis.abilenetx.com
 // @connect gis.acgov.org
@@ -224,6 +230,7 @@
 // @connect gis.co.roseau.mn.us
 // @connect gis.co.santa-cruz.ca.us
 // @connect gis.co.sauk.wi.us
+// @connect gis.co.sherburne.mn.us
 // @connect gis.co.stearns.mn.us
 // @connect gis.co.wadena.mn.us
 // @connect gis.co.waseca.mn.us
@@ -235,7 +242,6 @@
 // @connect gis.countyofriverside.us
 // @connect gis.cowleycounty.org
 // @connect gis.cranstonri.org
-// @connect gis.crawfordcountypa.net
 // @connect gis.crookcounty.wy.gov
 // @connect gis.dallascityhall.com
 // @connect gis.dauphincounty.org
@@ -256,6 +262,7 @@
 // @connect gis.fultoncountyga.gov
 // @connect gis.fultoncountyoh.com
 // @connect gis.fwb.org
+// @connect gis.fwp.mt.gov
 // @connect gis.gallatin.mt.gov
 // @connect gis.garfield-county.com
 // @connect gis.gastongov.com
@@ -320,7 +327,6 @@
 // @connect gis.orangecountync.gov
 // @connect gis.owensboro.org
 // @connect gis.pandai.com
-// @connect gis.parkcounty.org
 // @connect gis.pearlandtx.gov
 // @connect gis.peoriacounty.org
 // @connect gis.perryco.org
@@ -342,6 +348,7 @@
 // @connect gis.salkeiz.k12.or.us
 // @connect gis.sandyspringsga.gov
 // @connect gis.sangis.org
+// @connect gis.santacruzcounty.us
 // @connect gis.sheboygancounty.com
 // @connect gis.slocounty.ca.gov
 // @connect gis.snco.us
@@ -358,6 +365,7 @@
 // @connect gis.ulstercountyny.gov
 // @connect gis.ventura.org
 // @connect gis.weatherfordtx.gov
+// @connect gis.westplains.net
 // @connect gis.wilco.org
 // @connect gis.wiu.edu
 // @connect gis.worldviewsolutions.com
@@ -418,6 +426,7 @@
 // @connect gismaps.wichita.gov
 // @connect gismapserver.leegov.com
 // @connect gisp.co.genesee.ny.us
+// @connect gisportal.co.calaveras.ca.us
 // @connect gisportal.fnsb.us
 // @connect gisprod10.co.fresno.ca.us
 // @connect gisprodops.chesco.org
@@ -595,6 +604,7 @@
 // @connect maps.outdoornebraska.gov
 // @connect maps.palmcoastgov.com
 // @connect maps.parkco.us
+// @connect maps.pasda.psu.edu
 // @connect maps.phoenix.gov
 // @connect maps.pitkincounty.com
 // @connect maps.placer.ca.gov
@@ -627,6 +637,7 @@
 // @connect maps2.yorkcountygov.com
 // @connect maps3.murfreesborotn.gov
 // @connect mapsdev.hamiltontn.gov
+// @connect mapserv.mesquitenv.gov
 // @connect mapserver.co.calaveras.ca.us
 // @connect mapservices.gis.saccounty.net
 // @connect mapservices.legis.wisconsin.gov
@@ -647,6 +658,7 @@
 // @connect mtbachelor.co.washington.or.us
 // @connect nbgis.newportbeachca.gov
 // @connect ndgishub.nd.gov
+// @connect newgis.co.yuba.ca.us
 // @connect nhgeodata.unh.edu
 // @connect oak.co.lake-of-the-woods.mn.us
 // @connect oc17maps.co.oconto.wi.us
@@ -734,8 +746,9 @@
 // @connect webgis.bcgov.net
 // @connect webgis.bedfordcountyva.gov
 // @connect webgis.co.humboldt.ca.us
-// @connect webgis.okaloosafl.com
+// @connect webgis.myokaloosa.com
 // @connect webgis.providenceri.gov
+// @connect webgis.sccgov.org
 // @connect webmap.co.hood-river.or.us
 // @connect webmap.co.jackson.ms.us
 // @connect webmap.jeffparish.net
@@ -779,7 +792,6 @@
 // @connect www.kandrive.org
 // @connect www.landmarkgeospatial.com
 // @connect www.loraincountyauditor.com
-// @connect www.mcegisohio.org
 // @connect www.mcgisweb.org
 // @connect www.mchenrycountygis.org
 // @connect www.midmogis.org
@@ -2126,7 +2138,7 @@ async function init(firstCall = true) {
 
 function bootstrap() {
     if (W && W.loginManager && W.map && W.loginManager.user && W.model
-        && W.model.states && W.model.states.getObjectArray().length) {
+        && W.model.states && W.model.states.getObjectArray().length && WazeWrap && WazeWrap.Ready) {
         log('Initializing...');
         WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, GF_URL);
         init();
