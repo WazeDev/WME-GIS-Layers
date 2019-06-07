@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.05.19.001
+// @version      2019.06.07.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1455,7 +1455,8 @@ function processFeatures(data, token, gisLayer) {
                                         fieldName => item.attributes[fieldName]
                                     ).join(' ').trim();
                                     if (gisLayer.processLabel) {
-                                        label = gisLayer.processLabel(label, item.attributes).trim();
+                                        label = gisLayer.processLabel(label, item.attributes);
+                                        label = label ? label.trim() : '';
                                     }
                                 }
                                 if (label && [
