@@ -1,7 +1,8 @@
+/* eslint-disable brace-style, curly, func-name, nonblock-statement-body-position, no-template-curly-in-string, func-names */
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.07.23.001
+// @version      2019.10.30.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -833,7 +834,6 @@
 /* global $ */
 /* global localStorage */
 /* global GM_xmlhttpRequest */
-/* global alert */
 /* global performance */
 /* global atob */
 /* global window */
@@ -847,7 +847,7 @@
 // const LAYER_DEF_VERSION = '2018.04.27.001';  // NOT ACTUALLY USED YET
 
 // **************************************************************************************************************
-const UPDATE_MESSAGE = 'Bug fix due to WME update';
+// const UPDATE_MESSAGE = 'Bug fix due to WME update';
 // const UPDATE_MESSAGE = `<ul>${[
 //     'Added ability to shift layers. Right click a layer in the list to bring up the layer settings window.'
 // ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
@@ -1031,13 +1031,14 @@ const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
 const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2010/State_County/MapServer/1/';
 const ALERT_UPDATE = false;
 const SCRIPT_VERSION = GM_info.script.version;
-const SCRIPT_VERSION_CHANGES = [
+const SCRIPT_VERSION_CHANGES = ['WazeWrap notification system.', 'WME beta compatibility.'];
+/* const SCRIPT_VERSION_CHANGES = [
     GM_info.script.name,
     `v${SCRIPT_VERSION}`,
     'What\'s New',
     '------------------------------'
     // new stuff here
-].join('\n');
+].join('\n'); */
 let _mapLayer = null;
 let _roadLayer = null;
 let _settings = {};
@@ -1554,6 +1555,7 @@ function fetchFeatures() {
                     _countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
                     logDebug(`US Census counties: ${_countiesInExtent.join(', ')}`);
                     _statesInExtent = _.uniq(data.features.map(
+                        // eslint-disable-next-line radix
                         feature => STATES.fromId(parseInt(feature.attributes.STATE, 10))[0]
                     ));
 
@@ -1612,7 +1614,19 @@ function fetchFeatures() {
 function showScriptInfoAlert() {
     /* Check version and alert on update */
     if (ALERT_UPDATE && SCRIPT_VERSION !== _settings.lastVersion) {
-        alert(SCRIPT_VERSION_CHANGES);
+        // alert(SCRIPT_VERSION_CHANGES);
+        let releaseNotes = '';
+        releaseNotes += '<p>What\'s New:</p>';
+        if (SCRIPT_VERSION_CHANGES.length > 0) {
+            releaseNotes += '<ul>';
+            for (let idx = 0; idx < SCRIPT_VERSION_CHANGES.length; idx++)
+                releaseNotes += `<li>${SCRIPT_VERSION_CHANGES[idx]}`;
+            releaseNotes += '</ul>';
+        }
+        else {
+            releaseNotes += '<ul><li>Nothing major.</ul>';
+        }
+        WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, releaseNotes, GF_URL);
     }
 }
 
@@ -1637,7 +1651,8 @@ function onGisLayerToggleChanged() {
             const lastAlertHash = _settings.oneTimeAlerts[layerId];
             const newAlertHash = hashString(gisLayer.oneTimeAlert);
             if (lastAlertHash !== newAlertHash) {
-                alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
+                // alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
+                WazeWrap.Alerts.info(GM_info.scrpt.name, `Layer: ${gisLayer.name}<br><br>Message:<br>${gisLayer.oneTimeAlert}`);
                 _settings.oneTimeAlerts[layerId] = newAlertHash;
                 saveSettingsToStorage();
             }
@@ -1991,7 +2006,8 @@ function initGui(firstCall = true) {
 
         new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
         WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
-        W.map.events.register('moveend', null, onMapMove);
+        // W.map.events.register('moveend', null, onMapMove);
+        WazeWrap.Events.register('moveend', null, onMapMove);
         showScriptInfoAlert();
     } else {
         initTab(firstCall);
@@ -2141,7 +2157,7 @@ function bootstrap() {
     if (W && W.loginManager && W.map && W.loginManager.user && W.model
         && W.model.states && W.model.states.getObjectArray().length && WazeWrap && WazeWrap.Ready) {
         log('Initializing...');
-        WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, GF_URL);
+        // WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, GF_URL);
         init();
     } else {
         log('Bootstrap failed. Trying again...');
