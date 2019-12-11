@@ -1652,7 +1652,7 @@ function onGisLayerToggleChanged() {
             const newAlertHash = hashString(gisLayer.oneTimeAlert);
             if (lastAlertHash !== newAlertHash) {
                 // alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
-                WazeWrap.Alerts.info(GM_info.scrpt.name, `Layer: ${gisLayer.name}<br><br>Message:<br>${gisLayer.oneTimeAlert}`);
+                WazeWrap.Alerts.info(GM_info.script.name, `Layer: ${gisLayer.name}<br><br>Message:<br>${gisLayer.oneTimeAlert}`);
                 _settings.oneTimeAlerts[layerId] = newAlertHash;
                 saveSettingsToStorage();
             }
