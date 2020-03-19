@@ -2100,8 +2100,8 @@ async function loadSpreadsheetAsync() {
                     layerDef[fldName] = [''];
                 }
             });
-            const enabled = layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled.toString().trim().toLowerCase()) === -1;
-            if (!layerDef.notAllowed && (enabled || layerDef.restrictTo)) {
+            if (!layerDef.notAllowed && layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled
+                .toString().trim().toLowerCase()) === -1) {
                 _gisLayers.push(layerDef);
             }
         });
