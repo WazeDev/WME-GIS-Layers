@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2019.11.21.001
+// @version      2020.03.31.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -2081,7 +2081,7 @@ async function loadSpreadsheetAsync() {
                             layerDef.notAllowed = !values.some(entry => {
                                 const rankMatch = entry.match(/^r(\d)(\+am)?$/);
                                 if (rankMatch) {
-                                    if (rankMatch[1] <= user.normalizedLevel && (!rankMatch[2] || user.isAreaManager)) {
+                                    if (rankMatch[1] <= (user.rank + 1) && (!rankMatch[2] || user.isAreaManager)) {
                                         return true;
                                     }
                                 } else if (entry === 'am' && user.isAreaManager) {
