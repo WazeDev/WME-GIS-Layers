@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2020.03.31.001
+// @version      2020.06.01.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -936,7 +936,7 @@ const LAYER_STYLES = {
         fontColor: '#f7f'
     }
 };
-const ROAD_STYLE = new OL.Style(
+const ROAD_STYLE = new OpenLayers.Style(
     {
         pointRadius: 12,
         fillColor: '#369',
@@ -1255,7 +1255,7 @@ function saveSettingsToStorage() {
 
 function getUrl(extent, gisLayer) {
     if (gisLayer.spatialReference) {
-        const proj = new OL.Projection(`EPSG:${gisLayer.spatialReference}`);
+        const proj = new OpenLayers.Projection(`EPSG:${gisLayer.spatialReference}`);
         extent.transform(W.map.getOLMap().getProjection(), proj);
     }
     let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
@@ -1399,29 +1399,29 @@ function processFeatures(data, token, gisLayer) {
                         // Special handling for this layer, because it doesn't have a geometry property.
                         // Coordinates are stored in the attributes.
                         if (gisLayer.id === 'nc-richmond-co-pts') {
-                            const pt = new OL.Geometry.Point(item.attributes.XCOOR, item.attributes.YCOOR);
+                            const pt = new OpenLayers.Geometry.Point(item.attributes.XCOOR, item.attributes.YCOOR);
                             pt.transform(W.map.getOLMap().displayProjection, W.map.getOLMap().projection);
                             item.geometry = pt;
                         }
                         if (item.geometry) {
                             if (item.geometry.x) {
-                                featureGeometry = new OL.Geometry.Point(item.geometry.x + layerOffset.x,
+                                featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x + layerOffset.x,
                                     item.geometry.y + layerOffset.y);
                             } else if (item.geometry.points) {
                                 // @TODO Fix for multiple points instead of just grabbing first.
-                                featureGeometry = new OL.Geometry.Point(item.geometry.points[0][0] + layerOffset.x,
+                                featureGeometry = new OpenLayers.Geometry.Point(item.geometry.points[0][0] + layerOffset.x,
                                     item.geometry.points[0][1] + layerOffset.y);
                             } else if (item.geometry.rings) {
                                 const rings = [];
                                 item.geometry.rings.forEach(ringIn => {
                                     const pnts = [];
                                     for (let i = 0; i < ringIn.length; i++) {
-                                        pnts.push(new OL.Geometry.Point(ringIn[i][0] + layerOffset.x,
+                                        pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0] + layerOffset.x,
                                             ringIn[i][1] + layerOffset.y));
                                     }
-                                    rings.push(new OL.Geometry.LinearRing(pnts));
+                                    rings.push(new OpenLayers.Geometry.LinearRing(pnts));
                                 });
-                                featureGeometry = new OL.Geometry.Polygon(rings);
+                                featureGeometry = new OpenLayers.Geometry.Polygon(rings);
                                 if (gisLayer.areaToPoint) {
                                     featureGeometry = featureGeometry.getCentroid();
                                 } else {
@@ -1430,10 +1430,10 @@ function processFeatures(data, token, gisLayer) {
                             } else if (data.geometryType === 'esriGeometryPolyline') {
                                 const pointList = [];
                                 item.geometry.paths.forEach(path => {
-                                    path.forEach(point => pointList.push(new OL.Geometry.Point(point[0] + layerOffset.x,
+                                    path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0] + layerOffset.x,
                                         point[1] + layerOffset.y)));
                                 });
-                                featureGeometry = new OL.Geometry.LineString(pointList);
+                                featureGeometry = new OpenLayers.Geometry.LineString(pointList);
                                 featureGeometry.skipDupeCheck = true;
                             } else {
                                 logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
@@ -1476,7 +1476,7 @@ function processFeatures(data, token, gisLayer) {
                                     layerID: gisLayer.id,
                                     label
                                 };
-                                feature = new OL.Feature.Vector(featureGeometry, attributes);
+                                feature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
                                 features.push(feature);
                             }
                         }
@@ -1755,9 +1755,9 @@ function onAddressDisplayShortcutKey() {
 }
 
 function initLayer() {
-    const rules = _gisLayers.map(gisLayer => new OL.Rule({
-        filter: new OL.Filter.Comparison({
-            type: OL.Filter.Comparison.EQUAL_TO,
+    const rules = _gisLayers.map(gisLayer => new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.EQUAL_TO,
             property: 'layerID',
             value: gisLayer.id
         }),
@@ -1766,24 +1766,24 @@ function initLayer() {
 
     setFillParcels(_settings.fillParcels);
 
-    const style = new OL.Style(DEFAULT_STYLE, { rules });
+    const style = new OpenLayers.Style(DEFAULT_STYLE, { rules });
     let existingLayer;
     let uniqueName;
 
     uniqueName = 'wmeGISLayersDefault';
     existingLayer = W.map.getLayerByUniqueName(uniqueName);
     if (existingLayer) W.map.getOLMap().removeLayer(existingLayer);
-    _mapLayer = new OL.Layer.Vector('GIS Layers - Default', {
+    _mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
         uniqueName,
-        styleMap: new OL.StyleMap(style)
+        styleMap: new OpenLayers.StyleMap(style)
     });
 
     uniqueName = 'wmeGISLayersRoads';
     existingLayer = W.map.getLayerByUniqueName(uniqueName);
     if (existingLayer) W.map.getOLMap().removeLayer(existingLayer);
-    _roadLayer = new OL.Layer.Vector('GIS Layers - Roads', {
+    _roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
         uniqueName,
-        styleMap: new OL.StyleMap(ROAD_STYLE)
+        styleMap: new OpenLayers.StyleMap(ROAD_STYLE)
     });
 
     _mapLayer.setVisibility(_settings.enabled);
@@ -2226,10 +2226,10 @@ function installPathFollowingLabels() {
     //  *                              'isFilled' {Boolean} and
     //  *                              'isStroked' {Boolean}
 
-    var setStyle = OL.Renderer.SVG.prototype.setStyle;
-    OL.Renderer.SVG.LABEL_STARTOFFSET = { 'l': '0%', 'r': '100%', 'm': '50%' };
+    var setStyle = OpenLayers.Renderer.SVG.prototype.setStyle;
+    OpenLayers.Renderer.SVG.LABEL_STARTOFFSET = { 'l': '0%', 'r': '100%', 'm': '50%' };
 
-    OL.Renderer.SVG.prototype.pathText = function (node, style, suffix) {
+    OpenLayers.Renderer.SVG.prototype.pathText = function (node, style, suffix) {
         var label = this.nodeFactory(null, 'text');
         label.setAttribute('id', node._featureId + '_' + suffix);
         if (style.fontColor) label.setAttributeNS(null, 'fill', style.fontColor);
@@ -2301,10 +2301,10 @@ function installPathFollowingLabels() {
 
         var textPath = this.nodeFactory(null, 'textPath');
         textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + tpid);
-        var align = style.labelAlign || OL.Renderer.defaultSymbolizer.labelAlign;
-        label.setAttributeNS(null, 'text-anchor', OL.Renderer.SVG.LABEL_ALIGN[align[0]] || 'middle');
-        textPath.setAttribute('startOffset', style.pathLabelXOffset || OL.Renderer.SVG.LABEL_STARTOFFSET[align[0]] || '50%');
-        label.setAttributeNS(null, 'dominant-baseline', OL.Renderer.SVG.LABEL_ALIGN[align[1]] || 'central');
+        var align = style.labelAlign || OpenLayers.Renderer.defaultSymbolizer.labelAlign;
+        label.setAttributeNS(null, 'text-anchor', OpenLayers.Renderer.SVG.LABEL_ALIGN[align[0]] || 'middle');
+        textPath.setAttribute('startOffset', style.pathLabelXOffset || OpenLayers.Renderer.SVG.LABEL_STARTOFFSET[align[0]] || '50%');
+        label.setAttributeNS(null, 'dominant-baseline', OpenLayers.Renderer.SVG.LABEL_ALIGN[align[1]] || 'central');
         if (style.pathLabelYOffset) label.setAttribute('dy', style.pathLabelYOffset);
         //textPath.setAttribute('method','stretch');
         //textPath.setAttribute('spacing','auto');
@@ -2316,14 +2316,14 @@ function installPathFollowingLabels() {
         this.textRoot.appendChild(label);
     };
 
-    OL.Renderer.SVG.prototype.setStyle = function (node, style, options) {
+    OpenLayers.Renderer.SVG.prototype.setStyle = function (node, style, options) {
         if (node._geometryClass === 'OpenLayers.Geometry.LineString' && style.pathLabel) {
             if (node._geometryClass === 'OpenLayers.Geometry.LineString' && style.pathLabel) {
                 var drawOutline = (!!style.labelOutlineWidth);
                 // First draw text in halo color and size and overlay the
                 // normal text afterwards
                 if (drawOutline) {
-                    var outlineStyle = OL.Util.extend({}, style);
+                    var outlineStyle = OpenLayers.Util.extend({}, style);
                     outlineStyle.fontColor = outlineStyle.labelOutlineColor;
                     outlineStyle.fontStrokeColor = outlineStyle.labelOutlineColor;
                     outlineStyle.fontStrokeWidth = style.labelOutlineWidth;
@@ -2351,8 +2351,8 @@ function installPathFollowingLabels() {
     //  * {Boolean} true if the geometry has been drawn completely; null if
     //  *     incomplete; false otherwise
 
-    var drawGeometry = OL.Renderer.SVG.prototype.drawGeometry;
-    OL.Renderer.SVG.prototype.drawGeometry = function (geometry, style, id) {
+    var drawGeometry = OpenLayers.Renderer.SVG.prototype.drawGeometry;
+    OpenLayers.Renderer.SVG.prototype.drawGeometry = function (geometry, style, id) {
         var rendered = drawGeometry.apply(this, arguments);
         if (rendered === false) {
             removeChildById(this.textRoot, id + '_txtpath');
@@ -2372,8 +2372,8 @@ function installPathFollowingLabels() {
     // * geometry - {<OpenLayers.Geometry>}
     // * featureId - {String}
 
-    var eraseGeometry = OL.Renderer.SVG.prototype.eraseGeometry;
-    OL.Renderer.SVG.prototype.eraseGeometry = function (geometry, featureId) {
+    var eraseGeometry = OpenLayers.Renderer.SVG.prototype.eraseGeometry;
+    OpenLayers.Renderer.SVG.prototype.eraseGeometry = function (geometry, featureId) {
         eraseGeometry.apply(this, arguments);
         removeChildById(this.textRoot, featureId + '_txtpath');
         removeChildById(this.textRoot, featureId + '_txtpath0');
