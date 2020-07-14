@@ -1471,6 +1471,9 @@ function processFeatures(data, token, gisLayer) {
                                         const m = label.match(/^(?:\d+\s)?(.*)/);
                                         label = m ? m[1].trim() : '';
                                     }
+                                    else if (_settings.addrLabelDisplay === 'none') {
+                                        label = '';
+                                    }
                                 }
                                 const attributes = {
                                     layerID: gisLayer.id,
@@ -1890,6 +1893,7 @@ function initSettingsTab() {
                     createRadioBtn('gisAddrDisplay', 'hn', 'HN', _settings.addrLabelDisplay === 'hn'),
                     createRadioBtn('gisAddrDisplay', 'street', 'Street', _settings.addrLabelDisplay === 'street'),
                     createRadioBtn('gisAddrDisplay', 'all', 'Both', _settings.addrLabelDisplay === 'all'),
+                    createRadioBtn('gisAddrDisplay', 'none', 'None', _settings.addrLabelDisplay === 'none'),
                     $('<i>', {
                         class: 'waze-tooltip',
                         id: 'gisAddrDisplayInfo',
