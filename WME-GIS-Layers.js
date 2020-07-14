@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2020.06.01.001
+// @version      2020.07.09.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -826,7 +826,7 @@
 // @connect yolo-gis-prod.yolocounty.org
 // ==/UserScript==
 
-/* global OL */
+/* global OpenLayers */
 /* global W */
 /* global GM_info */
 /* global WazeWrap */
@@ -1031,7 +1031,7 @@ const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
 const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2010/State_County/MapServer/1/';
 const ALERT_UPDATE = false;
 const SCRIPT_VERSION = GM_info.script.version;
-const SCRIPT_VERSION_CHANGES = ['WME v2.43-40-gf367bffa4 compatibility.'];
+const SCRIPT_VERSION_CHANGES = ['Minor bugfix.'];
 /* const SCRIPT_VERSION_CHANGES = [
     GM_info.script.name,
     `v${SCRIPT_VERSION}`,
@@ -1370,7 +1370,7 @@ function processFeatures(data, token, gisLayer) {
     } else if (data.error) {
         logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
     } else {
-        const items = data.features;
+        const items = data.features || [];
         if (!token.cancel) {
             let error = false;
             const distinctValues = [];
