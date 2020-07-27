@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2020.07.19.001
+// @version      2020.07.27.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1086,7 +1086,7 @@ const ROAD_STYLE = new OpenLayers.Style(
         fontSize: 11
     }, {
     context: {
-        getOffset() { return -(W.map.getOLMap().getZoom() + 5); },
+        getOffset() { return -(W.map.getZoom() + 5); },
         getSmooth() { return ''; },
         getReadable() { return '1'; },
         getAlign() { return 'cb'; }
@@ -1159,7 +1159,7 @@ const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
 const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2010/State_County/MapServer/1/';
 const ALERT_UPDATE = false;
 const SCRIPT_VERSION = GM_info.script.version;
-const SCRIPT_VERSION_CHANGES = ['Minor bugfix.'];
+const SCRIPT_VERSION_CHANGES = ['WME map object references.'];
 /* const SCRIPT_VERSION_CHANGES = [
     GM_info.script.name,
     `v${SCRIPT_VERSION}`,
@@ -1384,7 +1384,7 @@ function saveSettingsToStorage() {
 function getUrl(extent, gisLayer) {
     if (gisLayer.spatialReference) {
         const proj = new OpenLayers.Projection(`EPSG:${gisLayer.spatialReference}`);
-        extent.transform(W.map.getOLMap().getProjection(), proj);
+        extent.transform(W.map.getProjectionObject(), proj);
     }
     let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
     if (!layerOffset) {
@@ -1456,7 +1456,7 @@ function getFetchableLayers(getInvisible) {
             && _settings.selectedStates.indexOf(gisLayer.state) > -1;
         const isInState = gisLayer.state === 'US' || _statesInExtent.indexOf(STATES.toFullName(gisLayer.state)) > -1;
         // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-        const isValidZoom = getInvisible || W.map.getOLMap().getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom')
+        const isValidZoom = getInvisible || W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom')
             ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
         return isValidUrl && isInState && isVisible && isValidZoom;
     });
@@ -1528,7 +1528,7 @@ function processFeatures(data, token, gisLayer) {
                         // Coordinates are stored in the attributes.
                         if (gisLayer.id === 'nc-richmond-co-pts') {
                             const pt = new OpenLayers.Geometry.Point(item.attributes.XCOOR, item.attributes.YCOOR);
-                            pt.transform(W.map.getOLMap().displayProjection, W.map.getOLMap().projection);
+                            pt.transform(W.map.displayProjection, W.map.getProjectionObject());
                             item.geometry = pt;
                         }
                         if (item.geometry) {
@@ -1579,7 +1579,7 @@ function processFeatures(data, token, gisLayer) {
                                         fieldName => item.attributes[fieldName]
                                     ).join(' ').trim()}\n`;
                                 }
-                                if (W.map.getOLMap().getZoom() >= displayLabelsAtZoom || area >= 5000) {
+                                if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
                                     label += gisLayer.labelFields.map(
                                         fieldName => item.attributes[fieldName]
                                     ).join(' ').trim();
@@ -1673,7 +1673,7 @@ function fetchFeatures() {
     let _layersCleared = false;
 
     // if (layersToFetch.length) {
-    const extent = W.map.getOLMap().getExtent();
+    const extent = W.map.getExtent();
     GM_xmlhttpRequest({
         url: getCountiesUrl(extent),
         method: 'GET',
@@ -1903,7 +1903,7 @@ function initLayer() {
 
     uniqueName = 'wmeGISLayersDefault';
     existingLayer = W.map.getLayerByUniqueName(uniqueName);
-    if (existingLayer) W.map.getOLMap().removeLayer(existingLayer);
+    if (existingLayer) W.map.removeLayer(existingLayer);
     _mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
         uniqueName,
         styleMap: new OpenLayers.StyleMap(style)
@@ -1911,7 +1911,7 @@ function initLayer() {
 
     uniqueName = 'wmeGISLayersRoads';
     existingLayer = W.map.getLayerByUniqueName(uniqueName);
-    if (existingLayer) W.map.getOLMap().removeLayer(existingLayer);
+    if (existingLayer) W.map.removeLayer(existingLayer);
     _roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
         uniqueName,
         styleMap: new OpenLayers.StyleMap(ROAD_STYLE)
@@ -1920,8 +1920,7 @@ function initLayer() {
     _mapLayer.setVisibility(_settings.enabled);
     _roadLayer.setVisibility(_settings.enabled);
 
-    W.map.getOLMap().addLayer(_roadLayer);
-    W.map.getOLMap().addLayer(_mapLayer);
+    W.map.addLayers([_roadLayer, _mapLayer]);
 } // END InitLayer
 
 function initLayersTab() {
