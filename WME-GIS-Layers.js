@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2020.07.19.001
+// @version      2020.09.09.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -16,27 +16,23 @@
 // @connect tigerweb.geo.census.gov
 // @connect 131.156.137.22
 // @connect 131.187.129.114
-// @connect 136.234.11.196
 // @connect 136.234.13.165
 // @connect 184.12.255.122
 // @connect 204.63.176.116
-// @connect 206.176.83.74
 // @connect 206.74.124.99
 // @connect 216.110.207.61
 // @connect 216.167.160.20
 // @connect 23.96.59.134
-// @connect 311webservreq.cityofbeaumont.com
 // @connect 35.172.145.31
 // @connect 52.37.30.30
 // @connect 54.213.14.253
-// @connect 63.238.120.156
 // @connect 65.183.210.212
-// @connect 66.119.96.76
 // @connect 72.10.206.73
 // @connect a2maps.a2gov.org
 // @connect adairgis.integritygis.com
 // @connect admin205.ispa.fsu.edu
 // @connect agis.charlottecountyfl.gov
+// @connect agomaps.larimer.org
 // @connect ags.agdmaps.com
 // @connect ags.bhamaps.com
 // @connect ags.kitsapgov.com
@@ -46,7 +42,6 @@
 // @connect ags2maps.srcity.org
 // @connect ags3.lincoln.ne.gov
 // @connect ags3.scgov.net
-// @connect al.decatur.geopowered.com
 // @connect aldotgis.dot.state.al.us
 // @connect alleganygis.allconet.org
 // @connect alphagis.alpharetta.ga.us
@@ -68,12 +63,14 @@
 // @connect arcgis.forneytx.gov
 // @connect arcgis.gis.lacounty.gov
 // @connect arcgis.lakecountyohio.gov
+// @connect arcgis.leaguecitytx.gov
 // @connect arcgis.lewiscountywa.gov
 // @connect arcgis.mobile311.com
 // @connect arcgis.racinecounty.com
 // @connect arcgis.sd.gov
 // @connect arcgis.tampagov.net
 // @connect arcgis.tuscaloosa-al.gov
+// @connect arcgis.tuscco.com
 // @connect arcgis.vgsi.com
 // @connect arcgis.waxahachie.com
 // @connect arcgis.wycokck.org
@@ -118,6 +115,7 @@
 // @connect ca.dep.state.fl.us
 // @connect cache.gis.lacounty.gov
 // @connect cagisonline.hamilton-co.org
+// @connect calmaps.co.calumet.wi.us
 // @connect calvertgis.co.cal.md.us
 // @connect camdengis.integritygis.com
 // @connect cassweb3.co.cass.mn.us
@@ -131,6 +129,7 @@
 // @connect cloudgis.bonnercountyid.gov
 // @connect co.kent.de.us
 // @connect coagisweb.cabq.gov
+// @connect cohegis.houstontx.gov
 // @connect conservationgis.alabama.gov
 // @connect coopergis.integritygis.com
 // @connect crgis.cedar-rapids.org
@@ -164,6 +163,7 @@
 // @connect geaugarealink.co.geauga.oh.us
 // @connect gem.edcgov.us
 // @connect geo.brunswickcountync.gov
+// @connect geo.co.dodge.wi.us
 // @connect geo.co.harrison.ms.us
 // @connect geo.forsythco.com
 // @connect geo.friscotexas.gov
@@ -184,12 +184,12 @@
 // @connect gis-webpub.sonoma-county.org
 // @connect gis-world3.aacounty.org
 // @connect gis.abilenetx.com
-// @connect gis.acgov.org
 // @connect gis.adamscounty.org
+// @connect gis.addisontx.gov
 // @connect gis.aecomonline.net
-// @connect gis.ajcity.net
 // @connect gis.allegancounty.org
 // @connect gis.allencountyohio.com
+// @connect gis.apachejunctionaz.gov
 // @connect gis.apsu.edu
 // @connect gis.arapahoegov.com
 // @connect gis.arkansas.gov
@@ -202,6 +202,7 @@
 // @connect gis.bakersfieldcity.us
 // @connect gis.baltimorecity.gov
 // @connect gis.baycountyfl.gov
+// @connect gis.beaumonttexas.gov
 // @connect gis.bentoncountyar.gov
 // @connect gis.berkeleycountysc.gov
 // @connect gis.bgky.org
@@ -222,6 +223,7 @@
 // @connect gis.ccgisonline.com
 // @connect gis.ccgov.net
 // @connect gis.ccpa.net
+// @connect gis.cedarhilltx.com
 // @connect gis.cherokeega.com
 // @connect gis.ci.mcminnville.or.us
 // @connect gis.citruspa.org
@@ -233,7 +235,6 @@
 // @connect gis.clearfieldco.org
 // @connect gis.clearwatercounty.org
 // @connect gis.clevelandtn.gov
-// @connect gis.cmpdd.org
 // @connect gis.co.benton.or.us
 // @connect gis.co.berks.pa.us
 // @connect gis.co.big-stone.mn.us
@@ -242,7 +243,9 @@
 // @connect gis.co.carlton.mn.us
 // @connect gis.co.carver.mn.us
 // @connect gis.co.cumberland.nc.us
+// @connect gis.co.eau-claire.wi.us
 // @connect gis.co.fillmore.mn.us
+// @connect gis.co.grant.mn.us
 // @connect gis.co.grant.wi.gov
 // @connect gis.co.green-lake.wi.us
 // @connect gis.co.holmes.oh.us
@@ -257,6 +260,7 @@
 // @connect gis.co.mille-lacs.mn.us
 // @connect gis.co.nezperce.id.us
 // @connect gis.co.oneida.wi.us
+// @connect gis.co.pepin.wi.us
 // @connect gis.co.polk.mn.us
 // @connect gis.co.pope.mn.us
 // @connect gis.co.richland.wi.us
@@ -284,6 +288,8 @@
 // @connect gis.dallascityhall.com
 // @connect gis.dauphincounty.org
 // @connect gis.dbqco.org
+// @connect gis.deerparktx.gov
+// @connect gis.dentoncounty.com
 // @connect gis.dogis.org
 // @connect gis.dot.nh.gov
 // @connect gis.dot.state.oh.us
@@ -315,7 +321,6 @@
 // @connect gis.greensboro-nc.gov
 // @connect gis.gscplanning.com
 // @connect gis.guilfordcountync.gov
-// @connect gis.gwinnettcounty.com
 // @connect gis.harnett.org
 // @connect gis.hcpafl.org
 // @connect gis.hennepin.us
@@ -338,6 +343,7 @@
 // @connect gis.lapazcountyaz.org
 // @connect gis.latah.id.us
 // @connect gis.leecountyil.com
+// @connect gis.lehighcounty.org
 // @connect gis.leoc.net
 // @connect gis.linncounty.org
 // @connect gis.littleelm.org
@@ -351,6 +357,7 @@
 // @connect gis.marioncountyfl.org
 // @connect gis.massdot.state.ma.us
 // @connect gis.mcassessor.maricopa.gov
+// @connect gis.mendocinocounty.org
 // @connect gis.mercercountyohio.org
 // @connect gis.minnehahacounty.org
 // @connect gis.missoulacounty.us
@@ -374,6 +381,7 @@
 // @connect gis.ohiodnr.gov
 // @connect gis.okc.gov
 // @connect gis.orangecountync.gov
+// @connect gis.outagamie.org
 // @connect gis.owensboro.org
 // @connect gis.pandai.com
 // @connect gis.pearlandtx.gov
@@ -382,7 +390,6 @@
 // @connect gis.penndot.gov
 // @connect gis.peoriacounty.org
 // @connect gis.perryco.org
-// @connect gis.personcountync.gov
 // @connect gis.pgatlas.com
 // @connect gis.pikepa.org
 // @connect gis.pittcountync.gov
@@ -404,6 +411,7 @@
 // @connect gis.sandyspringsga.gov
 // @connect gis.sangis.org
 // @connect gis.sanjuanco.com
+// @connect gis.santa-clarita.com
 // @connect gis.santacruzcounty.us
 // @connect gis.sccwi.gov
 // @connect gis.sheboygancounty.com
@@ -459,7 +467,9 @@
 // @connect gis2.stancounty.com
 // @connect gis2.totaland.com
 // @connect gis2.waukcogeo.com
+// @connect gis3.cmpdd.org
 // @connect gis3.gisworkshop.com
+// @connect gis3.gwinnettcounty.com
 // @connect gis3.montgomerycountymd.gov
 // @connect gis3.richmondnc.com
 // @connect gis4.montgomerycountymd.gov
@@ -486,7 +496,6 @@
 // @connect gismap.co.juneau.wi.us
 // @connect gismap.co.marshall.mn.us
 // @connect gismap.co.norman.mn.us
-// @connect gismap.eaglecounty.us
 // @connect gismapping.stafford.va.us
 // @connect gismaps.cityofboise.org
 // @connect gismaps.cityofgreer.org
@@ -511,12 +520,13 @@
 // @connect gisprod10.co.fresno.ca.us
 // @connect gisprodops.chesco.org
 // @connect gisprpxy.itd.state.ma.us
-// @connect gispub.cityofmesquite.com
 // @connect gispublic.co.lake.ca.us
 // @connect gisrevprxy.seattle.gov
+// @connect giss3.cmpdd.org
 // @connect gissd.sandag.org
 // @connect gisserver.christiancountymo.gov
 // @connect gisserver18.co.teton.id.us
+// @connect gisservice.cityofmesquite.com
 // @connect gisservicemt.gov
 // @connect gisservices.chathamnc.org
 // @connect gisservices.co.anoka.mn.us
@@ -555,6 +565,7 @@
 // @connect hidgis.co.hidalgo.tx.us
 // @connect holtgis.integritygis.com
 // @connect host.cdmsmithgis.com
+// @connect hostingdata3.tighebond.com
 // @connect idpgis.ncep.noaa.gov
 // @connect imap.klickitatcounty.org
 // @connect ims.districtiii.org
@@ -597,6 +608,7 @@
 // @connect map.co.merced.ca.us
 // @connect map.co.thurston.wa.us
 // @connect map.coppelltx.gov
+// @connect map.eaglecounty.us
 // @connect map.livingstoncounty.us
 // @connect map.newberrycounty.net
 // @connect map.opkansas.org
@@ -604,11 +616,11 @@
 // @connect map.stclairco.com
 // @connect map.wyoroad.info
 // @connect map8.incog.org
+// @connect mapdata.baytown.org
 // @connect mapit.fortworthtexas.gov
 // @connect mapitwest.fortworthtexas.gov
 // @connect mapp.co.cook.mn.us
 // @connect mapping.adamscounty.us
-// @connect mapping.cabellassessor.com
 // @connect mapping.dothan.org
 // @connect mapping.huntingdoncounty.net
 // @connect mapping.mitchellcounty.org
@@ -623,10 +635,13 @@
 // @connect maps.bryantx.gov
 // @connect maps.burlesontx.com
 // @connect maps.butlercountyauditor.org
+// @connect maps.c3gov.com
 // @connect maps.canyonco.org
 // @connect maps.capturecama.com
 // @connect maps.casperwy.gov
 // @connect maps.chautauquacounty.com
+// @connect maps.cherokeecounty-nc.gov
+// @connect maps.ci.nacogdoches.tx.us
 // @connect maps.cityhs.net
 // @connect maps.cityofmobile.org
 // @connect maps.cityofsherman.com
@@ -769,6 +784,7 @@
 // @connect millergis.integritygis.com
 // @connect mndotgis.dot.state.mn.us
 // @connect moberlygis.integritygis.com
+// @connect moniteaugis.integritygis.com
 // @connect mooregisweb.moorecountync.gov
 // @connect morgangis.integritygis.com
 // @connect msdisweb.missouri.edu
@@ -777,13 +793,13 @@
 // @connect ndgishub.nd.gov
 // @connect newgis.co.yuba.ca.us
 // @connect nhgeodata.unh.edu
+// @connect northlake.halff.com
 // @connect oak.co.lake-of-the-woods.mn.us
 // @connect oc17maps.co.oconto.wi.us
 // @connect ocgis.orangecountygov.com
 // @connect oklahomacounty.geocortex.com
 // @connect oldhamgis.org
 // @connect oncorng.co.ontario.ny.us
-// @connect operationserver.ci.henderson.nc.us
 // @connect orfmaps.norfolk.gov
 // @connect pagis.org
 // @connect parcels.rsdigital.com
@@ -791,13 +807,14 @@
 // @connect phelpsgis.integritygis.com
 // @connect polaris3g.mecklenburgcountync.gov
 // @connect polkgis.integritygis.com
+// @connect portal.carolinabeach.org
 // @connect portal.westonfl.org
 // @connect prodmaps.ne.gov
 // @connect programs.iowadnr.gov
 // @connect propaccess.traviscad.org
 // @connect propaccess.wadtx.com
 // @connect propertyviewer.andersoncountysc.org
-// @connect proxy.roktech.net
+// @connect proxy2.roktech.net
 // @connect psportal.harrisoncountywv.com
 // @connect pubgis.ci.lubbock.tx.us
 // @connect public1.co.waupaca.wi.us
@@ -845,14 +862,14 @@
 // @connect springsgis.coralsprings.org
 // @connect stlgis.stlouis-mo.gov
 // @connect stmgis.stmarysmd.com
+// @connect stokescountygis.com
 // @connect stonegis.integritygis.com
 // @connect summitmaps.summitoh.net
-// @connect sumnertn.geopowered.com
 // @connect svr4.sumtercountysc.org
+// @connect thamo2.thewoodlands-tx.gov
 // @connect tigerweb.geo.census.gov
 // @connect tiogagis.tiogacountypa.us
 // @connect tlcgisinter.leoncountyfl.gov
-// @connect tn.hardeman.geopowered.com
 // @connect tnmap.tn.gov
 // @connect tsc-gis-ags101a.schneidercorp.com
 // @connect utility.arcgis.com
@@ -865,7 +882,7 @@
 // @connect wcgisweb.washoecounty.us
 // @connect wcsvrgis.washcopa.org
 // @connect web2.kcsgis.com
-// @connect web3.kcsgis.com
+// @connect web4.kcsgis.com
 // @connect web5.kcsgis.com
 // @connect weba.co.clayton.ga.us
 // @connect webgis.bcgov.net
@@ -885,6 +902,7 @@
 // @connect websrv19.clallam.net
 // @connect wfs.ksdot.org
 // @connect wilsontn.geopowered.com
+// @connect wvsams.mapwv.org
 // @connect ww1.bucoks.com
 // @connect www.1stdistrict.org
 // @connect www.adacountyassessor.org
@@ -907,7 +925,6 @@
 // @connect www.cvcog911.org
 // @connect www.denvergov.org
 // @connect www.dmcwebgis.com
-// @connect www.dot.state.ak.us
 // @connect www.efsedge.com
 // @connect www.finneycountygis.com
 // @connect www.gcgis.org
@@ -948,6 +965,7 @@
 // @connect www.wataugacounty.org
 // @connect www.webgis.net
 // @connect www.wingis.org
+// @connect www1.cityofwebster.com
 // @connect www2.ci.lancaster.oh.us
 // @connect www2.pottcounty.org
 // @connect www3.co.union.oh.us
@@ -1929,7 +1947,7 @@ function initLayersTab() {
     const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
 
     $('#panel-gis-state-layers').empty().append(
-        $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
+        $('<div>', { class: 'controls-container' }).css({ 'padding-top': '0px' }).append(
             $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).change(
                 onOnlyShowApplicableLayersChanged
             ).prop('checked', _settings.onlyShowApplicableLayers),
@@ -2131,12 +2149,15 @@ function initGui(firstCall = true) {
             + '</a></li> '
             + '</ul>',
             $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
-                $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers' }),
-                $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings' })
+                $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px' }),
+                $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px' })
             )
         ).html();
 
         new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
+        // Reduce panel div's padding to increase visible text space
+        $('#sidepanel-gis-l').css('padding', '6px');
+
         WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
         // W.map.events.register('moveend', null, onMapMove);
         WazeWrap.Events.register('moveend', null, onMapMove);
