@@ -1957,7 +1957,7 @@ function initLayersTab() {
             ? $('<div>').text('Turn on layer categories in the Settings tab.')
             : states.map(st => $('<fieldset>', {
                 id: `gis-layers-for-${st}`,
-                style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'
+                style: 'border:1px solid silver;padding:4px;border-radius:4px;-webkit-padding-before: 0;'
             }).append(
                 $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
                     .click(onChevronClick).append(
@@ -1988,7 +1988,7 @@ function initLayersTab() {
                             .map(gisLayer => {
                                 const id = `gis-layer-${gisLayer.id}`;
                                 return $('<div>', { class: 'controls-container', id: `${id}-container` })
-                                    .css({ 'padding-top': '2px', display: 'block' })
+                                    .css({ 'padding-top': '0px', display: 'block' })
                                     .append(
                                         $('<input>', { type: 'checkbox', id })
                                             .data('layer-id', gisLayer.id)
@@ -2072,12 +2072,12 @@ function initSettingsTab() {
                         const fullName = STATES.toFullName(st);
                         const id = `gis-layer-enable-state-${st}`;
                         return $('<div>', { class: 'controls-container' })
-                            .css({ 'padding-top': '2px', display: 'block' })
+                            .css({ 'padding-top': '0px', display: 'block' })
                             .append(
                                 $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' })
                                     .change(st, onStateCheckChanged)
                                     .prop('checked', _settings.selectedStates.indexOf(st) > -1),
-                                $('<label>', { for: id }).css({ 'white-space': 'pre-line' }).text(fullName)
+                                $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
                             );
                     })
                 )
@@ -2096,7 +2096,7 @@ function initSettingsTab() {
                     $('<input>', { type: 'checkbox', id: 'fill-parcels' })
                         .change(onFillParcelsCheckedChanged)
                         .prop('checked', _settings.fillParcels),
-                    $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line' }).text('Fill parcels')
+                    $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line', color: '#777' }).text('Fill parcels')
                 )
             )
     );
