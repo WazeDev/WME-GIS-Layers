@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2020.09.09.001
+// @version      2020.10.04.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1003,6 +1003,7 @@ const SCRIPT_AUTHOR = 'MapOMatic';
 // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
 const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/layerDefs';
 const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
+const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
 const DEC = s => atob(atob(s));
 const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
 const DEFAULT_STYLE = {
@@ -1103,13 +1104,13 @@ const ROAD_STYLE = new OpenLayers.Style(
         fontWeight: 'bold',
         fontSize: 11
     }, {
-    context: {
-        getOffset() { return -(W.map.getZoom() + 5); },
-        getSmooth() { return ''; },
-        getReadable() { return '1'; },
-        getAlign() { return 'cb'; }
+        context: {
+            getOffset() { return -(W.map.getZoom() + 5); },
+            getSmooth() { return ''; },
+            getReadable() { return '1'; },
+            getAlign() { return 'cb'; }
+        }
     }
-}
 );
 // eslint-disable-next-line no-unused-vars
 const _regexReplace = {
@@ -1175,16 +1176,9 @@ const STATES = {
 const DEFAULT_VISIBLE_AT_ZOOM = 6;
 const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
 const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2010/State_County/MapServer/1/';
-const ALERT_UPDATE = false;
+const ALERT_UPDATE = true;
 const SCRIPT_VERSION = GM_info.script.version;
-const SCRIPT_VERSION_CHANGES = ['WME map object references.'];
-/* const SCRIPT_VERSION_CHANGES = [
-    GM_info.script.name,
-    `v${SCRIPT_VERSION}`,
-    'What\'s New',
-    '------------------------------'
-    // new stuff here
-].join('\n'); */
+const SCRIPT_VERSION_CHANGES = ['Added a link to the GIS-L tab to report broken layers, request new layers, report bugs, etc.'];
 let _mapLayer = null;
 let _roadLayer = null;
 let _settings = {};
@@ -2129,9 +2123,17 @@ function initGui(firstCall = true) {
     initLayer();
 
     if (firstCall) {
+        const { user } = W.loginManager;
         const content = $('<div>').append(
             $('<span>', { style: 'font-size:14px;font-weight:600' }).text('GIS Layers'),
             $('<span>', { style: 'font-size:11px;margin-left:10px;color:#aaa;' }).text(GM_info.script.version),
+            // <a href="https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852=test" target="_blank" style="color: #6290b7;font-size: 12px;margin-left: 8px;" title="Report broken layers, bugs, request new layers, script features">Report an issue</a>
+            $('<a>', {
+                href: REQUEST_FORM_URL.replace('{username}', user.userName),
+                target: '_blank',
+                style: 'color: #6290b7;font-size: 12px;margin-left: 8px;',
+                title: 'Report broken layers, bugs, request new layers, script features'
+            }).text('Submit a request'),
             $('<span>', {
                 id: 'gis-layers-refresh',
                 class: 'fa fa-refresh',
