@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2020.12.03.001
+// @version      2020.12.10.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1385,16 +1385,19 @@ function loadSettingsFromStorage() {
 }
 
 function saveSettingsToStorage() {
-    let keys = '';
-    const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
-    if (shortcut) {
-        if (shortcut.altKey) keys += 'A';
-        if (shortcut.shiftKey) keys += 'S';
-        if (shortcut.ctrlKey) keys += 'C';
-        if (keys.length) keys += '+';
-        if (shortcut.keyCode) keys += shortcut.keyCode;
+    // Check for existance of action first, due to WME beta issue.
+    if (W.accelerators.Actions.GisLayersAddrDisplay) {
+        let keys = '';
+        const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
+        if (shortcut) {
+            if (shortcut.altKey) keys += 'A';
+            if (shortcut.shiftKey) keys += 'S';
+            if (shortcut.ctrlKey) keys += 'C';
+            if (keys.length) keys += '+';
+            if (shortcut.keyCode) keys += shortcut.keyCode;
+        }
+        _settings.toggleHnsOnlyShortcut = keys;
     }
-    _settings.toggleHnsOnlyShortcut = keys;
     _settings.lastVersion = SCRIPT_VERSION;
     localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
     log('Settings saved');
@@ -2276,8 +2279,12 @@ async function init(firstCall = true) {
     if (firstCall) {
         loadSettingsFromStorage();
         installPathFollowingLabels();
-        new WazeWrap.Interface.Shortcut('GisLayersAddrDisplay', 'Toggle HN-only address labels (GIS Layers)',
-            'layers', 'layersToggleGisAddressLabelDisplay', _settings.toggleHnsOnlyShortcut, onAddressDisplayShortcutKey, null).add();
+        // W.accelerators.events.listeners was removed in WME beta, so check for it here before calling WazeWrap.Interface.Shortcut
+        // Hopefully there will be a fix or workaround for this issue.
+        if (W.accelerators.events.listeners) {
+            new WazeWrap.Interface.Shortcut('GisLayersAddrDisplay', 'Toggle HN-only address labels (GIS Layers)',
+                'layers', 'layersToggleGisAddressLabelDisplay', _settings.toggleHnsOnlyShortcut, onAddressDisplayShortcutKey, null).add();
+        }
         window.addEventListener('beforeunload', saveSettingsToStorage, false);
         _layerSettingsDialog = new LayerSettingsDialog();
     }
