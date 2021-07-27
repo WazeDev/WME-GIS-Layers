@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2021.06.19.001
+// @version      2021.07.27.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1580,7 +1580,7 @@ function processFeatures(data, token, gisLayer) {
                         // Coordinates are stored in the attributes.
                         if (gisLayer.id === 'nc-richmond-co-pts') {
                             const pt = new OpenLayers.Geometry.Point(item.attributes.XCOOR, item.attributes.YCOOR);
-                            pt.transform(W.map.displayProjection, W.map.getProjectionObject());
+                            pt.transform(W.map.getOLMap().displayProjection, W.map.getProjectionObject());
                             item.geometry = pt;
                         }
                         if (item.geometry) {
