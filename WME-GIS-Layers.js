@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.07.21.001
+// @version      2022.08.05.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -210,6 +210,7 @@
 // @connect gis.bgky.org
 // @connect gis.bladenco.org
 // @connect gis.blairco.org
+// @connect gis.blm.gov
 // @connect gis.bransonmo.gov
 // @connect gis.brevardfl.gov
 // @connect gis.brookhavenga.gov
@@ -308,6 +309,7 @@
 // @connect gis.deerparktx.gov
 // @connect gis.dekalbcountyga.gov
 // @connect gis.dentoncounty.gov
+// @connect gis.districtiii.org
 // @connect gis.dogis.org
 // @connect gis.donaanacounty.org
 // @connect gis.dot.nh.gov
@@ -668,6 +670,7 @@
 // @connect mapping.kenoshacountywi.gov
 // @connect mapping.mitchellcounty.org
 // @connect mapping.modot.org
+// @connect maps.adaok.com
 // @connect maps.alexandercountync.gov
 // @connect maps.alexandriava.gov
 // @connect maps.austintexas.gov
@@ -895,6 +898,7 @@
 // @connect secure.scgnet.us
 // @connect sedaliagis.integritygis.com
 // @connect see-eldorado.edcgov.us
+// @connect sei.cloudsmartgis.com
 // @connect seminolearcgis.seminolecountyfl.gov
 // @connect server1.mapxpress.net
 // @connect server2.mapxpress.net
@@ -962,6 +966,7 @@
 // @connect webgis.providenceri.gov
 // @connect webgis.sccgov.org
 // @connect webgis.waterburyct.org
+// @connect webgis.yorbalindaca.gov
 // @connect webmap.co.jackson.ms.us
 // @connect webmap.jeffparish.net
 // @connect webmap.trueautomation.com
@@ -1072,12 +1077,12 @@ const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZ
 const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
 const DEC = s => atob(atob(s));
 const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
-const COUNTRIES = {
-    'United States': {
-        sheetId: '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw',
-        sheetLayerRange: 'layerDefs'
-    }
-};
+// const COUNTRIES = {
+//     'United States': {
+//         sheetId: '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw',
+//         sheetLayerRange: 'layerDefs'
+//     }
+// };
 const DEFAULT_STYLE = {
     fillColor: '#000',
     pointRadius: 4,
@@ -1989,7 +1994,7 @@ function initLayer() {
     let uniqueName;
 
     uniqueName = 'wmeGISLayersDefault';
-    existingLayer = W.map.getLayerByUniqueName(uniqueName);
+    existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't working.
     if (existingLayer) W.map.removeLayer(existingLayer);
     _mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
         uniqueName,
@@ -1997,7 +2002,7 @@ function initLayer() {
     });
 
     uniqueName = 'wmeGISLayersRoads';
-    existingLayer = W.map.getLayerByUniqueName(uniqueName);
+    existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't wworking.
     if (existingLayer) W.map.removeLayer(existingLayer);
     _roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
         uniqueName,
