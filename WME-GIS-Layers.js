@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.08.05.001
+// @version      2022.08.17.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -1542,6 +1542,7 @@ let _countiesInExtent = [];
 let _statesInExtent = [];
 
 function getFetchableLayers(getInvisible) {
+    if (W.map.getZoom() < 12) return [];
     return _gisLayers.filter(gisLayer => {
         const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
         const isVisible = (getInvisible || _settings.visibleLayers.indexOf(gisLayer.id) > -1)
@@ -1758,6 +1759,10 @@ function processFeatures(data, token, gisLayer) {
 
 function fetchFeatures() {
     if (_ignoreFetch) return;
+    if (W.map.getZoom() < 12) {
+        filterLayerCheckboxes();
+        return;
+    }
     _lastToken.cancel = true;
     _lastToken = { cancel: false, features: [], layersProcessed: 0 };
     $('.gis-state-layer-label').css({ color: '#777' });
