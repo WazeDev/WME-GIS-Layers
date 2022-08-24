@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.08.17.001
+// @version      2022.08.24.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
@@ -241,7 +241,6 @@
 // @connect gis.cityofmiddletown.com
 // @connect gis.cityofmoore.com
 // @connect gis.clark.wa.gov
-// @connect gis.clearwatercounty.org
 // @connect gis.clevelandtn.gov
 // @connect gis.co.benton.or.us
 // @connect gis.co.berks.pa.us
@@ -313,6 +312,7 @@
 // @connect gis.dogis.org
 // @connect gis.donaanacounty.org
 // @connect gis.dot.nh.gov
+// @connect gis.dot.nv.gov
 // @connect gis.dot.state.oh.us
 // @connect gis.douglascountyks.org
 // @connect gis.dupageco.org
@@ -435,7 +435,6 @@
 // @connect gis.rrnm.gov
 // @connect gis.rtcsnv.com
 // @connect gis.salkeiz.k12.or.us
-// @connect gis.sangis.org
 // @connect gis.sanjuanco.com
 // @connect gis.santa-clarita.com
 // @connect gis.santacruzcounty.us
@@ -499,6 +498,7 @@
 // @connect gis2.totaland.com
 // @connect gis2.waukcogeo.com
 // @connect gis3.cdmsmithgis.com
+// @connect gis3.clearwatercounty.org
 // @connect gis3.cmpdd.org
 // @connect gis3.gwinnettcounty.com
 // @connect gis3.gworks.com
@@ -652,6 +652,7 @@
 // @connect map.co.clearwater.mn.us
 // @connect map.co.merced.ca.us
 // @connect map.co.thurston.wa.us
+// @connect map.co.trempealeau.wi.us
 // @connect map.coppelltx.gov
 // @connect map.eaglecounty.us
 // @connect map.newberrycounty.net
@@ -681,6 +682,7 @@
 // @connect maps.boonecountyil.org
 // @connect maps.bouldercounty.org
 // @connect maps.brazoriacountytx.gov
+// @connect maps.brla.gov
 // @connect maps.bryantx.gov
 // @connect maps.burlesontx.com
 // @connect maps.butlercountyauditor.org
@@ -736,6 +738,7 @@
 // @connect maps.dotd.la.gov
 // @connect maps.douglascountywa.net
 // @connect maps.escpa.org
+// @connect maps.evansvillegis.com
 // @connect maps.fayetteville-ar.gov
 // @connect maps.flathead.mt.gov
 // @connect maps.floridadisaster.org
@@ -841,6 +844,7 @@
 // @connect mcgis4.monroecounty-fl.gov
 // @connect mcmap2.montrosecounty.net
 // @connect mcogis.co.marion.oh.us
+// @connect mcsefv.medinaco.org
 // @connect mgrcmaps.org
 // @connect midland.newedgeservices.com
 // @connect millergis.integritygis.com
@@ -1029,7 +1033,6 @@
 // @connect www.skagitcounty.net
 // @connect www.smithcountymapsite.org
 // @connect www.tgisites.com
-// @connect www.tremplocounty.com
 // @connect www.unionco.org
 // @connect www.valorgis.com
 // @connect www.waynecounty.com
