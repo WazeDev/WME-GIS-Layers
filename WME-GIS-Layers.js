@@ -1613,6 +1613,7 @@ function processFeatures(data, token, gisLayer) {
                         }
                     }
                     if (!skipIt) {
+                        let isPolyLine = false;
                         let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
                         if (!layerOffset) {
                             layerOffset = { x: 0, y: 0 };
@@ -1649,19 +1650,50 @@ function processFeatures(data, token, gisLayer) {
                                     area = featureGeometry.getArea();
                                 }
                             } else if (data.geometryType === 'esriGeometryPolyline') {
-                                const pointList = [];
+                                // We have to handle polylines differently since each item can have multiple features.
+                                // In terms of ArcGIS, each feature's geometry can have multiple paths.  For instance
+                                // a single road can be broken into parts that are physically not connected to each other.
+                                let label = '';
+                                const hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
+                                const hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
+                                const displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom
+                                    : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                if (gisLayer.labelHeaderFields) {
+                                    label = `${gisLayer.labelHeaderFields.map(
+                                        fieldName => item.attributes[fieldName]
+                                    ).join(' ').trim()}\n`;
+                                }
+                                if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
+                                    label += gisLayer.labelFields.map(
+                                        fieldName => item.attributes[fieldName]
+                                    ).join(' ').trim();
+                                    if (gisLayer.processLabel) {
+                                        label = gisLayer.processLabel(label, item.attributes);
+                                        label = label ? label.trim() : '';
+                                    }
+                                }
                                 item.geometry.paths.forEach(path => {
+                                    const pointList = [];
                                     path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0] + layerOffset.x,
                                         point[1] + layerOffset.y)));
+                                    featureGeometry = new OpenLayers.Geometry.LineString(pointList);
+                                    featureGeometry.skipDupeCheck = true;
+
+                                    const attributes = {
+                                        layerID: gisLayer.id,
+                                        label
+                                    };
+
+                                    const lineFeature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
+                                    features.push(lineFeature);
                                 });
-                                featureGeometry = new OpenLayers.Geometry.LineString(pointList);
-                                featureGeometry.skipDupeCheck = true;
+                                isPolyLine = true;
                             } else {
                                 logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
                                 logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
                                 error = true;
                             }
-                            if (!error) {
+                            if (!error && !isPolyLine) {
                                 const hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
                                 const hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
                                 const displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom
