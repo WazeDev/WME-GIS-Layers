@@ -2,11 +2,12 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.08.24.001
+// @version      2022.08.25.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/Turf.js/4.7.3/turf.min.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @license      GNU GPLv3
@@ -1058,6 +1059,7 @@
 /* global atob */
 /* global window */
 /* global jQuery */
+/* global turf */
 
 // **************************************************************************************************************
 // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -1675,6 +1677,19 @@ function processFeatures(data, token, gisLayer) {
                                         label = label ? label.trim() : '';
                                     }
                                 }
+
+                                // Use Turf library to clip the geometry to the screen bounds.
+                                // This allows labels to stay in view on very long roads.
+                                const mls = turf.multiLineString(item.geometry.paths);
+                                const e = W.map.getExtent();
+                                const bbox = [e.left, e.bottom, e.right, e.top];
+                                const clipped = turf.bboxClip(mls, bbox);
+                                if (clipped.geometry.type === 'LineString') {
+                                    item.geometry.paths = [clipped.geometry.coordinates];
+                                } else if (clipped.geometry.type === 'MultiLineString') {
+                                    item.geometry.paths = clipped.geometry.coordinates;
+                                }
+
                                 item.geometry.paths.forEach(path => {
                                     const pointList = [];
                                     path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0] + layerOffset.x,
