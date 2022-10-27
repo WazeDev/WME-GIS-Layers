@@ -2,10 +2,11 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.10.09.001
+// @version      2022.10.27.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
-// @include      /^https:\/\/(www|beta)\.waze\.com\/(?!user\/)(.{2,6}\/)?editor\/?.*$/
+// @match         *://*.waze.com/*editor*
+// @exclude       *://*.waze.com/user/editor*
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/Turf.js/4.7.3/turf.min.js
 // @grant        GM_xmlhttpRequest
@@ -1057,12 +1058,8 @@
 
 /* global OpenLayers */
 /* global W */
-/* global GM_info */
 /* global WazeWrap */
 /* global _ */
-/* global $ */
-/* global GM_xmlhttpRequest */
-/* global jQuery */
 /* global turf */
 
 (function () {
