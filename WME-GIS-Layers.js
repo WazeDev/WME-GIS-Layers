@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.11.22.001
+// @version      2022.12.22.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1067,6 +1067,10 @@
 /* global WazeWrap */
 /* global _ */
 /* global turf */
+/* global $ */
+/* global jQuery */
+/* global GM_info */
+/* global GM_xmlhttpRequest */
 
 (function () {
     'use strict';
