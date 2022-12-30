@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.12.22.001
+// @version      2022.12.29.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1558,15 +1558,14 @@
     }
 
     let _countiesInExtent = [];
-    let _statesInExtent = [];
 
     function getFetchableLayers(getInvisible) {
         if (W.map.getZoom() < 12) return [];
         return _gisLayers.filter(gisLayer => {
             const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-            const isVisible = (getInvisible || _settings.visibleLayers.indexOf(gisLayer.id) > -1)
-                && _settings.selectedStates.indexOf(gisLayer.state) > -1;
-            const isInState = gisLayer.state === 'US' || _statesInExtent.indexOf(STATES.toFullName(gisLayer.state)) > -1;
+            const isVisible = (getInvisible || _settings.visibleLayers.includes(gisLayer.id))
+                && _settings.selectedStates.includes(gisLayer.state);
+            const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
             const isValidZoom = getInvisible || W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom')
                 ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
@@ -1577,14 +1576,14 @@
     function filterLayerCheckboxes() {
         const applicableLayers = getFetchableLayers(true).filter(layer => {
             const hasCounties = layer.hasOwnProperty('counties');
-            return (hasCounties && layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1))
-                || !hasCounties;
+            return (hasCounties && layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
+                && layer.state === county.stateInfo[1]))) || !hasCounties;
         });
         const statesToHide = STATES.toAbbrArray();
 
         _gisLayers.forEach(gisLayer => {
             const id = `#gis-layer-${gisLayer.id}-container`;
-            if (!_settings.onlyShowApplicableLayers || applicableLayers.indexOf(gisLayer) > -1) {
+            if (!_settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
                 $(id).show();
                 $(`#gis-layers-for-${gisLayer.state}`).show();
                 const idx = statesToHide.indexOf(gisLayer.state);
@@ -1748,7 +1747,7 @@
                                     if (label && [
                                         LAYER_STYLES.points, LAYER_STYLES.parcels, LAYER_STYLES.state_points,
                                         LAYER_STYLES.state_parcels
-                                    ].indexOf(gisLayer.style) > -1) {
+                                    ].includes(gisLayer.style)) {
                                         if (_settings.addrLabelDisplay === 'hn') {
                                             const m = label.match(/^\d+/);
                                             label = m ? m[0] : '';
@@ -1844,12 +1843,12 @@
                     if (data.error) {
                         logError(`Error in US Census counties data: ${data.error.message}`);
                     } else {
-                        _countiesInExtent = data.features.map(feature => feature.attributes.BASENAME.toLowerCase());
-                        logDebug(`US Census counties: ${_countiesInExtent.join(', ')}`);
-                        _statesInExtent = _.uniq(data.features.map(
-                            // eslint-disable-next-line radix
-                            feature => STATES.fromId(parseInt(feature.attributes.STATE, 10))[0]
-                        ));
+                        _countiesInExtent = data.features.map(feature => {
+                            const name = feature.attributes.BASENAME.toLowerCase();
+                            const stateInfo = STATES.fromId(parseInt(feature.attributes.STATE, 10));
+                            return { name, stateInfo };
+                        });
+                        logDebug(`US Census counties: ${_countiesInExtent.map(c => `${c.name} ${c.stateInfo[1]}`).join(', ')}`);
 
                         let layersToFetch;
                         if (!_layersCleared) {
@@ -1858,7 +1857,7 @@
 
                             // Remove features of any layers that won't be mapped.
                             _gisLayers.forEach(gisLayer => {
-                                if (layersToFetch.indexOf(gisLayer) === -1) {
+                                if (!layersToFetch.includes(gisLayer)) {
                                     _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
                                     _roadLayer.removeFeatures(_roadLayer.getFeaturesByAttribute('layerID', gisLayer.id));
                                 }
@@ -1866,7 +1865,8 @@
                         }
 
                         layersToFetch = layersToFetch.filter(layer => !layer.hasOwnProperty('counties')
-                            || layer.counties.some(county => _countiesInExtent.indexOf(county.toLowerCase()) > -1));
+                            || layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
+                                && layer.state === county.stateInfo[1])));
                         filterLayerCheckboxes();
                         logDebug(`Fetching ${layersToFetch.length} layers...`);
                         logDebug(layersToFetch);
@@ -2086,7 +2086,7 @@
 
     function initLayersTab() {
         const user = W.loginManager.user.userName.toLowerCase();
-        const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.indexOf(st) > -1);
+        const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.includes(st));
 
         $('#panel-gis-state-layers').empty().append(
             $('<div>', { class: 'controls-container' }).css({ 'padding-top': '0px' }).append(
@@ -2127,7 +2127,7 @@
                         ),
                         $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
                             _gisLayers.filter(l => (l.state === st && (!PRIVATE_LAYERS.hasOwnProperty(l.id)
-                                || PRIVATE_LAYERS[l.id].indexOf(user) > -1)))
+                                || PRIVATE_LAYERS[l.id].includes(user))))
                                 .map(gisLayer => {
                                     const id = `gis-layer-${gisLayer.id}`;
                                     return $('<div>', { class: 'controls-container', id: `${id}-container` })
@@ -2136,7 +2136,7 @@
                                             $('<input>', { type: 'checkbox', id })
                                                 .data('layer-id', gisLayer.id)
                                                 .change(onGisLayerToggleChanged)
-                                                .prop('checked', _settings.visibleLayers.indexOf(gisLayer.id) > -1),
+                                                .prop('checked', _settings.visibleLayers.includes(gisLayer.id)),
                                             $('<label>', { for: id, class: 'gis-state-layer-label' })
                                                 .css({ 'white-space': 'pre-line' })
                                                 .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
@@ -2219,7 +2219,7 @@
                                 .append(
                                     $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' })
                                         .change(st, onStateCheckChanged)
-                                        .prop('checked', _settings.selectedStates.indexOf(st) > -1),
+                                        .prop('checked', _settings.selectedStates.includes(st)),
                                     $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
                                 );
                         })
@@ -2331,7 +2331,7 @@
             'restrictTo', 'oneTimeAlert'
         ];
         const result = { error: null };
-        const checkFieldNames = fldName => fieldNames.indexOf(fldName) > -1;
+        const checkFieldNames = fldName => fieldNames.includes(fldName);
 
         if (SCRIPT_VERSION < minVersion) {
             result.error = `Script must be updated to at least version ${
@@ -2403,7 +2403,7 @@
                         layerDef[fldName] = [''];
                     }
                 });
-                const enabled = layerDef.enabled && ['0', 'false', 'no', 'n'].indexOf(layerDef.enabled.toString().trim().toLowerCase()) === -1;
+                const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
                 if (!layerDef.notAllowed && (enabled || layerDef.restrictTo)) {
                     _gisLayers.push(layerDef);
                 }
