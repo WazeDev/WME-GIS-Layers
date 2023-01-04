@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2022.12.29.001
+// @version      2023.01.03.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2286,7 +2286,7 @@
                 $('<span>', {
                     id: 'gis-layers-refresh',
                     class: 'fa fa-refresh',
-                    style: 'float: right;',
+                    style: 'float: right; margin-right: 20px;',
                     'data-toggle': 'tooltip',
                     title: 'Pull new layer info from master sheet and refresh all layers.'
                 }),
