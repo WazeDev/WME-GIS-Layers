@@ -1,8 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable brace-style, curly, nonblock-statement-body-position, no-template-curly-in-string, func-names */
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.01.03.001
+// @version      2023.02.18.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1067,12 +1068,8 @@
 /* global WazeWrap */
 /* global _ */
 /* global turf */
-/* global $ */
-/* global jQuery */
-/* global GM_info */
-/* global GM_xmlhttpRequest */
 
-(function () {
+(function main() {
     'use strict';
 
     // **************************************************************************************************************
@@ -1179,35 +1176,33 @@
             fontColor: '#f7f'
         }
     };
-    const ROAD_STYLE = new OpenLayers.Style(
-        {
-            pointRadius: 12,
-            fillColor: '#369',
-            pathLabel: '${label}',
-            label: '',
-            fontColor: '#faf',
-            labelSelect: true,
-            pathLabelYOffset: '${getOffset}',
-            pathLabelCurve: '${getSmooth}',
-            pathLabelReadable: '${getReadable}',
-            labelAlign: '${getAlign}',
-            labelOutlineWidth: 3,
-            labelOutlineColor: '#000',
-            strokeWidth: 3,
-            stroke: true,
-            strokeColor: '#f0f',
-            strokeOpacity: 0.4,
-            fontWeight: 'bold',
-            fontSize: 11
-        }, {
-            context: {
-                getOffset() { return -(W.map.getZoom() + 5); },
-                getSmooth() { return ''; },
-                getReadable() { return '1'; },
-                getAlign() { return 'cb'; }
-            }
+    const ROAD_STYLE = new OpenLayers.Style({
+        pointRadius: 12,
+        fillColor: '#369',
+        pathLabel: '${label}',
+        label: '',
+        fontColor: '#faf',
+        labelSelect: true,
+        pathLabelYOffset: '${getOffset}',
+        pathLabelCurve: '${getSmooth}',
+        pathLabelReadable: '${getReadable}',
+        labelAlign: '${getAlign}',
+        labelOutlineWidth: 3,
+        labelOutlineColor: '#000',
+        strokeWidth: 3,
+        stroke: true,
+        strokeColor: '#f0f',
+        strokeOpacity: 0.4,
+        fontWeight: 'bold',
+        fontSize: 11
+    }, {
+        context: {
+            getOffset() { return -(W.map.getZoom() + 5); },
+            getSmooth() { return ''; },
+            getReadable() { return '1'; },
+            getAlign() { return 'cb'; }
         }
-    );
+    });
     // eslint-disable-next-line no-unused-vars
     const _regexReplace = {
         // Strip leading zeros or blank full label for any label starting with a non-digit or
@@ -1645,19 +1640,25 @@
                             }
                             if (item.geometry) {
                                 if (item.geometry.x) {
-                                    featureGeometry = new OpenLayers.Geometry.Point(item.geometry.x + layerOffset.x,
-                                        item.geometry.y + layerOffset.y);
+                                    featureGeometry = new OpenLayers.Geometry.Point(
+                                        item.geometry.x + layerOffset.x,
+                                        item.geometry.y + layerOffset.y
+                                    );
                                 } else if (item.geometry.points) {
                                     // @TODO Fix for multiple points instead of just grabbing first.
-                                    featureGeometry = new OpenLayers.Geometry.Point(item.geometry.points[0][0] + layerOffset.x,
-                                        item.geometry.points[0][1] + layerOffset.y);
+                                    featureGeometry = new OpenLayers.Geometry.Point(
+                                        item.geometry.points[0][0] + layerOffset.x,
+                                        item.geometry.points[0][1] + layerOffset.y
+                                    );
                                 } else if (item.geometry.rings) {
                                     const rings = [];
                                     item.geometry.rings.forEach(ringIn => {
                                         const pnts = [];
                                         for (let i = 0; i < ringIn.length; i++) {
-                                            pnts.push(new OpenLayers.Geometry.Point(ringIn[i][0] + layerOffset.x,
-                                                ringIn[i][1] + layerOffset.y));
+                                            pnts.push(new OpenLayers.Geometry.Point(
+                                                ringIn[i][0] + layerOffset.x,
+                                                ringIn[i][1] + layerOffset.y
+                                            ));
                                         }
                                         rings.push(new OpenLayers.Geometry.LinearRing(pnts));
                                     });
@@ -1705,8 +1706,10 @@
 
                                     item.geometry.paths.forEach(path => {
                                         const pointList = [];
-                                        path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(point[0] + layerOffset.x,
-                                            point[1] + layerOffset.y)));
+                                        path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(
+                                            point[0] + layerOffset.x,
+                                            point[1] + layerOffset.y
+                                        )));
                                         featureGeometry = new OpenLayers.Geometry.LineString(pointList);
                                         featureGeometry.skipDupeCheck = true;
 
@@ -2266,6 +2269,7 @@
             }
             $('#gis-layers-refresh').click(onRefreshLayersClick);
         }
+        $('#sidepanel-gis-l').css('width', 'auto');
     }
 
     function initGui(firstCall = true) {
@@ -2286,7 +2290,7 @@
                 $('<span>', {
                     id: 'gis-layers-refresh',
                     class: 'fa fa-refresh',
-                    style: 'float: right; margin-right: 20px;',
+                    style: 'float: right;',
                     'data-toggle': 'tooltip',
                     title: 'Pull new layer info from master sheet and refresh all layers.'
                 }),
@@ -2299,8 +2303,8 @@
                 + '</a></li> '
                 + '</ul>',
                 $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
-                    $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px' }),
-                    $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px' })
+                    $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
+                    $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px; width: auto' })
                 )
             ).html();
 
@@ -2421,8 +2425,15 @@
             // W.accelerators.events.listeners was removed in WME beta, so check for it here before calling WazeWrap.Interface.Shortcut
             // Hopefully there will be a fix or workaround for this issue.
             if (W.accelerators.events.listeners) {
-                new WazeWrap.Interface.Shortcut('GisLayersAddrDisplay', 'Toggle HN-only address labels (GIS Layers)',
-                    'layers', 'layersToggleGisAddressLabelDisplay', _settings.toggleHnsOnlyShortcut, onAddressDisplayShortcutKey, null).add();
+                new WazeWrap.Interface.Shortcut(
+                    'GisLayersAddrDisplay',
+                    'Toggle HN-only address labels (GIS Layers)',
+                    'layers',
+                    'layersToggleGisAddressLabelDisplay',
+                    _settings.toggleHnsOnlyShortcut,
+                    onAddressDisplayShortcutKey,
+                    null
+                ).add();
             }
             window.addEventListener('beforeunload', saveSettingsToStorage, false);
             _layerSettingsDialog = new LayerSettingsDialog();
