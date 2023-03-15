@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.02.18.002
+// @version      2023.03.14.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2274,32 +2274,7 @@
         $('input[name=gisAddrDisplay]').change(onGisAddrDisplayChange);
     }
 
-    function initTab(firstCall = true) {
-        initSettingsTab();
-        initLayersTab();
-        if (firstCall) {
-            if (!$('#gis-layers-power-btn').length) {
-                const color = _settings.enabled ? '#00bd00' : '#ccc';
-                $('a[href="#sidepanel-gis-l"]').prepend(
-                    $('<span>', {
-                        class: 'fa fa-power-off',
-                        id: 'gis-layers-power-btn',
-                        style: `margin-right: 5px;cursor: pointer;color: ${color};font-size: 13px;`,
-                        title: 'Toggle GIS Layers'
-                    }).click(evt => {
-                        evt.stopPropagation();
-                        setEnabled(!_settings.enabled);
-                    })
-                );
-            }
-            $('#gis-layers-refresh').click(onRefreshLayersClick);
-        }
-        $('#sidepanel-gis-l').css('width', 'auto');
-    }
-
-    function initGui(firstCall = true) {
-        initLayer();
-
+    async function initTab(firstCall = true) {
         if (firstCall) {
             const { user } = W.loginManager;
             const content = $('<div>').append(
@@ -2333,9 +2308,40 @@
                 )
             ).html();
 
-            new WazeWrap.Interface.Tab('GIS-L', content, initTab, null);
-            // Reduce panel div's padding to increase visible text space
-            $('#sidepanel-gis-l').css('padding', '6px');
+            const powerButtonColor = _settings.enabled ? '#00bd00' : '#ccc';
+            const labelText = $('<div>').append(
+                $('<span>', {
+                    class: 'fa fa-power-off',
+                    id: 'gis-layers-power-btn',
+                    style: `margin-right: 5px;cursor: pointer;color: ${powerButtonColor};font-size: 13px;`,
+                    title: 'Toggle GIS Layers'
+                }),
+                $('<span>', { title: 'GIS Layers' }).text('GIS-L')
+            ).html();
+
+            const { tabLabel, tabPane } = W.userscripts.registerSidebarTab(name);
+            tabLabel.innerHTML = labelText;
+            tabPane.innerHTML = content;
+            // Fix tab content div spacing.
+            $(tabPane).parent().css({ width: 'auto', padding: '6px' });
+
+            await W.userscripts.waitForElementConnected(tabPane);
+            $('#gis-layers-power-btn').click(evt => {
+                evt.stopPropagation();
+                setEnabled(!_settings.enabled);
+            });
+            $('#gis-layers-refresh').click(onRefreshLayersClick);
+        }
+
+        initSettingsTab();
+        initLayersTab();
+    }
+
+    function initGui(firstCall = true) {
+        initLayer();
+
+        if (firstCall) {
+            initTab(true);
 
             WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
             // W.map.events.register('moveend', null, onMapMove);
