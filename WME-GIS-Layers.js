@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.03.14.001
+// @version      2023.03.21.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -59,6 +59,7 @@
 // @connect arcgis.atlantaregional.com
 // @connect arcgis.c3gov.com
 // @connect arcgis.cityofcapegirardeau.org
+// @connect arcgis.cityofwatsonville.org
 // @connect arcgis.co.beltrami.mn.us
 // @connect arcgis.co.lancaster.pa.us
 // @connect arcgis.forneytx.gov
@@ -460,6 +461,7 @@
 // @connect gis.southkingstownri.com
 // @connect gis.stlouiscountymn.gov
 // @connect gis.stlucieco.gov
+// @connect gis.sullivanny.us
 // @connect gis.summitcountyco.gov
 // @connect gis.sumtercountyfl.gov
 // @connect gis.surryinfo.net
@@ -576,7 +578,8 @@
 // @connect gisportal.co.calaveras.ca.us
 // @connect gisportal.co.madison.il.us
 // @connect gisportal.co.mifflin.pa.us
-// @connect gisportal.fnsb.us
+// @connect gisportal.co.warren.oh.us
+// @connect gisportal.fnsb.gov
 // @connect gisportal.ircgov.com
 // @connect gisportal.stpgov.org
 // @connect gisprod10.co.fresno.ca.us
@@ -640,6 +643,7 @@
 // @connect huntsvillegis.com
 // @connect idpgis.ncep.noaa.gov
 // @connect ifgis.idahofallsidaho.gov
+// @connect ihost.tularecounty.ca.gov
 // @connect imap.klickitatcounty.org
 // @connect ims.districtiii.org
 // @connect intervector.leoncountyfl.gov
@@ -649,6 +653,7 @@
 // @connect jeffarcgis.jeffersoncountywi.gov
 // @connect joplingis.org
 // @connect k3gis.com
+// @connect kenhagis.kenha.co.ke
 // @connect kygisserver.ky.gov
 // @connect lacledegis.integritygis.com
 // @connect lafayettegis.integritygis.com
@@ -935,7 +940,6 @@
 // @connect saludacountysc.net
 // @connect scgisa.starkcountyohio.gov
 // @connect secure.boonecountygis.com
-// @connect secure.scgnet.us
 // @connect sedaliagis.integritygis.com
 // @connect see-eldorado.edcgov.us
 // @connect sei.cloudsmartgis.com
@@ -1085,6 +1089,7 @@
 // @connect www2.pottcounty.org
 // @connect www3.multco.us
 // @connect www7.co.union.oh.us
+// @connect xara1-4.cityofpetaluma.net
 // @connect xmaps.indy.gov
 // ==/UserScript==
 
