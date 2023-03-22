@@ -1302,7 +1302,7 @@
     let _lastToken = {};
 
     const DEBUG = true;
-    function log(message) { console.log('GIS Layers:', message); }
+    // function log(message) { console.log('GIS Layers:', message); }
     function logError(message) { console.error('GIS Layers:', message); }
     function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
     // function logWarning(message) { console.warn('GIS Layers:', message); }
@@ -1509,7 +1509,7 @@
         }
         _settings.lastVersion = SCRIPT_VERSION;
         localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
-        log('Settings saved');
+        logDebug('Settings saved');
     }
 
     function getUrl(extent, gisLayer) {
@@ -2496,23 +2496,27 @@
             initGui(firstCall);
             fetchFeatures();
             $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
-            log('Initialized.');
+            logDebug('Initialized.');
         } catch (err) {
             logError(err);
         }
     }
 
-    function bootstrap() {
-        if (W && W.loginManager && W.map && W.loginManager.user && W.model
-            && W.model.states && W.model.states.getObjectArray().length && WazeWrap && WazeWrap.Ready) {
-            log('Initializing...');
-            // WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, UPDATE_MESSAGE, GF_URL);
+    function onWmeReady() {
+        if (WazeWrap && WazeWrap.Ready) {
+            logDebug('Initializing...');
             init();
         } else {
-            log('Bootstrap failed. Trying again...');
-            setTimeout(() => {
-                bootstrap();
-            }, 1000);
+            logDebug('WazeWrap not ready. Trying again...');
+            setTimeout(onWmeReady, 1000);
+        }
+    }
+
+    function bootstrap() {
+        if (W?.userscripts?.state.isReady) {
+            onWmeReady();
+        } else {
+            document.addEventListener('wme-ready', onWmeReady, { once: true });
         }
     }
 
