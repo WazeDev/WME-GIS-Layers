@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.03.21.001
+// @version      2023.05.03.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -11,6 +11,7 @@
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/Turf.js/4.7.3/turf.min.js
 // @grant        GM_xmlhttpRequest
+// @connect      greasyfork.org
 // @grant        GM_info
 // @license      GNU GPLv3
 // @contributionURL https://github.com/WazeDev/Thank-The-Authors
@@ -1298,7 +1299,9 @@
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
     const ALERT_UPDATE = false;
+    const SCRIPT_NAME = GM_info.script.name;
     const SCRIPT_VERSION = GM_info.script.version;
+    const DOWNLOAD_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
     const SCRIPT_VERSION_CHANGES = [];
     let _mapLayer = null;
     let _roadLayer = null;
@@ -1308,8 +1311,8 @@
 
     const DEBUG = true;
     // function log(message) { console.log('GIS Layers:', message); }
-    function logError(message) { console.error('GIS Layers:', message); }
-    function logDebug(message) { if (DEBUG) console.debug('GIS Layers:', message); }
+    function logError(message) { console.error(`${SCRIPT_NAME}:`, message); }
+    function logDebug(message) { if (DEBUG) console.debug(`${SCRIPT_NAME}:`, message); }
     // function logWarning(message) { console.warn('GIS Layers:', message); }
 
     let _layerSettingsDialog;
@@ -2453,9 +2456,20 @@
         return result;
     }
 
+    function loadScriptUpdateMonitor() {
+        try {
+            const updateMonitor = new WazeWrap.Alerts.ScriptUpdateMonitor(SCRIPT_NAME, SCRIPT_VERSION, DOWNLOAD_URL, GM_xmlhttpRequest);
+            updateMonitor.start();
+        } catch (ex) {
+            // Report, but don't stop if ScriptUpdateMonitor fails.
+            logError(ex);
+        }
+    }
+
     async function init(firstCall = true) {
         _gisLayers = [];
         if (firstCall) {
+            loadScriptUpdateMonitor();
             loadSettingsFromStorage();
             installPathFollowingLabels();
             // W.accelerators.events.listeners was removed in WME beta, so check for it here before calling WazeWrap.Interface.Shortcut
