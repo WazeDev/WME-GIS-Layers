@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.05.03.001
+// @version      2023.05.18.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2327,7 +2327,7 @@
                 $('<span>', { title: 'GIS Layers' }).text('GIS-L')
             ).html();
 
-            const { tabLabel, tabPane } = W.userscripts.registerSidebarTab(name);
+            const { tabLabel, tabPane } = W.userscripts.registerSidebarTab('GIS-L');
             tabLabel.innerHTML = labelText;
             tabPane.innerHTML = content;
             // Fix tab content div spacing.
