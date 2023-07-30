@@ -16,9 +16,7 @@
 // @contributionURL https://github.com/WazeDev/Thank-The-Authors
 // @connect      *
 // @connect tigerweb.geo.census.gov
-// @connect 131.156.137.22
 // @connect 136.234.13.165
-// @connect 184.12.255.122
 // @connect 216.167.160.20
 // @connect 35.172.145.31
 // @connect 52.37.30.30
@@ -59,6 +57,7 @@
 // @connect arcgis.atlantaregional.com
 // @connect arcgis.c3gov.com
 // @connect arcgis.cityofcapegirardeau.org
+// @connect arcgis.cityofwatsonville.org
 // @connect arcgis.co.beltrami.mn.us
 // @connect arcgis.co.lancaster.pa.us
 // @connect arcgis.forneytx.gov
@@ -123,6 +122,7 @@
 // @connect cassweb3.co.cass.mn.us
 // @connect ccapps.org
 // @connect cccjcgiswa.coweta.ga.us
+// @connect cceo.co.comal.tx.us
 // @connect ccgis.crawfordcountypa.net
 // @connect ccmap.cccounty.us
 // @connect cdsd.co.teller.co.us
@@ -138,6 +138,7 @@
 // @connect com.blountgis.org
 // @connect conservationgis.alabama.gov
 // @connect coopergis.integritygis.com
+// @connect cowlitzgis.net
 // @connect crgis.cedar-rapids.org
 // @connect currituckncgov.com
 // @connect cw.townofclaytonnc.org
@@ -270,6 +271,7 @@
 // @connect gis.co.green-lake.wi.us
 // @connect gis.co.holmes.oh.us
 // @connect gis.co.hubbard.mn.us
+// @connect gis.co.isanti.mn.us
 // @connect gis.co.josephine.or.us
 // @connect gis.co.kandiyohi.mn.us
 // @connect gis.co.kittitas.wa.us
@@ -280,6 +282,7 @@
 // @connect gis.co.nezperce.id.us
 // @connect gis.co.oneida.wi.us
 // @connect gis.co.pepin.wi.us
+// @connect gis.co.pierce.wi.us
 // @connect gis.co.polk.mn.us
 // @connect gis.co.pope.mn.us
 // @connect gis.co.richland.wi.us
@@ -308,7 +311,6 @@
 // @connect gis.cravencountync.gov
 // @connect gis.crookcounty.wy.gov
 // @connect gis.crowwing.us
-// @connect gis.dallascityhall.com
 // @connect gis.danville-va.gov
 // @connect gis.dauphincounty.org
 // @connect gis.dbqco.org
@@ -346,6 +348,7 @@
 // @connect gis.gocolumbiamo.com
 // @connect gis.goshencounty.org
 // @connect gis.gptx.org
+// @connect gis.grandcountyutah.net
 // @connect gis.greenecountyohio.gov
 // @connect gis.greenegovernment.com
 // @connect gis.greensboro-nc.gov
@@ -376,6 +379,7 @@
 // @connect gis.lakecountyfl.gov
 // @connect gis.lapazcountyaz.org
 // @connect gis.laplata.co.us
+// @connect gis.lasallecounty.org
 // @connect gis.latah.id.us
 // @connect gis.leecountyil.com
 // @connect gis.lehighcounty.org
@@ -385,6 +389,7 @@
 // @connect gis.livingstoncounty.us
 // @connect gis.lja.com
 // @connect gis.losalamosnm.us
+// @connect gis.luzernecounty.org
 // @connect gis.lyco.org
 // @connect gis.lyon-county.org
 // @connect gis.macombgov.org
@@ -394,7 +399,6 @@
 // @connect gis.marionfl.org
 // @connect gis.massdot.state.ma.us
 // @connect gis.mbakerintl.com
-// @connect gis.mcassessor.maricopa.gov
 // @connect gis.mcohio.org
 // @connect gis.mendocinocounty.org
 // @connect gis.mercercountyohio.org
@@ -428,7 +432,7 @@
 // @connect gis.pendercountync.gov
 // @connect gis.pendoreilleco.org
 // @connect gis.penndot.gov
-// @connect gis.peoriacounty.org
+// @connect gis.peoriacounty.gov
 // @connect gis.perryco.org
 // @connect gis.personcountync.gov
 // @connect gis.pgatlas.com
@@ -446,6 +450,7 @@
 // @connect gis.rowancountync.gov
 // @connect gis.rrnm.gov
 // @connect gis.rtcsnv.com
+// @connect gis.rutherfordcountync.gov
 // @connect gis.salkeiz.k12.or.us
 // @connect gis.sanjuanco.com
 // @connect gis.santa-clarita.com
@@ -460,7 +465,7 @@
 // @connect gis.southkingstownri.com
 // @connect gis.stlouiscountymn.gov
 // @connect gis.stlucieco.gov
-// @connect gis.summitcountyco.gov
+// @connect gis.sullivanny.us
 // @connect gis.sumtercountyfl.gov
 // @connect gis.surryinfo.net
 // @connect gis.tazewell.com
@@ -490,6 +495,7 @@
 // @connect gis.worldviewsolutions.com
 // @connect gis.wyo.gov
 // @connect gis.yadkincountync.gov
+// @connect gis.yanceycountync.org
 // @connect gis.yavapaiaz.gov
 // @connect gis.yolocounty.org
 // @connect gis01.cityofarcata.org
@@ -530,6 +536,7 @@
 // @connect gisapps.rileycountyks.gov
 // @connect gisapps.wicomicocounty.org
 // @connect gisapps1.mapoakland.com
+// @connect gisarcweb.jeffersoncountywv.org
 // @connect gisccapps.charlestoncounty.org
 // @connect gisdata.alleghenycounty.us
 // @connect gisdata.dot.ca.gov
@@ -576,8 +583,10 @@
 // @connect gisportal.co.calaveras.ca.us
 // @connect gisportal.co.madison.il.us
 // @connect gisportal.co.mifflin.pa.us
-// @connect gisportal.fnsb.us
+// @connect gisportal.co.warren.oh.us
+// @connect gisportal.fnsb.gov
 // @connect gisportal.ircgov.com
+// @connect gisportal.ontarioca.gov
 // @connect gisportal.stpgov.org
 // @connect gisprod10.co.fresno.ca.us
 // @connect gisprodops.chesco.org
@@ -638,8 +647,10 @@
 // @connect hostingdata2.tighebond.com
 // @connect hostingdata3.tighebond.com
 // @connect huntsvillegis.com
+// @connect icgis.co.iredell.nc.us
 // @connect idpgis.ncep.noaa.gov
 // @connect ifgis.idahofallsidaho.gov
+// @connect ihost.tularecounty.ca.gov
 // @connect imap.klickitatcounty.org
 // @connect ims.districtiii.org
 // @connect intervector.leoncountyfl.gov
@@ -649,6 +660,7 @@
 // @connect jeffarcgis.jeffersoncountywi.gov
 // @connect joplingis.org
 // @connect k3gis.com
+// @connect kenhagis.kenha.co.ke
 // @connect kygisserver.ky.gov
 // @connect lacledegis.integritygis.com
 // @connect lafayettegis.integritygis.com
@@ -687,8 +699,7 @@
 // @connect mapdata.lasvegasnevada.gov
 // @connect mapit.fortworthtexas.gov
 // @connect mapitwest.fortworthtexas.gov
-// @connect mapping.adamscounty.us
-// @connect mapping.huntingdoncounty.net
+// @connect mapping.adamscountypa.gov
 // @connect mapping.kenoshacountywi.gov
 // @connect mapping.mitchellcounty.org
 // @connect mapping.modot.org
@@ -747,6 +758,7 @@
 // @connect maps.co.yellowstone.mt.gov
 // @connect maps.coj.net
 // @connect maps.collincountytx.gov
+// @connect maps.countyofmerced.com
 // @connect maps.crc.ga.gov
 // @connect maps.cstx.gov
 // @connect maps.ctmetro.org
@@ -776,6 +788,7 @@
 // @connect maps.hayward-ca.gov
 // @connect maps.haywoodnc.net
 // @connect maps.highlandvillage.org
+// @connect maps.hokecounty.org
 // @connect maps.huerfano.us
 // @connect maps.huntsvilleal.gov
 // @connect maps.indiana.edu
@@ -813,6 +826,7 @@
 // @connect maps.pitkincounty.com
 // @connect maps.placer.ca.gov
 // @connect maps.planogis.org
+// @connect maps.pottercountypa.net
 // @connect maps.raleighnc.gov
 // @connect maps.richlandcountyoh.us
 // @connect maps.rutherfordcountytn.gov
@@ -862,9 +876,9 @@
 // @connect mapserv.mesquitenv.gov
 // @connect mapservice.nmstatelands.org
 // @connect mapservices.gis.saccounty.net
-// @connect mapservices.legis.wisconsin.gov
 // @connect mapservices.pasda.psu.edu
 // @connect mapservices.santacruzcountyaz.gov
+// @connect mapservices.sccgov.org
 // @connect mapservices1.jeffco.us
 // @connect mapservices2.jeffco.us
 // @connect mapsonline.columbiacountyga.gov
@@ -935,7 +949,6 @@
 // @connect saludacountysc.net
 // @connect scgisa.starkcountyohio.gov
 // @connect secure.boonecountygis.com
-// @connect secure.scgnet.us
 // @connect sedaliagis.integritygis.com
 // @connect see-eldorado.edcgov.us
 // @connect sei.cloudsmartgis.com
@@ -1007,7 +1020,6 @@
 // @connect webgis.durhamnc.gov
 // @connect webgis.lafayetteassessor.com
 // @connect webgis.providenceri.gov
-// @connect webgis.sccgov.org
 // @connect webgis.waterburyct.org
 // @connect webgis.yorbalindaca.gov
 // @connect webmap.co.jackson.ms.us
@@ -1015,6 +1027,7 @@
 // @connect webmap.trueautomation.com
 // @connect webmaps.elkgrovecity.org
 // @connect webmaps.sjcounty.net
+// @connect webportal.co.marquette.wi.us
 // @connect webserv.lincolnparish.org
 // @connect websrv19.clallam.net
 // @connect webstergis.integritygis.com
@@ -1036,7 +1049,6 @@
 // @connect www.cmbgis.com
 // @connect www.co.bingham.id.us
 // @connect www.co.coles.il.us
-// @connect www.co.pierce.wi.us
 // @connect www.co.steele.mn.us
 // @connect www.cobbgis.org
 // @connect www.ctgismaps2.ct.gov
@@ -1085,6 +1097,7 @@
 // @connect www2.pottcounty.org
 // @connect www3.multco.us
 // @connect www7.co.union.oh.us
+// @connect xara1-4.cityofpetaluma.net
 // @connect xmaps.indy.gov
 // ==/UserScript==
 
