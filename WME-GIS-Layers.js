@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.08.02.001
+// @version      2023.08.02.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2436,7 +2436,7 @@
                                 layerDef.notAllowed = !values.some(entry => {
                                     const rankMatch = entry.match(/^r(\d)(\+am)?$/);
                                     if (rankMatch) {
-                                        if (rankMatch[1] <= (user.rank + 1) && (!rankMatch[2] || user.attributes.isAreaManager)) {
+                                        if (rankMatch[1] <= (user.attributes.rank + 1) && (!rankMatch[2] || user.attributes.isAreaManager)) {
                                             return true;
                                         }
                                     } else if (entry === 'am' && user.attributes.isAreaManager) {
