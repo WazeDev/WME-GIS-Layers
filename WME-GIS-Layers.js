@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.05.18.001
+// @version      2023.08.02.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2121,7 +2121,7 @@
     } // END InitLayer
 
     function initLayersTab() {
-        const user = W.loginManager.user.userName.toLowerCase();
+        const user = W.loginManager.user.attributes.userName.toLowerCase();
         const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.includes(st));
 
         $('#panel-gis-state-layers').empty().append(
@@ -2290,7 +2290,7 @@
                 $('<span>', { style: 'font-size:11px;margin-left:10px;color:#aaa;' }).text(GM_info.script.version),
                 // <a href="https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852=test" target="_blank" style="color: #6290b7;font-size: 12px;margin-left: 8px;" title="Report broken layers, bugs, request new layers, script features">Report an issue</a>
                 $('<a>', {
-                    href: REQUEST_FORM_URL.replace('{username}', user.userName),
+                    href: REQUEST_FORM_URL.replace('{username}', user.attributes.userName),
                     target: '_blank',
                     style: 'color: #6290b7;font-size: 12px;margin-left: 8px;',
                     title: 'Report broken layers, bugs, request new layers, script features'
@@ -2427,12 +2427,12 @@
                                 layerDef.notAllowed = !values.some(entry => {
                                     const rankMatch = entry.match(/^r(\d)(\+am)?$/);
                                     if (rankMatch) {
-                                        if (rankMatch[1] <= (user.rank + 1) && (!rankMatch[2] || user.isAreaManager)) {
+                                        if (rankMatch[1] <= (user.attributes.rank + 1) && (!rankMatch[2] || user.attributes.isAreaManager)) {
                                             return true;
                                         }
-                                    } else if (entry === 'am' && user.isAreaManager) {
+                                    } else if (entry === 'am' && user.attributes.isAreaManager) {
                                         return true;
-                                    } else if (entry === user.userName.toLowerCase()) {
+                                    } else if (entry === user.attributes.userName.toLowerCase()) {
                                         return true;
                                     }
                                     return false;
