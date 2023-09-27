@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.08.02.002
+// @version      2023.09.27.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1216,33 +1216,37 @@
             fontColor: '#f7f'
         }
     };
-    const ROAD_STYLE = new OpenLayers.Style({
-        pointRadius: 12,
-        fillColor: '#369',
-        pathLabel: '${label}',
-        label: '',
-        fontColor: '#faf',
-        labelSelect: true,
-        pathLabelYOffset: '${getOffset}',
-        pathLabelCurve: '${getSmooth}',
-        pathLabelReadable: '${getReadable}',
-        labelAlign: '${getAlign}',
-        labelOutlineWidth: 3,
-        labelOutlineColor: '#000',
-        strokeWidth: 3,
-        stroke: true,
-        strokeColor: '#f0f',
-        strokeOpacity: 0.4,
-        fontWeight: 'bold',
-        fontSize: 11
-    }, {
-        context: {
-            getOffset() { return -(W.map.getZoom() + 5); },
-            getSmooth() { return ''; },
-            getReadable() { return '1'; },
-            getAlign() { return 'cb'; }
-        }
-    });
+    let ROAD_STYLE;
+    function initRoadStyle() {
+        ROAD_STYLE = new OpenLayers.Style({
+            pointRadius: 12,
+            fillColor: '#369',
+            pathLabel: '${label}',
+            label: '',
+            fontColor: '#faf',
+            labelSelect: true,
+            pathLabelYOffset: '${getOffset}',
+            pathLabelCurve: '${getSmooth}',
+            pathLabelReadable: '${getReadable}',
+            labelAlign: '${getAlign}',
+            labelOutlineWidth: 3,
+            labelOutlineColor: '#000',
+            strokeWidth: 3,
+            stroke: true,
+            strokeColor: '#f0f',
+            strokeOpacity: 0.4,
+            fontWeight: 'bold',
+            fontSize: 11
+        }, {
+            context: {
+                getOffset() { return -(W.map.getZoom() + 5); },
+                getSmooth() { return ''; },
+                getReadable() { return '1'; },
+                getAlign() { return 'cb'; }
+            }
+        });
+    }
+
     // eslint-disable-next-line no-unused-vars
     const _regexReplace = {
         // Strip leading zeros or blank full label for any label starting with a non-digit or
@@ -2479,6 +2483,7 @@
         _gisLayers = [];
         if (firstCall) {
             loadScriptUpdateMonitor();
+            initRoadStyle();
             loadSettingsFromStorage();
             installPathFollowingLabels();
             // W.accelerators.events.listeners was removed in WME beta, so check for it here before calling WazeWrap.Interface.Shortcut
@@ -2535,13 +2540,12 @@
             logDebug('Initializing...');
             init();
         } else {
-            logDebug('WazeWrap not ready. Trying again...');
-            setTimeout(onWmeReady, 1000);
+            setTimeout(onWmeReady, 100);
         }
     }
 
     function bootstrap() {
-        if (W?.userscripts?.state.isReady) {
+        if (typeof W === 'object' && W.userscripts?.state.isReady) {
             onWmeReady();
         } else {
             document.addEventListener('wme-ready', onWmeReady, { once: true });
