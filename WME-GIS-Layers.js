@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2023.09.27.001
+// @version      2023.12.12.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2061,7 +2061,12 @@
         $($target.children()[0])
             .toggleClass('fa fa-fw fa-chevron-down')
             .toggleClass('fa fa-fw fa-chevron-right');
-        $($target.siblings()[0]).toggleClass('collapse');
+        const $div = $($target.siblings()[0]);
+        if ($div.css('display') === 'none') {
+            $div.css('display', 'block');
+        } else {
+            $div.css('display', 'none');
+        }
     }
 
     function doToggleABunch(evt, checkState) {
