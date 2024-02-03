@@ -1311,11 +1311,11 @@
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
-    const ALERT_UPDATE = true;
+    const ALERT_UPDATE = false;
     const SCRIPT_NAME = GM_info.script.name;
     const SCRIPT_VERSION = GM_info.script.version;
     const DOWNLOAD_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
-    const SCRIPT_VERSION_CHANGES = ['Add a shortcut key to allow toggling of GIS-L overlay. Find it under the "Layers" group in the Shortcut Keys.'];
+    const SCRIPT_VERSION_CHANGES = [];
     let _mapLayer = null;
     let _roadLayer = null;
     let _settings = {};
