@@ -1108,6 +1108,7 @@
 /* global WazeWrap */
 /* global _ */
 /* global turf */
+/* global getWmeSdk */
 
 (function main() {
     'use strict';
@@ -1316,6 +1317,7 @@
     const SCRIPT_VERSION = GM_info.script.version;
     const DOWNLOAD_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
     const SCRIPT_VERSION_CHANGES = [];
+    let sdk;
     let _mapLayer = null;
     let _roadLayer = null;
     let _settings = {};
@@ -1600,10 +1602,10 @@
 
     function getCountiesUrl(extent) {
         const geometry = {
-            xmin: extent.left,
-            ymin: extent.bottom,
-            xmax: extent.right,
-            ymax: extent.top,
+            xmin: extent[0],
+            ymin: extent[1],
+            xmax: extent[2],
+            ymax: extent[3],
             spatialReference: { wkid: 102100, latestWkid: 3857 }
         };
         const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
@@ -2156,7 +2158,7 @@
     } // END InitLayer
 
     function initLayersTab() {
-        const user = W.loginManager.user.attributes.userName.toLowerCase();
+        const user = sdk.State.userInfo.userName.toLowerCase();
         const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.includes(st));
 
         $('#panel-gis-state-layers').empty().append(
@@ -2319,13 +2321,13 @@
 
     async function initTab(firstCall = true) {
         if (firstCall) {
-            const { user } = W.loginManager;
+            const { userInfo } = sdk.State;
             const content = $('<div>').append(
                 $('<span>', { style: 'font-size:14px;font-weight:600' }).text('GIS Layers'),
                 $('<span>', { style: 'font-size:11px;margin-left:10px;color:#aaa;' }).text(GM_info.script.version),
                 // <a href="https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852=test" target="_blank" style="color: #6290b7;font-size: 12px;margin-left: 8px;" title="Report broken layers, bugs, request new layers, script features">Report an issue</a>
                 $('<a>', {
-                    href: REQUEST_FORM_URL.replace('{username}', user.attributes.userName),
+                    href: REQUEST_FORM_URL.replace('{username}', userInfo.userName),
                     target: '_blank',
                     style: 'color: #6290b7;font-size: 12px;margin-left: 8px;',
                     title: 'Report broken layers, bugs, request new layers, script features'
@@ -2457,17 +2459,17 @@
                             value = value ? value.toUpperCase() : value;
                         } else if (fldName === 'restrictTo') {
                             try {
-                                const { user } = W.loginManager;
+                                const { userInfo } = sdk.State;
                                 const values = value.split(',').map(v => v.trim().toLowerCase());
                                 layerDef.notAllowed = !values.some(entry => {
                                     const rankMatch = entry.match(/^r(\d)(\+am)?$/);
                                     if (rankMatch) {
-                                        if (rankMatch[1] <= (user.attributes.rank + 1) && (!rankMatch[2] || user.attributes.isAreaManager)) {
+                                        if (rankMatch[1] <= (userInfo.rank + 1) && (!rankMatch[2] || userInfo.isAreaManager)) {
                                             return true;
                                         }
-                                    } else if (entry === 'am' && user.attributes.isAreaManager) {
+                                    } else if (entry === 'am' && userInfo.isAreaManager) {
                                         return true;
-                                    } else if (entry === user.attributes.userName.toLowerCase()) {
+                                    } else if (entry === userInfo.userName.toLowerCase()) {
                                         return true;
                                     }
                                     return false;
@@ -2504,6 +2506,7 @@
     async function init(firstCall = true) {
         _gisLayers = [];
         if (firstCall) {
+            sdk = getWmeSdk({ scriptId: 'wmeGisLayers', scriptName: SCRIPT_NAME });
             loadScriptUpdateMonitor();
             initRoadStyle();
             loadSettingsFromStorage();
@@ -2563,7 +2566,7 @@
     }
 
     function onWmeReady() {
-        if (WazeWrap && WazeWrap.Ready) {
+        if (WazeWrap.Ready) {
             logDebug('Initializing...');
             init();
         } else {
@@ -2572,7 +2575,7 @@
     }
 
     function bootstrap() {
-        if (typeof W === 'object' && W.userscripts?.state.isReady) {
+        if (window.getWmeSdk) {
             onWmeReady();
         } else {
             document.addEventListener('wme-ready', onWmeReady, { once: true });
