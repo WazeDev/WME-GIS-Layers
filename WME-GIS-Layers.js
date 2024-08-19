@@ -3,13 +3,13 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2024.08.18.000
+// @version      2024.08.19.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
 // @exclude       *://*.waze.com/user/editor*
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/Turf.js/4.7.3/turf.min.js
+// @require      https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js
 // @grant        GM_xmlhttpRequest
 // @connect      greasyfork.org
 // @grant        GM_info
@@ -2460,6 +2460,7 @@
             layerDefRows.filter(row => row.length).forEach(layerDefRow => {
                 const layerDef = { enabled: '0' };
                 fieldNames.forEach((fldName, fldIdx) => {
+                    if (result.evalError) return;
                     let value = layerDefRow[fldIdx];
                     if (value !== undefined && value.trim().length > 0) {
                         value = value.trim();
@@ -2470,9 +2471,13 @@
                                 // eslint-disable-next-line no-eval
                                 value = eval(`(function(label, fieldValues){${value}})`);
                             } catch (ex) {
-                                logError(`Error loading label processing function for layer "${
-                                    layerDef.id}".`);
-                                logDebug(ex);
+                                if (ex instanceof EvalError) {
+                                    result.evalError = true;
+                                } else {
+                                    logError(`Error loading label processing function for layer "${
+                                        layerDef.id}".`);
+                                    logDebug(ex);
+                                }
                             }
                         } else if (fldName === 'style') {
                             layerDef.isRoadLayer = value === 'roads';
@@ -2565,6 +2570,15 @@
         const t0 = performance.now();
         try {
             const result = await loadSpreadsheetAsync();
+            if (result.evalError) {
+                WazeWrap.Alerts.info(
+                    SCRIPT_NAME,
+                    'Could not load. Please see <a href="https://www.waze.com/forum/viewtopic.php?t=399668" target="__blank"> these instructions</a>.',
+                    true,
+                    true
+                );
+                return;
+            }
             if (result.error) {
                 logError(result.error);
                 return;
