@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2024.08.19.000
+// @version      2024.08.25.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2471,13 +2471,9 @@
                                 // eslint-disable-next-line no-eval
                                 value = eval(`(function(label, fieldValues){${value}})`);
                             } catch (ex) {
-                                if (ex instanceof EvalError) {
-                                    result.evalError = true;
-                                } else {
-                                    logError(`Error loading label processing function for layer "${
-                                        layerDef.id}".`);
-                                    logDebug(ex);
-                                }
+                                logError(`Error loading label processing function for layer "${
+                                    layerDef.id}".`);
+                                logDebug(ex);
                             }
                         } else if (fldName === 'style') {
                             layerDef.isRoadLayer = value === 'roads';
@@ -2570,15 +2566,6 @@
         const t0 = performance.now();
         try {
             const result = await loadSpreadsheetAsync();
-            if (result.evalError) {
-                WazeWrap.Alerts.info(
-                    SCRIPT_NAME,
-                    'Could not load. Please see <a href="https://www.waze.com/forum/viewtopic.php?t=399668" target="__blank"> these instructions</a>.',
-                    true,
-                    true
-                );
-                return;
-            }
             if (result.error) {
                 logError(result.error);
                 return;
