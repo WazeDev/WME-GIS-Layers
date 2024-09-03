@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2024.09.03.001
+// @version      2024.09.03.002
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1741,7 +1741,8 @@
                 } else {
                     labelProcessingGlobalVariables.label = label;
                     labelProcessingGlobalVariables.fieldValues = item.attributes;
-                    const result = ESTreeProcessor.process(gisLayer.processLabel, labelProcessingGlobalVariables);
+                    const processor = new ESTreeProcessor();
+                    const result = processor.process(gisLayer.processLabel, labelProcessingGlobalVariables);
                     label = result.output?.trim() ?? '';
                 }
             }
@@ -2501,7 +2502,7 @@
                             value = value.split(',').map(item => item.trim());
                         } else if (fldName === 'processLabel') {
                             try {
-                                value = esprima.parseScript(`(function __$proc(){${value}})();`);
+                                value = esprima.parseScript(`function __$proc(){${value}} __$proc();`);
                             } catch (ex) {
                                 layerDef.labelProcessingError = true;
                                 logError(`Error loading label processing function for layer "${layerDef.id}".`);
