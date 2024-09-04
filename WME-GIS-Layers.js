@@ -3,15 +3,14 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2024.09.04.000
+// @version      2024.09.04.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
 // @exclude       *://*.waze.com/user/editor*
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @require      https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js
-// @require      https://update.greasyfork.org/scripts/506615/1440562/esprima-next.js
-// @require      https://update.greasyfork.org/scripts/506614/1440561/ESTreeProcessor.js?version=1440561
+// @require      https://update.greasyfork.org/scripts/506614/1441195/ESTreeProcessor.js
 // @connect      greasyfork.org
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
@@ -1134,7 +1133,6 @@
 /* global WazeWrap */
 /* global _ */
 /* global turf */
-/* global esprima */
 /* global ESTreeProcessor */
 
 (function main() {
@@ -1741,8 +1739,7 @@
                 } else {
                     labelProcessingGlobalVariables.label = label;
                     labelProcessingGlobalVariables.fieldValues = item.attributes;
-                    const processor = new ESTreeProcessor();
-                    const result = processor.process(gisLayer.processLabel, labelProcessingGlobalVariables);
+                    const result = ESTreeProcessor.execute(gisLayer.processLabel, labelProcessingGlobalVariables);
                     label = result.output?.trim() ?? '';
                 }
             }
@@ -2502,7 +2499,7 @@
                             value = value.split(',').map(item => item.trim());
                         } else if (fldName === 'processLabel') {
                             try {
-                                value = esprima.parseScript(`function __$proc(){${value}} __$proc();`);
+                                value = ESTreeProcessor.compile(`function __$proc(){${value}} __$proc();`);
                             } catch (ex) {
                                 layerDef.labelProcessingError = true;
                                 logError(`Error loading label processing function for layer "${layerDef.id}".`);
