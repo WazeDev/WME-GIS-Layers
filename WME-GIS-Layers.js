@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2024.11.05.000
+// @version      2024.11.06.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2438,8 +2438,11 @@
             $(tabPane).parent().css({ width: 'auto', padding: '6px' });
 
             await W.userscripts.waitForElementConnected(tabPane);
-            $('#gis-layers-power-btn').click(() => {
+            $('#gis-layers-power-btn').click(evt => {
                 setEnabled(!_settings.enabled);
+
+                // return false to prevent event from bubbling up the DOM tree and causing the GIS-L tab to activate
+                return false;
             });
             $('#gis-layers-refresh').click(onRefreshLayersClick);
         }
