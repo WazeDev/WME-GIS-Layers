@@ -11,6 +11,7 @@
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @require      https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js
 // @require      https://update.greasyfork.org/scripts/506614/1441195/ESTreeProcessor.js
+// @require      https://update.greasyfork.org/scripts/509664/WME%20Utils%20-%20Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/516445/1480246/Make%20GM%20xhr%20more%20parallel%20again.js
 // @connect      greasyfork.org
 // @grant        GM_xmlhttpRequest
@@ -1133,14 +1134,13 @@
 // @connect xmaps.indy.gov
 // ==/UserScript==
 
-/* global OpenLayers */
-/* global W */
 /* global WazeWrap */
 /* global _ */
 /* global turf */
 /* global ESTreeProcessor */
+/* global bootstrap */
 
-(function main() {
+(async function main() {
     'use strict';
 
     // **************************************************************************************************************
@@ -1249,6 +1249,7 @@
     };
     let ROAD_STYLE;
     function initRoadStyle() {
+        // SDK: Need styles that allow parameters
         ROAD_STYLE = new OpenLayers.Style({
             pointRadius: 12,
             fillColor: '#369',
@@ -1270,7 +1271,7 @@
             fontSize: 11
         }, {
             context: {
-                getOffset() { return -(W.map.getZoom() + 5); },
+                getOffset() { return -(sdk.Map.getZoomLevel() + 5); },
                 getSmooth() { return ''; },
                 getReadable() { return '1'; },
                 getAlign() { return 'cb'; }
@@ -1343,20 +1344,22 @@
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
     const ALERT_UPDATE = false;
-    const SCRIPT_NAME = GM_info.script.name;
-    const SCRIPT_VERSION = GM_info.script.version;
-    const DOWNLOAD_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
+    const scriptName = GM_info.script.name;
+    const scriptVersion = GM_info.script.version;
+    const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
     const SCRIPT_VERSION_CHANGES = [];
-    let _mapLayer = null;
-    let _roadLayer = null;
-    let _settings = {};
-    let _ignoreFetch = false;
-    let _lastToken = {};
+    const sdk = await bootstrap({ scriptUpdateMonitor: { downloadUrl } });
+    let mapLayer = null;
+    let roadLayer = null;
+    let settings = {};
+    let ignoreFetch = false;
+    let lastToken = {};
+    let userInfo;
 
     const DEBUG = true;
     // function log(message) { console.log('GIS Layers:', message); }
-    function logError(message) { console.error(`${SCRIPT_NAME}:`, message); }
-    function logDebug(message) { if (DEBUG) console.debug(`${SCRIPT_NAME}:`, message); }
+    function logError(message) { console.error(`${scriptName}:`, message); }
+    function logDebug(message) { if (DEBUG) console.debug(`${scriptName}:`, message); }
     // function logWarning(message) { console.warn('GIS Layers:', message); }
 
     let _layerSettingsDialog;
@@ -1473,10 +1476,10 @@
             y *= shiftAmount;
             this._shiftLayerFeatures(x, y);
             const { id } = this._gisLayer;
-            let offset = _settings.getLayerSetting(id, 'offset');
+            let offset = settings.getLayerSetting(id, 'offset');
             if (!offset) {
                 offset = { x: 0, y: 0 };
-                _settings.setLayerSetting(id, 'offset', offset);
+                settings.setLayerSetting(id, 'offset', offset);
             }
             offset.x += x;
             offset.y += y;
@@ -1484,16 +1487,16 @@
         }
 
         _onResetButtonClick() {
-            const offset = _settings.getLayerSetting(this._gisLayer.id, 'offset');
+            const offset = settings.getLayerSetting(this._gisLayer.id, 'offset');
             if (offset) {
                 this._shiftLayerFeatures(offset.x * -1, offset.y * -1);
-                delete _settings.layers[this._gisLayer.id].offset;
+                delete settings.layers[this._gisLayer.id].offset;
                 saveSettingsToStorage();
             }
         }
 
         _shiftLayerFeatures(x, y) {
-            const layer = this.gisLayer.isRoadLayer ? _roadLayer : _mapLayer;
+            const layer = this.gisLayer.isRoadLayer ? roadLayer : mapLayer;
             layer.getFeaturesByAttribute('layerID', this.gisLayer.id).forEach(f => f.geometry.move(x, y));
             layer.redraw();
         }
@@ -1522,21 +1525,21 @@
             oneTimeAlerts: {},
             layers: {}
         };
-        _settings = loadedSettings || defaultSettings;
+        settings = loadedSettings || defaultSettings;
         Object.keys(defaultSettings).forEach(prop => {
-            if (!_settings.hasOwnProperty(prop)) {
-                _settings[prop] = defaultSettings[prop];
+            if (!settings.hasOwnProperty(prop)) {
+                settings[prop] = defaultSettings[prop];
             }
         });
 
-        _settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
+        settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
             const layerSettings = this.layers[layerID];
             if (!layerSettings) {
                 return undefined;
             }
             return layerSettings[settingName];
         };
-        _settings.setLayerSetting = function setLayerSetting(layerID, settingName, value) {
+        settings.setLayerSetting = function setLayerSetting(layerID, settingName, value) {
             let layerSettings = this.layers[layerID];
             if (!layerSettings) {
                 layerSettings = {};
@@ -1547,6 +1550,7 @@
     }
 
     function saveSettingsToStorage() {
+        // SDK: update once "empty" shortcuts are allowed
         // Check for existance of action first, due to WME beta issue.
         if (W.accelerators.Actions.GisLayersAddrDisplay) {
             let keys = '';
@@ -1558,7 +1562,7 @@
                 if (keys.length) keys += '+';
                 if (shortcut.keyCode) keys += shortcut.keyCode;
             }
-            _settings.toggleHnsOnlyShortcut = keys;
+            settings.toggleHnsOnlyShortcut = keys;
         }
         if (W.accelerators.Actions.GisLayersToggleEnabled) {
             let keys = '';
@@ -1570,39 +1574,27 @@
                 if (keys.length) keys += '+';
                 if (shortcut.keyCode) keys += shortcut.keyCode;
             }
-            _settings.toggleEnabledShortcut = keys;
+            settings.toggleEnabledShortcut = keys;
         }
-        _settings.lastVersion = SCRIPT_VERSION;
-        localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(_settings));
+        settings.lastVersion = scriptVersion;
+        localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(settings));
         logDebug('Settings saved');
     }
 
-    function getOLMapExtent() {
-        let extent = W.map.getExtent();
-        if (Array.isArray(extent)) {
-            extent = new OpenLayers.Bounds(extent);
-            extent.transform('EPSG:4326', 'EPSG:3857');
-        }
-        return extent;
-    }
-
     function getUrl(extent, gisLayer) {
-        if (gisLayer.spatialReference) {
-            const proj = new OpenLayers.Projection(`EPSG:${gisLayer.spatialReference}`);
-            extent.transform(W.map.getProjectionObject(), proj);
-        }
-        let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
-        if (!layerOffset) {
-            layerOffset = { x: 0, y: 0 };
-        }
+        // if (gisLayer.spatialReference) {
+        //     const proj = new OpenLayers.Projection(`EPSG:${gisLayer.spatialReference}`);
+        //     extent.transform(W.map.getProjectionObject(), proj);
+        // }
+        const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
         const geometry = {
-            xmin: extent.left - layerOffset.x,
-            ymin: extent.bottom - layerOffset.y,
-            xmax: extent.right - layerOffset.x,
-            ymax: extent.top - layerOffset.y,
+            xmin: extent[0] - layerOffset.x,
+            ymin: extent[1] - layerOffset.y,
+            xmax: extent[2] - layerOffset.x,
+            ymax: extent[3] - layerOffset.y,
             spatialReference: {
-                wkid: gisLayer.spatialReference ? gisLayer.spatialReference : 102100,
-                latestWkid: gisLayer.spatialReference ? gisLayer.spatialReference : 3857
+                wkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 102100,
+                latestWkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 3857
             }
         };
         const geometryStr = JSON.stringify(geometry);
@@ -1617,7 +1609,7 @@
         url += gisLayer.token ? `&token=${gisLayer.token}` : '';
         url += `&outFields=${encodeURIComponent(fields.join(','))}`;
         url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
-        url += `&inSR=${gisLayer.spatialReference ? gisLayer.spatialReference : '102100'}`;
+        url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '102100'}`;
         url += '&outSR=3857&f=json';
         url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
 
@@ -1638,14 +1630,32 @@
         return hash;
     }
 
-    function getCountiesUrl(extent) {
+    function getMercatorMapExtent() {
+        const wgs84Extent = sdk.Map.getMapExtent();
+        const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]];
+        const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
+        const mercatorLeftBottom = turf.toMercator(wgs84LeftBottom);
+        const mercatorRightTop = turf.toMercator(wgs84RightTop);
+        return [mercatorLeftBottom[0], mercatorLeftBottom[1], mercatorRightTop[0], mercatorRightTop[1]];
+    }
+
+    function getArcGisMapExtentGeometry() {
+        const extent = getMercatorMapExtent();
         const geometry = {
-            xmin: extent.left,
-            ymin: extent.bottom,
-            xmax: extent.right,
-            ymax: extent.top,
-            spatialReference: { wkid: 102100, latestWkid: 3857 }
+            xmin: extent[0],
+            ymin: extent[1],
+            xmax: extent[2],
+            ymax: extent[3],
+            spatialReference: {
+                wkid: 102100,
+                latestWkid: 3857
+            }
         };
+        return geometry;
+    }
+
+    function getCountiesUrl() {
+        const geometry = getArcGisMapExtentGeometry();
         const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
         return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects`
             + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
@@ -1654,14 +1664,15 @@
     let _countiesInExtent = [];
 
     function getFetchableLayers(getInvisible) {
-        if (W.map.getZoom() < 12) return [];
+        const zoom = sdk.Map.getZoomLevel();
+        if (zoom < 12) return [];
         return _gisLayers.filter(gisLayer => {
             const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-            const isVisible = (getInvisible || _settings.visibleLayers.includes(gisLayer.id))
-                && _settings.selectedStates.includes(gisLayer.state);
+            const isVisible = (getInvisible || settings.visibleLayers.includes(gisLayer.id))
+                && settings.selectedStates.includes(gisLayer.state);
             const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-            const isValidZoom = getInvisible || W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom')
+            const isValidZoom = getInvisible || zoom >= (gisLayer.hasOwnProperty('visibleAtZoom')
                 ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
             return isValidUrl && isInState && isVisible && isValidZoom;
         });
@@ -1677,7 +1688,7 @@
 
         _gisLayers.forEach(gisLayer => {
             const id = `#gis-layer-${gisLayer.id}-container`;
-            if (!_settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
+            if (!settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
                 $(id).show();
                 $(`#gis-layers-for-${gisLayer.state}`).show();
                 const idx = statesToHide.indexOf(gisLayer.state);
@@ -1686,7 +1697,7 @@
                 $(id).hide();
             }
         });
-        if (_settings.onlyShowApplicableLayers) {
+        if (settings.onlyShowApplicableLayers) {
             statesToHide.forEach(st => $(`#gis-layers-for-${st}`).hide());
         }
     }
@@ -1734,7 +1745,7 @@
                 fieldName => item.attributes[fieldName]
             ).join(' ').trim()}\n`;
         }
-        if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
+        if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 5000) {
             label += gisLayer.labelFields.map(
                 fieldName => item.attributes[fieldName]
             ).join(' ').trim();
@@ -1755,14 +1766,14 @@
                 LAYER_STYLES.points, LAYER_STYLES.parcels, LAYER_STYLES.state_points,
                 LAYER_STYLES.state_parcels
             ].includes(gisLayer.style)) {
-                if (_settings.addrLabelDisplay === 'hn') {
+                if (settings.addrLabelDisplay === 'hn') {
                     const m = label.match(/^\d+/);
                     label = m ? m[0] : '';
-                } else if (_settings.addrLabelDisplay === 'street') {
+                } else if (settings.addrLabelDisplay === 'street') {
                     const m = label.match(/^(?:\d+\s)?(.*)/);
                     label = m ? m[1].trim() : '';
                 }
-                else if (_settings.addrLabelDisplay === 'none') {
+                else if (settings.addrLabelDisplay === 'none') {
                     label = '';
                 }
             }
@@ -1799,23 +1810,16 @@
                         }
                         if (!skipIt) {
                             let isPolyLine = false;
-                            let layerOffset = _settings.getLayerSetting(gisLayer.id, 'offset');
-                            if (!layerOffset) {
-                                layerOffset = { x: 0, y: 0 };
-                            }
-                            // Special handling for this layer, because it doesn't have a geometry property.
-                            // Coordinates are stored in the attributes.
-                            if (gisLayer.id === 'nc-richmond-co-pts') {
-                                const pt = new OpenLayers.Geometry.Point(item.attributes.XCOOR, item.attributes.YCOOR);
-                                pt.transform(W.map.getOLMap().displayProjection, W.map.getProjectionObject());
-                                item.geometry = pt;
-                            }
+                            const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
                             if (item.geometry) {
                                 if (item.geometry.x) {
                                     featureGeometry = new OpenLayers.Geometry.Point(
                                         item.geometry.x + layerOffset.x,
                                         item.geometry.y + layerOffset.y
                                     );
+                                    // SDK
+                                    // featureGeometry = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
+                                    // featureGeometry = turf.toWgs84(featureGeometry);
                                 } else if (item.geometry.points) {
                                     // @TODO Fix for multiple points instead of just grabbing first.
                                     featureGeometry = new OpenLayers.Geometry.Point(
@@ -1853,7 +1857,7 @@
                                     // Use Turf library to clip the geometry to the screen bounds.
                                     // This allows labels to stay in view on very long roads.
                                     const mls = turf.multiLineString(item.geometry.paths);
-                                    const e = getOLMapExtent();
+                                    const e = getMercatorMapExtent();
                                     const bbox = [e.left, e.bottom, e.right, e.top];
                                     const clipped = turf.bboxClip(mls, bbox);
                                     if (clipped.geometry.type === 'LineString') {
@@ -1885,7 +1889,7 @@
                                     logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
                                     error = true;
                                 }
-                                if (!error && !isPolyLine) {
+                                if (!error && !isPolyLine && featureGeometry) {
                                     const hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
                                     const hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
                                     const displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom
@@ -1895,6 +1899,10 @@
                                         layerID: gisLayer.id,
                                         label
                                     };
+                                    // SDK
+                                    // featureGeometry.id = gisLayer.id;
+                                    // featureGeometry.properties = attributes;
+                                    // features.push(featureGeometry);
                                     feature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
                                     features.push(feature);
                                 }
@@ -1942,9 +1950,12 @@
                 }
             }
 
-            const layer = gisLayer.isRoadLayer ? _roadLayer : _mapLayer;
+            // SDK: Swap this when ready.
+            const layer = gisLayer.isRoadLayer ? roadLayer : mapLayer;
             layer.removeFeatures(layer.getFeaturesByAttribute('layerID', gisLayer.id));
             layer.addFeatures(features);
+            // sdk.Map.removeFeaturesFromLayer({ layerName: layer.name, featureIds: [gisLayer.id] });
+            // sdk.Map.addFeaturesToLayer({ layerName: layer.name, features });
 
             if (features.length) {
                 $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
@@ -1953,19 +1964,19 @@
     } // END processFeatures()
 
     function fetchFeatures() {
-        if (_ignoreFetch) return;
-        if (W.map.getZoom() < 12) {
+        if (ignoreFetch) return;
+        if (sdk.Map.getZoomLevel() < 12) {
             filterLayerCheckboxes();
             return;
         }
-        _lastToken.cancel = true;
-        _lastToken = { cancel: false, features: [], layersProcessed: 0 };
+        lastToken.cancel = true;
+        lastToken = { cancel: false, features: [], layersProcessed: 0 };
         $('.gis-state-layer-label').css({ color: '#777' });
 
         let _layersCleared = false;
 
         // if (layersToFetch.length) {
-        const extent = getOLMapExtent();
+        const extent = getMercatorMapExtent();
         GM_xmlhttpRequest({
             url: getCountiesUrl(extent),
             method: 'GET',
@@ -1990,8 +2001,8 @@
                             // Remove features of any layers that won't be mapped.
                             _gisLayers.forEach(gisLayer => {
                                 if (!layersToFetch.includes(gisLayer)) {
-                                    _mapLayer.removeFeatures(_mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
-                                    _roadLayer.removeFeatures(_roadLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+                                    mapLayer.removeFeatures(mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+                                    roadLayer.removeFeatures(roadLayer.getFeaturesByAttribute('layerID', gisLayer.id));
                                 }
                             });
                         }
@@ -2006,7 +2017,7 @@
                             const url = getUrl(extent, gisLayer);
                             GM_xmlhttpRequest({
                                 url,
-                                context: _lastToken,
+                                context: lastToken,
                                 method: 'GET',
                                 onload(res2) {
                                     if (res2.status < 400) { // Handle stupid issue where http 4## is considered success
@@ -2037,7 +2048,7 @@
 
     function showScriptInfoAlert() {
         /* Check version and alert on update */
-        if (ALERT_UPDATE && SCRIPT_VERSION !== _settings.lastVersion) {
+        if (ALERT_UPDATE && scriptVersion !== settings.lastVersion) {
             // alert(SCRIPT_VERSION_CHANGES);
             let releaseNotes = '';
             releaseNotes += '<p>What\'s New:</p>';
@@ -2050,15 +2061,15 @@
             else {
                 releaseNotes += '<ul><li>Nothing major.</ul>';
             }
-            WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, SCRIPT_VERSION, releaseNotes, GF_URL);
+            WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, scriptVersion, releaseNotes, GF_URL);
         }
     }
 
     function setEnabled(value) {
-        _settings.enabled = value;
+        settings.enabled = value;
         saveSettingsToStorage();
-        _mapLayer.setVisibility(value);
-        _roadLayer.setVisibility(value);
+        mapLayer.setVisibility(value);
+        roadLayer.setVisibility(value);
         const color = value ? '#00bd00' : '#ccc';
         $('span#gis-layers-power-btn').css({ color });
         if (value) fetchFeatures();
@@ -2068,40 +2079,40 @@
     function onGisLayerToggleChanged() {
         const checked = $(this).is(':checked');
         const layerId = $(this).data('layer-id');
-        const idx = _settings.visibleLayers.indexOf(layerId);
+        const idx = settings.visibleLayers.indexOf(layerId);
         if (checked) {
             const gisLayer = _gisLayers.find(l => l.id === layerId);
             if (gisLayer.oneTimeAlert) {
-                const lastAlertHash = _settings.oneTimeAlerts[layerId];
+                const lastAlertHash = settings.oneTimeAlerts[layerId];
                 const newAlertHash = hashString(gisLayer.oneTimeAlert);
                 if (lastAlertHash !== newAlertHash) {
                     // alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
                     WazeWrap.Alerts.info(GM_info.script.name, `Layer: ${gisLayer.name}<br><br>Message:<br>${gisLayer.oneTimeAlert}`);
-                    _settings.oneTimeAlerts[layerId] = newAlertHash;
+                    settings.oneTimeAlerts[layerId] = newAlertHash;
                     saveSettingsToStorage();
                 }
             }
-            if (idx === -1) _settings.visibleLayers.push(layerId);
-        } else if (idx > -1) _settings.visibleLayers.splice(idx, 1);
-        if (!_ignoreFetch) {
+            if (idx === -1) settings.visibleLayers.push(layerId);
+        } else if (idx > -1) settings.visibleLayers.splice(idx, 1);
+        if (!ignoreFetch) {
             saveSettingsToStorage();
             fetchFeatures();
         }
     }
 
     function onOnlyShowApplicableLayersChanged() {
-        _settings.onlyShowApplicableLayers = $(this).is(':checked');
+        settings.onlyShowApplicableLayers = $(this).is(':checked');
         saveSettingsToStorage();
         fetchFeatures();
     }
 
     function onStateCheckChanged(evt) {
         const state = evt.data;
-        const idx = _settings.selectedStates.indexOf(state);
+        const idx = settings.selectedStates.indexOf(state);
         if (evt.target.checked) {
-            if (idx === -1) _settings.selectedStates.push(state);
-        } else if (idx > -1) _settings.selectedStates.splice(idx, 1);
-        if (!_ignoreFetch) {
+            if (idx === -1) settings.selectedStates.push(state);
+        } else if (idx > -1) settings.selectedStates.splice(idx, 1);
+        if (!ignoreFetch) {
             saveSettingsToStorage();
             initLayersTab();
             fetchFeatures();
@@ -2121,13 +2132,13 @@
     function onFillParcelsCheckedChanged(evt) {
         const { checked } = evt.target;
         setFillParcels(checked);
-        _settings.fillParcels = checked;
+        settings.fillParcels = checked;
         saveSettingsToStorage();
         fetchFeatures();
     }
 
     function onMapMove() {
-        if (_settings.enabled) fetchFeatures();
+        if (settings.enabled) fetchFeatures();
     }
 
     function onRefreshLayersClick() {
@@ -2153,9 +2164,9 @@
     }
 
     function doToggleABunch(evt, checkState) {
-        _ignoreFetch = true;
+        ignoreFetch = true;
         $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
-        _ignoreFetch = false;
+        ignoreFetch = false;
         saveSettingsToStorage();
         if (evt.data) initLayersTab();
         fetchFeatures();
@@ -2170,7 +2181,7 @@
     }
 
     function onGisAddrDisplayChange(evt) {
-        _settings.addrLabelDisplay = evt.target.value;
+        settings.addrLabelDisplay = evt.target.value;
         saveSettingsToStorage();
         fetchFeatures();
     }
@@ -2184,7 +2195,7 @@
     }
 
     function onToggleGisLayersShortcutKey() {
-        setEnabled(!_settings.enabled);
+        setEnabled(!settings.enabled);
     }
 
     function initLayer() {
@@ -2197,7 +2208,7 @@
             symbolizer: gisLayer.style
         }));
 
-        setFillParcels(_settings.fillParcels);
+        setFillParcels(settings.fillParcels);
 
         const style = new OpenLayers.Style(DEFAULT_STYLE, { rules });
         let existingLayer;
@@ -2206,7 +2217,7 @@
         uniqueName = 'wmeGISLayersDefault';
         existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't working.
         if (existingLayer) W.map.removeLayer(existingLayer);
-        _mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
+        mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
             uniqueName,
             styleMap: new OpenLayers.StyleMap(style)
         });
@@ -2214,26 +2225,26 @@
         uniqueName = 'wmeGISLayersRoads';
         existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't wworking.
         if (existingLayer) W.map.removeLayer(existingLayer);
-        _roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
+        roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
             uniqueName,
             styleMap: new OpenLayers.StyleMap(ROAD_STYLE)
         });
 
-        _mapLayer.setVisibility(_settings.enabled);
-        _roadLayer.setVisibility(_settings.enabled);
+        mapLayer.setVisibility(settings.enabled);
+        roadLayer.setVisibility(settings.enabled);
 
-        W.map.addLayers([_roadLayer, _mapLayer]);
+        W.map.addLayers([roadLayer, mapLayer]);
     } // END InitLayer
 
     function initLayersTab() {
-        const user = W.loginManager.user.attributes.userName.toLowerCase();
-        const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => _settings.selectedStates.includes(st));
+        const user = userInfo.userName.toLowerCase();
+        const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => settings.selectedStates.includes(st));
 
         $('#panel-gis-state-layers').empty().append(
             $('<div>', { class: 'controls-container' }).css({ 'padding-top': '0px' }).append(
                 $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).change(
                     onOnlyShowApplicableLayersChanged
-                ).prop('checked', _settings.onlyShowApplicableLayers),
+                ).prop('checked', settings.onlyShowApplicableLayers),
                 $('<label>', { for: 'only-show-applicable-gis-layers' })
                     .css({ 'white-space': 'pre-line' }).text('Only show applicable layers')
             ),
@@ -2277,7 +2288,7 @@
                                             $('<input>', { type: 'checkbox', id })
                                                 .data('layer-id', gisLayer.id)
                                                 .change(onGisLayerToggleChanged)
-                                                .prop('checked', _settings.visibleLayers.includes(gisLayer.id)),
+                                                .prop('checked', settings.visibleLayers.includes(gisLayer.id)),
                                             $('<label>', { for: id, class: 'gis-state-layer-label' })
                                                 .css({ 'white-space': 'pre-line' })
                                                 .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
@@ -2319,10 +2330,10 @@
                 $('<div>', { id: 'labelSettings' }).append(
                     $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
                         $('<label>', { style: 'font-weight:normal;' }).text('Addresses:'),
-                        createRadioBtn('gisAddrDisplay', 'hn', 'HN', _settings.addrLabelDisplay === 'hn'),
-                        createRadioBtn('gisAddrDisplay', 'street', 'Street', _settings.addrLabelDisplay === 'street'),
-                        createRadioBtn('gisAddrDisplay', 'all', 'Both', _settings.addrLabelDisplay === 'all'),
-                        createRadioBtn('gisAddrDisplay', 'none', 'None', _settings.addrLabelDisplay === 'none'),
+                        createRadioBtn('gisAddrDisplay', 'hn', 'HN', settings.addrLabelDisplay === 'hn'),
+                        createRadioBtn('gisAddrDisplay', 'street', 'Street', settings.addrLabelDisplay === 'street'),
+                        createRadioBtn('gisAddrDisplay', 'all', 'Both', settings.addrLabelDisplay === 'all'),
+                        createRadioBtn('gisAddrDisplay', 'none', 'None', settings.addrLabelDisplay === 'none'),
                         $('<i>', {
                             class: 'waze-tooltip',
                             id: 'gisAddrDisplayInfo',
@@ -2360,7 +2371,7 @@
                                 .append(
                                     $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' })
                                         .change(st, onStateCheckChanged)
-                                        .prop('checked', _settings.selectedStates.includes(st)),
+                                        .prop('checked', settings.selectedStates.includes(st)),
                                     $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
                                 );
                         })
@@ -2379,7 +2390,7 @@
                     $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
                         $('<input>', { type: 'checkbox', id: 'fill-parcels' })
                             .change(onFillParcelsCheckedChanged)
-                            .prop('checked', _settings.fillParcels),
+                            .prop('checked', settings.fillParcels),
                         $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line', color: '#777' }).text('Fill parcels')
                     )
                 )
@@ -2389,13 +2400,12 @@
 
     async function initTab(firstCall = true) {
         if (firstCall) {
-            const { user } = W.loginManager;
             const content = $('<div>').append(
                 $('<span>', { style: 'font-size:14px;font-weight:600' }).text('GIS Layers'),
                 $('<span>', { style: 'font-size:11px;margin-left:10px;color:#aaa;' }).text(GM_info.script.version),
                 // <a href="https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852=test" target="_blank" style="color: #6290b7;font-size: 12px;margin-left: 8px;" title="Report broken layers, bugs, request new layers, script features">Report an issue</a>
                 $('<a>', {
-                    href: REQUEST_FORM_URL.replace('{username}', user.attributes.userName),
+                    href: REQUEST_FORM_URL.replace('{username}', userInfo.userName),
                     target: '_blank',
                     style: 'color: #6290b7;font-size: 12px;margin-left: 8px;',
                     title: 'Report broken layers, bugs, request new layers, script features'
@@ -2421,7 +2431,7 @@
                 )
             ).html();
 
-            const powerButtonColor = _settings.enabled ? '#00bd00' : '#ccc';
+            const powerButtonColor = settings.enabled ? '#00bd00' : '#ccc';
             const labelText = $('<div>').append(
                 $('<span>', {
                     class: 'fa fa-power-off',
@@ -2432,15 +2442,13 @@
                 $('<span>', { title: 'GIS Layers' }).text('GIS-L')
             ).html();
 
-            const { tabLabel, tabPane } = W.userscripts.registerSidebarTab('GIS-L');
+            const { tabLabel, tabPane } = await sdk.Sidebar.registerScriptTab();
             tabLabel.innerHTML = labelText;
             tabPane.innerHTML = content;
             // Fix tab content div spacing.
             $(tabPane).parent().css({ width: 'auto', padding: '6px' });
-
-            await W.userscripts.waitForElementConnected(tabPane);
-            $('#gis-layers-power-btn').click(evt => {
-                setEnabled(!_settings.enabled);
+            $('#gis-layers-power-btn').click(() => {
+                setEnabled(!settings.enabled);
 
                 // return false to prevent event from bubbling up the DOM tree and causing the GIS-L tab to activate
                 return false;
@@ -2458,7 +2466,7 @@
         if (firstCall) {
             initTab(true);
 
-            WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', _settings.enabled, onLayerCheckboxChanged);
+            WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', settings.enabled, onLayerCheckboxChanged);
             // W.map.events.register('moveend', null, onMapMove);
             WazeWrap.Events.register('moveend', null, onMapMove);
             showScriptInfoAlert();
@@ -2483,7 +2491,7 @@
         const result = { error: null };
         const checkFieldNames = fldName => fieldNames.includes(fldName);
 
-        if (SCRIPT_VERSION < minVersion) {
+        if (scriptVersion < minVersion) {
             result.error = `Script must be updated to at least version ${
                 minVersion} before layer definitions can be loaded.`;
         } else if (fieldNames.length < REQUIRED_FIELD_NAMES.length) {
@@ -2528,17 +2536,16 @@
                             value = value ? value.toUpperCase() : value;
                         } else if (fldName === 'restrictTo') {
                             try {
-                                const { user } = W.loginManager;
                                 const values = value.split(',').map(v => v.trim().toLowerCase());
                                 layerDef.notAllowed = !values.some(entry => {
                                     const rankMatch = entry.match(/^r(\d)(\+am)?$/);
                                     if (rankMatch) {
-                                        if (rankMatch[1] <= (user.attributes.rank + 1) && (!rankMatch[2] || user.attributes.isAreaManager)) {
+                                        if (rankMatch[1] <= (userInfo.rank + 1) && (!rankMatch[2] || userInfo.isAreaManager)) {
                                             return true;
                                         }
-                                    } else if (entry === 'am' && user.attributes.isAreaManager) {
+                                    } else if (entry === 'am' && userInfo.isAreaManager) {
                                         return true;
-                                    } else if (entry === user.attributes.userName.toLowerCase()) {
+                                    } else if (entry === userInfo.userName.toLowerCase()) {
                                         return true;
                                     }
                                     return false;
@@ -2562,21 +2569,12 @@
         return result;
     }
 
-    function loadScriptUpdateMonitor() {
-        try {
-            const updateMonitor = new WazeWrap.Alerts.ScriptUpdateMonitor(SCRIPT_NAME, SCRIPT_VERSION, DOWNLOAD_URL, GM_xmlhttpRequest);
-            updateMonitor.start();
-        } catch (ex) {
-            // Report, but don't stop if ScriptUpdateMonitor fails.
-            logError(ex);
-        }
-    }
-
     async function init(firstCall = true) {
         _gisLayers = [];
         if (firstCall) {
+            userInfo = sdk.State.getUserInfo();
             labelProcessingGlobalVariables.W = W;
-            loadScriptUpdateMonitor();
+            labelProcessingGlobalVariables.sdk = sdk;
             initRoadStyle();
             loadSettingsFromStorage();
             installPathFollowingLabels();
@@ -2585,7 +2583,7 @@
                 'Toggle HN-only address labels (GIS Layers)',
                 'layers',
                 'layersToggleGisAddressLabelDisplay',
-                _settings.toggleHnsOnlyShortcut,
+                settings.toggleHnsOnlyShortcut,
                 onAddressDisplayShortcutKey,
                 null
             ).add();
@@ -2594,7 +2592,7 @@
                 'Toggle display of GIS Layers',
                 'layers',
                 'layersToggleGisLayersEnabled',
-                _settings.toggleEnabledShortcut,
+                settings.toggleEnabledShortcut,
                 onToggleGisLayersShortcutKey,
                 null
             ).add();
@@ -2634,24 +2632,7 @@
         }
     }
 
-    function onWmeReady() {
-        if (WazeWrap && WazeWrap.Ready) {
-            logDebug('Initializing...');
-            init();
-        } else {
-            setTimeout(onWmeReady, 100);
-        }
-    }
-
-    function bootstrap() {
-        if (typeof W === 'object' && W.userscripts?.state.isReady) {
-            onWmeReady();
-        } else {
-            document.addEventListener('wme-ready', onWmeReady, { once: true });
-        }
-    }
-
-    bootstrap();
+    init();
 
     /*eslint-disable*/
     function installPathFollowingLabels() {
