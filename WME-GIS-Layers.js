@@ -1133,8 +1133,6 @@
 // @connect xmaps.indy.gov
 // ==/UserScript==
 
-
-/* global W */
 /* global WazeWrap */
 /* global _ */
 /* global turf */
@@ -1250,6 +1248,7 @@
     };
     let ROAD_STYLE;
     function initRoadStyle() {
+        // SDK: Need styles that allow parameters
         ROAD_STYLE = new OpenLayers.Style({
             pointRadius: 12,
             fillColor: '#369',
@@ -1271,7 +1270,7 @@
             fontSize: 11
         }, {
             context: {
-                getOffset() { return -(W.map.getZoom() + 5); },
+                getOffset() { return -(sdk.Map.getZoomLevel() + 5); },
                 getSmooth() { return ''; },
                 getReadable() { return '1'; },
                 getAlign() { return 'cb'; }
@@ -1550,6 +1549,7 @@
     }
 
     function saveSettingsToStorage() {
+        // SDK: update once "empty" shortcuts are allowed
         // Check for existance of action first, due to WME beta issue.
         if (W.accelerators.Actions.GisLayersAddrDisplay) {
             let keys = '';
@@ -1663,14 +1663,15 @@
     let _countiesInExtent = [];
 
     function getFetchableLayers(getInvisible) {
-        if (W.map.getZoom() < 12) return [];
+        const zoom = sdk.Map.getZoomLevel();
+        if (zoom < 12) return [];
         return _gisLayers.filter(gisLayer => {
             const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
             const isVisible = (getInvisible || settings.visibleLayers.includes(gisLayer.id))
                 && settings.selectedStates.includes(gisLayer.state);
             const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-            const isValidZoom = getInvisible || W.map.getZoom() >= (gisLayer.hasOwnProperty('visibleAtZoom')
+            const isValidZoom = getInvisible || zoom >= (gisLayer.hasOwnProperty('visibleAtZoom')
                 ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
             return isValidUrl && isInState && isVisible && isValidZoom;
         });
@@ -1743,7 +1744,7 @@
                 fieldName => item.attributes[fieldName]
             ).join(' ').trim()}\n`;
         }
-        if (W.map.getZoom() >= displayLabelsAtZoom || area >= 5000) {
+        if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 5000) {
             label += gisLayer.labelFields.map(
                 fieldName => item.attributes[fieldName]
             ).join(' ').trim();
@@ -1963,7 +1964,7 @@
 
     function fetchFeatures() {
         if (ignoreFetch) return;
-        if (W.map.getZoom() < 12) {
+        if (sdk.Map.getZoomLevel() < 12) {
             filterLayerCheckboxes();
             return;
         }
@@ -2445,7 +2446,7 @@
             tabPane.innerHTML = content;
             // Fix tab content div spacing.
             $(tabPane).parent().css({ width: 'auto', padding: '6px' });
-            $('#gis-layers-power-btn').click(evt => {
+            $('#gis-layers-power-btn').click(() => {
                 setEnabled(!settings.enabled);
 
                 // return false to prevent event from bubbling up the DOM tree and causing the GIS-L tab to activate
@@ -2572,6 +2573,7 @@
         if (firstCall) {
             userInfo = sdk.State.getUserInfo();
             labelProcessingGlobalVariables.W = W;
+            labelProcessingGlobalVariables.sdk = sdk;
             initRoadStyle();
             loadSettingsFromStorage();
             installPathFollowingLabels();
