@@ -1343,6 +1343,7 @@
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
+    const COUNTIES_URL_2 = 'https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/23';
     const ALERT_UPDATE = false;
     const scriptName = GM_info.script.name;
     const scriptVersion = GM_info.script.version;
@@ -1654,9 +1655,10 @@
         return geometry;
     }
 
-    function getCountiesUrl() {
+    function getCountiesUrl(useBackup = false) {
         const geometry = getArcGisMapExtentGeometry();
-        const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
+        const countiesUrl = useBackup ? COUNTIES_URL_2 : COUNTIES_URL;
+        const url = `${countiesUrl}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
         return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects`
             + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
     }
@@ -1963,6 +1965,35 @@
         }
     } // END processFeatures()
 
+    function getCountiesData(extent) {
+        return new Promise((resolve, reject) => {
+            let useBackup = false;
+            GM_xmlhttpRequest({
+                url: getCountiesUrl(extent),
+                method: 'GET',
+                onload(res) {
+                    if (res.status < 400) {
+                        const data = $.parseJSON(res.responseText);
+                        if (data.error) {
+                            useBackup = true;
+                            //logError(`Error in US Census counties data: ${data.error.message}`);
+                        } else {
+                            resolve(data);
+                        }
+                    } else {
+                        useBackup = true;
+                        // logDebug(`HTTP request error: ${JSON.stringify(res)}`);
+                        // logError(`Could not fetch counties from US Census site.  Request returned ${res.status}`);
+                    }
+                },
+                onerror(res) {
+                    logDebug(`xmlhttpRequest error:${JSON.stringify(res)}`);
+                    logError('Could not fetch counties from US Census site.  An error was thrown.');
+                }
+            });
+        });
+    }
+
     function fetchFeatures() {
         if (ignoreFetch) return;
         if (sdk.Map.getZoomLevel() < 12) {
@@ -1977,15 +2008,7 @@
 
         // if (layersToFetch.length) {
         const extent = getMercatorMapExtent();
-        GM_xmlhttpRequest({
-            url: getCountiesUrl(extent),
-            method: 'GET',
-            onload(res) {
-                if (res.status < 400) {
-                    const data = $.parseJSON(res.responseText);
-                    if (data.error) {
-                        logError(`Error in US Census counties data: ${data.error.message}`);
-                    } else {
+        
                         _countiesInExtent = data.features.map(feature => {
                             const name = feature.attributes.BASENAME.toLowerCase();
                             const stateInfo = STATES.fromId(parseInt(feature.attributes.STATE, 10));
@@ -2033,17 +2056,6 @@
                                 }
                             });
                         });
-                    }
-                } else {
-                    logDebug(`HTTP request error: ${JSON.stringify(res)}`);
-                    logError(`Could not fetch counties from US Census site.  Request returned ${res.status}`);
-                }
-            },
-            onerror(res) {
-                logDebug(`xmlhttpRequest error:${JSON.stringify(res)}`);
-                logError('Could not fetch counties from US Census site.  An error was thrown.');
-            }
-        });
     }
 
     function showScriptInfoAlert() {
