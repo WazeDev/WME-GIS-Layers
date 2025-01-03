@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2024.11.10.000
+// @version      2025.01.03.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1139,6 +1139,7 @@
 /* global turf */
 /* global ESTreeProcessor */
 /* global bootstrap */
+/* global W, OpenLayers */
 
 (async function main() {
     'use strict';
@@ -1365,20 +1366,27 @@
     let _layerSettingsDialog;
 
     class LayerSettingsDialog {
+        #gisLayer;
+        #minVisibleAtZoom = 12;
+        #maxVisibleAtZoom = 22;
+        #titleText;
+        #shiftUpButton;
+        #visibleAtZoomInput;
+
         constructor() {
-            this._$titleText = $('<span>');
-            this._$closeButton = $('<span>', {
+            this.#titleText = $('<span>');
+            const closeButton = $('<span>', {
                 style: 'cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;',
                 class: 'fa fa-window-close'
-            }).click(() => this._onCloseButtonClick());
-            this._$shiftUpButton = LayerSettingsDialog._createShiftButton('fa-angle-up').click(() => this._onShiftButtonClick(0, 1));
-            this._$shiftLeftButton = LayerSettingsDialog._createShiftButton('fa-angle-left').click(() => this._onShiftButtonClick(-1, 0));
-            this._$shiftRightButton = LayerSettingsDialog._createShiftButton('fa-angle-right').click(() => this._onShiftButtonClick(1, 0));
-            this._$shiftDownButton = LayerSettingsDialog._createShiftButton('fa-angle-down').click(() => this._onShiftButtonClick(0, -1));
-            this._$resetButton = $('<button>', {
+            }).click(() => this.#onCloseButtonClick());
+            const shiftUpButton = LayerSettingsDialog.#createShiftButton('fa-angle-up').click(() => this.#onShiftButtonClick(0, 1));
+            const shiftLeftButton = LayerSettingsDialog.#createShiftButton('fa-angle-left').click(() => this.#onShiftButtonClick(-1, 0));
+            const shiftRightButton = LayerSettingsDialog.#createShiftButton('fa-angle-right').click(() => this.#onShiftButtonClick(1, 0));
+            const shiftDownButton = LayerSettingsDialog.#createShiftButton('fa-angle-down').click(() => this.#onShiftButtonClick(0, -1));
+            const resetOffsetButton = $('<button>', {
                 class: 'form-control',
                 style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px; display: inline-block; float: right;'
-            }).text('Reset').click(() => this._onResetButtonClick());
+            }).text('Reset').click(() => this.#onResetOffsetButtonClick());
 
             this._dialogDiv = $('<div>', {
                 style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid;'
@@ -1386,38 +1394,58 @@
             }).append($('<div>').append( // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
                 // HEADER
                 $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(
-                    this._$closeButton,
-                    this._$titleText
+                    closeButton,
+                    this.#titleText
                 ),
                 // BODY
-                $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
-                    this._$resetButton,
-                    $('<input>', {
-                        type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked'
-                    }),
-                    $('<label>', { for: 'gisLayerShiftAmt1' }).text('1m'),
-                    $('<input>', {
-                        type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left: 6px'
-                    }),
-                    $('<label>', { for: 'gisLayerShiftAmt10' }).text('10m'),
-                    $('<div>', { style: 'padding: 4px' }).append(
-                        $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
-                            $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                                $('<td>', { align: 'center' }),
-                                $('<td>', { align: 'center' }).append(this._$shiftUpButton),
-                                $('<td>', { align: 'center' })
-                            ),
-                            $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                                $('<td>', { align: 'center' }).append(this._$shiftLeftButton),
-                                $('<td>', { align: 'center' }),
-                                $('<td>', { align: 'center' }).append(this._$shiftRightButton)
-                            ),
-                            $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                                $('<td>', { align: 'center' }),
-                                $('<td>', { align: 'center' }).append(this._$shiftDownButton),
-                                $('<td>', { align: 'center' })
+                $('<div>').append(
+                    $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
+                        resetOffsetButton,
+                        $('<input>', {
+                            type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked'
+                        }),
+                        $('<label>', { for: 'gisLayerShiftAmt1' }).text('1m'),
+                        $('<input>', {
+                            type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left: 6px'
+                        }),
+                        $('<label>', { for: 'gisLayerShiftAmt10' }).text('10m'),
+                        $('<div>', { style: 'padding: 4px' }).append(
+                            $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
+                                $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                                    $('<td>', { align: 'center' }),
+                                    $('<td>', { align: 'center' }).append(shiftUpButton),
+                                    $('<td>', { align: 'center' })
+                                ),
+                                $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                                    $('<td>', { align: 'center' }).append(shiftLeftButton),
+                                    $('<td>', { align: 'center' }),
+                                    $('<td>', { align: 'center' }).append(shiftRightButton)
+                                ),
+                                $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                                    $('<td>', { align: 'center' }),
+                                    $('<td>', { align: 'center' }).append(shiftDownButton),
+                                    $('<td>', { align: 'center' })
+                                )
                             )
                         )
+                    ),
+                    $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color: #d6e6f3; display: inline-block; margin-right: 5px; margin-top: 2px;' }).append(
+                        $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 4px;' }).append(
+                            $('<button>', { class: 'form-control', style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px;' })
+                                .text('Reset')
+                                .click(this.#onResetVisibleAtZoomClick.bind(this))
+                        ),
+                        $('<div>').append(
+                            $('<label>', { for: 'visible-at-zoom-input' }).text('Visible at zoom:'),
+                            this.#visibleAtZoomInput = $('<input>', {
+                                type: 'number',
+                                id: 'visible-at-zoom-input',
+                                min: this.#minVisibleAtZoom,
+                                max: this.#maxVisibleAtZoom,
+                                style: 'margin-left: 4px;'
+                            }).change(v => this.#onVisibleAtZoomChange(v))
+                        ),
+                        $('<div>', { style: 'font-size: 13px; color: gray' }).text('Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.')
                     )
                 )
             ));
@@ -1435,22 +1463,19 @@
         }
 
         get gisLayer() {
-            return this._gisLayer;
+            return this.#gisLayer;
         }
 
         set gisLayer(value) {
-            if (value !== this._gisLayer) {
-                this._gisLayer = value;
-                this.title = value.name;
+            if (value !== this.#gisLayer) {
+                this.#gisLayer = value;
+                this.#titleText.text(this.#gisLayer.name);
+                this.#initVisibleAtZoomInput();
             }
         }
 
-        get title() {
-            return this._$titleText.text();
-        }
-
-        set title(value) {
-            this._$titleText.text(value);
+        #initVisibleAtZoomInput() {
+            this.#visibleAtZoomInput.val(getGisLayerVisibleAtZoom(this.#gisLayer));
         }
 
         // eslint-disable-next-line class-methods-use-this
@@ -1466,15 +1491,37 @@
             this._dialogDiv.hide();
         }
 
-        _onCloseButtonClick() {
+        #onResetVisibleAtZoomClick() {
+            settings.removeLayerSetting(this.#gisLayer.id, 'visibleAtZoom');
+            this.#initVisibleAtZoomInput();
+        }
+
+        #onCloseButtonClick() {
             this.hide();
         }
 
-        _onShiftButtonClick(x, y) {
+        #onVisibleAtZoomChange() {
+            const min = this.#minVisibleAtZoom;
+            const max = this.#maxVisibleAtZoom;
+            let value = parseInt(this.#visibleAtZoomInput.val(), 10);
+
+            if (value < min) {
+                value = min;
+                this.#visibleAtZoomInput.val(value);
+            } else if (value > max) {
+                value = max;
+                this.#visibleAtZoomInput.val(value);
+            }
+
+            settings.setLayerSetting(this.#gisLayer.id, 'visibleAtZoom', value);
+            saveSettingsToStorage();
+        }
+
+        #onShiftButtonClick(x, y) {
             const shiftAmount = this.getShiftAmount();
             x *= shiftAmount;
             y *= shiftAmount;
-            this._shiftLayerFeatures(x, y);
+            this.#shiftLayerFeatures(x, y);
             const { id } = this._gisLayer;
             let offset = settings.getLayerSetting(id, 'offset');
             if (!offset) {
@@ -1486,22 +1533,22 @@
             saveSettingsToStorage();
         }
 
-        _onResetButtonClick() {
+        #onResetOffsetButtonClick() {
             const offset = settings.getLayerSetting(this._gisLayer.id, 'offset');
             if (offset) {
-                this._shiftLayerFeatures(offset.x * -1, offset.y * -1);
+                this.#shiftLayerFeatures(offset.x * -1, offset.y * -1);
                 delete settings.layers[this._gisLayer.id].offset;
                 saveSettingsToStorage();
             }
         }
 
-        _shiftLayerFeatures(x, y) {
+        #shiftLayerFeatures(x, y) {
             const layer = this.gisLayer.isRoadLayer ? roadLayer : mapLayer;
             layer.getFeaturesByAttribute('layerID', this.gisLayer.id).forEach(f => f.geometry.move(x, y));
             layer.redraw();
         }
 
-        static _createShiftButton(fontAwesomeClass) {
+        static #createShiftButton(fontAwesomeClass) {
             return $('<button>', {
                 class: 'form-control',
                 style: 'cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;'
@@ -1546,6 +1593,12 @@
                 this.layers[layerID] = layerSettings;
             }
             layerSettings[settingName] = value;
+        };
+        settings.removeLayerSetting = function removeLayerSetting(layerID, settingName) {
+            const layerSettings = this.layers[layerID];
+            if (layerSettings) {
+                delete layerSettings[settingName];
+            }
         };
     }
 
@@ -1663,6 +1716,23 @@
 
     let _countiesInExtent = [];
 
+    function getGisLayerVisibleAtZoom(gisLayer) {
+        const overrideVisibleAtZoom = settings.getLayerSetting(gisLayer.id, 'visibleAtZoom');
+        if (overrideVisibleAtZoom) return overrideVisibleAtZoom;
+        return (gisLayer.hasOwnProperty('visibleAtZoom')
+            ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+    }
+
+    function getGisLayerLabelsVisibleAtZoom(gisLayer, layerVisibleAtZoom) {
+        let labelsVisibleAtZoom;
+        if (gisLayer.hasOwnProperty('labelsVisibleAtZoom')) {
+            labelsVisibleAtZoom = Math.max(gisLayer.labelsVisibleAtZoom, layerVisibleAtZoom);
+        } else {
+            labelsVisibleAtZoom = layerVisibleAtZoom + 1;
+        }
+        return labelsVisibleAtZoom;
+    }
+
     function getFetchableLayers(getInvisible) {
         const zoom = sdk.Map.getZoomLevel();
         if (zoom < 12) return [];
@@ -1672,8 +1742,7 @@
                 && settings.selectedStates.includes(gisLayer.state);
             const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-            const isValidZoom = getInvisible || zoom >= (gisLayer.hasOwnProperty('visibleAtZoom')
-                ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+            const isValidZoom = getInvisible || zoom >= getGisLayerVisibleAtZoom(gisLayer);
             return isValidUrl && isInState && isVisible && isValidZoom;
         });
     }
@@ -1848,10 +1917,8 @@
                                     // We have to handle polylines differently since each item can have multiple features.
                                     // In terms of ArcGIS, each feature's geometry can have multiple paths.  For instance
                                     // a single road can be broken into parts that are physically not connected to each other.
-                                    const hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
-                                    const hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
-                                    const displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom
-                                        : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+
+                                    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
                                     const label = processLabel(gisLayer, item, displayLabelsAtZoom, area, true);
 
                                     // Use Turf library to clip the geometry to the screen bounds.
@@ -1890,10 +1957,7 @@
                                     error = true;
                                 }
                                 if (!error && !isPolyLine && featureGeometry) {
-                                    const hasVisibleAtZoom = gisLayer.hasOwnProperty('visibleAtZoom');
-                                    const hasLabelsVisibleAtZoom = gisLayer.hasOwnProperty('labelsVisibleAtZoom');
-                                    const displayLabelsAtZoom = hasLabelsVisibleAtZoom ? gisLayer.labelsVisibleAtZoom
-                                        : (hasVisibleAtZoom ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM) + 1;
+                                    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
                                     const label = processLabel(gisLayer, item, displayLabelsAtZoom, area);
                                     const attributes = {
                                         layerID: gisLayer.id,
