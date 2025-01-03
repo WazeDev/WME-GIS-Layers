@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.01.03.000
+// @version      2025.01.03.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1344,11 +1344,11 @@
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
-    const ALERT_UPDATE = false;
+    const ALERT_UPDATE = true;
     const scriptName = GM_info.script.name;
     const scriptVersion = GM_info.script.version;
     const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
-    const SCRIPT_VERSION_CHANGES = [];
+    const SCRIPT_VERSION_CHANGES = ['Added ability to customize the zoom level that a layer is visible at. Right-click the layer name to display layer settings.'];
     const sdk = await bootstrap({ scriptUpdateMonitor: { downloadUrl } });
     let mapLayer = null;
     let roadLayer = null;
