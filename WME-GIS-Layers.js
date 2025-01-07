@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.01.06.000
+// @version      2025.01.06.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1725,11 +1725,13 @@
 
     function getGisLayerLabelsVisibleAtZoom(gisLayer, layerVisibleAtZoom) {
         let labelsVisibleAtZoom;
+        layerVisibleAtZoom = +layerVisibleAtZoom;
         if (gisLayer.hasOwnProperty('labelsVisibleAtZoom')) {
-            labelsVisibleAtZoom = layerVisibleAtZoom + (layerVisibleAtZoom - gisLayer.labelsVisibleAtZoom);
+            labelsVisibleAtZoom = layerVisibleAtZoom + (+gisLayer.labelsVisibleAtZoom - (+gisLayer.visibleAtZoom ?? DEFAULT_VISIBLE_AT_ZOOM));
         } else {
             labelsVisibleAtZoom = layerVisibleAtZoom + 1;
         }
+        if (labelsVisibleAtZoom < 1) labelsVisibleAtZoom = 1;
         return labelsVisibleAtZoom;
     }
 
