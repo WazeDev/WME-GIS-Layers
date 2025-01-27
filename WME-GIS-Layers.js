@@ -1518,13 +1518,13 @@
             onlyShowApplicableLayers: false,
             selectedStates: [],
             enabled: true,
+            shortcuts: {},
             fillParcels: false,
-            toggleHnsOnlyShortcut: '',
-            toggleEnabledShortcut: '',
             oneTimeAlerts: {},
             layers: {}
         };
         settings = loadedSettings || defaultSettings;
+        if (!settings.shortcuts) settings.shortcuts = {};
         Object.keys(defaultSettings).forEach(prop => {
             if (!settings.hasOwnProperty(prop)) {
                 settings[prop] = defaultSettings[prop];
@@ -1549,32 +1549,9 @@
     }
 
     function saveSettingsToStorage() {
-        // SDK: update once "empty" shortcuts are allowed
-        // Check for existance of action first, due to WME beta issue.
-        if (W.accelerators.Actions.GisLayersAddrDisplay) {
-            let keys = '';
-            const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
-            if (shortcut) {
-                if (shortcut.altKey) keys += 'A';
-                if (shortcut.shiftKey) keys += 'S';
-                if (shortcut.ctrlKey) keys += 'C';
-                if (keys.length) keys += '+';
-                if (shortcut.keyCode) keys += shortcut.keyCode;
-            }
-            settings.toggleHnsOnlyShortcut = keys;
-        }
-        if (W.accelerators.Actions.GisLayersToggleEnabled) {
-            let keys = '';
-            const { shortcut } = W.accelerators.Actions.GisLayersToggleEnabled;
-            if (shortcut) {
-                if (shortcut.altKey) keys += 'A';
-                if (shortcut.shiftKey) keys += 'S';
-                if (shortcut.ctrlKey) keys += 'C';
-                if (keys.length) keys += '+';
-                if (shortcut.keyCode) keys += shortcut.keyCode;
-            }
-            settings.toggleEnabledShortcut = keys;
-        }
+        sdk.Shortcuts.getAllShortcuts().forEach(shortcut => {
+            settings.shortcuts[shortcut.shortcutId] = shortcut.shortcutKeys;
+        });
         settings.lastVersion = scriptVersion;
         localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(settings));
         logDebug('Settings saved');
@@ -2568,6 +2545,19 @@
         return result;
     }
 
+    function createShortcut(shortcutId, description, callback) {
+        let shortcutKeys = settings.shortcuts?.[shortcutId] ?? null;
+        if (shortcutKeys && sdk.Shortcuts.areShortcutKeysInUse({ shortcutKeys })) {
+            shortcutKeys = null;
+        }
+        sdk.Shortcuts.createShortcut({
+            shortcutId,
+            shortcutKeys,
+            description,
+            callback
+        });
+    }
+
     async function init(firstCall = true) {
         _gisLayers = [];
         if (firstCall) {
@@ -2577,24 +2567,8 @@
             initRoadStyle();
             loadSettingsFromStorage();
             installPathFollowingLabels();
-            new WazeWrap.Interface.Shortcut(
-                'GisLayersAddrDisplay',
-                'Toggle HN-only address labels (GIS Layers)',
-                'layers',
-                'layersToggleGisAddressLabelDisplay',
-                settings.toggleHnsOnlyShortcut,
-                onAddressDisplayShortcutKey,
-                null
-            ).add();
-            new WazeWrap.Interface.Shortcut(
-                'GisLayersToggleEnabled',
-                'Toggle display of GIS Layers',
-                'layers',
-                'layersToggleGisLayersEnabled',
-                settings.toggleEnabledShortcut,
-                onToggleGisLayersShortcutKey,
-                null
-            ).add();
+            createShortcut('gisLayersAddrDisplay', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);
+            createShortcut('gisLayersToggleEnabled', 'Toggle display of GIS Layers', onToggleGisLayersShortcutKey);
             window.addEventListener('beforeunload', saveSettingsToStorage, false);
             _layerSettingsDialog = new LayerSettingsDialog();
         }
