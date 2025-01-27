@@ -1523,13 +1523,7 @@
             oneTimeAlerts: {},
             layers: {}
         };
-        settings = loadedSettings || defaultSettings;
-        if (!settings.shortcuts) settings.shortcuts = {};
-        Object.keys(defaultSettings).forEach(prop => {
-            if (!settings.hasOwnProperty(prop)) {
-                settings[prop] = defaultSettings[prop];
-            }
-        });
+        settings = { ...defaultSettings, ...loadedSettings };
 
         settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
             const layerSettings = this.layers[layerID];
