@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.01.06.001
+// @version      2025.02.14.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1348,7 +1348,7 @@
     const scriptName = GM_info.script.name;
     const scriptVersion = GM_info.script.version;
     const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
-    const SCRIPT_VERSION_CHANGES = ['Added ability to customize the zoom level that a layer is visible at. Right-click the layer name to display layer settings.'];
+    const SCRIPT_VERSION_CHANGES = [];
     const sdk = await bootstrap({ scriptUpdateMonitor: { downloadUrl } });
     let mapLayer = null;
     let roadLayer = null;
@@ -2626,7 +2626,7 @@
                     }
                 });
                 const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
-                if (!layerDef.notAllowed && (enabled || layerDef.restrictTo)) {
+                if (!layerDef.notAllowed && enabled) {
                     _gisLayers.push(layerDef);
                 }
             });
