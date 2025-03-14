@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.02.14.000
+// @version      2025.03.14.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1522,7 +1522,7 @@
             x *= shiftAmount;
             y *= shiftAmount;
             this.#shiftLayerFeatures(x, y);
-            const { id } = this._gisLayer;
+            const { id } = this.gisLayer;
             let offset = settings.getLayerSetting(id, 'offset');
             if (!offset) {
                 offset = { x: 0, y: 0 };
@@ -1534,10 +1534,10 @@
         }
 
         #onResetOffsetButtonClick() {
-            const offset = settings.getLayerSetting(this._gisLayer.id, 'offset');
+            const offset = settings.getLayerSetting(this.gisLayer.id, 'offset');
             if (offset) {
                 this.#shiftLayerFeatures(offset.x * -1, offset.y * -1);
-                delete settings.layers[this._gisLayer.id].offset;
+                delete settings.layers[this.gisLayer.id].offset;
                 saveSettingsToStorage();
             }
         }
