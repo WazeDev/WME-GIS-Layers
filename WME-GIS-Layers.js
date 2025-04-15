@@ -2041,9 +2041,6 @@
                 $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
             }
         }
-        if (isPopupVisible) {
-            updatePopup(layerLabels);
-        }
     } // END processFeatures()
 
     function addLabelToLayer(layerName, label) {
@@ -2055,56 +2052,56 @@
 
     function updatePopup(layerLabels) {
         let popup = document.getElementById('layerLabelPopup');
-    
         if (!popup) {
+            // Create the popup if it doesn't exist yet
             popup = document.createElement('div');
             popup.id = 'layerLabelPopup';
-            popup.style = `position: absolute; background: #f9f9f9; border: 2px solid #007bff; border-radius: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
+            popup.style = `position: absolute; background: #f5f5f5; border: 2px solid #007bff; border-radius: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
                 height: 300px; resize: both; overflow: hidden; max-height: 700px; left: ${popupPosition.left}; top: ${popupPosition.top}; `;
             const header = document.createElement('div');
             header.style = `background: #007bff; color: #fff; padding: 5px; cursor: move; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; height: 30px; `;
-    
+            
             const title = document.createElement('span');
             title.innerText = 'GIS-L Layer Labels';
             header.appendChild(title);
-    
+            
             const closeButton = document.createElement('span');
             closeButton.innerText = '×';
             closeButton.style = `cursor: pointer; font-size: 20px; margin-left: 10px; `;
             closeButton.addEventListener('click', () => popup.remove());
             header.appendChild(closeButton);
             popup.appendChild(header);
-    
+            
             const dropdownContainer = document.createElement('div');
             dropdownContainer.style = `margin-bottom: 10px;`;
             popup.appendChild(dropdownContainer);
-    
+            
             const contentContainer = document.createElement('div');
             contentContainer.style = `padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 70px); `;
             popup.appendChild(contentContainer);
-    
+            
             const mapElement = document.getElementById('map');
             if (mapElement) {
                 mapElement.appendChild(popup);
-            } 
+            }
             // Drag Functionality
             header.onmousedown = function(event) {
                 event.preventDefault();
-    
+                
                 const parentRect = mapElement.getBoundingClientRect();
                 const initialX = event.clientX;
                 const initialY = event.clientY;
                 const offsetX = initialX - parentRect.left - popup.offsetLeft;
                 const offsetY = initialY - parentRect.top - popup.offsetTop;
-    
+                
                 document.onmousemove = function(ev) {
                     popup.style.left = (ev.clientX - offsetX - parentRect.left) + 'px';
                     popup.style.top = (ev.clientY - offsetY - parentRect.top) + 'px';
-    
+                    
                     popupPosition.left = popup.style.left;
                     popupPosition.top = popup.style.top;
                 };
-    
+                
                 document.onmouseup = function() {
                     document.onmousemove = null;
                     document.onmouseup = null;
@@ -2119,43 +2116,46 @@
         const select = document.createElement('select');
         select.style = `width: 100%; padding: 5px; border: 1px solid #ccc; `;
     
-        for (const layerName in layerLabels) {
+        // Sort the layer names and populate the dropdown
+        const sortedLayerNames = Object.keys(layerLabels).sort();
+        sortedLayerNames.forEach(layerName => {
             const option = document.createElement('option');
             option.value = layerName;
             option.innerText = layerName;
-            option.style = `border: 1px solid silver; padding: 4px; border-radius: 4px; -webkit-padding-before: 0; `;
             select.appendChild(option);
-        }
-        dropdownContainer.appendChild(select);
-        for (const layerName in layerLabels) {
-            const uniqueLabels = Array.from(layerLabels[layerName]).sort(); //[...new Set(layerLabels[layerName])].sort();
-    
+            
+            const uniqueLabels = Array.from(layerLabels[layerName]).sort();
             const tabContent = document.createElement('div');
-            tabContent.style.display = 'none';
-            tabContent.style.whiteSpace = 'nowrap';
-            tabContent.style.width = '100%';
+            tabContent.style = `display: none; white-space: nowrap; width: 100%;`;
             tabContent.innerHTML = `
                 <ul style="padding-left: 20px; margin-top: 0;">
                 ${uniqueLabels.map(label => `<li style="margin-bottom: 0.3em; color: #555;">${label}</li>`).join('')}
                 </ul>`;
             
             contentContainer.appendChild(tabContent);
+        });
+        dropdownContainer.appendChild(select);
+        // Validate if `popupActiveLayer` exists within the current `sortedLayerNames`
+        let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
+    
+        if (selectedLayerIndex === -1 && select.options.length > 0) {
+            // If the popupActiveLayer is not available in the current layer list
+            selectedLayerIndex = 0;  // Default to the first layer if needed
+            popupActiveLayer = sortedLayerNames[selectedLayerIndex];
         }
+        select.selectedIndex = selectedLayerIndex;
+        // Display the correct content based on the selected layer
+        const allContents = contentContainer.querySelectorAll('div');
+        allContents.forEach((content, index) => {
+            content.style.display = index === selectedLayerIndex ? 'block' : 'none';
+        });
         select.addEventListener('change', () => {
             const allContents = contentContainer.querySelectorAll('div');
-            allContents.forEach(content => content.style.display = 'none');
-            popupActiveLayer = select.value; // Update active layer name
-            const selectedContent = contentContainer.querySelector(`div:nth-child(${select.selectedIndex + 1})`);
-            selectedContent.style.display = 'block';
+            allContents.forEach((content, index) => {
+                content.style.display = index === select.selectedIndex ? 'block' : 'none';
+            });
+            popupActiveLayer = select.value;  // Update the active layer
         });
-        if (popupActiveLayer) {
-            select.value = popupActiveLayer;
-            const selectedContent = contentContainer.querySelector(`div:nth-child(${select.selectedIndex + 1})`);
-            selectedContent.style.display = 'block';
-        } else if (contentContainer.children.length > 0) {
-            popupActiveLayer = select.value; // Default to the first layer
-            contentContainer.children[0].style.display = 'block';
-        }
         popup.style.display = isPopupVisible ? 'block' : 'none';
     }
     
@@ -2212,6 +2212,8 @@
                         filterLayerCheckboxes();
                         logDebug(`Fetching ${layersToFetch.length} layers...`);
                         logDebug(layersToFetch);
+                        let layersProcessedCount = 0; // Track processed layers
+
                         layersToFetch.forEach(gisLayer => {
                             const url = getUrl(extent, gisLayer);
                             GM_xmlhttpRequest({
@@ -2221,6 +2223,11 @@
                                 onload(res2) {
                                     if (res2.status < 400) { // Handle stupid issue where http 4## is considered success
                                         processFeatures($.parseJSON(res2.responseText), res2.context, gisLayer);
+                                        // Update the popup only after all layers have been processed
+                                        layersProcessedCount += 1;
+                                        if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
+                                            updatePopup(layerLabels);
+                                        }
                                     } else {
                                         logDebug(`HTTP request error: ${JSON.stringify(res2)}`);
                                         logError(`Could not fetch layer "${gisLayer.id}". Request returned ${res2.status}`);
