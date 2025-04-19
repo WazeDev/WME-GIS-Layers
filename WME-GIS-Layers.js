@@ -1142,1818 +1142,1818 @@
 /* global W, OpenLayers */
 
 (async function main() {
-  'use strict';
+    'use strict';
 
-  // **************************************************************************************************************
-  // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
-  //            that may cause old code to break.  This # should match the version listed in the spreadsheet
-  //            i.e. update them at the same time.
+    const SHOW_UPDATE_MESSAGE = true;
+    const SCRIPT_VERSION_CHANGES = ['Added a setting to display a popup with layer labels which can be used to copy label text (thanks to JS55CT for creating this!).'];
 
-  // const LAYER_DEF_VERSION = '2018.04.27.001';  // NOT ACTUALLY USED YET
+    // **************************************************************************************************************
+    // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
+    //            that may cause old code to break.  This # should match the version listed in the spreadsheet
+    //            i.e. update them at the same time.
 
-  // **************************************************************************************************************
-  // const UPDATE_MESSAGE = 'Bug fix due to WME update';
-  // const UPDATE_MESSAGE = `<ul>${[
-  //     'Added ability to shift layers. Right click a layer in the list to bring up the layer settings window.'
-  // ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
-  const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
-  // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
-  const SCRIPT_AUTHOR = 'MapOMatic';
-  // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
-  const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/layerDefs';
-  const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
-  const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
-  const DEC = s => atob(atob(s));
-  const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
-  // const COUNTRIES = {
-  //     'United States': {
-  //         sheetId: '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw',
-  //         sheetLayerRange: 'layerDefs'
-  //     }
-  // };
-  const DEFAULT_STYLE = {
-      fillColor: '#000',
-      pointRadius: 4,
-      label: '${label}',
-      strokeColor: '#ffa500',
-      strokeOpacity: '0.95',
-      strokeWidth: 1.5,
-      fontColor: '#ffc520',
-      fontSize: '13',
-      labelOutlineColor: 'black',
-      labelOutlineWidth: 3
-  };
-  const LAYER_STYLES = {
-      cities: {
-          fillOpacity: 0.3,
-          fillColor: '#f65',
-          strokeColor: '#f65',
-          fontColor: '#f62'
-      },
-      forests_parks: {
-          fillOpacity: 0.4,
-          fillColor: '#585',
-          strokeColor: '#484',
-          fontColor: '#8b8'
-      },
-      milemarkers: {
-          strokeColor: '#fff',
-          fontColor: '#fff',
-          fontWeight: 'bold',
-          fillOpacity: 0,
-          labelYOffset: 10,
-          pointRadius: 2,
-          fontSize: 12
-      },
-      parcels: {
-          fillOpacity: 0,
-          fillColor: '#ffa500'
-      },
-      points: {
-          strokeColor: '#000',
-          fontColor: '#0ff',
-          fillColor: '#0ff',
-          labelYOffset: -10,
-          labelAlign: 'ct'
-      },
-      post_offices: {
-          strokeColor: '#000',
-          fontColor: '#f84',
-          fillColor: '#f84',
-          fontWeight: 'bold',
-          labelYOffset: -10,
-          labelAlign: 'ct'
-      },
-      state_parcels: {
-          fillOpacity: 0,
-          strokeColor: '#e62',
-          fillColor: '#e62',
-          fontColor: '#e73'
-      },
-      state_points: {
-          strokeColor: '#000',
-          fontColor: '#3cf',
-          fillColor: '#3cf',
-          labelYOffset: -10,
-          labelAlign: 'ct'
-      },
-      road_labels: {
-          strokeOpacity: 0,
-          fillOpacity: 0,
-          fontColor: '#faf'
-      },
-      structures: {
-          fillOpacity: 0,
-          strokeColor: '#f7f',
-          fontColor: '#f7f'
-      }
-  };
-  let ROAD_STYLE;
-  function initRoadStyle() {
-      // SDK: Need styles that allow parameters
-      ROAD_STYLE = new OpenLayers.Style({
-          pointRadius: 12,
-          fillColor: '#369',
-          pathLabel: '${label}',
-          label: '',
-          fontColor: '#faf',
-          labelSelect: true,
-          pathLabelYOffset: '${getOffset}',
-          pathLabelCurve: '${getSmooth}',
-          pathLabelReadable: '${getReadable}',
-          labelAlign: '${getAlign}',
-          labelOutlineWidth: 3,
-          labelOutlineColor: '#000',
-          strokeWidth: 3,
-          stroke: true,
-          strokeColor: '#f0f',
-          strokeOpacity: 0.4,
-          fontWeight: 'bold',
-          fontSize: 11
-      }, {
-          context: {
-              getOffset() { return -(sdk.Map.getZoomLevel() + 5); },
-              getSmooth() { return ''; },
-              getReadable() { return '1'; },
-              getAlign() { return 'cb'; }
-          }
-      });
-  }
+    // const LAYER_DEF_VERSION = '2018.04.27.001';  // NOT ACTUALLY USED YET
 
-  // eslint-disable-next-line no-unused-vars
-  const _regexReplace = {
-      // Strip leading zeros or blank full label for any label starting with a non-digit or
-      // is a Zero Address, use with '' as replace.
-      r0: /^(0+(\s.*)?|\D.*)/,
-      // Strip Everything After Street Type to end of the string by use $1 and $2 capture
-      // groups, use with replace '$1$2'
-      // eslint-disable-next-line max-len
-      r1: /^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi,
-      // Strip SPACE 5 Digits from end of string, use with replace ''
-      r2: /\s\d{5}$/,
-      // Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
-      r3: /(~|,|;|\s?\r\n).*$/,
-      // Move the digits after the last space to before the rest of the string using, use with
-      // replace '$2 $1'
-      r4: /^(.*)\s(\d+).*/,
-      // Insert newline between digits (including "-") and everything after the digits,
-      // except(and before) a ",", use with replace '$1\n$2'
-      r5: /^([-\d]+)\s+([^,]+).*/,
-      // Insert newline between digits and everything after the digits, use with
-      // replace '$1\n$2'
-      r6: /^(\d+)\s+(.*)/
-  };
+    // **************************************************************************************************************
+    // const UPDATE_MESSAGE = 'Bug fix due to WME update';
+    // const UPDATE_MESSAGE = `<ul>${[
+    //     'Added ability to shift layers. Right click a layer in the list to bring up the layer settings window.'
+    // ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
+    const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
+    // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
+    const SCRIPT_AUTHOR = 'MapOMatic';
+    // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
+    const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/layerDefs';
+    const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
+    const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
+    const DEC = s => atob(atob(s));
+    const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
+    // const COUNTRIES = {
+    //     'United States': {
+    //         sheetId: '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw',
+    //         sheetLayerRange: 'layerDefs'
+    //     }
+    // };
+    const DEFAULT_STYLE = {
+        fillColor: '#000',
+        pointRadius: 4,
+        label: '${label}',
+        strokeColor: '#ffa500',
+        strokeOpacity: '0.95',
+        strokeWidth: 1.5,
+        fontColor: '#ffc520',
+        fontSize: '13',
+        labelOutlineColor: 'black',
+        labelOutlineWidth: 3
+    };
+    const LAYER_STYLES = {
+        cities: {
+            fillOpacity: 0.3,
+            fillColor: '#f65',
+            strokeColor: '#f65',
+            fontColor: '#f62'
+        },
+        forests_parks: {
+            fillOpacity: 0.4,
+            fillColor: '#585',
+            strokeColor: '#484',
+            fontColor: '#8b8'
+        },
+        milemarkers: {
+            strokeColor: '#fff',
+            fontColor: '#fff',
+            fontWeight: 'bold',
+            fillOpacity: 0,
+            labelYOffset: 10,
+            pointRadius: 2,
+            fontSize: 12
+        },
+        parcels: {
+            fillOpacity: 0,
+            fillColor: '#ffa500'
+        },
+        points: {
+            strokeColor: '#000',
+            fontColor: '#0ff',
+            fillColor: '#0ff',
+            labelYOffset: -10,
+            labelAlign: 'ct'
+        },
+        post_offices: {
+            strokeColor: '#000',
+            fontColor: '#f84',
+            fillColor: '#f84',
+            fontWeight: 'bold',
+            labelYOffset: -10,
+            labelAlign: 'ct'
+        },
+        state_parcels: {
+            fillOpacity: 0,
+            strokeColor: '#e62',
+            fillColor: '#e62',
+            fontColor: '#e73'
+        },
+        state_points: {
+            strokeColor: '#000',
+            fontColor: '#3cf',
+            fillColor: '#3cf',
+            labelYOffset: -10,
+            labelAlign: 'ct'
+        },
+        road_labels: {
+            strokeOpacity: 0,
+            fillOpacity: 0,
+            fontColor: '#faf'
+        },
+        structures: {
+            fillOpacity: 0,
+            strokeColor: '#f7f',
+            fontColor: '#f7f'
+        }
+    };
+    let ROAD_STYLE;
+    function initRoadStyle() {
+        // SDK: Need styles that allow parameters
+        ROAD_STYLE = new OpenLayers.Style({
+            pointRadius: 12,
+            fillColor: '#369',
+            pathLabel: '${label}',
+            label: '',
+            fontColor: '#faf',
+            labelSelect: true,
+            pathLabelYOffset: '${getOffset}',
+            pathLabelCurve: '${getSmooth}',
+            pathLabelReadable: '${getReadable}',
+            labelAlign: '${getAlign}',
+            labelOutlineWidth: 3,
+            labelOutlineColor: '#000',
+            strokeWidth: 3,
+            stroke: true,
+            strokeColor: '#f0f',
+            strokeOpacity: 0.4,
+            fontWeight: 'bold',
+            fontSize: 11
+        }, {
+            context: {
+                getOffset() { return -(sdk.Map.getZoomLevel() + 5); },
+                getSmooth() { return ''; },
+                getReadable() { return '1'; },
+                getAlign() { return 'cb'; }
+            }
+        });
+    }
 
-  let _gisLayers = [];
+    // eslint-disable-next-line no-unused-vars
+    const _regexReplace = {
+        // Strip leading zeros or blank full label for any label starting with a non-digit or
+        // is a Zero Address, use with '' as replace.
+        r0: /^(0+(\s.*)?|\D.*)/,
+        // Strip Everything After Street Type to end of the string by use $1 and $2 capture
+        // groups, use with replace '$1$2'
+        // eslint-disable-next-line max-len
+        r1: /^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi,
+        // Strip SPACE 5 Digits from end of string, use with replace ''
+        r2: /\s\d{5}$/,
+        // Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
+        r3: /(~|,|;|\s?\r\n).*$/,
+        // Move the digits after the last space to before the rest of the string using, use with
+        // replace '$2 $1'
+        r4: /^(.*)\s(\d+).*/,
+        // Insert newline between digits (including "-") and everything after the digits,
+        // except(and before) a ",", use with replace '$1\n$2'
+        r5: /^([-\d]+)\s+([^,]+).*/,
+        // Insert newline between digits and everything after the digits, use with
+        // replace '$1\n$2'
+        r6: /^(\d+)\s+(.*)/
+    };
 
-  const _layerRefinements = [
-      {
-          id: 'us-post-offices',
-          labelHeaderFields: ['LOCALE_NAME']
-      }
-  ];
+    let _gisLayers = [];
 
-  const STATES = {
-      _states: [
-          ['US (Country)', 'US', -1], ['Alabama', 'AL', 1], ['Alaska', 'AK', 2],
-          ['American Samoa', 'AS', 60], ['Arizona', 'AZ', 4], ['Arkansas', 'AR', 5],
-          ['California', 'CA', 6], ['Colorado', 'CO', 8], ['Connecticut', 'CT', 9],
-          ['Delaware', 'DE', 10], ['District of Columbia', 'DC', 11], ['Florida', 'FL', 12],
-          ['Georgia', 'GA', 13], ['Guam', 'GU', 66], ['Hawaii', 'HI', 15], ['Idaho', 'ID', 16],
-          ['Illinois', 'IL', 17], ['Indiana', 'IN', 18], ['Iowa', 'IA', 19],
-          ['Kansas', 'KS', 20], ['Kentucky', 'KY', 21], ['Louisiana', 'LA', 22],
-          ['Maine', 'ME', 23], ['Maryland', 'MD', 24], ['Massachusetts', 'MA', 25],
-          ['Michigan', 'MI', 26], ['Minnesota', 'MN', 27], ['Mississippi', 'MS', 28],
-          ['Missouri', 'MO', 29], ['Montana', 'MT', 30], ['Nebraska', 'NE', 31],
-          ['Nevada', 'NV', 32], ['New Hampshire', 'NH', 33], ['New Jersey', 'NJ', 34],
-          ['New Mexico', 'NM', 35], ['New York', 'NY', 36], ['North Carolina', 'NC', 37],
-          ['North Dakota', 'ND', 38], ['Northern Mariana Islands', 'MP', 69], ['Ohio', 'OH', 39],
-          ['Oklahoma', 'OK', 40], ['Oregon', 'OR', 41], ['Pennsylvania', 'PA', 42],
-          ['Puerto Rico', 'PR', 72], ['Rhode Island', 'RI', 44], ['South Carolina', 'SC', 45],
-          ['South Dakota', 'SD', 46], ['Tennessee', 'TN', 47], ['Texas', 'TX', 48],
-          ['Utah', 'UT', 49], ['Vermont', 'VT', 50], ['Virgin Islands', 'VI', 78],
-          ['Virginia', 'VA', 51], ['Washington', 'WA', 53], ['West Virginia', 'WV', 54],
-          ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56]
-      ],
-      toAbbr(fullName) { return this._states.find(a => a[0] === fullName)[1]; },
-      toFullName(abbr) { return this._states.find(a => a[1] === abbr)[0]; },
-      toFullNameArray() { return this._states.map(a => a[0]); },
-      toAbbrArray() { return this._states.map(a => a[1]); },
-      fromId(id) { return this._states.find(a => a[2] === id); }
-  };
-  const DEFAULT_VISIBLE_AT_ZOOM = 18;
-  const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
-  const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
-  const ALERT_UPDATE = false;
-  const scriptName = GM_info.script.name;
-  const scriptVersion = GM_info.script.version;
-  const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
-  const SCRIPT_VERSION_CHANGES = [];
-  const sdk = await bootstrap({ scriptUpdateMonitor: { downloadUrl } });
-  let mapLayer = null;
-  let roadLayer = null;
-  let settings = {};
-  let ignoreFetch = false;
-  let lastToken = {};
-  let userInfo;
-
-  // Variables to store Label popup position and selected layer
-  const layerLabels = {};
-  let isPopupVisible = null;
-  let popupPosition = { left: '50%', top: '50%' };
-  let popupActiveLayer = null;
-  let useAcronyms = false;
-  let useTitleCase = false;
-  let useStateHwy = false;
-  let removeNewLines = false;
-
-  const DEBUG = true;
-  // function log(message) { console.log('GIS Layers:', message); }
-  function logError(message) { console.error(`${scriptName}:`, message); }
-  function logDebug(message) { if (DEBUG) console.debug(`${scriptName}:`, message); }
-  // function logWarning(message) { console.warn('GIS Layers:', message); }
-
-  let _layerSettingsDialog;
-
-  class LayerSettingsDialog {
-      #gisLayer;
-      #minVisibleAtZoom = 12;
-      #maxVisibleAtZoom = 22;
-      #titleText;
-      #shiftUpButton;
-      #visibleAtZoomInput;
-
-      constructor() {
-          this.#titleText = $('<span>');
-          const closeButton = $('<span>', {
-              style: 'cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;',
-              class: 'fa fa-window-close'
-          }).click(() => this.#onCloseButtonClick());
-          const shiftUpButton = LayerSettingsDialog.#createShiftButton('fa-angle-up').click(() => this.#onShiftButtonClick(0, 1));
-          const shiftLeftButton = LayerSettingsDialog.#createShiftButton('fa-angle-left').click(() => this.#onShiftButtonClick(-1, 0));
-          const shiftRightButton = LayerSettingsDialog.#createShiftButton('fa-angle-right').click(() => this.#onShiftButtonClick(1, 0));
-          const shiftDownButton = LayerSettingsDialog.#createShiftButton('fa-angle-down').click(() => this.#onShiftButtonClick(0, -1));
-          const resetOffsetButton = $('<button>', {
-              class: 'form-control',
-              style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px; display: inline-block; float: right;'
-          }).text('Reset').click(() => this.#onResetOffsetButtonClick());
-
-          this._dialogDiv = $('<div>', {
-              style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid;'
-                  + 'border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
-          }).append($('<div>').append( // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
-              // HEADER
-              $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(
-                  closeButton,
-                  this.#titleText
-              ),
-              // BODY
-              $('<div>').append(
-                  $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
-                      resetOffsetButton,
-                      $('<input>', {
-                          type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked'
-                      }),
-                      $('<label>', { for: 'gisLayerShiftAmt1' }).text('1m'),
-                      $('<input>', {
-                          type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left: 6px'
-                      }),
-                      $('<label>', { for: 'gisLayerShiftAmt10' }).text('10m'),
-                      $('<div>', { style: 'padding: 4px' }).append(
-                          $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
-                              $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                                  $('<td>', { align: 'center' }),
-                                  $('<td>', { align: 'center' }).append(shiftUpButton),
-                                  $('<td>', { align: 'center' })
-                              ),
-                              $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                                  $('<td>', { align: 'center' }).append(shiftLeftButton),
-                                  $('<td>', { align: 'center' }),
-                                  $('<td>', { align: 'center' }).append(shiftRightButton)
-                              ),
-                              $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                                  $('<td>', { align: 'center' }),
-                                  $('<td>', { align: 'center' }).append(shiftDownButton),
-                                  $('<td>', { align: 'center' })
-                              )
-                          )
-                      )
-                  ),
-                  $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color: #d6e6f3; display: inline-block; margin-right: 5px; margin-top: 2px;' }).append(
-                      $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 4px;' }).append(
-                          $('<button>', { class: 'form-control', style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px;' })
-                              .text('Reset')
-                              .click(this.#onResetVisibleAtZoomClick.bind(this))
-                      ),
-                      $('<div>').append(
-                          $('<label>', { for: 'visible-at-zoom-input' }).text('Visible at zoom:'),
-                          this.#visibleAtZoomInput = $('<input>', {
-                              type: 'number',
-                              id: 'visible-at-zoom-input',
-                              min: this.#minVisibleAtZoom,
-                              max: this.#maxVisibleAtZoom,
-                              style: 'margin-left: 4px;'
-                          }).change(v => this.#onVisibleAtZoomChange(v))
-                      ),
-                      $('<div>', { style: 'font-size: 13px; color: gray' }).text('Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.')
-                  )
-              )
-          ));
-
-          this.hide();
-          this._dialogDiv.appendTo('body');
-
-          if (typeof jQuery.ui !== 'undefined') {
-              const that = this;
-              this._dialogDiv.draggable({
-                  // Gotta nuke the height setting the dragging inserts otherwise the panel cannot dynamically resize
-                  stop() { that._dialogDiv.css('height', ''); }
-              });
-          }
-      }
-
-      get gisLayer() {
-          return this.#gisLayer;
-      }
-
-      set gisLayer(value) {
-          if (value !== this.#gisLayer) {
-              this.#gisLayer = value;
-              this.#titleText.text(this.#gisLayer.name);
-              this.#initVisibleAtZoomInput();
-          }
-      }
-
-      #initVisibleAtZoomInput() {
-          this.#visibleAtZoomInput.val(getGisLayerVisibleAtZoom(this.#gisLayer));
-      }
-
-      // eslint-disable-next-line class-methods-use-this
-      getShiftAmount() {
-          return $('input[name=gisLayerShiftAmt]:checked').val();
-      }
-
-      show() {
-          this._dialogDiv.show();
-      }
-
-      hide() {
-          this._dialogDiv.hide();
-      }
-
-      #onResetVisibleAtZoomClick() {
-          settings.removeLayerSetting(this.#gisLayer.id, 'visibleAtZoom');
-          this.#initVisibleAtZoomInput();
-      }
-
-      #onCloseButtonClick() {
-          this.hide();
-      }
-
-      #onVisibleAtZoomChange() {
-          const min = this.#minVisibleAtZoom;
-          const max = this.#maxVisibleAtZoom;
-          let value = parseInt(this.#visibleAtZoomInput.val(), 10);
-
-          if (value < min) {
-              value = min;
-              this.#visibleAtZoomInput.val(value);
-          } else if (value > max) {
-              value = max;
-              this.#visibleAtZoomInput.val(value);
-          }
-
-          settings.setLayerSetting(this.#gisLayer.id, 'visibleAtZoom', value);
-          saveSettingsToStorage();
-      }
-
-      #onShiftButtonClick(x, y) {
-          const shiftAmount = this.getShiftAmount();
-          x *= shiftAmount;
-          y *= shiftAmount;
-          this.#shiftLayerFeatures(x, y);
-          const { id } = this.gisLayer;
-          let offset = settings.getLayerSetting(id, 'offset');
-          if (!offset) {
-              offset = { x: 0, y: 0 };
-              settings.setLayerSetting(id, 'offset', offset);
-          }
-          offset.x += x;
-          offset.y += y;
-          saveSettingsToStorage();
-      }
-
-      #onResetOffsetButtonClick() {
-          const offset = settings.getLayerSetting(this.gisLayer.id, 'offset');
-          if (offset) {
-              this.#shiftLayerFeatures(offset.x * -1, offset.y * -1);
-              delete settings.layers[this.gisLayer.id].offset;
-              saveSettingsToStorage();
-          }
-      }
-
-      #shiftLayerFeatures(x, y) {
-          const layer = this.gisLayer.isRoadLayer ? roadLayer : mapLayer;
-          layer.getFeaturesByAttribute('layerID', this.gisLayer.id).forEach(f => f.geometry.move(x, y));
-          layer.redraw();
-      }
-
-      static #createShiftButton(fontAwesomeClass) {
-          return $('<button>', {
-              class: 'form-control',
-              style: 'cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;'
-          }).append(
-              $('<i>', { class: 'fa', style: 'vertical-align: super' }).addClass(fontAwesomeClass)
-          );
-      }
-  }
-
-  function loadSettingsFromStorage() {
-      const loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
-      const defaultSettings = {
-          lastVersion: null,
-          visibleLayers: [],
-          onlyShowApplicableLayers: false,
-          selectedStates: [],
-          enabled: true,
-          fillParcels: false,
-          toggleHnsOnlyShortcut: '',
-          toggleEnabledShortcut: '',
-          oneTimeAlerts: {},
-          layers: {},
-          isPopupVisible: false,
-          useAcronyms: false,
-          useTitleCase: false,
-          useStateHwy: false,
-          removeNewLines: false,
-        };
-      settings = loadedSettings || defaultSettings;
-      useAcronyms = settings.useAcronyms;
-      useTitleCase = settings.useTitleCase;
-      useStateHwy = settings.useStateHwy;
-      removeNewLines = settings.removeNewLines;
-      Object.keys(defaultSettings).forEach(prop => {
-          if (!settings.hasOwnProperty(prop)) {
-              settings[prop] = defaultSettings[prop];
-          }
-      });
-      isPopupVisible = settings.isPopupVisible;
-      settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
-          const layerSettings = this.layers[layerID];
-          if (!layerSettings) {
-              return undefined;
-          }
-          return layerSettings[settingName];
-      };
-      settings.setLayerSetting = function setLayerSetting(layerID, settingName, value) {
-          let layerSettings = this.layers[layerID];
-          if (!layerSettings) {
-              layerSettings = {};
-              this.layers[layerID] = layerSettings;
-          }
-          layerSettings[settingName] = value;
-      };
-      settings.removeLayerSetting = function removeLayerSetting(layerID, settingName) {
-          const layerSettings = this.layers[layerID];
-          if (layerSettings) {
-              delete layerSettings[settingName];
-          }
-      };
-  }
-
-  function saveSettingsToStorage() {
-      // SDK: update once "empty" shortcuts are allowed
-      // Check for existance of action first, due to WME beta issue.
-      if (W.accelerators.Actions.GisLayersAddrDisplay) {
-          let keys = '';
-          const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
-          if (shortcut) {
-              if (shortcut.altKey) keys += 'A';
-              if (shortcut.shiftKey) keys += 'S';
-              if (shortcut.ctrlKey) keys += 'C';
-              if (keys.length) keys += '+';
-              if (shortcut.keyCode) keys += shortcut.keyCode;
-          }
-          settings.toggleHnsOnlyShortcut = keys;
-      }
-      if (W.accelerators.Actions.GisLayersToggleEnabled) {
-          let keys = '';
-          const { shortcut } = W.accelerators.Actions.GisLayersToggleEnabled;
-          if (shortcut) {
-              if (shortcut.altKey) keys += 'A';
-              if (shortcut.shiftKey) keys += 'S';
-              if (shortcut.ctrlKey) keys += 'C';
-              if (keys.length) keys += '+';
-              if (shortcut.keyCode) keys += shortcut.keyCode;
-          }
-          settings.toggleEnabledShortcut = keys;
-      }
-      settings.lastVersion = scriptVersion;
-      settings.isPopupVisible = isPopupVisible;
-      settings.useAcronyms = useAcronyms;
-      settings.useTitleCase = useTitleCase;
-      settings.useStateHwy = useStateHwy;
-      settings.removeNewLines = removeNewLines;
-      localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(settings));
-      logDebug('Settings saved');
-  }
-
-  function getUrl(extent, gisLayer) {
-      // if (gisLayer.spatialReference) {
-      //     const proj = new OpenLayers.Projection(`EPSG:${gisLayer.spatialReference}`);
-      //     extent.transform(W.map.getProjectionObject(), proj);
-      // }
-      const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
-      const geometry = {
-          xmin: extent[0] - layerOffset.x,
-          ymin: extent[1] - layerOffset.y,
-          xmax: extent[2] - layerOffset.x,
-          ymax: extent[3] - layerOffset.y,
-          spatialReference: {
-              wkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 102100,
-              latestWkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 3857
-          }
-      };
-      const geometryStr = JSON.stringify(geometry);
-      let fields = gisLayer.labelFields;
-      if (gisLayer.labelHeaderFields) {
-          fields = fields.concat(gisLayer.labelHeaderFields);
-      }
-      if (gisLayer.distinctFields) {
-          fields = fields.concat(gisLayer.distinctFields);
-      }
-      let url = `${gisLayer.url}/query?geometry=${encodeURIComponent(geometryStr)}`;
-      url += gisLayer.token ? `&token=${gisLayer.token}` : '';
-      url += `&outFields=${encodeURIComponent(fields.join(','))}`;
-      url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
-      url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '102100'}`;
-      url += '&outSR=3857&f=json';
-      url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
-
-      logDebug(`Request URL: ${url}`);
-      return url;
-  }
-
-  function hashString(value) {
-      let hash = 0;
-      if (value.length === 0) return hash;
-      for (let i = 0; i < value.length; i++) {
-          const chr = value.charCodeAt(i);
-          // eslint-disable-next-line no-bitwise
-          hash = ((hash << 5) - hash) + chr;
-          // eslint-disable-next-line no-bitwise
-          hash |= 0; // Convert to 32bit integer
-      }
-      return hash;
-  }
-
-  function getMercatorMapExtent() {
-      const wgs84Extent = sdk.Map.getMapExtent();
-      const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]];
-      const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
-      const mercatorLeftBottom = turf.toMercator(wgs84LeftBottom);
-      const mercatorRightTop = turf.toMercator(wgs84RightTop);
-      return [mercatorLeftBottom[0], mercatorLeftBottom[1], mercatorRightTop[0], mercatorRightTop[1]];
-  }
-
-  function getArcGisMapExtentGeometry() {
-      const extent = getMercatorMapExtent();
-      const geometry = {
-          xmin: extent[0],
-          ymin: extent[1],
-          xmax: extent[2],
-          ymax: extent[3],
-          spatialReference: {
-              wkid: 102100,
-              latestWkid: 3857
-          }
-      };
-      return geometry;
-  }
-
-  function getCountiesUrl() {
-      const geometry = getArcGisMapExtentGeometry();
-      const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
-      return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects`
-          + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
-  }
-
-  let _countiesInExtent = [];
-
-  function getGisLayerVisibleAtZoom(gisLayer) {
-      const overrideVisibleAtZoom = settings.getLayerSetting(gisLayer.id, 'visibleAtZoom');
-      if (overrideVisibleAtZoom) return overrideVisibleAtZoom;
-      return (gisLayer.hasOwnProperty('visibleAtZoom')
-          ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
-  }
-
-  function getGisLayerLabelsVisibleAtZoom(gisLayer, layerVisibleAtZoom) {
-      let labelsVisibleAtZoom;
-      layerVisibleAtZoom = +layerVisibleAtZoom;
-      if (gisLayer.hasOwnProperty('labelsVisibleAtZoom')) {
-          labelsVisibleAtZoom = layerVisibleAtZoom + (+gisLayer.labelsVisibleAtZoom - (+gisLayer.visibleAtZoom ?? DEFAULT_VISIBLE_AT_ZOOM));
-      } else {
-          labelsVisibleAtZoom = layerVisibleAtZoom + 1;
-      }
-      if (labelsVisibleAtZoom < 1) labelsVisibleAtZoom = 1;
-      return labelsVisibleAtZoom;
-  }
-
-  function getFetchableLayers(getInvisible) {
-      const zoom = sdk.Map.getZoomLevel();
-      if (zoom < 12) return [];
-      return _gisLayers.filter(gisLayer => {
-          const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-          const isVisible = (getInvisible || settings.visibleLayers.includes(gisLayer.id))
-              && settings.selectedStates.includes(gisLayer.state);
-          const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
-          // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-          const isValidZoom = getInvisible || zoom >= getGisLayerVisibleAtZoom(gisLayer);
-          return isValidUrl && isInState && isVisible && isValidZoom;
-      });
-  }
-
-  function filterLayerCheckboxes() {
-      const applicableLayers = getFetchableLayers(true).filter(layer => {
-          const hasCounties = layer.hasOwnProperty('counties');
-          return (hasCounties && layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
-              && layer.state === county.stateInfo[1]))) || !hasCounties;
-      });
-      const statesToHide = STATES.toAbbrArray();
-
-      _gisLayers.forEach(gisLayer => {
-          const id = `#gis-layer-${gisLayer.id}-container`;
-          if (!settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
-              $(id).show();
-              $(`#gis-layers-for-${gisLayer.state}`).show();
-              const idx = statesToHide.indexOf(gisLayer.state);
-              if (idx > -1) statesToHide.splice(idx, 1);
-          } else {
-              $(id).hide();
-          }
-      });
-      if (settings.onlyShowApplicableLayers) {
-          statesToHide.forEach(st => $(`#gis-layers-for-${st}`).hide());
-      }
-  }
-
-  const ROAD_ABBR = [
-      [/\bAVENUE$/, 'AVE'], [/\bCIRCLE$/, 'CIR'], [/\bCOURT$/, 'CT'], [/\bDRIVE$/, 'DR'],
-      [/\bLANE$/, 'LN'], [/\bPARK$/, 'PK'], [/\bPLACE$/, 'PL'], [/\bROAD$/, 'RD'], [/\bSTREET$/, 'ST'],
-      [/\bTERRACE$/, 'TER']
-  ];
-
-  const labelProcessingGlobalVariables = {
-      Number,
-      Math,
-      Boolean,
-      parseInt,
-      Date,
-      _regexReplace: {
-          // Strip leading zeros or blank full label for any label starting with a non-digit or
-          // is a Zero Address, use with '' as replace.
-          r0: /^(0+(\s.*)?|\D.*)/,
-          // Strip Everything After Street Type to end of the string by use $1 and $2 capture
-          // groups, use with replace '$1$2'
-          // eslint-disable-next-line max-len
-          r1: /^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi,
-          // Strip SPACE 5 Digits from end of string, use with replace ''
-          r2: /\s\d{5}$/,
-          // Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
-          r3: /(~|,|;|\s?\r\n).*$/,
-          // Move the digits after the last space to before the rest of the string using, use with
-          // replace '$2 $1'
-          r4: /^(.*)\s(\d+).*/,
-          // Insert newline between digits (including "-") and everything after the digits,
-          // except(and before) a ",", use with replace '$1\n$2'
-          r5: /^([-\d]+)\s+([^,]+).*/,
-          // Insert newline between digits and everything after the digits, use with
-          // replace '$1\n$2'
-          r6: /^(\d+)\s+(.*)/
-      }
-  };
-
-  function processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine = false) {
-      let label = '';
-      if (gisLayer.labelHeaderFields) {
-          label = `${gisLayer.labelHeaderFields.map(
-              fieldName => item.attributes[fieldName]
-          ).join(' ').trim()}\n`;
-      }
-      if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 5000) {
-          label += gisLayer.labelFields.map(
-              fieldName => item.attributes[fieldName]
-          ).join(' ').trim();
-          if (gisLayer.processLabel) {
-              if (gisLayer.labelProcessingError) {
-                  label = 'ERROR';
-              } else {
-                  labelProcessingGlobalVariables.label = label;
-                  labelProcessingGlobalVariables.fieldValues = item.attributes;
-                  const result = ESTreeProcessor.execute(gisLayer.processLabel, labelProcessingGlobalVariables);
-                  label = result.output?.trim() ?? '';
-              }
-          }
-      }
-
-      if (!isPolyLine) {
-          if (label && [
-              LAYER_STYLES.points, LAYER_STYLES.parcels, LAYER_STYLES.state_points,
-              LAYER_STYLES.state_parcels
-          ].includes(gisLayer.style)) {
-              if (settings.addrLabelDisplay === 'hn') {
-                  const m = label.match(/^\d+/);
-                  label = m ? m[0] : '';
-              } else if (settings.addrLabelDisplay === 'street') {
-                  const m = label.match(/^(?:\d+\s)?(.*)/);
-                  label = m ? m[1].trim() : '';
-              }
-              else if (settings.addrLabelDisplay === 'none') {
-                  label = '';
-              }
-          }
-      }
-      return label;
-  }
-  function processFeatures(data, token, gisLayer) {
-      const features = [];
-      if (data.skipIt) {
-          // do nothing
-      } else if (data.error) {
-          logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
-      } else {
-          const items = data.features || [];
-          if (!token.cancel) {
-              let error = false;
-              const distinctValues = [];
-              items.forEach(item => {
-                  let skipIt = false;
-                  if (!token.cancel && !error) {
-                      let feature;
-                      let featureGeometry;
-                      let area;
-                      if (gisLayer.distinctFields) {
-                          if (distinctValues.some(v => gisLayer.distinctFields.every(
-                              fld => v[fld] === item.attributes[fld]
-                          ))) {
-                              skipIt = true;
-                          } else {
-                              const dist = {};
-                              gisLayer.distinctFields.forEach(fld => (dist[fld] = item.attributes[fld]));
-                              distinctValues.push(dist);
-                          }
-                      }
-                      if (!skipIt) {
-                          let isPolyLine = false;
-                          const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
-                          if (item.geometry) {
-                              if (item.geometry.x) {
-                                  featureGeometry = new OpenLayers.Geometry.Point(
-                                      item.geometry.x + layerOffset.x,
-                                      item.geometry.y + layerOffset.y
-                                  );
-                                  // SDK
-                                  // featureGeometry = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
-                                  // featureGeometry = turf.toWgs84(featureGeometry);
-                              } else if (item.geometry.points) {
-                                  // @TODO Fix for multiple points instead of just grabbing first.
-                                  featureGeometry = new OpenLayers.Geometry.Point(
-                                      item.geometry.points[0][0] + layerOffset.x,
-                                      item.geometry.points[0][1] + layerOffset.y
-                                  );
-                              } else if (item.geometry.rings) {
-                                  const rings = [];
-                                  item.geometry.rings.forEach(ringIn => {
-                                      const pnts = [];
-                                      for (let i = 0; i < ringIn.length; i++) {
-                                          pnts.push(new OpenLayers.Geometry.Point(
-                                              ringIn[i][0] + layerOffset.x,
-                                              ringIn[i][1] + layerOffset.y
-                                          ));
-                                      }
-                                      rings.push(new OpenLayers.Geometry.LinearRing(pnts));
-                                  });
-                                  featureGeometry = new OpenLayers.Geometry.Polygon(rings);
-                                  if (gisLayer.areaToPoint) {
-                                      featureGeometry = featureGeometry.getCentroid();
-                                  } else {
-                                      area = featureGeometry.getArea();
-                                  }
-                              } else if (data.geometryType === 'esriGeometryPolyline') {
-                                  // We have to handle polylines differently since each item can have multiple features.
-                                  // In terms of ArcGIS, each feature's geometry can have multiple paths.  For instance
-                                  // a single road can be broken into parts that are physically not connected to each other.
-
-                                  const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
-                                  const label = processLabel(gisLayer, item, displayLabelsAtZoom, area, true);
-
-                                  // Use Turf library to clip the geometry to the screen bounds.
-                                  // This allows labels to stay in view on very long roads.
-                                  const mls = turf.multiLineString(item.geometry.paths);
-                                  const e = getMercatorMapExtent();
-                                  const bbox = [e.left, e.bottom, e.right, e.top];
-                                  const clipped = turf.bboxClip(mls, bbox);
-                                  if (clipped.geometry.type === 'LineString') {
-                                      item.geometry.paths = [clipped.geometry.coordinates];
-                                  } else if (clipped.geometry.type === 'MultiLineString') {
-                                      item.geometry.paths = clipped.geometry.coordinates;
-                                  }
-
-                                  item.geometry.paths.forEach(path => {
-                                      const pointList = [];
-                                      path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(
-                                          point[0] + layerOffset.x,
-                                          point[1] + layerOffset.y
-                                      )));
-                                      featureGeometry = new OpenLayers.Geometry.LineString(pointList);
-                                      featureGeometry.skipDupeCheck = true;
-
-                                      const attributes = {
-                                          layerID: gisLayer.id,
-                                          label
-                                      };
-
-                                      const lineFeature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
-                                      features.push(lineFeature);
-                                      if (isPopupVisible) {
-                                          addLabelToLayer(gisLayer.name, label);
-                                      }
-                                  });
-                                  isPolyLine = true;
-                              } else {
-                                  logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
-                                  logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
-                                  error = true;
-                              }
-                              if (!error && !isPolyLine && featureGeometry) {
-                                  const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
-                                  const label = processLabel(gisLayer, item, displayLabelsAtZoom, area);
-                                  const attributes = {
-                                      layerID: gisLayer.id,
-                                      label
-                                  };
-                                  // SDK
-                                  // featureGeometry.id = gisLayer.id;
-                                  // featureGeometry.properties = attributes;
-                                  // features.push(featureGeometry);
-                                  feature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
-                                  features.push(feature);
-                                  if (isPopupVisible) {
-                                      addLabelToLayer(gisLayer.name, label);
-                                  }
-                              }
-                          }
-                      }
-                  }
-              });
-          }
-      }
-      if (!token.cancel) {
-          // Check for duplicate geometries.
-          for (let i = 0; i < features.length; i++) {
-              const f1 = features[i];
-              if (!f1.geometry.skipDupeCheck) {
-                  const c1 = f1.geometry.getCentroid();
-                  let labels = [f1.attributes.label];
-                  for (let j = i + 1; j < features.length; j++) {
-                      const f2 = features[j];
-                      if (!f2.geometry.skipDupeCheck && f2.geometry.getCentroid().distanceTo(c1) < 1) {
-                          features.splice(j, 1);
-                          labels.push(f2.attributes.label);
-                          j--;
-                      }
-                  }
-                  labels = _.uniq(labels);
-                  if (labels.length > 1) {
-                      labels.forEach((label, idx) => {
-                          label = label.replace(/\n/g, ' ').replace(/\s{2,}/, ' ').replace(/\bUNIT\s.{1,5}$/i, '').trim();
-                          ROAD_ABBR.forEach(abbr => (label = label.replace(abbr[0], abbr[1])));
-                          labels[idx] = label;
-                      });
-                      labels = _.uniq(labels);
-                      labels.sort();
-                      if (labels.length > 12) {
-                          const len = labels.length;
-                          labels = labels.slice(0, 10);
-                          labels.push(`(${len - 10} more...)`);
-                      }
-                      f1.attributes.label = _.uniq(labels).join('\n');
-                  } else {
-                      let { label } = f1.attributes;
-                      ROAD_ABBR.forEach(abbr => (label = label.replace(abbr[0], abbr[1])));
-                      f1.attributes.label = label;
-                  }
-              }
-          }
-
-          // SDK: Swap this when ready.
-          const layer = gisLayer.isRoadLayer ? roadLayer : mapLayer;
-          layer.removeFeatures(layer.getFeaturesByAttribute('layerID', gisLayer.id));
-          layer.addFeatures(features);
-          // sdk.Map.removeFeaturesFromLayer({ layerName: layer.name, featureIds: [gisLayer.id] });
-          // sdk.Map.addFeaturesToLayer({ layerName: layer.name, features });
-
-          if (features.length) {
-              $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
-          }
-      }
-  } // END processFeatures()
-
-  function addLabelToLayer(layerName, label) {
-      if (!layerLabels[layerName]) {
-          layerLabels[layerName] = new Set();
-      }
-      layerLabels[layerName].add(label);
-  }
-
-  function replacePhrasesWithAcronyms(text) {
-    // Order phrases such that compound phrases come before individual words
-    const replacements = [
-    //compound phrases here
-      { phrase: "Alternate Route", acronym: "ALT" },
-      { phrase: "Army Air Field", acronym: "AAF" },
-      { phrase: "County Highway", acronym: "CH" },
-      { phrase: "County Road", acronym: "CR" },
-      { phrase: "East Bound", acronym: "EB" },
-      { phrase: "North Bound", acronym: "NB" },
-      { phrase: "North East", acronym: "NE" },
-      { phrase: "North West", acronym: "NW" },
-      { phrase: "South Bound", acronym: "SB" },
-      { phrase: "South East", acronym: "SE" },
-      { phrase: "South West", acronym: "SW" },
-      { phrase: "State Highway", acronym: "SH" },
-      { phrase: "State Route", acronym: "SR" },
-      { phrase: "State Rte", acronym: "SR" },
-      { phrase: "U.S. Highway", acronym: "US" },      
-      { phrase: "U.S. Route", acronym: "US" },
-      { phrase: "U.S. Rte", acronym: "US" },
-      { phrase: "US Highway", acronym: "US" },
-      { phrase: "US Route", acronym: "US" },
-      { phrase: "US RTE", acronym: "US" },
-      { phrase: "West Bound", acronym: "WB" },
-    // Start of single words list
-      { phrase: "Alley", acronym: "Aly" },
-      { phrase: "Apartments", acronym: "Apts" },
-      { phrase: "Avenue", acronym: "Ave" },
-      { phrase: "Beach", acronym: "Bch" },
-      { phrase: "Boulevard", acronym: "Blvd" },
-      { phrase: "Bridge", acronym: "Br" },
-      { phrase: "Business", acronym: "BUS" },
-      { phrase: "Bypass", acronym: "BYP" },
-      { phrase: "Canyon", acronym: "Cyn" },
-      { phrase: "Captain", acronym: "Capt" },
-      { phrase: "Causeway", acronym: "Cswy" },
-      { phrase: "Center", acronym: "Ctr" },
-      { phrase: "Circle", acronym: "Cir" },
-      { phrase: "Colonel", acronym: "Col." },
-      { phrase: "Commander", acronym: "Cmdr." },
-      { phrase: "Connector", acronym: "CONN" },
-      { phrase: "Corners", acronym: "Cors" },
-      { phrase: "Corporal", acronym: "Cpl." },
-      { phrase: "Court", acronym: "Ct" },
-      { phrase: "Cove", acronym: "Cv" },
-      { phrase: "Creek", acronym: "Crk" },
-      { phrase: "Crescent", acronym: "Cres" },
-      { phrase: "Crossing", acronym: "X-ing" },
-      { phrase: "Doctor", acronym: "Dr." },
-      { phrase: "Drive", acronym: "Dr" },
-      { phrase: "East", acronym: "E" },
-      { phrase: "Eastbound", acronym: "EB" },
-      { phrase: "Eb", acronym: "EB" },
-      { phrase: "Express", acronym: "EXP" },
-      { phrase: "Expressway", acronym: "Expwy" },
-      { phrase: "Extension", acronym: "Ext" },
-      { phrase: "Fort", acronym: "Ft." },
-      { phrase: "Freeway", acronym: "Fwy" },
-      { phrase: "General", acronym: "Gen." },
-      { phrase: "Governor", acronym: "Gov." },
-      { phrase: "Grove", acronym: "Grv" },
-      { phrase: "Heights", acronym: "Hts" },
-      { phrase: "Highway", acronym: "Hwy" },
-      { phrase: "Honerable", acronym: "Hon." },
-      { phrase: "International", acronym: "Intl" },
-      { phrase: "Interstate", acronym: "I" },
-      { phrase: "Junior", acronym: "Jr." },
-      { phrase: "Landing", acronym: "Lndg" },
-      { phrase: "Lane", acronym: "Ln" },
-      { phrase: "Lieutenant", acronym: "Lt." },
-      { phrase: "Loop", acronym: "Lp" },
-      { phrase: "Major", acronym: "Maj." },
-      { phrase: "Manor", acronym: "Mnr." },
-      { phrase: "Meadow", acronym: "Mdw" },
-      { phrase: "Mount", acronym: "Mt" },
-      { phrase: "Mountain", acronym: "Mtn" },
-      { phrase: "Mountains", acronym: "Mtns" },
-      { phrase: "National", acronym: "Nat'l" },
-      { phrase: "North", acronym: "N" },
-      { phrase: "Northbound", acronym: "NB" },
-      { phrase: "Nb", acronym: "NB" },
-      { phrase: "Northeast", acronym: "NE" },
-      { phrase: "Northwest", acronym: "NW" },
-      { phrase: "Park", acronym: "Pk" },
-      { phrase: "Parkway", acronym: "Pkwy" },
-      { phrase: "Parkways", acronym: "Pkwys" },
-      { phrase: "Passage", acronym: "Psge" },
-      { phrase: "Place", acronym: "Pl" },
-      { phrase: "Plaza", acronym: "Plz" },
-      { phrase: "Point", acronym: "Pt" },
-      { phrase: "Points", acronym: "Pts" },
-      { phrase: "President", acronym: "Pres." },
-      { phrase: "Professor", acronym: "Prof." },
-      { phrase: "Railroad", acronym: "R.R." },
-      { phrase: "Road", acronym: "Rd" },
-      { phrase: "Recreational", acronym: "Rec." },
-      { phrase: "Reverend", acronym: "Rev." },
-      { phrase: "Route", acronym: "Rte" },
-      { phrase: "Saint", acronym: "St." },
-      { phrase: "Sainte", acronym: "Ste." },
-      { phrase: "Senior", acronym: "Sr." },
-      { phrase: "Sergeant", acronym: "Sgt." },
-      { phrase: "Skyway", acronym: "Skwy" },
-      { phrase: "South", acronym: "S" },
-      { phrase: "Southbound", acronym: "SB" },
-      { phrase: "Sb", acronym: "SB" },
-      { phrase: "Southeast", acronym: "SE" },
-      { phrase: "Southwest", acronym: "SW" },
-      { phrase: "Springs", acronym: "Spgs" },
-      { phrase: "Square", acronym: "Sq" },
-      { phrase: "Station", acronym: "Sta" },
-      { phrase: "Street", acronym: "St" },
-      { phrase: "Terrace", acronym: "Ter" },
-      { phrase: "Throughway", acronym: "Thwy" },
-      { phrase: "Thruway", acronym: "Thwy" },
-      { phrase: "Tollway", acronym: "Tlwy" },
-      { phrase: "Township", acronym: "Twp" },
-      { phrase: "Trafficway", acronym: "Trfy" },
-      { phrase: "Trail", acronym: "Trl" },
-      { phrase: "Tunnel", acronym: "Tun" },
-      { phrase: "Turnpike", acronym: "Tpk" },
-      { phrase: "Upper", acronym: "Upr" },
-      { phrase: "U.S.", acronym: "US" },
-      { phrase: "Valley", acronym: "Vly" },
-      { phrase: "West", acronym: "W" },
-      { phrase: "Westbound", acronym: "WB" },
-      { phrase: "Wb", acronym: "WB" },
+    const _layerRefinements = [
+        {
+            id: 'us-post-offices',
+            labelHeaderFields: ['LOCALE_NAME']
+        }
     ];
 
-    let updatedText = text;
+    const STATES = {
+        _states: [
+            ['US (Country)', 'US', -1], ['Alabama', 'AL', 1], ['Alaska', 'AK', 2],
+            ['American Samoa', 'AS', 60], ['Arizona', 'AZ', 4], ['Arkansas', 'AR', 5],
+            ['California', 'CA', 6], ['Colorado', 'CO', 8], ['Connecticut', 'CT', 9],
+            ['Delaware', 'DE', 10], ['District of Columbia', 'DC', 11], ['Florida', 'FL', 12],
+            ['Georgia', 'GA', 13], ['Guam', 'GU', 66], ['Hawaii', 'HI', 15], ['Idaho', 'ID', 16],
+            ['Illinois', 'IL', 17], ['Indiana', 'IN', 18], ['Iowa', 'IA', 19],
+            ['Kansas', 'KS', 20], ['Kentucky', 'KY', 21], ['Louisiana', 'LA', 22],
+            ['Maine', 'ME', 23], ['Maryland', 'MD', 24], ['Massachusetts', 'MA', 25],
+            ['Michigan', 'MI', 26], ['Minnesota', 'MN', 27], ['Mississippi', 'MS', 28],
+            ['Missouri', 'MO', 29], ['Montana', 'MT', 30], ['Nebraska', 'NE', 31],
+            ['Nevada', 'NV', 32], ['New Hampshire', 'NH', 33], ['New Jersey', 'NJ', 34],
+            ['New Mexico', 'NM', 35], ['New York', 'NY', 36], ['North Carolina', 'NC', 37],
+            ['North Dakota', 'ND', 38], ['Northern Mariana Islands', 'MP', 69], ['Ohio', 'OH', 39],
+            ['Oklahoma', 'OK', 40], ['Oregon', 'OR', 41], ['Pennsylvania', 'PA', 42],
+            ['Puerto Rico', 'PR', 72], ['Rhode Island', 'RI', 44], ['South Carolina', 'SC', 45],
+            ['South Dakota', 'SD', 46], ['Tennessee', 'TN', 47], ['Texas', 'TX', 48],
+            ['Utah', 'UT', 49], ['Vermont', 'VT', 50], ['Virgin Islands', 'VI', 78],
+            ['Virginia', 'VA', 51], ['Washington', 'WA', 53], ['West Virginia', 'WV', 54],
+            ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56]
+        ],
+        toAbbr(fullName) { return this._states.find(a => a[0] === fullName)[1]; },
+        toFullName(abbr) { return this._states.find(a => a[1] === abbr)[0]; },
+        toFullNameArray() { return this._states.map(a => a[0]); },
+        toAbbrArray() { return this._states.map(a => a[1]); },
+        fromId(id) { return this._states.find(a => a[2] === id); }
+    };
+    const DEFAULT_VISIBLE_AT_ZOOM = 18;
+    const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
+    const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
+    const scriptName = GM_info.script.name;
+    const scriptVersion = GM_info.script.version;
+    const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
+    const sdk = await bootstrap({ scriptUpdateMonitor: { downloadUrl } });
+    let mapLayer = null;
+    let roadLayer = null;
+    let settings = {};
+    let ignoreFetch = false;
+    let lastToken = {};
+    let userInfo;
 
-    // Replace phrases with their acronyms, case insensitive
-    replacements.forEach(({ phrase, acronym }) => {
-      const regex = new RegExp(`\\b${phrase}\\b`, "gi"); //Uses \\b to match words with word boundaries
-      updatedText = updatedText.replace(regex, acronym);
-    });
+    // Variables to store Label popup position and selected layer
+    const layerLabels = {};
+    let isPopupVisible = null;
+    const popupPosition = { left: '50%', top: '50%' };
+    let popupActiveLayer = null;
+    let useAcronyms = false;
+    let useTitleCase = false;
+    let useStateHwy = false;
+    let removeNewLines = false;
 
-    return updatedText;
-  }
+    const DEBUG = true;
+    // function log(message) { console.log('GIS Layers:', message); }
+    function logError(message) { console.error(`${scriptName}:`, message); }
+    function logDebug(message) { if (DEBUG) console.debug(`${scriptName}:`, message); }
+    // function logWarning(message) { console.warn('GIS Layers:', message); }
 
-  function fixSateHwyRoadNames(text) {
+    let _layerSettingsDialog;
+
+    class LayerSettingsDialog {
+        #gisLayer;
+        #minVisibleAtZoom = 12;
+        #maxVisibleAtZoom = 22;
+        #titleText;
+        #shiftUpButton;
+        #visibleAtZoomInput;
+
+        constructor() {
+            this.#titleText = $('<span>');
+            const closeButton = $('<span>', {
+                style: 'cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;',
+                class: 'fa fa-window-close'
+            }).click(() => this.#onCloseButtonClick());
+            const shiftUpButton = LayerSettingsDialog.#createShiftButton('fa-angle-up').click(() => this.#onShiftButtonClick(0, 1));
+            const shiftLeftButton = LayerSettingsDialog.#createShiftButton('fa-angle-left').click(() => this.#onShiftButtonClick(-1, 0));
+            const shiftRightButton = LayerSettingsDialog.#createShiftButton('fa-angle-right').click(() => this.#onShiftButtonClick(1, 0));
+            const shiftDownButton = LayerSettingsDialog.#createShiftButton('fa-angle-down').click(() => this.#onShiftButtonClick(0, -1));
+            const resetOffsetButton = $('<button>', {
+                class: 'form-control',
+                style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px; display: inline-block; float: right;'
+            }).text('Reset').click(() => this.#onResetOffsetButtonClick());
+
+            this._dialogDiv = $('<div>', {
+                style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid;'
+                  + 'border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
+            }).append($('<div>').append( // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
+                // HEADER
+                $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(
+                    closeButton,
+                    this.#titleText
+                ),
+                // BODY
+                $('<div>').append(
+                    $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
+                        resetOffsetButton,
+                        $('<input>', {
+                            type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked'
+                        }),
+                        $('<label>', { for: 'gisLayerShiftAmt1' }).text('1m'),
+                        $('<input>', {
+                            type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left: 6px'
+                        }),
+                        $('<label>', { for: 'gisLayerShiftAmt10' }).text('10m'),
+                        $('<div>', { style: 'padding: 4px' }).append(
+                            $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
+                                $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                                    $('<td>', { align: 'center' }),
+                                    $('<td>', { align: 'center' }).append(shiftUpButton),
+                                    $('<td>', { align: 'center' })
+                                ),
+                                $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                                    $('<td>', { align: 'center' }).append(shiftLeftButton),
+                                    $('<td>', { align: 'center' }),
+                                    $('<td>', { align: 'center' }).append(shiftRightButton)
+                                ),
+                                $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
+                                    $('<td>', { align: 'center' }),
+                                    $('<td>', { align: 'center' }).append(shiftDownButton),
+                                    $('<td>', { align: 'center' })
+                                )
+                            )
+                        )
+                    ),
+                    $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color: #d6e6f3; display: inline-block; margin-right: 5px; margin-top: 2px;' }).append(
+                        $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 4px;' }).append(
+                            $('<button>', { class: 'form-control', style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px;' })
+                                .text('Reset')
+                                .click(this.#onResetVisibleAtZoomClick.bind(this))
+                        ),
+                        $('<div>').append(
+                            $('<label>', { for: 'visible-at-zoom-input' }).text('Visible at zoom:'),
+                            this.#visibleAtZoomInput = $('<input>', {
+                                type: 'number',
+                                id: 'visible-at-zoom-input',
+                                min: this.#minVisibleAtZoom,
+                                max: this.#maxVisibleAtZoom,
+                                style: 'margin-left: 4px;'
+                            }).change(v => this.#onVisibleAtZoomChange(v))
+                        ),
+                        $('<div>', { style: 'font-size: 13px; color: gray' }).text('Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.')
+                    )
+                )
+            ));
+
+            this.hide();
+            this._dialogDiv.appendTo('body');
+
+            if (typeof jQuery.ui !== 'undefined') {
+                const that = this;
+                this._dialogDiv.draggable({
+                    // Gotta nuke the height setting the dragging inserts otherwise the panel cannot dynamically resize
+                    stop() { that._dialogDiv.css('height', ''); }
+                });
+            }
+        }
+
+        get gisLayer() {
+            return this.#gisLayer;
+        }
+
+        set gisLayer(value) {
+            if (value !== this.#gisLayer) {
+                this.#gisLayer = value;
+                this.#titleText.text(this.#gisLayer.name);
+                this.#initVisibleAtZoomInput();
+            }
+        }
+
+        #initVisibleAtZoomInput() {
+            this.#visibleAtZoomInput.val(getGisLayerVisibleAtZoom(this.#gisLayer));
+        }
+
+        // eslint-disable-next-line class-methods-use-this
+        getShiftAmount() {
+            return $('input[name=gisLayerShiftAmt]:checked').val();
+        }
+
+        show() {
+            this._dialogDiv.show();
+        }
+
+        hide() {
+            this._dialogDiv.hide();
+        }
+
+        #onResetVisibleAtZoomClick() {
+            settings.removeLayerSetting(this.#gisLayer.id, 'visibleAtZoom');
+            this.#initVisibleAtZoomInput();
+        }
+
+        #onCloseButtonClick() {
+            this.hide();
+        }
+
+        #onVisibleAtZoomChange() {
+            const min = this.#minVisibleAtZoom;
+            const max = this.#maxVisibleAtZoom;
+            let value = parseInt(this.#visibleAtZoomInput.val(), 10);
+
+            if (value < min) {
+                value = min;
+                this.#visibleAtZoomInput.val(value);
+            } else if (value > max) {
+                value = max;
+                this.#visibleAtZoomInput.val(value);
+            }
+
+            settings.setLayerSetting(this.#gisLayer.id, 'visibleAtZoom', value);
+            saveSettingsToStorage();
+        }
+
+        #onShiftButtonClick(x, y) {
+            const shiftAmount = this.getShiftAmount();
+            x *= shiftAmount;
+            y *= shiftAmount;
+            this.#shiftLayerFeatures(x, y);
+            const { id } = this.gisLayer;
+            let offset = settings.getLayerSetting(id, 'offset');
+            if (!offset) {
+                offset = { x: 0, y: 0 };
+                settings.setLayerSetting(id, 'offset', offset);
+            }
+            offset.x += x;
+            offset.y += y;
+            saveSettingsToStorage();
+        }
+
+        #onResetOffsetButtonClick() {
+            const offset = settings.getLayerSetting(this.gisLayer.id, 'offset');
+            if (offset) {
+                this.#shiftLayerFeatures(offset.x * -1, offset.y * -1);
+                delete settings.layers[this.gisLayer.id].offset;
+                saveSettingsToStorage();
+            }
+        }
+
+        #shiftLayerFeatures(x, y) {
+            const layer = this.gisLayer.isRoadLayer ? roadLayer : mapLayer;
+            layer.getFeaturesByAttribute('layerID', this.gisLayer.id).forEach(f => f.geometry.move(x, y));
+            layer.redraw();
+        }
+
+        static #createShiftButton(fontAwesomeClass) {
+            return $('<button>', {
+                class: 'form-control',
+                style: 'cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;'
+            }).append(
+                $('<i>', { class: 'fa', style: 'vertical-align: super' }).addClass(fontAwesomeClass)
+            );
+        }
+    }
+
+    function loadSettingsFromStorage() {
+        const loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
+        const defaultSettings = {
+            lastVersion: null,
+            visibleLayers: [],
+            onlyShowApplicableLayers: false,
+            selectedStates: [],
+            enabled: true,
+            fillParcels: false,
+            toggleHnsOnlyShortcut: '',
+            toggleEnabledShortcut: '',
+            oneTimeAlerts: {},
+            layers: {},
+            isPopupVisible: false,
+            useAcronyms: false,
+            useTitleCase: false,
+            useStateHwy: false,
+            removeNewLines: false
+        };
+        settings = loadedSettings || defaultSettings;
+        useAcronyms = settings.useAcronyms;
+        useTitleCase = settings.useTitleCase;
+        useStateHwy = settings.useStateHwy;
+        removeNewLines = settings.removeNewLines;
+        Object.keys(defaultSettings).forEach(prop => {
+            if (!settings.hasOwnProperty(prop)) {
+                settings[prop] = defaultSettings[prop];
+            }
+        });
+        isPopupVisible = settings.isPopupVisible;
+        settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
+            const layerSettings = this.layers[layerID];
+            if (!layerSettings) {
+                return undefined;
+            }
+            return layerSettings[settingName];
+        };
+        settings.setLayerSetting = function setLayerSetting(layerID, settingName, value) {
+            let layerSettings = this.layers[layerID];
+            if (!layerSettings) {
+                layerSettings = {};
+                this.layers[layerID] = layerSettings;
+            }
+            layerSettings[settingName] = value;
+        };
+        settings.removeLayerSetting = function removeLayerSetting(layerID, settingName) {
+            const layerSettings = this.layers[layerID];
+            if (layerSettings) {
+                delete layerSettings[settingName];
+            }
+        };
+    }
+
+    function saveSettingsToStorage() {
+        // SDK: update once "empty" shortcuts are allowed
+        // Check for existance of action first, due to WME beta issue.
+        if (W.accelerators.Actions.GisLayersAddrDisplay) {
+            let keys = '';
+            const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
+            if (shortcut) {
+                if (shortcut.altKey) keys += 'A';
+                if (shortcut.shiftKey) keys += 'S';
+                if (shortcut.ctrlKey) keys += 'C';
+                if (keys.length) keys += '+';
+                if (shortcut.keyCode) keys += shortcut.keyCode;
+            }
+            settings.toggleHnsOnlyShortcut = keys;
+        }
+        if (W.accelerators.Actions.GisLayersToggleEnabled) {
+            let keys = '';
+            const { shortcut } = W.accelerators.Actions.GisLayersToggleEnabled;
+            if (shortcut) {
+                if (shortcut.altKey) keys += 'A';
+                if (shortcut.shiftKey) keys += 'S';
+                if (shortcut.ctrlKey) keys += 'C';
+                if (keys.length) keys += '+';
+                if (shortcut.keyCode) keys += shortcut.keyCode;
+            }
+            settings.toggleEnabledShortcut = keys;
+        }
+        settings.lastVersion = scriptVersion;
+        settings.isPopupVisible = isPopupVisible;
+        settings.useAcronyms = useAcronyms;
+        settings.useTitleCase = useTitleCase;
+        settings.useStateHwy = useStateHwy;
+        settings.removeNewLines = removeNewLines;
+        localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(settings));
+        logDebug('Settings saved');
+    }
+
+    function getUrl(extent, gisLayer) {
+        // if (gisLayer.spatialReference) {
+        //     const proj = new OpenLayers.Projection(`EPSG:${gisLayer.spatialReference}`);
+        //     extent.transform(W.map.getProjectionObject(), proj);
+        // }
+        const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+        const geometry = {
+            xmin: extent[0] - layerOffset.x,
+            ymin: extent[1] - layerOffset.y,
+            xmax: extent[2] - layerOffset.x,
+            ymax: extent[3] - layerOffset.y,
+            spatialReference: {
+                wkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 102100,
+                latestWkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 3857
+            }
+        };
+        const geometryStr = JSON.stringify(geometry);
+        let fields = gisLayer.labelFields;
+        if (gisLayer.labelHeaderFields) {
+            fields = fields.concat(gisLayer.labelHeaderFields);
+        }
+        if (gisLayer.distinctFields) {
+            fields = fields.concat(gisLayer.distinctFields);
+        }
+        let url = `${gisLayer.url}/query?geometry=${encodeURIComponent(geometryStr)}`;
+        url += gisLayer.token ? `&token=${gisLayer.token}` : '';
+        url += `&outFields=${encodeURIComponent(fields.join(','))}`;
+        url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
+        url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '102100'}`;
+        url += '&outSR=3857&f=json';
+        url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
+
+        logDebug(`Request URL: ${url}`);
+        return url;
+    }
+
+    function hashString(value) {
+        let hash = 0;
+        if (value.length === 0) return hash;
+        for (let i = 0; i < value.length; i++) {
+            const chr = value.charCodeAt(i);
+            // eslint-disable-next-line no-bitwise
+            hash = ((hash << 5) - hash) + chr;
+            // eslint-disable-next-line no-bitwise
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+    }
+
+    function getMercatorMapExtent() {
+        const wgs84Extent = sdk.Map.getMapExtent();
+        const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]];
+        const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
+        const mercatorLeftBottom = turf.toMercator(wgs84LeftBottom);
+        const mercatorRightTop = turf.toMercator(wgs84RightTop);
+        return [mercatorLeftBottom[0], mercatorLeftBottom[1], mercatorRightTop[0], mercatorRightTop[1]];
+    }
+
+    function getArcGisMapExtentGeometry() {
+        const extent = getMercatorMapExtent();
+        const geometry = {
+            xmin: extent[0],
+            ymin: extent[1],
+            xmax: extent[2],
+            ymax: extent[3],
+            spatialReference: {
+                wkid: 102100,
+                latestWkid: 3857
+            }
+        };
+        return geometry;
+    }
+
+    function getCountiesUrl() {
+        const geometry = getArcGisMapExtentGeometry();
+        const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
+        return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects`
+          + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
+    }
+
+    let _countiesInExtent = [];
+
+    function getGisLayerVisibleAtZoom(gisLayer) {
+        const overrideVisibleAtZoom = settings.getLayerSetting(gisLayer.id, 'visibleAtZoom');
+        if (overrideVisibleAtZoom) return overrideVisibleAtZoom;
+        return (gisLayer.hasOwnProperty('visibleAtZoom')
+            ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM);
+    }
+
+    function getGisLayerLabelsVisibleAtZoom(gisLayer, layerVisibleAtZoom) {
+        let labelsVisibleAtZoom;
+        layerVisibleAtZoom = +layerVisibleAtZoom;
+        if (gisLayer.hasOwnProperty('labelsVisibleAtZoom')) {
+            labelsVisibleAtZoom = layerVisibleAtZoom + (+gisLayer.labelsVisibleAtZoom - (+gisLayer.visibleAtZoom ?? DEFAULT_VISIBLE_AT_ZOOM));
+        } else {
+            labelsVisibleAtZoom = layerVisibleAtZoom + 1;
+        }
+        if (labelsVisibleAtZoom < 1) labelsVisibleAtZoom = 1;
+        return labelsVisibleAtZoom;
+    }
+
+    function getFetchableLayers(getInvisible) {
+        const zoom = sdk.Map.getZoomLevel();
+        if (zoom < 12) return [];
+        return _gisLayers.filter(gisLayer => {
+            const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
+            const isVisible = (getInvisible || settings.visibleLayers.includes(gisLayer.id))
+              && settings.selectedStates.includes(gisLayer.state);
+            const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
+            // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
+            const isValidZoom = getInvisible || zoom >= getGisLayerVisibleAtZoom(gisLayer);
+            return isValidUrl && isInState && isVisible && isValidZoom;
+        });
+    }
+
+    function filterLayerCheckboxes() {
+        const applicableLayers = getFetchableLayers(true).filter(layer => {
+            const hasCounties = layer.hasOwnProperty('counties');
+            return (hasCounties && layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
+              && layer.state === county.stateInfo[1]))) || !hasCounties;
+        });
+        const statesToHide = STATES.toAbbrArray();
+
+        _gisLayers.forEach(gisLayer => {
+            const id = `#gis-layer-${gisLayer.id}-container`;
+            if (!settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
+                $(id).show();
+                $(`#gis-layers-for-${gisLayer.state}`).show();
+                const idx = statesToHide.indexOf(gisLayer.state);
+                if (idx > -1) statesToHide.splice(idx, 1);
+            } else {
+                $(id).hide();
+            }
+        });
+        if (settings.onlyShowApplicableLayers) {
+            statesToHide.forEach(st => $(`#gis-layers-for-${st}`).hide());
+        }
+    }
+
+    const ROAD_ABBR = [
+        [/\bAVENUE$/, 'AVE'], [/\bCIRCLE$/, 'CIR'], [/\bCOURT$/, 'CT'], [/\bDRIVE$/, 'DR'],
+        [/\bLANE$/, 'LN'], [/\bPARK$/, 'PK'], [/\bPLACE$/, 'PL'], [/\bROAD$/, 'RD'], [/\bSTREET$/, 'ST'],
+        [/\bTERRACE$/, 'TER']
+    ];
+
+    const labelProcessingGlobalVariables = {
+        Number,
+        Math,
+        Boolean,
+        parseInt,
+        Date,
+        _regexReplace: {
+            // Strip leading zeros or blank full label for any label starting with a non-digit or
+            // is a Zero Address, use with '' as replace.
+            r0: /^(0+(\s.*)?|\D.*)/,
+            // Strip Everything After Street Type to end of the string by use $1 and $2 capture
+            // groups, use with replace '$1$2'
+            // eslint-disable-next-line max-len
+            r1: /^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi,
+            // Strip SPACE 5 Digits from end of string, use with replace ''
+            r2: /\s\d{5}$/,
+            // Strip Everything after a "~", ",", ";" to the end of the string, use with replace ''
+            r3: /(~|,|;|\s?\r\n).*$/,
+            // Move the digits after the last space to before the rest of the string using, use with
+            // replace '$2 $1'
+            r4: /^(.*)\s(\d+).*/,
+            // Insert newline between digits (including "-") and everything after the digits,
+            // except(and before) a ",", use with replace '$1\n$2'
+            r5: /^([-\d]+)\s+([^,]+).*/,
+            // Insert newline between digits and everything after the digits, use with
+            // replace '$1\n$2'
+            r6: /^(\d+)\s+(.*)/
+        }
+    };
+
+    function processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine = false) {
+        let label = '';
+        if (gisLayer.labelHeaderFields) {
+            label = `${gisLayer.labelHeaderFields.map(
+                fieldName => item.attributes[fieldName]
+            ).join(' ').trim()}\n`;
+        }
+        if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 5000) {
+            label += gisLayer.labelFields.map(
+                fieldName => item.attributes[fieldName]
+            ).join(' ').trim();
+            if (gisLayer.processLabel) {
+                if (gisLayer.labelProcessingError) {
+                    label = 'ERROR';
+                } else {
+                    labelProcessingGlobalVariables.label = label;
+                    labelProcessingGlobalVariables.fieldValues = item.attributes;
+                    const result = ESTreeProcessor.execute(gisLayer.processLabel, labelProcessingGlobalVariables);
+                    label = result.output?.trim() ?? '';
+                }
+            }
+        }
+
+        if (!isPolyLine) {
+            if (label && [
+                LAYER_STYLES.points, LAYER_STYLES.parcels, LAYER_STYLES.state_points,
+                LAYER_STYLES.state_parcels
+            ].includes(gisLayer.style)) {
+                if (settings.addrLabelDisplay === 'hn') {
+                    const m = label.match(/^\d+/);
+                    label = m ? m[0] : '';
+                } else if (settings.addrLabelDisplay === 'street') {
+                    const m = label.match(/^(?:\d+\s)?(.*)/);
+                    label = m ? m[1].trim() : '';
+                }
+                else if (settings.addrLabelDisplay === 'none') {
+                    label = '';
+                }
+            }
+        }
+        return label;
+    }
+    function processFeatures(data, token, gisLayer) {
+        const features = [];
+        if (data.skipIt) {
+            // do nothing
+        } else if (data.error) {
+            logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
+        } else {
+            const items = data.features || [];
+            if (!token.cancel) {
+                let error = false;
+                const distinctValues = [];
+                items.forEach(item => {
+                    let skipIt = false;
+                    if (!token.cancel && !error) {
+                        let feature;
+                        let featureGeometry;
+                        let area;
+                        if (gisLayer.distinctFields) {
+                            if (distinctValues.some(v => gisLayer.distinctFields.every(
+                                fld => v[fld] === item.attributes[fld]
+                            ))) {
+                                skipIt = true;
+                            } else {
+                                const dist = {};
+                                gisLayer.distinctFields.forEach(fld => (dist[fld] = item.attributes[fld]));
+                                distinctValues.push(dist);
+                            }
+                        }
+                        if (!skipIt) {
+                            let isPolyLine = false;
+                            const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+                            if (item.geometry) {
+                                if (item.geometry.x) {
+                                    featureGeometry = new OpenLayers.Geometry.Point(
+                                        item.geometry.x + layerOffset.x,
+                                        item.geometry.y + layerOffset.y
+                                    );
+                                    // SDK
+                                    // featureGeometry = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
+                                    // featureGeometry = turf.toWgs84(featureGeometry);
+                                } else if (item.geometry.points) {
+                                    // @TODO Fix for multiple points instead of just grabbing first.
+                                    featureGeometry = new OpenLayers.Geometry.Point(
+                                        item.geometry.points[0][0] + layerOffset.x,
+                                        item.geometry.points[0][1] + layerOffset.y
+                                    );
+                                } else if (item.geometry.rings) {
+                                    const rings = [];
+                                    item.geometry.rings.forEach(ringIn => {
+                                        const pnts = [];
+                                        for (let i = 0; i < ringIn.length; i++) {
+                                            pnts.push(new OpenLayers.Geometry.Point(
+                                                ringIn[i][0] + layerOffset.x,
+                                                ringIn[i][1] + layerOffset.y
+                                            ));
+                                        }
+                                        rings.push(new OpenLayers.Geometry.LinearRing(pnts));
+                                    });
+                                    featureGeometry = new OpenLayers.Geometry.Polygon(rings);
+                                    if (gisLayer.areaToPoint) {
+                                        featureGeometry = featureGeometry.getCentroid();
+                                    } else {
+                                        area = featureGeometry.getArea();
+                                    }
+                                } else if (data.geometryType === 'esriGeometryPolyline') {
+                                    // We have to handle polylines differently since each item can have multiple features.
+                                    // In terms of ArcGIS, each feature's geometry can have multiple paths.  For instance
+                                    // a single road can be broken into parts that are physically not connected to each other.
+
+                                    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
+                                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, area, true);
+
+                                    // Use Turf library to clip the geometry to the screen bounds.
+                                    // This allows labels to stay in view on very long roads.
+                                    const mls = turf.multiLineString(item.geometry.paths);
+                                    const e = getMercatorMapExtent();
+                                    const bbox = [e.left, e.bottom, e.right, e.top];
+                                    const clipped = turf.bboxClip(mls, bbox);
+                                    if (clipped.geometry.type === 'LineString') {
+                                        item.geometry.paths = [clipped.geometry.coordinates];
+                                    } else if (clipped.geometry.type === 'MultiLineString') {
+                                        item.geometry.paths = clipped.geometry.coordinates;
+                                    }
+
+                                    item.geometry.paths.forEach(path => {
+                                        const pointList = [];
+                                        path.forEach(point => pointList.push(new OpenLayers.Geometry.Point(
+                                            point[0] + layerOffset.x,
+                                            point[1] + layerOffset.y
+                                        )));
+                                        featureGeometry = new OpenLayers.Geometry.LineString(pointList);
+                                        featureGeometry.skipDupeCheck = true;
+
+                                        const attributes = {
+                                            layerID: gisLayer.id,
+                                            label
+                                        };
+
+                                        const lineFeature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
+                                        features.push(lineFeature);
+                                        if (isPopupVisible) {
+                                            addLabelToLayer(gisLayer.name, label);
+                                        }
+                                    });
+                                    isPolyLine = true;
+                                } else {
+                                    logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
+                                    logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
+                                    error = true;
+                                }
+                                if (!error && !isPolyLine && featureGeometry) {
+                                    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
+                                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, area);
+                                    const attributes = {
+                                        layerID: gisLayer.id,
+                                        label
+                                    };
+                                    // SDK
+                                    // featureGeometry.id = gisLayer.id;
+                                    // featureGeometry.properties = attributes;
+                                    // features.push(featureGeometry);
+                                    feature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
+                                    features.push(feature);
+                                    if (isPopupVisible) {
+                                        addLabelToLayer(gisLayer.name, label);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        if (!token.cancel) {
+            // Check for duplicate geometries.
+            for (let i = 0; i < features.length; i++) {
+                const f1 = features[i];
+                if (!f1.geometry.skipDupeCheck) {
+                    const c1 = f1.geometry.getCentroid();
+                    let labels = [f1.attributes.label];
+                    for (let j = i + 1; j < features.length; j++) {
+                        const f2 = features[j];
+                        if (!f2.geometry.skipDupeCheck && f2.geometry.getCentroid().distanceTo(c1) < 1) {
+                            features.splice(j, 1);
+                            labels.push(f2.attributes.label);
+                            j--;
+                        }
+                    }
+                    labels = _.uniq(labels);
+                    if (labels.length > 1) {
+                        labels.forEach((label, idx) => {
+                            label = label.replace(/\n/g, ' ').replace(/\s{2,}/, ' ').replace(/\bUNIT\s.{1,5}$/i, '').trim();
+                            ROAD_ABBR.forEach(abbr => (label = label.replace(abbr[0], abbr[1])));
+                            labels[idx] = label;
+                        });
+                        labels = _.uniq(labels);
+                        labels.sort();
+                        if (labels.length > 12) {
+                            const len = labels.length;
+                            labels = labels.slice(0, 10);
+                            labels.push(`(${len - 10} more...)`);
+                        }
+                        f1.attributes.label = _.uniq(labels).join('\n');
+                    } else {
+                        let { label } = f1.attributes;
+                        ROAD_ABBR.forEach(abbr => (label = label.replace(abbr[0], abbr[1])));
+                        f1.attributes.label = label;
+                    }
+                }
+            }
+
+            // SDK: Swap this when ready.
+            const layer = gisLayer.isRoadLayer ? roadLayer : mapLayer;
+            layer.removeFeatures(layer.getFeaturesByAttribute('layerID', gisLayer.id));
+            layer.addFeatures(features);
+            // sdk.Map.removeFeaturesFromLayer({ layerName: layer.name, featureIds: [gisLayer.id] });
+            // sdk.Map.addFeaturesToLayer({ layerName: layer.name, features });
+
+            if (features.length) {
+                $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
+            }
+        }
+    } // END processFeatures()
+
+    function addLabelToLayer(layerName, label) {
+        if (!layerLabels[layerName]) {
+            layerLabels[layerName] = new Set();
+        }
+        layerLabels[layerName].add(label);
+    }
+
+    function replacePhrasesWithAcronyms(text) {
+    // Order phrases such that compound phrases come before individual words
+        const replacements = [
+            // compound phrases here
+            { phrase: 'Alternate Route', acronym: 'ALT' },
+            { phrase: 'Army Air Field', acronym: 'AAF' },
+            { phrase: 'County Highway', acronym: 'CH' },
+            { phrase: 'County Road', acronym: 'CR' },
+            { phrase: 'East Bound', acronym: 'EB' },
+            { phrase: 'North Bound', acronym: 'NB' },
+            { phrase: 'North East', acronym: 'NE' },
+            { phrase: 'North West', acronym: 'NW' },
+            { phrase: 'South Bound', acronym: 'SB' },
+            { phrase: 'South East', acronym: 'SE' },
+            { phrase: 'South West', acronym: 'SW' },
+            { phrase: 'State Highway', acronym: 'SH' },
+            { phrase: 'State Route', acronym: 'SR' },
+            { phrase: 'State Rte', acronym: 'SR' },
+            { phrase: 'U.S. Highway', acronym: 'US' },
+            { phrase: 'U.S. Route', acronym: 'US' },
+            { phrase: 'U.S. Rte', acronym: 'US' },
+            { phrase: 'US Highway', acronym: 'US' },
+            { phrase: 'US Route', acronym: 'US' },
+            { phrase: 'US RTE', acronym: 'US' },
+            { phrase: 'West Bound', acronym: 'WB' },
+            // Start of single words list
+            { phrase: 'Alley', acronym: 'Aly' },
+            { phrase: 'Apartments', acronym: 'Apts' },
+            { phrase: 'Avenue', acronym: 'Ave' },
+            { phrase: 'Beach', acronym: 'Bch' },
+            { phrase: 'Boulevard', acronym: 'Blvd' },
+            { phrase: 'Bridge', acronym: 'Br' },
+            { phrase: 'Business', acronym: 'BUS' },
+            { phrase: 'Bypass', acronym: 'BYP' },
+            { phrase: 'Canyon', acronym: 'Cyn' },
+            { phrase: 'Captain', acronym: 'Capt' },
+            { phrase: 'Causeway', acronym: 'Cswy' },
+            { phrase: 'Center', acronym: 'Ctr' },
+            { phrase: 'Circle', acronym: 'Cir' },
+            { phrase: 'Colonel', acronym: 'Col.' },
+            { phrase: 'Commander', acronym: 'Cmdr.' },
+            { phrase: 'Connector', acronym: 'CONN' },
+            { phrase: 'Corners', acronym: 'Cors' },
+            { phrase: 'Corporal', acronym: 'Cpl.' },
+            { phrase: 'Court', acronym: 'Ct' },
+            { phrase: 'Cove', acronym: 'Cv' },
+            { phrase: 'Creek', acronym: 'Crk' },
+            { phrase: 'Crescent', acronym: 'Cres' },
+            { phrase: 'Crossing', acronym: 'X-ing' },
+            { phrase: 'Doctor', acronym: 'Dr.' },
+            { phrase: 'Drive', acronym: 'Dr' },
+            { phrase: 'East', acronym: 'E' },
+            { phrase: 'Eastbound', acronym: 'EB' },
+            { phrase: 'Eb', acronym: 'EB' },
+            { phrase: 'Express', acronym: 'EXP' },
+            { phrase: 'Expressway', acronym: 'Expwy' },
+            { phrase: 'Extension', acronym: 'Ext' },
+            { phrase: 'Fort', acronym: 'Ft.' },
+            { phrase: 'Freeway', acronym: 'Fwy' },
+            { phrase: 'General', acronym: 'Gen.' },
+            { phrase: 'Governor', acronym: 'Gov.' },
+            { phrase: 'Grove', acronym: 'Grv' },
+            { phrase: 'Heights', acronym: 'Hts' },
+            { phrase: 'Highway', acronym: 'Hwy' },
+            { phrase: 'Honerable', acronym: 'Hon.' },
+            { phrase: 'International', acronym: 'Intl' },
+            { phrase: 'Interstate', acronym: 'I' },
+            { phrase: 'Junior', acronym: 'Jr.' },
+            { phrase: 'Landing', acronym: 'Lndg' },
+            { phrase: 'Lane', acronym: 'Ln' },
+            { phrase: 'Lieutenant', acronym: 'Lt.' },
+            { phrase: 'Loop', acronym: 'Lp' },
+            { phrase: 'Major', acronym: 'Maj.' },
+            { phrase: 'Manor', acronym: 'Mnr.' },
+            { phrase: 'Meadow', acronym: 'Mdw' },
+            { phrase: 'Mount', acronym: 'Mt' },
+            { phrase: 'Mountain', acronym: 'Mtn' },
+            { phrase: 'Mountains', acronym: 'Mtns' },
+            { phrase: 'National', acronym: "Nat'l" },
+            { phrase: 'North', acronym: 'N' },
+            { phrase: 'Northbound', acronym: 'NB' },
+            { phrase: 'Nb', acronym: 'NB' },
+            { phrase: 'Northeast', acronym: 'NE' },
+            { phrase: 'Northwest', acronym: 'NW' },
+            { phrase: 'Park', acronym: 'Pk' },
+            { phrase: 'Parkway', acronym: 'Pkwy' },
+            { phrase: 'Parkways', acronym: 'Pkwys' },
+            { phrase: 'Passage', acronym: 'Psge' },
+            { phrase: 'Place', acronym: 'Pl' },
+            { phrase: 'Plaza', acronym: 'Plz' },
+            { phrase: 'Point', acronym: 'Pt' },
+            { phrase: 'Points', acronym: 'Pts' },
+            { phrase: 'President', acronym: 'Pres.' },
+            { phrase: 'Professor', acronym: 'Prof.' },
+            { phrase: 'Railroad', acronym: 'R.R.' },
+            { phrase: 'Road', acronym: 'Rd' },
+            { phrase: 'Recreational', acronym: 'Rec.' },
+            { phrase: 'Reverend', acronym: 'Rev.' },
+            { phrase: 'Route', acronym: 'Rte' },
+            { phrase: 'Saint', acronym: 'St.' },
+            { phrase: 'Sainte', acronym: 'Ste.' },
+            { phrase: 'Senior', acronym: 'Sr.' },
+            { phrase: 'Sergeant', acronym: 'Sgt.' },
+            { phrase: 'Skyway', acronym: 'Skwy' },
+            { phrase: 'South', acronym: 'S' },
+            { phrase: 'Southbound', acronym: 'SB' },
+            { phrase: 'Sb', acronym: 'SB' },
+            { phrase: 'Southeast', acronym: 'SE' },
+            { phrase: 'Southwest', acronym: 'SW' },
+            { phrase: 'Springs', acronym: 'Spgs' },
+            { phrase: 'Square', acronym: 'Sq' },
+            { phrase: 'Station', acronym: 'Sta' },
+            { phrase: 'Street', acronym: 'St' },
+            { phrase: 'Terrace', acronym: 'Ter' },
+            { phrase: 'Throughway', acronym: 'Thwy' },
+            { phrase: 'Thruway', acronym: 'Thwy' },
+            { phrase: 'Tollway', acronym: 'Tlwy' },
+            { phrase: 'Township', acronym: 'Twp' },
+            { phrase: 'Trafficway', acronym: 'Trfy' },
+            { phrase: 'Trail', acronym: 'Trl' },
+            { phrase: 'Tunnel', acronym: 'Tun' },
+            { phrase: 'Turnpike', acronym: 'Tpk' },
+            { phrase: 'Upper', acronym: 'Upr' },
+            { phrase: 'U.S.', acronym: 'US' },
+            { phrase: 'Valley', acronym: 'Vly' },
+            { phrase: 'West', acronym: 'W' },
+            { phrase: 'Westbound', acronym: 'WB' },
+            { phrase: 'Wb', acronym: 'WB' }
+        ];
+
+        let updatedText = text;
+
+        // Replace phrases with their acronyms, case insensitive
+        replacements.forEach(({ phrase, acronym }) => {
+            const regex = new RegExp(`\\b${phrase}\\b`, 'gi'); // Uses \\b to match words with word boundaries
+            updatedText = updatedText.replace(regex, acronym);
+        });
+
+        return updatedText;
+    }
+
+    function fixSateHwyRoadNames(text) {
     // Regular expression to capture patterns like "XXX ###", "XXX-###", "XXX###", as well as "Us Rte #" and "Us Route #"
-    const regex = /(?:([A-Z]{1,3})[-\s]?(\d{1,3})|(?:Us\s+(?:Rte|Route)\s+(\d{1,3})))/gi;
+        const regex = /(?:([A-Z]{1,3})[-\s]?(\d{1,3})|(?:Us\s+(?:Rte|Route)\s+(\d{1,3})))/gi;
 
-    // Replace function formats the matched pattern to "XXX-###" or "US-###"
-    return text.replace(regex, (match, letters, numbers, routeNumber) => {
-        if (routeNumber) {
-          return `US-${routeNumber}`;
-        }
-        if (letters) {
-          return `${letters.toUpperCase()}-${numbers}`;
-        }
-        return match; // Keeps unmatched patterns intact
-      });
-  }
+        // Replace function formats the matched pattern to "XXX-###" or "US-###"
+        return text.replace(regex, (match, letters, numbers, routeNumber) => {
+            if (routeNumber) {
+                return `US-${routeNumber}`;
+            }
+            if (letters) {
+                return `${letters.toUpperCase()}-${numbers}`;
+            }
+            return match; // Keeps unmatched patterns intact
+        });
+    }
 
-  function titleCaseLabel(text) {
+    function titleCaseLabel(text) {
     // Read each line separately
-    const lines = text.split("\n");
-    return lines
-      .map((line) => {
-        const trimmedLine = line.trim(); // Trim the line to remove leading/trailing spaces
-        const words = trimmedLine.split(" "); // Split the line into individual words
-        const titleCasedLine = words
-          .map((word) => {
-            // Capitalize the first letter of each word and convert the rest to lowercase
-            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-          })
-          .join(" "); // Recombine the words into a title-cased line
-        return titleCasedLine; // Return the formatted line
-      })
-      .join("\n"); // Combine all the lines back into a single string separated by new lines
-  }
-
-  function processedLabel(label) {
-    if (useTitleCase) {
-        label = titleCaseLabel(label);
-      }
-
-    if (useAcronyms) {
-      label = replacePhrasesWithAcronyms(label);
+        const lines = text.split('\n');
+        return lines
+            .map(line => {
+                const trimmedLine = line.trim(); // Trim the line to remove leading/trailing spaces
+                const words = trimmedLine.split(' '); // Split the line into individual words
+                // Capitalize the first letter of each word and convert the rest to lowercase
+                const titleCasedLine = words
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    .join(' '); // Recombine the words into a title-cased line
+                return titleCasedLine; // Return the formatted line
+            })
+            .join('\n'); // Combine all the lines back into a single string separated by new lines
     }
-    
-    if (useStateHwy) {
-      label = fixSateHwyRoadNames(label);
-    }
-    if (removeNewLines) {
-      label = label.replace(/[\r\n]+/g, " "); // Removes all newline and carriage return characters
-    }
-    return label;
-  }
 
-  function updatePopup(layerLabels) {
-    let popup = document.getElementById("layerLabelPopup");
-    if (!popup) {
-      popup = document.createElement("div");
-      popup.id = "layerLabelPopup";
-      popup.style = `position: absolute; background: #f5f5f5; border: 2px solid #007bff; border-radius: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
+    function processedLabel(label) {
+        if (useTitleCase) {
+            label = titleCaseLabel(label);
+        }
+
+        if (useAcronyms) {
+            label = replacePhrasesWithAcronyms(label);
+        }
+
+        if (useStateHwy) {
+            label = fixSateHwyRoadNames(label);
+        }
+        if (removeNewLines) {
+            label = label.replace(/[\r\n]+/g, ' '); // Removes all newline and carriage return characters
+        }
+        return label;
+    }
+
+    function updatePopup(labels) {
+        let popup = document.getElementById('layerLabelPopup');
+        if (!popup) {
+            popup = document.createElement('div');
+            popup.id = 'layerLabelPopup';
+            popup.style = `position: absolute; background: #f5f5f5; border: 2px solid #007bff; border-radius: 5px; 
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
                 height: 300px; resize: both; overflow: hidden; max-height: 700px; left: ${popupPosition.left}; top: ${popupPosition.top}; `;
 
-      const header = document.createElement("div");
-      header.style = `background: #007bff; color: #fff; padding: 5px; cursor: move; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; height: 30px; `;
+            const header = document.createElement('div');
+            header.style = 'background: #007bff; color: #fff; padding: 5px; cursor: move; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; height: 30px; ';
 
-      const title = document.createElement("span");
-      title.innerText = "GIS-L Layer Labels";
-      header.appendChild(title);
+            const title = document.createElement('span');
+            title.innerText = 'GIS-L Layer Labels';
+            header.appendChild(title);
 
-      const closeButton = document.createElement("span");
-      closeButton.innerText = "×";
-      closeButton.style = `cursor: pointer; font-size: 20px; margin-left: 10px; `;
-      closeButton.addEventListener("click", () => popup.remove());
-      header.appendChild(closeButton);
-      popup.appendChild(header);
+            const closeButton = document.createElement('span');
+            closeButton.innerText = '×';
+            closeButton.style = 'cursor: pointer; font-size: 20px; margin-left: 10px; ';
+            closeButton.addEventListener('click', () => popup.remove());
+            header.appendChild(closeButton);
+            popup.appendChild(header);
 
-      const formatOptionContainer = document.createElement("div");
-      formatOptionContainer.style = `background: #72767d; color: #fff;`;
+            const formatOptionContainer = document.createElement('div');
+            formatOptionContainer.style = 'background: #72767d; color: #fff;';
 
-      // First row container
-      const firstRow = document.createElement("div");
-      firstRow.style = `display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;`;
+            // First row container
+            const firstRow = document.createElement('div');
+            firstRow.style = 'display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;';
 
-      const formatCheckbox = document.createElement("input");
-      formatCheckbox.type = "checkbox";
-      formatCheckbox.id = "useTitleCaseCheckbox";
-      formatCheckbox.style = `margin-left: 10px`;
-      formatCheckbox.checked = useTitleCase;
-      formatCheckbox.addEventListener("change", () => {
-        useTitleCase = formatCheckbox.checked;
-        updatePopupContent(layerLabels);
-        saveSettingsToStorage();
-      });
-      firstRow.appendChild(formatCheckbox);
+            const formatCheckbox = document.createElement('input');
+            formatCheckbox.type = 'checkbox';
+            formatCheckbox.id = 'useTitleCaseCheckbox';
+            formatCheckbox.style = 'margin-left: 10px';
+            formatCheckbox.checked = useTitleCase;
+            formatCheckbox.addEventListener('change', () => {
+                useTitleCase = formatCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            firstRow.appendChild(formatCheckbox);
 
-      const formatCheckboxLabel = document.createElement("label");
-      formatCheckboxLabel.htmlFor = "useTitleCaseCheckbox";
-      formatCheckboxLabel.innerText = "Use Title Case";
-      formatCheckboxLabel.style = `font-weight: 100; width: 150px;`;
-      firstRow.appendChild(formatCheckboxLabel);
+            const formatCheckboxLabel = document.createElement('label');
+            formatCheckboxLabel.htmlFor = 'useTitleCaseCheckbox';
+            formatCheckboxLabel.innerText = 'Use Title Case';
+            formatCheckboxLabel.style = 'font-weight: 100; width: 150px;';
+            firstRow.appendChild(formatCheckboxLabel);
 
-      const acronymCheckbox = document.createElement("input");
-      acronymCheckbox.type = "checkbox";
-      acronymCheckbox.id = "useacronymsCheckbox";
-      acronymCheckbox.checked = useAcronyms;
-      acronymCheckbox.addEventListener("change", () => {
-        useAcronyms = acronymCheckbox.checked;
-        updatePopupContent(layerLabels);
-        saveSettingsToStorage();
-      });
-      firstRow.appendChild(acronymCheckbox);
+            const acronymCheckbox = document.createElement('input');
+            acronymCheckbox.type = 'checkbox';
+            acronymCheckbox.id = 'useacronymsCheckbox';
+            acronymCheckbox.checked = useAcronyms;
+            acronymCheckbox.addEventListener('change', () => {
+                useAcronyms = acronymCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            firstRow.appendChild(acronymCheckbox);
 
-      const acronymCheckboxLabel = document.createElement("label");
-      acronymCheckboxLabel.htmlFor = "useacronymsCheckbox";
-      acronymCheckboxLabel.innerText = "Use Acronyms & Abbreviations";
-      acronymCheckboxLabel.style = `font-weight: 100;`;
-      firstRow.appendChild(acronymCheckboxLabel);
+            const acronymCheckboxLabel = document.createElement('label');
+            acronymCheckboxLabel.htmlFor = 'useacronymsCheckbox';
+            acronymCheckboxLabel.innerText = 'Use Acronyms & Abbreviations';
+            acronymCheckboxLabel.style = 'font-weight: 100;';
+            firstRow.appendChild(acronymCheckboxLabel);
 
-      formatOptionContainer.appendChild(firstRow);
+            formatOptionContainer.appendChild(firstRow);
 
-      // Second row container
-      const secondRow = document.createElement("div");
-      secondRow.style = `display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;`;
+            // Second row container
+            const secondRow = document.createElement('div');
+            secondRow.style = 'display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;';
 
-      const stateHwyCheckbox = document.createElement("input");
-      stateHwyCheckbox.type = "checkbox";
-      stateHwyCheckbox.id = "useStateHwyCheckbox";
-      stateHwyCheckbox.style = `margin-left: 10px`;
-      stateHwyCheckbox.checked = useStateHwy;
-      stateHwyCheckbox.addEventListener("change", () => {
-        useStateHwy = stateHwyCheckbox.checked;
-        updatePopupContent(layerLabels);
-        saveSettingsToStorage();
-      });
-      secondRow.appendChild(stateHwyCheckbox);
+            const stateHwyCheckbox = document.createElement('input');
+            stateHwyCheckbox.type = 'checkbox';
+            stateHwyCheckbox.id = 'useStateHwyCheckbox';
+            stateHwyCheckbox.style = 'margin-left: 10px';
+            stateHwyCheckbox.checked = useStateHwy;
+            stateHwyCheckbox.addEventListener('change', () => {
+                useStateHwy = stateHwyCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            secondRow.appendChild(stateHwyCheckbox);
 
-      const stateHwyCheckboxLabel = document.createElement("label");
-      stateHwyCheckboxLabel.htmlFor = "useStateHwyCheckbox";
-      stateHwyCheckboxLabel.innerText = "Fix Highway Labels";
+            const stateHwyCheckboxLabel = document.createElement('label');
+            stateHwyCheckboxLabel.htmlFor = 'useStateHwyCheckbox';
+            stateHwyCheckboxLabel.innerText = 'Fix Highway Labels';
 
-      stateHwyCheckboxLabel.style = `font-weight: 100; width: 150px;`;
-      secondRow.appendChild(stateHwyCheckboxLabel);
+            stateHwyCheckboxLabel.style = 'font-weight: 100; width: 150px;';
+            secondRow.appendChild(stateHwyCheckboxLabel);
 
-      const removeNewLinesCheckbox = document.createElement("input");
-      removeNewLinesCheckbox.type = "checkbox";
-      removeNewLinesCheckbox.id = "removeNewLinesCheckbox";
-      removeNewLinesCheckbox.checked = removeNewLines;
-      removeNewLinesCheckbox.addEventListener("change", () => {
-        removeNewLines = removeNewLinesCheckbox.checked;
-        updatePopupContent(layerLabels);
-        saveSettingsToStorage();
-      });
-      secondRow.appendChild(removeNewLinesCheckbox);
+            const removeNewLinesCheckbox = document.createElement('input');
+            removeNewLinesCheckbox.type = 'checkbox';
+            removeNewLinesCheckbox.id = 'removeNewLinesCheckbox';
+            removeNewLinesCheckbox.checked = removeNewLines;
+            removeNewLinesCheckbox.addEventListener('change', () => {
+                removeNewLines = removeNewLinesCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            secondRow.appendChild(removeNewLinesCheckbox);
 
-      const removeNewLinesCheckboxLabel = document.createElement("label");
-      removeNewLinesCheckboxLabel.htmlFor = "removeNewLinesCheckbox";
-      removeNewLinesCheckboxLabel.innerText = "Remove New Lines";
-      removeNewLinesCheckboxLabel.style = `font-weight: 100;`;
-      secondRow.appendChild(removeNewLinesCheckboxLabel);
+            const removeNewLinesCheckboxLabel = document.createElement('label');
+            removeNewLinesCheckboxLabel.htmlFor = 'removeNewLinesCheckbox';
+            removeNewLinesCheckboxLabel.innerText = 'Remove New Lines';
+            removeNewLinesCheckboxLabel.style = 'font-weight: 100;';
+            secondRow.appendChild(removeNewLinesCheckboxLabel);
 
-      formatOptionContainer.appendChild(secondRow);
+            formatOptionContainer.appendChild(secondRow);
 
-      // Append the formatted options container to the popup
-      popup.appendChild(formatOptionContainer);
+            // Append the formatted options container to the popup
+            popup.appendChild(formatOptionContainer);
 
-      const dropdownContainer = document.createElement("div");
-      dropdownContainer.style = `margin-bottom: 10px;`;
-      popup.appendChild(dropdownContainer);
+            const dropdownContainer = document.createElement('div');
+            dropdownContainer.style = 'margin-bottom: 10px;';
+            popup.appendChild(dropdownContainer);
 
-      const contentContainer = document.createElement("div");
-      contentContainer.style = `padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 100px);`;
-      popup.appendChild(contentContainer);
+            const contentContainer = document.createElement('div');
+            contentContainer.style = 'padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 100px);';
+            popup.appendChild(contentContainer);
 
-      const mapElement = document.getElementById("map");
-      if (mapElement) {
-        mapElement.appendChild(popup);
-      }
+            const mapElement = document.getElementById('map');
+            if (mapElement) {
+                mapElement.appendChild(popup);
+            }
 
-      header.onmousedown = function (event) {
-        event.preventDefault();
-        const parentRect = mapElement.getBoundingClientRect();
-        const initialX = event.clientX;
-        const initialY = event.clientY;
-        const offsetX = initialX - parentRect.left - popup.offsetLeft;
-        const offsetY = initialY - parentRect.top - popup.offsetTop;
+            header.onmousedown = function(event) {
+                event.preventDefault();
+                const parentRect = mapElement.getBoundingClientRect();
+                const initialX = event.clientX;
+                const initialY = event.clientY;
+                const offsetX = initialX - parentRect.left - popup.offsetLeft;
+                const offsetY = initialY - parentRect.top - popup.offsetTop;
 
-        document.onmousemove = function (ev) {
-          popup.style.left = ev.clientX - offsetX - parentRect.left + "px";
-          popup.style.top = ev.clientY - offsetY - parentRect.top + "px";
+                document.onmousemove = function(ev) {
+                    popup.style.left = `${ev.clientX - offsetX - parentRect.left}px`;
+                    popup.style.top = `${ev.clientY - offsetY - parentRect.top}px`;
 
-          popupPosition.left = popup.style.left;
-          popupPosition.top = popup.style.top;
-        };
+                    popupPosition.left = popup.style.left;
+                    popupPosition.top = popup.style.top;
+                };
 
-        document.onmouseup = function () {
-          document.onmousemove = null;
-          document.onmouseup = null;
-        };
-      };
+                document.onmouseup = function() {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                };
+            };
+        }
+
+        updatePopupContent(labels);
+        popup.style.display = isPopupVisible ? 'block' : 'none';
     }
 
-    updatePopupContent(layerLabels);
-    popup.style.display = isPopupVisible ? "block" : "none";
-  }
+    function updatePopupContent(labels) {
+        const dropdownContainer = document.querySelector('#layerLabelPopup div:nth-child(3)');
+        const contentContainer = document.querySelector('#layerLabelPopup div:nth-child(4)');
 
-  function updatePopupContent(layerLabels) {
-    const dropdownContainer = document.querySelector("#layerLabelPopup div:nth-child(3)");
-    const contentContainer = document.querySelector("#layerLabelPopup div:nth-child(4)");
+        dropdownContainer.innerHTML = '';
+        contentContainer.innerHTML = '';
 
-    dropdownContainer.innerHTML = "";
-    contentContainer.innerHTML = "";
+        const select = document.createElement('select');
+        select.style = 'width: 100%; padding: 5px; border: 1px solid #ccc; ';
 
-    const select = document.createElement("select");
-    select.style = `width: 100%; padding: 5px; border: 1px solid #ccc; `;
+        const sortedLayerNames = Object.keys(labels).sort();
+        sortedLayerNames.forEach(layerName => {
+            const option = document.createElement('option');
+            option.value = layerName;
+            option.innerText = layerName;
+            select.appendChild(option);
 
-    const sortedLayerNames = Object.keys(layerLabels).sort();
-    sortedLayerNames.forEach((layerName) => {
-      const option = document.createElement("option");
-      option.value = layerName;
-      option.innerText = layerName;
-      select.appendChild(option);
+            const uniqueLabels = Array.from(labels[layerName]).sort();
+            const tabContent = document.createElement('div');
+            tabContent.style = 'display: none; width: 100%; white-space: pre;';
 
-      const uniqueLabels = Array.from(layerLabels[layerName]).sort();
-      const tabContent = document.createElement("div");
-      tabContent.style = `display: none; width: 100%; white-space: pre;`;
+            const processedLabels = uniqueLabels
+                .map(label => {
+                    const text = processedLabel(label);
+                    return `<li style="margin-bottom: 0.3em; color: #555;">${text}</li>`;
+                })
+                .join('');
 
-      const processedLabels = uniqueLabels
-        .map((label) => {
-          const text = processedLabel(label);
-          return `<li style="margin-bottom: 0.3em; color: #555;">${text}</li>`;
-        })
-        .join("");
+            tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
+            contentContainer.appendChild(tabContent);
+        });
 
-      tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
-      contentContainer.appendChild(tabContent);
-    });
+        dropdownContainer.appendChild(select);
 
-    dropdownContainer.appendChild(select);
+        let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
 
-    let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
+        if (selectedLayerIndex === -1 && select.options.length > 0) {
+            selectedLayerIndex = 0;
+            popupActiveLayer = sortedLayerNames[selectedLayerIndex];
+        }
+        select.selectedIndex = selectedLayerIndex;
 
-    if (selectedLayerIndex === -1 && select.options.length > 0) {
-      selectedLayerIndex = 0;
-      popupActiveLayer = sortedLayerNames[selectedLayerIndex];
+        const allContents = contentContainer.querySelectorAll('div');
+        allContents.forEach((content, index) => {
+            content.style.display = index === select.selectedIndex ? 'block' : 'none';
+        });
+
+        select.addEventListener('change', () => {
+            const contents = contentContainer.querySelectorAll('div');
+            contents.forEach((content, index) => {
+                content.style.display = index === select.selectedIndex ? 'block' : 'none';
+            });
+            popupActiveLayer = select.value;
+        });
     }
-    select.selectedIndex = selectedLayerIndex;
 
-    const allContents = contentContainer.querySelectorAll("div");
-    allContents.forEach((content, index) => {
-      content.style.display = index === select.selectedIndex ? "block" : "none";
-    });
+    function fetchFeatures() {
+        if (isPopupVisible) {
+            Object.keys(layerLabels).forEach(key => delete layerLabels[key]);
+        }
+        if (ignoreFetch) return;
+        if (sdk.Map.getZoomLevel() < 12) {
+            filterLayerCheckboxes();
+            return;
+        }
+        lastToken.cancel = true;
+        lastToken = { cancel: false, features: [], layersProcessed: 0 };
+        $('.gis-state-layer-label').css({ color: '#777' });
 
-    select.addEventListener("change", () => {
-      const allContents = contentContainer.querySelectorAll("div");
-      allContents.forEach((content, index) => {
-        content.style.display = index === select.selectedIndex ? "block" : "none";
-      });
-      popupActiveLayer = select.value;
-    });
-  }
-  
-  function fetchFeatures() { 
-      if (isPopupVisible) {       
-      Object.keys(layerLabels).forEach(key => delete layerLabels[key]);
-      }
-      if (ignoreFetch) return;
-      if (sdk.Map.getZoomLevel() < 12) {
-          filterLayerCheckboxes();
-          return;
-      }
-      lastToken.cancel = true;
-      lastToken = { cancel: false, features: [], layersProcessed: 0 };
-      $('.gis-state-layer-label').css({ color: '#777' });
+        let _layersCleared = false;
 
-      let _layersCleared = false;
+        // if (layersToFetch.length) {
+        const extent = getMercatorMapExtent();
+        GM_xmlhttpRequest({
+            url: getCountiesUrl(extent),
+            method: 'GET',
+            onload(res) {
+                if (res.status < 400) {
+                    const data = $.parseJSON(res.responseText);
+                    if (data.error) {
+                        logError(`Error in US Census counties data: ${data.error.message}`);
+                    } else {
+                        _countiesInExtent = data.features.map(feature => {
+                            const name = feature.attributes.BASENAME.toLowerCase();
+                            const stateInfo = STATES.fromId(parseInt(feature.attributes.STATE, 10));
+                            return { name, stateInfo };
+                        });
+                        logDebug(`US Census counties: ${_countiesInExtent.map(c => `${c.name} ${c.stateInfo[1]}`).join(', ')}`);
 
-      // if (layersToFetch.length) {
-      const extent = getMercatorMapExtent();
-      GM_xmlhttpRequest({
-          url: getCountiesUrl(extent),
-          method: 'GET',
-          onload(res) {
-              if (res.status < 400) {
-                  const data = $.parseJSON(res.responseText);
-                  if (data.error) {
-                      logError(`Error in US Census counties data: ${data.error.message}`);
-                  } else {
-                      _countiesInExtent = data.features.map(feature => {
-                          const name = feature.attributes.BASENAME.toLowerCase();
-                          const stateInfo = STATES.fromId(parseInt(feature.attributes.STATE, 10));
-                          return { name, stateInfo };
-                      });
-                      logDebug(`US Census counties: ${_countiesInExtent.map(c => `${c.name} ${c.stateInfo[1]}`).join(', ')}`);
+                        let layersToFetch;
+                        if (!_layersCleared) {
+                            _layersCleared = true;
+                            layersToFetch = getFetchableLayers();
 
-                      let layersToFetch;
-                      if (!_layersCleared) {
-                          _layersCleared = true;
-                          layersToFetch = getFetchableLayers();
+                            // Remove features of any layers that won't be mapped.
+                            _gisLayers.forEach(gisLayer => {
+                                if (!layersToFetch.includes(gisLayer)) {
+                                    mapLayer.removeFeatures(mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+                                    roadLayer.removeFeatures(roadLayer.getFeaturesByAttribute('layerID', gisLayer.id));
+                                }
+                            });
+                        }
 
-                          // Remove features of any layers that won't be mapped.
-                          _gisLayers.forEach(gisLayer => {
-                              if (!layersToFetch.includes(gisLayer)) {
-                                  mapLayer.removeFeatures(mapLayer.getFeaturesByAttribute('layerID', gisLayer.id));
-                                  roadLayer.removeFeatures(roadLayer.getFeaturesByAttribute('layerID', gisLayer.id));
-                              }
-                          });
-                      }
-
-                      layersToFetch = layersToFetch.filter(layer => !layer.hasOwnProperty('counties')
+                        layersToFetch = layersToFetch.filter(layer => !layer.hasOwnProperty('counties')
                           || layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
                               && layer.state === county.stateInfo[1])));
-                      filterLayerCheckboxes();
-                      logDebug(`Fetching ${layersToFetch.length} layers...`);
-                      logDebug(layersToFetch);
-                      let layersProcessedCount = 0; // Track processed layers
+                        filterLayerCheckboxes();
+                        logDebug(`Fetching ${layersToFetch.length} layers...`);
+                        logDebug(layersToFetch);
+                        let layersProcessedCount = 0; // Track processed layers
 
-                      layersToFetch.forEach(gisLayer => {
-                          const url = getUrl(extent, gisLayer);
-                          GM_xmlhttpRequest({
-                              url,
-                              context: lastToken,
-                              method: 'GET',
-                              onload(res2) {
-                                  if (res2.status < 400) { // Handle stupid issue where http 4## is considered success
-                                      processFeatures($.parseJSON(res2.responseText), res2.context, gisLayer);
-                                      // Update the popup only after all layers have been processed
-                                      layersProcessedCount += 1;
-                                      if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
-                                          updatePopup(layerLabels);
-                                      }
-                                  } else {
-                                      logDebug(`HTTP request error: ${JSON.stringify(res2)}`);
-                                      logError(`Could not fetch layer "${gisLayer.id}". Request returned ${res2.status}`);
-                                  }
-                              },
-                              onerror(res3) {
-                                  logDebug(`xmlhttpRequest error:${JSON.stringify(res3)}`);
-                                  logError(`Could not fetch layer "${gisLayer.id}". An error was thrown.`);
-                              }
-                          });
-                      });
-                  }
-              } else {
-                  logDebug(`HTTP request error: ${JSON.stringify(res)}`);
-                  logError(`Could not fetch counties from US Census site.  Request returned ${res.status}`);
-              }
-          },
-          onerror(res) {
-              logDebug(`xmlhttpRequest error:${JSON.stringify(res)}`);
-              logError('Could not fetch counties from US Census site.  An error was thrown.');
-          }
-      });
-  }
+                        layersToFetch.forEach(gisLayer => {
+                            const url = getUrl(extent, gisLayer);
+                            GM_xmlhttpRequest({
+                                url,
+                                context: lastToken,
+                                method: 'GET',
+                                onload(res2) {
+                                    if (res2.status < 400) { // Handle stupid issue where http 4## is considered success
+                                        processFeatures($.parseJSON(res2.responseText), res2.context, gisLayer);
+                                        // Update the popup only after all layers have been processed
+                                        layersProcessedCount += 1;
+                                        if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
+                                            updatePopup(layerLabels);
+                                        }
+                                    } else {
+                                        logDebug(`HTTP request error: ${JSON.stringify(res2)}`);
+                                        logError(`Could not fetch layer "${gisLayer.id}". Request returned ${res2.status}`);
+                                    }
+                                },
+                                onerror(res3) {
+                                    logDebug(`xmlhttpRequest error:${JSON.stringify(res3)}`);
+                                    logError(`Could not fetch layer "${gisLayer.id}". An error was thrown.`);
+                                }
+                            });
+                        });
+                    }
+                } else {
+                    logDebug(`HTTP request error: ${JSON.stringify(res)}`);
+                    logError(`Could not fetch counties from US Census site.  Request returned ${res.status}`);
+                }
+            },
+            onerror(res) {
+                logDebug(`xmlhttpRequest error:${JSON.stringify(res)}`);
+                logError('Could not fetch counties from US Census site.  An error was thrown.');
+            }
+        });
+    }
 
-  function showScriptInfoAlert() {
-      /* Check version and alert on update */
-      if (ALERT_UPDATE && scriptVersion !== settings.lastVersion) {
-          // alert(SCRIPT_VERSION_CHANGES);
-          let releaseNotes = '';
-          releaseNotes += '<p>What\'s New:</p>';
-          if (SCRIPT_VERSION_CHANGES.length > 0) {
-              releaseNotes += '<ul>';
-              for (let idx = 0; idx < SCRIPT_VERSION_CHANGES.length; idx++)
-                  releaseNotes += `<li>${SCRIPT_VERSION_CHANGES[idx]}`;
-              releaseNotes += '</ul>';
-          }
-          else {
-              releaseNotes += '<ul><li>Nothing major.</ul>';
-          }
-          WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, scriptVersion, releaseNotes, GF_URL);
-      }
-  }
+    function showScriptInfoAlert() {
+        /* Check version and alert on update */
+        if (SHOW_UPDATE_MESSAGE && scriptVersion !== settings.lastVersion) {
+            // alert(SCRIPT_VERSION_CHANGES);
+            let releaseNotes = '';
+            releaseNotes += '<p>What\'s New:</p>';
+            if (SCRIPT_VERSION_CHANGES.length > 0) {
+                releaseNotes += '<ul>';
+                for (let idx = 0; idx < SCRIPT_VERSION_CHANGES.length; idx++)
+                    releaseNotes += `<li>${SCRIPT_VERSION_CHANGES[idx]}`;
+                releaseNotes += '</ul>';
+            }
+            else {
+                releaseNotes += '<ul><li>Nothing major.</ul>';
+            }
+            WazeWrap.Interface.ShowScriptUpdate(GM_info.script.name, scriptVersion, releaseNotes, GF_URL);
+        }
+    }
 
-  function setEnabled(value) {
-      settings.enabled = value;
-      saveSettingsToStorage();
-      mapLayer.setVisibility(value);
-      roadLayer.setVisibility(value);
-      const color = value ? '#00bd00' : '#ccc';
-      $('span#gis-layers-power-btn').css({ color });
-      if (value) fetchFeatures();
-      $('#layer-switcher-item_gis_layers').prop('checked', value);
+    function setEnabled(value) {
+        settings.enabled = value;
+        saveSettingsToStorage();
+        mapLayer.setVisibility(value);
+        roadLayer.setVisibility(value);
+        const color = value ? '#00bd00' : '#ccc';
+        $('span#gis-layers-power-btn').css({ color });
+        if (value) fetchFeatures();
+        $('#layer-switcher-item_gis_layers').prop('checked', value);
 
-      // Show/hide the popup based on the enabled state
-      const popup = document.getElementById('layerLabelPopup');
-      if (popup) {
-          popup.style.display = value ? 'block' : 'none';
-          isPopupVisible = value;
-      }
-  }
+        // Show/hide the popup based on the enabled state
+        const popup = document.getElementById('layerLabelPopup');
+        if (popup) {
+            popup.style.display = value ? 'block' : 'none';
+            isPopupVisible = value;
+        }
+    }
 
-  function onGisLayerToggleChanged() {
-      const checked = $(this).is(':checked');
-      const layerId = $(this).data('layer-id');
-      const idx = settings.visibleLayers.indexOf(layerId);
-      if (checked) {
-          const gisLayer = _gisLayers.find(l => l.id === layerId);
-          if (gisLayer.oneTimeAlert) {
-              const lastAlertHash = settings.oneTimeAlerts[layerId];
-              const newAlertHash = hashString(gisLayer.oneTimeAlert);
-              if (lastAlertHash !== newAlertHash) {
-                  // alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
-                  WazeWrap.Alerts.info(GM_info.script.name, `Layer: ${gisLayer.name}<br><br>Message:<br>${gisLayer.oneTimeAlert}`);
-                  settings.oneTimeAlerts[layerId] = newAlertHash;
-                  saveSettingsToStorage();
-              }
-          }
-          if (idx === -1) settings.visibleLayers.push(layerId);
-      } else if (idx > -1) settings.visibleLayers.splice(idx, 1);
-      if (!ignoreFetch) {
-          saveSettingsToStorage();
-          fetchFeatures();
-      }
-  }
+    function onGisLayerToggleChanged() {
+        const checked = $(this).is(':checked');
+        const layerId = $(this).data('layer-id');
+        const idx = settings.visibleLayers.indexOf(layerId);
+        if (checked) {
+            const gisLayer = _gisLayers.find(l => l.id === layerId);
+            if (gisLayer.oneTimeAlert) {
+                const lastAlertHash = settings.oneTimeAlerts[layerId];
+                const newAlertHash = hashString(gisLayer.oneTimeAlert);
+                if (lastAlertHash !== newAlertHash) {
+                    // alert(`Layer: ${gisLayer.name}\n\nMessage:\n${gisLayer.oneTimeAlert}`);
+                    WazeWrap.Alerts.info(GM_info.script.name, `Layer: ${gisLayer.name}<br><br>Message:<br>${gisLayer.oneTimeAlert}`);
+                    settings.oneTimeAlerts[layerId] = newAlertHash;
+                    saveSettingsToStorage();
+                }
+            }
+            if (idx === -1) settings.visibleLayers.push(layerId);
+        } else if (idx > -1) settings.visibleLayers.splice(idx, 1);
+        if (!ignoreFetch) {
+            saveSettingsToStorage();
+            fetchFeatures();
+        }
+    }
 
-  function onOnlyShowApplicableLayersChanged() {
-      settings.onlyShowApplicableLayers = $(this).is(':checked');
-      saveSettingsToStorage();
-      fetchFeatures();
-  }
+    function onOnlyShowApplicableLayersChanged() {
+        settings.onlyShowApplicableLayers = $(this).is(':checked');
+        saveSettingsToStorage();
+        fetchFeatures();
+    }
 
-  function onStateCheckChanged(evt) {
-      const state = evt.data;
-      const idx = settings.selectedStates.indexOf(state);
-      if (evt.target.checked) {
-          if (idx === -1) settings.selectedStates.push(state);
-      } else if (idx > -1) settings.selectedStates.splice(idx, 1);
-      if (!ignoreFetch) {
-          saveSettingsToStorage();
-          initLayersTab();
-          fetchFeatures();
-      }
-  }
+    function onStateCheckChanged(evt) {
+        const state = evt.data;
+        const idx = settings.selectedStates.indexOf(state);
+        if (evt.target.checked) {
+            if (idx === -1) settings.selectedStates.push(state);
+        } else if (idx > -1) settings.selectedStates.splice(idx, 1);
+        if (!ignoreFetch) {
+            saveSettingsToStorage();
+            initLayersTab();
+            fetchFeatures();
+        }
+    }
 
-  function onLayerCheckboxChanged(checked) {
-      setEnabled(checked);
-  }
+    function onLayerCheckboxChanged(checked) {
+        setEnabled(checked);
+    }
 
-  function setFillParcels(doFill) {
-      [LAYER_STYLES.parcels, LAYER_STYLES.state_parcels].forEach(style => {
-          style.fillOpacity = doFill ? 0.2 : 0;
-      });
-  }
+    function setFillParcels(doFill) {
+        [LAYER_STYLES.parcels, LAYER_STYLES.state_parcels].forEach(style => {
+            style.fillOpacity = doFill ? 0.2 : 0;
+        });
+    }
 
-  function onFillParcelsCheckedChanged(evt) {
-      const { checked } = evt.target;
-      setFillParcels(checked);
-      settings.fillParcels = checked;
-      saveSettingsToStorage();
-      fetchFeatures();
-  }
+    function onFillParcelsCheckedChanged(evt) {
+        const { checked } = evt.target;
+        setFillParcels(checked);
+        settings.fillParcels = checked;
+        saveSettingsToStorage();
+        fetchFeatures();
+    }
 
-  function onMapMove() {
-      if (settings.enabled) fetchFeatures();
-  }
+    function onMapMove() {
+        if (settings.enabled) fetchFeatures();
+    }
 
-  function onRefreshLayersClick() {
-      const $btn = $('#gis-layers-refresh');
-      if (!$btn.hasClass('fa-spin')) {
-          $btn.css({ cursor: 'auto' });
-          $btn.addClass('fa-spin');
-          init(false);
-      }
-  }
+    function onRefreshLayersClick() {
+        const $btn = $('#gis-layers-refresh');
+        if (!$btn.hasClass('fa-spin')) {
+            $btn.css({ cursor: 'auto' });
+            $btn.addClass('fa-spin');
+            init(false);
+        }
+    }
 
-  function onChevronClick(evt) {
-      const $target = $(evt.currentTarget);
-      $($target.children()[0])
-          .toggleClass('fa fa-fw fa-chevron-down')
-          .toggleClass('fa fa-fw fa-chevron-right');
-      const $div = $($target.siblings()[0]);
-      if ($div.css('display') === 'none') {
-          $div.css('display', 'block');
-      } else {
-          $div.css('display', 'none');
-      }
-  }
+    function onChevronClick(evt) {
+        const $target = $(evt.currentTarget);
+        $($target.children()[0])
+            .toggleClass('fa fa-fw fa-chevron-down')
+            .toggleClass('fa fa-fw fa-chevron-right');
+        const $div = $($target.siblings()[0]);
+        if ($div.css('display') === 'none') {
+            $div.css('display', 'block');
+        } else {
+            $div.css('display', 'none');
+        }
+    }
 
-  function doToggleABunch(evt, checkState) {
-      ignoreFetch = true;
-      $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
-      ignoreFetch = false;
-      saveSettingsToStorage();
-      if (evt.data) initLayersTab();
-      fetchFeatures();
-  }
+    function doToggleABunch(evt, checkState) {
+        ignoreFetch = true;
+        $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
+        ignoreFetch = false;
+        saveSettingsToStorage();
+        if (evt.data) initLayersTab();
+        fetchFeatures();
+    }
 
-  function onSelectAllClick(evt) {
-      doToggleABunch(evt, true);
-  }
+    function onSelectAllClick(evt) {
+        doToggleABunch(evt, true);
+    }
 
-  function onSelectNoneClick(evt) {
-      doToggleABunch(evt, false);
-  }
+    function onSelectNoneClick(evt) {
+        doToggleABunch(evt, false);
+    }
 
-  function onGisAddrDisplayChange(evt) {
-      settings.addrLabelDisplay = evt.target.value;
-      saveSettingsToStorage();
-      fetchFeatures();
-  }
+    function onGisAddrDisplayChange(evt) {
+        settings.addrLabelDisplay = evt.target.value;
+        saveSettingsToStorage();
+        fetchFeatures();
+    }
 
-  function onAddressDisplayShortcutKey() {
-      if (!$('#gisAddrDisplay-hn').is(':checked')) {
-          $('#gisAddrDisplay-hn').click();
-      } else {
-          $('#gisAddrDisplay-all').click();
-      }
-  }
+    function onAddressDisplayShortcutKey() {
+        if (!$('#gisAddrDisplay-hn').is(':checked')) {
+            $('#gisAddrDisplay-hn').click();
+        } else {
+            $('#gisAddrDisplay-all').click();
+        }
+    }
 
-  function onToggleGisLayersShortcutKey() {
-      setEnabled(!settings.enabled);
-  }
+    function onToggleGisLayersShortcutKey() {
+        setEnabled(!settings.enabled);
+    }
 
-  function togglePopupVisibility() {
-      const popup = document.getElementById('layerLabelPopup');
-      if (popup) {
-          popup.style.display = isPopupVisible ? 'block' : 'none';
-      }
-      saveSettingsToStorage();
-  }
+    function togglePopupVisibility() {
+        const popup = document.getElementById('layerLabelPopup');
+        if (popup) {
+            popup.style.display = isPopupVisible ? 'block' : 'none';
+        }
+        saveSettingsToStorage();
+    }
 
-  function initLayer() {
-      const rules = _gisLayers.map(gisLayer => new OpenLayers.Rule({
-          filter: new OpenLayers.Filter.Comparison({
-              type: OpenLayers.Filter.Comparison.EQUAL_TO,
-              property: 'layerID',
-              value: gisLayer.id
-          }),
-          symbolizer: gisLayer.style
-      }));
+    function initLayer() {
+        const rules = _gisLayers.map(gisLayer => new OpenLayers.Rule({
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                property: 'layerID',
+                value: gisLayer.id
+            }),
+            symbolizer: gisLayer.style
+        }));
 
-      setFillParcels(settings.fillParcels);
+        setFillParcels(settings.fillParcels);
 
-      const style = new OpenLayers.Style(DEFAULT_STYLE, { rules });
-      let existingLayer;
-      let uniqueName;
+        const style = new OpenLayers.Style(DEFAULT_STYLE, { rules });
+        let existingLayer;
+        let uniqueName;
 
-      uniqueName = 'wmeGISLayersDefault';
-      existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't working.
-      if (existingLayer) W.map.removeLayer(existingLayer);
-      mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
-          uniqueName,
-          styleMap: new OpenLayers.StyleMap(style)
-      });
+        uniqueName = 'wmeGISLayersDefault';
+        existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't working.
+        if (existingLayer) W.map.removeLayer(existingLayer);
+        mapLayer = new OpenLayers.Layer.Vector('GIS Layers - Default', {
+            uniqueName,
+            styleMap: new OpenLayers.StyleMap(style)
+        });
 
-      uniqueName = 'wmeGISLayersRoads';
-      existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't wworking.
-      if (existingLayer) W.map.removeLayer(existingLayer);
-      roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
-          uniqueName,
-          styleMap: new OpenLayers.StyleMap(ROAD_STYLE)
-      });
+        uniqueName = 'wmeGISLayersRoads';
+        existingLayer = W.map.layers.find(l => l.uniqueName === uniqueName); // Note: W.map.getLayerByUniqueName(...) isn't wworking.
+        if (existingLayer) W.map.removeLayer(existingLayer);
+        roadLayer = new OpenLayers.Layer.Vector('GIS Layers - Roads', {
+            uniqueName,
+            styleMap: new OpenLayers.StyleMap(ROAD_STYLE)
+        });
 
-      mapLayer.setVisibility(settings.enabled);
-      roadLayer.setVisibility(settings.enabled);
+        mapLayer.setVisibility(settings.enabled);
+        roadLayer.setVisibility(settings.enabled);
 
-      W.map.addLayers([roadLayer, mapLayer]);
-  } // END InitLayer
+        W.map.addLayers([roadLayer, mapLayer]);
+    } // END InitLayer
 
-  function initLayersTab() {
-      const user = userInfo.userName.toLowerCase();
-      const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => settings.selectedStates.includes(st));
+    function initLayersTab() {
+        const user = userInfo.userName.toLowerCase();
+        const states = _.uniq(_gisLayers.map(l => l.state)).filter(st => settings.selectedStates.includes(st));
 
-      $('#panel-gis-state-layers').empty().append(
-          $('<div>', { class: 'controls-container' }).css({ 'padding-top': '0px' }).append(
-              $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).change(
-                  onOnlyShowApplicableLayersChanged
-              ).prop('checked', settings.onlyShowApplicableLayers),
-              $('<label>', { for: 'only-show-applicable-gis-layers' })
-                  .css({ 'white-space': 'pre-line' }).text('Only show applicable layers')
-          ),
-          $('.gis-layers-state-checkbox:checked').length === 0
-              ? $('<div>').text('Turn on layer categories in the Settings tab.')
-              : states.map(st => $('<fieldset>', {
-                  id: `gis-layers-for-${st}`,
-                  style: 'border:1px solid silver;padding:4px;border-radius:4px;-webkit-padding-before: 0;'
-              }).append(
-                  $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
-                      .click(onChevronClick).append(
-                          $('<i>', {
-                              class: 'fa fa-fw fa-chevron-down',
-                              style: 'cursor: pointer;font-size: 12px;margin-right: 4px'
-                          }),
-                          $('<span>', {
-                              style: 'font-size:14px;font-weight:600;text-transform: uppercase; cursor: pointer'
-                          }).text(STATES.toFullName(st))
-                      ),
-                  $('<div>', { id: `${st}_body` }).append(
-                      $('<div>').css({ 'font-size': '11px' }).append(
-                          $('<span>').append(
-                              'Select ',
-                              $('<a>', { href: '#' })
-                                  .text('All')
-                                  .click(onSelectAllClick),
-                              ' / ',
-                              $('<a>', { href: '#' })
-                                  .text('None')
-                                  .click(onSelectNoneClick)
-                          )
-                      ),
-                      $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
-                          _gisLayers.filter(l => (l.state === st && (!PRIVATE_LAYERS.hasOwnProperty(l.id)
+        $('#panel-gis-state-layers').empty().append(
+            $('<div>', { class: 'controls-container' }).css({ 'padding-top': '0px' }).append(
+                $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).change(
+                    onOnlyShowApplicableLayersChanged
+                ).prop('checked', settings.onlyShowApplicableLayers),
+                $('<label>', { for: 'only-show-applicable-gis-layers' })
+                    .css({ 'white-space': 'pre-line' }).text('Only show applicable layers')
+            ),
+            $('.gis-layers-state-checkbox:checked').length === 0
+                ? $('<div>').text('Turn on layer categories in the Settings tab.')
+                : states.map(st => $('<fieldset>', {
+                    id: `gis-layers-for-${st}`,
+                    style: 'border:1px solid silver;padding:4px;border-radius:4px;-webkit-padding-before: 0;'
+                }).append(
+                    $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
+                        .click(onChevronClick).append(
+                            $('<i>', {
+                                class: 'fa fa-fw fa-chevron-down',
+                                style: 'cursor: pointer;font-size: 12px;margin-right: 4px'
+                            }),
+                            $('<span>', {
+                                style: 'font-size:14px;font-weight:600;text-transform: uppercase; cursor: pointer'
+                            }).text(STATES.toFullName(st))
+                        ),
+                    $('<div>', { id: `${st}_body` }).append(
+                        $('<div>').css({ 'font-size': '11px' }).append(
+                            $('<span>').append(
+                                'Select ',
+                                $('<a>', { href: '#' })
+                                    .text('All')
+                                    .click(onSelectAllClick),
+                                ' / ',
+                                $('<a>', { href: '#' })
+                                    .text('None')
+                                    .click(onSelectNoneClick)
+                            )
+                        ),
+                        $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
+                            _gisLayers.filter(l => (l.state === st && (!PRIVATE_LAYERS.hasOwnProperty(l.id)
                               || PRIVATE_LAYERS[l.id].includes(user))))
-                              .map(gisLayer => {
-                                  const id = `gis-layer-${gisLayer.id}`;
-                                  return $('<div>', { class: 'controls-container', id: `${id}-container` })
-                                      .css({ 'padding-top': '0px', display: 'block' })
-                                      .append(
-                                          $('<input>', { type: 'checkbox', id })
-                                              .data('layer-id', gisLayer.id)
-                                              .change(onGisLayerToggleChanged)
-                                              .prop('checked', settings.visibleLayers.includes(gisLayer.id)),
-                                          $('<label>', { for: id, class: 'gis-state-layer-label' })
-                                              .css({ 'white-space': 'pre-line' })
-                                              .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
-                                              .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : '')
-                                              .contextmenu(evt => {
-                                                  evt.preventDefault();
-                                                  // TODO - enable the layer if it isn't already.
-                                                  // Tried using click function on the evt target, but that didn't work.
-                                                  _layerSettingsDialog.gisLayer = gisLayer;
-                                                  _layerSettingsDialog.show();
-                                              })
-                                      );
-                              })
-                      )
-                  )
-              ))
-      );
-  }
+                                .map(gisLayer => {
+                                    const id = `gis-layer-${gisLayer.id}`;
+                                    return $('<div>', { class: 'controls-container', id: `${id}-container` })
+                                        .css({ 'padding-top': '0px', display: 'block' })
+                                        .append(
+                                            $('<input>', { type: 'checkbox', id })
+                                                .data('layer-id', gisLayer.id)
+                                                .change(onGisLayerToggleChanged)
+                                                .prop('checked', settings.visibleLayers.includes(gisLayer.id)),
+                                            $('<label>', { for: id, class: 'gis-state-layer-label' })
+                                                .css({ 'white-space': 'pre-line' })
+                                                .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
+                                                .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : '')
+                                                .contextmenu(evt => {
+                                                    evt.preventDefault();
+                                                    // TODO - enable the layer if it isn't already.
+                                                    // Tried using click function on the evt target, but that didn't work.
+                                                    _layerSettingsDialog.gisLayer = gisLayer;
+                                                    _layerSettingsDialog.show();
+                                                })
+                                        );
+                                })
+                        )
+                    )
+                ))
+        );
+    }
 
-  function initSettingsTab() {
-      const states = _.uniq(_gisLayers.map(l => l.state));
-      const createRadioBtn = (name, value, text, checked) => {
-          const id = `${name}-${value}`;
-          return [$('<input>', {
-              type: 'radio', id, name, value
-          }).prop('checked', checked), $('<label>', { for: id }).text(text).css({
-              paddingLeft: '15px', marginRight: '4px'
-          })];
-      };
-      $('#panel-gis-layers-settings').empty().append(
-          $('<fieldset>', {
-              style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;margin-top:-8px;'
-          }).append(
-              $('<legend>', {
-                  style: 'margin-bottom:0px;border-bottom-style:none;width:auto;'
-              }).append($('<span>', {
-                  style: 'font-size:14px;font-weight:600;text-transform: uppercase;'
-              }).text('Labels')),
-              $('<div>', { id: 'labelSettings' }).append(
-                  $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
-                      $('<label>', { style: 'font-weight:normal;' }).text('Addresses:'),
-                      createRadioBtn('gisAddrDisplay', 'hn', 'HN', settings.addrLabelDisplay === 'hn'),
-                      createRadioBtn('gisAddrDisplay', 'street', 'Street', settings.addrLabelDisplay === 'street'),
-                      createRadioBtn('gisAddrDisplay', 'all', 'Both', settings.addrLabelDisplay === 'all'),
-                      createRadioBtn('gisAddrDisplay', 'none', 'None', settings.addrLabelDisplay === 'none'),
-                      $('<i>', {
-                          class: 'waze-tooltip',
-                          id: 'gisAddrDisplayInfo',
-                          'data-toggle': 'tooltip',
-                          style: 'margin-left:8px; font-size:12px',
-                          'data-placement': 'bottom',
-                          title: `This may not work properly for all layers. Please report issues to ${SCRIPT_AUTHOR}.`
-                      }).tooltip(),
-                      $('<br>'),
-                      $('<label>', { style: 'font-weight:normal; margin-left:8px;' }).text('Label Popup:'),
-                      createRadioBtn('popupVisibility', 'show', 'Show', isPopupVisible),
-                      createRadioBtn('popupVisibility', 'hide', 'Hide', !isPopupVisible)
-                  )
-              )
-          ),
-          $('<fieldset>', {
-              style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'
-          }).append(
-              $('<legend>', {
-                  style: 'margin-bottom:0px;border-bottom-style:none;width:auto;'
-              }).append($('<span>', {
-                  style: 'font-size:14px;font-weight:600;text-transform: uppercase;'
-              }).text('Layer Categories')),
-              $('<div>', { id: 'states_body' }).append(
-                  $('<div>').css({ 'font-size': '11px' }).append(
-                      $('<span>').append(
-                          'Select ',
-                          $('<a>', { href: '#' }).text('All').click(true, onSelectAllClick),
-                          ' / ',
-                          $('<a>', { href: '#' }).text('None').click(true, onSelectNoneClick)
-                      )
-                  ),
-                  $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
-                      states.map(st => {
-                          const fullName = STATES.toFullName(st);
-                          const id = `gis-layer-enable-state-${st}`;
-                          return $('<div>', { class: 'controls-container' })
-                              .css({ 'padding-top': '0px', display: 'block' })
-                              .append(
-                                  $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' })
-                                      .change(st, onStateCheckChanged)
-                                      .prop('checked', settings.selectedStates.includes(st)),
-                                  $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
-                              );
-                      })
-                  )
-              )
-          )
-      );
-      $('#panel-gis-layers-settings').append(
-          $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;' })
-              .append(
-                  $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
-                      .append(
-                          $('<span>', { style: 'font-size:14px;font-weight:600;text-transform: uppercase;' })
-                              .text('Appearance')
-                      ),
-                  $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
-                      $('<input>', { type: 'checkbox', id: 'fill-parcels' })
-                          .change(onFillParcelsCheckedChanged)
-                          .prop('checked', settings.fillParcels),
-                      $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line', color: '#777' }).text('Fill parcels')
-                  )
-              )
-      );
-      $('input[name="gisAddrDisplay"]').change(onGisAddrDisplayChange);
-      $('input[name="popupVisibility"]').change(function() {
-          isPopupVisible = $(this).val() === 'show';
-          togglePopupVisibility();
-      });
-  }
+    function initSettingsTab() {
+        const states = _.uniq(_gisLayers.map(l => l.state));
+        const createRadioBtn = (name, value, text, checked) => {
+            const id = `${name}-${value}`;
+            return [$('<input>', {
+                type: 'radio', id, name, value
+            }).prop('checked', checked), $('<label>', { for: id }).text(text).css({
+                paddingLeft: '15px', marginRight: '4px'
+            })];
+        };
+        $('#panel-gis-layers-settings').empty().append(
+            $('<fieldset>', {
+                style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;margin-top:-8px;'
+            }).append(
+                $('<legend>', {
+                    style: 'margin-bottom:0px;border-bottom-style:none;width:auto;'
+                }).append($('<span>', {
+                    style: 'font-size:14px;font-weight:600;text-transform: uppercase;'
+                }).text('Labels')),
+                $('<div>', { id: 'labelSettings' }).append(
+                    $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
+                        $('<label>', { style: 'font-weight:normal;' }).text('Addresses:'),
+                        createRadioBtn('gisAddrDisplay', 'hn', 'HN', settings.addrLabelDisplay === 'hn'),
+                        createRadioBtn('gisAddrDisplay', 'street', 'Street', settings.addrLabelDisplay === 'street'),
+                        createRadioBtn('gisAddrDisplay', 'all', 'Both', settings.addrLabelDisplay === 'all'),
+                        createRadioBtn('gisAddrDisplay', 'none', 'None', settings.addrLabelDisplay === 'none'),
+                        $('<i>', {
+                            class: 'waze-tooltip',
+                            id: 'gisAddrDisplayInfo',
+                            'data-toggle': 'tooltip',
+                            style: 'margin-left:8px; font-size:12px',
+                            'data-placement': 'bottom',
+                            title: `This may not work properly for all layers. Please report issues to ${SCRIPT_AUTHOR}.`
+                        }).tooltip(),
+                        $('<br>'),
+                        $('<label>', { style: 'font-weight:normal; margin-left:8px;' }).text('Label Popup:'),
+                        createRadioBtn('popupVisibility', 'show', 'Show', isPopupVisible),
+                        createRadioBtn('popupVisibility', 'hide', 'Hide', !isPopupVisible)
+                    )
+                )
+            ),
+            $('<fieldset>', {
+                style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;'
+            }).append(
+                $('<legend>', {
+                    style: 'margin-bottom:0px;border-bottom-style:none;width:auto;'
+                }).append($('<span>', {
+                    style: 'font-size:14px;font-weight:600;text-transform: uppercase;'
+                }).text('Layer Categories')),
+                $('<div>', { id: 'states_body' }).append(
+                    $('<div>').css({ 'font-size': '11px' }).append(
+                        $('<span>').append(
+                            'Select ',
+                            $('<a>', { href: '#' }).text('All').click(true, onSelectAllClick),
+                            ' / ',
+                            $('<a>', { href: '#' }).text('None').click(true, onSelectNoneClick)
+                        )
+                    ),
+                    $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
+                        states.map(st => {
+                            const fullName = STATES.toFullName(st);
+                            const id = `gis-layer-enable-state-${st}`;
+                            return $('<div>', { class: 'controls-container' })
+                                .css({ 'padding-top': '0px', display: 'block' })
+                                .append(
+                                    $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' })
+                                        .change(st, onStateCheckChanged)
+                                        .prop('checked', settings.selectedStates.includes(st)),
+                                    $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
+                                );
+                        })
+                    )
+                )
+            )
+        );
+        $('#panel-gis-layers-settings').append(
+            $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;' })
+                .append(
+                    $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
+                        .append(
+                            $('<span>', { style: 'font-size:14px;font-weight:600;text-transform: uppercase;' })
+                                .text('Appearance')
+                        ),
+                    $('<div>', { class: 'controls-container' }).css({ 'padding-top': '2px' }).append(
+                        $('<input>', { type: 'checkbox', id: 'fill-parcels' })
+                            .change(onFillParcelsCheckedChanged)
+                            .prop('checked', settings.fillParcels),
+                        $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line', color: '#777' }).text('Fill parcels')
+                    )
+                )
+        );
+        $('input[name="gisAddrDisplay"]').change(onGisAddrDisplayChange);
+        $('input[name="popupVisibility"]').change(function() {
+            isPopupVisible = $(this).val() === 'show';
+            togglePopupVisibility();
+        });
+    }
 
-  async function initTab(firstCall = true) {
-      if (firstCall) {
-          const content = $('<div>').append(
-              $('<span>', { style: 'font-size:14px;font-weight:600' }).text('GIS Layers'),
-              $('<span>', { style: 'font-size:11px;margin-left:10px;color:#aaa;' }).text(GM_info.script.version),
-              // <a href="https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852=test" target="_blank" style="color: #6290b7;font-size: 12px;margin-left: 8px;" title="Report broken layers, bugs, request new layers, script features">Report an issue</a>
-              $('<a>', {
-                  href: REQUEST_FORM_URL.replace('{username}', userInfo.userName),
-                  target: '_blank',
-                  style: 'color: #6290b7;font-size: 12px;margin-left: 8px;',
-                  title: 'Report broken layers, bugs, request new layers, script features'
-              }).text('Submit a request'),
-              $('<span>', {
-                  id: 'gis-layers-refresh',
-                  class: 'fa fa-refresh',
-                  style: 'float: right;',
-                  'data-toggle': 'tooltip',
-                  title: 'Pull new layer info from master sheet and refresh all layers.'
-              }),
-              '<ul class="nav nav-tabs">'
+    async function initTab(firstCall = true) {
+        if (firstCall) {
+            const content = $('<div>').append(
+                $('<span>', { style: 'font-size:14px;font-weight:600' }).text('GIS Layers'),
+                $('<span>', { style: 'font-size:11px;margin-left:10px;color:#aaa;' }).text(GM_info.script.version),
+                // <a href="https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852=test" target="_blank" style="color: #6290b7;font-size: 12px;margin-left: 8px;" title="Report broken layers, bugs, request new layers, script features">Report an issue</a>
+                $('<a>', {
+                    href: REQUEST_FORM_URL.replace('{username}', userInfo.userName),
+                    target: '_blank',
+                    style: 'color: #6290b7;font-size: 12px;margin-left: 8px;',
+                    title: 'Report broken layers, bugs, request new layers, script features'
+                }).text('Submit a request'),
+                $('<span>', {
+                    id: 'gis-layers-refresh',
+                    class: 'fa fa-refresh',
+                    style: 'float: right;',
+                    'data-toggle': 'tooltip',
+                    title: 'Pull new layer info from master sheet and refresh all layers.'
+                }),
+                '<ul class="nav nav-tabs">'
               + '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">'
               + 'Layers'
               + '</a></li>'
@@ -2961,216 +2961,216 @@
               + 'Settings'
               + '</a></li> '
               + '</ul>',
-              $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
-                  $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
-                  $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px; width: auto' })
-              )
-          ).html();
+                $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
+                    $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
+                    $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px; width: auto' })
+                )
+            ).html();
 
-          const powerButtonColor = settings.enabled ? '#00bd00' : '#ccc';
-          const labelText = $('<div>').append(
-              $('<span>', {
-                  class: 'fa fa-power-off',
-                  id: 'gis-layers-power-btn',
-                  style: `margin-right: 5px;cursor: pointer;color: ${powerButtonColor};font-size: 13px;`,
-                  title: 'Toggle GIS Layers'
-              }),
-              $('<span>', { title: 'GIS Layers' }).text('GIS-L')
-          ).html();
+            const powerButtonColor = settings.enabled ? '#00bd00' : '#ccc';
+            const labelText = $('<div>').append(
+                $('<span>', {
+                    class: 'fa fa-power-off',
+                    id: 'gis-layers-power-btn',
+                    style: `margin-right: 5px;cursor: pointer;color: ${powerButtonColor};font-size: 13px;`,
+                    title: 'Toggle GIS Layers'
+                }),
+                $('<span>', { title: 'GIS Layers' }).text('GIS-L')
+            ).html();
 
-          const { tabLabel, tabPane } = await sdk.Sidebar.registerScriptTab();
-          tabLabel.innerHTML = labelText;
-          tabPane.innerHTML = content;
-          // Fix tab content div spacing.
-          $(tabPane).parent().css({ width: 'auto', padding: '6px' });
-          $('#gis-layers-power-btn').click(() => {
-              setEnabled(!settings.enabled);
+            const { tabLabel, tabPane } = await sdk.Sidebar.registerScriptTab();
+            tabLabel.innerHTML = labelText;
+            tabPane.innerHTML = content;
+            // Fix tab content div spacing.
+            $(tabPane).parent().css({ width: 'auto', padding: '6px' });
+            $('#gis-layers-power-btn').click(() => {
+                setEnabled(!settings.enabled);
 
-              // return false to prevent event from bubbling up the DOM tree and causing the GIS-L tab to activate
-              return false;
-          });
-          $('#gis-layers-refresh').click(onRefreshLayersClick);
-      }
+                // return false to prevent event from bubbling up the DOM tree and causing the GIS-L tab to activate
+                return false;
+            });
+            $('#gis-layers-refresh').click(onRefreshLayersClick);
+        }
 
-      initSettingsTab();
-      initLayersTab();
-  }
+        initSettingsTab();
+        initLayersTab();
+    }
 
-  function initGui(firstCall = true) {
-      initLayer();
+    function initGui(firstCall = true) {
+        initLayer();
 
-      if (firstCall) {
-          initTab(true);
+        if (firstCall) {
+            initTab(true);
 
-          WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', settings.enabled, onLayerCheckboxChanged);
-          // W.map.events.register('moveend', null, onMapMove);
-          WazeWrap.Events.register('moveend', null, onMapMove);
-          showScriptInfoAlert();
-      } else {
-          initTab(firstCall);
-      }
-  }
+            WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', settings.enabled, onLayerCheckboxChanged);
+            // W.map.events.register('moveend', null, onMapMove);
+            WazeWrap.Events.register('moveend', null, onMapMove);
+            showScriptInfoAlert();
+        } else {
+            initTab(firstCall);
+        }
+    }
 
-  async function loadSpreadsheetAsync() {
-      let data;
-      try {
-          data = await $.getJSON(`${LAYER_DEF_SPREADSHEET_URL}?${DEC(API_KEY)}`);
-      } catch (err) {
-          throw new Error(`Spreadsheet call failed. (${err.status}: ${err.statusText})`);
-      }
-      const [[minVersion], fieldNames, ...layerDefRows] = data.values;
-      const REQUIRED_FIELD_NAMES = [
-          'state', 'name', 'id', 'counties', 'url', 'where', 'labelFields',
-          'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled',
-          'restrictTo', 'oneTimeAlert'
-      ];
-      const result = { error: null };
-      const checkFieldNames = fldName => fieldNames.includes(fldName);
+    async function loadSpreadsheetAsync() {
+        let data;
+        try {
+            data = await $.getJSON(`${LAYER_DEF_SPREADSHEET_URL}?${DEC(API_KEY)}`);
+        } catch (err) {
+            throw new Error(`Spreadsheet call failed. (${err.status}: ${err.statusText})`);
+        }
+        const [[minVersion], fieldNames, ...layerDefRows] = data.values;
+        const REQUIRED_FIELD_NAMES = [
+            'state', 'name', 'id', 'counties', 'url', 'where', 'labelFields',
+            'processLabel', 'style', 'visibleAtZoom', 'labelsVisibleAtZoom', 'enabled',
+            'restrictTo', 'oneTimeAlert'
+        ];
+        const result = { error: null };
+        const checkFieldNames = fldName => fieldNames.includes(fldName);
 
-      if (scriptVersion < minVersion) {
-          result.error = `Script must be updated to at least version ${
-              minVersion} before layer definitions can be loaded.`;
-      } else if (fieldNames.length < REQUIRED_FIELD_NAMES.length) {
-          result.error = `Expected ${
-              REQUIRED_FIELD_NAMES.length} columns in layer definition data.  Spreadsheet returned ${
-              fieldNames.length}.`;
-      } else if (!REQUIRED_FIELD_NAMES.every(fldName => checkFieldNames(fldName))) {
-          result.error = 'Script expected to see the following column names in the layer '
+        if (scriptVersion < minVersion) {
+            result.error = `Script must be updated to at least version ${
+                minVersion} before layer definitions can be loaded.`;
+        } else if (fieldNames.length < REQUIRED_FIELD_NAMES.length) {
+            result.error = `Expected ${
+                REQUIRED_FIELD_NAMES.length} columns in layer definition data.  Spreadsheet returned ${
+                fieldNames.length}.`;
+        } else if (!REQUIRED_FIELD_NAMES.every(fldName => checkFieldNames(fldName))) {
+            result.error = 'Script expected to see the following column names in the layer '
               + `definition spreadsheet:\n${REQUIRED_FIELD_NAMES.join(', ')}\n`
               + `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
-      }
-      if (!result.error) {
-          layerDefRows.filter(row => row.length).forEach(layerDefRow => {
-              const layerDef = { enabled: '0' };
-              fieldNames.forEach((fldName, fldIdx) => {
-                  let value = layerDefRow[fldIdx];
-                  if (value !== undefined && value.trim().length > 0) {
-                      value = value.trim();
-                      if (fldName === 'counties' || fldName === 'labelFields') {
-                          value = value.split(',').map(item => item.trim());
-                      } else if (fldName === 'processLabel') {
-                          try {
-                              value = ESTreeProcessor.compile(`function __$proc(){${value}} __$proc();`);
-                          } catch (ex) {
-                              layerDef.labelProcessingError = true;
-                              logError(`Error loading label processing function for layer "${layerDef.id}".`);
-                              logDebug(ex);
-                          }
-                      } else if (fldName === 'style') {
-                          layerDef.isRoadLayer = value === 'roads';
-                          if (LAYER_STYLES.hasOwnProperty(value)) {
-                              value = LAYER_STYLES[value];
-                          } else if (!layerDef.isRoadLayer) {
-                              // If style is not defined, try to read in as JSON (custom style)
-                              try {
-                                  value = JSON.parse(value);
-                              } catch (ex) {
-                                  // ignore error
-                              }
-                          }
-                      } else if (fldName === 'state') {
-                          value = value ? value.toUpperCase() : value;
-                      } else if (fldName === 'restrictTo') {
-                          try {
-                              const values = value.split(',').map(v => v.trim().toLowerCase());
-                              layerDef.notAllowed = !values.some(entry => {
-                                  const rankMatch = entry.match(/^r(\d)(\+am)?$/);
-                                  if (rankMatch) {
-                                      if (rankMatch[1] <= (userInfo.rank + 1) && (!rankMatch[2] || userInfo.isAreaManager)) {
-                                          return true;
-                                      }
-                                  } else if (entry === 'am' && userInfo.isAreaManager) {
-                                      return true;
-                                  } else if (entry === userInfo.userName.toLowerCase()) {
-                                      return true;
-                                  }
-                                  return false;
-                              });
-                          } catch (ex) {
-                              logError(ex);
-                          }
-                      }
-                      layerDef[fldName] = value;
-                  } else if (fldName === 'labelFields') {
-                      layerDef[fldName] = [''];
-                  }
-              });
-              const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
-              if (!layerDef.notAllowed && enabled) {
-                  _gisLayers.push(layerDef);
-              }
-          });
-      }
+        }
+        if (!result.error) {
+            layerDefRows.filter(row => row.length).forEach(layerDefRow => {
+                const layerDef = { enabled: '0' };
+                fieldNames.forEach((fldName, fldIdx) => {
+                    let value = layerDefRow[fldIdx];
+                    if (value !== undefined && value.trim().length > 0) {
+                        value = value.trim();
+                        if (fldName === 'counties' || fldName === 'labelFields') {
+                            value = value.split(',').map(item => item.trim());
+                        } else if (fldName === 'processLabel') {
+                            try {
+                                value = ESTreeProcessor.compile(`function __$proc(){${value}} __$proc();`);
+                            } catch (ex) {
+                                layerDef.labelProcessingError = true;
+                                logError(`Error loading label processing function for layer "${layerDef.id}".`);
+                                logDebug(ex);
+                            }
+                        } else if (fldName === 'style') {
+                            layerDef.isRoadLayer = value === 'roads';
+                            if (LAYER_STYLES.hasOwnProperty(value)) {
+                                value = LAYER_STYLES[value];
+                            } else if (!layerDef.isRoadLayer) {
+                                // If style is not defined, try to read in as JSON (custom style)
+                                try {
+                                    value = JSON.parse(value);
+                                } catch (ex) {
+                                    // ignore error
+                                }
+                            }
+                        } else if (fldName === 'state') {
+                            value = value ? value.toUpperCase() : value;
+                        } else if (fldName === 'restrictTo') {
+                            try {
+                                const values = value.split(',').map(v => v.trim().toLowerCase());
+                                layerDef.notAllowed = !values.some(entry => {
+                                    const rankMatch = entry.match(/^r(\d)(\+am)?$/);
+                                    if (rankMatch) {
+                                        if (rankMatch[1] <= (userInfo.rank + 1) && (!rankMatch[2] || userInfo.isAreaManager)) {
+                                            return true;
+                                        }
+                                    } else if (entry === 'am' && userInfo.isAreaManager) {
+                                        return true;
+                                    } else if (entry === userInfo.userName.toLowerCase()) {
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                            } catch (ex) {
+                                logError(ex);
+                            }
+                        }
+                        layerDef[fldName] = value;
+                    } else if (fldName === 'labelFields') {
+                        layerDef[fldName] = [''];
+                    }
+                });
+                const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
+                if (!layerDef.notAllowed && enabled) {
+                    _gisLayers.push(layerDef);
+                }
+            });
+        }
 
-      return result;
-  }
+        return result;
+    }
 
-  async function init(firstCall = true) {
-      _gisLayers = [];
-      if (firstCall) {
-          userInfo = sdk.State.getUserInfo();
-          labelProcessingGlobalVariables.W = W;
-          labelProcessingGlobalVariables.sdk = sdk;
-          initRoadStyle();
-          loadSettingsFromStorage();
-          installPathFollowingLabels();
-          new WazeWrap.Interface.Shortcut(
-              'GisLayersAddrDisplay',
-              'Toggle HN-only address labels (GIS Layers)',
-              'layers',
-              'layersToggleGisAddressLabelDisplay',
-              settings.toggleHnsOnlyShortcut,
-              onAddressDisplayShortcutKey,
-              null
-          ).add();
-          new WazeWrap.Interface.Shortcut(
-              'GisLayersToggleEnabled',
-              'Toggle display of GIS Layers',
-              'layers',
-              'layersToggleGisLayersEnabled',
-              settings.toggleEnabledShortcut,
-              onToggleGisLayersShortcutKey,
-              null
-          ).add();
-          window.addEventListener('beforeunload', saveSettingsToStorage, false);
-          _layerSettingsDialog = new LayerSettingsDialog();
-      }
-      const t0 = performance.now();
-      try {
-          const result = await loadSpreadsheetAsync();
-          if (result.error) {
-              logError(result.error);
-              return;
-          }
-          _layerRefinements.forEach(layerRefinement => {
-              const layerDef = _gisLayers.find(layerDef2 => layerDef2.id === layerRefinement.id);
-              if (layerDef) {
-                  Object.keys(layerRefinement).forEach(fldName => {
-                      const value = layerRefinement[fldName];
-                      if (fldName !== 'id' && layerDef.hasOwnProperty(fldName)) {
-                          logDebug(`The "${fldName}" property of layer "${
-                              layerDef.id}" has a value hardcoded in the script, and also defined in the spreadsheet.`
+    async function init(firstCall = true) {
+        _gisLayers = [];
+        if (firstCall) {
+            userInfo = sdk.State.getUserInfo();
+            labelProcessingGlobalVariables.W = W;
+            labelProcessingGlobalVariables.sdk = sdk;
+            initRoadStyle();
+            loadSettingsFromStorage();
+            installPathFollowingLabels();
+            new WazeWrap.Interface.Shortcut(
+                'GisLayersAddrDisplay',
+                'Toggle HN-only address labels (GIS Layers)',
+                'layers',
+                'layersToggleGisAddressLabelDisplay',
+                settings.toggleHnsOnlyShortcut,
+                onAddressDisplayShortcutKey,
+                null
+            ).add();
+            new WazeWrap.Interface.Shortcut(
+                'GisLayersToggleEnabled',
+                'Toggle display of GIS Layers',
+                'layers',
+                'layersToggleGisLayersEnabled',
+                settings.toggleEnabledShortcut,
+                onToggleGisLayersShortcutKey,
+                null
+            ).add();
+            window.addEventListener('beforeunload', saveSettingsToStorage, false);
+            _layerSettingsDialog = new LayerSettingsDialog();
+        }
+        const t0 = performance.now();
+        try {
+            const result = await loadSpreadsheetAsync();
+            if (result.error) {
+                logError(result.error);
+                return;
+            }
+            _layerRefinements.forEach(layerRefinement => {
+                const layerDef = _gisLayers.find(layerDef2 => layerDef2.id === layerRefinement.id);
+                if (layerDef) {
+                    Object.keys(layerRefinement).forEach(fldName => {
+                        const value = layerRefinement[fldName];
+                        if (fldName !== 'id' && layerDef.hasOwnProperty(fldName)) {
+                            logDebug(`The "${fldName}" property of layer "${
+                                layerDef.id}" has a value hardcoded in the script, and also defined in the spreadsheet.`
                               + ' The spreadsheet value takes precedence.');
-                      } else if (value) layerDef[fldName] = value;
-                  });
-              } else {
-                  logDebug(`Refined layer "${layerRefinement.id}" does not have a corresponding layer defined`
+                        } else if (value) layerDef[fldName] = value;
+                    });
+                } else {
+                    logDebug(`Refined layer "${layerRefinement.id}" does not have a corresponding layer defined`
                       + ' in the spreadsheet.  It can probably be removed from the script.');
-              }
-          });
-          logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
-          initGui(firstCall);
-          fetchFeatures();
-          $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
-          logDebug('Initialized.');
-      } catch (err) {
-          logError(err);
-      }
-  }
+                }
+            });
+            logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
+            initGui(firstCall);
+            fetchFeatures();
+            $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
+            logDebug('Initialized.');
+        } catch (err) {
+            logError(err);
+        }
+    }
 
-  init();
+    init();
 
-  /*eslint-disable*/
+    /*eslint-disable*/
   function installPathFollowingLabels() {
       // Copyright (c) 2015 by Jean-Marc.Viglino [at]ign.fr
       // Dual-licensed under the CeCILL-B Licence (http://www.cecill.info/)
