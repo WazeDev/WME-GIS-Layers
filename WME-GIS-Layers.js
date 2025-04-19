@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.03.14.000
+// @version      2025.04.19.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -25,7 +25,6 @@
 // @connect 35.172.145.31
 // @connect 52.37.30.30
 // @connect 54.213.14.253
-// @connect 65.183.210.212
 // @connect 72.10.206.73
 // @connect a2maps.a2gov.org
 // @connect adairgis.integritygis.com
@@ -151,6 +150,7 @@
 // @connect dcimapapps.countyofdane.com
 // @connect dekalbgis.integritygis.com
 // @connect delta.co.clatsop.or.us
+// @connect dev.wilsonvillemaps.com
 // @connect doniphangis.integritygis.com
 // @connect dotapp9.dot.state.mn.us
 // @connect douglasgis.integritygis.com
@@ -168,14 +168,17 @@
 // @connect epv.ci.juneau.ak.us
 // @connect eservices.co.crook.or.us
 // @connect essex-gis.co.essex.ny.us
+// @connect fcgis.franklincountypa.gov
 // @connect feature.geographic.texas.gov
 // @connect feature.tnris.org
 // @connect fieldstone.orangecountync.gov
 // @connect firstmap.gis.delaware.gov
 // @connect fremontgis.com
 // @connect gasconadegis.integritygis.com
+// @connect gateway.maps.rlid.org
 // @connect gcgis.guilfordcountync.gov
 // @connect geaugarealink.co.geauga.oh.us
+// @connect geo.co.butler.pa.us
 // @connect geo.co.harrison.ms.us
 // @connect geo.dentoncad.com
 // @connect geo.forsythco.com
@@ -183,14 +186,16 @@
 // @connect geo.oit.ohio.gov
 // @connect geo.sandag.org
 // @connect geo.sanjoseca.gov
+// @connect geo.statcan.gc.ca
 // @connect geo.tompkins-co.org
+// @connect geo.vbgov.com
 // @connect geo1.oit.ohio.gov
 // @connect geo2.co.dodge.wi.us
 // @connect geodata.hawaii.gov
 // @connect geodata.md.gov
 // @connect geodata.sarpy.com
 // @connect geodataportal.net
-// @connect geoint2.odessa-tx.gov
+// @connect geonb.snb.ca
 // @connect geopower.jws.com
 // @connect geoweb.martin.fl.us
 // @connect geoweb02.ci.richmond.ca.us
@@ -236,6 +241,7 @@
 // @connect gis.buttecounty.net
 // @connect gis.caldwellcountync.org
 // @connect gis.calhouncounty.org
+// @connect gis.campbellca.gov
 // @connect gis.carboncounty.com
 // @connect gis.cayugacounty.us
 // @connect gis.cccounty.us
@@ -258,18 +264,18 @@
 // @connect gis.cityofmiddletown.com
 // @connect gis.cityofmoore.com
 // @connect gis.cityofsanmateo.org
-// @connect gis.clark.wa.gov
+// @connect gis.cityofwestsacramento.org
 // @connect gis.clevelandtn.gov
 // @connect gis.cmpdd.org
 // @connect gis.co.benton.or.us
 // @connect gis.co.berks.pa.us
-// @connect gis.co.butler.pa.us
 // @connect gis.co.carlton.mn.us
 // @connect gis.co.carver.mn.us
 // @connect gis.co.clarion.pa.us
 // @connect gis.co.cumberland.nc.us
 // @connect gis.co.douglas.or.us
 // @connect gis.co.eau-claire.wi.us
+// @connect gis.co.fairfield.oh.us
 // @connect gis.co.fillmore.mn.us
 // @connect gis.co.grand.co.us
 // @connect gis.co.grant.mn.us
@@ -289,7 +295,6 @@
 // @connect gis.co.polk.mn.us
 // @connect gis.co.richland.wi.us
 // @connect gis.co.roseau.mn.us
-// @connect gis.co.routt.co.us
 // @connect gis.co.sangamon.il.us
 // @connect gis.co.sauk.wi.us
 // @connect gis.co.sherburne.mn.us
@@ -301,7 +306,6 @@
 // @connect gis.co.waushara.wi.us
 // @connect gis.co.wood.wi.us
 // @connect gis.co.ym.mn.gov
-// @connect gis.cobbcounty.org
 // @connect gis.colorado.gov
 // @connect gis.coloradosprings.gov
 // @connect gis.columbiacountyga.gov
@@ -322,7 +326,6 @@
 // @connect gis.cstx.gov
 // @connect gis.danville-va.gov
 // @connect gis.dauphincounty.org
-// @connect gis.dbqco.org
 // @connect gis.deerparktx.gov
 // @connect gis.dekalbcountyga.gov
 // @connect gis.delcopa.gov
@@ -334,6 +337,7 @@
 // @connect gis.dot.nv.gov
 // @connect gis.dot.state.oh.us
 // @connect gis.douglascountyks.org
+// @connect gis.dubuquecounty.us
 // @connect gis.dupageco.org
 // @connect gis.duplincountync.com
 // @connect gis.dutchessny.gov
@@ -347,7 +351,6 @@
 // @connect gis.eriecountypa.gov
 // @connect gis.fortlauderdale.gov
 // @connect gis.franklincountyohio.gov
-// @connect gis.franklincountypa.gov
 // @connect gis.fultoncountyoh.com
 // @connect gis.fwb.org
 // @connect gis.fwp.mt.gov
@@ -373,8 +376,8 @@
 // @connect gis.hennepin.us
 // @connect gis.huntingtonbeachca.gov
 // @connect gis.iberiagov.net
+// @connect gis.indot.in.gov
 // @connect gis.interdev.com
-// @connect gis.inyoco.com
 // @connect gis.iowadot.gov
 // @connect gis.itd.idaho.gov
 // @connect gis.jacksonnc.org
@@ -400,7 +403,6 @@
 // @connect gis.leecountyil.com
 // @connect gis.lehighcounty.org
 // @connect gis.leoc.net
-// @connect gis.linncounty.org
 // @connect gis.littleelm.org
 // @connect gis.livingstoncounty.us
 // @connect gis.lja.com
@@ -417,10 +419,10 @@
 // @connect gis.masoncountywa.gov
 // @connect gis.massdot.state.ma.us
 // @connect gis.mbakerintl.com
+// @connect gis.mcgtn.org
 // @connect gis.mckeancountypa.gov
 // @connect gis.mcohio.org
 // @connect gis.mendocinocounty.org
-// @connect gis.mercercountyohio.org
 // @connect gis.mercercountypa.gov
 // @connect gis.mesaaz.gov
 // @connect gis.mifflincountypa.gov
@@ -465,6 +467,7 @@
 // @connect gis.pinal.gov
 // @connect gis.pittcountync.gov
 // @connect gis.pittsburgca.gov
+// @connect gis.polk-county.net
 // @connect gis.popecountymn.gov
 // @connect gis.port-orange.org
 // @connect gis.pottcounty-ia.gov
@@ -484,6 +487,7 @@
 // @connect gis.sanjuanco.com
 // @connect gis.santa-clarita.com
 // @connect gis.santacruzcounty.us
+// @connect gis.santamonica.gov
 // @connect gis.sawyerwi.org
 // @connect gis.sccwi.gov
 // @connect gis.shastacounty.gov
@@ -496,7 +500,6 @@
 // @connect gis.southkingstownri.com
 // @connect gis.steele.mn
 // @connect gis.stlouiscountymn.gov
-// @connect gis.stlucieco.gov
 // @connect gis.sullivanny.us
 // @connect gis.sumtercountyfl.gov
 // @connect gis.surryinfo.net
@@ -518,8 +521,11 @@
 // @connect gis.washingtoncountyny.gov
 // @connect gis.watertownwi.gov
 // @connect gis.waukesha-wi.gov
+// @connect gis.waukeshacounty.gov
 // @connect gis.weatherfordtx.gov
+// @connect gis.westmorelandcountypa.gov
 // @connect gis.westplains.net
+// @connect gis.whatcomcounty.us
 // @connect gis.whitfieldcountyga.com
 // @connect gis.wilco.org
 // @connect gis.wilkescounty.net
@@ -538,6 +544,7 @@
 // @connect gis1.acimap.us
 // @connect gis1.georgetowncountysc.org
 // @connect gis1.hamiltoncounty.in.gov
+// @connect gis11.cama.io
 // @connect gis11.services.ncdot.gov
 // @connect gis12.cookcountyil.gov
 // @connect gis2.arlingtontx.gov
@@ -552,7 +559,6 @@
 // @connect gis2.orangeburgcounty.org
 // @connect gis2.sandyspringsga.gov
 // @connect gis2.totaland.com
-// @connect gis2.waukcogeo.com
 // @connect gis21svweb.lincolnparish.org
 // @connect gis3.cdmsmithgis.com
 // @connect gis3.cmpdd.org
@@ -613,7 +619,6 @@
 // @connect gisonline.greenvillenc.gov
 // @connect gisp.co.genesee.ny.us
 // @connect gisp.mcgi.state.mi.us
-// @connect gisp1.polkcountyiowa.gov
 // @connect gisportal.champaignil.gov
 // @connect gisportal.co.calaveras.ca.us
 // @connect gisportal.co.madison.il.us
@@ -693,6 +698,7 @@
 // @connect joplingis.org
 // @connect k3gis.com
 // @connect kanplan.ksdot.gov
+// @connect kcgis.kentoncounty.org
 // @connect kenhagis.kenha.co.ke
 // @connect kygisserver.ky.gov
 // @connect lacledegis.integritygis.com
@@ -725,6 +731,7 @@
 // @connect map.eaglecounty.us
 // @connect map.newberrycounty.net
 // @connect map.opkansas.org
+// @connect map.pikepass.com
 // @connect map.stclairco.com
 // @connect map.sussexcountyde.gov
 // @connect map.wyoroad.info
@@ -734,7 +741,6 @@
 // @connect mapdata.lasvegasnevada.gov
 // @connect mapit.fortworthtexas.gov
 // @connect mapitwest.fortworthtexas.gov
-// @connect mapnew.polkpa.org
 // @connect mapping.adamscountypa.gov
 // @connect mapping.kenoshacountywi.gov
 // @connect mapping.mitchellcounty.org
@@ -771,6 +777,7 @@
 // @connect maps.cityofmobile.org
 // @connect maps.cityofsherman.com
 // @connect maps.cityoftulsa.org
+// @connect maps.cityofwaterlooiowa.com
 // @connect maps.clarkcountynv.gov
 // @connect maps.claycountygov.com
 // @connect maps.clermontauditor.org
@@ -807,6 +814,7 @@
 // @connect maps.dotd.la.gov
 // @connect maps.douglascountyga.gov
 // @connect maps.douglascountywa.net
+// @connect maps.dsm.city
 // @connect maps.elbertcounty-co.gov
 // @connect maps.escpa.org
 // @connect maps.etcog.org
@@ -819,6 +827,7 @@
 // @connect maps.fredericksburgva.gov
 // @connect maps.garfield-county.com
 // @connect maps.garlandtx.gov
+// @connect maps.gov.bc.ca
 // @connect maps.grcity.us
 // @connect maps.groton-ct.gov
 // @connect maps.grundyco.org
@@ -828,17 +837,16 @@
 // @connect maps.hokecounty.org
 // @connect maps.huerfano.us
 // @connect maps.huntsvilleal.gov
-// @connect maps.indiana.edu
 // @connect maps.iredellcountync.gov
 // @connect maps.itos.uga.edu
 // @connect maps.jocogov.org
-// @connect maps.kpb.us
 // @connect maps.kytc.ky.gov
 // @connect maps.lacity.org
 // @connect maps.lagrange-ga.org
 // @connect maps.lakecountyil.gov
 // @connect maps.laramiecounty.com
 // @connect maps.lcwy.org
+// @connect maps.lebanontn.org
 // @connect maps.lex-co.com
 // @connect maps.lexingtonky.gov
 // @connect maps.libertymo.gov
@@ -851,7 +859,7 @@
 // @connect maps.midlandtexas.gov
 // @connect maps.muskegoncountygis.com
 // @connect maps.nashville.gov
-// @connect maps.nassauflpa.com
+// @connect maps.ncpafl.com
 // @connect maps.nevadacountyca.gov
 // @connect maps.nj.gov
 // @connect maps.normanok.gov
@@ -868,7 +876,6 @@
 // @connect maps.raleighnc.gov
 // @connect maps.richlandcountyoh.us
 // @connect maps.rutherfordcountytn.gov
-// @connect maps.sanmiguelcountyco.gov
 // @connect maps.santa-clarita.com
 // @connect maps.santabarbaraca.gov
 // @connect maps.sccmo.org
@@ -879,6 +886,7 @@
 // @connect maps.slocity.org
 // @connect maps.spartanburgcounty.org
 // @connect maps.springfieldmo.gov
+// @connect maps.steamboatsprings.net
 // @connect maps.stlouisco.com
 // @connect maps.swaincountync.gov
 // @connect maps.tippecanoe.in.gov
@@ -912,6 +920,7 @@
 // @connect mapserv.mesquitenv.gov
 // @connect mapservice.nmstatelands.org
 // @connect mapservices.gis.saccounty.net
+// @connect mapservices.gov.yk.ca
 // @connect mapservices.pasda.psu.edu
 // @connect mapservices.santacruzcountyaz.gov
 // @connect mapservices.sccgov.org
@@ -921,11 +930,10 @@
 // @connect mariesgis.integritygis.com
 // @connect mariongis.integritygis.com
 // @connect mcdonaldgis.integritygis.com
-// @connect mcggis.mcgtn.org
 // @connect mcgis.mesacounty.us
 // @connect mcgis.mohave.gov
 // @connect mcgis4.monroecounty-fl.gov
-// @connect mcmap2.montrosecounty.net
+// @connect mcmap.montrosecounty.net
 // @connect mcogis.co.marion.oh.us
 // @connect millergis.integritygis.com
 // @connect mms.hursttx.gov
@@ -961,6 +969,7 @@
 // @connect polkgis.integritygis.com
 // @connect portal.carolinabeach.org
 // @connect portal.carson.org
+// @connect portal.henrico.us
 // @connect programs.iowadnr.gov
 // @connect propaccess.wadtx.com
 // @connect propertyviewer.andersoncountysc.org
@@ -987,12 +996,12 @@
 // @connect rptsgisweb.oswegocounty.com
 // @connect salinegis.integritygis.com
 // @connect saludacountysc.net
+// @connect scgis.summitoh.net
 // @connect scgisa.starkcountyohio.gov
 // @connect sdgis.sd.gov
 // @connect secure.boonecountygis.com
 // @connect sedaliagis.integritygis.com
 // @connect see-eldorado.edcgov.us
-// @connect sei.cloudsmartgis.com
 // @connect seminolearcgis.seminolecountyfl.gov
 // @connect server.boundarycountyid.org
 // @connect server1.mapxpress.net
@@ -1016,6 +1025,7 @@
 // @connect services9.arcgis.com
 // @connect showlowmaps.com
 // @connect skyview.hornershifrin.com
+// @connect slcgis.stlucieco.gov
 // @connect slco.org
 // @connect smgis.sanmarcostx.gov
 // @connect smithvillegis.integritygis.com
@@ -1028,7 +1038,6 @@
 // @connect stmgis.stmarysmd.com
 // @connect stokescountygis.com
 // @connect stonegis.integritygis.com
-// @connect summitmaps.summitoh.net
 // @connect svr4.sumtercountysc.org
 // @connect tcgisws.tooeleco.gov
 // @connect tcweb.co.teller.co.us
@@ -1076,6 +1085,7 @@
 // @connect webstergis.integritygis.com
 // @connect wfs.ksdot.org
 // @connect wfs.schneidercorp.com
+// @connect ws.lioservices.lrc.gov.on.ca
 // @connect wvsams.mapwv.org
 // @connect ww1.bucoks.com
 // @connect www.1stdistrict.org
@@ -1104,7 +1114,6 @@
 // @connect www.hernandocountygis-florida.us
 // @connect www.hogarcmaps.org
 // @connect www.horrycountysc.gov
-// @connect www.iqmap.org
 // @connect www.landmarkgeospatial.com
 // @connect www.laurenscountygis.org
 // @connect www.mcgisweb.org
@@ -1113,6 +1122,7 @@
 // @connect www.monroegis.org
 // @connect www.mymanatee.org
 // @connect www.ocgis.com
+// @connect www.portlandmaps.com
 // @connect www.sciotocountyengineer.org
 // @connect www.semogis.com
 // @connect www.sgrcmaps.com
@@ -1120,10 +1130,8 @@
 // @connect www.skagitcounty.net
 // @connect www.smithcountymapsite.org
 // @connect www.tgisites.com
-// @connect www.unionco.org
 // @connect www.valorgis.com
 // @connect www.waynecounty.com
-// @connect www.wcgis.us
 // @connect www.webgis.net
 // @connect www1.cityofwebster.com
 // @connect www2.ci.lancaster.oh.us
@@ -1359,8 +1367,8 @@
 
     const DEBUG = true;
     // function log(message) { console.log('GIS Layers:', message); }
-    function logError(message) { console.error(`${scriptName}:`, message); }
-    function logDebug(message) { if (DEBUG) console.debug(`${scriptName}:`, message); }
+    function logError(message, args = []) { console.error(`${scriptName}:`, message, ...args); }
+    function logDebug(message, args = []) { if (DEBUG) console.debug(`${scriptName}:`, message, ...args); }
     // function logWarning(message) { console.warn('GIS Layers:', message); }
 
     let _layerSettingsDialog;
@@ -1559,7 +1567,6 @@
     }
 
     function loadSettingsFromStorage() {
-        const loadedSettings = $.parseJSON(localStorage.getItem(SETTINGS_STORE_NAME));
         const defaultSettings = {
             lastVersion: null,
             visibleLayers: [],
@@ -1567,17 +1574,31 @@
             selectedStates: [],
             enabled: true,
             fillParcels: false,
-            toggleHnsOnlyShortcut: '',
-            toggleEnabledShortcut: '',
             oneTimeAlerts: {},
-            layers: {}
+            layers: {},
+            shortcuts: {}
         };
-        settings = loadedSettings || defaultSettings;
-        Object.keys(defaultSettings).forEach(prop => {
-            if (!settings.hasOwnProperty(prop)) {
-                settings[prop] = defaultSettings[prop];
+
+        let loadedSettings = {}; // Initialize as an empty object
+        const storedSettings = localStorage.getItem(SETTINGS_STORE_NAME);
+
+        if (storedSettings) {
+            try {
+                const parsed = JSON.parse(storedSettings);
+                if (parsed && typeof parsed === 'object') {
+                    loadedSettings = parsed;
+                } else {
+                    logDebug(`Stored settings under key "${SETTINGS_STORE_NAME}" were not a valid object.`);
+                }
+            } catch (e) {
+                logError(`Failed to parse settings from localStorage key "${SETTINGS_STORE_NAME}":`, e);
+                // loadedSettings remains {}
             }
-        });
+        }
+
+        // Merge defaultSettings and loadedSettings.
+        // If loadedSettings is empty (due to error or no storage), it effectively uses defaults.
+        settings = { ...defaultSettings, ...loadedSettings };
 
         settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
             const layerSettings = this.layers[layerID];
@@ -1600,35 +1621,24 @@
                 delete layerSettings[settingName];
             }
         };
+
+        // Handle legacy shortcut keys settings.
+        // TODO: Delete this later, after most users have updated.
+        if (settings.toggleHnsOnlyShortcut) {
+            settings.shortcuts.toggleHnsOnly = settings.toggleHnsOnlyShortcut;
+            delete settings.toggleHnsOnlyShortcut;
+        }
+        if (settings.toggleEnabledShortcut) {
+            settings.shortcuts.toggleEnabled = settings.toggleEnabledShortcut;
+            delete settings.toggleEnabledShortcut;
+        }
     }
 
     function saveSettingsToStorage() {
-        // SDK: update once "empty" shortcuts are allowed
-        // Check for existance of action first, due to WME beta issue.
-        if (W.accelerators.Actions.GisLayersAddrDisplay) {
-            let keys = '';
-            const { shortcut } = W.accelerators.Actions.GisLayersAddrDisplay;
-            if (shortcut) {
-                if (shortcut.altKey) keys += 'A';
-                if (shortcut.shiftKey) keys += 'S';
-                if (shortcut.ctrlKey) keys += 'C';
-                if (keys.length) keys += '+';
-                if (shortcut.keyCode) keys += shortcut.keyCode;
-            }
-            settings.toggleHnsOnlyShortcut = keys;
-        }
-        if (W.accelerators.Actions.GisLayersToggleEnabled) {
-            let keys = '';
-            const { shortcut } = W.accelerators.Actions.GisLayersToggleEnabled;
-            if (shortcut) {
-                if (shortcut.altKey) keys += 'A';
-                if (shortcut.shiftKey) keys += 'S';
-                if (shortcut.ctrlKey) keys += 'C';
-                if (keys.length) keys += '+';
-                if (shortcut.keyCode) keys += shortcut.keyCode;
-            }
-            settings.toggleEnabledShortcut = keys;
-        }
+        settings.shortcuts = {};
+        sdk.Shortcuts.getAllShortcuts().forEach(shortcut => {
+            settings.shortcuts[shortcut.shortcutId] = shortcut.shortcutKeys;
+        });
         settings.lastVersion = scriptVersion;
         localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(settings));
         logDebug('Settings saved');
@@ -2635,6 +2645,19 @@
         return result;
     }
 
+    function createShortcut(shortcutId, description, callback) {
+        let shortcutKeys = settings.shortcuts?.[shortcutId] ?? null;
+        if (shortcutKeys && sdk.Shortcuts.areShortcutKeysInUse({ shortcutKeys })) {
+            shortcutKeys = null;
+        }
+        sdk.Shortcuts.createShortcut({
+            shortcutId,
+            shortcutKeys,
+            description,
+            callback
+        });
+    }
+
     async function init(firstCall = true) {
         _gisLayers = [];
         if (firstCall) {
@@ -2643,25 +2666,9 @@
             labelProcessingGlobalVariables.sdk = sdk;
             initRoadStyle();
             loadSettingsFromStorage();
+            createShortcut('toggleHnsOnly', 'Toggle HN-only address labels (GIS Layers)', onAddressDisplayShortcutKey);
+            createShortcut('toggleEnabled', 'Toggle display of GIS Layers', onToggleGisLayersShortcutKey);
             installPathFollowingLabels();
-            new WazeWrap.Interface.Shortcut(
-                'GisLayersAddrDisplay',
-                'Toggle HN-only address labels (GIS Layers)',
-                'layers',
-                'layersToggleGisAddressLabelDisplay',
-                settings.toggleHnsOnlyShortcut,
-                onAddressDisplayShortcutKey,
-                null
-            ).add();
-            new WazeWrap.Interface.Shortcut(
-                'GisLayersToggleEnabled',
-                'Toggle display of GIS Layers',
-                'layers',
-                'layersToggleGisLayersEnabled',
-                settings.toggleEnabledShortcut,
-                onToggleGisLayersShortcutKey,
-                null
-            ).add();
             window.addEventListener('beforeunload', saveSettingsToStorage, false);
             _layerSettingsDialog = new LayerSettingsDialog();
         }
