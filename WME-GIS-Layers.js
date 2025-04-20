@@ -16,6 +16,7 @@
 // @connect      greasyfork.org
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
+// @grant        GM_setClipboard
 // @license      GNU GPLv3
 // @contributionURL https://github.com/WazeDev/Thank-The-Authors
 // @connect      *
@@ -2072,6 +2073,16 @@
         }
     } // END processFeatures()
 
+    function copyTextToClipboard(text) {
+        try {
+            GM_setClipboard(text);
+            logDebug(`Copy Text To Clipboard: ${text}`);
+
+        } catch (err) {
+            logError(`Failed to Text To Clipboard: ${err}`);
+        }
+    }
+
     function addLabelToLayer(layerName, label) {
         if (!layerLabels[layerName]) {
             layerLabels[layerName] = new Set();
@@ -2398,7 +2409,7 @@
             popup.appendChild(dropdownContainer);
 
             const contentContainer = document.createElement('div');
-            contentContainer.style = 'padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 100px);';
+            contentContainer.style = 'padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 110px);';
             popup.appendChild(contentContainer);
 
             const mapElement = document.getElementsByTagName('wz-page-content')[0];
@@ -2434,59 +2445,71 @@
     }
 
     function updatePopupContent(labels) {
-        const dropdownContainer = document.querySelector('#layerLabelPopup div:nth-child(3)');
-        const contentContainer = document.querySelector('#layerLabelPopup div:nth-child(4)');
+      const dropdownContainer = document.querySelector("#layerLabelPopup div:nth-child(3)");
+      const contentContainer = document.querySelector("#layerLabelPopup div:nth-child(4)");
 
-        dropdownContainer.innerHTML = '';
-        contentContainer.innerHTML = '';
+      dropdownContainer.innerHTML = "";
+      contentContainer.innerHTML = "";
 
-        const select = document.createElement('select');
-        select.style = 'width: 100%; padding: 5px; border: 1px solid #ccc; ';
+      const select = document.createElement("select");
+      select.style = "width: 100%; padding: 5px; border: 1px solid #ccc;";
 
-        const sortedLayerNames = Object.keys(labels).sort();
-        sortedLayerNames.forEach(layerName => {
-            const option = document.createElement('option');
-            option.value = layerName;
-            option.innerText = layerName;
-            select.appendChild(option);
+      const sortedLayerNames = Object.keys(labels).sort();
+      sortedLayerNames.forEach((layerName) => {
+        const option = document.createElement("option");
+        option.value = layerName;
+        option.innerText = layerName;
+        select.appendChild(option);
 
-            const uniqueLabels = Array.from(labels[layerName]).sort();
-            const tabContent = document.createElement('div');
-            tabContent.style = 'display: none; width: 100%; white-space: pre;';
+        const uniqueLabels = Array.from(labels[layerName]).sort();
+        const tabContent = document.createElement("div");
+        tabContent.style = "display: none; width: 100%; white-space: pre;";
 
-            const processedLabels = uniqueLabels
-                .map(label => {
-                    const text = processedLabel(label);
-                    return `<li style="margin-bottom: 0.3em; color: #555;">${text}</li>`;
-                })
-                .join('');
+        const processedLabels = uniqueLabels
+          .map((label) => {
+            const text = processedLabel(label);
+            const copyIcon = `<span style="cursor: pointer; margin-left: 5px;" title="Copy to clipboard">📋</span>`;
+            return `<li style="margin-bottom: 0.3em; color: #555;" data-label="${text}">${text}${copyIcon}</li>`;
+          })
+          .join("");
 
-            tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
-            contentContainer.appendChild(tabContent);
-        });
+        tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
+        contentContainer.appendChild(tabContent);
 
-        dropdownContainer.appendChild(select);
-
-        let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
-
-        if (selectedLayerIndex === -1 && select.options.length > 0) {
-            selectedLayerIndex = 0;
-            popupActiveLayer = sortedLayerNames[selectedLayerIndex];
-        }
-        select.selectedIndex = selectedLayerIndex;
-
-        const allContents = contentContainer.querySelectorAll('div');
-        allContents.forEach((content, index) => {
-            content.style.display = index === select.selectedIndex ? 'block' : 'none';
-        });
-
-        select.addEventListener('change', () => {
-            const contents = contentContainer.querySelectorAll('div');
-            contents.forEach((content, index) => {
-                content.style.display = index === select.selectedIndex ? 'block' : 'none';
+        // Add copying functionality
+        tabContent.querySelectorAll("li").forEach((li) => {
+          const icon = li.querySelector("span");
+          if (icon) {
+            icon.addEventListener("click", () => {
+              const textToCopy = li.getAttribute("data-label"); // Get the text from a custom data attribute
+              copyTextToClipboard(textToCopy);
             });
-            popupActiveLayer = select.value;
+          }
         });
+      });
+
+      dropdownContainer.appendChild(select);
+
+      let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
+
+      if (selectedLayerIndex === -1 && select.options.length > 0) {
+        selectedLayerIndex = 0;
+        popupActiveLayer = sortedLayerNames[selectedLayerIndex];
+      }
+      select.selectedIndex = selectedLayerIndex;
+
+      const allContents = contentContainer.querySelectorAll("div");
+      allContents.forEach((content, index) => {
+        content.style.display = index === select.selectedIndex ? "block" : "none";
+      });
+
+      select.addEventListener("change", () => {
+        const contents = contentContainer.querySelectorAll("div");
+        contents.forEach((content, index) => {
+          content.style.display = index === select.selectedIndex ? "block" : "none";
+        });
+        popupActiveLayer = select.value;
+      });
     }
 
     function fetchFeatures() {
