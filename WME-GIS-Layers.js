@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.04.19.000
+// @version      2025.03.20.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -16,6 +16,7 @@
 // @connect      greasyfork.org
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
+// @grant        GM_setClipboard
 // @license      GNU GPLv3
 // @contributionURL https://github.com/WazeDev/Thank-The-Authors
 // @connect      *
@@ -1152,6 +1153,9 @@
 (async function main() {
     'use strict';
 
+    const SHOW_UPDATE_MESSAGE = true;
+    const SCRIPT_VERSION_CHANGES = ['Added a setting to display a popup with layer labels which can be used to copy label text (thanks to JS55CT for creating this!).'];
+
     // **************************************************************************************************************
     // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
     //            that may cause old code to break.  This # should match the version listed in the spreadsheet
@@ -1352,11 +1356,9 @@
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
-    const ALERT_UPDATE = false;
     const scriptName = GM_info.script.name;
     const scriptVersion = GM_info.script.version;
     const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
-    const SCRIPT_VERSION_CHANGES = [];
     const sdk = await bootstrap({ scriptUpdateMonitor: { downloadUrl } });
     let mapLayer = null;
     let roadLayer = null;
@@ -1364,6 +1366,16 @@
     let ignoreFetch = false;
     let lastToken = {};
     let userInfo;
+
+    // Variables to store Label popup position and selected layer
+    const layerLabels = {};
+    let isPopupVisible = null;
+    const popupPosition = { left: '50%', top: '50%' };
+    let popupActiveLayer = null;
+    let useAcronyms = false;
+    let useTitleCase = false;
+    let useStateHwy = false;
+    let removeNewLines = false;
 
     const DEBUG = true;
     // function log(message) { console.log('GIS Layers:', message); }
@@ -1398,7 +1410,7 @@
 
             this._dialogDiv = $('<div>', {
                 style: 'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid;'
-                    + 'border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
+                  + 'border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;'
             }).append($('<div>').append( // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
                 // HEADER
                 $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(
@@ -1576,7 +1588,12 @@
             fillParcels: false,
             oneTimeAlerts: {},
             layers: {},
-            shortcuts: {}
+            shortcuts: {},
+            isPopupVisible: false,
+            useAcronyms: false,
+            useTitleCase: false,
+            useStateHwy: false,
+            removeNewLines: false
         };
 
         let loadedSettings = {}; // Initialize as an empty object
@@ -1599,6 +1616,12 @@
         // Merge defaultSettings and loadedSettings.
         // If loadedSettings is empty (due to error or no storage), it effectively uses defaults.
         settings = { ...defaultSettings, ...loadedSettings };
+
+        isPopupVisible = settings.isPopupVisible;
+        useAcronyms = settings.useAcronyms;
+        useTitleCase = settings.useTitleCase;
+        useStateHwy = settings.useStateHwy;
+        removeNewLines = settings.removeNewLines;
 
         settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
             const layerSettings = this.layers[layerID];
@@ -1640,6 +1663,11 @@
             settings.shortcuts[shortcut.shortcutId] = shortcut.shortcutKeys;
         });
         settings.lastVersion = scriptVersion;
+        settings.isPopupVisible = isPopupVisible;
+        settings.useAcronyms = useAcronyms;
+        settings.useTitleCase = useTitleCase;
+        settings.useStateHwy = useStateHwy;
+        settings.removeNewLines = removeNewLines;
         localStorage.setItem(SETTINGS_STORE_NAME, JSON.stringify(settings));
         logDebug('Settings saved');
     }
@@ -1721,7 +1749,7 @@
         const geometry = getArcGisMapExtentGeometry();
         const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
         return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects`
-            + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
+          + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
     }
 
     let _countiesInExtent = [];
@@ -1751,7 +1779,7 @@
         return _gisLayers.filter(gisLayer => {
             const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
             const isVisible = (getInvisible || settings.visibleLayers.includes(gisLayer.id))
-                && settings.selectedStates.includes(gisLayer.state);
+              && settings.selectedStates.includes(gisLayer.state);
             const isInState = gisLayer.state === 'US' || _countiesInExtent.some(county => county.stateInfo[1] === gisLayer.state);
             // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
             const isValidZoom = getInvisible || zoom >= getGisLayerVisibleAtZoom(gisLayer);
@@ -1763,7 +1791,7 @@
         const applicableLayers = getFetchableLayers(true).filter(layer => {
             const hasCounties = layer.hasOwnProperty('counties');
             return (hasCounties && layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
-                && layer.state === county.stateInfo[1]))) || !hasCounties;
+              && layer.state === county.stateInfo[1]))) || !hasCounties;
         });
         const statesToHide = STATES.toAbbrArray();
 
@@ -1961,6 +1989,9 @@
 
                                         const lineFeature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
                                         features.push(lineFeature);
+                                        if (isPopupVisible) {
+                                            addLabelToLayer(gisLayer.name, label);
+                                        }
                                     });
                                     isPolyLine = true;
                                 } else {
@@ -1981,6 +2012,9 @@
                                     // features.push(featureGeometry);
                                     feature = new OpenLayers.Feature.Vector(featureGeometry, attributes);
                                     features.push(feature);
+                                    if (isPopupVisible) {
+                                        addLabelToLayer(gisLayer.name, label);
+                                    }
                                 }
                             }
                         }
@@ -2039,7 +2073,448 @@
         }
     } // END processFeatures()
 
+    function copyTextToClipboard(text) {
+        try {
+            GM_setClipboard(text);
+            logDebug(`Copy Text To Clipboard: ${text}`);
+        } catch (err) {
+            logError(`Failed to Text To Clipboard: ${err}`);
+        }
+    }
+
+    function addLabelToLayer(layerName, label) {
+        if (!layerLabels[layerName]) {
+            layerLabels[layerName] = new Set();
+        }
+        layerLabels[layerName].add(label);
+    }
+
+    function replacePhrasesWithAcronyms(text) {
+    // Order phrases such that compound phrases come before individual words
+        const replacements = [
+            // compound phrases here
+            { phrase: 'Alternate Route', acronym: 'ALT' },
+            { phrase: 'Army Air Field', acronym: 'AAF' },
+            { phrase: 'County Highway', acronym: 'CH-' },
+            { phrase: 'County Road', acronym: 'CR-' },
+            { phrase: 'East Bound', acronym: 'EB' },
+            { phrase: 'North Bound', acronym: 'NB' },
+            { phrase: 'North East', acronym: 'NE' },
+            { phrase: 'North West', acronym: 'NW' },
+            { phrase: 'South Bound', acronym: 'SB' },
+            { phrase: 'South East', acronym: 'SE' },
+            { phrase: 'South West', acronym: 'SW' },
+            { phrase: 'State Highway', acronym: 'SH-' },
+            { phrase: 'State Route', acronym: 'SR-' },
+            { phrase: 'State Rte', acronym: 'SR-' },
+            { phrase: 'U.S. Highway', acronym: 'US-' },
+            { phrase: 'U.S. Route', acronym: 'US-' },
+            { phrase: 'U.S. Rte', acronym: 'US-' },
+            { phrase: 'U.S.Rte', acronym: 'US-' },
+            { phrase: 'US Highway', acronym: 'US-' },
+            { phrase: 'U S Highway', acronym: 'US-' },
+            { phrase: 'US Route', acronym: 'US-' },
+            { phrase: 'U S Route', acronym: 'US-' },
+            { phrase: 'US RTE', acronym: 'US-' },
+            { phrase: 'U S RTE', acronym: 'US-' },
+            { phrase: 'USRTE', acronym: 'US-' },
+            { phrase: 'West Bound', acronym: 'WB' },
+            // Start of single words list
+            { phrase: 'Alley', acronym: 'Aly' },
+            { phrase: 'Apartments', acronym: 'Apts' },
+            { phrase: 'Avenue', acronym: 'Ave' },
+            { phrase: 'Beach', acronym: 'Bch' },
+            { phrase: 'Boulevard', acronym: 'Blvd' },
+            { phrase: 'Bridge', acronym: 'Br' },
+            { phrase: 'Business', acronym: 'BUS' },
+            { phrase: 'Bypass', acronym: 'BYP' },
+            { phrase: 'Canyon', acronym: 'Cyn' },
+            { phrase: 'Captain', acronym: 'Capt' },
+            { phrase: 'Causeway', acronym: 'Cswy' },
+            { phrase: 'Center', acronym: 'Ctr' },
+            { phrase: 'Circle', acronym: 'Cir' },
+            { phrase: 'Colonel', acronym: 'Col.' },
+            { phrase: 'Commander', acronym: 'Cmdr.' },
+            { phrase: 'Connector', acronym: 'CONN' },
+            { phrase: 'Corners', acronym: 'Cors' },
+            { phrase: 'Corporal', acronym: 'Cpl.' },
+            { phrase: 'Court', acronym: 'Ct' },
+            { phrase: 'Cove', acronym: 'Cv' },
+            { phrase: 'Creek', acronym: 'Crk' },
+            { phrase: 'Crescent', acronym: 'Cres' },
+            { phrase: 'Crossing', acronym: 'X-ing' },
+            { phrase: 'Doctor', acronym: 'Dr.' },
+            { phrase: 'Drive', acronym: 'Dr' },
+            { phrase: 'East', acronym: 'E' },
+            { phrase: 'Eastbound', acronym: 'EB' },
+            { phrase: 'Eb', acronym: 'EB' },
+            { phrase: 'Express', acronym: 'EXP' },
+            { phrase: 'Expressway', acronym: 'Expwy' },
+            { phrase: 'Extension', acronym: 'Ext' },
+            { phrase: 'Fort', acronym: 'Ft.' },
+            { phrase: 'Freeway', acronym: 'Fwy' },
+            { phrase: 'General', acronym: 'Gen.' },
+            { phrase: 'Governor', acronym: 'Gov.' },
+            { phrase: 'Grove', acronym: 'Grv' },
+            { phrase: 'Heights', acronym: 'Hts' },
+            { phrase: 'Highway', acronym: 'Hwy' },
+            { phrase: 'Honerable', acronym: 'Hon.' },
+            { phrase: 'International', acronym: 'Intl' },
+            { phrase: 'Interstate', acronym: 'I-' },
+            { phrase: 'Junior', acronym: 'Jr.' },
+            { phrase: 'Landing', acronym: 'Lndg' },
+            { phrase: 'Lane', acronym: 'Ln' },
+            { phrase: 'Lieutenant', acronym: 'Lt.' },
+            { phrase: 'Loop', acronym: 'Lp' },
+            { phrase: 'Major', acronym: 'Maj.' },
+            { phrase: 'Manor', acronym: 'Mnr.' },
+            { phrase: 'Meadow', acronym: 'Mdw' },
+            { phrase: 'Mount', acronym: 'Mt' },
+            { phrase: 'Mountain', acronym: 'Mtn' },
+            { phrase: 'Mountains', acronym: 'Mtns' },
+            { phrase: 'National', acronym: "Nat'l" },
+            { phrase: 'North', acronym: 'N' },
+            { phrase: 'Northbound', acronym: 'NB' },
+            { phrase: 'Nb', acronym: 'NB' },
+            { phrase: 'Northeast', acronym: 'NE' },
+            { phrase: 'Northwest', acronym: 'NW' },
+            { phrase: 'Park', acronym: 'Pk' },
+            { phrase: 'Parkway', acronym: 'Pkwy' },
+            { phrase: 'Parkways', acronym: 'Pkwys' },
+            { phrase: 'Passage', acronym: 'Psge' },
+            { phrase: 'Place', acronym: 'Pl' },
+            { phrase: 'Plaza', acronym: 'Plz' },
+            { phrase: 'Point', acronym: 'Pt' },
+            { phrase: 'Points', acronym: 'Pts' },
+            { phrase: 'President', acronym: 'Pres.' },
+            { phrase: 'Professor', acronym: 'Prof.' },
+            { phrase: 'Railroad', acronym: 'R.R.' },
+            { phrase: 'Road', acronym: 'Rd' },
+            { phrase: 'Recreational', acronym: 'Rec.' },
+            { phrase: 'Reverend', acronym: 'Rev.' },
+            { phrase: 'Route', acronym: 'SR-' },
+            { phrase: 'Saint', acronym: 'St.' },
+            { phrase: 'Sainte', acronym: 'Ste.' },
+            { phrase: 'Senior', acronym: 'Sr.' },
+            { phrase: 'Sergeant', acronym: 'Sgt.' },
+            { phrase: 'Skyway', acronym: 'Skwy' },
+            { phrase: 'South', acronym: 'S' },
+            { phrase: 'Southbound', acronym: 'SB' },
+            { phrase: 'Sb', acronym: 'SB' },
+            { phrase: 'Southeast', acronym: 'SE' },
+            { phrase: 'Southwest', acronym: 'SW' },
+            { phrase: 'Springs', acronym: 'Spgs' },
+            { phrase: 'Square', acronym: 'Sq' },
+            { phrase: 'Station', acronym: 'Sta' },
+            { phrase: 'Street', acronym: 'St' },
+            { phrase: 'Terrace', acronym: 'Ter' },
+            { phrase: 'Throughway', acronym: 'Thwy' },
+            { phrase: 'Thruway', acronym: 'Thwy' },
+            { phrase: 'Tollway', acronym: 'Tlwy' },
+            { phrase: 'Township', acronym: 'Twp' },
+            { phrase: 'Trafficway', acronym: 'Trfy' },
+            { phrase: 'Trail', acronym: 'Trl' },
+            { phrase: 'Tunnel', acronym: 'Tun' },
+            { phrase: 'Turnpike', acronym: 'Tpk' },
+            { phrase: 'Upper', acronym: 'Upr' },
+            { phrase: 'U.S.', acronym: 'US' },
+            { phrase: 'Valley', acronym: 'Vly' },
+            { phrase: 'West', acronym: 'W' },
+            { phrase: 'Westbound', acronym: 'WB' },
+            { phrase: 'Wb', acronym: 'WB' },
+            { phrase: '--', acronym: '-' },
+            { phrase: ' -', acronym: '-' },
+            { phrase: '- ', acronym: '-' },
+            { phrase: '- -', acronym: '-' }
+        ];
+
+        let updatedText = text;
+
+        // Replace phrases with their acronyms, case insensitive
+        replacements.forEach(({ phrase, acronym }) => {
+            const regex = new RegExp(`\\b${phrase}\\b`, 'gi'); // Uses \\b to match words with word boundaries
+            updatedText = updatedText.replace(regex, acronym);
+        });
+
+        return updatedText;
+    }
+
+    function fixSateHwyRoadNames(text) {
+    // Regular expression to capture patterns like "XXX ###", "XXX-###", "XXX###", as well as "Us Route #", "Us Rte #", and "Route #", "Rte #"
+        const regex = /(?:([A-Z]{1,3})[-\s]?(\d{1,3})|(?:Us\s+(?:Rte|Route)\s+(\d{1,3}))|(?:Rte[-\s]?(\d{1,3})|Route\s+(\d{1,3})))\b/gi;
+
+        // Replacement function formats matched patterns
+        return text.replace(regex, (match, letters, numbers, usRouteNumber, rteNumber, routeNumber) => {
+            if (usRouteNumber) {
+                return `US-${usRouteNumber}`; // for "US Route"/s
+            }
+            if (rteNumber || routeNumber) {
+                return `SR-${rteNumber || routeNumber}`; // Change "Rte" or "Route" to "SR"
+            }
+            if (letters && numbers) {
+                return `${letters.toUpperCase()}-${numbers}`; // General format for other letter-number combos
+            }
+            return match;
+        });
+    }
+
+    function titleCaseLabel(text) {
+    // Read each line separately
+        const lines = text.split('\n');
+        return lines
+            .map(line => {
+                const trimmedLine = line.trim(); // Trim the line to remove leading/trailing spaces
+                const words = trimmedLine.split(' '); // Split the line into individual words
+                // Capitalize the first letter of each word and convert the rest to lowercase
+                const titleCasedLine = words
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    .join(' '); // Recombine the words into a title-cased line
+                return titleCasedLine; // Return the formatted line
+            })
+            .join('\n'); // Combine all the lines back into a single string separated by new lines
+    }
+
+    function processedLabel(label) {
+        if (useTitleCase) {
+            label = titleCaseLabel(label);
+        }
+        if (useAcronyms) {
+            label = replacePhrasesWithAcronyms(label);
+        }
+        if (useStateHwy) {
+            label = fixSateHwyRoadNames(label);
+        }
+        if (removeNewLines) {
+            label = label.replace(/[\r\n]+/g, ' ');
+        }
+        return label;
+    }
+
+    function updatePopup(labels) {
+        let popup = document.getElementById('layerLabelPopup');
+        if (!popup) {
+            popup = document.createElement('div');
+            popup.id = 'layerLabelPopup';
+            popup.style = `position: absolute; background: #f5f5f5; border: 2px solid #007bff; border-radius: 5px; 
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
+                height: 300px; resize: both; overflow: hidden; max-height: 700px; left: ${popupPosition.left}; top: ${popupPosition.top}; `;
+
+            const header = document.createElement('div');
+            header.style = 'background: #007bff; color: #fff; padding: 5px; cursor: move; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; height: 30px; ';
+
+            const title = document.createElement('span');
+            title.innerText = 'GIS-L Layer Labels';
+            header.appendChild(title);
+
+            const closeButton = document.createElement('span');
+            closeButton.innerText = '×';
+            closeButton.style = 'cursor: pointer; font-size: 20px; margin-left: 10px; ';
+            closeButton.addEventListener('click', () => {
+                isPopupVisible = false;
+                togglePopupVisibility();
+                $('input[name="popupVisibility"][value="show"]').prop('checked', isPopupVisible);
+                $('input[name="popupVisibility"][value="hide"]').prop('checked', !isPopupVisible);
+                saveSettingsToStorage();
+            });
+            header.appendChild(closeButton);
+            popup.appendChild(header);
+
+            const formatOptionContainer = document.createElement('div');
+            formatOptionContainer.style = 'background: #72767d; color: #fff;';
+
+            const firstRow = document.createElement('div');
+            firstRow.style = 'display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;';
+
+            const formatCheckbox = document.createElement('input');
+            formatCheckbox.type = 'checkbox';
+            formatCheckbox.id = 'useTitleCaseCheckbox';
+            formatCheckbox.style = 'margin-left: 10px';
+            formatCheckbox.checked = useTitleCase;
+            formatCheckbox.addEventListener('change', () => {
+                useTitleCase = formatCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            firstRow.appendChild(formatCheckbox);
+
+            const formatCheckboxLabel = document.createElement('label');
+            formatCheckboxLabel.htmlFor = 'useTitleCaseCheckbox';
+            formatCheckboxLabel.innerText = 'Use Title Case';
+            formatCheckboxLabel.style = 'font-weight: 100; width: 150px;';
+            firstRow.appendChild(formatCheckboxLabel);
+
+            const acronymCheckbox = document.createElement('input');
+            acronymCheckbox.type = 'checkbox';
+            acronymCheckbox.id = 'useacronymsCheckbox';
+            acronymCheckbox.checked = useAcronyms;
+            acronymCheckbox.addEventListener('change', () => {
+                useAcronyms = acronymCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            firstRow.appendChild(acronymCheckbox);
+
+            const acronymCheckboxLabel = document.createElement('label');
+            acronymCheckboxLabel.htmlFor = 'useacronymsCheckbox';
+            acronymCheckboxLabel.innerText = 'Use Acronyms & Abbreviations';
+            acronymCheckboxLabel.style = 'font-weight: 100;';
+            firstRow.appendChild(acronymCheckboxLabel);
+            formatOptionContainer.appendChild(firstRow);
+
+            const secondRow = document.createElement('div');
+            secondRow.style = 'display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;';
+
+            const stateHwyCheckbox = document.createElement('input');
+            stateHwyCheckbox.type = 'checkbox';
+            stateHwyCheckbox.id = 'useStateHwyCheckbox';
+            stateHwyCheckbox.style = 'margin-left: 10px';
+            stateHwyCheckbox.checked = useStateHwy;
+            stateHwyCheckbox.addEventListener('change', () => {
+                useStateHwy = stateHwyCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            secondRow.appendChild(stateHwyCheckbox);
+
+            const stateHwyCheckboxLabel = document.createElement('label');
+            stateHwyCheckboxLabel.htmlFor = 'useStateHwyCheckbox';
+            stateHwyCheckboxLabel.innerText = 'Fix Highway Labels';
+
+            stateHwyCheckboxLabel.style = 'font-weight: 100; width: 150px;';
+            secondRow.appendChild(stateHwyCheckboxLabel);
+
+            const removeNewLinesCheckbox = document.createElement('input');
+            removeNewLinesCheckbox.type = 'checkbox';
+            removeNewLinesCheckbox.id = 'removeNewLinesCheckbox';
+            removeNewLinesCheckbox.checked = removeNewLines;
+            removeNewLinesCheckbox.addEventListener('change', () => {
+                removeNewLines = removeNewLinesCheckbox.checked;
+                updatePopupContent(labels);
+                saveSettingsToStorage();
+            });
+            secondRow.appendChild(removeNewLinesCheckbox);
+
+            const removeNewLinesCheckboxLabel = document.createElement('label');
+            removeNewLinesCheckboxLabel.htmlFor = 'removeNewLinesCheckbox';
+            removeNewLinesCheckboxLabel.innerText = 'Remove New Lines';
+            removeNewLinesCheckboxLabel.style = 'font-weight: 100;';
+            secondRow.appendChild(removeNewLinesCheckboxLabel);
+
+            formatOptionContainer.appendChild(secondRow);
+            popup.appendChild(formatOptionContainer);
+
+            const dropdownContainer = document.createElement('div');
+            dropdownContainer.style = 'margin-bottom: 10px;';
+            popup.appendChild(dropdownContainer);
+
+            const contentContainer = document.createElement('div');
+            contentContainer.style = 'padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 110px);';
+            popup.appendChild(contentContainer);
+
+            const mapElement = document.getElementsByTagName('wz-page-content')[0];
+            if (mapElement) {
+                mapElement.appendChild(popup);
+            }
+
+            header.onmousedown = function(event) {
+                event.preventDefault();
+                const parentRect = mapElement.getBoundingClientRect();
+                const initialX = event.clientX;
+                const initialY = event.clientY;
+                const offsetX = initialX - parentRect.left - popup.offsetLeft;
+                const offsetY = initialY - parentRect.top - popup.offsetTop;
+
+                document.onmousemove = function(ev) {
+                    popup.style.left = `${ev.clientX - offsetX - parentRect.left}px`;
+                    popup.style.top = `${ev.clientY - offsetY - parentRect.top}px`;
+
+                    popupPosition.left = popup.style.left;
+                    popupPosition.top = popup.style.top;
+                };
+
+                document.onmouseup = function() {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                };
+            };
+        }
+
+        updatePopupContent(labels);
+        popup.style.display = isPopupVisible ? 'block' : 'none';
+    }
+
+    function updatePopupContent(labels) {
+        const dropdownContainer = document.querySelector('#layerLabelPopup div:nth-child(3)');
+        const contentContainer = document.querySelector('#layerLabelPopup div:nth-child(4)');
+
+        dropdownContainer.innerHTML = '';
+        contentContainer.innerHTML = '';
+
+        const select = document.createElement('select');
+        select.style = 'width: 100%; padding: 5px; border: 1px solid #ccc;';
+
+        const sortedLayerNames = Object.keys(labels).sort();
+        sortedLayerNames.forEach(layerName => {
+            const option = document.createElement('option');
+            option.value = layerName;
+            option.innerText = layerName;
+            select.appendChild(option);
+
+            const uniqueLabels = Array.from(labels[layerName]).sort();
+            const tabContent = document.createElement('div');
+            tabContent.style = 'display: none; width: 100%; white-space: pre;';
+
+            const processedLabels = uniqueLabels
+                .map(label => {
+                    const text = processedLabel(label);
+                    const copyIcon = '<span style="cursor: pointer; margin-left: 5px;" title="Copy to clipboard">📋</span>';
+                    return `<li style="margin-bottom: 0.3em; color: #555;" data-label="${text}">${text}${copyIcon}</li>`;
+                })
+                .join('');
+
+            tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
+            contentContainer.appendChild(tabContent);
+
+            // Add copying functionality
+            tabContent.querySelectorAll('li').forEach(li => {
+                const icon = li.querySelector('span');
+                if (icon) {
+                    icon.addEventListener('click', () => {
+                        const textToCopy = li.getAttribute('data-label'); // Get the text from a custom data attribute
+                        copyTextToClipboard(textToCopy);
+                    });
+                }
+            });
+        });
+
+        dropdownContainer.appendChild(select);
+
+        let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
+
+        if (selectedLayerIndex === -1 && select.options.length > 0) {
+            selectedLayerIndex = 0;
+            popupActiveLayer = sortedLayerNames[selectedLayerIndex];
+        }
+        select.selectedIndex = selectedLayerIndex;
+
+        const allContents = contentContainer.querySelectorAll('div');
+        allContents.forEach((content, index) => {
+            content.style.display = index === select.selectedIndex ? 'block' : 'none';
+        });
+
+        select.addEventListener('change', () => {
+            const contents = contentContainer.querySelectorAll('div');
+            contents.forEach((content, index) => {
+                content.style.display = index === select.selectedIndex ? 'block' : 'none';
+            });
+            popupActiveLayer = select.value;
+        });
+    }
+
     function fetchFeatures() {
+        if (isPopupVisible) {
+            Object.keys(layerLabels).forEach(key => delete layerLabels[key]);
+        }
         if (ignoreFetch) return;
         if (sdk.Map.getZoomLevel() < 12) {
             filterLayerCheckboxes();
@@ -2084,11 +2559,13 @@
                         }
 
                         layersToFetch = layersToFetch.filter(layer => !layer.hasOwnProperty('counties')
-                            || layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
-                                && layer.state === county.stateInfo[1])));
+                          || layer.counties.some(countyName => _countiesInExtent.some(county => county.name === countyName.toLowerCase()
+                              && layer.state === county.stateInfo[1])));
                         filterLayerCheckboxes();
                         logDebug(`Fetching ${layersToFetch.length} layers...`);
                         logDebug(layersToFetch);
+                        let layersProcessedCount = 0; // Track processed layers
+
                         layersToFetch.forEach(gisLayer => {
                             const url = getUrl(extent, gisLayer);
                             GM_xmlhttpRequest({
@@ -2098,6 +2575,11 @@
                                 onload(res2) {
                                     if (res2.status < 400) { // Handle stupid issue where http 4## is considered success
                                         processFeatures($.parseJSON(res2.responseText), res2.context, gisLayer);
+                                        // Update the popup only after all layers have been processed
+                                        layersProcessedCount += 1;
+                                        if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
+                                            updatePopup(layerLabels);
+                                        }
                                     } else {
                                         logDebug(`HTTP request error: ${JSON.stringify(res2)}`);
                                         logError(`Could not fetch layer "${gisLayer.id}". Request returned ${res2.status}`);
@@ -2124,7 +2606,7 @@
 
     function showScriptInfoAlert() {
         /* Check version and alert on update */
-        if (ALERT_UPDATE && scriptVersion !== settings.lastVersion) {
+        if (SHOW_UPDATE_MESSAGE && scriptVersion !== settings.lastVersion) {
             // alert(SCRIPT_VERSION_CHANGES);
             let releaseNotes = '';
             releaseNotes += '<p>What\'s New:</p>';
@@ -2150,6 +2632,13 @@
         $('span#gis-layers-power-btn').css({ color });
         if (value) fetchFeatures();
         $('#layer-switcher-item_gis_layers').prop('checked', value);
+
+        // Show/hide the popup based on the enabled state
+        const popup = document.getElementById('layerLabelPopup');
+        if (popup) {
+            popup.style.display = value ? 'block' : 'none';
+            isPopupVisible = value;
+        }
     }
 
     function onGisLayerToggleChanged() {
@@ -2274,6 +2763,14 @@
         setEnabled(!settings.enabled);
     }
 
+    function togglePopupVisibility() {
+        const popup = document.getElementById('layerLabelPopup');
+        if (popup) {
+            popup.style.display = isPopupVisible ? 'block' : 'none';
+        }
+        saveSettingsToStorage();
+    }
+
     function initLayer() {
         const rules = _gisLayers.map(gisLayer => new OpenLayers.Rule({
             filter: new OpenLayers.Filter.Comparison({
@@ -2355,7 +2852,7 @@
                         ),
                         $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
                             _gisLayers.filter(l => (l.state === st && (!PRIVATE_LAYERS.hasOwnProperty(l.id)
-                                || PRIVATE_LAYERS[l.id].includes(user))))
+                              || PRIVATE_LAYERS[l.id].includes(user))))
                                 .map(gisLayer => {
                                     const id = `gis-layer-${gisLayer.id}`;
                                     return $('<div>', { class: 'controls-container', id: `${id}-container` })
@@ -2417,7 +2914,11 @@
                             style: 'margin-left:8px; font-size:12px',
                             'data-placement': 'bottom',
                             title: `This may not work properly for all layers. Please report issues to ${SCRIPT_AUTHOR}.`
-                        }).tooltip()
+                        }).tooltip(),
+                        $('<br>'),
+                        $('<label>', { style: 'font-weight:normal; margin-left:8px;' }).text('Label Popup:'),
+                        createRadioBtn('popupVisibility', 'show', 'Show', isPopupVisible),
+                        createRadioBtn('popupVisibility', 'hide', 'Hide', !isPopupVisible)
                     )
                 )
             ),
@@ -2471,7 +2972,11 @@
                     )
                 )
         );
-        $('input[name=gisAddrDisplay]').change(onGisAddrDisplayChange);
+        $('input[name="gisAddrDisplay"]').change(onGisAddrDisplayChange);
+        $('input[name="popupVisibility"]').change(function() {
+            isPopupVisible = $(this).val() === 'show';
+            togglePopupVisibility();
+        });
     }
 
     async function initTab(firstCall = true) {
@@ -2494,13 +2999,13 @@
                     title: 'Pull new layer info from master sheet and refresh all layers.'
                 }),
                 '<ul class="nav nav-tabs">'
-                + '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">'
-                + 'Layers'
-                + '</a></li>'
-                + '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">'
-                + 'Settings'
-                + '</a></li> '
-                + '</ul>',
+              + '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">'
+              + 'Layers'
+              + '</a></li>'
+              + '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">'
+              + 'Settings'
+              + '</a></li> '
+              + '</ul>',
                 $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
                     $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
                     $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px; width: auto' })
@@ -2576,8 +3081,8 @@
                 fieldNames.length}.`;
         } else if (!REQUIRED_FIELD_NAMES.every(fldName => checkFieldNames(fldName))) {
             result.error = 'Script expected to see the following column names in the layer '
-                + `definition spreadsheet:\n${REQUIRED_FIELD_NAMES.join(', ')}\n`
-                + `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
+              + `definition spreadsheet:\n${REQUIRED_FIELD_NAMES.join(', ')}\n`
+              + `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
         }
         if (!result.error) {
             layerDefRows.filter(row => row.length).forEach(layerDefRow => {
@@ -2687,12 +3192,12 @@
                         if (fldName !== 'id' && layerDef.hasOwnProperty(fldName)) {
                             logDebug(`The "${fldName}" property of layer "${
                                 layerDef.id}" has a value hardcoded in the script, and also defined in the spreadsheet.`
-                                + ' The spreadsheet value takes precedence.');
+                              + ' The spreadsheet value takes precedence.');
                         } else if (value) layerDef[fldName] = value;
                     });
                 } else {
                     logDebug(`Refined layer "${layerRefinement.id}" does not have a corresponding layer defined`
-                        + ' in the spreadsheet.  It can probably be removed from the script.');
+                      + ' in the spreadsheet.  It can probably be removed from the script.');
                 }
             });
             logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
@@ -2708,214 +3213,214 @@
     init();
 
     /*eslint-disable*/
-    function installPathFollowingLabels() {
-        // Copyright (c) 2015 by Jean-Marc.Viglino [at]ign.fr
-        // Dual-licensed under the CeCILL-B Licence (http://www.cecill.info/)
-        // and the Beerware license (http://en.wikipedia.org/wiki/Beerware),
-        // feel free to use and abuse it in your projects (the code, not the beer ;-).
-        //
-        //* Overwrite the SVG function to allow text along a path
-        //*	setStyle function
-        //*
-        //*	Add new options to the Openlayers.Style
+  function installPathFollowingLabels() {
+      // Copyright (c) 2015 by Jean-Marc.Viglino [at]ign.fr
+      // Dual-licensed under the CeCILL-B Licence (http://www.cecill.info/)
+      // and the Beerware license (http://en.wikipedia.org/wiki/Beerware),
+      // feel free to use and abuse it in your projects (the code, not the beer ;-).
+      //
+      //* Overwrite the SVG function to allow text along a path
+      //*	setStyle function
+      //*
+      //*	Add new options to the Openlayers.Style
 
-        // pathLabel: {String} Label to draw on the path
-        // pathLabelXOffset: {String} Offset along the line to start drawing text in pixel or %, default: "50%"
-        // pathLabelYOffset: {Number} Distance of the line to draw the text
-        // pathLabelCurve: {String} Smooth the line the label is drawn on (empty string for no)
-        // pathLabelReadable: {String} Make the label readable (empty string for no)
+      // pathLabel: {String} Label to draw on the path
+      // pathLabelXOffset: {String} Offset along the line to start drawing text in pixel or %, default: "50%"
+      // pathLabelYOffset: {Number} Distance of the line to draw the text
+      // pathLabelCurve: {String} Smooth the line the label is drawn on (empty string for no)
+      // pathLabelReadable: {String} Make the label readable (empty string for no)
 
-        // *	Extra standard values : all label and text values
-
-
-        //  *
-        //  * Method: removeChildById
-        //  * Remove child in a node.
-        //  *
-
-        function removeChildById(node, id) {
-            if (node.querySelector) {
-                var c = node.querySelector('#' + id);
-                if (c) node.removeChild(c);
-                return;
-            }
-            // For old browsers
-            var c = node.childNodes;
-            if (c) for (var i = 0; i < c.length; i++) {
-                if (c[i].id === id) {
-                    node.removeChild(c[i]);
-                    return;
-                }
-            }
-        }
+      // *	Extra standard values : all label and text values
 
 
-        //  *
-        //  * Method: setStyle
-        //  * Use to set all the style attributes to a SVG node.
-        //  *
-        //  * Takes care to adjust stroke width and point radius to be
-        //  * resolution-relative
-        //  *
-        //  * Parameters:
-        //  * node - {SVGDomElement} An SVG element to decorate
-        //  * style - {Object}
-        //  * options - {Object} Currently supported options include
-        //  *                              'isFilled' {Boolean} and
-        //  *                              'isStroked' {Boolean}
+      //  *
+      //  * Method: removeChildById
+      //  * Remove child in a node.
+      //  *
 
-        var setStyle = OpenLayers.Renderer.SVG.prototype.setStyle;
-        OpenLayers.Renderer.SVG.LABEL_STARTOFFSET = { 'l': '0%', 'r': '100%', 'm': '50%' };
+      function removeChildById(node, id) {
+          if (node.querySelector) {
+              var c = node.querySelector('#' + id);
+              if (c) node.removeChild(c);
+              return;
+          }
+          // For old browsers
+          var c = node.childNodes;
+          if (c) for (var i = 0; i < c.length; i++) {
+              if (c[i].id === id) {
+                  node.removeChild(c[i]);
+                  return;
+              }
+          }
+      }
 
-        OpenLayers.Renderer.SVG.prototype.pathText = function (node, style, suffix) {
-            var label = this.nodeFactory(null, 'text');
-            label.setAttribute('id', node._featureId + '_' + suffix);
-            if (style.fontColor) label.setAttributeNS(null, 'fill', style.fontColor);
-            if (style.fontStrokeColor) label.setAttributeNS(null, 'stroke', style.fontStrokeColor);
-            if (style.fontStrokeWidth) label.setAttributeNS(null, 'stroke-width', style.fontStrokeWidth);
-            if (style.fontOpacity) label.setAttributeNS(null, 'opacity', style.fontOpacity);
-            if (style.fontFamily) label.setAttributeNS(null, 'font-family', style.fontFamily);
-            if (style.fontSize) label.setAttributeNS(null, 'font-size', style.fontSize);
-            if (style.fontWeight) label.setAttributeNS(null, 'font-weight', style.fontWeight);
-            if (style.fontStyle) label.setAttributeNS(null, 'font-style', style.fontStyle);
-            if (style.labelSelect === true) {
-                label.setAttributeNS(null, 'pointer-events', 'visible');
-                label._featureId = node._featureId;
-            } else {
-                label.setAttributeNS(null, 'pointer-events', 'none');
-            }
 
-            function getpath(pathStr, readeable) {
-                var npath = pathStr.split(',');
-                var pts = [];
-                if (!readeable || Number(npath[0]) - Number(npath[npath.length - 2]) < 0) {
-                    while (npath.length) pts.push({ x: Number(npath.shift()), y: Number(npath.shift()) });
-                } else {
-                    while (npath.length) pts.unshift({ x: Number(npath.shift()), y: Number(npath.shift()) });
-                }
-                return pts;
-            }
+      //  *
+      //  * Method: setStyle
+      //  * Use to set all the style attributes to a SVG node.
+      //  *
+      //  * Takes care to adjust stroke width and point radius to be
+      //  * resolution-relative
+      //  *
+      //  * Parameters:
+      //  * node - {SVGDomElement} An SVG element to decorate
+      //  * style - {Object}
+      //  * options - {Object} Currently supported options include
+      //  *                              'isFilled' {Boolean} and
+      //  *                              'isStroked' {Boolean}
 
-            var path = this.nodeFactory(null, 'path');
-            var tpid = node._featureId + '_t' + suffix;
-            var tpath = node.getAttribute('points');
-            if (style.pathLabelCurve) {
-                var pts = getpath(tpath, style.pathLabelReadable);
-                var p = pts[0].x + ' ' + pts[0].y;
-                var dx, dy, s1, s2;
-                dx = (pts[0].x - pts[1].x) / 4;
-                dy = (pts[0].y - pts[1].y) / 4;
-                for (var i = 1; i < pts.length - 1; i++) {
-                    p += ' C ' + (pts[i - 1].x - dx) + ' ' + (pts[i - 1].y - dy);
-                    dx = (pts[i - 1].x - pts[i + 1].x) / 4;
-                    dy = (pts[i - 1].y - pts[i + 1].y) / 4;
-                    s1 = Math.sqrt(Math.pow(pts[i - 1].x - pts[i].x, 2) + Math.pow(pts[i - 1].y - pts[i].y, 2));
-                    s2 = Math.sqrt(Math.pow(pts[i + 1].x - pts[i].x, 2) + Math.pow(pts[i + 1].y - pts[i].y, 2));
-                    p += ' ' + (pts[i].x + s1 * dx / s2) + ' ' + (pts[i].y + s1 * dy / s2);
-                    dx *= s2 / s1;
-                    dy *= s2 / s1;
-                    p += ' ' + pts[i].x + ' ' + pts[i].y;
-                }
-                p += ' C ' + (pts[i - 1].x - dx) + ' ' + (pts[i - 1].y - dy);
-                dx = (pts[i - 1].x - pts[i].x) / 4;
-                dy = (pts[i - 1].y - pts[i].y) / 4;
-                p += ' ' + (pts[i].x + dx) + ' ' + (pts[i].y + dy);
-                p += ' ' + pts[i].x + ' ' + pts[i].y;
+      var setStyle = OpenLayers.Renderer.SVG.prototype.setStyle;
+      OpenLayers.Renderer.SVG.LABEL_STARTOFFSET = { 'l': '0%', 'r': '100%', 'm': '50%' };
 
-                path.setAttribute('d', 'M ' + p);
-            } else {
-                if (style.pathLabelReadable) {
-                    var pts = getpath(tpath, style.pathLabelReadable);
-                    var p = '';
-                    for (var i = 0; i < pts.length; i++) p += ' ' + pts[i].x + ' ' + pts[i].y;
-                    path.setAttribute('d', 'M ' + p);
-                } else path.setAttribute('d', 'M ' + tpath);
-            }
-            path.setAttribute('id', tpid);
+      OpenLayers.Renderer.SVG.prototype.pathText = function (node, style, suffix) {
+          var label = this.nodeFactory(null, 'text');
+          label.setAttribute('id', node._featureId + '_' + suffix);
+          if (style.fontColor) label.setAttributeNS(null, 'fill', style.fontColor);
+          if (style.fontStrokeColor) label.setAttributeNS(null, 'stroke', style.fontStrokeColor);
+          if (style.fontStrokeWidth) label.setAttributeNS(null, 'stroke-width', style.fontStrokeWidth);
+          if (style.fontOpacity) label.setAttributeNS(null, 'opacity', style.fontOpacity);
+          if (style.fontFamily) label.setAttributeNS(null, 'font-family', style.fontFamily);
+          if (style.fontSize) label.setAttributeNS(null, 'font-size', style.fontSize);
+          if (style.fontWeight) label.setAttributeNS(null, 'font-weight', style.fontWeight);
+          if (style.fontStyle) label.setAttributeNS(null, 'font-style', style.fontStyle);
+          if (style.labelSelect === true) {
+              label.setAttributeNS(null, 'pointer-events', 'visible');
+              label._featureId = node._featureId;
+          } else {
+              label.setAttributeNS(null, 'pointer-events', 'none');
+          }
 
-            var defs = this.createDefs();
-            removeChildById(defs, tpid);
-            defs.appendChild(path);
+          function getpath(pathStr, readeable) {
+              var npath = pathStr.split(',');
+              var pts = [];
+              if (!readeable || Number(npath[0]) - Number(npath[npath.length - 2]) < 0) {
+                  while (npath.length) pts.push({ x: Number(npath.shift()), y: Number(npath.shift()) });
+              } else {
+                  while (npath.length) pts.unshift({ x: Number(npath.shift()), y: Number(npath.shift()) });
+              }
+              return pts;
+          }
 
-            var textPath = this.nodeFactory(null, 'textPath');
-            textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + tpid);
-            var align = style.labelAlign || OpenLayers.Renderer.defaultSymbolizer.labelAlign;
-            label.setAttributeNS(null, 'text-anchor', OpenLayers.Renderer.SVG.LABEL_ALIGN[align[0]] || 'middle');
-            textPath.setAttribute('startOffset', style.pathLabelXOffset || OpenLayers.Renderer.SVG.LABEL_STARTOFFSET[align[0]] || '50%');
-            label.setAttributeNS(null, 'dominant-baseline', OpenLayers.Renderer.SVG.LABEL_ALIGN[align[1]] || 'central');
-            if (style.pathLabelYOffset) label.setAttribute('dy', style.pathLabelYOffset);
-            //textPath.setAttribute('method','stretch');
-            //textPath.setAttribute('spacing','auto');
+          var path = this.nodeFactory(null, 'path');
+          var tpid = node._featureId + '_t' + suffix;
+          var tpath = node.getAttribute('points');
+          if (style.pathLabelCurve) {
+              var pts = getpath(tpath, style.pathLabelReadable);
+              var p = pts[0].x + ' ' + pts[0].y;
+              var dx, dy, s1, s2;
+              dx = (pts[0].x - pts[1].x) / 4;
+              dy = (pts[0].y - pts[1].y) / 4;
+              for (var i = 1; i < pts.length - 1; i++) {
+                  p += ' C ' + (pts[i - 1].x - dx) + ' ' + (pts[i - 1].y - dy);
+                  dx = (pts[i - 1].x - pts[i + 1].x) / 4;
+                  dy = (pts[i - 1].y - pts[i + 1].y) / 4;
+                  s1 = Math.sqrt(Math.pow(pts[i - 1].x - pts[i].x, 2) + Math.pow(pts[i - 1].y - pts[i].y, 2));
+                  s2 = Math.sqrt(Math.pow(pts[i + 1].x - pts[i].x, 2) + Math.pow(pts[i + 1].y - pts[i].y, 2));
+                  p += ' ' + (pts[i].x + s1 * dx / s2) + ' ' + (pts[i].y + s1 * dy / s2);
+                  dx *= s2 / s1;
+                  dy *= s2 / s1;
+                  p += ' ' + pts[i].x + ' ' + pts[i].y;
+              }
+              p += ' C ' + (pts[i - 1].x - dx) + ' ' + (pts[i - 1].y - dy);
+              dx = (pts[i - 1].x - pts[i].x) / 4;
+              dy = (pts[i - 1].y - pts[i].y) / 4;
+              p += ' ' + (pts[i].x + dx) + ' ' + (pts[i].y + dy);
+              p += ' ' + pts[i].x + ' ' + pts[i].y;
 
-            textPath.textContent = style.pathLabel;
-            label.appendChild(textPath);
+              path.setAttribute('d', 'M ' + p);
+          } else {
+              if (style.pathLabelReadable) {
+                  var pts = getpath(tpath, style.pathLabelReadable);
+                  var p = '';
+                  for (var i = 0; i < pts.length; i++) p += ' ' + pts[i].x + ' ' + pts[i].y;
+                  path.setAttribute('d', 'M ' + p);
+              } else path.setAttribute('d', 'M ' + tpath);
+          }
+          path.setAttribute('id', tpid);
 
-            removeChildById(this.textRoot, node._featureId + '_' + suffix);
-            this.textRoot.appendChild(label);
-        };
+          var defs = this.createDefs();
+          removeChildById(defs, tpid);
+          defs.appendChild(path);
 
-        OpenLayers.Renderer.SVG.prototype.setStyle = function (node, style, options) {
-            if (node._geometryClass === 'OpenLayers.Geometry.LineString' && style.pathLabel) {
-                if (node._geometryClass === 'OpenLayers.Geometry.LineString' && style.pathLabel) {
-                    var drawOutline = (!!style.labelOutlineWidth);
-                    // First draw text in halo color and size and overlay the
-                    // normal text afterwards
-                    if (drawOutline) {
-                        var outlineStyle = OpenLayers.Util.extend({}, style);
-                        outlineStyle.fontColor = outlineStyle.labelOutlineColor;
-                        outlineStyle.fontStrokeColor = outlineStyle.labelOutlineColor;
-                        outlineStyle.fontStrokeWidth = style.labelOutlineWidth;
-                        if (style.labelOutlineOpacity) outlineStyle.fontOpacity = style.labelOutlineOpacity;
-                        delete outlineStyle.labelOutlineWidth;
-                        this.pathText(node, outlineStyle, 'txtpath0');
-                    }
-                    this.pathText(node, style, 'txtpath');
-                    setStyle.apply(this, arguments);
-                }
-            } else setStyle.apply(this, arguments);
-            return node;
-        };
+          var textPath = this.nodeFactory(null, 'textPath');
+          textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + tpid);
+          var align = style.labelAlign || OpenLayers.Renderer.defaultSymbolizer.labelAlign;
+          label.setAttributeNS(null, 'text-anchor', OpenLayers.Renderer.SVG.LABEL_ALIGN[align[0]] || 'middle');
+          textPath.setAttribute('startOffset', style.pathLabelXOffset || OpenLayers.Renderer.SVG.LABEL_STARTOFFSET[align[0]] || '50%');
+          label.setAttributeNS(null, 'dominant-baseline', OpenLayers.Renderer.SVG.LABEL_ALIGN[align[1]] || 'central');
+          if (style.pathLabelYOffset) label.setAttribute('dy', style.pathLabelYOffset);
+          //textPath.setAttribute('method','stretch');
+          //textPath.setAttribute('spacing','auto');
 
-        //  *
-        //  * Method: drawGeometry
-        //  * Remove the textpath if no geometry is drawn.
-        //  *
-        //  * Parameters:
-        //  * geometry - {<OpenLayers.Geometry>}
-        //  * style - {Object}
-        //  * featureId - {String}
-        //  *
-        //  * Returns:
-        //  * {Boolean} true if the geometry has been drawn completely; null if
-        //  *     incomplete; false otherwise
+          textPath.textContent = style.pathLabel;
+          label.appendChild(textPath);
 
-        var drawGeometry = OpenLayers.Renderer.SVG.prototype.drawGeometry;
-        OpenLayers.Renderer.SVG.prototype.drawGeometry = function (geometry, style, id) {
-            var rendered = drawGeometry.apply(this, arguments);
-            if (rendered === false) {
-                removeChildById(this.textRoot, id + '_txtpath');
-                removeChildById(this.textRoot, id + '_txtpath0');
-            }
-            return rendered;
-        };
+          removeChildById(this.textRoot, node._featureId + '_' + suffix);
+          this.textRoot.appendChild(label);
+      };
 
-        // *
-        // * Method: eraseGeometry
-        // * Erase a geometry from the renderer. In the case of a multi-geometry,
-        // *     we cycle through and recurse on ourselves. Otherwise, we look for a
-        // *     node with the geometry.id, destroy its geometry, and remove it from
-        // *     the DOM.
-        // *
-        // * Parameters:
-        // * geometry - {<OpenLayers.Geometry>}
-        // * featureId - {String}
+      OpenLayers.Renderer.SVG.prototype.setStyle = function (node, style, options) {
+          if (node._geometryClass === 'OpenLayers.Geometry.LineString' && style.pathLabel) {
+              if (node._geometryClass === 'OpenLayers.Geometry.LineString' && style.pathLabel) {
+                  var drawOutline = (!!style.labelOutlineWidth);
+                  // First draw text in halo color and size and overlay the
+                  // normal text afterwards
+                  if (drawOutline) {
+                      var outlineStyle = OpenLayers.Util.extend({}, style);
+                      outlineStyle.fontColor = outlineStyle.labelOutlineColor;
+                      outlineStyle.fontStrokeColor = outlineStyle.labelOutlineColor;
+                      outlineStyle.fontStrokeWidth = style.labelOutlineWidth;
+                      if (style.labelOutlineOpacity) outlineStyle.fontOpacity = style.labelOutlineOpacity;
+                      delete outlineStyle.labelOutlineWidth;
+                      this.pathText(node, outlineStyle, 'txtpath0');
+                  }
+                  this.pathText(node, style, 'txtpath');
+                  setStyle.apply(this, arguments);
+              }
+          } else setStyle.apply(this, arguments);
+          return node;
+      };
 
-        var eraseGeometry = OpenLayers.Renderer.SVG.prototype.eraseGeometry;
-        OpenLayers.Renderer.SVG.prototype.eraseGeometry = function (geometry, featureId) {
-            eraseGeometry.apply(this, arguments);
-            removeChildById(this.textRoot, featureId + '_txtpath');
-            removeChildById(this.textRoot, featureId + '_txtpath0');
-        };
+      //  *
+      //  * Method: drawGeometry
+      //  * Remove the textpath if no geometry is drawn.
+      //  *
+      //  * Parameters:
+      //  * geometry - {<OpenLayers.Geometry>}
+      //  * style - {Object}
+      //  * featureId - {String}
+      //  *
+      //  * Returns:
+      //  * {Boolean} true if the geometry has been drawn completely; null if
+      //  *     incomplete; false otherwise
 
-    }
+      var drawGeometry = OpenLayers.Renderer.SVG.prototype.drawGeometry;
+      OpenLayers.Renderer.SVG.prototype.drawGeometry = function (geometry, style, id) {
+          var rendered = drawGeometry.apply(this, arguments);
+          if (rendered === false) {
+              removeChildById(this.textRoot, id + '_txtpath');
+              removeChildById(this.textRoot, id + '_txtpath0');
+          }
+          return rendered;
+      };
+
+      // *
+      // * Method: eraseGeometry
+      // * Erase a geometry from the renderer. In the case of a multi-geometry,
+      // *     we cycle through and recurse on ourselves. Otherwise, we look for a
+      // *     node with the geometry.id, destroy its geometry, and remove it from
+      // *     the DOM.
+      // *
+      // * Parameters:
+      // * geometry - {<OpenLayers.Geometry>}
+      // * featureId - {String}
+
+      var eraseGeometry = OpenLayers.Renderer.SVG.prototype.eraseGeometry;
+      OpenLayers.Renderer.SVG.prototype.eraseGeometry = function (geometry, featureId) {
+          eraseGeometry.apply(this, arguments);
+          removeChildById(this.textRoot, featureId + '_txtpath');
+          removeChildById(this.textRoot, featureId + '_txtpath0');
+      };
+
+  }
 })();
