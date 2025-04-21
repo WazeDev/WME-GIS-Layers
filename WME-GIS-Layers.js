@@ -2077,7 +2077,6 @@
         try {
             GM_setClipboard(text);
             logDebug(`Copy Text To Clipboard: ${text}`);
-
         } catch (err) {
             logError(`Failed to Text To Clipboard: ${err}`);
         }
@@ -2092,142 +2091,142 @@
 
     function replacePhrasesWithAcronyms(text) {
     // Order phrases such that compound phrases come before individual words
-    const replacements = [
-    //compound phrases here
-      { phrase: "Alternate Route", acronym: "ALT" },
-      { phrase: "Army Air Field", acronym: "AAF" },
-      { phrase: "County Highway", acronym: "CH-" },
-      { phrase: "County Road", acronym: "CR-" },
-      { phrase: "East Bound", acronym: "EB" },
-      { phrase: "North Bound", acronym: "NB" },
-      { phrase: "North East", acronym: "NE" },
-      { phrase: "North West", acronym: "NW" },
-      { phrase: "South Bound", acronym: "SB" },
-      { phrase: "South East", acronym: "SE" },
-      { phrase: "South West", acronym: "SW" },
-      { phrase: "State Highway", acronym: "SH-" },
-      { phrase: "State Route", acronym: "SR-" },
-      { phrase: "State Rte", acronym: "SR-" },
-      { phrase: "U.S. Highway", acronym: "US-" },      
-      { phrase: "U.S. Route", acronym: "US-" },
-      { phrase: "U.S. Rte", acronym: "US-" },
-      { phrase: "U.S.Rte", acronym: "US-" },
-      { phrase: "US Highway", acronym: "US-" },
-      { phrase: "U S Highway", acronym: "US-" },
-      { phrase: "US Route", acronym: "US-" },
-      { phrase: "U S Route", acronym: "US-" },
-      { phrase: "US RTE", acronym: "US-" },
-      { phrase: "U S RTE", acronym: "US-" },
-      { phrase: "USRTE", acronym: "US-" },
-      { phrase: "West Bound", acronym: "WB" },
-    // Start of single words list
-      { phrase: "Alley", acronym: "Aly" },
-      { phrase: "Apartments", acronym: "Apts" },
-      { phrase: "Avenue", acronym: "Ave" },
-      { phrase: "Beach", acronym: "Bch" },
-      { phrase: "Boulevard", acronym: "Blvd" },
-      { phrase: "Bridge", acronym: "Br" },
-      { phrase: "Business", acronym: "BUS" },
-      { phrase: "Bypass", acronym: "BYP" },
-      { phrase: "Canyon", acronym: "Cyn" },
-      { phrase: "Captain", acronym: "Capt" },
-      { phrase: "Causeway", acronym: "Cswy" },
-      { phrase: "Center", acronym: "Ctr" },
-      { phrase: "Circle", acronym: "Cir" },
-      { phrase: "Colonel", acronym: "Col." },
-      { phrase: "Commander", acronym: "Cmdr." },
-      { phrase: "Connector", acronym: "CONN" },
-      { phrase: "Corners", acronym: "Cors" },
-      { phrase: "Corporal", acronym: "Cpl." },
-      { phrase: "Court", acronym: "Ct" },
-      { phrase: "Cove", acronym: "Cv" },
-      { phrase: "Creek", acronym: "Crk" },
-      { phrase: "Crescent", acronym: "Cres" },
-      { phrase: "Crossing", acronym: "X-ing" },
-      { phrase: "Doctor", acronym: "Dr." },
-      { phrase: "Drive", acronym: "Dr" },
-      { phrase: "East", acronym: "E" },
-      { phrase: "Eastbound", acronym: "EB" },
-      { phrase: "Eb", acronym: "EB" },
-      { phrase: "Express", acronym: "EXP" },
-      { phrase: "Expressway", acronym: "Expwy" },
-      { phrase: "Extension", acronym: "Ext" },
-      { phrase: "Fort", acronym: "Ft." },
-      { phrase: "Freeway", acronym: "Fwy" },
-      { phrase: "General", acronym: "Gen." },
-      { phrase: "Governor", acronym: "Gov." },
-      { phrase: "Grove", acronym: "Grv" },
-      { phrase: "Heights", acronym: "Hts" },
-      { phrase: "Highway", acronym: "Hwy" },
-      { phrase: "Honerable", acronym: "Hon." },
-      { phrase: "International", acronym: "Intl" },
-      { phrase: "Interstate", acronym: "I-" },
-      { phrase: "Junior", acronym: "Jr." },
-      { phrase: "Landing", acronym: "Lndg" },
-      { phrase: "Lane", acronym: "Ln" },
-      { phrase: "Lieutenant", acronym: "Lt." },
-      { phrase: "Loop", acronym: "Lp" },
-      { phrase: "Major", acronym: "Maj." },
-      { phrase: "Manor", acronym: "Mnr." },
-      { phrase: "Meadow", acronym: "Mdw" },
-      { phrase: "Mount", acronym: "Mt" },
-      { phrase: "Mountain", acronym: "Mtn" },
-      { phrase: "Mountains", acronym: "Mtns" },
-      { phrase: "National", acronym: "Nat'l" },
-      { phrase: "North", acronym: "N" },
-      { phrase: "Northbound", acronym: "NB" },
-      { phrase: "Nb", acronym: "NB" },
-      { phrase: "Northeast", acronym: "NE" },
-      { phrase: "Northwest", acronym: "NW" },
-      { phrase: "Park", acronym: "Pk" },
-      { phrase: "Parkway", acronym: "Pkwy" },
-      { phrase: "Parkways", acronym: "Pkwys" },
-      { phrase: "Passage", acronym: "Psge" },
-      { phrase: "Place", acronym: "Pl" },
-      { phrase: "Plaza", acronym: "Plz" },
-      { phrase: "Point", acronym: "Pt" },
-      { phrase: "Points", acronym: "Pts" },
-      { phrase: "President", acronym: "Pres." },
-      { phrase: "Professor", acronym: "Prof." },
-      { phrase: "Railroad", acronym: "R.R." },
-      { phrase: "Road", acronym: "Rd" },
-      { phrase: "Recreational", acronym: "Rec." },
-      { phrase: "Reverend", acronym: "Rev." },
-      { phrase: "Route", acronym: "SR-" },
-      { phrase: "Saint", acronym: "St." },
-      { phrase: "Sainte", acronym: "Ste." },
-      { phrase: "Senior", acronym: "Sr." },
-      { phrase: "Sergeant", acronym: "Sgt." },
-      { phrase: "Skyway", acronym: "Skwy" },
-      { phrase: "South", acronym: "S" },
-      { phrase: "Southbound", acronym: "SB" },
-      { phrase: "Sb", acronym: "SB" },
-      { phrase: "Southeast", acronym: "SE" },
-      { phrase: "Southwest", acronym: "SW" },
-      { phrase: "Springs", acronym: "Spgs" },
-      { phrase: "Square", acronym: "Sq" },
-      { phrase: "Station", acronym: "Sta" },
-      { phrase: "Street", acronym: "St" },
-      { phrase: "Terrace", acronym: "Ter" },
-      { phrase: "Throughway", acronym: "Thwy" },
-      { phrase: "Thruway", acronym: "Thwy" },
-      { phrase: "Tollway", acronym: "Tlwy" },
-      { phrase: "Township", acronym: "Twp" },
-      { phrase: "Trafficway", acronym: "Trfy" },
-      { phrase: "Trail", acronym: "Trl" },
-      { phrase: "Tunnel", acronym: "Tun" },
-      { phrase: "Turnpike", acronym: "Tpk" },
-      { phrase: "Upper", acronym: "Upr" },
-      { phrase: "U.S.", acronym: "US" },
-      { phrase: "Valley", acronym: "Vly" },
-      { phrase: "West", acronym: "W" },
-      { phrase: "Westbound", acronym: "WB" },
-      { phrase: "Wb", acronym: "WB" },
-      { phrase: "--", acronym: "-" },
-      { phrase: " -", acronym: "-" },
-      { phrase: "- ", acronym: "-" },
-      { phrase: "- -", acronym: "-" },
-    ];
+        const replacements = [
+            // compound phrases here
+            { phrase: 'Alternate Route', acronym: 'ALT' },
+            { phrase: 'Army Air Field', acronym: 'AAF' },
+            { phrase: 'County Highway', acronym: 'CH-' },
+            { phrase: 'County Road', acronym: 'CR-' },
+            { phrase: 'East Bound', acronym: 'EB' },
+            { phrase: 'North Bound', acronym: 'NB' },
+            { phrase: 'North East', acronym: 'NE' },
+            { phrase: 'North West', acronym: 'NW' },
+            { phrase: 'South Bound', acronym: 'SB' },
+            { phrase: 'South East', acronym: 'SE' },
+            { phrase: 'South West', acronym: 'SW' },
+            { phrase: 'State Highway', acronym: 'SH-' },
+            { phrase: 'State Route', acronym: 'SR-' },
+            { phrase: 'State Rte', acronym: 'SR-' },
+            { phrase: 'U.S. Highway', acronym: 'US-' },
+            { phrase: 'U.S. Route', acronym: 'US-' },
+            { phrase: 'U.S. Rte', acronym: 'US-' },
+            { phrase: 'U.S.Rte', acronym: 'US-' },
+            { phrase: 'US Highway', acronym: 'US-' },
+            { phrase: 'U S Highway', acronym: 'US-' },
+            { phrase: 'US Route', acronym: 'US-' },
+            { phrase: 'U S Route', acronym: 'US-' },
+            { phrase: 'US RTE', acronym: 'US-' },
+            { phrase: 'U S RTE', acronym: 'US-' },
+            { phrase: 'USRTE', acronym: 'US-' },
+            { phrase: 'West Bound', acronym: 'WB' },
+            // Start of single words list
+            { phrase: 'Alley', acronym: 'Aly' },
+            { phrase: 'Apartments', acronym: 'Apts' },
+            { phrase: 'Avenue', acronym: 'Ave' },
+            { phrase: 'Beach', acronym: 'Bch' },
+            { phrase: 'Boulevard', acronym: 'Blvd' },
+            { phrase: 'Bridge', acronym: 'Br' },
+            { phrase: 'Business', acronym: 'BUS' },
+            { phrase: 'Bypass', acronym: 'BYP' },
+            { phrase: 'Canyon', acronym: 'Cyn' },
+            { phrase: 'Captain', acronym: 'Capt' },
+            { phrase: 'Causeway', acronym: 'Cswy' },
+            { phrase: 'Center', acronym: 'Ctr' },
+            { phrase: 'Circle', acronym: 'Cir' },
+            { phrase: 'Colonel', acronym: 'Col.' },
+            { phrase: 'Commander', acronym: 'Cmdr.' },
+            { phrase: 'Connector', acronym: 'CONN' },
+            { phrase: 'Corners', acronym: 'Cors' },
+            { phrase: 'Corporal', acronym: 'Cpl.' },
+            { phrase: 'Court', acronym: 'Ct' },
+            { phrase: 'Cove', acronym: 'Cv' },
+            { phrase: 'Creek', acronym: 'Crk' },
+            { phrase: 'Crescent', acronym: 'Cres' },
+            { phrase: 'Crossing', acronym: 'X-ing' },
+            { phrase: 'Doctor', acronym: 'Dr.' },
+            { phrase: 'Drive', acronym: 'Dr' },
+            { phrase: 'East', acronym: 'E' },
+            { phrase: 'Eastbound', acronym: 'EB' },
+            { phrase: 'Eb', acronym: 'EB' },
+            { phrase: 'Express', acronym: 'EXP' },
+            { phrase: 'Expressway', acronym: 'Expwy' },
+            { phrase: 'Extension', acronym: 'Ext' },
+            { phrase: 'Fort', acronym: 'Ft.' },
+            { phrase: 'Freeway', acronym: 'Fwy' },
+            { phrase: 'General', acronym: 'Gen.' },
+            { phrase: 'Governor', acronym: 'Gov.' },
+            { phrase: 'Grove', acronym: 'Grv' },
+            { phrase: 'Heights', acronym: 'Hts' },
+            { phrase: 'Highway', acronym: 'Hwy' },
+            { phrase: 'Honerable', acronym: 'Hon.' },
+            { phrase: 'International', acronym: 'Intl' },
+            { phrase: 'Interstate', acronym: 'I-' },
+            { phrase: 'Junior', acronym: 'Jr.' },
+            { phrase: 'Landing', acronym: 'Lndg' },
+            { phrase: 'Lane', acronym: 'Ln' },
+            { phrase: 'Lieutenant', acronym: 'Lt.' },
+            { phrase: 'Loop', acronym: 'Lp' },
+            { phrase: 'Major', acronym: 'Maj.' },
+            { phrase: 'Manor', acronym: 'Mnr.' },
+            { phrase: 'Meadow', acronym: 'Mdw' },
+            { phrase: 'Mount', acronym: 'Mt' },
+            { phrase: 'Mountain', acronym: 'Mtn' },
+            { phrase: 'Mountains', acronym: 'Mtns' },
+            { phrase: 'National', acronym: "Nat'l" },
+            { phrase: 'North', acronym: 'N' },
+            { phrase: 'Northbound', acronym: 'NB' },
+            { phrase: 'Nb', acronym: 'NB' },
+            { phrase: 'Northeast', acronym: 'NE' },
+            { phrase: 'Northwest', acronym: 'NW' },
+            { phrase: 'Park', acronym: 'Pk' },
+            { phrase: 'Parkway', acronym: 'Pkwy' },
+            { phrase: 'Parkways', acronym: 'Pkwys' },
+            { phrase: 'Passage', acronym: 'Psge' },
+            { phrase: 'Place', acronym: 'Pl' },
+            { phrase: 'Plaza', acronym: 'Plz' },
+            { phrase: 'Point', acronym: 'Pt' },
+            { phrase: 'Points', acronym: 'Pts' },
+            { phrase: 'President', acronym: 'Pres.' },
+            { phrase: 'Professor', acronym: 'Prof.' },
+            { phrase: 'Railroad', acronym: 'R.R.' },
+            { phrase: 'Road', acronym: 'Rd' },
+            { phrase: 'Recreational', acronym: 'Rec.' },
+            { phrase: 'Reverend', acronym: 'Rev.' },
+            { phrase: 'Route', acronym: 'SR-' },
+            { phrase: 'Saint', acronym: 'St.' },
+            { phrase: 'Sainte', acronym: 'Ste.' },
+            { phrase: 'Senior', acronym: 'Sr.' },
+            { phrase: 'Sergeant', acronym: 'Sgt.' },
+            { phrase: 'Skyway', acronym: 'Skwy' },
+            { phrase: 'South', acronym: 'S' },
+            { phrase: 'Southbound', acronym: 'SB' },
+            { phrase: 'Sb', acronym: 'SB' },
+            { phrase: 'Southeast', acronym: 'SE' },
+            { phrase: 'Southwest', acronym: 'SW' },
+            { phrase: 'Springs', acronym: 'Spgs' },
+            { phrase: 'Square', acronym: 'Sq' },
+            { phrase: 'Station', acronym: 'Sta' },
+            { phrase: 'Street', acronym: 'St' },
+            { phrase: 'Terrace', acronym: 'Ter' },
+            { phrase: 'Throughway', acronym: 'Thwy' },
+            { phrase: 'Thruway', acronym: 'Thwy' },
+            { phrase: 'Tollway', acronym: 'Tlwy' },
+            { phrase: 'Township', acronym: 'Twp' },
+            { phrase: 'Trafficway', acronym: 'Trfy' },
+            { phrase: 'Trail', acronym: 'Trl' },
+            { phrase: 'Tunnel', acronym: 'Tun' },
+            { phrase: 'Turnpike', acronym: 'Tpk' },
+            { phrase: 'Upper', acronym: 'Upr' },
+            { phrase: 'U.S.', acronym: 'US' },
+            { phrase: 'Valley', acronym: 'Vly' },
+            { phrase: 'West', acronym: 'W' },
+            { phrase: 'Westbound', acronym: 'WB' },
+            { phrase: 'Wb', acronym: 'WB' },
+            { phrase: '--', acronym: '-' },
+            { phrase: ' -', acronym: '-' },
+            { phrase: '- ', acronym: '-' },
+            { phrase: '- -', acronym: '-' }
+        ];
 
         let updatedText = text;
 
@@ -2240,24 +2239,24 @@
         return updatedText;
     }
 
-  function fixSateHwyRoadNames(text) {
+    function fixSateHwyRoadNames(text) {
     // Regular expression to capture patterns like "XXX ###", "XXX-###", "XXX###", as well as "Us Route #", "Us Rte #", and "Route #", "Rte #"
-    const regex = /(?:([A-Z]{1,3})[-\s]?(\d{1,3})|(?:Us\s+(?:Rte|Route)\s+(\d{1,3}))|(?:Rte[-\s]?(\d{1,3})|Route\s+(\d{1,3})))\b/gi;
+        const regex = /(?:([A-Z]{1,3})[-\s]?(\d{1,3})|(?:Us\s+(?:Rte|Route)\s+(\d{1,3}))|(?:Rte[-\s]?(\d{1,3})|Route\s+(\d{1,3})))\b/gi;
 
-    // Replacement function formats matched patterns
-    return text.replace(regex, (match, letters, numbers, usRouteNumber, rteNumber, routeNumber) => {
-        if (usRouteNumber) {
-            return `US-${usRouteNumber}`; // for "US Route"/s
-        }
-        if (rteNumber || routeNumber) {
-            return `SR-${rteNumber || routeNumber}`; // Change "Rte" or "Route" to "SR"
-        }
-        if (letters && numbers) {
-            return `${letters.toUpperCase()}-${numbers}`; // General format for other letter-number combos
-        }
-        return match;
-    });
-}
+        // Replacement function formats matched patterns
+        return text.replace(regex, (match, letters, numbers, usRouteNumber, rteNumber, routeNumber) => {
+            if (usRouteNumber) {
+                return `US-${usRouteNumber}`; // for "US Route"/s
+            }
+            if (rteNumber || routeNumber) {
+                return `SR-${rteNumber || routeNumber}`; // Change "Rte" or "Route" to "SR"
+            }
+            if (letters && numbers) {
+                return `${letters.toUpperCase()}-${numbers}`; // General format for other letter-number combos
+            }
+            return match;
+        });
+    }
 
     function titleCaseLabel(text) {
     // Read each line separately
@@ -2445,71 +2444,71 @@
     }
 
     function updatePopupContent(labels) {
-      const dropdownContainer = document.querySelector("#layerLabelPopup div:nth-child(3)");
-      const contentContainer = document.querySelector("#layerLabelPopup div:nth-child(4)");
+        const dropdownContainer = document.querySelector('#layerLabelPopup div:nth-child(3)');
+        const contentContainer = document.querySelector('#layerLabelPopup div:nth-child(4)');
 
-      dropdownContainer.innerHTML = "";
-      contentContainer.innerHTML = "";
+        dropdownContainer.innerHTML = '';
+        contentContainer.innerHTML = '';
 
-      const select = document.createElement("select");
-      select.style = "width: 100%; padding: 5px; border: 1px solid #ccc;";
+        const select = document.createElement('select');
+        select.style = 'width: 100%; padding: 5px; border: 1px solid #ccc;';
 
-      const sortedLayerNames = Object.keys(labels).sort();
-      sortedLayerNames.forEach((layerName) => {
-        const option = document.createElement("option");
-        option.value = layerName;
-        option.innerText = layerName;
-        select.appendChild(option);
+        const sortedLayerNames = Object.keys(labels).sort();
+        sortedLayerNames.forEach(layerName => {
+            const option = document.createElement('option');
+            option.value = layerName;
+            option.innerText = layerName;
+            select.appendChild(option);
 
-        const uniqueLabels = Array.from(labels[layerName]).sort();
-        const tabContent = document.createElement("div");
-        tabContent.style = "display: none; width: 100%; white-space: pre;";
+            const uniqueLabels = Array.from(labels[layerName]).sort();
+            const tabContent = document.createElement('div');
+            tabContent.style = 'display: none; width: 100%; white-space: pre;';
 
-        const processedLabels = uniqueLabels
-          .map((label) => {
-            const text = processedLabel(label);
-            const copyIcon = `<span style="cursor: pointer; margin-left: 5px;" title="Copy to clipboard">📋</span>`;
-            return `<li style="margin-bottom: 0.3em; color: #555;" data-label="${text}">${text}${copyIcon}</li>`;
-          })
-          .join("");
+            const processedLabels = uniqueLabels
+                .map(label => {
+                    const text = processedLabel(label);
+                    const copyIcon = '<span style="cursor: pointer; margin-left: 5px;" title="Copy to clipboard">📋</span>';
+                    return `<li style="margin-bottom: 0.3em; color: #555;" data-label="${text}">${text}${copyIcon}</li>`;
+                })
+                .join('');
 
-        tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
-        contentContainer.appendChild(tabContent);
+            tabContent.innerHTML = `<ul style="padding-left: 20px; margin-top: 0;">${processedLabels}</ul>`;
+            contentContainer.appendChild(tabContent);
 
-        // Add copying functionality
-        tabContent.querySelectorAll("li").forEach((li) => {
-          const icon = li.querySelector("span");
-          if (icon) {
-            icon.addEventListener("click", () => {
-              const textToCopy = li.getAttribute("data-label"); // Get the text from a custom data attribute
-              copyTextToClipboard(textToCopy);
+            // Add copying functionality
+            tabContent.querySelectorAll('li').forEach(li => {
+                const icon = li.querySelector('span');
+                if (icon) {
+                    icon.addEventListener('click', () => {
+                        const textToCopy = li.getAttribute('data-label'); // Get the text from a custom data attribute
+                        copyTextToClipboard(textToCopy);
+                    });
+                }
             });
-          }
         });
-      });
 
-      dropdownContainer.appendChild(select);
+        dropdownContainer.appendChild(select);
 
-      let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
+        let selectedLayerIndex = sortedLayerNames.indexOf(popupActiveLayer);
 
-      if (selectedLayerIndex === -1 && select.options.length > 0) {
-        selectedLayerIndex = 0;
-        popupActiveLayer = sortedLayerNames[selectedLayerIndex];
-      }
-      select.selectedIndex = selectedLayerIndex;
+        if (selectedLayerIndex === -1 && select.options.length > 0) {
+            selectedLayerIndex = 0;
+            popupActiveLayer = sortedLayerNames[selectedLayerIndex];
+        }
+        select.selectedIndex = selectedLayerIndex;
 
-      const allContents = contentContainer.querySelectorAll("div");
-      allContents.forEach((content, index) => {
-        content.style.display = index === select.selectedIndex ? "block" : "none";
-      });
-
-      select.addEventListener("change", () => {
-        const contents = contentContainer.querySelectorAll("div");
-        contents.forEach((content, index) => {
-          content.style.display = index === select.selectedIndex ? "block" : "none";
+        const allContents = contentContainer.querySelectorAll('div');
+        allContents.forEach((content, index) => {
+            content.style.display = index === select.selectedIndex ? 'block' : 'none';
         });
-        popupActiveLayer = select.value;
-      });
+
+        select.addEventListener('change', () => {
+            const contents = contentContainer.querySelectorAll('div');
+            contents.forEach((content, index) => {
+                content.style.display = index === select.selectedIndex ? 'block' : 'none';
+            });
+            popupActiveLayer = select.value;
+        });
     }
 
     function fetchFeatures() {
