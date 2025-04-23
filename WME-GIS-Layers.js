@@ -2631,7 +2631,7 @@
         const color = value ? '#00bd00' : '#ccc';
         $('span#gis-layers-power-btn').css({ color });
         if (value) fetchFeatures();
-        $('#layer-switcher-item_gis_layers').prop('checked', value);
+        sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: value });
 
         // Show/hide the popup based on the enabled state
         const popup = document.getElementById('layerLabelPopup');
@@ -2684,8 +2684,8 @@
         }
     }
 
-    function onLayerCheckboxChanged(checked) {
-        setEnabled(checked);
+    function onLayerCheckboxChanged(args) {
+        setEnabled(args.checked);
     }
 
     function setFillParcels(doFill) {
@@ -3047,9 +3047,10 @@
         if (firstCall) {
             initTab(true);
 
-            WazeWrap.Interface.AddLayerCheckbox('Display', 'GIS Layers', settings.enabled, onLayerCheckboxChanged);
-            // W.map.events.register('moveend', null, onMapMove);
-            WazeWrap.Events.register('moveend', null, onMapMove);
+            sdk.LayerSwitcher.addLayerCheckbox({ name: 'GIS Layers' });
+            sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: settings.enabled });
+            sdk.Events.on({ eventName: 'wme-layer-checkbox-toggled', eventHandler: onLayerCheckboxChanged });
+            sdk.Events.on({ eventName: 'wme-map-move-end', eventHandler: onMapMove });
             showScriptInfoAlert();
         } else {
             initTab(firstCall);
