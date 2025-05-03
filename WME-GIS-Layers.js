@@ -1347,11 +1347,24 @@
             ['Virginia', 'VA', 51], ['Washington', 'WA', 53], ['West Virginia', 'WV', 54],
             ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56]
         ],
-        toAbbr(fullName) { return this._states.find(a => a[0] === fullName)[1]; },
-        toFullName(abbr) { return this._states.find(a => a[1] === abbr)[0]; },
-        toFullNameArray() { return this._states.map(a => a[0]); },
-        toAbbrArray() { return this._states.map(a => a[1]); },
-        fromId(id) { return this._states.find(a => a[2] === id); }
+        toAbbr(fullName) {
+            const state = this._states.find(a => a[0] === fullName);
+            return state ? state[1] : null; // Return null if not found
+        },
+        toFullName(abbr) {
+            const state = this._states.find(a => a[1] === abbr);
+            return state ? state[0] : null; // Return null if not found
+        },
+        toFullNameArray() {
+            return this._states.map(a => a[0]);
+        },
+        toAbbrArray() {
+            return this._states.map(a => a[1]);
+        },
+        fromId(id) {
+            const state = this._states.find(a => a[2] === id);
+            return state ? state[0] : null; // Return null if not found
+        }
     };
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
