@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.05.03.000
+// @version      2025.04.23.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1345,7 +1345,13 @@
             ['South Dakota', 'SD', 46], ['Tennessee', 'TN', 47], ['Texas', 'TX', 48],
             ['Utah', 'UT', 49], ['Vermont', 'VT', 50], ['Virgin Islands', 'VI', 78],
             ['Virginia', 'VA', 51], ['Washington', 'WA', 53], ['West Virginia', 'WV', 54],
-            ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56]
+            ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56],
+            ['Canada (Country)', 'CAN', -1], ['Newfoundland and Labrador', 'CAN-NL', 10], ['Prince Edward Island', 'CAN-PE', 11],
+            ['Nova Scotia', 'CAN-NS', 12], ['New Brunswick', 'CAN-NB', 13], ['Quebec', 'CAN-QC', 24],
+            ['Ontario', 'CAN-ON', 35], ['Manitoba', 'CAN-MB', 46], ['Saskatchewan', 'CAN-SK', 47],
+            ['Alberta', 'CAN-AB', 48], ['British Columbia', 'CAN-BC', 59], ['Yukon', 'CAN-YT', 60],
+            ['Northwest Territories', 'CAN-NU', 61], ['Nunavut', 'CAN-NT', 62],
+            ['Kenya (Country)', 'KEN', -1],
         ],
         toAbbr(fullName) {
             const state = this._states.find(a => a[0] === fullName);
@@ -1366,6 +1372,8 @@
             return state ? state[0] : null; // Return null if not found
         }
     };
+
+
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
     const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
@@ -1395,6 +1403,111 @@
     function logError(message, args = []) { console.error(`${scriptName}:`, message, ...args); }
     function logDebug(message, args = []) { if (DEBUG) console.debug(`${scriptName}:`, message, ...args); }
     // function logWarning(message) { console.warn('GIS Layers:', message); }
+    
+    const urlCache = {};
+    let countrySubs = {};
+    
+    function fetchJsonWithCache(url, useCache = false) {
+        if (useCache && urlCache[url]) {
+            return Promise.resolve(urlCache[url]);
+        }
+    
+        return new Promise((resolve, reject) => {
+            GM_xmlhttpRequest({
+                method: "GET",
+                url: url,
+                onload: (response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        const data = JSON.parse(response.responseText);
+                        if (useCache) {
+                            urlCache[url] = data;
+                        }
+                        resolve(data);
+                    } else {
+                        logError(`Failed to fetch data from ${url}, status: ${response.status}`);
+                        reject(new Error(`Failed to fetch data from ${url}, status: ${response.status}`));
+                    }
+                },
+                onerror: (error) => {
+                    logError(`Failed to fetch data from ${url}, error:`, error);
+                    reject(new Error(`Failed to fetch data from ${url}, error: ${error}`));
+                },
+            });
+        });
+    }
+    
+    function getCountrySubs() {
+        const BASE_URL_BBOX = `https://js55ct.github.io/geoBBoxPruner/BBOX%20JSON/`;
+        const countryUrl = `${BASE_URL_BBOX}COUNTRIES_BBOX_ESPG4326.json`;
+    
+        return fetchJsonWithCache(countryUrl)
+            .then(COUNTRY_DATA => {
+                const fetchPromises = Object.keys(COUNTRY_DATA).map(code => {
+                    const countryData = COUNTRY_DATA[code];
+                    countrySubs[code] = {
+                        name: countryData.name,
+                        ISO_ALPHA2: countryData.ISO_ALPHA2,
+                        ISO_ALPHA3: countryData.ISO_ALPHA3,
+                        bbox: countryData.bbox,
+                        subdivisions: {}
+                    };
+    
+                    const subL1Url = `${BASE_URL_BBOX}${code}/${code}_BBOX_ESPG4326.json`;
+                    return fetchJsonWithCache(subL1Url)
+                        .then(subdivisionData => {
+                            countrySubs[code].subdivisions = subdivisionData;
+    
+                            const subPromises = Object.keys(subdivisionData).map(subCode => {
+                                const subLevel1 = subdivisionData[subCode];
+                                let subL2Url;
+    
+                                if (code === 'US') {
+                                    subL2Url = `${BASE_URL_BBOX}${code}/${code}-${subLevel1.sub_code}_BBOX_ESPG4326.json`;
+                                } else {
+                                    subL2Url = `${BASE_URL_BBOX}${code}/${code}-${subLevel1.sub_id}_BBOX_ESPG4326.json`;
+                                }
+    
+                                return fetchJsonWithCache(subL2Url)
+                                    .then(subLevel2Data => {
+                                        countrySubs[code].subdivisions[subCode].subdivisions = subLevel2Data;
+                                    })
+                                    .catch(error => {
+                                        logError(`Error fetching subdivision level 2 for ${code} - ${subLevel1.sub_id}:`, error);
+                                        countrySubs[code].subdivisions[subCode].subdivisions = {};
+                                    });
+                            });
+    
+                            return Promise.all(subPromises);
+                        })
+                        .catch(error => {
+                            logError(`Error fetching subdivisions for ${code}:`, error);
+                            countrySubs[code].subdivisions = {};
+                        });
+                });
+    
+                return Promise.all(fetchPromises).then(() => {
+                    Object.keys(countrySubs).forEach(code => {
+                        const countryData = countrySubs[code];
+                        const subdivision1Count = Object.keys(countryData.subdivisions).length;
+                        let subdivision2Count = 0;
+    
+                        Object.values(countryData.subdivisions).forEach(sub1 => {
+                            subdivision2Count += Object.keys(sub1.subdivisions).length;
+                        });
+    
+                        logDebug(`Country: ${countryData.name}, Sub1 Count: ${subdivision1Count}, Sub2 Count: ${subdivision2Count}`);
+                    });
+                    logDebug("CountrySubs Object:", [countrySubs]);
+                    return countrySubs;
+                });
+            })
+            .catch(error => {
+                logError("Error fetching country data:", error);
+                return null;
+            });
+    }
+    
+   
 
     let _layerSettingsDialog;
 
@@ -3160,7 +3273,7 @@
                 }
             });
         }
-
+        console.log("loadSpreadsheetAsync()",_gisLayers);
         return result;
     }
 
@@ -3183,6 +3296,15 @@
             userInfo = sdk.State.getUserInfo();
             labelProcessingGlobalVariables.W = W;
             labelProcessingGlobalVariables.sdk = sdk;
+            
+            try {
+                await getCountrySubs(); // Wait for getCountrySubs to finish - JS55CT
+                logDebug('CountrySubs data successfully initialized');
+            } catch (error) {
+                logError('Failed to retrieve country subdivisions:', error);
+                return; // Exit function early if fetching data fails
+            }
+
             initRoadStyle();
             loadSettingsFromStorage();
             createShortcut('toggleHnsOnly', 'Toggle HN-only address labels (GIS Layers)', onAddressDisplayShortcutKey);
