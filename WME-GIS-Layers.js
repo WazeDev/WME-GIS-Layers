@@ -1348,12 +1348,10 @@
             ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56]
         ],
         toAbbr(fullName) {
-            const state = this._states.find(a => a[0] === fullName);
-            return state ? state[1] : null; // Return null if not found
+            return this._states.find(a => a[0] === fullName)?.[1]; // Returns undefined if not found
         },
         toFullName(abbr) {
-            const state = this._states.find(a => a[1] === abbr);
-            return state ? state[0] : null; // Return null if not found
+            return this._states.find(a => a[1] === abbr)?.[0]; // Returns undefined if not found
         },
         toFullNameArray() {
             return this._states.map(a => a[0]);
@@ -1362,8 +1360,7 @@
             return this._states.map(a => a[1]);
         },
         fromId(id) {
-            const state = this._states.find(a => a[2] === id);
-            return state ? state[0] : null; // Return null if not found
+            return this._states.find(a => a[2] === id)?.[0]; // Returns undefined if not found
         }
     };
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
