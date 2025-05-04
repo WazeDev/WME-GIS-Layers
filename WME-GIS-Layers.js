@@ -1360,7 +1360,7 @@
             return this._states.map(a => a[1]);
         },
         fromId(id) {
-            return this._states.find(a => a[2] === id)?.[0]; // Returns undefined if not found
+            return this._states.find(a => a[2] === id); // Returns undefined if not found
         }
     };
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
