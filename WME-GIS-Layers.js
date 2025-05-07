@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.05.07.000
+// @version      2025.05.07.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1976,7 +1976,7 @@
                                     // This allows labels to stay in view on very long roads.
                                     const mls = turf.multiLineString(item.geometry.paths);
                                     const e = getMercatorMapExtent();
-                                    const bbox = [e.left, e.bottom, e.right, e.top];
+                                    const bbox = [e[0], e[1], e[2], e[3]];
                                     const clipped = turf.bboxClip(mls, bbox);
                                     if (clipped.geometry.type === 'LineString') {
                                         item.geometry.paths = [clipped.geometry.coordinates];
