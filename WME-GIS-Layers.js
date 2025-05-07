@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.05.03.000
+// @version      2025.05.07.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1905,6 +1905,7 @@
             // do nothing
         } else if (data.error) {
             logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
+            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
         } else {
             const items = data.features || [];
             if (!token.cancel) {
@@ -2007,6 +2008,7 @@
                                 } else {
                                     logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
                                     logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
+                                    $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
                                     error = true;
                                 }
                                 if (!error && !isPolyLine && featureGeometry) {
