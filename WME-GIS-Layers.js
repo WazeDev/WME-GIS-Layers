@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.04.23.000
+// @version      2025.05.03.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1347,11 +1347,21 @@
             ['Virginia', 'VA', 51], ['Washington', 'WA', 53], ['West Virginia', 'WV', 54],
             ['Wisconsin', 'WI', 55], ['Wyoming', 'WY', 56]
         ],
-        toAbbr(fullName) { return this._states.find(a => a[0] === fullName)[1]; },
-        toFullName(abbr) { return this._states.find(a => a[1] === abbr)[0]; },
-        toFullNameArray() { return this._states.map(a => a[0]); },
-        toAbbrArray() { return this._states.map(a => a[1]); },
-        fromId(id) { return this._states.find(a => a[2] === id); }
+        toAbbr(fullName) {
+            return this._states.find(a => a[0] === fullName)?.[1]; // Returns undefined if not found
+        },
+        toFullName(abbr) {
+            return this._states.find(a => a[1] === abbr)?.[0]; // Returns undefined if not found
+        },
+        toFullNameArray() {
+            return this._states.map(a => a[0]);
+        },
+        toAbbrArray() {
+            return this._states.map(a => a[1]);
+        },
+        fromId(id) {
+            return this._states.find(a => a[2] === id); // Returns undefined if not found
+        }
     };
     const DEFAULT_VISIBLE_AT_ZOOM = 18;
     const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
