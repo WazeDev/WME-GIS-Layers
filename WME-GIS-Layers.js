@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.05.07.001
+// @version      2025.05.08.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1603,7 +1603,8 @@
             useAcronyms: false,
             useTitleCase: false,
             useStateHwy: false,
-            removeNewLines: false
+            removeNewLines: false,
+            collapsedSections: {}
         };
 
         let loadedSettings = {}; // Initialize as an empty object
@@ -2729,15 +2730,20 @@
 
     function onChevronClick(evt) {
         const $target = $(evt.currentTarget);
+        const $div = $($target.siblings()[0]);
+        const fieldsetId = $target.parent('fieldset').attr('id');
+        const sectionKey = fieldsetId ? fieldsetId.replace('gis-layers-for-', '') : null;
         $($target.children()[0])
             .toggleClass('fa fa-fw fa-chevron-down')
             .toggleClass('fa fa-fw fa-chevron-right');
-        const $div = $($target.siblings()[0]);
         if ($div.css('display') === 'none') {
             $div.css('display', 'block');
+            if (sectionKey) settings.collapsedSections[sectionKey] = false;
         } else {
             $div.css('display', 'none');
+            if (sectionKey) settings.collapsedSections[sectionKey] = true;
         }
+        if (sectionKey) saveSettingsToStorage();
     }
 
     function doToggleABunch(evt, checkState) {
@@ -2842,14 +2848,17 @@
                     $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
                         .click(onChevronClick).append(
                             $('<i>', {
-                                class: 'fa fa-fw fa-chevron-down',
+                                class: settings.collapsedSections[st] ? 'fa fa-fw fa-chevron-right' : 'fa fa-fw fa-chevron-down',
                                 style: 'cursor: pointer;font-size: 12px;margin-right: 4px'
                             }),
                             $('<span>', {
                                 style: 'font-size:14px;font-weight:600;text-transform: uppercase; cursor: pointer'
                             }).text(STATES.toFullName(st))
                         ),
-                    $('<div>', { id: `${st}_body` }).append(
+                    $('<div>', {
+                        id: `${st}_body`,
+                        style: settings.collapsedSections[st] ? 'display: none;' : 'display: block;'
+                    }).append(
                         $('<div>').css({ 'font-size': '11px' }).append(
                             $('<span>').append(
                                 'Select ',
