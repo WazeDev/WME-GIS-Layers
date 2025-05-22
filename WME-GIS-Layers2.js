@@ -2919,7 +2919,7 @@
                     $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
                         .click(onChevronClick).append(
                             $('<i>', {
-                                class: settings.collapsedSections[st] ? 'fa fa-fw fa-chevron-right' : 'fa fa-fw fa-chevron-down',
+                                class: settings.collapsedSections[sub] ? 'fa fa-fw fa-chevron-right' : 'fa fa-fw fa-chevron-down',
                                 style: 'cursor: pointer;font-size: 12px;margin-right: 4px'
                             }),
                             $('<span>', {
@@ -2927,8 +2927,8 @@
                             }).text(NameMapper.toFullName(sub))
                         ),
                     $('<div>', {
-                        id: `${st}_body`,
-                        style: settings.collapsedSections[st] ? 'display: none;' : 'display: block;'
+                        id: `${sub}_body`,
+                        style: settings.collapsedSections[sub] ? 'display: none;' : 'display: block;'
                     }).append(
                         $('<div>').css({ 'font-size': '11px' }).append(
                             $('<span>').append(
