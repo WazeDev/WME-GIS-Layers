@@ -8,6 +8,7 @@
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
 // @exclude       *://*.waze.com/user/editor*
+// @exclude       *://*.waze.com/editor/sdk/*
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @require      https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js
 // @require      https://update.greasyfork.org/scripts/506614/1441195/ESTreeProcessor.js
@@ -1859,7 +1860,7 @@
         const hasSubL2 = gisLayer.subL2 && gisLayer.subL2.length > 0; // Check if the layer has subdivision level 2 names
         if (hasSubL2) {
           // Find the subdivision data entry that matches the layer's subL1 ID
-          const subL1DataEntry = Object.entries(countryData.subL1 || {}).find(([subL1Name, subL1Details]) => subL1Details.subL1_id === gisLayer.subL1);
+          const subL1DataEntry = Object.entries(countryData.subL1 || {}).find(([_, subL1Details]) => subL1Details.subL1_id === gisLayer.subL1);
           const subL1Data = subL1DataEntry && subL1DataEntry[1]; // Retrieve the actual subL1 data object
           if (!subL1Data) { // If no matching subL1 data is found, skip the layer
             return false;
@@ -2632,7 +2633,7 @@
         }
         if (ignoreFetch) return;
         if (sdk.Map.getZoomLevel() < 12) {
-            filterLayerCheckboxes();
+            //filterLayerCheckboxes();
             return;
         }    
         await whatsInView();
@@ -2653,8 +2654,8 @@
             });
         }
         filterLayerCheckboxes();
-        logDebug(`Fetching ${layersToFetch.length} layers...`);
-        logDebug(layersToFetch);
+        logDebug(`Fetching ${layersToFetch.length} layers...`, [layersToFetch]);
+
         let layersProcessedCount = 0; // Track processed layers
         const extentMercator = getMapExtent('mercator');
         layersToFetch.forEach(gisLayer => {
@@ -2748,7 +2749,7 @@
     async function onOnlyShowApplicableLayersChanged() {
         settings.onlyShowApplicableLayers = $(this).is(':checked');
         saveSettingsToStorage();
-        await fetchFeatures();
+        filterLayerCheckboxes();
     }
 
     async function onSub1CheckChanged(evt) {
