@@ -2231,13 +2231,13 @@
 
             // 2. Add new features to the map
             sdk.Map.addFeaturesToLayer({ layerName, features });
-            console.log('features added');
+            //console.log('features added');
 
             // 1. Remove features from the map (only if there are any)
             if (featureIdsToRemove.length > 0) {
                 sdk.Map.removeFeaturesFromLayer({ layerName, featureIds: featureIdsToRemove });
             }
-            console.log('features removed');
+            //console.log('features removed');
 
             // 3. Create the new collection (kept + new)
             const newCollection = [...remainingFeatures, ...features];
@@ -2765,29 +2765,39 @@
     logDebug(layersToFetch);
     let layersProcessedCount = 0; // Track processed layers
     const extentWGS84 = getMapExtent('wgs84'); //extentMercator = getMapExtent('mercator');
+
     layersToFetch.forEach((gisLayer) => {
-      const url = getUrl(extentWGS84, gisLayer); //getUrl(extentMercator, gisLayer)
+      const url = getUrl(extentWGS84, gisLayer);
       GM_xmlhttpRequest({
         url,
         context: lastToken,
         method: 'GET',
         onload(res2) {
           if (res2.status < 400) {
-            // Handle stupid issue where http 4## is considered success
-            processFeatures($.parseJSON(res2.responseText), res2.context, gisLayer);
-            // Update the popup only after all layers have been processed
+            // Handle successful response
+            try {
+              const parsedData = $.parseJSON(res2.responseText);
+              processFeatures(parsedData, res2.context, gisLayer);
+            } catch (parseError) {
+              logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
+              $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+            }
+
+            // Update popup after processing all layers
             layersProcessedCount += 1;
             if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
               updatePopup(layerLabels);
             }
           } else {
-            logDebug(`HTTP request error: ${JSON.stringify(res2)}`);
-            logError(`Could not fetch layer "${gisLayer.id}". Request returned ${res2.status}`);
+            // Handle HTTP error response
+            logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
+            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
           }
         },
         onerror(res3) {
-          logDebug(`xmlhttpRequest error:${JSON.stringify(res3)}`);
-          logError(`Could not fetch layer "${gisLayer.id}". An error was thrown.`);
+          // Handle request error, particularly timeouts or network issues
+          logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
+          $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
         },
       });
     });
