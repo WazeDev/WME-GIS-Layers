@@ -2229,9 +2229,43 @@
                 { featureIdsToRemove: [], remainingFeatures: [] }
             );
 
+            /**********   An error in any one feature kills the whole layer **************/
+            /*
             // 2. Add new features to the map
             sdk.Map.addFeaturesToLayer({ layerName, features });
             //console.log('features added');
+            */
+
+            // Initialize counters for individual feature addition
+            let successCount = 0;
+            let errorCount = 0;
+
+            features.forEach((feature) => {
+                try {
+                    sdk.Map.addFeatureToLayer({
+                        feature: feature,
+                        layerName: layerName,
+                    });
+
+                    //console.log(`Feature added:`, feature);
+                    successCount++; // Increment success counter
+                } catch (error) {
+                    errorCount++; // Increment error counter
+                    if (error.name === "InvalidStateError") {
+                        logError(`Failed to add feature with ID: ${feature.id}. The layer "${gisLayer.id}" might not exist.`);
+                    } else if (error.name === "ValidationError") {
+                        logError(`Validation error for layer: ${gisLayer.id}: feature ID: ${feature.id}. Check geometry type and properties.`, [error]);
+                        logError(`Validation error for layer: ${gisLayer.id}: feature ID: ${feature.id}`, [feature]);
+                    } else {
+                        logError(`Unexpected error adding feature with ID: ${feature.id}:`, [error]);
+                        logError(`Feature details:`, [feature]);
+                    }
+                }
+            });
+
+            // Handle completion logging
+            console.log(`layer: ${gisLayer.id}  - ${successCount} features added, ${errorCount} features skipped due to errors`);
+
 
             // 1. Remove features from the map (only if there are any)
             if (featureIdsToRemove.length > 0) {
