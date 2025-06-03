@@ -1935,6 +1935,8 @@
 
   function processFeatures(data, token, gisLayer) {
         const features = [];
+        const processedRings = new Set(); // To keep track of processed rings
+
         if (data.skipIt) {
             // do nothing
         } else if (data.error) {
@@ -1973,21 +1975,35 @@
                                         point[1] + layerOffset.y
                                     ]));
                                     featuresToAdd.push(...points);
+
                                 } else if (item.geometry.rings) {
-                                    const rings = [];
-                                    item.geometry.rings.forEach(ringIn => {
-                                        const ring = [];
-                                        for (let i = 0; i < ringIn.length; i++) {
-                                            ring.push([
-                                                ringIn[i][0] + layerOffset.x,
-                                                ringIn[i][1] + layerOffset.y
-                                            ]);
-                                        }
+                                const rings = [];
+                                item.geometry.rings.forEach(ringIn => {
+                                    const ring = ringIn.map(point => [
+                                        point[0] + layerOffset.x,
+                                        point[1] + layerOffset.y
+                                    ]);
+
+                                    // Calculate the area for the ring
+                                    const tempPolygon = turf.polygon([ring]);
+                                    const ringArea = turf.area(tempPolygon);
+                                    const firstPoint = ring[0];
+                                    const lastPoint = ring[ring.length - 1];
+                                    
+                                    // Use both the ringKey and area for validation
+                                    const ringKey = `${firstPoint[0]}_${firstPoint[1]}_${lastPoint[0]}_${lastPoint[1]}_${ringArea.toFixed(2)}`;
+
+                                    if (!processedRings.has(ringKey)) {
+                                        processedRings.add(ringKey);
                                         rings.push(ring);
-                                    });
+                                    }
+                                });
+
+                                if (rings.length > 0) {
                                     const feature = turf.polygon(rings);
                                     featuresToAdd.push(feature);
                                     area = turf.area(feature);
+                                }   
                                 } else if (data.geometryType === 'esriGeometryPolyline') {
                                     // We have to handle polylines differently since each item can have multiple features.
                                     // In terms of ArcGIS, each feature's geometry can have multiple paths.  For instance
@@ -2111,6 +2127,9 @@
                 // 1. change the esri URL's to return geoJSON from json, update the code base for features.properties (geoJSON) vs. features.attributes (json)
                 // 2. Write a Flatten Function, using  esri json file format?
                 // ------------------------------------------------------------------
+
+                //logDebug(`${gisLayer.id} - feature with ID: ${feature.id}: `,feature);
+
                 try {
                     sdk.Map.addFeatureToLayer({ feature, layerName });
                     successCount++;
