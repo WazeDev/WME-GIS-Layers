@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.05.25.000
+// @version      2025.06.03.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -1152,7 +1152,7 @@
     'use strict';
 
     const SHOW_UPDATE_MESSAGE = true;
-    const SCRIPT_VERSION_CHANGES = ['Major update: migrated to the WME SDK. If you find issues, please report them in Discord or Discuss.'];
+    const SCRIPT_VERSION_CHANGES = ['SDK Performance and Stability Update: We have made improvements to enhance your experience. If you encounter any issues, please report them on Discord or Discuss forums.'];
 
     // **************************************************************************************************************
     // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -1715,8 +1715,7 @@
             xmax: extent[2] - layerOffset.x,
             ymax: extent[3] - layerOffset.y,
             spatialReference: {
-                wkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 102100,
-                latestWkid: /* gisLayer.spatialReference ? gisLayer.spatialReference : */ 3857
+                wkid: 4326
             }
         };
         const geometryStr = JSON.stringify(geometry);
@@ -1731,8 +1730,8 @@
         url += gisLayer.token ? `&token=${gisLayer.token}` : '';
         url += `&outFields=${encodeURIComponent(fields.join(','))}`;
         url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
-        url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '102100'}`;
-        url += '&outSR=3857&f=json';
+        url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '4326'}`;
+        url += '&outSR=4326&f=json';
         url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
 
         logDebug(`Request URL: ${url}`);
@@ -1752,25 +1751,28 @@
         return hash;
     }
 
-    function getMercatorMapExtent() {
-        const wgs84Extent = sdk.Map.getMapExtent();
+    function getMapExtent(projection = 'wgs84') {
+        const wgs84Extent = sdk.Map.getMapExtent(); // Assume this provides WGS84 coordinates
         const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]];
         const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
-        const mercatorLeftBottom = turf.toMercator(wgs84LeftBottom);
-        const mercatorRightTop = turf.toMercator(wgs84RightTop);
-        return [mercatorLeftBottom[0], mercatorLeftBottom[1], mercatorRightTop[0], mercatorRightTop[1]];
+        const wgs84Projections = ['wgs84', 'CRS84', '4326', 'EPSG:4326'];
+        
+        if (wgs84Projections.includes(projection.toLowerCase())) {
+            return [wgs84LeftBottom[0], wgs84LeftBottom[1], wgs84RightTop[0], wgs84RightTop[1]];
+        } else {
+            throw new Error('Unsupported projection type');
+        }
     }
 
     function getArcGisMapExtentGeometry() {
-        const extent = getMercatorMapExtent();
+        const extent = getMapExtent('wgs84');
         const geometry = {
             xmin: extent[0],
             ymin: extent[1],
             xmax: extent[2],
             ymax: extent[3],
             spatialReference: {
-                wkid: 102100,
-                latestWkid: 3857
+                wkid: 4326,
             }
         };
         return geometry;
@@ -1780,7 +1782,7 @@
         const geometry = getArcGisMapExtentGeometry();
         const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
         return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects`
-          + '&geometryType=esriGeometryEnvelope&inSR=102100&outSR=3857&f=json';
+          + '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&f=json';
     }
 
     let _countiesInExtent = [];
@@ -1931,7 +1933,7 @@
     let defaultFeatures = [];
     let roadFeatures = [];
 
-    function processFeatures(data, token, gisLayer) {
+  function processFeatures(data, token, gisLayer) {
         const features = [];
         if (data.skipIt) {
             // do nothing
@@ -1963,13 +1965,13 @@
                             const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
                             if (item.geometry) {
                                 if (item.geometry.x) {
-                                    const feature = turf.toWgs84(turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]));
+                                    const feature = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
                                     featuresToAdd.push(feature);
                                 } else if (item.geometry.points) {
-                                    const points = item.geometry.points.map(point => turf.toWgs84(turf.point([
+                                    const points = item.geometry.points.map(point => turf.point([
                                         point[0] + layerOffset.x,
                                         point[1] + layerOffset.y
-                                    ])));
+                                    ]));
                                     featuresToAdd.push(...points);
                                 } else if (item.geometry.rings) {
                                     const rings = [];
@@ -1983,7 +1985,7 @@
                                         }
                                         rings.push(ring);
                                     });
-                                    const feature = turf.toWgs84(turf.polygon(rings));
+                                    const feature = turf.polygon(rings);
                                     featuresToAdd.push(feature);
                                     area = turf.area(feature);
                                 } else if (data.geometryType === 'esriGeometryPolyline') {
@@ -1994,7 +1996,7 @@
                                     // Use Turf library to clip the geometry to the screen bounds.
                                     // This allows labels to stay in view on very long roads.
                                     const mls = turf.multiLineString(item.geometry.paths);
-                                    const e = getMercatorMapExtent();
+                                    const e = getMapExtent('wgs84');
                                     const bbox = [e[0], e[1], e[2], e[3]];
                                     const clipped = turf.bboxClip(mls, bbox);
                                     if (clipped.geometry.type === 'LineString') {
@@ -2009,7 +2011,7 @@
                                             point[0] + layerOffset.x,
                                             point[1] + layerOffset.y
                                         ]));
-                                        const feature = turf.toWgs84(turf.lineString(pointList));
+                                        const feature = turf.lineString(pointList);
                                         feature.skipDupeCheck = true;
                                         featuresToAdd.push(feature);
                                     });
@@ -2095,20 +2097,51 @@
                 { featureIdsToRemove: [], remainingFeatures: [] }
             );
 
-            // 2. Add new features to the map
-            sdk.Map.addFeaturesToLayer({ layerName, features });
-            console.log('features added');
+            /**********   An error in any one feature kills the whole layer **************/
+            // Initialize counters for individual feature addition
+            let successCount = 0;
+            let errorCount = 0;
 
-            // 1. Remove features from the map (only if there are any)
+            // Track the total processing time for the layer
+            const layerStartTime = performance.now();
+
+            features.forEach((feature) => {
+                // -----------------------------------------------------------------
+                // A few things to consider here,
+                // 1. change the esri URL's to return geoJSON from json, update the code base for features.properties (geoJSON) vs. features.attributes (json)
+                // 2. Write a Flatten Function, using  esri json file format?
+                // ------------------------------------------------------------------
+                try {
+                    sdk.Map.addFeatureToLayer({ feature, layerName });
+                    successCount++;
+                } catch (error) {
+                    errorCount++;
+                    if (error.name === "InvalidStateError") {
+                        logError(`Failed to add feature with ID: ${feature.id}. The layer "${gisLayer.id}" might not exist.`);
+                    } else if (error.name === "ValidationError") {
+                        logError(`Validation error for layer: ${gisLayer.id}: feature ID: ${feature.id}. Check geometry type and properties.`, [error]);
+                        logError(`Validation error for layer: ${gisLayer.id}: feature ID: ${feature.id}`, [feature]);
+                    } else {
+                        logError(`Unexpected error adding feature with ID: ${feature.id}:`, [error]);
+                        logError(`Feature details:`, [feature]);
+                    }
+                }
+            });
+
+            // Handle completion logging
+            // Calculate and log the total processing time for the layer
+            const layerEndTime = performance.now();
+            const totalLayerDuration = layerEndTime - layerStartTime;
+            console.log(`layer: ${gisLayer.id} processed in ${totalLayerDuration.toFixed(2)} ms - ${successCount} features added, ${errorCount} features skipped due to errors`);
+
+            // Remove features from the map (only if there are any)
             if (featureIdsToRemove.length > 0) {
                 sdk.Map.removeFeaturesFromLayer({ layerName, featureIds: featureIdsToRemove });
             }
-            console.log('features removed');
-
-            // 3. Create the new collection (kept + new)
+            // Create the new collection (kept + new)
             const newCollection = [...remainingFeatures, ...features];
 
-            // 4. Update the original reference (if needed, or handle based on your scope)
+            // Update the original reference (if needed, or handle based on your scope)
             if (isRoad) {
                 roadFeatures = newCollection;
             } else {
@@ -2575,9 +2608,9 @@
         let _layersCleared = false;
 
         // if (layersToFetch.length) {
-        const extent = getMercatorMapExtent();
+        const extentWGS84 = getMapExtent('wgs84');
         GM_xmlhttpRequest({
-            url: getCountiesUrl(extent),
+            url: getCountiesUrl(extentWGS84),
             method: 'GET',
             onload(res) {
                 if (res.status < 400) {
@@ -2626,29 +2659,39 @@
                         logDebug(layersToFetch);
                         let layersProcessedCount = 0; // Track processed layers
 
-                        layersToFetch.forEach(gisLayer => {
-                            const url = getUrl(extent, gisLayer);
+                        layersToFetch.forEach((gisLayer) => {
+                            const url = getUrl(extentWGS84, gisLayer);
                             GM_xmlhttpRequest({
                                 url,
                                 context: lastToken,
                                 method: 'GET',
                                 onload(res2) {
-                                    if (res2.status < 400) { // Handle stupid issue where http 4## is considered success
-                                        processFeatures($.parseJSON(res2.responseText), res2.context, gisLayer);
-                                        // Update the popup only after all layers have been processed
-                                        layersProcessedCount += 1;
-                                        if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
-                                            updatePopup(layerLabels);
-                                        }
-                                    } else {
-                                        logDebug(`HTTP request error: ${JSON.stringify(res2)}`);
-                                        logError(`Could not fetch layer "${gisLayer.id}". Request returned ${res2.status}`);
+                                if (res2.status < 400) {
+                                    // Handle successful response
+                                    try {
+                                    const parsedData = $.parseJSON(res2.responseText);
+                                    processFeatures(parsedData, res2.context, gisLayer);
+                                    } catch (parseError) {
+                                    logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
+                                    $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
                                     }
+
+                                    // Update popup after processing all layers
+                                    layersProcessedCount += 1;
+                                    if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
+                                    updatePopup(layerLabels);
+                                    }
+                                } else {
+                                    // Handle HTTP error response
+                                    logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
+                                    $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+                                }
                                 },
                                 onerror(res3) {
-                                    logDebug(`xmlhttpRequest error:${JSON.stringify(res3)}`);
-                                    logError(`Could not fetch layer "${gisLayer.id}". An error was thrown.`);
-                                }
+                                // Handle request error, particularly timeouts or network issues
+                                logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
+                                $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+                                },
                             });
                         });
                     }
@@ -3199,7 +3242,7 @@
                                 } catch (ex) {
                                     logError(`Invalid style definition for layer "${layerDef.id}".`);
                                 }
-                            }
+                            } 
                         } else if (fldName === 'state') {
                             value = value ? value.toUpperCase() : value;
                         } else if (fldName === 'restrictTo') {
