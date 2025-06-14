@@ -14,9 +14,9 @@
 // @require      https://update.greasyfork.org/scripts/506614/1441195/ESTreeProcessor.js
 // @require      https://update.greasyfork.org/scripts/509664/WME%20Utils%20-%20Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/516445/1480246/Make%20GM%20xhr%20more%20parallel%20again.js
-// @require     https://js55ct.github.io/wmeGisLBBOX/wmeGisLBBOX.js
+// @require      https://WazeDev.github.io/wmeGisLBBOX/wmeGisLBBOX.js
 // @connect      greasyfork.org
-// @connect     github.io
+// @connect      github.io
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @grant        GM_setClipboard
@@ -2048,7 +2048,7 @@
     }
 
     if (!isPolyLine) {
-      if (label && [LAYER_STYLES.points, LAYER_STYLES.parcels, LAYER_STYLES.state_points, LAYER_STYLES.state_parcels].includes(gisLayer.style)) {
+      if (label && ['points', 'parcels', 'state_points', 'state_parcels'].includes(gisLayer.style)) {
         if (settings.addrLabelDisplay === 'hn') {
           const m = label.match(/^\d+/);
           label = m ? m[0] : '';
@@ -2075,8 +2075,7 @@
 
   function processFeatures(data, token, gisLayer) {
     const features = [];
-    const processedRings = new Set(); // To keep track of processed rings
-    
+
     if (data.skipIt) {
       // do nothing
     } else if (data.error) {
@@ -2091,7 +2090,8 @@
           const featuresToAdd = [];
           let skipIt = false;
           if (!token.cancel && !error) {
-            let area;
+            const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+
             if (gisLayer.distinctFields) {
               if (distinctValues.some((v) => gisLayer.distinctFields.every((fld) => v[fld] === item.attributes[fld]))) {
                 skipIt = true;
@@ -2102,56 +2102,99 @@
               }
             }
             if (!skipIt) {
-              const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+              let area = 0; // Default area is 0 for non-polygon features
               if (item.geometry) {
                 if (item.geometry.x) {
-                  const feature = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]); //turf.toWgs84(turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]));
-                  featuresToAdd.push(feature);
+                  const feature = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
+                  const label = processLabel(gisLayer, item, false, area, false);
+
+                  feature.properties = {
+                    layerID: gisLayer.id,
+                    label,
+                  };
+                  feature.id = generateFeatureId();
+                  features.push(feature);
+
+                  if (isPopupVisible) {
+                    addLabelToLayer(gisLayer.name, label);
+                  }
                 } else if (item.geometry.points) {
-                  const points = item.geometry.points.map((point) =>
-                    turf.point([
-                      //turf.toWgs84(turf.point([
-                      point[0] + layerOffset.x,
-                      point[1] + layerOffset.y,
-                    ])
-                  );
+                  const points = item.geometry.points.map((point) => turf.point([point[0] + layerOffset.x, point[1] + layerOffset.y]));
                   featuresToAdd.push(...points);
-                } else if (item.geometry.rings) {
-                  const rings = [];
+
+                  points.forEach((pointFeature) => {
+                    const label = processLabel(gisLayer, item, false, area, false);
+                    pointFeature.properties = {
+                      layerID: gisLayer.id,
+                      label,
+                    };
+                    pointFeature.id = generateFeatureId();
+                    features.push(pointFeature);
+
+                    if (isPopupVisible) {
+                      addLabelToLayer(gisLayer.name, label);
+                    }
+                  });
+                  
+                 } else if (item.geometry.rings) {
+                  const separatePolygons = [];
+                  let currentOuterRing = null;
+                  const innerRings = [];
+
                   item.geometry.rings.forEach((ringIn) => {
                     const ring = ringIn.map((point) => [point[0] + layerOffset.x, point[1] + layerOffset.y]);
 
-                    // Calculate the area for the ring
-                    const tempPolygon = turf.polygon([ring]);
-                    const ringArea = turf.area(tempPolygon);
-                    const firstPoint = ring[0];
-                    const lastPoint = ring[ring.length - 1];
-
-                    // Use both the ringKey and area for validation
-                    const ringKey = `${firstPoint[0]}_${firstPoint[1]}_${lastPoint[0]}_${lastPoint[1]}_${ringArea.toFixed(2)}`;
-
-                    if (!processedRings.has(ringKey)) {
-                      processedRings.add(ringKey);
-                      rings.push(ring);
+                    if (turf.booleanClockwise(ring)) {
+                      // Store previous polygon
+                      if (currentOuterRing) {
+                        separatePolygons.push({
+                          outer: currentOuterRing,
+                          inners: [...innerRings],
+                        });
+                      }
+                      // Begin new outer ring and reset inner rings
+                      currentOuterRing = ring;
+                      innerRings.length = 0;
+                    } else {
+                      // It's an inner ring, push to current inner rings list
+                      innerRings.push(ring);
                     }
                   });
 
-                  if (rings.length > 0) {
-                    const feature = turf.polygon(rings);
-                    featuresToAdd.push(feature);
-                    area = turf.area(feature);
+                  // Add final polygon (if any)
+                  if (currentOuterRing) {
+                    separatePolygons.push({
+                      outer: currentOuterRing,
+                      inners: [...innerRings],
+                    });
                   }
-                } else if (data.geometryType === 'esriGeometryPolyline') {
-                  // We have to handle polylines differently since each item can have multiple features.
-                  // In terms of ArcGIS, each feature's geometry can have multiple paths.  For instance
-                  // a single road can be broken into parts that are physically not connected to each other.
 
-                  // Use Turf library to clip the geometry to the screen bounds.
-                  // This allows labels to stay in view on very long roads.
+                  // Create features for each polygon group
+                  separatePolygons.forEach(({ outer, inners }) => {
+                    const polygonRings = [outer, ...inners];
+                    const tempPolygon = turf.polygon(polygonRings);
+                    const ringArea = turf.area(tempPolygon);
+
+                    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
+                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, ringArea, false);
+
+                    tempPolygon.properties = {
+                      layerID: gisLayer.id,
+                      label,
+                    };
+                    tempPolygon.id = generateFeatureId();
+
+                    if (isPopupVisible) {
+                      addLabelToLayer(gisLayer.name, label);
+                    }
+                    features.push(tempPolygon);
+                  });
+                } else if (data.geometryType === 'esriGeometryPolyline') {
                   const mls = turf.multiLineString(item.geometry.paths);
-                  const e = getMapExtent('wgs84'); //getMapExtent('mercator'); //JS55CT
+                  const e = getMapExtent('wgs84');
                   const bbox = [e[0], e[1], e[2], e[3]];
                   const clipped = turf.bboxClip(mls, bbox);
+
                   if (clipped.geometry.type === 'LineString') {
                     item.geometry.paths = [clipped.geometry.coordinates];
                   } else if (clipped.geometry.type === 'MultiLineString') {
@@ -2159,32 +2202,29 @@
                   }
 
                   item.geometry.paths.forEach((path) => {
-                    const pointList = [];
-                    path.forEach((point) => pointList.push([point[0] + layerOffset.x, point[1] + layerOffset.y]));
-                    const feature = turf.lineString(pointList); //turf.toWgs84(turf.lineString(pointList)); // JS55CT
+                    const pointList = path.map((point) => [point[0] + layerOffset.x, point[1] + layerOffset.y]);
+                    const feature = turf.lineString(pointList);
                     feature.skipDupeCheck = true;
                     featuresToAdd.push(feature);
+
+                    const label = processLabel(gisLayer, item, false, area, true);
+
+                    feature.properties = {
+                      layerID: gisLayer.id,
+                      label,
+                    };
+                    feature.id = generateFeatureId();
+
+                    if (isPopupVisible) {
+                      addLabelToLayer(gisLayer.name, label);
+                    }
+                    features.push(feature);
                   });
                 } else {
                   logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
                   logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
                   $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
                   error = true;
-                }
-                if (!error && featuresToAdd.length) {
-                  const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
-                  const label = processLabel(gisLayer, item, displayLabelsAtZoom, area);
-                  featuresToAdd.forEach((feature) => {
-                    feature.properties = {
-                      layerID: gisLayer.id,
-                      label,
-                    };
-                    feature.id = generateFeatureId();
-                  });
-                  if (isPopupVisible) {
-                    addLabelToLayer(gisLayer.name, label);
-                  }
-                  features.push(...featuresToAdd);
                 }
               }
             }
@@ -2251,42 +2291,19 @@
         { featureIdsToRemove: [], remainingFeatures: [] }
       );
 
-      /**********   An error in any one feature kills the whole layer **************/
       // Initialize counters for individual feature addition
-      let successCount = 0;
-      let errorCount = 0;
+      let successCount = features.length;
 
       // Track the total processing time for the layer
       const layerStartTime = performance.now();
 
-      features.forEach((feature) => {
-        // -----------------------------------------------------------------
-        // A few things to consider here,
-        // 1. change the esri URL's to return geoJSON from json, update the code base for features.properties (geoJSON) vs. features.attributes (json)
-        // 2. Write a Flatten Function, using  esri json file format?
-        // ------------------------------------------------------------------
-        try {
-          sdk.Map.addFeatureToLayer({ feature, layerName });
-          successCount++;
-        } catch (error) {
-          errorCount++;
-          if (error.name === 'InvalidStateError') {
-            logError(`Failed to add feature with ID: ${feature.id}. The layer "${gisLayer.id}" might not exist.`);
-          } else if (error.name === 'ValidationError') {
-            logError(`Validation error for layer: ${gisLayer.id}: feature ID: ${feature.id}. Check geometry type and properties.`, [error]);
-            logError(`Validation error for layer: ${gisLayer.id}: feature ID: ${feature.id}`, [feature]);
-          } else {
-            logError(`Unexpected error adding feature with ID: ${feature.id}:`, [error]);
-            logError(`Feature details:`, [feature]);
-          }
-        }
-      });
-
+      sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
+ 
       // Handle completion logging
       // Calculate and log the total processing time for the layer
       const layerEndTime = performance.now();
       const totalLayerDuration = layerEndTime - layerStartTime;
-      console.log(`layer: ${gisLayer.id} processed in ${totalLayerDuration.toFixed(2)} ms - ${successCount} features added, ${errorCount} features skipped due to errors`);
+      logDebug(`layer: ${gisLayer.id} processed in ${totalLayerDuration.toFixed(2)} ms - ${successCount} features added`);
 
       // Remove features from the map (only if there are any)
       if (featureIdsToRemove.length > 0) {
@@ -3369,59 +3386,64 @@
    * @returns {Promise<void>} - No explicit return; relies on side effects to update global state and UI.
    */
   async function loadVisibleCountryData() {
-    if (sdk.Map.getZoomLevel() < 12) {
-      // Only load new areas when the scripts Tab is active
-      //filterLayerCheckboxes();
-      return;
-    }
-    await whatsInView(); // This function populates _whatsInView with the current visible countries and subs
-    const countryCodes = new Set();
-    const regionCodes = new Set();
-    // Extract unique ISO_ALPHA3 country codes and visible subdivision codes from the current viewport
-    for (const country in _whatsInView) {
-      if (_whatsInView.hasOwnProperty(country)) {
-        const countryInfo = _whatsInView[country];
-        if (countryInfo.ISO_ALPHA3) {
-          countryCodes.add(countryInfo.ISO_ALPHA3);
-        }
-        if (countryInfo.subL1) {
-          for (const subdivision in countryInfo.subL1) {
-            if (countryInfo.subL1.hasOwnProperty(subdivision)) {
-              const subdivisionInfo = countryInfo.subL1[subdivision];
-              if (subdivisionInfo.subL1_id) {
-                // Add subdivision code only if it corresponds to visible area
-                regionCodes.add(subdivisionInfo.subL1_id);
+    try {
+      const currentZoomLevel = sdk.Map.getZoomLevel();
+      if (currentZoomLevel < 12) {
+        return;
+      }
+
+      await whatsInView(); // This function populates _whatsInView with the current visible countries and subs
+
+      const countryCodes = new Set();
+      const regionCodes = new Set();
+
+      for (const country in _whatsInView) {
+        if (_whatsInView.hasOwnProperty(country)) {
+          const countryInfo = _whatsInView[country];
+          if (countryInfo.ISO_ALPHA3) {
+            countryCodes.add(countryInfo.ISO_ALPHA3);
+          }
+          if (countryInfo.subL1) {
+            for (const subdivision in countryInfo.subL1) {
+              if (countryInfo.subL1.hasOwnProperty(subdivision)) {
+                const subdivisionInfo = countryInfo.subL1[subdivision];
+                if (subdivisionInfo.subL1_id) {
+                  regionCodes.add(subdivisionInfo.subL1_id);
+                }
               }
             }
           }
         }
       }
-    }
-    // Load data for each country and subdivision present in the current viewport
-    for (const isoCode of countryCodes) {
-      let newRegionCodesToLoad = new Set();
-      if (!alreadyLoadedCountries.has(isoCode)) {
-        logDebug(`Loading GIS layers for country ${isoCode}.`);
-        newRegionCodesToLoad = regionCodes; // Load all visible subdivision codes
-        alreadyLoadedCountries.add(isoCode);
-      } else {
-        // Avoid redundant loading by filtering subdivisions
-        regionCodes.forEach((regionCode) => {
-          if (!alreadyLoadedSubL1.has(regionCode)) {
-            newRegionCodesToLoad.add(regionCode);
-          }
+
+      for (const isoCode of countryCodes) {
+        let newRegionCodesToLoad = new Set();
+
+        if (!alreadyLoadedCountries.has(isoCode)) {
+          logDebug(`Loading Layers for Country ${isoCode} with Subdivision(s): ${Array.from(regionCodes).join(', ')}`);
+          newRegionCodesToLoad = new Set(regionCodes);
+          alreadyLoadedCountries.add(isoCode);
+        } else {
+          regionCodes.forEach((regionCode) => {
+            if (!alreadyLoadedSubL1.has(regionCode)) {
+              logDebug(`Loading New Subdivision(s) ${regionCode} Layers for Country ${isoCode}`);
+              newRegionCodesToLoad.add(regionCode);
+            }
+          });
+        }
+
+        if (newRegionCodesToLoad.size > 0) {
+          await loadSpreadsheetAsync(isoCode, newRegionCodesToLoad);
+          initGui(false); // Update GUI after loading data
+        }
+
+        newRegionCodesToLoad.forEach((regionCode) => {
+          alreadyLoadedSubL1.add(regionCode);
         });
       }
-      // Ensure country-level data is not skipped, even if there are no subdivisions
-      if (newRegionCodesToLoad.size >= 0) {
-        await loadSpreadsheetAsync(isoCode, newRegionCodesToLoad);
-        initGui(false); // Update GUI after loading data
-      }
-      // Track subdivisions that are loaded to prevent redundant future loads
-      newRegionCodesToLoad.forEach((regionCode) => {
-        alreadyLoadedSubL1.add(regionCode);
-        logDebug(`Loaded GIS layers for country ${isoCode} subdivision ${regionCode}.`);
-      });
+    } catch (error) {
+      logError(`Error in loadVisibleCountryData: ${error.message}`);
+      throw error;
     }
   }
 
@@ -3471,6 +3493,7 @@
     } catch (err) {
       throw new Error(`Spreadsheet call failed. (${err.status}: ${err.statusText})`);
     }
+
     const [, [minVersion], fieldNames, ...layerDefRows] = data.values;
     const REQUIRED_FIELD_NAMES = [
       'country',
@@ -3489,25 +3512,25 @@
       'restrictTo',
       'oneTimeAlert',
     ];
+
     const result = { error: null };
     const checkFieldNames = (fldName) => fieldNames.includes(fldName);
+
     if (scriptVersion < minVersion) {
       result.error = `Script must be updated to at least version ${minVersion} before layer definitions can be loaded.`;
     } else if (fieldNames.length < REQUIRED_FIELD_NAMES.length) {
       result.error = `Expected ${REQUIRED_FIELD_NAMES.length} columns in layer definition data. Spreadsheet returned ${fieldNames.length}.`;
     } else if (!REQUIRED_FIELD_NAMES.every(checkFieldNames)) {
-      result.error =
-        'Script expected to see the following column names in the layer ' +
-        `definition spreadsheet:\n${REQUIRED_FIELD_NAMES.join(', ')}\n` +
-        `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
+      result.error = 'Script expected specific column names that are missing.';
     }
+
     if (!result.error) {
       layerDefRows
         .filter((row) => row.length)
         .forEach((layerDefRow) => {
           const layerDef = { enabled: '0' };
           let validSubL1 = false;
-          let countryId = null;
+          let countryId = '';
           let subL1Upper = '';
 
           fieldNames.forEach((fldName, fldIdx) => {
@@ -3527,7 +3550,6 @@
               } else if (fldName === 'style') {
                 layerDef.isRoadLayer = value === 'roads';
                 if (!layerDef.isRoadLayer && !LAYER_STYLES.hasOwnProperty(value)) {
-                  // If style is not defined, try to read in as JSON (custom style)
                   try {
                     value = JSON.parse(value);
                   } catch (ex) {
@@ -3539,7 +3561,6 @@
               } else if (fldName === 'subL1') {
                 subL1Upper = value.toUpperCase();
                 layerDef[fldName] = subL1Upper;
-                // Modification of condition to include country ISO code
                 validSubL1 = regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase();
               } else if (fldName === 'restrictTo') {
                 try {
@@ -3566,11 +3587,11 @@
               layerDef[fldName] = [''];
             }
           });
+
           if (countryId && subL1Upper) {
             layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
-          } else {
-            logError(`countrySubL1 construction failed: countryId = ${countryId}, subL1Upper = ${subL1Upper}`);
           }
+
           const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
           if (validSubL1 && !layerDef.notAllowed && enabled) {
             const layerExists = _gisLayers.some((existingLayer) => existingLayer.id === layerDef.id);
@@ -3580,6 +3601,7 @@
           }
         });
     }
+
     return result;
   }
 
@@ -3597,8 +3619,6 @@
   }
 
   async function init(firstCall = true) {
-    //localStorage.removeItem(SETTINGS_STORE_NAME); // JS55CT
-    //_gisLayers = []; // JS55CT Leave as this is in place to catch the orginal load from the sheet
     if (firstCall) {
       userInfo = sdk.State.getUserInfo();
       labelProcessingGlobalVariables.W = W;
