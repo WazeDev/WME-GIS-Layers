@@ -1656,6 +1656,7 @@
       lastVersion: null,
       visibleLayers: [],
       onlyShowApplicableLayers: false,
+      onlyShowApplicableLayersZoom: false,
       selectedSubL1: [],
       enabled: true,
       fillParcels: false,
@@ -1895,11 +1896,11 @@
    *
    * Valid layers passing all checks are added to the fetchableLayers array and the filtered collection is returned.
    */
-  function getFetchableLayers(checkVisibility = true) {
+  function getFetchableLayers(checkVisibility = true, checkZoomVisibility = true) {
     const zoom = sdk.Map.getZoomLevel();
     // If zoom level is below 12, log a message and return an empty array, as layers won't be fetched
     if (zoom < 12) {
-      logDebug(`No layers fetched, zoom level is > 12!`);
+      logDebug(`No layers fetched, zoom level is < 12!`);
       return [];
     }
     const fetchableLayers = []; // Array to hold fetchable layer IDs
@@ -1918,7 +1919,9 @@
         if (!settings.visibleLayers.includes(gisLayer.id)) return false;
       }
 
-      if (zoom < getGisLayerVisibleAtZoom(gisLayer)) return false; // Check if the layer is visible at the current zoom level
+      if (checkZoomVisibility) {
+        if (zoom < getGisLayerVisibleAtZoom(gisLayer)) return false; // Check if the layer is visible at the current zoom level
+      }
 
       // Find the country data from the current view based on the ISO_ALPHA3 code
       const countryData = Object.values(_whatsInView).find((countryData) => countryData.ISO_ALPHA3 === gisLayer.country);
@@ -1951,30 +1954,40 @@
   }
 
   /**
-   * Function to control visibility of GIS layer checkboxes based on applicability.
+   * Function to manage the visibility of GIS layer checkboxes based on user-defined settings.
    *
-   * Evaluates each layer's applicability by fetching using getFetchableLayers, with potential to skip certain visibility settings of layers.
+   * Utilizes the getFetchableLayers function to determine applicable layers, considering zoom levels specified by settings.onlyShowApplicableLayersZoom.
    *
    * The function:
-   * - Calls getFetchableLayers(false) to fetch layers without enforcing saved visibility status check (determined by the passed argument).
-   * - Iterates over each GIS layer to toggle visibility of its associated checkbox/container, guided by the logic:
-   *   1. If onlyShowApplicableLayers setting is toggled off or the GIS layer is in filtered fetchable layers, it will be shown.
-   *   2. Otherwise, it will be hidden.
+   * - Fetches layers using getFetchableLayers with settings.onlyShowApplicableLayersZoom to determine which layers are relevant at the current zoom level.
+   * - Iterates over each GIS layer, controlling the display of checkboxes associated with the layers using a computed visibility logic:
+   *   1. Layers are shown if they are deemed applicable by the zoom setting (found in applicableLayers).
+   *   2. All layers are displayed when settings.onlyShowApplicableLayers is turned off, overriding other filters.
+   *   3. Layers are hidden if neither condition applies.
+   *
+   * This setup allows for independent as well as combined operation of the zoom and visibility settings.
    */
   function filterLayerCheckboxes() {
-    // Retrieve layers, potentially skipping visibility checks based on argument
-    const applicableLayers = getFetchableLayers(false); // Passing 'true' means saved layer visibility checks should be applied
-
-    // Iterate through each GIS layer to control visibility based on settings and fetchable status
+    const applicableLayers = getFetchableLayers(false, settings.onlyShowApplicableLayersZoom);
     _gisLayers.forEach((gisLayer) => {
       const layerContainerId = `#gis-layer-${gisLayer.id}-container`;
-
-      // Ensure the layer is visible or hidden based on the resulting tests from getFetchableLayers(false)
-      if (!settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
+      // Default behavior is to hide all layers
+      let showLayer = false;
+      // Show layer if it's included in applicable layers based on the zoom setting
+      if (applicableLayers.includes(gisLayer)) {
+        showLayer = true;
+      }
+      // Show all layers if onlyShowApplicableLayers setting is false
+      if (!settings.onlyShowApplicableLayers) {
+        showLayer = true;
+      }
+      // Apply visibility based on computed showLayer logic
+      if (showLayer) {
         $(layerContainerId).show();
         $(`#gis-layers-for-${gisLayer.subL1}`).show();
       } else {
         $(layerContainerId).hide();
+        $(`#gis-layers-for-${gisLayer.subL1}`).hide();
       }
     });
   }
@@ -2030,7 +2043,8 @@
         .join(' ')
         .trim()}\n`;
     }
-    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) { // Raised this 1 million sq meeters
+    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) {
+      // Raised this 1 million sq meeters
       label += gisLayer.labelFields
         .map((fieldName) => item.attributes[fieldName])
         .join(' ')
@@ -2136,8 +2150,7 @@
                       addLabelToLayer(gisLayer.name, label);
                     }
                   });
-                  
-                 } else if (item.geometry.rings) {
+                } else if (item.geometry.rings) {
                   const separatePolygons = [];
                   let currentOuterRing = null;
                   const innerRings = [];
@@ -2296,7 +2309,7 @@
       const layerStartTime = performance.now();
 
       sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
- 
+
       // Handle completion logging
       // Calculate and log the total processing time for the layer
       const layerEndTime = performance.now();
@@ -2807,7 +2820,7 @@
     let layersToFetch; // Start with declaration
     if (!_layersCleared) {
       _layersCleared = true;
-      layersToFetch = getFetchableLayers();
+      layersToFetch = getFetchableLayers(true, true);
 
       // Remove features of any layers that won't be mapped.
       _gisLayers.forEach((gisLayer) => {
@@ -2931,6 +2944,12 @@
 
   async function onOnlyShowApplicableLayersChanged() {
     settings.onlyShowApplicableLayers = $(this).is(':checked');
+    saveSettingsToStorage();
+    filterLayerCheckboxes();
+  }
+
+  async function onOnlyShowApplicableLayersZoomChanged() {
+    settings.onlyShowApplicableLayersZoom = $(this).is(':checked');
     saveSettingsToStorage();
     filterLayerCheckboxes();
   }
@@ -3110,7 +3129,15 @@
           .css({ 'padding-top': '0px' })
           .append(
             $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).change(onOnlyShowApplicableLayersChanged).prop('checked', settings.onlyShowApplicableLayers),
-            $('<label>', { for: 'only-show-applicable-gis-layers' }).css({ 'white-space': 'pre-line' }).text('Only show applicable layers')
+            $('<label>', { for: 'only-show-applicable-gis-layers' }).css({ 'white-space': 'pre-line' }).text('Only show applicable layers for Region')
+          ),
+        $('<div>', { class: 'controls-container' })
+          .css({ 'padding-top': '0px' })
+          .append(
+            $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers-for-zoom-level' })
+              .change(onOnlyShowApplicableLayersZoomChanged)
+              .prop('checked', settings.onlyShowApplicableLayersZoom),
+            $('<label>', { for: 'only-show-applicable-gis-layers-for-zoom-level' }).css({ 'white-space': 'pre-line' }).text('Include Zoom Level in filter')
           ),
         $('.gis-layers-subL1-checkbox:checked').length === 0
           ? $('<div>').text('Turn on layer categories in the Settings tab.')
