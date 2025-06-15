@@ -6,15 +6,17 @@
 // @version      2025.06.15.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
-// @match        *://*.waze.com/*editor*
-// @exclude      *://*.waze.com/user/editor*
-// @exclude      *://*.waze.com/editor/sdk/*
+// @match         *://*.waze.com/*editor*
+// @exclude       *://*.waze.com/user/editor*
+// @exclude       *://*.waze.com/editor/sdk/*
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @require      https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js
 // @require      https://update.greasyfork.org/scripts/506614/1441195/ESTreeProcessor.js
 // @require      https://update.greasyfork.org/scripts/509664/WME%20Utils%20-%20Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/516445/1480246/Make%20GM%20xhr%20more%20parallel%20again.js
+// @require      https://WazeDev.github.io/wmeGisLBBOX/wmeGisLBBOX.js
 // @connect      greasyfork.org
+// @connect      github.io
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // @grant        GM_setClipboard
@@ -1153,9 +1155,7 @@
   'use strict';
 
   const SHOW_UPDATE_MESSAGE = true;
-  const SCRIPT_VERSION_CHANGES = [
-    'SDK Performance and Stability Update: We have made improvements to enhance your experience. If you encounter any issues, please report them on Discord or Discuss forums.',
-  ];
+  const SCRIPT_VERSION_CHANGES = ['Major update: migrated to the WME SDK. If you find issues, please report them in Discord or Discuss.'];
 
   // **************************************************************************************************************
   // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -1173,17 +1173,9 @@
   // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
   const SCRIPT_AUTHOR = 'MapOMatic';
   // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
-  const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/layerDefs';
-  const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
   const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
-  const DEC = (s) => atob(atob(s));
   const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
-  // const COUNTRIES = {
-  //     'United States': {
-  //         sheetId: '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw',
-  //         sheetLayerRange: 'layerDefs'
-  //     }
-  // };
+
   const DEFAULT_LAYER_NAME = 'GIS Layers - Default';
   const ROAD_LAYER_NAME = 'GIS Layers - Roads';
   const DEFAULT_STYLE = {
@@ -1313,93 +1305,95 @@
   };
 
   let _gisLayers = [];
+  let _whatsInView = {};
+  const alreadyLoadedCountries = new Set();
+  const alreadyLoadedSubL1 = new Set();
+  const WmeGisLBBOX = new wmeGisLBBOX(); // Create and reuse this instance as wmeGisLBBOX uses an instance-level cache (i.e., this.cache)
+  let countrySubdivisionMapping = {};
 
-  const _layerRefinements = [
-    {
-      id: 'us-post-offices',
-      labelHeaderFields: ['LOCALE_NAME'],
-    },
-  ];
+  /**
+   * Asynchronously builds a mapping from 'country-subdivision' identifiers to their respective names.
+   *
+   * This function retrieves country and subdivision data using the `WmeGisLBBOX.getCountriesAndSubsJson()` method.
+   * It then iterates over the retrieved data to construct a mapping object where each key is a combination of
+   * country and subdivision IDs, and the value is the corresponding name formatted as 'countryId - subdivisionName'.
+   *
+   * The mapping includes:
+   * - Each country with a key in the format 'countryId-countryId' and its name.
+   * - Each subdivision with a key in the format 'countryId-subdivisionId' and its name.
+   *
+   * @returns {Promise<Object>} A promise that resolves to an object representing the mapping of country and subdivision identifiers to names.
+   */
+  async function buildCountrySubdivisionMapping() {
+    const countriesAndSubs = await WmeGisLBBOX.getCountriesAndSubsJson();
+    for (const [countryId, countryData] of Object.entries(countriesAndSubs)) {
+      const countryName = countryData.name;
 
-  const STATES = {
-    _states: [
-      ['US (Country)', 'US', -1],
-      ['Alabama', 'AL', 1],
-      ['Alaska', 'AK', 2],
-      ['American Samoa', 'AS', 60],
-      ['Arizona', 'AZ', 4],
-      ['Arkansas', 'AR', 5],
-      ['California', 'CA', 6],
-      ['Colorado', 'CO', 8],
-      ['Connecticut', 'CT', 9],
-      ['Delaware', 'DE', 10],
-      ['District of Columbia', 'DC', 11],
-      ['Florida', 'FL', 12],
-      ['Georgia', 'GA', 13],
-      ['Guam', 'GU', 66],
-      ['Hawaii', 'HI', 15],
-      ['Idaho', 'ID', 16],
-      ['Illinois', 'IL', 17],
-      ['Indiana', 'IN', 18],
-      ['Iowa', 'IA', 19],
-      ['Kansas', 'KS', 20],
-      ['Kentucky', 'KY', 21],
-      ['Louisiana', 'LA', 22],
-      ['Maine', 'ME', 23],
-      ['Maryland', 'MD', 24],
-      ['Massachusetts', 'MA', 25],
-      ['Michigan', 'MI', 26],
-      ['Minnesota', 'MN', 27],
-      ['Mississippi', 'MS', 28],
-      ['Missouri', 'MO', 29],
-      ['Montana', 'MT', 30],
-      ['Nebraska', 'NE', 31],
-      ['Nevada', 'NV', 32],
-      ['New Hampshire', 'NH', 33],
-      ['New Jersey', 'NJ', 34],
-      ['New Mexico', 'NM', 35],
-      ['New York', 'NY', 36],
-      ['North Carolina', 'NC', 37],
-      ['North Dakota', 'ND', 38],
-      ['Northern Mariana Islands', 'MP', 69],
-      ['Ohio', 'OH', 39],
-      ['Oklahoma', 'OK', 40],
-      ['Oregon', 'OR', 41],
-      ['Pennsylvania', 'PA', 42],
-      ['Puerto Rico', 'PR', 72],
-      ['Rhode Island', 'RI', 44],
-      ['South Carolina', 'SC', 45],
-      ['South Dakota', 'SD', 46],
-      ['Tennessee', 'TN', 47],
-      ['Texas', 'TX', 48],
-      ['Utah', 'UT', 49],
-      ['Vermont', 'VT', 50],
-      ['Virgin Islands', 'VI', 78],
-      ['Virginia', 'VA', 51],
-      ['Washington', 'WA', 53],
-      ['West Virginia', 'WV', 54],
-      ['Wisconsin', 'WI', 55],
-      ['Wyoming', 'WY', 56],
-    ],
-    toAbbr(fullName) {
-      return this._states.find((a) => a[0] === fullName)?.[1]; // Returns undefined if not found
+      // Add country itself with key 'countryId-countryId'
+      countrySubdivisionMapping[`${countryId}`] = countryName;
+      countrySubdivisionMapping[`${countryId}-${countryId}`] = `${countryId} - ${countryName}`;
+
+      if (countryData.subL1) {
+        for (const [subId, subData] of Object.entries(countryData.subL1)) {
+          const subName = subData.name;
+          const key = `${countryId}-${subId}`;
+          const value = `${countryId} - ${subName}`;
+          countrySubdivisionMapping[key] = value;
+        }
+      }
+    }
+    return countrySubdivisionMapping;
+  }
+
+  /**
+   * Helper object for managing mappings between country-subdivision keys and their full names.
+   *
+   * The `NameMapper` object provides utility functions to convert between full names and keys,
+   * and to retrieve arrays of all keys or names within the `countrySubdivisionMapping`.
+   */
+  const NameMapper = {
+    /**
+     * Converts a full name to its corresponding key ('country-subdivision').
+     *
+     * @param {string} fullName - The full name to be converted.
+     * @returns {string|undefined} The key corresponding to the given full name, or undefined if not found.
+     */
+    toKey(fullName) {
+      // Attempt to find a matching key using the value from the mapping.
+      return Object.entries(countrySubdivisionMapping).find(([key, value]) => value === fullName)?.[0];
     },
-    toFullName(abbr) {
-      return this._states.find((a) => a[1] === abbr)?.[0]; // Returns undefined if not found
+
+    /**
+     * Converts a key ('country-subdivision') to its corresponding full name.
+     *
+     * @param {string} key - The key to be converted.
+     * @returns {string|undefined} The full name corresponding to the given key, or undefined if not found.
+     */
+    toFullName(key) {
+      return countrySubdivisionMapping[key];
     },
+
+    /**
+     * Retrieves an array of all full names in the `countrySubdivisionMapping`.
+     *
+     * @returns {Array<string>} An array containing all full names.
+     */
     toFullNameArray() {
-      return this._states.map((a) => a[0]);
+      return Object.values(countrySubdivisionMapping);
     },
-    toAbbrArray() {
-      return this._states.map((a) => a[1]);
-    },
-    fromId(id) {
-      return this._states.find((a) => a[2] === id); // Returns undefined if not found
+
+    /**
+     * Retrieves an array of all keys ('country-subdivision') in the `countrySubdivisionMapping`.
+     *
+     * @returns {Array<string>} An array containing all keys.
+     */
+    toKeyArray() {
+      return Object.keys(countrySubdivisionMapping);
     },
   };
+
   const DEFAULT_VISIBLE_AT_ZOOM = 18;
   const SETTINGS_STORE_NAME = 'wme_gis_layers_fl';
-  const COUNTIES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/1/';
   const scriptName = GM_info.script.name;
   const scriptVersion = GM_info.script.version;
   const downloadUrl = 'https://greasyfork.org/scripts/369632-wme-gis-layers/code/WME%20GIS%20Layers.user.js';
@@ -1612,6 +1606,7 @@
     }
 
     #shiftLayerFeatures(x, y) {
+      // JS55CT Given the inputs have been updated to Degrees, shifting my meeters still make sence and works.
       const { isRoadLayer } = this.gisLayer;
       let featureCollection = isRoadLayer ? roadFeatures : defaultFeatures;
       const { distance, bearing } = LayerSettingsDialog.#calculateDistanceAndBearing(x, y);
@@ -1661,7 +1656,8 @@
       lastVersion: null,
       visibleLayers: [],
       onlyShowApplicableLayers: false,
-      selectedStates: [],
+      onlyShowApplicableLayersZoom: false,
+      selectedSubL1: [],
       enabled: true,
       fillParcels: false,
       oneTimeAlerts: {},
@@ -1774,8 +1770,8 @@
     url += gisLayer.token ? `&token=${gisLayer.token}` : '';
     url += `&outFields=${encodeURIComponent(fields.join(','))}`;
     url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
-    url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '4326'}`;
-    url += '&outSR=4326&f=json';
+    url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '4326'}`; //102100   4326 = WGS84
+    url += '&outSR=4326&f=json'; //3857
     url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
 
     logDebug(`Request URL: ${url}`);
@@ -1795,10 +1791,23 @@
     return hash;
   }
 
+  /**
+   * The function `getMapExtent` retrieves the map extent coordinates in the WGS84 projection.
+   *
+   * @param [projection='wgs84'] - The `projection` parameter allows you to specify the name for the WGS84
+   * projection you wish to use when obtaining the map extent. Acceptable values include 'wgs84',
+   * 'CRS84', '4326', and 'EPSG:4326'.
+   *
+   * @returns {Array} An array containing the WGS84 projection coordinates representing the map extent,
+   * structured as [leftBottomLongitude, leftBottomLatitude, rightTopLongitude, rightTopLatitude].
+   *
+   * @throws Will throw an error if an unsupported projection type is specified.
+   */
   function getMapExtent(projection = 'wgs84') {
     const wgs84Extent = sdk.Map.getMapExtent(); // Assume this provides WGS84 coordinates
     const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]];
     const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
+
     const wgs84Projections = ['wgs84', 'CRS84', '4326', 'EPSG:4326'];
 
     if (wgs84Projections.includes(projection.toLowerCase())) {
@@ -1808,32 +1817,17 @@
     }
   }
 
-  function getArcGisMapExtentGeometry() {
-    const extent = getMapExtent('wgs84');
-    const geometry = {
-      xmin: extent[0],
-      ymin: extent[1],
-      xmax: extent[2],
-      ymax: extent[3],
-      spatialReference: {
-        wkid: 4326,
-      },
-    };
-    return geometry;
-  }
-
-  function getCountiesUrl() {
-    const geometry = getArcGisMapExtentGeometry();
-    const url = `${COUNTIES_URL}/query?geometry=${encodeURIComponent(JSON.stringify(geometry))}`;
-    return `${url}&outFields=BASENAME%2CSTATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects` + '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&f=json';
-  }
-
-  let _countiesInExtent = [];
-
   function getGisLayerVisibleAtZoom(gisLayer) {
+    // Fetch override settings
     const overrideVisibleAtZoom = settings.getLayerSetting(gisLayer.id, 'visibleAtZoom');
-    if (overrideVisibleAtZoom) return overrideVisibleAtZoom;
-    return gisLayer.hasOwnProperty('visibleAtZoom') ? gisLayer.visibleAtZoom : DEFAULT_VISIBLE_AT_ZOOM;
+    if (overrideVisibleAtZoom) {
+      return overrideVisibleAtZoom;
+    }
+    // Check if the layer has its own 'visibleAtZoom'
+    if (gisLayer.hasOwnProperty('visibleAtZoom')) {
+      return gisLayer.visibleAtZoom;
+    }
+    return DEFAULT_VISIBLE_AT_ZOOM;
   }
 
   function getGisLayerLabelsVisibleAtZoom(gisLayer, layerVisibleAtZoom) {
@@ -1848,40 +1842,154 @@
     return labelsVisibleAtZoom;
   }
 
-  function getFetchableLayers(getInvisible) {
-    const zoom = sdk.Map.getZoomLevel();
-    if (zoom < 12) return [];
-    return _gisLayers.filter((gisLayer) => {
-      const isValidUrl = gisLayer.url && gisLayer.url.trim().length > 0;
-      const isVisible = (getInvisible || settings.visibleLayers.includes(gisLayer.id)) && settings.selectedStates.includes(gisLayer.state);
-      const isInState = gisLayer.state === 'US' || _countiesInExtent.some((county) => county.stateInfo[1] === gisLayer.state);
-      // Be sure to use hasOwnProperty when checking this, since 0 is a valid value.
-      const isValidZoom = getInvisible || zoom >= getGisLayerVisibleAtZoom(gisLayer);
-      return isValidUrl && isInState && isVisible && isValidZoom;
-    });
+  /**
+   * Asynchronously determines which geographical regions are visible within the current map viewport.
+   *
+   * This function retrieves the current map extent in the WGS84 coordinate system and uses it to form a bounding box.
+   * It then calls the `whatsInView` method from the `WmeGisLBBOX` module to identify intersecting geographical regions
+   * within this bounding box. The analysis includes a high precision intersection check, although GeoJSON data is not returned.
+   *
+   * Process Overview:
+   * 1. Obtains the current map extent using the `getMapExtent` function, specifying the "wgs84" coordinate system.
+   * 2. Converts map extent into a viewport bounding box with properties `minLon`, `minLat`, `maxLon`, and `maxLat`.
+   * 3. Configures `highPrecision` intersection checks to ensure detailed overlap evaluations.
+   * 4. Invokes `WmeGisLBBOX.whatsInView`, passing in the viewport bounding box, precision flag, and setting
+   *    the returnGeoJson flag to false.
+   * 5. Stores the retrieved intersecting regions data in the `_whatsInView` variable.
+   *
+   * Features:
+   * - Handles asynchronous operations to ensure responsive interaction and processing.
+   * - Employs high precision checks for accurate geographical intersection analysis.
+   *
+   * @returns {Promise<void>} - No explicit return; results are indirectly stored in `_whatsInView`.
+   */
+  async function whatsInView() {
+    const extentWgs84 = getMapExtent('wgs84');
+    const highPrecision = true;
+    const viewportBbox = {
+      minLon: extentWgs84[0],
+      minLat: extentWgs84[1],
+      maxLon: extentWgs84[2],
+      maxLat: extentWgs84[3],
+    };
+
+    _whatsInView = await WmeGisLBBOX.whatsInView(viewportBbox, highPrecision, false);
   }
 
-  function filterLayerCheckboxes() {
-    const applicableLayers = getFetchableLayers(true).filter((layer) => {
-      const hasCounties = layer.hasOwnProperty('counties');
-      return (hasCounties && layer.counties.some((countyName) => _countiesInExtent.some((county) => county.name === countyName.toLowerCase() && layer.state === county.stateInfo[1]))) || !hasCounties;
-    });
-    const statesToHide = STATES.toAbbrArray();
+  /**
+   * Function to determine which GIS layers are fetchable based on multiple conditions.
+   *
+   * @param {boolean} checkVisibility - Indicates whether to apply visibility checks based on settings.
+   * @returns {Array} filteredLayers - An array of GIS layers that have passed all fetchable checks.
+   *
+   * The function performs the following checks:
+   * - Ensure the map is sufficiently zoomed by checking the zoom level from the SDK's map object. Return an empty array if the zoom is below 12.
+   * - Filter through the global GIS layers array (_gisLayers) and:
+   *   1. Check if the layer is enabled.
+   *   2. Validate that the layer has a non-empty and defined URL.
+   *   3. Confirm the country subdivision level 1 for the layer is selected in settings.
+   *   4. If checkVisibility is true, verify if the layer ID is included in the array of visible layers from settings.
+   *   5. Ensure the layer is visible based on its specified zoom level.
+   *   6. Find and validate existence of corresponding country data within the current map view (_whatsInView), identified via ISO_ALPHA3 codes.
+   *   7. Confirm the subdivision level 1 ID or country alpha code matches with the viewed country data (_whatsInView).
+   *   8. If the layer has subdivision level 2 names, further check if subdivision level 2 names are in view as per the stored country subdivision hierarchy (_whatsInView).
+   *
+   * Valid layers passing all checks are added to the fetchableLayers array and the filtered collection is returned.
+   */
+  function getFetchableLayers(checkVisibility = true, checkZoomVisibility = true) {
+    const zoom = sdk.Map.getZoomLevel();
+    // If zoom level is below 12, log a message and return an empty array, as layers won't be fetched
+    if (zoom < 12) {
+      logDebug(`No layers fetched, zoom level is < 12!`);
+      return [];
+    }
+    const fetchableLayers = []; // Array to hold fetchable layer IDs
+    // Filter the GIS layers based on multiple conditions to determine which are fetchable
+    const filteredLayers = _gisLayers.filter((gisLayer) => {
+      if (gisLayer.enabled !== '1') return false; // Check if the layer is enabled; skip it if not
 
+      // Ensure the layer has a valid URL; skip if it is empty or undefined
+      if (!gisLayer.url || gisLayer.url.trim().length === 0) return false;
+
+      // Check if the country subdivision level 1 is selected
+      if (!settings.selectedSubL1.includes(gisLayer.countrySubL1)) return false;
+
+      // Check if the layer ID is saved in settings as visible  - turn off when call from "Only show applicable layers"
+      if (checkVisibility) {
+        if (!settings.visibleLayers.includes(gisLayer.id)) return false;
+      }
+
+      if (checkZoomVisibility) {
+        if (zoom < getGisLayerVisibleAtZoom(gisLayer)) return false; // Check if the layer is visible at the current zoom level
+      }
+
+      // Find the country data from the current view based on the ISO_ALPHA3 code
+      const countryData = Object.values(_whatsInView).find((countryData) => countryData.ISO_ALPHA3 === gisLayer.country);
+
+      if (!countryData) return false; // Skip if no matching country data is in view
+
+      // Check if the subdivision level 1 (subL1) is in view
+      const isSubL1InView = (gisLayer.subL1 && Object.values(countryData.subL1 || {}).some((subL1Data) => subL1Data.subL1_id === gisLayer.subL1)) || countryData.ISO_ALPHA3 === gisLayer.subL1;
+
+      if (!isSubL1InView) return false; // If subL1 is not in view, skip the layer
+
+      const hasSubL2 = gisLayer.subL2 && gisLayer.subL2.length > 0; // Check if the layer has subdivision level 2 names
+      if (hasSubL2) {
+        // Find the subdivision data entry that matches the layer's subL1 ID
+        const subL1DataEntry = Object.entries(countryData.subL1 || {}).find(([_, subL1Details]) => subL1Details.subL1_id === gisLayer.subL1);
+        const subL1Data = subL1DataEntry && subL1DataEntry[1]; // Retrieve the actual subL1 data object
+        if (!subL1Data) {
+          // If no matching subL1 data is found, skip the layer
+          return false;
+        }
+        // Check if any subL2 names from the layer match those in the subL1 data's subL2 list
+        const isSubL2InView = gisLayer.subL2.some((subL2Name) => subL1Data.subL2 && Object.keys(subL1Data.subL2).some((subL2InView) => subL2InView.toLowerCase() === subL2Name.toLowerCase()));
+        if (!isSubL2InView) return false; // If no subL2 matches are found, skip the layer
+      }
+
+      fetchableLayers.push(gisLayer.id); // If the layer passes all checks, add its ID to the fetchable layers list
+      return true;
+    });
+    return filteredLayers;
+  }
+
+  /**
+   * Function to manage the visibility of GIS layer checkboxes based on user-defined settings.
+   *
+   * Utilizes the getFetchableLayers function to determine applicable layers, considering zoom levels specified by settings.onlyShowApplicableLayersZoom.
+   *
+   * The function:
+   * - Fetches layers using getFetchableLayers with settings.onlyShowApplicableLayersZoom to determine which layers are relevant at the current zoom level.
+   * - Iterates over each GIS layer, controlling the display of checkboxes associated with the layers using a computed visibility logic:
+   *   1. Layers are shown if they are deemed applicable by the zoom setting (found in applicableLayers).
+   *   2. All layers are displayed when settings.onlyShowApplicableLayers is turned off, overriding other filters.
+   *   3. Layers are hidden if neither condition applies.
+   *
+   * This setup allows for independent as well as combined operation of the zoom and visibility settings.
+   */
+  function filterLayerCheckboxes() {
+    const applicableLayers = getFetchableLayers(false, settings.onlyShowApplicableLayersZoom);
     _gisLayers.forEach((gisLayer) => {
-      const id = `#gis-layer-${gisLayer.id}-container`;
-      if (!settings.onlyShowApplicableLayers || applicableLayers.includes(gisLayer)) {
-        $(id).show();
-        $(`#gis-layers-for-${gisLayer.state}`).show();
-        const idx = statesToHide.indexOf(gisLayer.state);
-        if (idx > -1) statesToHide.splice(idx, 1);
+      const layerContainerId = `#gis-layer-${gisLayer.id}-container`;
+      // Default behavior is to hide all layers
+      let showLayer = false;
+      // Show layer if it's included in applicable layers based on the zoom setting
+      if (applicableLayers.includes(gisLayer)) {
+        showLayer = true;
+      }
+      // Show all layers if onlyShowApplicableLayers setting is false
+      if (!settings.onlyShowApplicableLayers) {
+        showLayer = true;
+      }
+      // Apply visibility based on computed showLayer logic
+      if (showLayer) {
+        $(layerContainerId).show();
+        $(`#gis-layers-for-${gisLayer.subL1}`).show();
       } else {
-        $(id).hide();
+        $(layerContainerId).hide();
+        $(`#gis-layers-for-${gisLayer.subL1}`).hide();
       }
     });
-    if (settings.onlyShowApplicableLayers) {
-      statesToHide.forEach((st) => $(`#gis-layers-for-${st}`).hide());
-    }
   }
 
   const ROAD_ABBR = [
@@ -1935,7 +2043,8 @@
         .join(' ')
         .trim()}\n`;
     }
-    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) { // Raised this 1 million sq meeters
+    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) {
+      // Raised this 1 million sq meeters
       label += gisLayer.labelFields
         .map((fieldName) => item.attributes[fieldName])
         .join(' ')
@@ -2664,118 +2773,113 @@
     });
   }
 
-  function fetchFeatures() {
+  /**
+   * Asynchronously fetches GIS features based on the current map viewport and user interaction settings.
+   *
+   * This function coordinates the fetching of geographical layers mapped to the current viewport. It clears previous
+   * labels if a popup is visible, checks zoom level constraints to optimize fetch operations, and updates the layer
+   * visibility accordingly. The function initiates web requests for each visible and fetchable layer based on the user's
+   * interaction and browser state settings.
+   *
+   * Process Overview:
+   * 1. Clears label references if a popup is visible and returns early if fetching is ignored or zoom level is low.
+   * 2. Calls `whatsInView` to ascertain which geographical areas are visible within the current bounds.
+   * 3. Initializes token mechanism to track fetch processes and cancellation flags. Updates visual styling cues.
+   * 4. Identifies layers eligible for fetching and removes features not mapped.
+   * 5. Filters visible layers based on selections and logs the number slated for fetching.
+   * 6. Iterates over each layer, constructing HTTP requests using their extent and fetching data asynchronously.
+   *    - Handles successful responses by processing features and updates popup if required.
+   *    - Logs and handles errors encountered during HTTP requests, ensuring robust error management.
+   *
+   * Features:
+   * - Integrates zoom level and feature checks to optimize fetch operations, avoiding unnecessary requests.
+   * - Provides error and debugging output to track the processing flow and exceptions.
+   *
+   * Parameters:
+   * - No explicit parameters; utilizes global state and map interaction contexts.
+   *
+   * Error Handling:
+   * - Logs HTTP request errors and feature processing issues to assist in debugging operations.
+   *
+   * @returns {Promise<void>} - No explicit return; operates based on side effects affecting global state.
+   */
+  async function fetchFeatures() {
     if (isPopupVisible) {
       Object.keys(layerLabels).forEach((key) => delete layerLabels[key]);
     }
     if (ignoreFetch) return;
     if (sdk.Map.getZoomLevel() < 12) {
-      filterLayerCheckboxes();
+      //filterLayerCheckboxes();
       return;
     }
+    await whatsInView();
     lastToken.cancel = true;
     lastToken = { cancel: false, features: [], layersProcessed: 0 };
-    $('.gis-state-layer-label').css({ color: '#777' });
-
+    $('.gis-subL1-layer-label').css({ color: '#777' });
     let _layersCleared = false;
+    let layersToFetch; // Start with declaration
+    if (!_layersCleared) {
+      _layersCleared = true;
+      layersToFetch = getFetchableLayers(true, true);
 
-    // if (layersToFetch.length) {
-    const extentWGS84 = getMapExtent('wgs84');
-    GM_xmlhttpRequest({
-      url: getCountiesUrl(extentWGS84),
-      method: 'GET',
-      onload(res) {
-        if (res.status < 400) {
-          const data = $.parseJSON(res.responseText);
-          if (data.error) {
-            logError(`Error in US Census counties data: ${data.error.message}`);
-          } else {
-            _countiesInExtent = data.features.map((feature) => {
-              const name = feature.attributes.BASENAME.toLowerCase();
-              const stateInfo = STATES.fromId(parseInt(feature.attributes.STATE, 10));
-              return { name, stateInfo };
-            });
-            logDebug(`US Census counties: ${_countiesInExtent.map((c) => `${c.name} ${c.stateInfo[1]}`).join(', ')}`);
+      // Remove features of any layers that won't be mapped.
+      _gisLayers.forEach((gisLayer) => {
+        if (!layersToFetch.includes(gisLayer)) {
+          let featureCollection = gisLayer.isRoadLayer ? roadFeatures : defaultFeatures;
+          const layerName = gisLayer.isRoadLayer ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
+          const featureIds = featureCollection.filter((f) => f.properties.layerID === gisLayer.id).map((f) => f.id);
+          if (featureIds.length) {
+            sdk.Map.removeFeaturesFromLayer({ layerName, featureIds });
+            featureCollection = featureCollection.filter((f) => !featureIds.includes(f.id));
+            if (gisLayer.isRoadLayer) {
+              roadFeatures = featureCollection;
+            } else {
+              defaultFeatures = featureCollection;
+            }
+          }
+        }
+      });
+    }
+    filterLayerCheckboxes();
+    logDebug(`Fetching ${layersToFetch.length} layers...`);
+    logDebug(layersToFetch);
+    let layersProcessedCount = 0; // Track processed layers
+    const extentWGS84 = getMapExtent('wgs84'); //extentMercator = getMapExtent('mercator');
 
-            let layersToFetch;
-            if (!_layersCleared) {
-              _layersCleared = true;
-              layersToFetch = getFetchableLayers();
-
-              // Remove features of any layers that won't be mapped.
-              _gisLayers.forEach((gisLayer) => {
-                if (!layersToFetch.includes(gisLayer)) {
-                  let featureCollection = gisLayer.isRoadLayer ? roadFeatures : defaultFeatures;
-                  const layerName = gisLayer.isRoadLayer ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
-                  const featureIds = featureCollection.filter((f) => f.properties.layerID === gisLayer.id).map((f) => f.id);
-                  if (featureIds.length) {
-                    sdk.Map.removeFeaturesFromLayer({ layerName, featureIds });
-                    featureCollection = featureCollection.filter((f) => !featureIds.includes(f.id));
-                    if (gisLayer.isRoadLayer) {
-                      roadFeatures = featureCollection;
-                    } else {
-                      defaultFeatures = featureCollection;
-                    }
-                  }
-                }
-              });
+    layersToFetch.forEach((gisLayer) => {
+      const url = getUrl(extentWGS84, gisLayer);
+      GM_xmlhttpRequest({
+        url,
+        context: lastToken,
+        method: 'GET',
+        onload(res2) {
+          if (res2.status < 400) {
+            // Handle successful response
+            try {
+              const parsedData = $.parseJSON(res2.responseText);
+              processFeatures(parsedData, res2.context, gisLayer);
+            } catch (parseError) {
+              logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
+              $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
             }
 
-            layersToFetch = layersToFetch.filter(
-              (layer) =>
-                !layer.hasOwnProperty('counties') ||
-                layer.counties.some((countyName) => _countiesInExtent.some((county) => county.name === countyName.toLowerCase() && layer.state === county.stateInfo[1]))
-            );
-            filterLayerCheckboxes();
-            logDebug(`Fetching ${layersToFetch.length} layers...`);
-            logDebug(layersToFetch);
-            let layersProcessedCount = 0; // Track processed layers
-
-            layersToFetch.forEach((gisLayer) => {
-              const url = getUrl(extentWGS84, gisLayer);
-              GM_xmlhttpRequest({
-                url,
-                context: lastToken,
-                method: 'GET',
-                onload(res2) {
-                  if (res2.status < 400) {
-                    // Handle successful response
-                    try {
-                      const parsedData = $.parseJSON(res2.responseText);
-                      processFeatures(parsedData, res2.context, gisLayer);
-                    } catch (parseError) {
-                      logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
-                      $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-                    }
-
-                    // Update popup after processing all layers
-                    layersProcessedCount += 1;
-                    if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
-                      updatePopup(layerLabels);
-                    }
-                  } else {
-                    // Handle HTTP error response
-                    logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
-                    $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-                  }
-                },
-                onerror(res3) {
-                  // Handle request error, particularly timeouts or network issues
-                  logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
-                  $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-                },
-              });
-            });
+            // Update popup after processing all layers
+            layersProcessedCount += 1;
+            if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
+              updatePopup(layerLabels);
+            }
+          } else {
+            // Handle HTTP error response
+            logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
+            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
           }
-        } else {
-          logDebug(`HTTP request error: ${JSON.stringify(res)}`);
-          logError(`Could not fetch counties from US Census site.  Request returned ${res.status}`);
-        }
-      },
-      onerror(res) {
-        logDebug(`xmlhttpRequest error:${JSON.stringify(res)}`);
-        logError('Could not fetch counties from US Census site.  An error was thrown.');
-      },
+        },
+        onerror(res3) {
+          // Handle request error, particularly timeouts or network issues
+          logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
+          $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+        },
+      });
     });
   }
 
@@ -2796,14 +2900,14 @@
     }
   }
 
-  function setEnabled(value) {
+  async function setEnabled(value) {
     settings.enabled = value;
     saveSettingsToStorage();
     sdk.Map.setLayerVisibility({ layerName: DEFAULT_LAYER_NAME, visibility: value });
     sdk.Map.setLayerVisibility({ layerName: ROAD_LAYER_NAME, visibility: value });
     const color = value ? '#00bd00' : '#ccc';
     $('span#gis-layers-power-btn').css({ color });
-    if (value) fetchFeatures();
+    if (value) await fetchFeatures();
     sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: value });
 
     // Show/hide the popup based on the enabled state
@@ -2814,7 +2918,7 @@
     }
   }
 
-  function onGisLayerToggleChanged() {
+  async function onGisLayerToggleChanged() {
     const checked = $(this).is(':checked');
     const layerId = $(this).data('layer-id');
     const idx = settings.visibleLayers.indexOf(layerId);
@@ -2834,26 +2938,32 @@
     } else if (idx > -1) settings.visibleLayers.splice(idx, 1);
     if (!ignoreFetch) {
       saveSettingsToStorage();
-      fetchFeatures();
+      await fetchFeatures();
     }
   }
 
-  function onOnlyShowApplicableLayersChanged() {
+  async function onOnlyShowApplicableLayersChanged() {
     settings.onlyShowApplicableLayers = $(this).is(':checked');
     saveSettingsToStorage();
-    fetchFeatures();
+    filterLayerCheckboxes();
   }
 
-  function onStateCheckChanged(evt) {
-    const state = evt.data;
-    const idx = settings.selectedStates.indexOf(state);
+  async function onOnlyShowApplicableLayersZoomChanged() {
+    settings.onlyShowApplicableLayersZoom = $(this).is(':checked');
+    saveSettingsToStorage();
+    filterLayerCheckboxes();
+  }
+
+  async function onSub1CheckChanged(evt) {
+    const subL1 = evt.data;
+    const idx = settings.selectedSubL1.indexOf(subL1);
     if (evt.target.checked) {
-      if (idx === -1) settings.selectedStates.push(state);
-    } else if (idx > -1) settings.selectedStates.splice(idx, 1);
+      if (idx === -1) settings.selectedSubL1.push(subL1);
+    } else if (idx > -1) settings.selectedSubL1.splice(idx, 1);
     if (!ignoreFetch) {
       saveSettingsToStorage();
       initLayersTab();
-      fetchFeatures();
+      await fetchFeatures();
     }
   }
 
@@ -2867,16 +2977,19 @@
     });
   }
 
-  function onFillParcelsCheckedChanged(evt) {
+  async function onFillParcelsCheckedChanged(evt) {
     const { checked } = evt.target;
     setFillParcels(checked);
     settings.fillParcels = checked;
     saveSettingsToStorage();
-    fetchFeatures();
+    await fetchFeatures();
   }
 
-  function onMapMove() {
-    if (settings.enabled) fetchFeatures();
+  async function onMapMove() {
+    if (settings.enabled) {
+      await loadVisibleCountryData();
+      await fetchFeatures();
+    }
   }
 
   function onRefreshLayersClick() {
@@ -2904,13 +3017,13 @@
     if (sectionKey) saveSettingsToStorage();
   }
 
-  function doToggleABunch(evt, checkState) {
+  async function doToggleABunch(evt, checkState) {
     ignoreFetch = true;
     $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
     ignoreFetch = false;
     saveSettingsToStorage();
     if (evt.data) initLayersTab();
-    fetchFeatures();
+    await fetchFeatures();
   }
 
   function onSelectAllClick(evt) {
@@ -2921,10 +3034,10 @@
     doToggleABunch(evt, false);
   }
 
-  function onGisAddrDisplayChange(evt) {
+  async function onGisAddrDisplayChange(evt) {
     settings.addrLabelDisplay = evt.target.value;
     saveSettingsToStorage();
-    fetchFeatures();
+    await fetchFeatures();
   }
 
   function onAddressDisplayShortcutKey() {
@@ -3007,52 +3120,60 @@
 
   function initLayersTab() {
     const user = userInfo.userName.toLowerCase();
-    const states = _.uniq(_gisLayers.map((l) => l.state)).filter((st) => settings.selectedStates.includes(st));
+    const subL1 = _.uniq(_gisLayers.map((l) => l.countrySubL1)).filter((sub) => settings.selectedSubL1.includes(sub));
 
-    $('#panel-gis-state-layers')
+    $('#panel-gis-subL1-layers')
       .empty()
       .append(
         $('<div>', { class: 'controls-container' })
           .css({ 'padding-top': '0px' })
           .append(
             $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).change(onOnlyShowApplicableLayersChanged).prop('checked', settings.onlyShowApplicableLayers),
-            $('<label>', { for: 'only-show-applicable-gis-layers' }).css({ 'white-space': 'pre-line' }).text('Only show applicable layers')
+            $('<label>', { for: 'only-show-applicable-gis-layers' }).css({ 'white-space': 'pre-line' }).text('Only show applicable layers for Region')
           ),
-        $('.gis-layers-state-checkbox:checked').length === 0
+        $('<div>', { class: 'controls-container' })
+          .css({ 'padding-top': '0px' })
+          .append(
+            $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers-for-zoom-level' })
+              .change(onOnlyShowApplicableLayersZoomChanged)
+              .prop('checked', settings.onlyShowApplicableLayersZoom),
+            $('<label>', { for: 'only-show-applicable-gis-layers-for-zoom-level' }).css({ 'white-space': 'pre-line' }).text('Include Zoom Level in filter')
+          ),
+        $('.gis-layers-subL1-checkbox:checked').length === 0
           ? $('<div>').text('Turn on layer categories in the Settings tab.')
-          : states.map((st) =>
+          : subL1.map((sub) =>
               $('<fieldset>', {
-                id: `gis-layers-for-${st}`,
+                id: `gis-layers-for-${sub}`,
                 style: 'border:1px solid silver;padding:4px;border-radius:4px;-webkit-padding-before: 0;',
               }).append(
                 $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
                   .click(onChevronClick)
                   .append(
                     $('<i>', {
-                      class: settings.collapsedSections[st] ? 'fa fa-fw fa-chevron-right' : 'fa fa-fw fa-chevron-down',
+                      class: settings.collapsedSections[sub] ? 'fa fa-fw fa-chevron-right' : 'fa fa-fw fa-chevron-down',
                       style: 'cursor: pointer;font-size: 12px;margin-right: 4px',
                     }),
                     $('<span>', {
                       style: 'font-size:14px;font-weight:600;text-transform: uppercase; cursor: pointer',
-                    }).text(STATES.toFullName(st))
+                    }).text(NameMapper.toFullName(sub))
                   ),
                 $('<div>', {
-                  id: `${st}_body`,
-                  style: settings.collapsedSections[st] ? 'display: none;' : 'display: block;',
+                  id: `${sub}_body`,
+                  style: settings.collapsedSections[sub] ? 'display: none;' : 'display: block;',
                 }).append(
                   $('<div>')
                     .css({ 'font-size': '11px' })
                     .append($('<span>').append('Select ', $('<a>', { href: '#' }).text('All').click(onSelectAllClick), ' / ', $('<a>', { href: '#' }).text('None').click(onSelectNoneClick))),
                   $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
                     _gisLayers
-                      .filter((l) => l.state === st && (!PRIVATE_LAYERS.hasOwnProperty(l.id) || PRIVATE_LAYERS[l.id].includes(user)))
+                      .filter((l) => l.countrySubL1 === sub && (!PRIVATE_LAYERS.hasOwnProperty(l.id) || PRIVATE_LAYERS[l.id].includes(user)))
                       .map((gisLayer) => {
                         const id = `gis-layer-${gisLayer.id}`;
                         return $('<div>', { class: 'controls-container', id: `${id}-container` })
                           .css({ 'padding-top': '0px', display: 'block' })
                           .append(
                             $('<input>', { type: 'checkbox', id }).data('layer-id', gisLayer.id).change(onGisLayerToggleChanged).prop('checked', settings.visibleLayers.includes(gisLayer.id)),
-                            $('<label>', { for: id, class: 'gis-state-layer-label' })
+                            $('<label>', { for: id, class: 'gis-subL1-layer-label' })
                               .css({ 'white-space': 'pre-line' })
                               .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
                               .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : '')
@@ -3073,7 +3194,9 @@
   }
 
   function initSettingsTab() {
-    const states = _.uniq(_gisLayers.map((l) => l.state));
+    // Group layers by country
+    const layersByCountry = _.groupBy(_gisLayers, 'country');
+
     const createRadioBtn = (name, value, text, checked) => {
       const id = `${name}-${value}`;
       return [
@@ -3125,40 +3248,44 @@
                 createRadioBtn('popupVisibility', 'hide', 'Hide', !isPopupVisible)
               )
           )
-        ),
-        $('<fieldset>', {
-          style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;',
-        }).append(
-          $('<legend>', {
-            style: 'margin-bottom:0px;border-bottom-style:none;width:auto;',
-          }).append(
-            $('<span>', {
-              style: 'font-size:14px;font-weight:600;text-transform: uppercase;',
-            }).text('Layer Categories')
-          ),
-          $('<div>', { id: 'states_body' }).append(
-            $('<div>')
-              .css({ 'font-size': '11px' })
-              .append($('<span>').append('Select ', $('<a>', { href: '#' }).text('All').click(true, onSelectAllClick), ' / ', $('<a>', { href: '#' }).text('None').click(true, onSelectNoneClick))),
-            $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
-              states.map((st) => {
-                const fullName = STATES.toFullName(st);
-                const id = `gis-layer-enable-state-${st}`;
+        )
+      );
+
+    // Create groups by country
+    Object.keys(layersByCountry)
+      .sort()
+      .forEach((country) => {
+        const subRegions = _.uniq(layersByCountry[country].map((l) => l.countrySubL1));
+
+        $('#panel-gis-layers-settings').append(
+          $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before:0;' }).append(
+            $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
+              .click(onChevronClick)
+              .append(
+                $('<i>', { class: 'fa fa-fw fa-chevron-down', style: 'cursor: pointer;font-size: 12px;margin-right: 4px' }),
+                $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text(NameMapper.toFullName(country))
+              ),
+            $('<div>', { id: `country_${country}_body` }).append(
+              subRegions.map((countrySubL1) => {
+                const fullName = NameMapper.toFullName(countrySubL1);
+                const id = `gis-layer-enable-subL1-${countrySubL1}`;
+
                 return $('<div>', { class: 'controls-container' })
                   .css({ 'padding-top': '0px', display: 'block' })
                   .append(
-                    $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' }).change(st, onStateCheckChanged).prop('checked', settings.selectedStates.includes(st)),
+                    $('<input>', { type: 'checkbox', id, class: 'gis-layers-subL1-checkbox' }).change(countrySubL1, onSub1CheckChanged).prop('checked', settings.selectedSubL1.includes(countrySubL1)),
                     $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
                   );
               })
             )
           )
-        )
-      );
+        );
+      });
+
     $('#panel-gis-layers-settings').append(
-      $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;' }).append(
+      $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before:0;' }).append(
         $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' }).append(
-          $('<span>', { style: 'font-size:14px;font-weight:600;text-transform: uppercase;' }).text('Appearance')
+          $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text('Appearance')
         ),
         $('<div>', { class: 'controls-container' })
           .css({ 'padding-top': '2px' })
@@ -3196,7 +3323,7 @@
             title: 'Pull new layer info from master sheet and refresh all layers.',
           }),
           '<ul class="nav nav-tabs">' +
-            '<li class="active"><a data-toggle="tab" href="#panel-gis-state-layers" aria-expanded="true">' +
+            '<li class="active"><a data-toggle="tab" href="#panel-gis-subL1-layers" aria-expanded="true">' +
             'Layers' +
             '</a></li>' +
             '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">' +
@@ -3204,7 +3331,7 @@
             '</a></li> ' +
             '</ul>',
           $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
-            $('<div>', { class: 'tab-pane active', id: 'panel-gis-state-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
+            $('<div>', { class: 'tab-pane active', id: 'panel-gis-subL1-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
             $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px; width: auto' })
           )
         )
@@ -3257,19 +3384,148 @@
     }
   }
 
-  async function loadSpreadsheetAsync() {
+  /**
+   * Asynchronously loads GIS data for visible countries and subdivisions within the current map viewport.
+   *
+   * This function fetches data associated with countries and their subdivisions that are visible at the current zoom
+   * level. It avoids redundant data loads by tracking which countries and subdivisions have already been processed,
+   * thereby optimizing resource usage and enhancing loading efficiency.
+   *
+   * Process Overview:
+   * 1. Checks the current zoom level and returns early if below the threshold, preventing data loading.
+   * 2. Calls `whatsInView` to populate `_whatsInView` with currently visible country and subdivision data.
+   * 3. Iterates over `_whatsInView` to extract unique country codes (`ISO_ALPHA3`) and subdivision codes (`subL1_id`).
+   * 4. For each country code:
+   *    - If it's not already loaded, initializes loading for all visible subdivisions.
+   *    - For countries already loaded, filters subdivisions that haven't been loaded yet.
+   *    - Calls `loadSpreadsheetAsync` to fetch and load the data and then updates the GUI.
+   * 5. Tracks loaded subdivisions to prevent redundancy and logs the loading activity for debugging.
+   *
+   * Features:
+   * - Efficiently manages GIS data loading based on visibility and ensures GUI updating post-data fetch.
+   * - Uses sets to maintain unique country and region codes, enhancing data consistency.
+   *
+   * Parameters:
+   * - No explicit parameters, utilizes global variables and state tracking.
+   *
+   * @returns {Promise<void>} - No explicit return; relies on side effects to update global state and UI.
+   */
+  async function loadVisibleCountryData() {
+    try {
+      const currentZoomLevel = sdk.Map.getZoomLevel();
+      if (currentZoomLevel < 12) {
+        return;
+      }
+
+      await whatsInView(); // This function populates _whatsInView with the current visible countries and subs
+
+      const countryCodes = new Set();
+      const regionCodes = new Set();
+
+      for (const country in _whatsInView) {
+        if (_whatsInView.hasOwnProperty(country)) {
+          const countryInfo = _whatsInView[country];
+          if (countryInfo.ISO_ALPHA3) {
+            countryCodes.add(countryInfo.ISO_ALPHA3);
+          }
+          if (countryInfo.subL1) {
+            for (const subdivision in countryInfo.subL1) {
+              if (countryInfo.subL1.hasOwnProperty(subdivision)) {
+                const subdivisionInfo = countryInfo.subL1[subdivision];
+                if (subdivisionInfo.subL1_id) {
+                  regionCodes.add(subdivisionInfo.subL1_id);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      for (const isoCode of countryCodes) {
+        let newRegionCodesToLoad = new Set();
+
+        if (!alreadyLoadedCountries.has(isoCode)) {
+          logDebug(`Loading Layers for Country ${isoCode} with Subdivision(s): ${Array.from(regionCodes).join(', ')}`);
+          newRegionCodesToLoad = new Set(regionCodes);
+          alreadyLoadedCountries.add(isoCode);
+        } else {
+          regionCodes.forEach((regionCode) => {
+            if (!alreadyLoadedSubL1.has(regionCode)) {
+              logDebug(`Loading New Subdivision(s) ${regionCode} Layers for Country ${isoCode}`);
+              newRegionCodesToLoad.add(regionCode);
+            }
+          });
+        }
+
+        if (newRegionCodesToLoad.size > 0) {
+          await loadSpreadsheetAsync(isoCode, newRegionCodesToLoad);
+          initGui(false); // Update GUI after loading data
+        }
+
+        newRegionCodesToLoad.forEach((regionCode) => {
+          alreadyLoadedSubL1.add(regionCode);
+        });
+      }
+    } catch (error) {
+      logError(`Error in loadVisibleCountryData: ${error.message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Asynchronously loads GIS layer definitions from a spreadsheet based on country ISO codes and visible subdivisions.
+   *
+   * This function retrieves GIS layer configuration data from a specified Google Sheets spreadsheet using the country
+   * ISO code and checks against region codes for relevant subdivisions. It validates the spreadsheet structure, adjusts
+   * layer properties, and filters layers based on access restrictions and visibility requirements.
+   *
+   * Process Overview:
+   * 1. Constructs a URL using the country ISO code to access the appropriate tab in the spreadsheet.
+   * 2. Fetches data from the spreadsheet using the constructed URL, handling any errors from the request.
+   * 3. Validates the spreadsheet's column data against required field names ensuring script compatibility.
+   * 4. Iterates over each layer definition row to:
+   *    - Parse, trim, and convert field values appropriately (e.g., splitting strings and JSON parsing).
+   *    - Compile label processing functions, handle style specifications, and validate subdivision visibility.
+   *    - Evaluate access restrictions based on user rank and specific user attributes.
+   *    - Construct a country-subdivision identifier and manage layer activation based on its defined settings.
+   *    - Ensure layers are added to global layer tracking if they meet visibility and access criteria.
+   *
+   * Parameters:
+   * - `isoCode`: ISO country code determining which spreadsheet tab to access for GIS layers.
+   * - `regionCodes`: Set of region codes indicating visible subdivisions for filtering layers.
+   *
+   * Features:
+   * - Utilizes Google Sheets API for configuration data retrieval.
+   * - Integrates comprehensive error handling and debugging output.
+   *
+   * Error Handling:
+   * - Throws errors for failed spreadsheet calls and logs issues with data parsing or processing tasks.
+   *
+   * @param {string} isoCode - Country ISO code for selecting the spreadsheet tab and data.
+   * @param {Set<string>} regionCodes - Set of subdivision codes used to filter visible GIS layers.
+   * @returns {Promise<Object>} - Object containing error information, if any occurs during processing.
+   */
+  async function loadSpreadsheetAsync(isoCode, regionCodes) {
+    const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/';
+    const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
+    const DEC = (s) => atob(atob(s));
+
     let data;
     try {
-      data = await $.getJSON(`${LAYER_DEF_SPREADSHEET_URL}?${DEC(API_KEY)}`);
+      const tabName = isoCode.toUpperCase();
+      const url = `${LAYER_DEF_SPREADSHEET_URL}${tabName}?${DEC(API_KEY)}`;
+      data = await $.getJSON(url);
     } catch (err) {
       throw new Error(`Spreadsheet call failed. (${err.status}: ${err.statusText})`);
     }
-    const [[minVersion], fieldNames, ...layerDefRows] = data.values;
+
+    const [, [minVersion], fieldNames, ...layerDefRows] = data.values;
     const REQUIRED_FIELD_NAMES = [
-      'state',
+      'country',
+      'subL1',
       'name',
       'id',
-      'counties',
+      'subL2',
       'url',
       'where',
       'labelFields',
@@ -3281,29 +3537,32 @@
       'restrictTo',
       'oneTimeAlert',
     ];
+
     const result = { error: null };
     const checkFieldNames = (fldName) => fieldNames.includes(fldName);
 
     if (scriptVersion < minVersion) {
       result.error = `Script must be updated to at least version ${minVersion} before layer definitions can be loaded.`;
     } else if (fieldNames.length < REQUIRED_FIELD_NAMES.length) {
-      result.error = `Expected ${REQUIRED_FIELD_NAMES.length} columns in layer definition data.  Spreadsheet returned ${fieldNames.length}.`;
-    } else if (!REQUIRED_FIELD_NAMES.every((fldName) => checkFieldNames(fldName))) {
-      result.error =
-        'Script expected to see the following column names in the layer ' +
-        `definition spreadsheet:\n${REQUIRED_FIELD_NAMES.join(', ')}\n` +
-        `But the spreadsheet returned these:\n${fieldNames.join(', ')}`;
+      result.error = `Expected ${REQUIRED_FIELD_NAMES.length} columns in layer definition data. Spreadsheet returned ${fieldNames.length}.`;
+    } else if (!REQUIRED_FIELD_NAMES.every(checkFieldNames)) {
+      result.error = 'Script expected specific column names that are missing.';
     }
+
     if (!result.error) {
       layerDefRows
         .filter((row) => row.length)
         .forEach((layerDefRow) => {
           const layerDef = { enabled: '0' };
+          let validSubL1 = false;
+          let countryId = '';
+          let subL1Upper = '';
+
           fieldNames.forEach((fldName, fldIdx) => {
             let value = layerDefRow[fldIdx];
             if (value !== undefined && value.trim().length > 0) {
               value = value.trim();
-              if (fldName === 'counties' || fldName === 'labelFields') {
+              if (fldName === 'subL2' || fldName === 'labelFields') {
                 value = value.split(',').map((item) => item.trim());
               } else if (fldName === 'processLabel') {
                 try {
@@ -3316,15 +3575,18 @@
               } else if (fldName === 'style') {
                 layerDef.isRoadLayer = value === 'roads';
                 if (!layerDef.isRoadLayer && !LAYER_STYLES.hasOwnProperty(value)) {
-                  // If style is not defined, try to read in as JSON (custom style)
                   try {
                     value = JSON.parse(value);
                   } catch (ex) {
                     logError(`Invalid style definition for layer "${layerDef.id}".`);
                   }
                 }
-              } else if (fldName === 'state') {
-                value = value ? value.toUpperCase() : value;
+              } else if (fldName === 'country') {
+                countryId = value.toUpperCase();
+              } else if (fldName === 'subL1') {
+                subL1Upper = value.toUpperCase();
+                layerDef[fldName] = subL1Upper;
+                validSubL1 = regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase();
               } else if (fldName === 'restrictTo') {
                 try {
                   const values = value.split(',').map((v) => v.trim().toLowerCase());
@@ -3350,9 +3612,17 @@
               layerDef[fldName] = [''];
             }
           });
+
+          if (countryId && subL1Upper) {
+            layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
+          }
+
           const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
-          if (!layerDef.notAllowed && enabled) {
-            _gisLayers.push(layerDef);
+          if (validSubL1 && !layerDef.notAllowed && enabled) {
+            const layerExists = _gisLayers.some((existingLayer) => existingLayer.id === layerDef.id);
+            if (!layerExists) {
+              _gisLayers.push(layerDef);
+            }
           }
         });
     }
@@ -3374,9 +3644,9 @@
   }
 
   async function init(firstCall = true) {
-    _gisLayers = [];
     if (firstCall) {
       userInfo = sdk.State.getUserInfo();
+      labelProcessingGlobalVariables.W = W;
       labelProcessingGlobalVariables.sdk = sdk;
       initRoadStyle();
       loadSettingsFromStorage();
@@ -3385,30 +3655,14 @@
       installPathFollowingLabels();
       window.addEventListener('beforeunload', saveSettingsToStorage, false);
       _layerSettingsDialog = new LayerSettingsDialog();
+      await buildCountrySubdivisionMapping();
     }
     const t0 = performance.now();
     try {
-      const result = await loadSpreadsheetAsync();
-      if (result.error) {
-        logError(result.error);
-        return;
-      }
-      _layerRefinements.forEach((layerRefinement) => {
-        const layerDef = _gisLayers.find((layerDef2) => layerDef2.id === layerRefinement.id);
-        if (layerDef) {
-          Object.keys(layerRefinement).forEach((fldName) => {
-            const value = layerRefinement[fldName];
-            if (fldName !== 'id' && layerDef.hasOwnProperty(fldName)) {
-              logDebug(`The "${fldName}" property of layer "${layerDef.id}" has a value hardcoded in the script, and also defined in the spreadsheet.` + ' The spreadsheet value takes precedence.');
-            } else if (value) layerDef[fldName] = value;
-          });
-        } else {
-          logDebug(`Refined layer "${layerRefinement.id}" does not have a corresponding layer defined` + ' in the spreadsheet.  It can probably be removed from the script.');
-        }
-      });
+      await loadVisibleCountryData();
       logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
       initGui(firstCall);
-      fetchFeatures();
+      await fetchFeatures();
       $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
       logDebug('Initialized.');
     } catch (err) {
