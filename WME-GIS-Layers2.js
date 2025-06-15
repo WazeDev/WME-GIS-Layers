@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.06.03.000
+// @version      2025.06.15.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic
 // @match         *://*.waze.com/*editor*
@@ -2030,7 +2030,7 @@
         .join(' ')
         .trim()}\n`;
     }
-    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 5000) {
+    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) { // Raised this 1 million sq meeters
       label += gisLayer.labelFields
         .map((fieldName) => item.attributes[fieldName])
         .join(' ')
@@ -2103,10 +2103,11 @@
             }
             if (!skipIt) {
               let area = 0; // Default area is 0 for non-polygon features
+              const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
               if (item.geometry) {
                 if (item.geometry.x) {
                   const feature = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
-                  const label = processLabel(gisLayer, item, false, area, false);
+                  const label = processLabel(gisLayer, item, displayLabelsAtZoom, '', false);
 
                   feature.properties = {
                     layerID: gisLayer.id,
@@ -2123,7 +2124,7 @@
                   featuresToAdd.push(...points);
 
                   points.forEach((pointFeature) => {
-                    const label = processLabel(gisLayer, item, false, area, false);
+                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, '', false);
                     pointFeature.properties = {
                       layerID: gisLayer.id,
                       label,
@@ -2174,8 +2175,6 @@
                     const polygonRings = [outer, ...inners];
                     const tempPolygon = turf.polygon(polygonRings);
                     const ringArea = turf.area(tempPolygon);
-
-                    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
                     const label = processLabel(gisLayer, item, displayLabelsAtZoom, ringArea, false);
 
                     tempPolygon.properties = {
@@ -2206,8 +2205,7 @@
                     const feature = turf.lineString(pointList);
                     feature.skipDupeCheck = true;
                     featuresToAdd.push(feature);
-
-                    const label = processLabel(gisLayer, item, false, area, true);
+                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, '', true);
 
                     feature.properties = {
                       layerID: gisLayer.id,
