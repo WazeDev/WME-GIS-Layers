@@ -3,9 +3,9 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.06.15.000
+// @version      2025.06.22.000
 // @description  Adds GIS layers in WME
-// @author       MapOMatic
+// @author       MapOMatic / JS55CT
 // @match        *://*.waze.com/*editor*
 // @exclude      *://*.waze.com/user/editor*
 // @exclude      *://*.waze.com/editor/sdk/*
@@ -1154,7 +1154,9 @@
 
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'SDK Performance and Stability Update: We have made improvements to enhance your experience. If you encounter any issues, please report them on Discord or Discuss forums.',
+    'Minor update:',
+    'Enhanced the ArcGIS platform API calls by leveraging the MaxAllowableOffset capability based on zoom level.',
+    'This optimization reduces data retrieval size, ensuring faster responses and minimizing unnecessary data load at wider zoom scales. '
   ];
 
   // **************************************************************************************************************
@@ -1751,7 +1753,25 @@
     logDebug('Settings saved');
   }
 
-  function getUrl(extent, gisLayer) {
+  function getMaxAllowableOffsetForZoom(zoomLevel) {
+    const zoomToOffsetMap = {
+      12: 0.0009, // ~100 meters
+      13: 0.00045, // ~50 meters
+      14: 0.000225, // ~25 meters
+      15: 0.0001125, // ~12.0 meters
+      16: 0.000056, // ~6.0 meters
+      17: 0.000028, // ~3.0 meters
+      18: 0.000014, // ~1.5 meters
+      19: 0.000007, // ~1.0 meters
+      20: 0.000007, // ~1.0 meters
+      21: 0.000007, // ~1.0 meters
+      22: 0.000007, // ~1.0 meters
+    };
+    // Return the offset corresponding to the provided zoom level, or default to highest detail if not found
+    return zoomToOffsetMap[zoomLevel] || zoomToOffsetMap[22];
+  }
+
+  function getUrl(extent, gisLayer, zoom) {
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
     const geometry = {
       xmin: extent[0] - layerOffset.x,
@@ -1762,7 +1782,10 @@
         wkid: 4326,
       },
     };
+
+    const maxAllowableOffset = getMaxAllowableOffsetForZoom(zoom);
     const geometryStr = JSON.stringify(geometry);
+
     let fields = gisLayer.labelFields;
     if (gisLayer.labelHeaderFields) {
       fields = fields.concat(gisLayer.labelHeaderFields);
@@ -1774,8 +1797,9 @@
     url += gisLayer.token ? `&token=${gisLayer.token}` : '';
     url += `&outFields=${encodeURIComponent(fields.join(','))}`;
     url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
-    url += `&inSR=${/* gisLayer.spatialReference ? gisLayer.spatialReference : */ '4326'}`;
+    url += `&inSR=${'4326'}`;
     url += '&outSR=4326&f=json';
+    url += `&maxAllowableOffset=${maxAllowableOffset}`;
     url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
 
     logDebug(`Request URL: ${url}`);
@@ -1797,12 +1821,12 @@
 
   function getMapExtent(projection = 'wgs84') {
     const wgs84Extent = sdk.Map.getMapExtent(); // Assume this provides WGS84 coordinates
-    const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]];
-    const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
+    //const wgs84LeftBottom = [wgs84Extent[0], wgs84Extent[1]]; //JS55CT
+    //const wgs84RightTop = [wgs84Extent[2], wgs84Extent[3]];
     const wgs84Projections = ['wgs84', 'CRS84', '4326', 'EPSG:4326'];
 
     if (wgs84Projections.includes(projection.toLowerCase())) {
-      return [wgs84LeftBottom[0], wgs84LeftBottom[1], wgs84RightTop[0], wgs84RightTop[1]];
+      return [wgs84Extent[0], wgs84Extent[1], wgs84Extent[2], wgs84Extent[3]];
     } else {
       throw new Error('Unsupported projection type');
     }
@@ -2732,7 +2756,8 @@
             let layersProcessedCount = 0; // Track processed layers
 
             layersToFetch.forEach((gisLayer) => {
-              const url = getUrl(extentWGS84, gisLayer);
+              const zoom = sdk.Map.getZoomLevel();
+              const url = getUrl(extentWGS84, gisLayer, zoom);
               GM_xmlhttpRequest({
                 url,
                 context: lastToken,
