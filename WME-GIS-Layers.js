@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.06.22.000
+// @version      2025.07.01.001
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match        *://*.waze.com/*editor*
@@ -1155,8 +1155,7 @@
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
     'Minor update:',
-    'Enhanced the ArcGIS platform API calls by leveraging the MaxAllowableOffset capability based on zoom level.',
-    'This optimization reduces data retrieval size, ensuring faster responses and minimizing unnecessary data load at wider zoom scales. '
+    'Enhanced to play nice with "Dark Mode" :)',
   ];
 
   // **************************************************************************************************************
@@ -2472,7 +2471,7 @@
     if (!popup) {
       popup = document.createElement('div');
       popup.id = 'layerLabelPopup';
-      popup.style = `position: absolute; background: #f5f5f5; border: 2px solid #007bff; border-radius: 5px; 
+      popup.style = `position: absolute; background: #d3d3d3; border: 2px solid #007bff; border-radius: 5px; 
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
                 height: 300px; resize: both; overflow: hidden; max-height: 700px; left: ${popupPosition.left}; top: ${popupPosition.top}; `;
 
@@ -2645,7 +2644,7 @@
         .map((label) => {
           const text = processedLabel(label);
           const copyIcon = '<span style="cursor: pointer; margin-left: 5px;" title="Copy to clipboard">📋</span>';
-          return `<li style="margin-bottom: 0.3em; color: #555;" data-label="${text}">${text}${copyIcon}</li>`;
+          return `<li style="margin-bottom: 0.3em; color: #000000;" data-label="${text}">${text}${copyIcon}</li>`;
         })
         .join('');
 
@@ -2699,7 +2698,7 @@
     }
     lastToken.cancel = true;
     lastToken = { cancel: false, features: [], layersProcessed: 0 };
-    $('.gis-state-layer-label').css({ color: '#777' });
+    $('.gis-state-layer-label').css({ });
 
     let _layersCleared = false;
 
@@ -3173,7 +3172,7 @@
                   .css({ 'padding-top': '0px', display: 'block' })
                   .append(
                     $('<input>', { type: 'checkbox', id, class: 'gis-layers-state-checkbox' }).change(st, onStateCheckChanged).prop('checked', settings.selectedStates.includes(st)),
-                    $('<label>', { for: id }).css({ 'white-space': 'pre-line', color: '#777' }).text(fullName)
+                    $('<label>', { for: id }).css({ 'white-space': 'pre-line', }).text(fullName)
                   );
               })
             )
@@ -3189,7 +3188,7 @@
           .css({ 'padding-top': '2px' })
           .append(
             $('<input>', { type: 'checkbox', id: 'fill-parcels' }).change(onFillParcelsCheckedChanged).prop('checked', settings.fillParcels),
-            $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line', color: '#777' }).text('Fill parcels')
+            $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line', }).text('Fill parcels')
           )
       )
     );
