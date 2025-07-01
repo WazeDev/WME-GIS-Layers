@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.06.22.000
+// @version      2025.07.01.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1157,8 +1157,7 @@
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
     'Minor update:',
-    'Enhanced the ArcGIS platform API calls by leveraging the MaxAllowableOffset capability based on zoom level.',
-    'This optimization reduces data retrieval size, ensuring faster responses and minimizing unnecessary data load at wider zoom scales. '
+    'Enhanced the fetchlayers logic to pull data from a combined Layer Definitions v2 tab.',
   ];
 
   // **************************************************************************************************************
@@ -1175,7 +1174,7 @@
   // ].map(item => `<li>${item}</li>`).join('')}</ul><br>`;
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
   // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
-  const SCRIPT_AUTHOR = 'MapOMatic';
+  const SCRIPT_AUTHOR = 'MapOMatic / JS55CT';
   // const LAYER_INFO_URL = 'https://spreadsheets.google.com/feeds/list/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/o7gusx3/public/values?alt=json';
   const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
   const PRIVATE_LAYERS = { 'nc-henderson-sl-signs': ['the_cre8r', 'mapomatic'] }; // case sensitive -- use all lower case
@@ -3528,14 +3527,14 @@
    * @param {Set<string>} regionCodes - Set of subdivision codes used to filter visible GIS layers.
    * @returns {Promise<Object>} - Object containing error information, if any occurs during processing.
    */
-  async function loadSpreadsheetAsync(isoCode, regionCodes) {
+    async function loadSpreadsheetAsync(isoCode, regionCodes) {
     const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/';
     const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
     const DEC = (s) => atob(atob(s));
 
     let data;
     try {
-      const tabName = isoCode.toUpperCase();
+      const tabName = 'Layer Definitions v2';
       const url = `${LAYER_DEF_SPREADSHEET_URL}${tabName}?${DEC(API_KEY)}`;
       data = await $.getJSON(url);
     } catch (err) {
@@ -3636,7 +3635,7 @@
             }
           });
 
-          if (countryId && subL1Upper) {
+          if (countryId === isoCode.toUpperCase() && subL1Upper) {
             layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
           }
 
