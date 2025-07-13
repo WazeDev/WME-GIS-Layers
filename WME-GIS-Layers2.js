@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.07.01.001
+// @version      2025.07.13.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -41,7 +41,6 @@
 // @connect ags.myokaloosa.com
 // @connect ags.roseville.ca.us
 // @connect ags1.wgxtreme.com
-// @connect ags10s1.dot.illinois.gov
 // @connect ags2maps.srcity.org
 // @connect ags3.scgov.net
 // @connect aldotgis.dot.state.al.us
@@ -64,6 +63,7 @@
 // @connect arcgis.c3gov.com
 // @connect arcgis.cityofcapegirardeau.org
 // @connect arcgis.cityofwatsonville.org
+// @connect arcgis.clearfieldco.org
 // @connect arcgis.co.beltrami.mn.us
 // @connect arcgis.co.henry.ga.us
 // @connect arcgis.co.lancaster.pa.us
@@ -129,7 +129,6 @@
 // @connect cecilmaps.org
 // @connect charitongis.integritygis.com
 // @connect christiangis.integritygis.com
-// @connect clearfieldco.org
 // @connect cloud.longviewtexas.gov
 // @connect cloudgis.bonnercountyid.gov
 // @connect co.knox.il.us
@@ -143,7 +142,7 @@
 // @connect cowlitzgis.net
 // @connect crgis.cedar-rapids.org
 // @connect cteco.uconn.edu
-// @connect currituckncgov.com
+// @connect cty-gis-web.co.humboldt.ca.us
 // @connect cw.townofclaytonnc.org
 // @connect dadegis.integritygis.com
 // @connect dallasgis.integritygis.com
@@ -161,7 +160,6 @@
 // @connect dtdapps.coloradodot.info
 // @connect dungis.dunwoodyga.gov
 // @connect dunklingis.integritygis.com
-// @connect ecgis.co.ellis.tx.us
 // @connect egis.baltimorecity.gov
 // @connect egis.pinellas.gov
 // @connect elb.elevatemaps.io
@@ -172,6 +170,7 @@
 // @connect epv.ci.juneau.ak.us
 // @connect eservices.co.crook.or.us
 // @connect essex-gis.co.essex.ny.us
+// @connect explore.opelika-al.gov
 // @connect fcgis.franklincountypa.gov
 // @connect feature.geographic.texas.gov
 // @connect feature.tnris.org
@@ -307,7 +306,6 @@
 // @connect gis.co.wadena.mn.us
 // @connect gis.co.waseca.mn.us
 // @connect gis.co.waushara.wi.us
-// @connect gis.co.wood.wi.us
 // @connect gis.co.ym.mn.gov
 // @connect gis.colorado.gov
 // @connect gis.coloradosprings.gov
@@ -405,6 +403,7 @@
 // @connect gis.leecountyil.com
 // @connect gis.lehighcounty.org
 // @connect gis.leoc.net
+// @connect gis.lincoln.ne.gov
 // @connect gis.littleelm.org
 // @connect gis.livingstoncounty.us
 // @connect gis.lja.com
@@ -534,11 +533,13 @@
 // @connect gis.wilson-co.com
 // @connect gis.wilsonnc.org
 // @connect gis.wiu.edu
+// @connect gis.woodcountywi.gov
 // @connect gis.worldviewsolutions.com
 // @connect gis.wyo.gov
 // @connect gis.yadkincountync.gov
 // @connect gis.yanceycountync.org
 // @connect gis.yavapaiaz.gov
+// @connect gis.yellowstonecountymt.gov
 // @connect gis.yolocounty.gov
 // @connect gis.yolocounty.org
 // @connect gis.yuba.org
@@ -620,8 +621,8 @@
 // @connect gisonline.greenvillenc.gov
 // @connect gisp.co.genesee.ny.us
 // @connect gisp.mcgi.state.mi.us
+// @connect gisportal.calaverascounty.gov
 // @connect gisportal.champaignil.gov
-// @connect gisportal.co.calaveras.ca.us
 // @connect gisportal.co.madison.il.us
 // @connect gisportal.co.warren.oh.us
 // @connect gisportal.dorchestercounty.net
@@ -675,7 +676,6 @@
 // @connect grant.co.jefferson.id.us
 // @connect gweb01.co.olmsted.mn.us
 // @connect harpergis.integritygis.com
-// @connect harrisonms.geopowered.com
 // @connect haslet.halff.com
 // @connect hazards.fema.gov
 // @connect hdgis.ingham.org
@@ -736,12 +736,13 @@
 // @connect map.stclairco.com
 // @connect map.sussexcountyde.gov
 // @connect map.wyoroad.info
-// @connect map9.incog.org
+// @connect map11.incog.org
 // @connect mapd.kcmo.org
 // @connect mapdata.baytown.org
 // @connect mapdata.lasvegasnevada.gov
 // @connect mapdata.tucsonaz.gov
 // @connect mapit.fortworthtexas.gov
+// @connect mapit.tarrantcounty.com
 // @connect mapitwest.fortworthtexas.gov
 // @connect mapping.adamscountypa.gov
 // @connect mapping.kenoshacountywi.gov
@@ -785,6 +786,7 @@
 // @connect maps.clermontauditor.org
 // @connect maps.clintoncountypa.com
 // @connect maps.co.blaine.id.us
+// @connect maps.co.ellis.tx.us
 // @connect maps.co.forsyth.nc.us
 // @connect maps.co.goodhue.mn.us
 // @connect maps.co.gov
@@ -800,12 +802,12 @@
 // @connect maps.co.shawano.wi.us
 // @connect maps.co.warren.oh.us
 // @connect maps.co.washington.mn.us
-// @connect maps.co.yellowstone.mt.gov
 // @connect maps.coj.net
 // @connect maps.collincountytx.gov
 // @connect maps.countyofmerced.com
 // @connect maps.crc.ga.gov
 // @connect maps.ctmetro.org
+// @connect maps.currituckcountync.gov
 // @connect maps.dancgis.org
 // @connect maps.dcad.org
 // @connect maps.delco-gis.org
@@ -882,6 +884,7 @@
 // @connect maps.rutherfordcountytn.gov
 // @connect maps.santa-clarita.com
 // @connect maps.santabarbaraca.gov
+// @connect maps.sbcounty.gov
 // @connect maps.sccmo.org
 // @connect maps.semogis.com
 // @connect maps.sfdpw.org
@@ -948,9 +951,9 @@
 // @connect msdisweb.missouri.edu
 // @connect mycity2.houstontx.gov
 // @connect navigator.state.or.us
-// @connect ndgishub.nd.gov
 // @connect newtongis.integritygis.com
 // @connect nhgeodata.unh.edu
+// @connect nobgis.cityofnoblesville.org
 // @connect northlake.halff.com
 // @connect nsgiwa.novascotia.ca
 // @connect nspdcwebsrv.csuchico.edu
@@ -1071,7 +1074,6 @@
 // @connect webadaptor.glynncounty-ga.gov
 // @connect webgis.bedfordcountyva.gov
 // @connect webgis.co.davidson.nc.us
-// @connect webgis.co.humboldt.ca.us
 // @connect webgis.durhamnc.gov
 // @connect webgis.lafayetteassessor.com
 // @connect webgis.providenceri.gov
@@ -1156,8 +1158,11 @@
 
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'Minor update:',
-    'Enhanced to play nice with "Dark Mode" :)',
+     'Major update:',
+     'Added Support for Additional Countries!',
+     'Load only the layers for the country and the 1st level subdivision given the current WME viewport.',
+     'Replaced US Census Tiger graph service with a new library using boundary boxes and GEOJSON objects.',
+     'Updated ArcGIS web services to return EPSG:4326 (WGS 84) instead of EPSG:3857, aligning with the new SDK requirement for coordinates',
   ];
 
   // **************************************************************************************************************
@@ -2872,6 +2877,7 @@
     layersToFetch.forEach((gisLayer) => {
       const zoom = sdk.Map.getZoomLevel();
       const url = getUrl(extentWGS84, gisLayer, zoom);
+      
       GM_xmlhttpRequest({
         url,
         context: lastToken,
