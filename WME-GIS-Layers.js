@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.07.13.01
+// @version      2025.07.14.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1158,7 +1158,10 @@
 
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'Major update:',
+    'Minor update: 2025.07.14.00',
+    'Convert Old Layer Settings to new version format',
+    '',
+    'Major update: 2025.07.13.00',
     'Added Support for Additional Countries!',
     'Load only the layers for the country and the 1st level subdivision given the current WME viewport.',
     'Replaced US Census Tiger graph service with a new library using boundary boxes and GEOJSON objects.',
@@ -1608,7 +1611,7 @@
       const offset = settings.getLayerSetting(this.gisLayer.id, 'offset');
       if (offset) {
         this.#shiftLayerFeatures(offset.x * -1, offset.y * -1);
-        delete settings.layers[this.gisLayer.id].offset;
+        settings.removeLayerSetting(this.gisLayer.id, 'offset');
         saveSettingsToStorage();
       }
     }
@@ -1679,7 +1682,8 @@
       collapsedSections: {},
     };
 
-    let loadedSettings = {}; // Initialize as an empty object
+    let loadedSettings = {};
+    let migrated = false; // Track if any migration occurred
     const storedSettings = localStorage.getItem(SETTINGS_STORE_NAME);
 
     if (storedSettings) {
@@ -1692,20 +1696,40 @@
         }
       } catch (e) {
         logError(`Failed to parse settings from localStorage key "${SETTINGS_STORE_NAME}":`, e);
-        // loadedSettings remains {}
       }
     }
 
-    // Merge defaultSettings and loadedSettings.
-    // If loadedSettings is empty (due to error or no storage), it effectively uses defaults.
+    // ---- MIGRATION: old selectedStates -> selectedSubL1 ----
+    if (loadedSettings.selectedStates && Array.isArray(loadedSettings.selectedStates)) {
+      if (!Array.isArray(loadedSettings.selectedSubL1)) loadedSettings.selectedSubL1 = [];
+      loadedSettings.selectedStates.forEach((stateCode) => {
+        const converted = `USA-${stateCode}`;
+        if (!loadedSettings.selectedSubL1.includes(converted)) {
+          loadedSettings.selectedSubL1.push(converted);
+        }
+      });
+      delete loadedSettings.selectedStates;
+      migrated = true;
+      logDebug('Migrated legacy selectedStates to selectedSubL1');
+    }
+
+    // --- MERGE with defaults ---
     settings = { ...defaultSettings, ...loadedSettings };
 
+    // --- Save if migrated ---
+    if (migrated) {
+      saveSettingsToStorage();
+      logDebug('Settings saved after migration');
+    }
+
+    // --- Assign globals ---
     isPopupVisible = settings.isPopupVisible;
     useAcronyms = settings.useAcronyms;
     useTitleCase = settings.useTitleCase;
     useStateHwy = settings.useStateHwy;
     removeNewLines = settings.removeNewLines;
 
+    // --- Utility layer functions ---
     settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
       const layerSettings = this.layers[layerID];
       if (!layerSettings) {
@@ -1713,6 +1737,7 @@
       }
       return layerSettings[settingName];
     };
+
     settings.setLayerSetting = function setLayerSetting(layerID, settingName, value) {
       let layerSettings = this.layers[layerID];
       if (!layerSettings) {
@@ -1721,15 +1746,25 @@
       }
       layerSettings[settingName] = value;
     };
+
+    // Remove an individual setting or the entire layer if no settingName
     settings.removeLayerSetting = function removeLayerSetting(layerID, settingName) {
-      const layerSettings = this.layers[layerID];
-      if (layerSettings) {
-        delete layerSettings[settingName];
+      if (typeof settingName === 'undefined') {
+        // Remove the entire layer settings block
+        delete this.layers[layerID];
+      } else {
+        const layerSettings = this.layers[layerID];
+        if (layerSettings) {
+          delete layerSettings[settingName];
+          // If the layerSettings object is now empty, remove the layer entirely
+          if (Object.keys(layerSettings).length === 0) {
+            delete this.layers[layerID];
+          }
+        }
       }
     };
 
-    // Handle legacy shortcut keys settings.
-    // TODO: Delete this later, after most users have updated.
+    // --- Legacy shortcut keys migration ---
     if (settings.toggleHnsOnlyShortcut) {
       settings.shortcuts.toggleHnsOnly = settings.toggleHnsOnlyShortcut;
       delete settings.toggleHnsOnlyShortcut;
