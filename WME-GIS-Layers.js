@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.07.14.00
+// @version      2025.07.27.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -37,7 +37,7 @@
 // @connect agomaps.larimer.org
 // @connect ags.agdmaps.com
 // @connect ags.bhamaps.com
-// @connect ags.kitsapgov.com
+// @connect ags.kitsap.gov
 // @connect ags.myokaloosa.com
 // @connect ags.roseville.ca.us
 // @connect ags1.wgxtreme.com
@@ -49,12 +49,14 @@
 // @connect andrewgis.integritygis.com
 // @connect anrmaps.vermont.gov
 // @connect ansoncountygis.com
+// @connect api.milton.ca
 // @connect apnsgis1.apsu.edu
 // @connect apnsgis4.apsu.edu
 // @connect app.mdt.mt.gov
 // @connect apps.alamance-nc.com
 // @connect apps.fs.usda.gov
 // @connect apps.lickingcounty.gov
+// @connect apps.saltlakecounty.gov
 // @connect apps.vernoncounty.org
 // @connect apps.wyoroad.info
 // @connect arcgis-morrowarcgis-1015369042.us-east-1.elb.amazonaws.com
@@ -91,6 +93,7 @@
 // @connect arcgiswap01.ci.temple.tx.us
 // @connect arcgisweb.carteretcountync.gov
 // @connect arcgisweb.countyofnewaygo.com
+// @connect arcgisweb.welland.ca
 // @connect arcmobile.co.albany.wy.us
 // @connect arcportal.florenceco.org
 // @connect arcserv.co.washington.ar.us
@@ -123,7 +126,8 @@
 // @connect caltrans-gis.dot.ca.gov
 // @connect cama.shelbycountyauditors.com
 // @connect camdengis.integritygis.com
-// @connect cassweb3.co.cass.mn.us
+// @connect carto.nationalmap.gov
+// @connect cassweb.casscountymn.gov
 // @connect cceo.co.comal.tx.us
 // @connect ccmap.cccounty.us
 // @connect cecilmaps.org
@@ -175,6 +179,7 @@
 // @connect feature.geographic.texas.gov
 // @connect feature.tnris.org
 // @connect fieldstone.orangecountync.gov
+// @connect fragis.fra.dot.gov
 // @connect fremontgis.com
 // @connect gasconadegis.integritygis.com
 // @connect gateway.maps.rlid.org
@@ -185,9 +190,11 @@
 // @connect geo.dentoncad.com
 // @connect geo.forsythco.com
 // @connect geo.friscotexas.gov
+// @connect geo.lloydminster.ca
 // @connect geo.oit.ohio.gov
 // @connect geo.sandag.org
 // @connect geo.sanjoseca.gov
+// @connect geo.skagitcountywa.gov
 // @connect geo.statcan.gc.ca
 // @connect geo.tompkins-co.org
 // @connect geo.vbgov.com
@@ -198,10 +205,13 @@
 // @connect geodata.sarpy.com
 // @connect geodataportal.net
 // @connect geonb.snb.ca
+// @connect geoportal.kelowna.ca
 // @connect geopower.jws.com
+// @connect geospatial.alberta.ca
 // @connect geoweb.martin.fl.us
 // @connect geoweb02.ci.richmond.ca.us
 // @connect gis-2.warrencountyny.gov
+// @connect gis-erd-der.gnb.ca
 // @connect gis-server.co.becker.mn.us
 // @connect gis-server.co.montezuma.co.us
 // @connect gis.aacounty.org
@@ -214,7 +224,6 @@
 // @connect gis.apachejunctionaz.gov
 // @connect gis.arapahoegov.com
 // @connect gis.arkansas.gov
-// @connect gis.arlingtonva.us
 // @connect gis.ashecountygov.com
 // @connect gis.ashevillenc.gov
 // @connect gis.atlantaga.gov
@@ -252,6 +261,7 @@
 // @connect gis.cedarfalls.com
 // @connect gis.cedarhilltx.com
 // @connect gis.cherokeega.com
+// @connect gis.chestermere.ca
 // @connect gis.chippewa.mn
 // @connect gis.chisagocountymn.gov
 // @connect gis.ci.janesville.wi.us
@@ -283,7 +293,6 @@
 // @connect gis.co.grant.mn.us
 // @connect gis.co.grant.wi.gov
 // @connect gis.co.green-lake.wi.us
-// @connect gis.co.holmes.oh.us
 // @connect gis.co.hubbard.mn.us
 // @connect gis.co.isanti.mn.us
 // @connect gis.co.josephine.or.us
@@ -325,6 +334,7 @@
 // @connect gis.crookcounty.wy.gov
 // @connect gis.crowwing.us
 // @connect gis.cstx.gov
+// @connect gis.cuyahogacounty.us
 // @connect gis.danville-va.gov
 // @connect gis.dauphincounty.org
 // @connect gis.deerparktx.gov
@@ -334,7 +344,6 @@
 // @connect gis.districtiii.org
 // @connect gis.dogis.org
 // @connect gis.donaanacounty.org
-// @connect gis.dot.nh.gov
 // @connect gis.dot.nv.gov
 // @connect gis.dot.state.oh.us
 // @connect gis.douglascountyks.org
@@ -368,6 +377,7 @@
 // @connect gis.greenegovernment.com
 // @connect gis.greensboro-nc.gov
 // @connect gis.gscplanning.com
+// @connect gis.haldimandcounty.ca
 // @connect gis.hardeecounty.net
 // @connect gis.harnett.org
 // @connect gis.hartford.gov
@@ -403,6 +413,7 @@
 // @connect gis.leecountyil.com
 // @connect gis.lehighcounty.org
 // @connect gis.leoc.net
+// @connect gis.lethbridge.ca
 // @connect gis.lincoln.ne.gov
 // @connect gis.littleelm.org
 // @connect gis.livingstoncounty.us
@@ -434,6 +445,7 @@
 // @connect gis.mono.ca.gov
 // @connect gis.montgomeryal.gov
 // @connect gis.moorecountync.gov
+// @connect gis.moosejaw.ca
 // @connect gis.mytoddcounty.com
 // @connect gis.napa.ca.gov
 // @connect gis.nashcountync.gov
@@ -453,6 +465,7 @@
 // @connect gis.okc.gov
 // @connect gis.orangecountygov.com
 // @connect gis.orangecountyva.gov
+// @connect gis.orrsc.com
 // @connect gis.osceola.org
 // @connect gis.outagamie.org
 // @connect gis.owensboro.org
@@ -472,11 +485,14 @@
 // @connect gis.popecountymn.gov
 // @connect gis.port-orange.org
 // @connect gis.pottcounty-ia.gov
+// @connect gis.princeedwardisland.ca
 // @connect gis.putnam-fl.com
 // @connect gis.qac.org
+// @connect gis.qualicumbeach.com
 // @connect gis.randolphcountync.gov
 // @connect gis.rapides911.org
 // @connect gis.rcgov.org
+// @connect gis.rdck.bc.ca
 // @connect gis.renvillecountymn.com
 // @connect gis.rileycountyks.gov
 // @connect gis.rocklin.ca.us
@@ -488,6 +504,7 @@
 // @connect gis.santa-clarita.com
 // @connect gis.santacruzcounty.us
 // @connect gis.santamonica.gov
+// @connect gis.saskatchewan.ca
 // @connect gis.sawyerwi.org
 // @connect gis.sccwi.gov
 // @connect gis.shastacounty.gov
@@ -550,7 +567,6 @@
 // @connect gis11.services.ncdot.gov
 // @connect gis12.cookcountyil.gov
 // @connect gis2.arlingtontx.gov
-// @connect gis2.arlingtonva.us
 // @connect gis2.co.dakota.mn.us
 // @connect gis2.co.marathon.wi.us
 // @connect gis2.co.ozaukee.wi.us
@@ -582,7 +598,6 @@
 // @connect gisccapps.charlestoncounty.org
 // @connect gisdata.alleghenycounty.us
 // @connect gisdata.dot.ca.gov
-// @connect gisdata.farrwestengineering.com
 // @connect gisdata.in.gov
 // @connect gisdata.jeffersoncountyoh.com
 // @connect gisdata.kingcounty.gov
@@ -593,6 +608,8 @@
 // @connect gisdemo2.cdmsmith.com
 // @connect gisentapp01.highpointnc.gov
 // @connect gisext.lincoln.ne.gov
+// @connect gisext.saskatoon.ca
+// @connect gisext2.cnv.org
 // @connect gishost.cdmsmithgis.com
 // @connect gisinfo.co.portage.wi.gov
 // @connect gisinfo.co.walworth.wi.us
@@ -607,10 +624,10 @@
 // @connect gismaps.cityofboise.org
 // @connect gismaps.cityofgreer.org
 // @connect gismaps.co.cerro-gordo.ia.us
-// @connect gismaps.coconino.az.gov
 // @connect gismaps.columbiapa.org
 // @connect gismaps.flower-mound.com
 // @connect gismaps.fultoncountyga.gov
+// @connect gismaps.guelph.ca
 // @connect gismaps.hctra.org
 // @connect gismaps.kingcounty.gov
 // @connect gismaps.redwoodcity.org
@@ -632,6 +649,7 @@
 // @connect gisportal.ontarioca.gov
 // @connect gisportal.stocktonca.gov
 // @connect gisportal.stpgov.org
+// @connect gisportal.whitehorse.ca
 // @connect gispro.porterco.org
 // @connect gisprod10.co.fresno.ca.us
 // @connect gisprodops.chesco.org
@@ -640,7 +658,6 @@
 // @connect gispublic.co.lake.ca.us
 // @connect gispw.coloradosprings.gov
 // @connect gisrevprxy.seattle.gov
-// @connect giss3.cmpdd.org
 // @connect gisserver.christiancountymo.gov
 // @connect gisservice.cityofmesquite.com
 // @connect gisservicemt.gov
@@ -650,6 +667,7 @@
 // @connect gisservices.douglasnv.us
 // @connect gisservices.its.ny.gov
 // @connect gisservices.oakgov.com
+// @connect gisservices.surrey.ca
 // @connect gisservices2.suffolkcountyny.gov
 // @connect gissites4.centrecountypa.gov
 // @connect gissvr.watgov.org
@@ -670,6 +688,7 @@
 // @connect gisweb.pwcva.gov
 // @connect gisweb.wycokck.org
 // @connect gisweb2014.gordoncounty.org
+// @connect giswebservices.countygp.ab.ca
 // @connect giswww.westchestergov.com
 // @connect git.co.tioga.ny.us
 // @connect gmdnags.colliercountyfl.gov
@@ -710,7 +729,6 @@
 // @connect lcmaps.lanecounty.org
 // @connect lee-arcgis.leecountync.gov
 // @connect lincolngis.integritygis.com
-// @connect linngis.integritygis.com
 // @connect lio.milwaukeecountywi.gov
 // @connect livingstongis.integritygis.com
 // @connect location.cabarruscounty.us
@@ -730,9 +748,12 @@
 // @connect map.co.trempealeau.wi.us
 // @connect map.coppelltx.gov
 // @connect map.eaglecounty.us
+// @connect map.haltonhills.ca
 // @connect map.newberrycounty.net
 // @connect map.opkansas.org
+// @connect map.oshawa.ca
 // @connect map.pikepass.com
+// @connect map.rdn.bc.ca
 // @connect map.stclairco.com
 // @connect map.sussexcountyde.gov
 // @connect map.wyoroad.info
@@ -745,13 +766,17 @@
 // @connect mapit.tarrantcounty.com
 // @connect mapitwest.fortworthtexas.gov
 // @connect mapping.adamscountypa.gov
+// @connect mapping.burlington.ca
+// @connect mapping.chilliwack.com
 // @connect mapping.kenoshacountywi.gov
 // @connect mapping.mitchellcounty.org
 // @connect mapping.modot.org
+// @connect mappmycity.ca
 // @connect maps.adaok.com
 // @connect maps.alexandercountync.gov
 // @connect maps.alexandriava.gov
 // @connect maps.austintexas.gov
+// @connect maps.banff.ca
 // @connect maps.bannockcounty.us
 // @connect maps.bayfieldcounty.wi.gov
 // @connect maps.bcad.org
@@ -765,6 +790,7 @@
 // @connect maps.bryantx.gov
 // @connect maps.burlesontx.com
 // @connect maps.butlercountyauditor.org
+// @connect maps.cambridge.ca
 // @connect maps.canyonco.org
 // @connect maps.capturecama.com
 // @connect maps.casperwy.gov
@@ -808,6 +834,7 @@
 // @connect maps.crc.ga.gov
 // @connect maps.ctmetro.org
 // @connect maps.currituckcountync.gov
+// @connect maps.cvrd.ca
 // @connect maps.dancgis.org
 // @connect maps.dcad.org
 // @connect maps.delco-gis.org
@@ -815,10 +842,12 @@
 // @connect maps.deschutes.org
 // @connect maps.desotocountyms.gov
 // @connect maps.dmgov.org
+// @connect maps.dot.nh.gov
 // @connect maps.dotd.la.gov
 // @connect maps.douglascountyga.gov
 // @connect maps.douglascountywa.net
 // @connect maps.dsm.city
+// @connect maps.durham.ca
 // @connect maps.elbertcounty-co.gov
 // @connect maps.escpa.org
 // @connect maps.etcog.org
@@ -835,6 +864,7 @@
 // @connect maps.grcity.us
 // @connect maps.groton-ct.gov
 // @connect maps.grundyco.org
+// @connect maps.haldimandcounty.on.ca
 // @connect maps.hayward-ca.gov
 // @connect maps.haywoodnc.net
 // @connect maps.highlandvillage.org
@@ -844,6 +874,7 @@
 // @connect maps.iredellcountync.gov
 // @connect maps.itos.uga.edu
 // @connect maps.jocogov.org
+// @connect maps.kamloops.ca
 // @connect maps.kytc.ky.gov
 // @connect maps.lacity.org
 // @connect maps.lagrange-ga.org
@@ -856,6 +887,7 @@
 // @connect maps.libertymo.gov
 // @connect maps.lincolncountysd.org
 // @connect maps.linkgis.org
+// @connect maps.london.ca
 // @connect maps.matsugov.us
 // @connect maps.mckinneytexas.org
 // @connect maps.meshekgis.com
@@ -872,6 +904,7 @@
 // @connect maps.ocgov.net
 // @connect maps.opkansas.org
 // @connect maps.orcity.org
+// @connect maps.ottawa.ca
 // @connect maps.palmcoastgov.com
 // @connect maps.parkco.us
 // @connect maps.phoenix.gov
@@ -888,7 +921,7 @@
 // @connect maps.sccmo.org
 // @connect maps.semogis.com
 // @connect maps.sfdpw.org
-// @connect maps.sgcity.org
+// @connect maps.sgcityutah.gov
 // @connect maps.shelbyal.com
 // @connect maps.slocity.org
 // @connect maps.spartanburgcounty.org
@@ -899,14 +932,18 @@
 // @connect maps.tippecanoe.in.gov
 // @connect maps.townofcary.org
 // @connect maps.udot.utah.gov
+// @connect maps.vancouver.ca
 // @connect maps.vcgi.vermont.gov
 // @connect maps.ventura.org
+// @connect maps.victoria.ca
 // @connect maps.victoriatx.org
 // @connect maps.vilascountywi.gov
 // @connect maps.vtrans.vermont.gov
 // @connect maps.wake.gov
 // @connect maps.washco-md.net
 // @connect maps.washcowisco.gov
+// @connect maps.whiterockcity.ca
+// @connect maps1.brampton.ca
 // @connect maps1.eriecounty.oh.gov
 // @connect maps1.larimer.org
 // @connect maps11.eriecounty.oh.gov
@@ -925,8 +962,10 @@
 // @connect mapserv.cityofloveland.org
 // @connect mapserv.mesquitenv.gov
 // @connect mapservice.nmstatelands.org
+// @connect mapservices.crd.bc.ca
 // @connect mapservices.gis.saccounty.net
 // @connect mapservices.gov.yk.ca
+// @connect mapservices.nps.gov
 // @connect mapservices.pasda.psu.edu
 // @connect mapservices.santacruzcountyaz.gov
 // @connect mapservices.sccgov.org
@@ -961,6 +1000,7 @@
 // @connect oc17maps.co.oconto.wi.us
 // @connect ocgis4.ocfl.net
 // @connect oncorng.co.ontario.ny.us
+// @connect opengis.regina.ca
 // @connect operationserver.ci.henderson.nc.us
 // @connect orfmaps.norfolk.gov
 // @connect osagegis.integritygis.com
@@ -976,7 +1016,8 @@
 // @connect polkgis.integritygis.com
 // @connect portal.carolinabeach.org
 // @connect portal.carson.org
-// @connect portal.henrico.us
+// @connect portal.henrico.gov
+// @connect portal.niagarafalls.ca
 // @connect programs.iowadnr.gov
 // @connect propaccess.wadtx.com
 // @connect propertyviewer.andersoncountysc.org
@@ -1017,7 +1058,6 @@
 // @connect services.gisqatar.org.qa
 // @connect services.mh-gis.com
 // @connect services.nconemap.gov
-// @connect services.putnamco.org
 // @connect services.sagis.org
 // @connect services.wvgis.wvu.edu
 // @connect services1.arcgis.com
@@ -1032,7 +1072,6 @@
 // @connect showlowmaps.com
 // @connect skyview.hornershifrin.com
 // @connect slcgis.stlucieco.gov
-// @connect slco.org
 // @connect smgis.sanmarcostx.gov
 // @connect smithvillegis.integritygis.com
 // @connect smpesri.scdot.org
@@ -1089,8 +1128,10 @@
 // @connect webstergis.integritygis.com
 // @connect wfs.ksdot.org
 // @connect wfs.schneidercorp.com
+// @connect ws.lioservices.lrc.gov.on.ca
 // @connect wvsams.mapwv.org
 // @connect ww1.bucoks.com
+// @connect ww8.yorkmaps.ca
 // @connect www.1stdistrict.org
 // @connect www.adacountyassessor.org
 // @connect www.adamscountyarcserver.com
@@ -1126,11 +1167,11 @@
 // @connect www.mymanatee.org
 // @connect www.ocgis.com
 // @connect www.portlandmaps.com
+// @connect www.rdcogis.com
 // @connect www.sciotocountyengineer.org
 // @connect www.semogis.com
 // @connect www.sgrcmaps.com
 // @connect www.sjmap.org
-// @connect www.skagitcounty.net
 // @connect www.smithcountymapsite.org
 // @connect www.tgisites.com
 // @connect www.valorgis.com
@@ -1158,15 +1199,12 @@
 
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'Minor update: 2025.07.14.00',
-    'Convert Old Layer Settings to new version format',
-    '',
-    'Major update: 2025.07.13.00',
-    'Added Support for Additional Countries!',
-    'Load only the layers for the country and the 1st level subdivision given the current WME viewport.',
-    'Replaced US Census Tiger graph service with a new library using boundary boxes and GEOJSON objects.',
-    'Updated ArcGIS web services to return EPSG:4326 (WGS 84) instead of EPSG:3857, aligning with the new SDK requirement for coordinates',
-  ];
+  'Major update: 2025.07.27.00',
+  'New: Saved Layer Groups!',
+  'Easily save, load, and manage sets of visible layers and region selections using a new popup dialog.',
+  'Access the new "Manage Custom Groups" popup in Settings > Layer Groupings.',
+  'New "Load All Layers" option: Instantly loads every County and State layer, making it even easier to create groups across states.',
+];
 
   // **************************************************************************************************************
   // IMPORTANT: Update this when releasing a new version of script that includes changes to the spreadsheet format
@@ -1435,7 +1473,6 @@
   // function logWarning(message) { console.warn('GIS Layers:', message); }
 
   let _layerSettingsDialog;
-
   class LayerSettingsDialog {
     #gisLayer;
     #minVisibleAtZoom = 12;
@@ -1446,33 +1483,42 @@
 
     constructor() {
       this.#titleText = $('<span>');
+
       const closeButton = $('<span>', {
-        style: 'cursor:pointer;padding-left:4px;font-size:17px;color:#d6e6f3;float:right;',
+        style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#eaf6ff;float:right;',
         class: 'fa fa-window-close',
+        title: 'Close',
       }).click(() => this.#onCloseButtonClick());
+
       const shiftUpButton = LayerSettingsDialog.#createShiftButton('fa-angle-up').click(() => this.#onShiftButtonClick(0, 1));
       const shiftLeftButton = LayerSettingsDialog.#createShiftButton('fa-angle-left').click(() => this.#onShiftButtonClick(-1, 0));
       const shiftRightButton = LayerSettingsDialog.#createShiftButton('fa-angle-right').click(() => this.#onShiftButtonClick(1, 0));
       const shiftDownButton = LayerSettingsDialog.#createShiftButton('fa-angle-down').click(() => this.#onShiftButtonClick(0, -1));
       const resetOffsetButton = $('<button>', {
         class: 'form-control',
-        style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px; display: inline-block; float: right;',
+        style:
+          'height: 26px; width: auto; padding: 2px 12px 2px 12px; display: inline-block; float: right; font-weight:bold;background:#4d6a88;color:#eaf6ff;border-radius:5px;border:1px solid #4d6a88;margin-left:4px;',
       })
         .text('Reset')
         .click(() => this.#onResetOffsetButtonClick());
 
       this._dialogDiv = $('<div>', {
         style:
-          'position: fixed; top: 15%; left: 400px; width: 200px; z-index: 100; background-color: #73a9bd; border-width: 1px; border-style: solid;' +
-          'border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); border-color: #50667b; padding: 4px;',
+          // Modern blue theme & rounded & drop shadow
+          'position: fixed; top: 15%; left: 400px; width: 235px; z-index: 100; background: #73a9bd;' +
+          'border-width: 1px; border-style: solid; border-radius: 14px; box-shadow: 5px 6px 14px rgba(0,0,0,0.58);' +
+          'border-color: #50667b; padding: 0; font-family: inherit;',
       }).append(
         $('<div>').append(
-          // The extra div is needed here. When the header text wraps, the main dialog div won't expand properly without it.
           // HEADER
-          $('<div>', { style: 'border-radius:5px 5px 0px 0px; padding: 4px; color: #fff; font-weight: bold; text-align:left; cursor: default;' }).append(closeButton, this.#titleText),
+          $('<div>', {
+            style: 'border-radius:14px 14px 0px 0px; padding: 5px 5px 5px 5px; color: #fff; background:#4d6a88;font-weight: bold; text-align:left; font-size:17px;',
+          }).append(this.#titleText, closeButton),
           // BODY
-          $('<div>').append(
-            $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color:#d6e6f3; display:inline-block; margin-right:5px;' }).append(
+          $('<div>', { style: 'padding: 5px 5px 5px 5px;' }).append(
+            $('<div>', {
+              style: 'border-radius: 7px; width: 100%; padding:8px 6px 10px 8px; background:#d6e6f3; margin-bottom:6px; margin-right:0; box-sizing:border-box;',
+            }).append(
               resetOffsetButton,
               $('<input>', {
                 type: 'radio',
@@ -1480,43 +1526,49 @@
                 name: 'gisLayerShiftAmt',
                 value: '1',
                 checked: 'checked',
+                style: 'margin-left:4px;accent-color:#4d6a88;',
               }),
-              $('<label>', { for: 'gisLayerShiftAmt1' }).text('1m'),
+              $('<label>', { for: 'gisLayerShiftAmt1', style: 'margin-right:8px;margin-left:2px;color:#4d6a88;font-weight:600;font-size:13px;' }).text('1m'),
               $('<input>', {
                 type: 'radio',
                 id: 'gisLayerShiftAmt10',
                 name: 'gisLayerShiftAmt',
                 value: '10',
-                style: 'margin-left: 6px',
+                style: 'margin-left: 6px;accent-color:#4d6a88;',
               }),
-              $('<label>', { for: 'gisLayerShiftAmt10' }).text('10m'),
-              $('<div>', { style: 'padding: 4px' }).append(
-                $('<table>', { style: 'table-layout:fixed; width:60px; height:84px; margin-left:auto;margin-right:auto;' }).append(
-                  $('<tr>', { style: 'width: 20px; height: 28px;' }).append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftUpButton), $('<td>', { align: 'center' })),
-                  $('<tr>', { style: 'width: 20px; height: 28px;' }).append(
-                    $('<td>', { align: 'center' }).append(shiftLeftButton),
-                    $('<td>', { align: 'center' }),
-                    $('<td>', { align: 'center' }).append(shiftRightButton)
-                  ),
-                  $('<tr>', { style: 'width: 20px; height: 28px;' }).append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftDownButton), $('<td>', { align: 'center' }))
+              $('<label>', { for: 'gisLayerShiftAmt10', style: 'color:#4d6a88;font-weight:600;font-size:13px;' }).text('10m'),
+              $('<div>', { style: 'padding: 6px 0 0 0;' }).append(
+                $('<table>', { style: 'table-layout:fixed; width:70px; height:84px; margin:auto;' }).append(
+                  $('<tr>').append($('<td>', { align: 'center', style: 'width:20px;height:28px;' }), $('<td>', { align: 'center', style: 'width:20px;' }).append(shiftUpButton), $('<td>')),
+                  $('<tr>').append($('<td>', { align: 'center' }).append(shiftLeftButton), $('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftRightButton)),
+                  $('<tr>').append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftDownButton), $('<td>', { align: 'center' }))
                 )
               )
             ),
-            $('<div>', { style: 'border-radius: 5px; width: 100%; padding: 4px; background-color: #d6e6f3; display: inline-block; margin-right: 5px; margin-top: 2px;' }).append(
-              $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 4px;' }).append(
-                $('<button>', { class: 'form-control', style: 'height: 24px; width: auto; padding: 2px 6px 0px 6px;' }).text('Reset').click(this.#onResetVisibleAtZoomClick.bind(this))
+            $('<div>', {
+              style: 'border-radius: 7px; width:100%; padding:12px 8px 8px 10px; margin-top:2px; background: #d6e6f3; margin-right:0px;box-sizing:border-box;',
+            }).append(
+              $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 8px;' }).append(
+                $('<button>', {
+                  class: 'form-control',
+                  style: 'height: 26px; width:auto;padding: 2px 12px 2px 12px; background:#4d6a88;color:#eaf6ff;border:1px solid #4d6a88;font-weight:bold;border-radius:5px;',
+                })
+                  .text('Reset')
+                  .click(this.#onResetVisibleAtZoomClick.bind(this))
               ),
               $('<div>').append(
-                $('<label>', { for: 'visible-at-zoom-input' }).text('Visible at zoom:'),
+                $('<label>', { for: 'visible-at-zoom-input', style: 'font-size:14px;font-weight:bold;color:#4d6a88;' }).text('Visible at zoom:'),
                 (this.#visibleAtZoomInput = $('<input>', {
                   type: 'number',
                   id: 'visible-at-zoom-input',
                   min: this.#minVisibleAtZoom,
                   max: this.#maxVisibleAtZoom,
-                  style: 'margin-left: 4px;',
+                  style: 'margin-left: 6px; width:46px;font-size:13px;border-radius:3px;',
                 }).change((v) => this.#onVisibleAtZoomChange(v)))
               ),
-              $('<div>', { style: 'font-size: 13px; color: gray' }).text('Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.')
+              $('<div>', { style: 'font-size: 12.5px; color: #4d6a88; margin-top:5px;white-space:pre-line;text-align:left;' }).text(
+                'Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.'
+              )
             )
           )
         )
@@ -1528,7 +1580,6 @@
       if (typeof jQuery.ui !== 'undefined') {
         const that = this;
         this._dialogDiv.draggable({
-          // Gotta nuke the height setting the dragging inserts otherwise the panel cannot dynamically resize
           stop() {
             that._dialogDiv.css('height', '');
           },
@@ -1552,7 +1603,6 @@
       this.#visibleAtZoomInput.val(getGisLayerVisibleAtZoom(this.#gisLayer));
     }
 
-    // eslint-disable-next-line class-methods-use-this
     getShiftAmount() {
       return $('input[name=gisLayerShiftAmt]:checked').val();
     }
@@ -1617,7 +1667,7 @@
     }
 
     #shiftLayerFeatures(x, y) {
-      // JS55CT Given the inputs have been updated to Degrees, shifting my meeters still make sence and works.
+      //Given the inputs have been updated to Degrees, shifting by meters still makes sense and works.
       const { isRoadLayer } = this.gisLayer;
       let featureCollection = isRoadLayer ? roadFeatures : defaultFeatures;
       const { distance, bearing } = LayerSettingsDialog.#calculateDistanceAndBearing(x, y);
@@ -1657,8 +1707,9 @@
     static #createShiftButton(fontAwesomeClass) {
       return $('<button>', {
         class: 'form-control',
-        style: 'cursor:pointer;font-size:14px;padding: 3px;border-radius: 5px;width: 21px;height: 21px;',
-      }).append($('<i>', { class: 'fa', style: 'vertical-align: super' }).addClass(fontAwesomeClass));
+        style:
+          'cursor:pointer;font-size:15px;padding: 3px;border-radius: 8px;width: 25px;height: 25px;background:#eaf6ff;border:1px solid #8ea0b7;color:#4d6a88;box-shadow:0 1.5px 4px #b6d0eb66;margin:1.5px;',
+      }).append($('<i>', { class: 'fa', style: 'vertical-align: middle;font-size:16px;' }).addClass(fontAwesomeClass));
     }
   }
 
@@ -3032,6 +3083,23 @@
     }
   }
 
+  async function batchUpdateSelectedSubL1() {
+    // Gather all checked subL1's from DOM
+    const checked = $('.gis-layers-subL1-checkbox:checked')
+      .map(function () {
+        return $(this).data('sub');
+      })
+      .get();
+
+    settings.selectedSubL1 = checked;
+
+    if (!ignoreFetch) {
+      saveSettingsToStorage();
+      initLayersTab();
+      await fetchFeatures();
+    }
+  }
+
   function onLayerCheckboxChanged(args) {
     setEnabled(args.checked);
   }
@@ -3277,6 +3345,7 @@
         }),
       ];
     };
+
     $('#panel-gis-layers-settings')
       .empty()
       .append(
@@ -3321,6 +3390,8 @@
       .sort()
       .forEach((country) => {
         const subRegions = _.uniq(layersByCountry[country].map((l) => l.countrySubL1));
+        // Unique selector base for this country
+        const countryContainerId = `country_${country}_body`;
 
         $('#panel-gis-layers-settings').append(
           $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before:0;' }).append(
@@ -3330,7 +3401,15 @@
                 $('<i>', { class: 'fa fa-fw fa-chevron-down', style: 'cursor: pointer;font-size: 12px;margin-right: 4px' }),
                 $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text(NameMapper.toFullName(country))
               ),
-            $('<div>', { id: `country_${country}_body` }).append(
+            $('<div>', { id: countryContainerId }).append(
+              // One Select All/None row per COUNTRY
+              $('<div>', { class: 'gis-select-all-controls', style: 'font-size:11px;margin-bottom:4px;' }).append(
+                'Select ',
+                $('<a>', { href: '#', 'data-country': country, class: 'gis-select-all-country' }).text('All'),
+                ' / ',
+                $('<a>', { href: '#', 'data-country': country, class: 'gis-select-none-country' }).text('None')
+              ),
+              // All the subregion checkboxes
               subRegions.map((countrySubL1) => {
                 const fullName = NameMapper.toFullName(countrySubL1);
                 const id = `gis-layer-enable-subL1-${countrySubL1}`;
@@ -3338,7 +3417,15 @@
                 return $('<div>', { class: 'controls-container' })
                   .css({ 'padding-top': '0px', display: 'block' })
                   .append(
-                    $('<input>', { type: 'checkbox', id, class: 'gis-layers-subL1-checkbox' }).change(countrySubL1, onSub1CheckChanged).prop('checked', settings.selectedSubL1.includes(countrySubL1)),
+                    $('<input>', {
+                      type: 'checkbox',
+                      id,
+                      class: 'gis-layers-subL1-checkbox',
+                      'data-sub': countrySubL1,
+                      'data-country': country,
+                    })
+                      .change(countrySubL1, onSub1CheckChanged)
+                      .prop('checked', settings.selectedSubL1.includes(countrySubL1)),
                     $('<label>', { for: id }).css({ 'white-space': 'pre-line' }).text(fullName)
                   );
               })
@@ -3360,11 +3447,71 @@
           )
       )
     );
+
     $('input[name="gisAddrDisplay"]').change(onGisAddrDisplayChange);
     $('input[name="popupVisibility"]').change(function () {
       isPopupVisible = $(this).val() === 'show';
       togglePopupVisibility();
     });
+
+    // -- add NEW CUSTOM Group Popup & Load All Button  --
+    $('#panel-gis-layers-settings').append(
+      $('<fieldset>', { style: 'border:1px solid #8ea0b7;margin-top:6px;padding:8px;border-radius:4px;' }).append(
+        $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' }).append(
+          $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text('Layer Groupings')
+        ),
+        $('<div>').append(
+          $('<button>', {
+            id: 'gis-manager-launch-btn',
+            class: 'form-control',
+            style: 'display:inline-block;padding:2px 8px;margin-top:3px; background:#4d6a88; color:#eaf6ff; border:1px solid #50667b;',
+          }).text('Manage Custom Groups'),
+          $('<button>', {
+            id: 'gis-load-all-btn',
+            class: 'form-control',
+            style: 'display:inline-block;padding:2px 8px;margin-top:3px;background:#548342;color:#fff;border:1px solid #406927;',
+            title: 'Load ALL country/state/region layers for custom grouping (slower)',
+          }).text('Load All Layers')
+        )
+      )
+    );
+
+    $('#gis-manager-launch-btn').off('click').on('click', openLayerGroupManagerDialog);
+
+    $('#gis-load-all-btn')
+      .off('click')
+      .on('click', async function () {
+        $(this).prop('disabled', true).text('Loading...');
+        try {
+          await loadSpreadsheetAsync('ALL');
+          initTab(false);
+          logDebug('All layers loaded!');
+        } catch (e) {
+          logError(`Error in load all Layers: ${e.message || e}`);
+        }
+        $(this).prop('disabled', false).text('Load All Layers');
+      });
+
+    // Select all subregions under a country
+    $('#panel-gis-layers-settings')
+      .off('click', '.gis-select-all-country')
+      .on('click', '.gis-select-all-country', async function (e) {
+        e.preventDefault();
+        const country = $(this).data('country');
+        // Check all
+        $(`.gis-layers-subL1-checkbox[data-country="${country}"]`).prop('checked', true);
+        await batchUpdateSelectedSubL1(); // <- collect and process ONCE
+      });
+
+    $('#panel-gis-layers-settings')
+      .off('click', '.gis-select-none-country')
+      .on('click', '.gis-select-none-country', async function (e) {
+        e.preventDefault();
+        const country = $(this).data('country');
+        // Uncheck all
+        $(`.gis-layers-subL1-checkbox[data-country="${country}"]`).prop('checked', false);
+        await batchUpdateSelectedSubL1(); // <- collect and process ONCE
+      });
   }
 
   async function initTab(firstCall = true) {
@@ -3445,6 +3592,234 @@
     } else {
       initTab(firstCall);
     }
+  }
+
+  function openLayerGroupManagerDialog() {
+    if ($('#gis-layer-group-dialog').length) return;
+
+    // --- Color & style constants for easy palette harmonization ---
+    const BTN_STYLE_BLUE =
+      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
+      'border:1.5px solid #50667b;border-radius:7px; font-size:15px;font-weight:600;' +
+      'background:#4d6a88;color:#eaf6ff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
+    const BTN_STYLE_GREEN =
+      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
+      'border:1.5px solid #406927;border-radius:7px;font-size:15px;font-weight:600;' +
+      'background:#548342;color:#fff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
+    const BTN_STYLE_RED =
+      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
+      'border:1.5px solid #9b2020;border-radius:7px;font-size:15px;font-weight:600;' +
+      'background:#c14444;color:#fff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
+    const BTN_STYLE_ORANGE =
+      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
+      'border:1.5px solid #9c5b13;border-radius:7px;font-size:15px;font-weight:600;' +
+      'background:#d58431;color:#fff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
+
+    const scriptName = typeof GM_info !== 'undefined' ? GM_info.script.name : 'Layer Groups';
+
+    // Header and close
+    const $title = $('<span>').text(scriptName + ' — Layer Groups');
+    const $close = $('<span>', {
+      style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#eaf6ff;float:right;',
+      class: 'fa fa-window-close',
+      title: 'Close',
+      tabindex: 0,
+    }).on('click keydown', function (e) {
+      if (e.type === 'click' || (e.type === 'keydown' && (e.key === 'Enter' || e.key === ' '))) $dlg.remove();
+    });
+
+    // Dialog container
+    const $dlg = $('<div>', {
+      id: 'gis-layer-group-dialog',
+      style:
+        'position:fixed; top:14%; left:420px; width:400px; z-index:99999;' +
+        'background:#73a9bd; border-width:1px; border-style:solid; border-radius:14px;' +
+        'box-shadow:5px 6px 14px rgba(0,0,0,0.58); border-color:#50667b; padding:0; font-family:inherit;',
+    });
+
+    // Header
+    $dlg.append(
+      $('<div>', {
+        style: 'border-radius:14px 14px 0px 0px; padding: 7px 14px; color: #fff; background:#4d6a88; font-weight:bold; text-align:left; font-size:17px;',
+      }).append($title, $close)
+    );
+
+    // --- Section: Current Selection ---
+    const $section1 = $('<div>', {
+      style: 'border-radius: 7px; background: #d6e6f3; margin:8px 8px 8px 8px; padding:8px 8px 8px 8px; box-shadow:0 1px 5px #0001;',
+    }).append(
+      $('<div>', { style: 'font-size:15.5px;font-weight:700;color:#355870;margin-bottom:6px;' }).text('Current Selection'),
+      $('<div>', { style: 'font-size:13.3px;color:#468;margin-bottom:13px;' }).text('Save or load your current visible layers and region selections as quick-access groups.'),
+      $('<div>', { style: 'display:flex;gap:14px;align-items:center;margin-top:4px;' }).append(
+        $('<button>', {
+          class: 'GISGroupDlg-btn',
+          style: BTN_STYLE_RED,
+          title: 'Remove all selected sub-regions and visible layers',
+        })
+          .text('Clear All')
+          .on('click', function () {
+            WazeWrap.Alerts.confirm(
+              scriptName,
+              '<div style="color:#ff0000; font-size:17px; font-weight:bold; padding:10px 0; text-align:center;">' +
+                'Are you sure you want to remove all visible layers, and region selections?' +
+                '</div>',
+              function () {
+                settings.selectedSubL1 = [];
+                settings.visibleLayers = [];
+                settings.collapsedSections = {};
+                saveSettingsToStorage();
+                loadSettingsFromStorage();
+                initGui(false);
+                $dlg.remove();
+              }
+            );
+          }),
+        $('<button>', {
+          class: 'GISGroupDlg-btn',
+          style: BTN_STYLE_BLUE,
+          title: 'Save current layers and selections as a group',
+        })
+          .text('Save as Group')
+          .on('click', function () {
+            WazeWrap.Alerts.prompt(scriptName, 'Enter a name for this group:', '', function (result, name) {
+              if (!result || !name || !name.trim()) return;
+              settings.layerGroups = settings.layerGroups || {};
+              if (settings.layerGroups[name]) {
+                WazeWrap.Alerts.confirm(scriptName, 'Group "' + name + '" exists. Overwrite?', function () {
+                  doSaveGroup(name, true);
+                });
+              } else {
+                doSaveGroup(name, false);
+              }
+              function doSaveGroup(groupName, overwritten) {
+                settings.layerGroups[groupName] = {
+                  selectedSubL1: [...settings.selectedSubL1],
+                  visibleLayers: [...settings.visibleLayers],
+                  collapsedSections: { ...settings.collapsedSections },
+                  addrLabelDisplay: settings.addrLabelDisplay,
+                  fillParcels: settings.fillParcels,
+                };
+                saveSettingsToStorage();
+                loadSettingsFromStorage();
+                populateGroupSelect();
+                setTimeout(function () {
+                  if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.success === 'function') {
+                    WazeWrap.Alerts.success(scriptName, 'Layer group saved as "' + groupName + '"' + (overwritten ? ' (overwritten)' : ''));
+                  } else {
+                    alert('Layer group saved as "' + groupName + '"' + (overwritten ? ' (overwritten)' : ''));
+                  }
+                }, 150);
+              }
+            });
+          })
+      )
+    );
+
+    // --- Section: My Saved Groups ---
+    const $groupSelect = $('<select>', {
+      id: 'gis-layer-group-select',
+      style:
+        'font-size:13px; border-radius:4px; border:1px solid #356079; padding:7px 12px;' +
+        'min-width:250px; max-width:365px; margin-right:8px; outline:none;' +
+        'background:#eaf4fd; color:#17354e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;',
+    });
+
+    function populateGroupSelect() {
+      $groupSelect.empty();
+      const groups = settings.layerGroups || {};
+      if (Object.keys(groups).length === 0) {
+        $groupSelect.append($('<option>', { disabled: true, selected: true, text: 'No groups saved' }));
+        return;
+      }
+      $groupSelect.append($('<option>', { selected: true, disabled: true, text: 'Select group...' }));
+      Object.keys(groups).forEach((groupName) => {
+        $groupSelect.append($('<option>', { value: groupName, text: groupName, title: groupName }));
+      });
+    }
+    populateGroupSelect();
+
+    const $section2 = $('<div>', {
+      style: 'border-radius: 7px; background: #d6e6f3; margin:8px 8px 8px 8px; padding:8px 8px 8px 8px; box-shadow:0 1px 5px #0001;',
+    }).append(
+      $('<div>', { style: 'font-size:14.5px;font-weight:700;color:#355870;margin-bottom:10px;' }).text('My Saved Groups'),
+      $('<div>', { style: 'margin-bottom:8px;' }).append($groupSelect),
+      $('<div>', { style: 'display:flex;gap:12px;align-items:center;margin-top:6px;' }).append(
+        $('<button>', {
+          class: 'GISGroupDlg-btn',
+          style: BTN_STYLE_GREEN,
+          title: 'Load selected group',
+        })
+          .text('Load Group')
+          .on('click', function () {
+            const group = $groupSelect.val();
+            if (!group || !(settings.layerGroups && settings.layerGroups[group])) {
+              if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.info === 'function') {
+                WazeWrap.Alerts.info(scriptName, 'Please select a group to load.');
+              } else {
+                alert('Please select a group to load.');
+              }
+              return;
+            }
+            const grp = settings.layerGroups[group];
+            settings.selectedSubL1 = [...grp.selectedSubL1];
+            settings.visibleLayers = [...grp.visibleLayers];
+            settings.collapsedSections = { ...grp.collapsedSections };
+            settings.addrLabelDisplay = grp.addrLabelDisplay;
+            settings.fillParcels = grp.fillParcels;
+            saveSettingsToStorage();
+            loadSettingsFromStorage();
+            initGui(false);
+            $dlg.remove();
+          }),
+        $('<button>', {
+          class: 'GISGroupDlg-btn',
+          style: BTN_STYLE_ORANGE,
+          title: 'Delete selected group',
+        })
+          .text('Delete Group')
+          .on('click', function () {
+            const group = $groupSelect.val();
+            if (!group || !(settings.layerGroups && settings.layerGroups[group])) {
+              if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.info === 'function') {
+                WazeWrap.Alerts.info(scriptName, 'Please select a group to delete.');
+              } else {
+                alert('Please select a group to delete.');
+              }
+              return;
+            }
+            WazeWrap.Alerts.confirm(
+              scriptName,
+              '<div style="color:#ff0000; font-size:17px; font-weight:bold; padding:10px 0; text-align:Left;">' +
+              'Delete group "' + group + '"? \nThis cannot be undone!' + 
+               '</div>',
+              function () {
+              delete settings.layerGroups[group];
+              saveSettingsToStorage();
+              loadSettingsFromStorage();
+              populateGroupSelect();
+              setTimeout(function () {
+                if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.success === 'function') {
+                  WazeWrap.Alerts.success(scriptName, 'Group "' + group + '" deleted.');
+                } else {
+                  alert('Group "' + group + '" deleted.');
+                }
+              }, 150);
+            });
+          })
+      )
+    );
+
+    // Build and insert dialog
+    $dlg.append($section1, $section2);
+    $dlg.appendTo('body');
+
+    // Make draggable if possible
+    if (typeof jQuery.ui !== 'undefined') $dlg.draggable({ stop: () => $dlg.css('height', '') });
+
+    $(document).on('keydown.gisLayerDialog', function (e) {
+      if (e.key === 'Escape') $dlg.remove();
+    });
+    $dlg.on('remove', () => $(document).off('keydown.gisLayerDialog'));
   }
 
   /**
@@ -3587,11 +3962,12 @@
    * Features:
    * - Utilizes Google Sheets API for configuration data retrieval.
    * - Integrates comprehensive error handling and debugging output.
+   * - If isoCode or regionCodes == "ALL", loads all layers (for manager UI etc).
    *
    * Error Handling:
    * - Throws errors for failed spreadsheet calls and logs issues with data parsing or processing tasks.
    *
-   * @param {string} isoCode - Country ISO code for selecting the spreadsheet tab and data.
+   * @param {string} isoCode - Country ISO code for selecting the spreadsheet tab and data or "ALL".
    * @param {Set<string>} regionCodes - Set of subdivision codes used to filter visible GIS layers.
    * @returns {Promise<Object>} - Object containing error information, if any occurs during processing.
    */
@@ -3639,15 +4015,25 @@
       result.error = 'Script expected specific column names that are missing.';
     }
 
+    // ---- NEW: support for "ALL" mode ----
+    // Accepts "ALL" (case-insensitive) for either isoCode or regionCodes
+    const loadAll = (typeof isoCode === 'string' && isoCode.toUpperCase() === 'ALL') || (typeof regionCodes === 'string' && regionCodes.toUpperCase() === 'ALL');
+
+    // For safety, regionCodes may be undefined if not passed
+    // We'll ensure we can always use .has() on it, unless loading all
+    if (!loadAll && (!regionCodes || typeof regionCodes.has !== 'function')) {
+      regionCodes = new Set();
+    }
+
     if (!result.error) {
       layerDefRows
         .filter((row) => row.length)
         .forEach((layerDefRow) => {
           const layerDef = { enabled: '0' };
-          let validSubL1 = false;
           let countryId = '';
           let subL1Upper = '';
 
+          // Parse fields
           fieldNames.forEach((fldName, fldIdx) => {
             let value = layerDefRow[fldIdx];
             if (value !== undefined && value.trim().length > 0) {
@@ -3676,7 +4062,6 @@
               } else if (fldName === 'subL1') {
                 subL1Upper = value.toUpperCase();
                 layerDef[fldName] = subL1Upper;
-                validSubL1 = regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase();
               } else if (fldName === 'restrictTo') {
                 try {
                   const values = value.split(',').map((v) => v.trim().toLowerCase());
@@ -3703,8 +4088,18 @@
             }
           });
 
-          if (countryId === isoCode.toUpperCase() && subL1Upper) {
-            layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
+          // --- Filter logic for ALL vs specific iso/region ---
+          let validSubL1 = false;
+
+          if (loadAll) {
+            // Accept every layer as valid, unless access restriction
+            layerDef.countrySubL1 = `${layerDef.country || ''}-${layerDef.subL1 || ''}`;
+            validSubL1 = true;
+          } else {
+            if (countryId === isoCode.toUpperCase() && subL1Upper) {
+              layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
+            }
+            validSubL1 = regionCodes && (regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase());
           }
 
           const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
