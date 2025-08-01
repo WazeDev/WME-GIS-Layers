@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.07.27.00
+// @version      2025.08.01.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -105,6 +105,7 @@
 // @connect atchisongis.integritygis.com
 // @connect atlas.co.chelan.wa.us
 // @connect atlas.geoportalmaps.com
+// @connect atlas.unioncountync.gov
 // @connect audraingis.integritygis.com
 // @connect batesgis.integritygis.com
 // @connect bcgis.baltimorecountymd.gov
@@ -150,6 +151,10 @@
 // @connect cw.townofclaytonnc.org
 // @connect dadegis.integritygis.com
 // @connect dallasgis.integritygis.com
+// @connect data.calgary.ca
+// @connect data.cityofchicago.org
+// @connect data.ct.gov
+// @connect data.edmonton.ca
 // @connect data.wsdot.wa.gov
 // @connect data1.digitaldataservices.com
 // @connect dc-web-2.co.douglas.mn.us
@@ -234,7 +239,6 @@
 // @connect gis.baycountyfl.gov
 // @connect gis.beaufortcountysc.gov
 // @connect gis.beaumonttexas.gov
-// @connect gis.belmont.gov
 // @connect gis.bentoncountyar.gov
 // @connect gis.berkeleycountysc.gov
 // @connect gis.bigstonecounty.gov
@@ -285,6 +289,7 @@
 // @connect gis.co.carver.mn.us
 // @connect gis.co.clarion.pa.us
 // @connect gis.co.cumberland.nc.us
+// @connect gis.co.door.wi.us
 // @connect gis.co.douglas.or.us
 // @connect gis.co.eau-claire.wi.us
 // @connect gis.co.fairfield.oh.us
@@ -531,7 +536,6 @@
 // @connect gis.tularecounty.ca.gov
 // @connect gis.ucdavis.edu
 // @connect gis.ulstercountyny.gov
-// @connect gis.unioncountync.gov
 // @connect gis.vernon-ct.gov
 // @connect gis.victorvilleca.gov
 // @connect gis.warrensburg-mo.com
@@ -590,7 +594,6 @@
 // @connect gisapp.adcogov.org
 // @connect gisapp.mahoningcountyoh.gov
 // @connect gisapps.cityofchicago.org
-// @connect gisapps.glendaleca.gov
 // @connect gisapps.rileycountyks.gov
 // @connect gisapps.wicomicocounty.org
 // @connect gisapps1.mapoakland.com
@@ -780,6 +783,7 @@
 // @connect maps.bannockcounty.us
 // @connect maps.bayfieldcounty.wi.gov
 // @connect maps.bcad.org
+// @connect maps.belmont.gov
 // @connect maps.berkeleywv.org
 // @connect maps.boonecountyil.org
 // @connect maps.bossierparishgis.org
@@ -1044,6 +1048,7 @@
 // @connect rptsgisweb.oswegocounty.com
 // @connect salinegis.integritygis.com
 // @connect saludacountysc.net
+// @connect sccgis.santacruzcountyca.gov
 // @connect scgis.summitoh.net
 // @connect scgisa.starkcountyohio.gov
 // @connect sdgis.sd.gov
@@ -1053,6 +1058,7 @@
 // @connect server.boundarycountyid.org
 // @connect server1.mapxpress.net
 // @connect server2.mapxpress.net
+// @connect services.aadnc-aandc.gc.ca
 // @connect services.arcgis.com
 // @connect services.gis.ca.gov
 // @connect services.gisqatar.org.qa
@@ -1136,6 +1142,7 @@
 // @connect www.adacountyassessor.org
 // @connect www.adamscountyarcserver.com
 // @connect www.ancgis.com
+// @connect www.apps.geomatics.gov.nt.ca
 // @connect www.bartowgis.org
 // @connect www.bcgis.com
 // @connect www.bcpao.us
@@ -1199,11 +1206,14 @@
 
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-  'Major update: 2025.07.27.00',
-  'New: Saved Layer Groups!',
-  'Easily save, load, and manage sets of visible layers and region selections using a new popup dialog.',
-  'Access the new "Manage Custom Groups" popup in Settings > Layer Groupings.',
-  'New "Load All Layers" option: Instantly loads every County and State layer, making it even easier to create groups across states.',
+  'Major update: 2025.08.01.00',
+  'New: Support for layers hosted via the SOCRATA platform!',
+  'You can now add data layers from any SOCRATA-powered government open data portal.',
+  'Explore available data: <a href="https://www.opendatanetwork.com/" target="_blank" rel="noopener noreferrer">Open Data Network</a>',
+  'To access certain data, you may need a free account and token:',
+  '<a href="https://support.socrata.com/hc/en-us/articles/115004055807-How-to-Sign-Up-for-a-Tyler-Data-Insights-ID" target="_blank" rel="noopener noreferrer">How to Sign Up for a Tyler Data & Insights ID</a>',
+  '<a href="https://support.socrata.com/hc/en-us/articles/210138558-Generating-App-Tokens-and-API-Keys" target="_blank" rel="noopener noreferrer">How to Generate App Tokens</a>',
+  'Set your App Token anytime in Settings > Socrata App Token.'
 ];
 
   // **************************************************************************************************************
@@ -1463,14 +1473,13 @@
   let removeNewLines = false;
 
   const DEBUG = true;
-  // function log(message) { console.log('GIS Layers:', message); }
-  function logError(message, args = []) {
+
+  function logError(message, ...args) {
     console.error(`${scriptName}:`, message, ...args);
   }
-  function logDebug(message, args = []) {
+  function logDebug(message, ...args) {
     if (DEBUG) console.debug(`${scriptName}:`, message, ...args);
   }
-  // function logWarning(message) { console.warn('GIS Layers:', message); }
 
   let _layerSettingsDialog;
   class LayerSettingsDialog {
@@ -1860,38 +1869,99 @@
   }
 
   function getUrl(extent, gisLayer, zoom) {
-    const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
-    const geometry = {
-      xmin: extent[0] - layerOffset.x,
-      ymin: extent[1] - layerOffset.y,
-      xmax: extent[2] - layerOffset.x,
-      ymax: extent[3] - layerOffset.y,
-      spatialReference: {
-        wkid: 4326,
-      },
-    };
+    // Utility: gets fields or returns empty array
+    const getFields = (fields) => (Array.isArray(fields) ? fields.slice() : []);
 
-    const maxAllowableOffset = getMaxAllowableOffsetForZoom(zoom);
-    const geometryStr = JSON.stringify(geometry);
+    // ----- ArcGIS -----
+    if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
+      const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+      const geometry = {
+        xmin: extent[0] - layerOffset.x,
+        ymin: extent[1] - layerOffset.y,
+        xmax: extent[2] - layerOffset.x,
+        ymax: extent[3] - layerOffset.y,
+        spatialReference: { wkid: 4326 },
+      };
+      const maxAllowableOffset = getMaxAllowableOffsetForZoom(zoom);
+      const fields = getFields(gisLayer.labelFields).join(',');
 
-    let fields = gisLayer.labelFields;
-    if (gisLayer.labelHeaderFields) {
-      fields = fields.concat(gisLayer.labelHeaderFields);
+      const params = [
+        `geometry=${encodeURIComponent(JSON.stringify(geometry))}`,
+        gisLayer.token ? `token=${gisLayer.token}` : '',
+        `outFields=${encodeURIComponent(fields)}`,
+        'returnGeometry=true',
+        'spatialRel=esriSpatialRelIntersects',
+        'geometryType=esriGeometryEnvelope',
+        'inSR=4326',
+        'outSR=4326',
+        'f=json',
+        `maxAllowableOffset=${maxAllowableOffset}`,
+        gisLayer.where ? `where=${encodeURIComponent(gisLayer.where)}` : '',
+      ].filter(Boolean);
+
+      const url = `${gisLayer.url}/query?${params.join('&')}`;
+      logDebug(`ArcGIS Request URL: ${url}`);
+      return url;
     }
-    if (gisLayer.distinctFields) {
-      fields = fields.concat(gisLayer.distinctFields);
-    }
-    let url = `${gisLayer.url}/query?geometry=${encodeURIComponent(geometryStr)}`;
-    url += gisLayer.token ? `&token=${gisLayer.token}` : '';
-    url += `&outFields=${encodeURIComponent(fields.join(','))}`;
-    url += '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope';
-    url += `&inSR=${'4326'}`;
-    url += '&outSR=4326&f=json';
-    url += `&maxAllowableOffset=${maxAllowableOffset}`;
-    url += gisLayer.where ? `&where=${encodeURIComponent(gisLayer.where)}` : '';
 
-    logDebug(`Request URL: ${url}`);
-    return url;
+    //----- Socrata V2 and V3 -----
+    if (gisLayer.platform === 'SocrataV2' || gisLayer.platform === 'SocrataV3') {
+      const labelFields = getFields(gisLayer.labelFields);
+      if (labelFields.length === 0) {
+        logDebug("labelFields must have the field name that holds the geometry points as the first element for Socrata URLs! Example: 'location', 'the_geom', 'geometry', etc.");
+        return '';
+      }
+      const geomField = labelFields[0];
+
+      // Build bounding box with buffer (north, west, south, east)
+      const bufferDeg = 0.001;
+      const [xmin, ymin, xmax, ymax] = extent;
+      const boxClause = `within_box(${geomField},${ymax + bufferDeg},${xmin - bufferDeg},${ymin - bufferDeg},${xmax + bufferDeg})`;
+      const isNotNullClause = `${geomField} IS NOT NULL`;
+
+      // User WHERE (if any)
+      let customWhere = '';
+      if (typeof gisLayer.where === 'string' && gisLayer.where.trim()) {
+        customWhere = gisLayer.where.trim();
+      }
+
+      // ----- V2: SODA -----
+      if (gisLayer.platform === 'SocrataV2') {
+        const selectClause = labelFields.join(',');
+        const whereParts = [];
+        if (customWhere) whereParts.push(customWhere);
+        whereParts.push(boxClause);
+        whereParts.push(isNotNullClause);
+        const whereClause = whereParts.length ? `$where=${encodeURIComponent(whereParts.join(' AND '))}` : '';
+        const params = [`$select=${encodeURIComponent(selectClause)}`, whereClause, `$limit=3000`].filter(Boolean);
+        let urlBase = gisLayer.url + '.geojson';
+        const url = urlBase + '?' + params.join('&');
+        logDebug(`SocrataV2: Request URL: ${url}`);
+        return url;
+      }
+
+      // ----- V3: "SQL-in-query-param" pattern -----
+      if (gisLayer.platform === 'SocrataV3') {
+        // V3 only supports SQL-in-query, **not** SoQL style params.
+        // Build SQL string: SELECT ..., ... WHERE ... AND ... LIMIT ...
+        const selectFieldsList = labelFields.join(', ');
+        const whereParts = [];
+        if (customWhere) whereParts.push(customWhere);
+        whereParts.push(boxClause);
+        whereParts.push(isNotNullClause);
+        const whereSQL = whereParts.length ? `WHERE ${whereParts.join(' AND ')}` : '';
+        const sql = `SELECT ${selectFieldsList} ${whereSQL} LIMIT 3000`;
+        let urlBase = gisLayer.url + '/query.geojson';
+        // NOTE: URL-encode the entire SQL string as the query's value
+        const url = `${urlBase}?query=${encodeURIComponent(sql)}`;
+        logDebug(`SocrataV3: Request URL: ${url}`);
+        return url;
+      }
+    }
+
+    // ----- Unknown -----
+    logDebug('getUrl fallback (no matching platform type found for:', gisLayer);
+    return '';
   }
 
   function hashString(value) {
@@ -2149,32 +2219,47 @@
     },
   };
 
+  /**
+   * Processes and generates a display label for a feature/item, using layer label fields,
+   * zoom/area constraints, and optional ESTree/JS post-processing logic.
+   * Applies additional style rules for address shortening based on settings and layer style.
+   *
+   * @param {Object}  gisLayer             - The GIS layer descriptor (with labelFields, style, processLabel, etc.).
+   * @param {Object}  item                 - The data source for the feature; may have .attributes (ArcGIS), .properties (GeoJSON), or fields directly.
+   * @param {number}  displayLabelsAtZoom  - Minimum zoom or state at which labels are shown.
+   * @param {number}  area                 - Area of the feature in square meters (used for label display logic).
+   * @param {boolean} [isPolyLine=false]   - True if the feature is a polyline; controls certain style logic.
+   *
+   * @returns {string} The processed label string for display.
+   */
   function processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine = false) {
+    // --- Allow both ArcGIS and GeoJSON: resolve field source ---
+    // If the item has .attributes, use that (ArcGIS); else .properties (GeoJSON); fallback: item itself.
+    const fieldValues = item && typeof item === 'object' ? item.attributes || item.properties || item : {};
     let label = '';
-    if (gisLayer.labelHeaderFields) {
-      label = `${gisLayer.labelHeaderFields
-        .map((fieldName) => item.attributes[fieldName])
-        .join(' ')
-        .trim()}\n`;
-    }
+
+    // --- Main label fields, only if zoom/area triggers label ---
     if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) {
-      // Raised this 1 million sq meeters
       label += gisLayer.labelFields
-        .map((fieldName) => item.attributes[fieldName])
+        .map((fieldName) => fieldValues[fieldName])
         .join(' ')
         .trim();
+
+      // --- Optional ESTree/JS post-processing if configured ---
       if (gisLayer.processLabel) {
         if (gisLayer.labelProcessingError) {
           label = 'ERROR';
         } else {
+          // Provide label and fields to processing context
           labelProcessingGlobalVariables.label = label;
-          labelProcessingGlobalVariables.fieldValues = item.attributes;
+          labelProcessingGlobalVariables.fieldValues = fieldValues;
           const result = ESTreeProcessor.execute(gisLayer.processLabel, labelProcessingGlobalVariables);
           label = result.output?.trim() ?? '';
         }
       }
     }
 
+    // --- Post-processing for certain styles (e.g., address shorteners) ---
     if (!isPolyLine) {
       if (label && ['points', 'parcels', 'state_points', 'state_parcels'].includes(gisLayer.style)) {
         if (settings.addrLabelDisplay === 'hn') {
@@ -2192,264 +2277,379 @@
   }
 
   let lastFeatureId = 0;
+  // SDK: Remove these once Map.getFeaturesByProperty is implemented: https://issuetracker.google.com/issues/419596843
+  let defaultFeatures = [];
+  let roadFeatures = [];
+
+  /**
+   * Offset geometry by layerOffset {x, y}
+   */
+  function offsetGeometry(geometry, layerOffset) {
+    if (!geometry || !layerOffset) return geometry;
+    function offsetCoord(coord) {
+      return [coord[0] + layerOffset.x, coord[1] + layerOffset.y];
+    }
+    switch (geometry.type) {
+      case 'Point':
+        return { ...geometry, coordinates: offsetCoord(geometry.coordinates) };
+      case 'LineString':
+      case 'MultiPoint':
+        return { ...geometry, coordinates: geometry.coordinates.map(offsetCoord) };
+      case 'Polygon':
+      case 'MultiLineString':
+        return { ...geometry, coordinates: geometry.coordinates.map((ring) => ring.map(offsetCoord)) };
+      case 'MultiPolygon':
+        return { ...geometry, coordinates: geometry.coordinates.map((poly) => poly.map((ring) => ring.map(offsetCoord))) };
+      default:
+        return geometry;
+    }
+  }
+
+  /**
+   * Clip feature geometry to a bbox [minX, minY, maxX, maxY]
+   * Only applies to lines, skips all other types.
+   * Returns null if geometry is outside the bbox or empty; otherwise returns the clipped feature.
+   */
+  function clipLineFeatureToExtent(feature, extent) {
+    if (!feature.geometry || !extent) return feature;
+    const type = feature.geometry.type;
+    if (type !== 'LineString' && type !== 'MultiLineString') return feature;
+    try {
+      const clipped = turf.bboxClip(feature, extent);
+      // Ensure clipped geometry exists and has coordinates
+      if (!clipped.geometry.coordinates || !clipped.geometry.coordinates.length) return null;
+      return clipped;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function generateFeatureId() {
     lastFeatureId++;
     return lastFeatureId;
   }
 
-  // SDK: Remove these once Map.getFeaturesByProperty is implemented: https://issuetracker.google.com/issues/419596843
-  let defaultFeatures = [];
-  let roadFeatures = [];
+  /**
+   * Assign layer properties and ID to a feature
+   */
+  function assignGisProperties(feature, gisLayer, label) {
+    feature.properties = {
+      ...feature.properties,
+      layerID: gisLayer.id,
+      label,
+    };
+    feature.id = generateFeatureId();
+    return feature;
+  }
 
-  function processFeatures(data, token, gisLayer) {
-    const features = [];
-
-    if (data.skipIt) {
-      // do nothing
-    } else if (data.error) {
-      logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
-      $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-    } else {
-      const items = data.features || [];
-      if (!token.cancel) {
-        let error = false;
-        const distinctValues = [];
-        items.forEach((item) => {
-          const featuresToAdd = [];
-          let skipIt = false;
-          if (!token.cancel && !error) {
-            const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
-
-            if (gisLayer.distinctFields) {
-              if (distinctValues.some((v) => gisLayer.distinctFields.every((fld) => v[fld] === item.attributes[fld]))) {
-                skipIt = true;
-              } else {
-                const dist = {};
-                gisLayer.distinctFields.forEach((fld) => (dist[fld] = item.attributes[fld]));
-                distinctValues.push(dist);
-              }
-            }
-            if (!skipIt) {
-              let area = 0; // Default area is 0 for non-polygon features
-              const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
-              if (item.geometry) {
-                if (item.geometry.x) {
-                  const feature = turf.point([item.geometry.x + layerOffset.x, item.geometry.y + layerOffset.y]);
-                  const label = processLabel(gisLayer, item, displayLabelsAtZoom, '', false);
-
-                  feature.properties = {
-                    layerID: gisLayer.id,
-                    label,
-                  };
-                  feature.id = generateFeatureId();
-                  features.push(feature);
-
-                  if (isPopupVisible) {
-                    addLabelToLayer(gisLayer.name, label);
-                  }
-                } else if (item.geometry.points) {
-                  const points = item.geometry.points.map((point) => turf.point([point[0] + layerOffset.x, point[1] + layerOffset.y]));
-                  featuresToAdd.push(...points);
-
-                  points.forEach((pointFeature) => {
-                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, '', false);
-                    pointFeature.properties = {
-                      layerID: gisLayer.id,
-                      label,
-                    };
-                    pointFeature.id = generateFeatureId();
-                    features.push(pointFeature);
-
-                    if (isPopupVisible) {
-                      addLabelToLayer(gisLayer.name, label);
-                    }
-                  });
-                } else if (item.geometry.rings) {
-                  const separatePolygons = [];
-                  let currentOuterRing = null;
-                  const innerRings = [];
-
-                  item.geometry.rings.forEach((ringIn) => {
-                    const ring = ringIn.map((point) => [point[0] + layerOffset.x, point[1] + layerOffset.y]);
-
-                    if (turf.booleanClockwise(ring)) {
-                      // Store previous polygon
-                      if (currentOuterRing) {
-                        separatePolygons.push({
-                          outer: currentOuterRing,
-                          inners: [...innerRings],
-                        });
-                      }
-                      // Begin new outer ring and reset inner rings
-                      currentOuterRing = ring;
-                      innerRings.length = 0;
-                    } else {
-                      // It's an inner ring, push to current inner rings list
-                      innerRings.push(ring);
-                    }
-                  });
-
-                  // Add final polygon (if any)
-                  if (currentOuterRing) {
-                    separatePolygons.push({
-                      outer: currentOuterRing,
-                      inners: [...innerRings],
-                    });
-                  }
-
-                  // Create features for each polygon group
-                  separatePolygons.forEach(({ outer, inners }) => {
-                    const polygonRings = [outer, ...inners];
-                    const tempPolygon = turf.polygon(polygonRings);
-                    const ringArea = turf.area(tempPolygon);
-                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, ringArea, false);
-
-                    tempPolygon.properties = {
-                      layerID: gisLayer.id,
-                      label,
-                    };
-                    tempPolygon.id = generateFeatureId();
-
-                    if (isPopupVisible) {
-                      addLabelToLayer(gisLayer.name, label);
-                    }
-                    features.push(tempPolygon);
-                  });
-                } else if (data.geometryType === 'esriGeometryPolyline') {
-                  const mls = turf.multiLineString(item.geometry.paths);
-                  const e = getMapExtent('wgs84');
-                  const bbox = [e[0], e[1], e[2], e[3]];
-                  const clipped = turf.bboxClip(mls, bbox);
-
-                  if (clipped.geometry.type === 'LineString') {
-                    item.geometry.paths = [clipped.geometry.coordinates];
-                  } else if (clipped.geometry.type === 'MultiLineString') {
-                    item.geometry.paths = clipped.geometry.coordinates;
-                  }
-
-                  item.geometry.paths.forEach((path) => {
-                    const pointList = path.map((point) => [point[0] + layerOffset.x, point[1] + layerOffset.y]);
-                    const feature = turf.lineString(pointList);
-                    feature.skipDupeCheck = true;
-                    featuresToAdd.push(feature);
-                    const label = processLabel(gisLayer, item, displayLabelsAtZoom, '', true);
-
-                    feature.properties = {
-                      layerID: gisLayer.id,
-                      label,
-                    };
-                    feature.id = generateFeatureId();
-
-                    if (isPopupVisible) {
-                      addLabelToLayer(gisLayer.name, label);
-                    }
-                    features.push(feature);
-                  });
-                } else {
-                  logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
-                  logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
-                  $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-                  error = true;
-                }
-              }
-            }
-          }
-        });
-      }
-    }
-    if (!token.cancel) {
-      // Check for duplicate geometries.
-      for (let i = 0; i < features.length; i++) {
-        const f1 = features[i];
-        if (f1.geometry.type === 'Point' && !f1.skipDupeCheck && f1.properties.label) {
-          let labels = [f1.properties.label];
-          for (let j = i + 1; j < features.length; j++) {
-            const f2 = features[j];
-            if (f2.geometry.type === 'Point' && !f2.skipDupeCheck && f2.properties.label && turf.distance(f1, f2, { units: 'meters' }) < 1) {
-              features.splice(j, 1);
-              labels.push(f2.properties.label);
-              j--;
-            }
-          }
-          labels = _.uniq(labels);
-          if (labels.length > 1) {
-            labels.forEach((label, idx) => {
-              label = label
-                .replace(/\n/g, ' ')
-                .replace(/\s{2,}/, ' ')
-                .replace(/\bUNIT\s.{1,5}$/i, '')
-                .trim();
-              ROAD_ABBR.forEach((abbr) => (label = label.replace(abbr[0], abbr[1])));
-              labels[idx] = label;
-            });
-            labels = _.uniq(labels);
-            labels.sort();
-            if (labels.length > 12) {
-              const len = labels.length;
-              labels = labels.slice(0, 10);
-              labels.push(`(${len - 10} more...)`);
-            }
-            f1.properties.label = _.uniq(labels).join('\n');
-          } else {
-            let { label } = f1.properties;
-            ROAD_ABBR.forEach((abbr) => (label = label.replace(abbr[0], abbr[1])));
-            f1.properties.label = label;
+  /**
+   * Deduplicates Point features within the given feature array that are spatially close (within 1 meter)
+   * and have labels. Merges labels of duplicates, applying label cleaning and abbreviation.
+   * Modifies the original features array in place and returns it.
+   *
+   * @param {Array} features - Array of GeoJSON features (with properties.label) to deduplicate.
+   * @returns {Array} The deduplicated (and possibly relabeled) features array.
+   */
+  function deduplicatePointFeatures(features) {
+    for (let i = 0; i < features.length; i++) {
+      const f1 = features[i];
+      if (f1.geometry.type === 'Point' && !f1.skipDupeCheck && f1.properties.label) {
+        let labels = [f1.properties.label];
+        for (let j = i + 1; j < features.length; j++) {
+          const f2 = features[j];
+          if (f2.geometry.type === 'Point' && !f2.skipDupeCheck && f2.properties.label && turf.distance(f1, f2, { units: 'meters' }) < 1) {
+            features.splice(j, 1);
+            labels.push(f2.properties.label);
+            j--;
           }
         }
-      }
-
-      // Determine layer and source collection
-      const isRoad = gisLayer.isRoadLayer;
-      const layerName = isRoad ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
-      const sourceCollection = isRoad ? roadFeatures : defaultFeatures;
-
-      // Process the collection in one go
-      const { featureIdsToRemove, remainingFeatures } = sourceCollection.reduce(
-        (acc, feature) => {
-          if (feature.properties.layerID === gisLayer.id) {
-            acc.featureIdsToRemove.push(feature.id); // Collect IDs to remove
-          } else {
-            acc.remainingFeatures.push(feature); // Collect features to keep
+        labels = _.uniq(labels);
+        if (labels.length > 1) {
+          labels.forEach((label, idx) => {
+            label = label
+              .replace(/\n/g, ' ')
+              .replace(/\s{2,}/, ' ')
+              .replace(/\bUNIT\s.{1,5}$/i, '')
+              .trim();
+            ROAD_ABBR.forEach((abbr) => (label = label.replace(abbr[0], abbr[1])));
+            labels[idx] = label;
+          });
+          labels = _.uniq(labels);
+          labels.sort();
+          if (labels.length > 12) {
+            const len = labels.length;
+            labels = labels.slice(0, 10);
+            labels.push(`(${len - 10} more...)`);
           }
-          return acc;
-        },
-        { featureIdsToRemove: [], remainingFeatures: [] }
-      );
-
-      // Initialize counters for individual feature addition
-      let successCount = features.length;
-
-      // Track the total processing time for the layer
-      const layerStartTime = performance.now();
-
-      sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
-
-      // Handle completion logging
-      // Calculate and log the total processing time for the layer
-      const layerEndTime = performance.now();
-      const totalLayerDuration = layerEndTime - layerStartTime;
-      logDebug(`layer: ${gisLayer.id} processed in ${totalLayerDuration.toFixed(2)} ms - ${successCount} features added`);
-
-      // Remove features from the map (only if there are any)
-      if (featureIdsToRemove.length > 0) {
-        sdk.Map.removeFeaturesFromLayer({ layerName, featureIds: featureIdsToRemove });
-      }
-
-      // Create the new collection (kept + new)
-      const newCollection = [...remainingFeatures, ...features];
-
-      // Update the original reference (if needed, or handle based on your scope)
-      if (isRoad) {
-        roadFeatures = newCollection;
-      } else {
-        defaultFeatures = newCollection;
-      }
-
-      if (features.length) {
-        $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
+          f1.properties.label = _.uniq(labels).join('\n');
+        } else {
+          let { label } = f1.properties;
+          ROAD_ABBR.forEach((abbr) => (label = label.replace(abbr[0], abbr[1])));
+          f1.properties.label = label;
+        }
       }
     }
-  } // END processFeatures()
+    return features;
+  }
+
+  /**
+   * Updates the given GIS map layer with a new set of features.
+   * Removes all features belonging to the specified layer from the global feature
+   * collection, adds the new features, updates the global feature arrays, and updates UI feedback.
+   *
+   * @param {Object} gisLayer       - The GIS layer descriptor. Should have at least `id` and `isRoadLayer` properties.
+   * @param {Array}  features       - Array of GeoJSON features to add to the layer.
+   *
+   * @returns {void}
+   */
+  function updateGisLayerFeatures(gisLayer, features) {
+    const isRoad = gisLayer.isRoadLayer;
+    const layerName = isRoad ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
+    // Use the current set of features for this layer type
+    const sourceCollection = isRoad ? roadFeatures : defaultFeatures;
+
+    // Separate out features belonging to this layer vs. those not
+    const { featureIdsToRemove, remainingFeatures } = sourceCollection.reduce(
+      (acc, feature) => {
+        if (feature.properties.layerID === gisLayer.id) {
+          acc.featureIdsToRemove.push(feature.id);
+        } else {
+          acc.remainingFeatures.push(feature);
+        }
+        return acc;
+      },
+      { featureIdsToRemove: [], remainingFeatures: [] }
+    );
+
+    // Add new features to the layer
+    sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
+
+    // Remove old features from the layer
+    if (featureIdsToRemove.length > 0) {
+      sdk.Map.removeFeaturesFromLayer({ layerName, featureIds: featureIdsToRemove });
+    }
+
+    // Update the in-memory collections
+    const newCollection = [...remainingFeatures, ...features];
+    if (isRoad) {
+      roadFeatures = newCollection;
+    } else {
+      defaultFeatures = newCollection;
+    }
+
+    // Feedback in UI
+    if (features.length) {
+      $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
+    }
+  }
+
+  /**
+   * Processes and adds GIS features from ArcGIS data to the appropriate map layer.
+   *
+   * Handles points, multipoints, polygons, and polylines, applies deduplication,
+   * assigns feature properties and labels, updates global feature collections,
+   * and manages UI state for errors and successful updates.
+   *
+   * @param {Object}    data      - The ArcGIS response object containing features and/or error.
+   * @param {Object}    token     - Cancellation/scoping token; if token.cancel is true, aborts processing.
+   * @param {Object}    gisLayer  - The layer descriptor (must have id, isRoadLayer, name, etc).
+   *
+   * @returns {void}
+   */
+  function processFeaturesArcGIS(data, token, gisLayer) {
+    const features = [];
+
+    if (data.skipIt) return;
+
+    if (data.error) {
+      logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
+      $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+      return;
+    }
+
+    const items = data.features || [];
+    const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+    const extent = getMapExtent('wgs84');
+    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
+
+    if (!token.cancel) {
+      let error = false;
+
+      items.forEach((item) => {
+        if (token.cancel || error) return;
+        if (!item.geometry) return;
+
+        //---------- POINT ----------
+        if (item.geometry.x !== undefined && item.geometry.y !== undefined) {
+          let feature = turf.point([item.geometry.x, item.geometry.y]);
+          feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+
+          feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', false));
+
+          if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+          features.push(feature);
+
+          //---------- MULTI-POINT ----------
+        } else if (item.geometry.points) {
+          item.geometry.points.forEach((point) => {
+            let feature = turf.point(point);
+            feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+            feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', false));
+            if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+            features.push(feature);
+          });
+
+          //---------- POLYGON ----------
+        } else if (item.geometry.rings) {
+          const separatePolygons = [];
+          let currentOuterRing = null;
+          const innerRings = [];
+          item.geometry.rings.forEach((ringIn) => {
+            const ring = ringIn.map(([x, y]) => [x + layerOffset.x, y + layerOffset.y]);
+            if (turf.booleanClockwise(ring)) {
+              if (currentOuterRing) {
+                separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
+              }
+              currentOuterRing = ring;
+              innerRings.length = 0;
+            } else {
+              innerRings.push(ring);
+            }
+          });
+          if (currentOuterRing) {
+            separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
+          }
+          separatePolygons.forEach(({ outer, inners }) => {
+            const polygonRings = [outer, ...inners];
+            let feature = turf.polygon(polygonRings);
+            const area = turf.area(feature);
+
+            feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, area, false));
+            if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+            features.push(feature);
+          });
+
+          //---------- LINES / POLYLINE ----------
+        } else if (data.geometryType === 'esriGeometryPolyline' && item.geometry.paths) {
+          item.geometry.paths.forEach((path) => {
+            const offsetPath = path.map(([x, y]) => [x + layerOffset.x, y + layerOffset.y]);
+            let feature = turf.lineString(offsetPath);
+
+            feature = clipLineFeatureToExtent(feature, extent) || null;
+            if (!feature) return;
+
+            feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', true));
+            feature.skipDupeCheck = true;
+
+            if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+            features.push(feature);
+          });
+
+          //---------- UNKNOWN / ERROR ----------
+        } else {
+          logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
+          logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
+          $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+          error = true;
+        }
+      });
+    }
+
+    // ----- De-duplication and feature management -----
+    if (!token.cancel) {
+      // Only deduplicate if any Point features are present
+      if (features.some((f) => f.geometry.type === 'Point')) {
+        deduplicatePointFeatures(features);
+      }
+
+      // Layer/collection logic handled by helper
+      updateGisLayerFeatures(gisLayer, features);
+    }
+  }
+
+  /**
+   * Processes and adds features from a GeoJSON FeatureCollection or Feature array
+   * to the appropriate GIS map layer. Handles geometry flattening, feature offsetting,
+   * line clipping, label assignment, and deduplication. Updates global feature
+   * collections and provides UI feedback.
+   *
+   * @param {Object} data           - The GeoJSON response data with a 'features' array, and possible 'error' and 'skipIt'.
+   * @param {Object} token          - Cancellation/scoping token; if token.cancel is true, processing is aborted.
+   * @param {Object} gisLayer       - The layer descriptor object (should include at least id, name, isRoadLayer).
+   *
+   * @returns {void}
+   */
+  function processFeaturesGeoJSON(data, token, gisLayer) {
+    const features = [];
+
+    if (data.skipIt) return;
+
+    if (data.error) {
+      logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
+      $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+      return;
+    }
+
+    const items = data.features || [];
+    const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+    const extent = getMapExtent('wgs84'); // [minX, minY, maxX, maxY]
+    const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
+
+    if (!token.cancel) {
+      let error = false;
+
+      items.forEach((item) => {
+        if (token.cancel || error) return;
+        if (!item.geometry) return;
+
+        // Always GeoJSON feature. Use turf.flatten to ensure individual features.
+        // flatten returns a FeatureCollection, so we need to iterate over .features
+        // But "flatten" expects a Feature or FeatureCollection, so ensure type.
+        let toFlatten = item;
+        if (toFlatten.type !== 'Feature') {
+          toFlatten = {
+            type: 'Feature',
+            geometry: item.geometry,
+            properties: item.properties || {},
+          };
+        }
+        const flatFeatures = turf.flatten(toFlatten).features;
+
+        flatFeatures.forEach((feature) => {
+          // Always offset geometry!
+          feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+
+          // --- CLIP LINES TO EXTENT for LineString ---
+          if (feature.geometry.type === 'LineString') {
+            feature = clipLineFeatureToExtent(feature, extent) || null;
+            if (!feature) return; // If fully outside, skip
+          }
+
+          // Calculate area for polygons (only needed for label)
+          let area = '';
+          if (feature.geometry.type === 'Polygon') {
+            area = turf.area(feature);
+          }
+
+          feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, feature, displayLabelsAtZoom, area, feature.geometry.type === 'LineString'));
+
+          if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+          features.push(feature);
+        });
+      });
+    }
+
+    // ----- De-duplication and feature management -----
+    if (!token.cancel) {
+      // Only deduplicate if any Point features are present
+      if (features.some((f) => f.geometry.type === 'Point')) {
+        deduplicatePointFeatures(features);
+      }
+
+      // Layer/collection logic handled by helper
+      updateGisLayerFeatures(gisLayer, features);
+    }
+  }
 
   function copyTextToClipboard(text) {
     try {
@@ -2918,25 +3118,26 @@
    * @returns {Promise<void>} - No explicit return; operates based on side effects affecting global state.
    */
   async function fetchFeatures() {
+    // 1. Clear labels if popup is open
     if (isPopupVisible) {
       Object.keys(layerLabels).forEach((key) => delete layerLabels[key]);
     }
     if (ignoreFetch) return;
-    if (sdk.Map.getZoomLevel() < 12) {
-      //filterLayerCheckboxes();
-      return;
-    }
+    if (sdk.Map.getZoomLevel() < 12) return;
+
     await whatsInView();
+
     lastToken.cancel = true;
     lastToken = { cancel: false, features: [], layersProcessed: 0 };
     $('.gis-subL1-layer-label').css({});
+
     let _layersCleared = false;
-    let layersToFetch; // Start with declaration
+    let layersToFetch = [];
+
+    // 2. Prepare and clear features for layers not being fetched
     if (!_layersCleared) {
       _layersCleared = true;
       layersToFetch = getFetchableLayers(true, true);
-
-      // Remove features of any layers that won't be mapped.
       _gisLayers.forEach((gisLayer) => {
         if (!layersToFetch.includes(gisLayer)) {
           let featureCollection = gisLayer.isRoadLayer ? roadFeatures : defaultFeatures;
@@ -2954,44 +3155,65 @@
         }
       });
     }
+
     filterLayerCheckboxes();
     logDebug(`Fetching ${layersToFetch.length} layers...`);
     logDebug(layersToFetch);
-    let layersProcessedCount = 0; // Track processed layers
-    const extentWGS84 = getMapExtent('wgs84'); //extentMercator = getMapExtent('mercator');
 
+    let layersProcessedCount = 0;
+    const extentWGS84 = getMapExtent('wgs84');
+    const zoom = sdk.Map.getZoomLevel();
+
+    // 3. Fetch features per-layer
     layersToFetch.forEach((gisLayer) => {
-      const zoom = sdk.Map.getZoomLevel();
       const url = getUrl(extentWGS84, gisLayer, zoom);
+
+      // Build headers if needed
+      const headers = {};
+      const appToken = settings.socrataAppToken ? settings.socrataAppToken.trim() : '';
+      const isSocrata = gisLayer.platform === 'SocrataV2' || gisLayer.platform === 'SocrataV3';
+
+      if (isSocrata && appToken) {
+        headers['X-App-Token'] = appToken;
+      }
+      if (gisLayer.platform === 'SocrataV3' && !appToken) {
+        logDebug(`Socrata V3 layer "${gisLayer.id}" requires an App Token, but none was provided.`);
+        WazeWrap.Alerts.warning(GM_info.script.name, `A Socrata App Token is required for layer "${gisLayer.name}".<br>Please provide one in the GIS Layers settings.`);
+        return;
+      }
 
       GM_xmlhttpRequest({
         url,
+        headers,
         context: lastToken,
         method: 'GET',
         onload(res2) {
           if (res2.status < 400) {
-            // Handle successful response
             try {
               const parsedData = $.parseJSON(res2.responseText);
-              processFeatures(parsedData, res2.context, gisLayer);
+
+              // Call appropriate feature processor
+              if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
+                processFeaturesArcGIS(parsedData, res2.context, gisLayer);
+              } else if (isSocrata) {
+                processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
+              } else {
+                logError(`Unknown platform "${gisLayer.platform}" for layer "${gisLayer.id}". Skipped processing.`);
+              }
             } catch (parseError) {
               logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
               $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
             }
-
-            // Update popup after processing all layers
             layersProcessedCount += 1;
             if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
               updatePopup(layerLabels);
             }
           } else {
-            // Handle HTTP error response
             logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
             $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
           }
         },
         onerror(res3) {
-          // Handle request error, particularly timeouts or network issues
           logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
           $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
         },
@@ -3448,13 +3670,127 @@
       )
     );
 
+    // ---- SOCRATA APP TOKEN SECTION ----
+    $('#panel-gis-layers-settings').append('<div id="socrata-app-token-anchor"></div>');
+
+    function renderSocrataAppTokenSection() {
+      $('#socrata-app-token-section').remove();
+
+      const hasToken = !!settings.socrataAppToken;
+      const inputType = hasToken ? 'password' : 'text';
+      const inputVal = hasToken ? settings.socrataAppToken : '';
+      const inputPh = hasToken ? 'Token is set' : 'Enter Socrata App Token';
+      const btnLabel = hasToken ? 'Remove' : 'Save';
+
+      const $fieldset = $('<fieldset>', {
+        id: 'socrata-app-token-section',
+        style: 'border:1px solid #b9b9b9;margin-top:6px;padding:8px;border-radius:4px;',
+      }).append(
+        $('<legend>', {
+          style: 'margin-bottom:0px;border-bottom-style:none;width:auto;',
+        }).append(
+          $('<span>', {
+            style: 'font-size:14px;font-weight:600;text-transform:uppercase;',
+          }).text('Tyler/Socrata App Token')
+        ),
+        $('<div>', {
+          style: ['display:flex', 'gap:8px', 'align-items:center', 'border:1px solid #b9b9b9', 'border-radius:4px', 'padding:4px 8px'].join(';'),
+        }).append(
+          $('<input>', {
+            type: inputType,
+            id: 'socrata-app-token-input',
+            style: [
+              'flex:1 1 auto',
+              'border:none',
+              'background:transparent',
+              'outline:none',
+              'font-size:12px',
+              'padding:4px 0',
+              'color:inherit',
+            ].join(';'),
+            placeholder: inputPh,
+            disabled: hasToken, // disable input when token is set
+          }).val(inputVal),
+          $('<button>', {
+            id: 'save-socrata-app-token-btn',
+            style: ['border:none', 'background:transparent', 'color:#335', 'margin:0 2px', 'padding:2px 10px', 'border-radius:3px', 'font-size:13px', 'cursor:pointer'].join(';'),
+            text: btnLabel,
+          })
+        ),
+        $('<div>', {
+          style: 'margin:6px 2px 0 2px;',
+        }).append(
+          $('<span>', {
+            style: 'color:#777;font-size:11px;',
+            html: 'Recommended for all <b>·</b> <span style="color:#b00;">Required for V3 API</span>',
+          })
+        )
+      );
+
+      if (!hasToken) {
+        // Show help links if token is not set
+        const $helpDiv = $('<div>', {
+          style: 'margin:2px 2px 0 2px;font-size:11px;',
+        }).append(
+          $('<div>').append(
+            $('<a>', {
+              href: 'https://support.socrata.com/hc/en-us/articles/115004055807-How-to-Sign-Up-for-a-Tyler-Data-Insights-ID',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              style: 'color:#357ab8;text-decoration:underline;',
+              text: 'How to Sign Up for a Tyler Data & Insights ID',
+            })
+          ),
+          $('<div>').append(
+            $('<a>', {
+              href: 'https://support.socrata.com/hc/en-us/articles/210138558-Generating-App-Tokens-and-API-Keys',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              style: 'color:#357ab8;text-decoration:underline;',
+              text: 'How to Generating App Tokens',
+            })
+          )
+        );
+        $fieldset.append($helpDiv);
+      }
+
+      // (insert after anchor)
+      $('#socrata-app-token-anchor').after($fieldset);
+
+      // Single handler for the button
+      $('#save-socrata-app-token-btn')
+        .off('click')
+        .on('click', function () {
+          if (!hasToken) {
+            const token = $('#socrata-app-token-input').val().trim();
+            settings.socrataAppToken = token;
+            saveSettingsToStorage();
+            $(this)
+              .text('Saved!')
+              .delay(1000)
+              .queue(function (next) {
+                $(this).text('Remove');
+                next();
+              });
+          } else {
+            // Remove the token
+            settings.socrataAppToken = '';
+            saveSettingsToStorage();
+          }
+          renderSocrataAppTokenSection();
+        });
+    }
+
+    renderSocrataAppTokenSection();
+    // ---- SOCRATA APP TOKEN SECTION END
+
     $('input[name="gisAddrDisplay"]').change(onGisAddrDisplayChange);
     $('input[name="popupVisibility"]').change(function () {
       isPopupVisible = $(this).val() === 'show';
       togglePopupVisibility();
     });
 
-    // -- add NEW CUSTOM Group Popup & Load All Button  --
+    // -- CUSTOM Group Popup & Load All Button  --
     $('#panel-gis-layers-settings').append(
       $('<fieldset>', { style: 'border:1px solid #8ea0b7;margin-top:6px;padding:8px;border-radius:4px;' }).append(
         $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' }).append(
@@ -3491,8 +3827,9 @@
         }
         $(this).prop('disabled', false).text('Load All Layers');
       });
+    // -- END CUSTOM Group Popup & Load All Button  --
 
-    // Select all subregions under a country
+    // Select all subregions under a country functionality
     $('#panel-gis-layers-settings')
       .off('click', '.gis-select-all-country')
       .on('click', '.gis-select-all-country', async function (e) {
@@ -3500,7 +3837,7 @@
         const country = $(this).data('country');
         // Check all
         $(`.gis-layers-subL1-checkbox[data-country="${country}"]`).prop('checked', true);
-        await batchUpdateSelectedSubL1(); // <- collect and process ONCE
+        await batchUpdateSelectedSubL1(); // <- collect and process only ONCE!
       });
 
     $('#panel-gis-layers-settings')
@@ -3510,7 +3847,7 @@
         const country = $(this).data('country');
         // Uncheck all
         $(`.gis-layers-subL1-checkbox[data-country="${country}"]`).prop('checked', false);
-        await batchUpdateSelectedSubL1(); // <- collect and process ONCE
+        await batchUpdateSelectedSubL1(); // <- collect and process only ONCE!
       });
   }
 
@@ -3789,22 +4126,21 @@
             }
             WazeWrap.Alerts.confirm(
               scriptName,
-              '<div style="color:#ff0000; font-size:17px; font-weight:bold; padding:10px 0; text-align:Left;">' +
-              'Delete group "' + group + '"? \nThis cannot be undone!' + 
-               '</div>',
+              '<div style="color:#ff0000; font-size:17px; font-weight:bold; padding:10px 0; text-align:Left;">' + 'Delete group "' + group + '"? \nThis cannot be undone!' + '</div>',
               function () {
-              delete settings.layerGroups[group];
-              saveSettingsToStorage();
-              loadSettingsFromStorage();
-              populateGroupSelect();
-              setTimeout(function () {
-                if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.success === 'function') {
-                  WazeWrap.Alerts.success(scriptName, 'Group "' + group + '" deleted.');
-                } else {
-                  alert('Group "' + group + '" deleted.');
-                }
-              }, 150);
-            });
+                delete settings.layerGroups[group];
+                saveSettingsToStorage();
+                loadSettingsFromStorage();
+                populateGroupSelect();
+                setTimeout(function () {
+                  if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.success === 'function') {
+                    WazeWrap.Alerts.success(scriptName, 'Group "' + group + '" deleted.');
+                  } else {
+                    alert('Group "' + group + '" deleted.');
+                  }
+                }, 150);
+              }
+            );
           })
       )
     );
@@ -3973,6 +4309,7 @@
    */
   async function loadSpreadsheetAsync(isoCode, regionCodes) {
     const LAYER_DEF_SPREADSHEET_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw/values/';
+    // API_KEY is double-base64 encoded.
     const API_KEY = 'YTJWNVBVRkplbUZUZVVGTlNXOWlVR1pWVjIxcE9VdHJNbVY0TTFoeWNrSlpXbFZuVmtWelRrMVVWUT09';
     const DEC = (s) => atob(atob(s));
 
@@ -4015,12 +4352,8 @@
       result.error = 'Script expected specific column names that are missing.';
     }
 
-    // ---- NEW: support for "ALL" mode ----
-    // Accepts "ALL" (case-insensitive) for either isoCode or regionCodes
+    // Support for "ALL" mode ----
     const loadAll = (typeof isoCode === 'string' && isoCode.toUpperCase() === 'ALL') || (typeof regionCodes === 'string' && regionCodes.toUpperCase() === 'ALL');
-
-    // For safety, regionCodes may be undefined if not passed
-    // We'll ensure we can always use .has() on it, unless loading all
     if (!loadAll && (!regionCodes || typeof regionCodes.has !== 'function')) {
       regionCodes = new Set();
     }
@@ -4029,11 +4362,17 @@
       layerDefRows
         .filter((row) => row.length)
         .forEach((layerDefRow) => {
-          const layerDef = { enabled: '0' };
+          // ---- ENABLED CHECK FIRST! (Skip un-enabled rows early) ----
+          const enabledIdx = fieldNames.indexOf('enabled');
+          let enabledVal = enabledIdx > -1 && layerDefRow[enabledIdx] ? layerDefRow[enabledIdx] : '';
+          const enabled = enabledVal && !['0', 'false', 'no', 'n'].includes(enabledVal.toString().trim().toLowerCase());
+          if (!enabled) return; // SKIP ROW if not enabled
+
+          // ---- Now start parsing, knowing row is enabled ----
+          const layerDef = { enabled: enabledVal };
           let countryId = '';
           let subL1Upper = '';
 
-          // Parse fields
           fieldNames.forEach((fldName, fldIdx) => {
             let value = layerDefRow[fldIdx];
             if (value !== undefined && value.trim().length > 0) {
@@ -4062,6 +4401,7 @@
               } else if (fldName === 'subL1') {
                 subL1Upper = value.toUpperCase();
                 layerDef[fldName] = subL1Upper;
+                return; // Already set the uppercase value
               } else if (fldName === 'restrictTo') {
                 try {
                   const values = value.split(',').map((v) => v.trim().toLowerCase());
@@ -4088,11 +4428,32 @@
             }
           });
 
+          if (typeof layerDef.url === 'string') {
+            const url = layerDef.url;
+            if (/\/rest\/(services|Shared)\//i.test(url) || /\/MapServer(\/\d*)?$/i.test(url) || /\/gis\/rest\//i.test(url)) {
+              layerDef.platform = 'ArcGIS';
+            } else if (/\/resource\/[a-z0-9-]+$/i.test(url)) {
+              layerDef.platform = 'SocrataV2';
+            } else if (/\/api\/v3\/views\/[a-z0-9-]+/i.test(url)) {
+              layerDef.platform = 'SocrataV3';
+            } else {
+              layerDef.platform = 'Other';
+              if (typeof console !== 'undefined' && console.log) {
+                logDebug(`[loadSpreadsheetAsync] Unknown platform for URL: ${url}`, layerDef);
+              }
+            }
+          } else {
+            layerDef.platform = 'Other';
+            if (typeof console !== 'undefined' && console.log) {
+              logDebug(`[loadSpreadsheetAsync] Unknown platform (missing or invalid url):`, layerDef);
+            }
+          }
+          // --- END PLATFORM DETECTION ---
+
           // --- Filter logic for ALL vs specific iso/region ---
           let validSubL1 = false;
 
           if (loadAll) {
-            // Accept every layer as valid, unless access restriction
             layerDef.countrySubL1 = `${layerDef.country || ''}-${layerDef.subL1 || ''}`;
             validSubL1 = true;
           } else {
@@ -4102,8 +4463,7 @@
             validSubL1 = regionCodes && (regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase());
           }
 
-          const enabled = layerDef.enabled && !['0', 'false', 'no', 'n'].includes(layerDef.enabled.toString().trim().toLowerCase());
-          if (validSubL1 && !layerDef.notAllowed && enabled) {
+          if (validSubL1 && !layerDef.notAllowed) {
             const layerExists = _gisLayers.some((existingLayer) => existingLayer.id === layerDef.id);
             if (!layerExists) {
               _gisLayers.push(layerDef);
