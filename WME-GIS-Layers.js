@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.08.10.00
+// @version      2025.08.24.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1204,10 +1204,9 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'Minor update: 2025.08.10.00',
-    'Layer definitions now load via Google Sheets Visualization API (/gviz endpoint).',
-    'No more API key or referrer restrictions so loading is more reliable in all browsers.',
-    'Fixes issues caused by privacy extensions/content blockers (like AdGuard).',
+    'Update: 2025.08.24.00',
+    'Improved keyboard shortcut migration and persistence.',
+    'Shortcuts are reliably registered and saved across sessions.'
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -1986,6 +1985,35 @@
     // --- MERGE with defaults ---
     settings = { ...defaultSettings, ...loadedSettings };
 
+    // --- Legacy shortcut keys migration ---
+    if (settings.toggleHnsOnlyShortcut) {
+      settings.shortcuts.toggleHnsOnly = settings.toggleHnsOnlyShortcut;
+      delete settings.toggleHnsOnlyShortcut;
+      migrated = true;
+    }
+    if (settings.toggleEnabledShortcut) {
+      settings.shortcuts.toggleEnabled = settings.toggleEnabledShortcut;
+      delete settings.toggleEnabledShortcut;
+      migrated = true;
+    }
+
+    // --- MIGRATE legacy shortcut format ---
+    if (settings.shortcuts && typeof settings.shortcuts === 'object') {
+      let migratedShortcuts = false;
+      Object.entries(settings.shortcuts).forEach(([shortcutId, shortcutValue]) => {
+        if (typeof shortcutValue === 'string') {
+          settings.shortcuts[shortcutId] = {
+            raw: shortcutValue,
+            combo: shortcutKeycodesToCombo(shortcutValue),
+          };
+          migratedShortcuts = true;
+        }
+      });
+      if (migratedShortcuts) {
+        logDebug('Migrated legacy shortcut RAW strings to {raw, combo} objects');
+      }
+    }
+
     // --- Save if migrated ---
     if (migrated) {
       saveSettingsToStorage();
@@ -2033,15 +2061,114 @@
         }
       }
     };
+  }
 
-    // --- Legacy shortcut keys migration ---
-    if (settings.toggleHnsOnlyShortcut) {
-      settings.shortcuts.toggleHnsOnly = settings.toggleHnsOnlyShortcut;
-      delete settings.toggleHnsOnlyShortcut;
+  // prettier-ignore
+  const KEYCODE_MAP = {
+  // Letters
+  65: 'A', 66: 'B', 67: 'C', 68: 'D', 69: 'E', 70: 'F', 
+  71: 'G', 72: 'H', 73: 'I', 74: 'J', 75: 'K', 76: 'L', 
+  77: 'M', 78: 'N', 79: 'O', 80: 'P', 81: 'Q', 82: 'R', 
+  83: 'S', 84: 'T', 85: 'U', 86: 'V', 87: 'W', 88: 'X', 
+  89: 'Y', 90: 'Z',
+  // Numbers
+  48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 
+  54: '6', 55: '7', 56: '8', 57: '9'
+  };
+
+  // Modifier letter to value mapping
+  const MOD_LOOKUP = { C: 1, S: 2, A: 4 }; // (Meta/Ctrl share 'C')
+
+  /**
+   * Parses an integer bitmask string representing keyboard modifiers and returns a concatenated SDK combo string.
+   *
+   * Modifiers bitmask:
+   *   1: Control or Meta ("C")
+   *   2: Shift ("S")
+   *   4: Alt ("A")
+   *   8: Meta ("C") (treated as synonymous with Ctrl)
+   *
+   * For example, input "6" (bits 2 and 4 set) returns "SA", input "1" or "8" returns "C".
+   *
+   * @param {string|number} modifiers - The bitmask value as a string or number (e.g., "4", 6).
+   * @returns {string} Concatenated string of modifier letters used by the SDK ("C", "S", "A").
+   */
+  function parseModifiers(modifiers) {
+    const intMod = parseInt(modifiers, 10);
+    let combos = ''; // SDK wants "A", "C", "S" concatenated, not array of words
+    if (intMod & 1) combos += 'C'; // Ctrl or Meta → "C"
+    if (intMod & 2) combos += 'S';
+    if (intMod & 4) combos += 'A';
+    if (intMod & 8) combos += 'C'; // Meta = "C", same as Ctrl per SDK doc
+    return combos;
+  }
+
+  /**
+   * Converts an SDK shortcut combo string (e.g., "A+P", "SA+L") to a raw keycode string (e.g., "4,80").
+   * - If input is already in raw keycode format (e.g., "4,80"), returns it as-is.
+   * - If the input is not a valid combo or raw string, returns it as-is.
+   *
+   * @param {string} comboStr - Shortcut string in SDK format (e.g., "A+P", "SA+L") or raw format (e.g., "4,80").
+   * @returns {string} Raw keycode string (e.g., "4,80") or the original input if unparseable.
+   */
+  function comboToRawKeycodes(comboStr) {
+    if (!comboStr || typeof comboStr !== 'string') return comboStr;
+    // Already RAW (eg "4,80")
+    if (comboStr.match(/^\d+,\d+$/)) return comboStr;
+
+    // Parse "SA+L", "A+P", "C+Q", etc:
+    const sdkMatch = comboStr.match(/^([ACS]+)\+([A-Z0-9])$/);
+    if (sdkMatch) {
+      const modStr = sdkMatch[1];
+      const keyStr = sdkMatch[2];
+
+      // Determine modifier bitmask
+      let modValue = 0;
+      for (const m of modStr) {
+        if (MOD_LOOKUP[m]) modValue |= MOD_LOOKUP[m];
+      }
+
+      // Determine keycode
+      // Letter: use ASCII
+      let keyCode = keyStr.charCodeAt(0);
+
+      // (If needed, Numbers: use numbers 0...9 → 48...57)
+      if (keyStr >= '0' && keyStr <= '9') keyCode = keyStr.charCodeAt(0);
+
+      return `${modValue},${keyCode}`;
     }
-    if (settings.toggleEnabledShortcut) {
-      settings.shortcuts.toggleEnabled = settings.toggleEnabledShortcut;
-      delete settings.toggleEnabledShortcut;
+
+    // If input can't be parsed, fall through (could be a raw keycode fallback?)
+    return comboStr;
+  }
+
+  /**
+   * Converts a raw keycode shortcut string (e.g. "4,72") to a readable SDK combo format (e.g. "A+H").
+   * - If the input is already in SDK combo format ("A+P" or "SA+L"), returns it as-is.
+   * - If the input is blank or "None", returns `null`.
+   * - Otherwise, parses the modifier and keycode to return a combo string.
+   *
+   * @param {string} keycodeStr - Raw shortcut string representing modifiers and key code (e.g. "4,72" or "A+P").
+   * @returns {string|null} SDK combo string (e.g. "A+H", "SA+L"), the original string if unparseable, or `null` if input is blank/"None".
+   */
+  function shortcutKeycodesToCombo(keycodeStr) {
+    if (!keycodeStr || keycodeStr === 'None' || keycodeStr === '') return null;
+
+    if (typeof keycodeStr !== 'string') return keycodeStr;
+    // Already in SDK format ("A+P"), return as-is
+    if (/^[ACS]+\+.+$/.test(keycodeStr)) return keycodeStr;
+
+    const [mod, key] = keycodeStr.split(',').map((x) => x.trim());
+    if (mod === undefined || key === undefined) return keycodeStr;
+
+    const modLetters = parseModifiers(mod);
+
+    // SDK format wants a character ('A', '2'), else keycode number
+    if ((key >= 65 && key <= 90) || (key >= 48 && key <= 57)) {
+      const keyChar = KEYCODE_MAP[key];
+      return modLetters ? `${modLetters}+${keyChar}` : keyChar;
+    } else {
+      return modLetters ? `${modLetters}+${key}` : key;
     }
   }
 
@@ -2060,11 +2187,12 @@
 
     /** @type {Shortcut[]} */
     const shortcuts = sdk.Shortcuts.getAllShortcuts();
-
     shortcuts.forEach(
       /** @param {Shortcut} shortcut */
       (shortcut) => {
-        settings.shortcuts[shortcut.shortcutId] = shortcut.shortcutKeys;
+        const raw = comboToRawKeycodes(shortcut.shortcutKeys);
+        const combo = shortcutKeycodesToCombo(raw);
+        settings.shortcuts[shortcut.shortcutId] = { raw, combo };
       }
     );
 
@@ -4993,21 +5121,39 @@
   }
 
   /**
-   * @param {string} shortcutId
-   * @param {string} description
-   * @param {Function} callback
+   * Registers a keyboard shortcut with the SDK, ensuring the shortcut keys are not already in use.
+   * Logs errors if the shortcut keys are in use or registration fails.
+   *
+   * @param {string} shortcutId - Unique identifier for the shortcut.
+   * @param {string} description - Human-readable description of the shortcut.
+   * @param {Function} callback - Callback to execute when the shortcut is triggered.
+   * @returns {boolean} Returns `true` if registration succeeded, otherwise `false`.
    */
   function createShortcut(shortcutId, description, callback) {
-    let shortcutKeys = settings.shortcuts?.[shortcutId] ?? null;
-    if (shortcutKeys && sdk.Shortcuts.areShortcutKeysInUse({ shortcutKeys })) {
-      shortcutKeys = null;
+    const shortcutObj = settings.shortcuts?.[shortcutId] ?? null;
+    let shortcutKeys = shortcutObj?.combo ?? null;
+
+    // Always convert to combo format for SDK
+    if (shortcutKeys) {
+      if (sdk.Shortcuts.areShortcutKeysInUse({ shortcutKeys })) {
+        logError(`Shortcut Keys "${shortcutKeys}" are already in use by another script. "${description}" will not be set with these keys.`);
+        shortcutKeys = null;
+      }
     }
-    sdk.Shortcuts.createShortcut({
-      shortcutId,
-      shortcutKeys, // may be null
-      description,
-      callback,
-    });
+
+    try {
+      sdk.Shortcuts.createShortcut({
+        shortcutId,
+        shortcutKeys,
+        description,
+        callback,
+      });
+      logDebug(`Shortcut Registration successful for "${description}" with keys: "${shortcutKeys}"`);
+      return true;
+    } catch (e) {
+      logError(`Failed to register Shortcut "${description}" (${shortcutKeys}): ${e.message || e}`);
+      return false;
+    }
   }
 
   /**
@@ -5030,12 +5176,16 @@
       userInfo = sdk.State.getUserInfo();
       labelProcessingGlobalVariables.sdk = sdk;
       loadSettingsFromStorage();
-      createShortcut('toggleHnsOnly', 'Toggle HN-only address labels (GIS Layers)', onAddressDisplayShortcutKey);
+
+      // Register shortcuts with stored keys (if set), else with no keys (user must assign)
+      createShortcut('toggleHnsOnly', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);
       createShortcut('toggleEnabled', 'Toggle display of GIS Layers', onToggleGisLayersShortcutKey);
+
       installPathFollowingLabels();
       window.addEventListener('beforeunload', saveSettingsToStorage, false);
       _layerSettingsDialog = new LayerSettingsDialog();
     }
+
     const t0 = performance.now();
     try {
       await buildCountrySubdivisionMapping();
