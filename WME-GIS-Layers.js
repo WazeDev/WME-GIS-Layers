@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.08.24.00
+// @version      2025.08.28.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -182,6 +182,7 @@
 // @connect essex-gis.co.essex.ny.us
 // @connect explore.opelika-al.gov
 // @connect fcgis.franklincountypa.gov
+// @connect fcgis.frederickcountymd.gov
 // @connect feature.geographic.texas.gov
 // @connect feature.tnris.org
 // @connect fieldstone.orangecountync.gov
@@ -253,6 +254,7 @@
 // @connect gis.buncombecounty.org
 // @connect gis.burkenc.org
 // @connect gis.burleighco.com
+// @connect gis.burnaby.ca
 // @connect gis.buttecounty.net
 // @connect gis.caldwellcountync.org
 // @connect gis.calhouncounty.org
@@ -363,6 +365,7 @@
 // @connect gis.elkocountynv.net
 // @connect gis.elpasotexas.gov
 // @connect gis.emmetcounty.org
+// @connect gis.erie.gov
 // @connect gis.eriecountypa.gov
 // @connect gis.fortlauderdale.gov
 // @connect gis.franklincountyohio.gov
@@ -575,7 +578,6 @@
 // @connect gis2.co.dakota.mn.us
 // @connect gis2.co.marathon.wi.us
 // @connect gis2.co.ozaukee.wi.us
-// @connect gis2.erie.gov
 // @connect gis2.gworks.com
 // @connect gis2.idaho.gov
 // @connect gis2.lawrenceks.org
@@ -618,6 +620,7 @@
 // @connect gisinfo.co.portage.wi.gov
 // @connect gisinfo.co.walworth.wi.us
 // @connect gisinfo.lawrencevillega.org
+// @connect gisinfo.wichitafallstx.gov
 // @connect gismap.augustaga.gov
 // @connect gismap.cityofboise.org
 // @connect gismap.co.juneau.wi.us
@@ -650,6 +653,7 @@
 // @connect gisportal.dot.ct.gov
 // @connect gisportal.fnsb.gov
 // @connect gisportal.ircgov.com
+// @connect gisportal.nct911.org
 // @connect gisportal.ontarioca.gov
 // @connect gisportal.stocktonca.gov
 // @connect gisportal.stpgov.org
@@ -659,6 +663,7 @@
 // @connect gisprodops.chesco.org
 // @connect gispub.cityofaspen.com
 // @connect gispub.co.washington.or.us
+// @connect gispublic.barrie.ca
 // @connect gispublic.co.lake.ca.us
 // @connect gispw.coloradosprings.gov
 // @connect gisrevprxy.seattle.gov
@@ -860,7 +865,6 @@
 // @connect maps.fishers.in.us
 // @connect maps.flathead.mt.gov
 // @connect maps.floridadisaster.org
-// @connect maps.frederickcountymd.gov
 // @connect maps.fredericksburgva.gov
 // @connect maps.garfield-county.com
 // @connect maps.garlandtx.gov
@@ -928,7 +932,6 @@
 // @connect maps.sgcityutah.gov
 // @connect maps.shelbyal.com
 // @connect maps.slocity.org
-// @connect maps.spartanburgcounty.org
 // @connect maps.springfieldmo.gov
 // @connect maps.steamboatsprings.net
 // @connect maps.stlouisco.com
@@ -1023,7 +1026,6 @@
 // @connect portal.henrico.gov
 // @connect portal.niagarafalls.ca
 // @connect programs.iowadnr.gov
-// @connect propaccess.wadtx.com
 // @connect propertyviewer.andersoncountysc.org
 // @connect proxy2.roktech.net
 // @connect psportal.harrisoncountywv.com
@@ -1039,7 +1041,6 @@
 // @connect rallsgis.integritygis.com
 // @connect raygis.integritygis.com
 // @connect rc-arcgis01.co.rice.mn.us
-// @connect rdsgis.nctgis.nct911.org
 // @connect renogis3.renogov.org
 // @connect roads.udot.utah.gov
 // @connect rockgis.co.rock.wi.us
@@ -1060,6 +1061,7 @@
 // @connect server2.mapxpress.net
 // @connect services.aadnc-aandc.gc.ca
 // @connect services.arcgis.com
+// @connect services.co.schuylkill.pa.us
 // @connect services.gis.ca.gov
 // @connect services.gisqatar.org.qa
 // @connect services.mh-gis.com
@@ -1184,6 +1186,7 @@
 // @connect www.valorgis.com
 // @connect www.waynecounty.com
 // @connect www.webgis.net
+// @connect www.wildlifedepartment.com
 // @connect www.yamhillcountygis.com
 // @connect www1.cityofwebster.com
 // @connect www2.ci.lancaster.oh.us
@@ -1196,6 +1199,21 @@
 
 /* global WazeWrap, _, turf, ESTreeProcessor, bootstrap, OpenLayers, wmeGisLBBOX */
 
+/**
+ * WME GIS Layers Script - Main initialization function
+ *
+ * Initializes and manages GIS layer functionality for Waze Map Editor including:
+ * - Loading and displaying GIS layers from various data sources (ArcGIS, Socrata)
+ * - Managing user settings and layer visibility
+ * - Handling keyboard shortcuts and UI interactions
+ * - Processing and styling map features
+ * - Supporting custom layer groups and filtering
+ *
+ * @async
+ * @function main
+ * @returns {Promise<void>} Resolves when initialization is complete
+ * @throws {Error} If critical initialization steps fail
+ */
 (async function main() {
   'use strict';
 
@@ -1204,9 +1222,14 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'Update: 2025.08.24.00',
-    'Improved keyboard shortcut migration and persistence.',
-    'Shortcuts are reliably registered and saved across sessions.'
+    'Update: 2025.08.28.00',
+    'Add font selection dropdown to label settings; include multiple commonly used system fonts for improved customization.',
+    'GIS Fetch: Faster, stable, supports concurrency',
+    '- Caches map extent to prevent redundant queries',
+    '- Groups layers by host; batches concurrent requests to avoid server overload',
+    '- Improved error handling; UI shows individual layer failures',
+    '- Fetches are cancellation-aware; debounced to prevent race conditions',
+    '- Code cleanup and documentation',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -1215,6 +1238,21 @@
   const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
   const DEFAULT_LAYER_NAME = 'GIS Layers - Default';
   const ROAD_LAYER_NAME = 'GIS Layers - Roads';
+
+  /**
+   * @external jQuery
+   * @see {@link https://jquery.com/}
+   */
+
+  /**
+   * @external turf
+   * @see {@link https://turfjs.org/}
+   */
+
+  /**
+   * @external lodash
+   * @see {@link https://lodash.com/}
+   */
 
   /**
    * @typedef {Object} StyleDefinition
@@ -1238,6 +1276,7 @@
    * @property {string|number} [pathLabelCurve]
    * @property {string|number} [pathLabelReadable]
    * @property {boolean} [stroke]
+   * @property {string} [fontFamily]
    */
   /** @type {StyleDefinition} */
   const DEFAULT_STYLE = {
@@ -1252,6 +1291,7 @@
     fontSize: '13',
     labelOutlineColor: 'black',
     labelOutlineWidth: 3,
+    fontFamily: 'inherit',
   };
 
   /** @type {Object.<string, StyleDefinition>} */
@@ -1340,11 +1380,156 @@
     strokeOpacity: 0.4,
     fontWeight: 'bold',
     fontSize: 11,
+    fontFamily: 'inherit',
   };
 
   /**
+   * @typedef {Object} GisLayer
+   * @property {string} id - Unique identifier for the GIS layer
+   * @property {number} enabled - 1 if the layer is enabled, 0 otherwise
+   * @property {string} name - Human-readable name of the layer for display
+   * @property {string} country - Country ISO_ALPHA3 code associated with the layer (e.g., "USA", "CAN")
+   * @property {string} subL1 - Subdivision level 1 code (state/province, uppercased)
+   * @property {string[]} [subL2] - Optional array of subdivision level 2 names (counties/regions)
+   * @property {string} url - Service URL for the GIS layer (ArcGIS MapServer or Socrata endpoint)
+   * @property {string} [where] - Optional SQL/query filter string for limiting results
+   * @property {string[]} [labelFields] - Array of field names to use for feature labels
+   * @property {string} [processLabel] - Optional JavaScript code for custom label processing
+   * @property {boolean} [labelProcessingError] - True if an error occurred compiling processLabel
+   * @property {Object|string} [style] - Style object for rendering or "roads" for road-specific styling
+   * @property {boolean} [isRoadLayer] - True if this layer contains road/line features with path labels
+   * @property {number|null} [visibleAtZoom] - Minimum zoom level for layer visibility (null = use default)
+   * @property {number|null} [labelsVisibleAtZoom] - Minimum zoom level for label visibility
+   * @property {string} [restrictTo] - Comma-separated access restrictions (ranks, usernames, "am" for area managers)
+   * @property {boolean} [notAllowed] - True if current user doesn't meet restrictTo requirements
+   * @property {string} [oneTimeAlert] - Alert message shown once when layer is first enabled
+   * @property {'ArcGIS'|'SocrataV2'|'SocrataV3'|'Other'} [platform] - Detected service platform type
+   * @property {string} countrySubL1 - Computed country-subL1 identifier (e.g., "USA-CALIFORNIA")
+   */
+
+  /**
+   * Array of all loaded GIS layer definitions
+   * @type {GisLayer[]}
+   */
+  let _gisLayers = [];
+
+  /**
+   * Information about a single country in results.
+   * @typedef {object} WhatsInViewCountry
+   * @property {string} ISO_ALPHA2
+   * @property {string} ISO_ALPHA3
+   * @property {number} Sub_level
+   * @property {string} [source]
+   * @property {Object<string, Object>|Object} subL1
+   *   Intersecting subdivisions (states/counties/etc). Structure depends on country and precision.
+   */
+
+  /**
+   * Main return type for whatsInView.
+   * - Keys are country names, values are country info objects.
+   * @typedef {Object.<string, WhatsInViewCountry>} WhatsInViewResult
+   */
+
+  /**
+   * Current viewport intersection data showing visible countries and subdivisions
+   * @type {WhatsInViewResult}
+   */
+  let _whatsInView = {};
+
+  /**
+   * Cached hash of the last checked map extent to avoid redundant whatsInView calls
+   * @type {string|null}
+   */
+  let _lastExtentHash = null;
+
+  /**
+   * Set of country ISO_ALPHA3 codes that have already been loaded from the spreadsheet
+   * @type {Set<string>}
+   */
+  const alreadyLoadedCountries = new Set();
+
+  /**
+   * Set of subdivision (subL1) codes that have already been loaded from the spreadsheet
+   * @type {Set<string>}
+   */
+  const alreadyLoadedSubL1 = new Set();
+
+  /**
+   * @typedef {object} ViewportBBox
+   * @property {number} minLon
+   * @property {number} minLat
+   * @property {number} maxLon
+   * @property {number} maxLat
+   */
+
+  /**
+   * @typedef {object} wmeGisLBBOX
+   * @property {(url: string) => Promise<object>} fetchJsonWithCache
+   * @property {(viewportBbox: ViewportBBox) => Promise<Array<{ISO_ALPHA2:string, ISO_ALPHA3:string, name:string, Sub_level:number, source:string}>>} getIntersectingCountries
+   * @property {() => Promise<Object>} getCountriesAndSubsJson
+   * @property {(intersectingCountries: Object) => void} cleanIntersectingData
+   * @property {(countyCode: string, subCode: string, subSubCode: string, viewportBbox: ViewportBBox, returnGeoJson?: boolean) => Promise<boolean|Object>} fetchAndCheckGeoJsonIntersection
+   * @property {(viewportBbox: ViewportBBox, highPrecision?: boolean, returnGeoJson?: boolean) => Promise<Object>} getIntersectingStatesAndCounties
+   * @property {(countryObj: Object, viewportBbox: ViewportBBox) => Promise<Object>} getIntersectingSubdivisions
+   * @property {(viewportBbox: ViewportBBox, highPrecision?: boolean, returnGeoJson?: boolean) => Promise<Object>} whatsInView
+   */
+
+  /**
+   * @typedef {Object} ProcessedFeature
+   * @property {string} type - GeoJSON feature type, typically "Feature"
+   * @property {Object} geometry - GeoJSON geometry object
+   * @property {string} geometry.type - Geometry type (Point, LineString, Polygon, etc.)
+   * @property {Array} geometry.coordinates - Coordinate array structure varies by geometry type
+   * @property {Object} properties - Feature properties
+   * @property {string} properties.layerID - ID of the GIS layer this feature belongs to
+   * @property {string} properties.label - Display label for the feature
+   * @property {string|number} id - Unique identifier for the feature
+   * @property {boolean} [skipDupeCheck] - If true, skip deduplication checks for this feature
+   */
+
+  /**
+   * @typedef {Object} UserSession
+   * @property {boolean} isAreaManager - True if user has area manager permissions
+   * @property {boolean} isCountryManager - True if user has country manager permissions
+   * @property {number} rank - User's editing rank (1-6, where 6 is highest)
+   * @property {string} userName - User's Waze username
+   */
+
+  /** @type {wmeGisLBBOX} */
+  const WmeGisLBBOX = new wmeGisLBBOX(); // Create and reuse this instance as wmeGisLBBOX uses an instance-level cache (i.e., this.cache)
+
+  /**
+   * Maps a string key (`countryId-countryId` or `countryId-subdivisionId`) to a full name string.
+   * Example keys: "US-US", "US-CA", etc.
+   * Example values: "US - United States", "US - California", etc.
+   * @type {Object.<string, string>}
+   */
+  let countrySubdivisionMapping = {};
+
+  /**
+   * @typedef {Object} PopupPosition
+   * @property {string} left - CSS left position (e.g., "50%", "100px")
+   * @property {string} top - CSS top position (e.g., "50%", "200px")
+   */
+
+  /**
+   * @typedef {Object.<string, Set<string>>} LayerLabelsMap
+   * @description Maps layer names to Sets of unique label strings for popup display
+   */
+
+  /**
+   * @typedef {Array<{phrase: RegExp, acronym: string}>} ReplacementPatterns
+   * @description Array of regex patterns and their replacement acronyms for label processing
+   */
+
+  /**
+   * @typedef {Object.<string, RegExp>} RegexReplaceMap
+   * @description Map of regex patterns for label cleansing/transformation operations
+   */
+
+  /**
    * Common regexes used for label cleansing/transformation.
-   * @type {Object.<string, RegExp>}
+   * @type {RegexReplaceMap}
    */
   const _regexReplace = {
     // Strip leading zeros or blank full label for any label starting with a non-digit or
@@ -1370,94 +1555,11 @@
   };
 
   /**
-   * @typedef {Object} GisLayer
-   * @property {string} id - Unique identifier for the GIS layer.
-   * @property {number} enabled - 1 if the layer is enabled, 0 otherwise.
-   * @property {string} name - Human-readable name of the layer.
-   * @property {string} country - Country ISO code associated with the layer (uppercased).
-   * @property {string} subL1 - Subdivision level 1 code (uppercased).
-   * @property {string[]} [subL2] - Optional array of subdivision level 2 names (parsed from comma-separated string).
-   * @property {string} url - Service URL for the GIS layer.
-   * @property {string} [where] - Optional SQL/query filter string.
-   * @property {string[]} [labelFields] - Array of label field names (parsed, or [''] if missing).
-   * @property {string} [processLabel] - Optional label processing JavaScript code (as a string).
-   * @property {boolean} [labelProcessingError] - True if an error occurred while compiling processLabel.
-   * @property {Object|string} [style] - Style object (parsed from JSON) or "roads" for road layers.
-   * @property {boolean} [isRoadLayer] - True if the style is set to "roads".
-   * @property {number|null} [visibleAtZoom] - Minimum zoom level at which the layer is visible (or null).
-   * @property {number|null} [labelsVisibleAtZoom] - Minimum zoom level at which labels are visible (or null).
-   * @property {string} [restrictTo] - Restriction rules for this layer (parsed for "notAllowed").
-   * @property {boolean} [notAllowed] - True if restrictions disallow the current user (based on restrictTo).
-   * @property {string} [oneTimeAlert] - One-time alert message for this layer.
-   * @property {string} [platform] - Detected service platform (e.g., "ArcGIS", "SocrataV2", "SocrataV3", "Other").
-   * @property {string} countrySubL1 - Computed country and SubL1 code combined (e.g., "USA-CALIFORNIA").
-   */
-  /** @type {GisLayer[]} */
-  let _gisLayers = [];
-
-  /**
-   * Information about a single country in results.
-   * @typedef {object} WhatsInViewCountry
-   * @property {string} ISO_ALPHA2
-   * @property {string} ISO_ALPHA3
-   * @property {number} Sub_level
-   * @property {string} [source]
-   * @property {Object<string, Object>|Object} subL1
-   *   Intersecting subdivisions (states/counties/etc). Structure depends on country and precision.
-   */
-
-  /**
-   * Main return type for whatsInView.
-   * - Keys are country names, values are country info objects.
-   * @typedef {Object.<string, WhatsInViewCountry>} WhatsInViewResult
-   */
-
-  /** @type {WhatsInViewResult} */
-  let _whatsInView = {};
-
-  /** @type {Set<string>} Set of ISO_ALPHA3 country codes already loaded */
-  const alreadyLoadedCountries = new Set();
-
-  /** @type {Set<string>} Set of subdivision (subL1_id) codes already loaded */
-  const alreadyLoadedSubL1 = new Set();
-
-  /**
-   * @typedef {object} ViewportBBox
-   * @property {number} minLon
-   * @property {number} minLat
-   * @property {number} maxLon
-   * @property {number} maxLat
-   */
-  /**
-   * @typedef {object} wmeGisLBBOX
-   * @property {(url: string) => Promise<object>} fetchJsonWithCache
-   * @property {(viewportBbox: ViewportBBox) => Promise<Array<{ISO_ALPHA2:string, ISO_ALPHA3:string, name:string, Sub_level:number, source:string}>>} getIntersectingCountries
-   * @property {() => Promise<Object>} getCountriesAndSubsJson
-   * @property {(intersectingCountries: Object) => void} cleanIntersectingData
-   * @property {(countyCode: string, subCode: string, subSubCode: string, viewportBbox: ViewportBBox, returnGeoJson?: boolean) => Promise<boolean|Object>} fetchAndCheckGeoJsonIntersection
-   * @property {(viewportBbox: ViewportBBox, highPrecision?: boolean, returnGeoJson?: boolean) => Promise<Object>} getIntersectingStatesAndCounties
-   * @property {(countryObj: Object, viewportBbox: ViewportBBox) => Promise<Object>} getIntersectingSubdivisions
-   * @property {(viewportBbox: ViewportBBox, highPrecision?: boolean, returnGeoJson?: boolean) => Promise<Object>} whatsInView
-   */
-  /** @type {wmeGisLBBOX} */
-  const WmeGisLBBOX = new wmeGisLBBOX(); // Create and reuse this instance as wmeGisLBBOX uses an instance-level cache (i.e., this.cache)
-
-  /**
-   * Maps a string key (`countryId-countryId` or `countryId-subdivisionId`) to a full name string.
-   * Example keys: "US-US", "US-CA", etc.
-   * Example values: "US - United States", "US - California", etc.
-   * @type {Object.<string, string>}
-   */
-  let countrySubdivisionMapping = {};
-
-  /**
-   * Asynchronously builds a mapping from 'countryId-subdivisionId' identifiers to their respective names.
+   * Asynchronously builds a mapping from country-subdivision identifiers to display names.
    *
-   * Retrieves country and subdivision data using WmeGisLBBOX.getCountriesAndSubsJson(),
-   * iterates over the data, and constructs an object where each key is a combination of
-   * country and subdivision IDs and each value is the corresponding name ("US - California").
-   *
-   * @returns {Promise<Object.<string, string>>} Resolves to the mapping object.
+   * @async
+   * @returns {Promise<Object.<string, string>>} Resolves to mapping object where keys are "COUNTRY-SUBDIVISION" and values are display names
+   * @throws {Error} If country/subdivision data cannot be retrieved
    */
   async function buildCountrySubdivisionMapping() {
     const countriesAndSubs = await WmeGisLBBOX.getCountriesAndSubsJson();
@@ -1481,13 +1583,15 @@
   }
 
   /**
-   * Helper for mapping between country-subdivision keys and their full names.
+   * @namespace NameMapper
+   * @description Utility object for converting between country-subdivision keys and display names
    */
   const NameMapper = {
     /**
-     * Converts a full name ("US - California") to its key ("US-CA").
-     * @param {string} fullName - Full name to convert.
-     * @returns {string|undefined} Matching key, or undefined if not found.
+     * Converts a full display name to its corresponding key
+     * @memberof NameMapper
+     * @param {string} fullName - Full name like "US - California"
+     * @returns {string|undefined} Key like "US-CA", or undefined if not found
      */
     toKey(fullName) {
       return Object.entries(countrySubdivisionMapping).find(([, value]) => value === fullName)?.[0];
@@ -1495,6 +1599,7 @@
 
     /**
      * Converts a key ("US-CA") to its full name ("US - California").
+     * @memberof NameMapper
      * @param {string} key
      * @returns {string} The corresponding full name or undefined.
      */
@@ -1504,6 +1609,7 @@
 
     /**
      * Returns all full names in the mapping.
+     * @memberof NameMapper
      * @returns {Array<string>} Array of all full names.
      */
     toFullNameArray() {
@@ -1512,6 +1618,7 @@
 
     /**
      * Returns all keys in the mapping.
+     * @memberof NameMapper
      * @returns {Array<string>} Array of all keys.
      */
     toKeyArray() {
@@ -1640,20 +1747,36 @@
   let userInfo = null;
 
   // Variables to store Label popup position and selected layer
-  /** @type {Object.<string, Set<string>>} */
+  /**
+   * Maps layer names to Sets of unique label strings for popup display
+   * @type {LayerLabelsMap}
+   */
   const layerLabels = {};
-  /** @type {boolean} */
+
+  /**
+   * Tracks visibility state of the layer label popup
+   * @type {boolean}
+   */
   let isPopupVisible = false;
-  /** @type {{left: string, top: string}} */
+
+  /**
+   * Stores the current position of the draggable popup
+   * @type {PopupPosition}
+   */
   const popupPosition = { left: '50%', top: '50%' };
+
   /** @type {string | null} */
   let popupActiveLayer = null;
+
   /** @type {boolean} */
   let useAcronyms = false;
+
   /** @type {boolean} */
   let useTitleCase = false;
+
   /** @type {boolean} */
   let useStateHwy = false;
+
   /** @type {boolean} */
   let removeNewLines = false;
 
@@ -1678,11 +1801,34 @@
     if (DEBUG) console.debug(`${scriptName}:`, message, ...args);
   }
 
+  /**
+   * Global instance of the LayerSettingsDialog class for configuring individual GIS layer properties.
+   *
+   * This dialog provides users with:
+   * - Layer offset controls (shift up/down/left/right by 1m or 10m)
+   * - Zoom visibility settings (minimum zoom level for layer display)
+   * - Reset functionality for both offsets and zoom settings
+   *
+   * The dialog is created during initialization and reused throughout the application lifecycle.
+   * Access the dialog through right-click context menu on layer labels in the settings panel.
+   *
+   * @type {LayerSettingsDialog|undefined}
+   */
   let _layerSettingsDialog;
 
   /**
-   * Dialog for configuring GIS layer settings in the UI.
-   * Provides shift controls, visibility at zoom, and offset reset.
+   * Dialog for configuring individual GIS layer settings and properties.
+   *
+   * Provides an interactive UI for users to:
+   * - Adjust layer positioning with directional shift controls (1m or 10m increments)
+   * - Set minimum zoom level for layer visibility (12-22 range)
+   * - Reset layer offsets to original position
+   * - Reset zoom visibility to layer defaults
+   *
+   * The dialog is draggable and modal, appearing when users right-click on layer labels.
+   * Changes are immediately applied to the map and persisted to user settings.
+   *
+   * @class LayerSettingsDialog
    */
   class LayerSettingsDialog {
     #gisLayer;
@@ -1923,7 +2069,46 @@
     }
   }
 
-  function loadSettingsFromStorage() {
+  /**
+   * Loads user settings from localStorage and initializes the global settings object.
+   *
+   * Performs the following operations:
+   * - Retrieves stored settings from localStorage using {@link SETTINGS_STORE_NAME} key
+   * - Merges stored settings with default values to ensure all required properties exist
+   * - On first call only: Migrates legacy settings formats to current structure (selectedStates → selectedSubL1, shortcut formats)
+   * - Assigns utility methods for layer-specific setting management
+   * - Synchronizes global UI state variables with loaded settings
+   * - Auto-saves if any migrations were performed (first call only)
+   *
+   * Migration Features (first call only):
+   * - Converts old `selectedStates` array to `selectedSubL1` format (USA-STATE)
+   * - Migrates legacy shortcut properties to `shortcuts` object structure
+   * - Upgrades shortcut format from raw strings to `{raw, combo}` objects
+   *
+   * The resulting settings object includes utility methods:
+   * - `getLayerSetting(layerID, settingName)` - Retrieve layer-specific setting
+   * - `setLayerSetting(layerID, settingName, value)` - Set layer-specific setting
+   * - `removeLayerSetting(layerID, settingName?)` - Remove setting or entire layer config
+   *
+   * @function loadSettingsFromStorage
+   * @param {boolean} [firstCall=false] - Whether this is the initial script load (enables migrations)
+   * @returns {void} No return value - modifies global {@link settings} object and UI state variables
+   * @throws {Error} Logs parsing errors but continues with default settings
+   *
+   * @see {@link saveSettingsToStorage}
+   * @see {@link SETTINGS_STORE_NAME}
+   * @see {@link settings}
+   *
+   * @example
+   * // Called during script initialization with migrations
+   * loadSettingsFromStorage(true);
+   *
+   * @example
+   * // Called during runtime refresh without migrations
+   * loadSettingsFromStorage();
+   * loadSettingsFromStorage(false);
+   */
+  function loadSettingsFromStorage(firstCall = false) {
     const defaultSettings = {
       lastVersion: '',
       visibleLayers: [],
@@ -1944,6 +2129,7 @@
       layerGroups: {},
       addrLabelDisplay: 'all',
       socrataAppToken: '',
+      fontFamily: 'inherit',
       getLayerSetting: function () {
         return undefined;
       },
@@ -1968,57 +2154,58 @@
       }
     }
 
-    // ---- MIGRATION: old selectedStates -> selectedSubL1 ----
-    if (loadedSettings.selectedStates && Array.isArray(loadedSettings.selectedStates)) {
-      if (!Array.isArray(loadedSettings.selectedSubL1)) loadedSettings.selectedSubL1 = [];
-      loadedSettings.selectedStates.forEach((stateCode) => {
-        const converted = `USA-${stateCode}`;
-        if (!loadedSettings.selectedSubL1.includes(converted)) {
-          loadedSettings.selectedSubL1.push(converted);
+    // ---- MIGRATION SECTION: Only run on first call ----
+    if (firstCall) {
+      // MIGRATION: old selectedStates -> selectedSubL1
+      if (loadedSettings.selectedStates && Array.isArray(loadedSettings.selectedStates)) {
+        if (!Array.isArray(loadedSettings.selectedSubL1)) loadedSettings.selectedSubL1 = [];
+        loadedSettings.selectedStates.forEach((stateCode) => {
+          const converted = `USA-${stateCode}`;
+          if (!loadedSettings.selectedSubL1.includes(converted)) {
+            loadedSettings.selectedSubL1.push(converted);
+          }
+        });
+        delete loadedSettings.selectedStates;
+        migrated = true;
+        logDebug('Migrated legacy selectedStates to selectedSubL1');
+      }
+
+      // Legacy shortcut keys migration
+      if (loadedSettings.toggleHnsOnlyShortcut) {
+        if (!loadedSettings.shortcuts) loadedSettings.shortcuts = {};
+        loadedSettings.shortcuts.toggleHnsOnly = loadedSettings.toggleHnsOnlyShortcut;
+        delete loadedSettings.toggleHnsOnlyShortcut;
+        migrated = true;
+      }
+      if (loadedSettings.toggleEnabledShortcut) {
+        if (!loadedSettings.shortcuts) loadedSettings.shortcuts = {};
+        loadedSettings.shortcuts.toggleEnabled = loadedSettings.toggleEnabledShortcut;
+        delete loadedSettings.toggleEnabledShortcut;
+        migrated = true;
+      }
+
+      // MIGRATE legacy shortcut format
+      if (loadedSettings.shortcuts && typeof loadedSettings.shortcuts === 'object') {
+        let migratedShortcuts = false;
+        Object.entries(loadedSettings.shortcuts).forEach(([shortcutId, shortcutValue]) => {
+          if (typeof shortcutValue === 'string') {
+            loadedSettings.shortcuts[shortcutId] = {
+              raw: shortcutValue,
+              combo: shortcutKeycodesToCombo(shortcutValue),
+            };
+            migratedShortcuts = true;
+          }
+        });
+        if (migratedShortcuts) {
+          logDebug('Migrated legacy shortcut RAW strings to {raw, combo} objects');
+          migrated = true;
         }
-      });
-      delete loadedSettings.selectedStates;
-      migrated = true;
-      logDebug('Migrated legacy selectedStates to selectedSubL1');
+      }
     }
+    // ---- END MIGRATION SECTION ----
 
     // --- MERGE with defaults ---
     settings = { ...defaultSettings, ...loadedSettings };
-
-    // --- Legacy shortcut keys migration ---
-    if (settings.toggleHnsOnlyShortcut) {
-      settings.shortcuts.toggleHnsOnly = settings.toggleHnsOnlyShortcut;
-      delete settings.toggleHnsOnlyShortcut;
-      migrated = true;
-    }
-    if (settings.toggleEnabledShortcut) {
-      settings.shortcuts.toggleEnabled = settings.toggleEnabledShortcut;
-      delete settings.toggleEnabledShortcut;
-      migrated = true;
-    }
-
-    // --- MIGRATE legacy shortcut format ---
-    if (settings.shortcuts && typeof settings.shortcuts === 'object') {
-      let migratedShortcuts = false;
-      Object.entries(settings.shortcuts).forEach(([shortcutId, shortcutValue]) => {
-        if (typeof shortcutValue === 'string') {
-          settings.shortcuts[shortcutId] = {
-            raw: shortcutValue,
-            combo: shortcutKeycodesToCombo(shortcutValue),
-          };
-          migratedShortcuts = true;
-        }
-      });
-      if (migratedShortcuts) {
-        logDebug('Migrated legacy shortcut RAW strings to {raw, combo} objects');
-      }
-    }
-
-    // --- Save if migrated ---
-    if (migrated) {
-      saveSettingsToStorage();
-      logDebug('Settings saved after migration');
-    }
 
     // --- Assign globals ---
     isPopupVisible = settings.isPopupVisible;
@@ -2061,6 +2248,12 @@
         }
       }
     };
+
+    // --- Save if migrated (after settings object is fully constructed) ---
+    if (firstCall && migrated) {
+      saveSettingsToStorage();
+      logDebug('Settings saved after migration');
+    }
   }
 
   // prettier-ignore
@@ -2174,13 +2367,34 @@
 
   /**
    * Saves current application settings and shortcut definitions to localStorage.
-   * Serializes the `settings` object and stores under the key `SETTINGS_STORE_NAME`.
    *
-   * @typedef {Object} Shortcut
-   * @property {string} shortcutId - Unique identifier for the shortcut.
-   * @property {string} shortcutKeys - Key combination for activating the shortcut.
+   * Serializes the global {@link settings} object (including all user preferences,
+   * layer configurations, and shortcut definitions) and stores it under the
+   * {@link SETTINGS_STORE_NAME} key for persistence across browser sessions.
    *
-   * @returns {void}
+   * Settings preserved include:
+   * - Layer visibility states and custom configurations
+   * - User interface preferences (enabled state, UI visibility)
+   * - Keyboard shortcut mappings and custom key combinations
+   * - Geographic selections (countries, states, etc.)
+   * - Layer-specific settings (offsets, zoom levels, etc.)
+   *
+   * @function saveSettingsToStorage
+   * @returns {void} No return value - data is persisted to localStorage
+   * @throws {Error} May throw if localStorage quota exceeded or unavailable
+   *
+   * @see {@link loadSettingsFromStorage}
+   * @see {@link SETTINGS_STORE_NAME}
+   * @see {@link settings}
+   *
+   * @example
+   * // Save after user changes a setting
+   * settings.enabled = false;
+   * saveSettingsToStorage();
+   *
+   * // Save after modifying layer settings
+   * settings.setLayerSetting('layer1', 'visible', true);
+   * saveSettingsToStorage();
    */
   function saveSettingsToStorage() {
     settings.shortcuts = {};
@@ -2233,12 +2447,24 @@
   }
 
   /**
-   * Build a feature query URL for a GIS layer given a bounding extent and zoom.
+   * Constructs a GIS feature query URL for a layer based on platform type, map extent, and zoom level.
    *
-   * @param {[number, number, number, number]} extent - [xmin, ymin, xmax, ymax] bounding box in EPSG:4326
-   * @param {GisLayer} gisLayer - Layer definition object
-   * @param {number} zoom - Display zoom level
-   * @returns {string} The fully constructed query URL, or '' on error
+   * Supports:
+   * - ArcGIS: geometry envelope query
+   * - Socrata V2: SODA API .geojson endpoint
+   * - Socrata V3: SQL-in-query (GeoJSON response)
+   *
+   * Returns the fully constructed query URL (string) used for data requests.
+   *
+   * @function getUrl
+   * @param {[number, number, number, number]} extent - Bounding box ([xmin, ymin, xmax, ymax]) in longitude/latitude (WGS84).
+   * @param {GisLayer} gisLayer - The GIS layer definition (includes url, platform, labelFields, where, etc.).
+   * @param {number} zoom - Current map zoom level (affects spatial offset/precision).
+   * @returns {string} URL string for the HTTP GET request to fetch features for the layer. Returns empty string if platform unsupported or if required fields are missing.
+   *
+   * @example
+   * const url = getUrl([-74.2, 40.7, -74.1, 40.8], { platform: 'ArcGIS', url: '...', labelFields: ['name'] }, 15);
+   * // Returns constructed ArcGIS query URL
    */
   function getUrl(extent, gisLayer, zoom) {
     /**
@@ -2275,7 +2501,6 @@
       ].filter(Boolean);
 
       const url = `${gisLayer.url}/query?${params.join('&')}`;
-      logDebug(`ArcGIS Request URL: ${url}`);
       return url;
     }
 
@@ -2311,7 +2536,6 @@
         const params = [`$select=${encodeURIComponent(selectClause)}`, whereClause, `$limit=3000`].filter(Boolean);
         let urlBase = gisLayer.url + '.geojson';
         const url = urlBase + '?' + params.join('&');
-        logDebug(`SocrataV2: Request URL: ${url}`);
         return url;
       }
 
@@ -2329,7 +2553,6 @@
         let urlBase = gisLayer.url + '/query.geojson';
         // NOTE: URL-encode the entire SQL string as the query's value
         const url = `${urlBase}?query=${encodeURIComponent(sql)}`;
-        logDebug(`SocrataV3: Request URL: ${url}`);
         return url;
       }
     }
@@ -2339,6 +2562,32 @@
     return '';
   }
 
+  /**
+   * Generates a simple hash code from a string using a basic polynomial rolling hash algorithm.
+   *
+   * This function creates a 32-bit signed integer hash that can be used for quick string comparisons,
+   * caching keys, or generating pseudo-unique identifiers from string content. The algorithm is
+   * deterministic - the same input will always produce the same hash value.
+   *
+   * @function hashString
+   * @param {string} value - The input string to hash. Empty strings return 0.
+   * @returns {number} A 32-bit signed integer hash code. Range: -2,147,483,648 to 2,147,483,647.
+   *
+   * @example
+   * // Basic usage
+   * const hash1 = hashString("Hello World");
+   * const hash2 = hashString("Hello World");
+   * console.log(hash1 === hash2); // true - same input produces same hash
+   *
+   * @example
+   * // Using as cache key
+   * const cacheKey = `layer_${hashString(layer.name + layer.url)}`;
+   *
+   * @example
+   * // Edge cases
+   * hashString(""); // Returns 0
+   * hashString("a"); // Returns 97 (ASCII value of 'a')
+   */
   function hashString(value) {
     let hash = 0;
     if (value.length === 0) return hash;
@@ -2427,28 +2676,40 @@
    *
    * Retrieves the current map extent in WGS84, constructs a {@link ViewportBBox},
    * and passes it to {@link WmeGisLBBOX.whatsInView} with high-precision intersection checks.
-   * The results are stored in the global (or upper-scope) `_whatsInView` variable, typed as {@link WhatsInViewResult}.
+   * The results are stored in the (upper-scope) `_whatsInView` variable and also returned from this function.
+   *
+   * Caches results based on the current map extent. If the viewport has not changed since the last call,
+   * and `forceRefresh` is not set, returns the cached result instead of recomputing.
    *
    * Steps:
    * 1. Gets current map extent in the "wgs84" coordinate system.
-   * 2. Converts extent into a {@link ViewportBBox} with properties `minLon`, `minLat`, `maxLon`, `maxLat`.
-   * 3. Calls {@link WmeGisLBBOX.whatsInView} with high-precision enabled and `returnGeoJson` disabled.
-   * 4. Stores the detailed intersecting regions in `_whatsInView`.
+   * 2. If the extent is unchanged and `forceRefresh` is `false`, returns the cached result.
+   * 3. Converts extent into a {@link ViewportBBox} with properties `minLon`, `minLat`, `maxLon`, `maxLat`.
+   * 4. Calls {@link WmeGisLBBOX.whatsInView} with high-precision enabled and `returnGeoJson` disabled.
+   * 5. Stores and returns the detailed intersecting regions as a {@link WhatsInViewResult}.
    *
-   * @returns {Promise<void>} The results are assigned to `_whatsInView` (type: {@link WhatsInViewResult})
+   * @param {boolean} [forceRefresh=false] If true, forces a refresh even if the viewport has not changed.
+   * @returns {Promise<WhatsInViewResult>} The intersecting regions as returned by {@link WmeGisLBBOX.whatsInView}.
    */
-  async function whatsInView() {
-    const extentWgs84 = getMapExtent('wgs84');
-    const highPrecision = true;
+  async function whatsInView(forceRefresh = false) {
+    const currentExtent = getMapExtent('wgs84');
+    const extentHash = currentExtent.join(',');
+
+    if (!forceRefresh && _whatsInView && _lastExtentHash === extentHash) {
+      return _whatsInView;
+    }
+
+    _lastExtentHash = extentHash;
     const viewportBbox = {
-      minLon: extentWgs84[0],
-      minLat: extentWgs84[1],
-      maxLon: extentWgs84[2],
-      maxLat: extentWgs84[3],
+      minLon: currentExtent[0],
+      minLat: currentExtent[1],
+      maxLon: currentExtent[2],
+      maxLat: currentExtent[3],
     };
 
     /** @type {WhatsInViewResult} */
-    _whatsInView = await WmeGisLBBOX.whatsInView(viewportBbox, highPrecision, false);
+    _whatsInView = await WmeGisLBBOX.whatsInView(viewportBbox, true, false);
+    return _whatsInView;
   }
 
   /**
@@ -2470,117 +2731,138 @@
    */
   function getFetchableLayers(checkVisibility = true, checkZoomVisibility = true) {
     const zoom = sdk.Map.getZoomLevel();
+
     // If zoom level is below 12, log a message and return an empty array, as layers won't be fetched
     if (zoom < 12) {
       logDebug(`No layers fetched, zoom level is < 12!`);
       return [];
     }
-    const fetchableLayers = []; // Array to hold fetchable layer IDs
-    // Filter the GIS layers based on multiple conditions to determine which are fetchable
-    const filteredLayers = _gisLayers.filter((gisLayer) => {
-      if (gisLayer.enabled !== 1) return false; // Check if the layer is enabled; skip it if not
 
-      // Ensure the layer has a valid URL; skip if it is empty or undefined
-      if (!gisLayer.url || gisLayer.url.trim().length === 0) return false;
+    // Pre-compute sets for O(1) lookup performance
+    const visibleLayersSet = new Set(settings.visibleLayers);
+    const selectedSubL1Set = new Set(settings.selectedSubL1);
+    const fetchableLayers = [];
 
-      // Check if the country subdivision level 1 is selected
-      if (!settings.selectedSubL1.includes(gisLayer.countrySubL1)) return false;
-
-      // Check if the layer ID is saved in settings as visible  - turn off when call from "Only show applicable layers"
-      if (checkVisibility) {
-        if (!settings.visibleLayers.includes(gisLayer.id)) return false;
+    // Single pass with early exits for optimal performance
+    for (const gisLayer of _gisLayers) {
+      // Early exits for basic validation (fastest checks first)
+      if (gisLayer.enabled !== 1 || !gisLayer.url?.trim() || !selectedSubL1Set.has(gisLayer.countrySubL1)) {
+        continue;
       }
 
-      if (checkZoomVisibility) {
-        if (zoom < getGisLayerVisibleAtZoom(gisLayer)) return false; // Check if the layer is visible at the current zoom level
+      // Check visibility settings if required
+      if (checkVisibility && !visibleLayersSet.has(gisLayer.id)) {
+        continue;
       }
 
-      // Find the country data from the current view based on the ISO_ALPHA3 code
-      const countryData = Object.values(_whatsInView).find((countryData) => countryData.ISO_ALPHA3 === gisLayer.country);
-
-      if (!countryData) return false; // Skip if no matching country data is in view
-
-      // Check if the subdivision level 1 (subL1) is in view
-      const isSubL1InView = (gisLayer.subL1 && Object.values(countryData.subL1 || {}).some((subL1Data) => subL1Data.subL1_id === gisLayer.subL1)) || countryData.ISO_ALPHA3 === gisLayer.subL1;
-
-      if (!isSubL1InView) return false; // If subL1 is not in view, skip the layer
-
-      const hasSubL2 = gisLayer.subL2 && gisLayer.subL2.length > 0; // Check if the layer has subdivision level 2 names
-      if (hasSubL2) {
-        // Find the subdivision data entry that matches the layer's subL1 ID
-        const subL1DataEntry = Object.entries(countryData.subL1 || {}).find(([_, subL1Details]) => subL1Details.subL1_id === gisLayer.subL1);
-        const subL1Data = subL1DataEntry && subL1DataEntry[1]; // Retrieve the actual subL1 data object
-        if (!subL1Data) {
-          // If no matching subL1 data is found, skip the layer
-          return false;
-        }
-        // Check if any subL2 names from the layer match those in the subL1 data's subL2 list
-        const isSubL2InView = gisLayer.subL2.some((subL2Name) => subL1Data.subL2 && Object.keys(subL1Data.subL2).some((subL2InView) => subL2InView.toLowerCase() === subL2Name.toLowerCase()));
-        if (!isSubL2InView) return false; // If no subL2 matches are found, skip the layer
+      // Check zoom visibility if required
+      if (checkZoomVisibility && zoom < getGisLayerVisibleAtZoom(gisLayer)) {
+        continue;
       }
 
-      fetchableLayers.push(gisLayer.id); // If the layer passes all checks, add its ID to the fetchable layers list
-      return true;
-    });
-    return filteredLayers;
+      // More expensive country/subdivision checks last
+      if (isLayerInView(gisLayer)) {
+        fetchableLayers.push(gisLayer);
+      }
+    }
+
+    return fetchableLayers;
   }
 
   /**
-   * Updates the visibility of GIS layer checkboxes in the UI according to user-defined settings.
+   * Determines whether a given GIS layer is currently visible in the active map view.
+   * A layer is considered "in view" if its country code (ISO_ALPHA3), subdivision level 1 (subL1),
+   * and, if specified, subdivision level 2 (subL2), all match a corresponding entry in the current view's data.
    *
-   * Determines which GIS layers should be displayed using the current zoom level and visibility settings:
-   * - Shows checkboxes for layers deemed applicable by {@link getFetchableLayers}, which takes into account the current zoom setting from {@link settings.onlyShowApplicableLayersZoom}.
-   * - Alternatively, displays all layers if {@link settings.onlyShowApplicableLayers} is false, ignoring zoom-based filtering.
-   * - Hides unapplicable layers when both settings limit their display.
+   * Returns `true` if the layer's country and subdivision identifiers are present in the view; `false` otherwise.
    *
-   * Each layer's visibility is updated by showing or hiding the corresponding container element in the DOM.
+   * @param {GisLayer} gisLayer - Layer object to check for map view presence.
+   *   Should contain properties:
+   *     - {string} gisLayer.country (ISO_ALPHA3 code),
+   *     - {string} [gisLayer.subL1] (level-1 subdivision id),
+   *     - {Array<string>} [gisLayer.subL2] (names/ids of level-2 subdivisions).
+   * @returns {boolean} `true` if gisLayer is represented in the current view, `false` otherwise.
+   *
+   * @see _whatsInView - Map view data structure.
+   * @see {@link https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3|ISO_ALPHA3 codes}
+   */
+  function isLayerInView(gisLayer) {
+    // Find the country data from the current view based on the ISO_ALPHA3 code
+    const countryData = Object.values(_whatsInView).find((countryData) => countryData.ISO_ALPHA3 === gisLayer.country);
+
+    if (!countryData) return false; // Skip if no matching country data is in view
+
+    // Check if the subdivision level 1 (subL1) is in view
+    const isSubL1InView = (gisLayer.subL1 && Object.values(countryData.subL1 || {}).some((subL1Data) => subL1Data.subL1_id === gisLayer.subL1)) || countryData.ISO_ALPHA3 === gisLayer.subL1;
+
+    if (!isSubL1InView) return false; // If subL1 is not in view, skip the layer
+
+    const hasSubL2 = gisLayer.subL2 && gisLayer.subL2.length > 0; // Check if the layer has subdivision level 2 names
+    if (hasSubL2) {
+      // Find the subdivision data entry that matches the layer's subL1 ID
+      const subL1DataEntry = Object.entries(countryData.subL1 || {}).find(([_, subL1Details]) => subL1Details.subL1_id === gisLayer.subL1);
+      const subL1Data = subL1DataEntry && subL1DataEntry[1]; // Retrieve the actual subL1 data object
+
+      if (!subL1Data) {
+        // If no matching subL1 data is found, skip the layer
+        return false;
+      }
+
+      // Check if any subL2 names from the layer match those in the subL1 data's subL2 list
+      const isSubL2InView = gisLayer.subL2.some((subL2Name) => subL1Data.subL2 && Object.keys(subL1Data.subL2).some((subL2InView) => subL2InView.toLowerCase() === subL2Name.toLowerCase()));
+
+      if (!isSubL2InView) return false; // If no subL2 matches are found, skip the layer
+    }
+
+    return true;
+  }
+
+  /**
+   * Updates the visibility of GIS layer checkboxes and their parent containers
+   * in the UI based on user-defined filter and zoom settings.
+   *
+   * Logic:
+   * - Computes "applicable" GIS layers (using {@link getFetchableLayers} and the current zoom setting from {@link settings.onlyShowApplicableLayersZoom}).
+   * - If {@link settings.onlyShowApplicableLayers} is false, all layers are shown regardless of applicability.
+   * - Applicable layers' checkbox containers are shown, and non-applicable ones are hidden.
+   * - Additionally, shows higher-level containers (`#gis-layers-for-<subL1>`) for any group that contains visible layers.
+   *
+   * Performance:
+   * - Aggregates selectors to perform batched DOM show/hide operations, minimizing jQuery calls.
    *
    * Side Effects:
-   * Mutates the UI to show or hide corresponding checkboxes and container elements for each GIS layer.
+   * - Mutates the DOM, showing/hiding checkbox containers for each GIS layer and any relevant grouping containers.
    *
-   * @see getFetchableLayers
-   * @see settings
-   * @global {Array<GisLayer>} _gisLayers - The list of all GIS layer objects.
-   * @global {Object} settings - Application-wide layer filter and zoom settings.
-   * @global {function} $ - jQuery selector function to manipulate DOM elements.
+   * @function filterLayerCheckboxes
+   * @returns {void}
+   * @see {@link getFetchableLayers}
+   * @see {@link settings}
    */
   function filterLayerCheckboxes() {
     const applicableLayers = getFetchableLayers(false, settings.onlyShowApplicableLayersZoom);
+    const applicableSet = new Set(applicableLayers.map((l) => l.id));
+
+    const showSelectors = [];
+    const hideSelectors = [];
+    const showSubL1 = new Set();
+
     _gisLayers.forEach((gisLayer) => {
-      const layerContainerId = `#gis-layer-${gisLayer.id}-container`;
-      // Default behavior is to hide all layers
-      let showLayer = false;
-      // Show layer if it's included in applicable layers based on the zoom setting
-      if (applicableLayers.includes(gisLayer)) {
-        showLayer = true;
-      }
-      // Show all layers if onlyShowApplicableLayers setting is false
-      if (!settings.onlyShowApplicableLayers) {
-        showLayer = true;
-      }
-      // Apply visibility based on computed showLayer logic
+      const selector = `#gis-layer-${gisLayer.id}-container`;
+      const showLayer = applicableSet.has(gisLayer.id) || !settings.onlyShowApplicableLayers;
+
       if (showLayer) {
-        $(layerContainerId).show();
-        $(`#gis-layers-for-${gisLayer.subL1}`).show();
+        showSelectors.push(selector);
+        showSubL1.add(`#gis-layers-for-${gisLayer.subL1}`);
       } else {
-        $(layerContainerId).hide();
-        $(`#gis-layers-for-${gisLayer.subL1}`).hide();
+        hideSelectors.push(selector);
       }
     });
-  }
 
-  const ROAD_ABBR = [
-    [/\bAVENUE$/, 'AVE'],
-    [/\bCIRCLE$/, 'CIR'],
-    [/\bCOURT$/, 'CT'],
-    [/\bDRIVE$/, 'DR'],
-    [/\bLANE$/, 'LN'],
-    [/\bPARK$/, 'PK'],
-    [/\bPLACE$/, 'PL'],
-    [/\bROAD$/, 'RD'],
-    [/\bSTREET$/, 'ST'],
-    [/\bTERRACE$/, 'TER'],
-  ];
+    // Single DOM operations
+    if (showSelectors.length) $(showSelectors.join(',')).show();
+    if (hideSelectors.length) $(hideSelectors.join(',')).hide();
+    if (showSubL1.size) $(Array.from(showSubL1).join(',')).show();
+  }
 
   /**
    * @typedef {Object} LabelProcessingGlobals
@@ -2609,7 +2891,7 @@
    * Applies address and content shortening based on style rules and settings.
    *
    * @param {GisLayer} gisLayer - GIS layer descriptor (with labelFields, style, processLabel, and possibly labelProcessingError).
-   * @param {Object} item - The data source for the feature; may have `.attributes` (ArcGIS), `.properties` (GeoJSON), or fields directly.
+   * @param {{attributes?: Object, properties?: Object, [field: string]: any}} item - The data source for the feature; may have `.attributes` (ArcGIS), `.properties` (GeoJSON), or fields directly.
    * @param {number} displayLabelsAtZoom - Minimum zoom level at which labels are displayed.
    * @param {number} area - Area of the feature in square meters (used for label display logic).
    * @param {boolean} [isPolyLine=false] - If true, the label logic is specific to polylines.
@@ -2665,16 +2947,25 @@
 
   let lastFeatureId = 0;
   // SDK: Remove these once Map.getFeaturesByProperty is implemented: https://issuetracker.google.com/issues/419596843
+  /** @type {ProcessedFeature[]} */
   let defaultFeatures = [];
+  /** @type {ProcessedFeature[]} */
   let roadFeatures = [];
 
   /**
-   * Offsets GeoJSON-like geometry coordinates by a layerOffset {x, y}.
-   * Supports: 'Point', 'LineString', 'MultiPoint', 'Polygon', 'MultiLineString', 'MultiPolygon'.
+   * Returns a new geometry object with its coordinates offset by the given layerOffset.
+   * Supports GeoJSON 'Point', 'LineString', 'MultiPoint', 'Polygon', 'MultiLineString', and 'MultiPolygon'.
    *
-   * @param {{ type: string, coordinates: any }} geometry - The geometry object.
-   * @param {{ x: number, y: number }} layerOffset - Offset to apply to all coordinates.
-   * @returns {Object} The offset geometry.
+   * For supported geometry types, all coordinate values are translated by {@link layerOffset}.
+   * Unknown or unsupported types are returned unchanged.
+   *
+   * @param {Object} geometry - GeoJSON-like geometry object.
+   * @param {('Point'|'LineString'|'MultiPoint'|'Polygon'|'MultiLineString'|'MultiPolygon')} geometry.type - Geometry type name.
+   * @param {Array|Array[]} geometry.coordinates - Coordinate array(s), in the format specified by the geometry type.
+   * @param {{ x: number, y: number }} layerOffset - Offset to apply to each coordinate as {x, y}.
+   * @returns {Object} A new geometry object of the same type with offset coordinates, or the input if type is not recognized.
+   *
+   * @see https://datatracker.ietf.org/doc/html/rfc7946#section-3.1
    */
   function offsetGeometry(geometry, layerOffset) {
     if (!geometry || !layerOffset) return geometry;
@@ -2730,23 +3021,21 @@
   }
 
   /**
-   * Clips the geometry of a LineString or MultiLineString feature to the given bounding box ([minX, minY, maxX, maxY]).
+   * Clips a LineString or MultiLineString GeoJSON feature to the provided bounding box extent.
    *
-   * For non-line features, the function returns the original input feature unchanged.
-   * If geometry is outside the bbox or the result is empty, returns null.
+   * Uses {@link turf.bboxClip} to perform the clipping operation.
+   * If the feature is not a line, or clipping fails, returns the original input or null.
    *
-   * @param {Object} feature - A GeoJSON Feature object, expected to have a LineString or MultiLineString geometry.
-   * @param {number[]} extent - Bounding box as [minX, minY, maxX, maxY].
-   * @returns {Object|null}
-   *   Returns the clipped feature if successful and non-empty,
-   *   otherwise returns null. For unsupported geometry types, returns the original feature.
+   * Dependencies:
+   * - [turf.bboxClip]{@link https://turfjs.org/docs/#bboxClip}
+   *
+   * @function clipLineFeatureToExtent
+   * @param {Object} feature - GeoJSON Feature object with geometry of type LineString or MultiLineString.
+   * @param {number[]} extent - Bounding box as [minX, minY, maxX, maxY] (WGS84 coordinates).
+   * @returns {Object|null} The clipped feature, or null if the result is empty/outside.
    *
    * @example
-   * // Clip a geojson line
-   * clipLineFeatureToExtent(
-   *   { type: 'Feature', geometry: { type: 'LineString', coordinates: [[0,0],[10,10]] } },
-   *   [2,2,8,8]
-   * )
+   * const clipped = clipLineFeatureToExtent(lineFeature, [minX, minY, maxX, maxY]);
    */
   function clipLineFeatureToExtent(feature, extent) {
     if (!feature.geometry || !extent) return feature;
@@ -2762,6 +3051,18 @@
     }
   }
 
+  /**
+   * Generates a monotonically increasing unique numeric identifier for GIS features.
+   *
+   * Used to assign the `.id` property of GeoJSON features for map updates and deduplication.
+   *
+   * @function generateFeatureId
+   * @returns {number} Unique positive integer suitable for feature IDs.
+   *
+   * @example
+   * const id = generateFeatureId();
+   * feature.id = id;
+   */
   function generateFeatureId() {
     lastFeatureId++;
     return lastFeatureId;
@@ -2801,52 +3102,69 @@
   }
 
   /**
-   * Deduplicates Point features within the given feature array that are spatially close (within 1 meter)
-   * and have labels. Merges labels of duplicates, applying label cleaning and abbreviation.
-   * Modifies the original features array in place and returns it.
+   * Deduplicates GeoJSON Point features in-place based on proximity and label value.
    *
-   * @param {Array} features - Array of GeoJSON features (with properties.label) to deduplicate.
-   * @returns {Array} The deduplicated (and possibly relabeled) features array.
+   * Uses a spatial grid to find and merge Points that are within ~1 meter of each other and have labels.
+   * Merges duplicate labels (combining unique labels with newlines), then removes duplicates from the array.
+   * Skips features marked with `skipDupeCheck`.
+   *
+   * Dependencies:
+   * - {@link turf.distance} for spatial measurement
+   * - {@link _.uniq} from lodash for label deduplication
+   *
+   * @function deduplicatePointFeatures
+   * @param {Array<ProcessedFeature>} features - Array of GeoJSON features (should have `.geometry.type === "Point"` and `.properties.label`).
+   * @returns {Array<ProcessedFeature>} The deduplicated array (modifies and returns original input).
+   *
+   * @example
+   * // Removes close duplicate points, merging labels.
+   * deduplicatePointFeatures(featureArray);
    */
   function deduplicatePointFeatures(features) {
-    for (let i = 0; i < features.length; i++) {
-      const f1 = features[i];
-      if (f1.geometry.type === 'Point' && !f1.skipDupeCheck && f1.properties.label) {
-        let labels = [f1.properties.label];
-        for (let j = i + 1; j < features.length; j++) {
-          const f2 = features[j];
-          if (f2.geometry.type === 'Point' && !f2.skipDupeCheck && f2.properties.label && turf.distance(f1, f2, { units: 'meters' }) < 1) {
-            features.splice(j, 1);
-            labels.push(f2.properties.label);
-            j--;
+    const GRID_SIZE = 0.00001; // ~1 meter
+    const spatialIndex = new Map();
+    const toRemove = new Set();
+
+    features.forEach((feature, index) => {
+      if (feature.geometry.type !== 'Point' || feature.skipDupeCheck || !feature.properties.label) {
+        return;
+      }
+
+      const [x, y] = feature.geometry.coordinates;
+      const gridX = Math.floor(x / GRID_SIZE);
+      const gridY = Math.floor(y / GRID_SIZE);
+
+      // Check 9 grid cells (current + 8 neighbors)
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const key = `${gridX + dx},${gridY + dy}`;
+          const nearby = spatialIndex.get(key);
+
+          if (nearby) {
+            const distance = turf.distance(feature, features[nearby.index], { units: 'meters' });
+            if (distance < 1) {
+              // Merge labels
+              const labels = [features[nearby.index].properties.label, feature.properties.label];
+              features[nearby.index].properties.label = _.uniq(labels).join('\n');
+              toRemove.add(index);
+              return;
+            }
           }
-        }
-        labels = _.uniq(labels);
-        if (labels.length > 1) {
-          labels.forEach((label, idx) => {
-            label = label
-              .replace(/\n/g, ' ')
-              .replace(/\s{2,}/, ' ')
-              .replace(/\bUNIT\s.{1,5}$/i, '')
-              .trim();
-            ROAD_ABBR.forEach((abbr) => (label = label.replace(abbr[0], abbr[1])));
-            labels[idx] = label;
-          });
-          labels = _.uniq(labels);
-          labels.sort();
-          if (labels.length > 12) {
-            const len = labels.length;
-            labels = labels.slice(0, 10);
-            labels.push(`(${len - 10} more...)`);
-          }
-          f1.properties.label = _.uniq(labels).join('\n');
-        } else {
-          let { label } = f1.properties;
-          ROAD_ABBR.forEach((abbr) => (label = label.replace(abbr[0], abbr[1])));
-          f1.properties.label = label;
         }
       }
-    }
+
+      // Add to spatial index
+      const key = `${gridX},${gridY}`;
+      spatialIndex.set(key, { index, feature });
+    });
+
+    // Remove duplicates in reverse order to maintain indices
+    Array.from(toRemove)
+      .sort((a, b) => b - a)
+      .forEach((index) => {
+        features.splice(index, 1);
+      });
+
     return features;
   }
 
@@ -2867,6 +3185,20 @@
    * updateGisLayerFeatures({ id: 'main', isRoadLayer: false }, [myPointFeature, myLineFeature]);
    */
   function updateGisLayerFeatures(gisLayer, features) {
+    // **RACE condition Check**
+    if (lastToken && lastToken.cancel) {
+      logDebug(`Skipping map update for cancelled layer: ${gisLayer.id}`);
+      return; // Don't add features to map
+    }
+
+    // Check if the layer checkbox is actually checked RIGHT NOW! Also part of the RACE condition Check
+    const isLayerCurrentlyEnabled = $(`#gis-layer-${gisLayer.id}`).is(':checked');
+
+    if (!isLayerCurrentlyEnabled) {
+      logDebug(`Skipping map update - layer ${gisLayer.id} is currently disabled in UI`);
+      return;
+    }
+
     const isRoad = gisLayer.isRoadLayer;
     const layerName = isRoad ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
     // Use the current set of features for this layer type
@@ -2937,12 +3269,6 @@
     const features = [];
 
     if (data.skipIt) return;
-
-    if (data.error) {
-      logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
-      $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-      return;
-    }
 
     const items = data.features || [];
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
@@ -3061,12 +3387,6 @@
 
     if (data.skipIt) return;
 
-    if (data.error) {
-      logError(`Error in layer "${gisLayer.name}": ${data.error.message}`);
-      $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-      return;
-    }
-
     const items = data.features || [];
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
     const extent = getMapExtent('wgs84'); // [minX, minY, maxX, maxY]
@@ -3128,6 +3448,17 @@
     }
   }
 
+  /**
+   * Copies a string to the system clipboard using the userscript {@link GM_setClipboard} API.
+   *
+   * Logs the operation using {@link logDebug} or errors using {@link logError} as appropriate.
+   *
+   * @function copyTextToClipboard
+   * @param {string} text - Text to copy to clipboard.
+   * @returns {void}
+   *
+   * @see {@link GM_setClipboard}
+   */
   function copyTextToClipboard(text) {
     try {
       GM_setClipboard(text);
@@ -3137,6 +3468,17 @@
     }
   }
 
+  /**
+   * Adds a feature label to the collection of labels for a map layer.
+   * Used for populating the label popup and tracking unique labels per layer.
+   *
+   * @function addLabelToLayer
+   * @param {string} layerName - Name of the GIS Layer (key in {@link layerLabels}).
+   * @param {string} label - The label string to add for this layer.
+   * @returns {void}
+   *
+   * @see {@link layerLabels}
+   */
   function addLabelToLayer(layerName, label) {
     if (!layerLabels[layerName]) {
       layerLabels[layerName] = new Set();
@@ -3144,8 +3486,20 @@
     layerLabels[layerName].add(label);
   }
 
+  /**
+   * Replaces known phrases with acronyms or abbreviations in a string, suitable for road labels.
+   *
+   * Searches for compound phrases and individual words (case-insensitive), and substitutes them with defined short forms.
+   *
+   * @function replacePhrasesWithAcronyms
+   * @param {string} text - The string to process and shorten with acronyms.
+   * @returns {string} The string with phrases replaced by their acronyms.
+   *
+   * @see {@link processedLabel}
+   */
   function replacePhrasesWithAcronyms(text) {
     // Order phrases such that compound phrases come before individual words
+    /** @type {ReplacementPatterns} */
     const replacements = [
       // compound phrases here
       { phrase: 'Alternate Route', acronym: 'ALT' },
@@ -3294,6 +3648,18 @@
     return updatedText;
   }
 
+  /**
+   * Normalizes and abbreviates highway/route road names within a label string, e.g. "US Route 50" to "US-50", "Rte 5" to "SR-5".
+   *
+   * Uses regular expressions to identify and reformat standard highway/route patterns.
+   *
+   * @function fixSateHwyRoadNames
+   * @param {string} text - Road label text to normalize.
+   * @returns {string} Reformatted label string.
+   *
+   * @see {@link replacePhrasesWithAcronyms}
+   * @see {@link processedLabel}
+   */
   function fixSateHwyRoadNames(text) {
     // Regular expression to capture patterns like "XXX ###", "XXX-###", "XXX###", as well as "Us Route #", "Us Rte #", and "Route #", "Rte #"
     const regex = /(?:([A-Z]{1,3})[-\s]?(\d{1,3})|(?:Us\s+(?:Rte|Route)\s+(\d{1,3}))|(?:Rte[-\s]?(\d{1,3})|Route\s+(\d{1,3})))\b/gi;
@@ -3313,6 +3679,15 @@
     });
   }
 
+  /**
+   * Converts the input text to Title Case, capitalizing the first letter of each word on every line.
+   *
+   * Handles multi-line strings (splitting by newline), trimming spaces and joining them back.
+   *
+   * @function titleCaseLabel
+   * @param {string} text - Input text to convert to title case.
+   * @returns {string} Title-cased string.
+   */
   function titleCaseLabel(text) {
     // Read each line separately
     const lines = text.split('\n');
@@ -3327,6 +3702,23 @@
       .join('\n'); // Combine all the lines back into a single string separated by new lines
   }
 
+  /**
+   * Applies user-selected label processing options in order: Title Case, acronyms/abbreviations, highway normalization, and new line removal.
+   *
+   * Each option draws from global state ({@link useTitleCase}, {@link useAcronyms}, {@link useStateHwy}, {@link removeNewLines}).
+   *
+   * @function processedLabel
+   * @param {string} label - Raw label text to process for display.
+   * @returns {string} Processed label string.
+   *
+   * @see {@link useTitleCase}
+   * @see {@link useAcronyms}
+   * @see {@link useStateHwy}
+   * @see {@link removeNewLines}
+   * @see {@link titleCaseLabel}
+   * @see {@link replacePhrasesWithAcronyms}
+   * @see {@link fixSateHwyRoadNames}
+   */
   function processedLabel(label) {
     if (useTitleCase) {
       label = titleCaseLabel(label);
@@ -3343,6 +3735,27 @@
     return label;
   }
 
+  /**
+   * Updates the visibility and content of the layer label popup UI element.
+   * Handles display toggling based on state, and calls {@link updatePopupContent}.
+   *
+   * **Dependencies:**
+   * - Depends on jQuery (`$`) for DOM selection and manipulation.
+   * - Assumes the popup HTML structure exists in the DOM.
+   *
+   * **Side Effects:**
+   * - Directly mutates DOM elements; not a pure function.
+   * - May trigger jQuery event handlers.
+   *
+   * @function updatePopup
+   * @param {LayerLabelsMap} labels - Map of layer names to label sets
+   * @returns {void}
+   *
+   * @see {@link updatePopupContent}
+   * @see {@link togglePopupVisibility}
+   * @see {@link isPopupVisible}
+   * @see {@link https://api.jquery.com/category/manipulation/} - jQuery DOM manipulation docs
+   */
   function updatePopup(labels) {
     let popup = document.getElementById('layerLabelPopup');
     if (!popup) {
@@ -3496,9 +3909,21 @@
     popup.style.display = isPopupVisible ? 'block' : 'none';
   }
 
+  /**
+   * Updates the HTML contents of the layer label popup.
+   * Typically called by {@link updatePopup} or feature-handling code to refresh popup display.
+   *
+   * @function updatePopupContent
+   * @param {LayerLabelsMap} [labels] - Map of layer names to label sets
+   * @returns {void}
+   *
+   * @see {@link layerLabels}
+   */
   function updatePopupContent(labels) {
     const dropdownContainer = document.querySelector('#layerLabelPopup div:nth-child(3)');
     const contentContainer = document.querySelector('#layerLabelPopup div:nth-child(4)');
+
+    contentContainer.style.fontFamily = settings.fontFamily || 'inherit';
 
     dropdownContainer.innerHTML = '';
     contentContainer.innerHTML = '';
@@ -3566,10 +3991,12 @@
 
   /**
    * Asynchronously fetches GIS features for visible, user-selected map layers, based on current viewport and settings.
+   * Uses per-host concurrency control to be respectful to individual servers while maximizing overall performance.
    *
    * Functionality:
    * - Clears existing feature labels if a popup is visible, then returns early if fetching is disabled or zoom is below threshold.
    * - Determines which map layers are both fetchable and visible, and removes features for layers not being fetched.
+   * - Groups layers by hostname to implement per-server concurrency limits.
    * - Updates layer checkbox UI and logs intended fetch actions.
    * - For each eligible GIS layer:
    *    - Assembles an HTTP GET request (supports ArcGIS and Socrata platforms).
@@ -3578,18 +4005,27 @@
    *      updates features, tracks per-layer processing, and updates the popup if needed.
    *    - Logs and handles errors robustly (parsing, HTTP, platform, etc), including explicit UI feedback.
    *
+   * Concurrency Strategy:
+   * - Groups requests by hostname to avoid overwhelming individual servers.
+   * - Limits concurrent requests per host (default: 3) while allowing parallel processing across different hosts.
+   * - Processes hosts concurrently but controls per-host request batching with small delays between batches.
+   * - Optimizes for scenarios where multiple layers may hit the same server.
+   *
    * Notes:
    * - The function leverages global application state for layers, map zoom, in-memory features, and UI feedback.
    * - Relies on helper functions and several external APIs (e.g., `sdk.Map`, `GM_xmlhttpRequest`, jQuery).
-   * - Non-blocking: each layer fetch is asynchronous and processed independently.
+   * - Per-host concurrency control ensures server-friendly behavior while maximizing overall performance.
+   * - Total execution time is approximately equal to the slowest host rather than the sum of all requests.
    *
    * Error Handling:
-   * - Logs parsing and HTTP errors with details.
+   * - Logs parsing and HTTP errors with details, including hostname context.
    * - Sets UI labels to red for layers with errors or parsing issues.
    * - Alerts user if required API tokens are missing.
+   * - Gracefully handles invalid URLs and network failures per host.
    *
    * Side Effects:
    * - Updates global feature collections (e.g., `roadFeatures`, `defaultFeatures`), label maps, popup contents, and UI highlighting.
+   * - Modifies UI elements to indicate processing status and errors per layer.
    *
    * @async
    * @returns {Promise<void>} Does not resolve to a value. Operates via side effects on global state, the map, and the UI.
@@ -3597,14 +4033,33 @@
    * @example
    * // Usually called without parameters, in response to map move/zoom or UI change:
    * await fetchFeatures();
+   *
+   * @example
+   * // Example with multiple layers hitting the same server:
+   * // - 3 layers to tigerweb.geo.census.gov → processed in one batch of 3
+   * // - 2 layers to services1.arcgis.com → processed in one batch of 2
+   * // - 1 layer each to different servers → processed immediately in parallel
+   * // Total time ≈ time of slowest server, not sum of all requests
    */
   async function fetchFeatures() {
+    // Cancel any pending debounced calls since we're doing immediate fetch
+    if (debouncedFetch.cancel) {
+      debouncedFetch.cancel();
+    }
+
+    const MAX_CONCURRENT_PER_HOST = 5; // Max concurrent requests per server
+
     // 1. Clear labels if popup is open
     if (isPopupVisible) {
       Object.keys(layerLabels).forEach((key) => delete layerLabels[key]);
     }
-    if (ignoreFetch) return;
-    if (sdk.Map.getZoomLevel() < 12) return;
+
+    if (ignoreFetch) {
+      return;
+    }
+    if (sdk.Map.getZoomLevel() < 12) {
+      return;
+    }
 
     await whatsInView();
 
@@ -3615,10 +4070,11 @@
     let _layersCleared = false;
     let layersToFetch = [];
 
-    // 2. Prepare and clear features for layers not being fetched
+    // 2. Prepare and clean features for layers not being fetched
     if (!_layersCleared) {
       _layersCleared = true;
       layersToFetch = getFetchableLayers(true, true);
+
       _gisLayers.forEach((gisLayer) => {
         if (!layersToFetch.includes(gisLayer)) {
           let featureCollection = gisLayer.isRoadLayer ? roadFeatures : defaultFeatures;
@@ -3637,71 +4093,327 @@
       });
     }
 
-    filterLayerCheckboxes();
-    logDebug(`Fetching ${layersToFetch.length} layers...`, layersToFetch);
+    // **EARLY EXIT: No layers to fetch**
+    if (layersToFetch.length === 0) {
+      filterLayerCheckboxes(); // Still update UI for layers coming into view
+      logDebug('No layers to fetch!');
+      return;
+    }
+
+    filterLayerCheckboxes(); // Update UI for layers coming into view
 
     let layersProcessedCount = 0;
+    let successCount = 0;
     const extentWGS84 = getMapExtent('wgs84');
     const zoom = sdk.Map.getZoomLevel();
 
-    // 3. Fetch features per-layer
+    // Group layers by hostname
+    const layersByHost = {};
     layersToFetch.forEach((gisLayer) => {
-      const url = getUrl(extentWGS84, gisLayer, zoom);
+      const hostname = gisLayer.hostname;
+      if (!layersByHost[hostname]) {
+        layersByHost[hostname] = [];
+      }
+      layersByHost[hostname].push(gisLayer);
+    });
 
-      // Build headers if needed
-      /** @type {Object.<string, string>} */
+    // Helper function to fetch a single layer, with fetch/processing timings
+    const fetchLayer = async (gisLayer) => {
+      const url = getUrl(extentWGS84, gisLayer, zoom);
       const headers = {};
       const appToken = settings.socrataAppToken ? settings.socrataAppToken.trim() : '';
       const isSocrata = gisLayer.platform === 'SocrataV2' || gisLayer.platform === 'SocrataV3';
-
       if (isSocrata && appToken) {
         headers['X-App-Token'] = appToken;
       }
       if (gisLayer.platform === 'SocrataV3' && !appToken) {
         logDebug(`Socrata V3 layer "${gisLayer.id}" requires an App Token, but none was provided.`);
         WazeWrap.Alerts.warning(GM_info.script.name, `A Socrata App Token is required for layer "${gisLayer.name}".<br>Please provide one in the GIS Layers settings.`);
-        return;
+        return Promise.reject(new Error('Missing Socrata App Token'));
       }
+      const fetchStart = performance.now();
 
-      GM_xmlhttpRequest({
-        url,
-        headers,
-        context: lastToken,
-        method: 'GET',
-        onload(res2) {
-          if (res2.status < 400) {
-            try {
-              const parsedData = $.parseJSON(res2.responseText);
+      return new Promise((resolve, reject) => {
+        GM_xmlhttpRequest({
+          url,
+          headers,
+          context: lastToken,
+          method: 'GET',
+          onload(res2) {
+            const fetchEnd = performance.now();
+            const fetchDuration = fetchEnd - fetchStart;
 
-              // Call appropriate feature processor
-              if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
-                processFeaturesArcGIS(parsedData, res2.context, gisLayer);
-              } else if (isSocrata) {
-                processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
-              } else {
-                logError(`Unknown platform "${gisLayer.platform}" for layer "${gisLayer.id}". Skipped processing.`);
-              }
-            } catch (parseError) {
-              logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
-              $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+            // **RACE condition event Check**
+            if (res2.context.cancel) {
+              layersProcessedCount += 1;
+              resolve({ gisLayer, cancelled: true, fetchUrl: url, fetchDuration });
+              return;
             }
+            if (res2.status < 400) {
+              try {
+                const parsedData = $.parseJSON(res2.responseText);
+
+                // Check for API errors in the response:
+                if (parsedData.error) {
+                  let errorMessage, errorCode;
+
+                  if (parsedData.error === true) {
+                    errorMessage = parsedData.message || 'Unknown Socrata error';
+                    errorCode = parsedData.code || parsedData.status;
+                  } else if (parsedData.error.message) {
+                    errorMessage = parsedData.error.message;
+                    errorCode = parsedData.error.code;
+                  } else {
+                    errorMessage = parsedData.error;
+                    errorCode = 'unknown';
+                  }
+                  const fullErrorMessage = `${errorMessage}${errorCode !== 'unknown' ? ` (Code: ${errorCode})` : ''}`;
+                  const apiError = new Error(`API Error: ${fullErrorMessage}`);
+
+                  logError(`API error for layer "${gisLayer.id}": ${fullErrorMessage}`);
+                  $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `API Error: ${fullErrorMessage}`);
+
+                  layersProcessedCount += 1;
+                  reject({
+                    gisLayer,
+                    error: apiError,
+                    type: 'api-error',
+                    fetchUrl: url,
+                    fetchDuration,
+                  });
+                  return;
+                }
+                if (res2.context.cancel) {
+                  layersProcessedCount += 1;
+                  resolve({ gisLayer, cancelled: true, fetchUrl: url, fetchDuration });
+                  return;
+                }
+
+                // ------ PROCESSING TIME ------ //
+                let processingDuration = null;
+                if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
+                  const processStart = performance.now();
+                  processFeaturesArcGIS(parsedData, res2.context, gisLayer);
+                  const processEnd = performance.now();
+                  processingDuration = processEnd - processStart;
+                } else if (isSocrata) {
+                  const processStart = performance.now();
+                  processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
+                  const processEnd = performance.now();
+                  processingDuration = processEnd - processStart;
+                } else {
+                  logError(`Unknown platform "${gisLayer.platform}" for layer "${gisLayer.id}". Skipped processing.`);
+                }
+
+                layersProcessedCount += 1;
+                successCount += 1;
+                resolve({
+                  gisLayer,
+                  success: true,
+                  fetchUrl: url,
+                  fetchDuration,
+                  processingDuration,
+                });
+              } catch (parseError) {
+                const parseErrorMessage = `JSON parsing failed: ${parseError.message}`;
+                logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
+                $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `Parse Error: ${parseErrorMessage}`);
+
+                layersProcessedCount += 1;
+                reject({
+                  gisLayer,
+                  error: parseError,
+                  type: 'parse',
+                  fetchUrl: url,
+                  fetchDuration,
+                });
+              }
+            } else {
+              const httpErrorMessage = `HTTP ${res2.status}: ${res2.statusText}`;
+              const httpError = new Error(`HTTP error: ${res2.status} ${res2.statusText}`);
+              logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
+
+              $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `HTTP Error: ${httpErrorMessage}`);
+
+              layersProcessedCount += 1;
+              reject({
+                gisLayer,
+                error: httpError,
+                type: 'http',
+                fetchUrl: url,
+                fetchDuration,
+              });
+            }
+          },
+          onerror(res3) {
+            const fetchEnd = performance.now();
+            const fetchDuration = fetchEnd - fetchStart;
+            // **RACE condition event Check**
+            if (res3.context && res3.context.cancel) {
+              layersProcessedCount += 1;
+              reject({
+                gisLayer,
+                error: new Error('Cancelled'),
+                type: 'cancelled',
+                fetchUrl: url,
+                fetchDuration,
+              });
+              return;
+            }
+
+            const networkErrorMessage = `${res3.statusText || 'Network request failed'} ${res3.status ? `(${res3.status})` : ''}`.trim();
+            const networkError = new Error(`Network error: ${res3.statusText} (status code: ${res3.status})`);
+            logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
+
+            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `Network Error: ${networkErrorMessage}`);
+
             layersProcessedCount += 1;
-            if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
-              updatePopup(layerLabels);
+            reject({
+              gisLayer,
+              error: networkError,
+              type: 'network',
+              fetchUrl: url,
+              fetchDuration,
+            });
+          },
+        });
+      });
+    };
+
+    // Helper for concurrency (no change needed here)
+    const processHostLayers = async (hostname, layers) => {
+      const results = [];
+      for (let i = 0; i < layers.length; i += MAX_CONCURRENT_PER_HOST) {
+        const batch = layers.slice(i, i + MAX_CONCURRENT_PER_HOST);
+
+        const promises = batch.map(fetchLayer);
+        const batchResults = await Promise.allSettled(promises);
+        results.push(...batchResults);
+
+        if (i + MAX_CONCURRENT_PER_HOST < layers.length) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+      }
+      return { hostname, results };
+    };
+
+    // 3. Process all hosts concurrently (with timing)
+    try {
+      const hostPromises = Object.entries(layersByHost).map(([hostname, layers]) => processHostLayers(hostname, layers));
+      const allHostResults = await Promise.all(hostPromises);
+
+      // Build success summary with layer details by host (INCLUDES fetch & processing time)
+      const hostResultsSummary = {};
+      allHostResults.forEach(({ hostname, results }) => {
+        const successful = [];
+        const failed = [];
+
+        results.forEach((result, index) => {
+          const layer = layersByHost[hostname][index];
+          const layerInfo = {
+            id: layer.id,
+            name: layer.name,
+            platform: layer.platform,
+            url: layer.url,
+          };
+
+          if (result.status === 'fulfilled') {
+            if (result.value.cancelled) {
+              logDebug(`Layer ${layer.id} request was cancelled`);
+            } else {
+              successful.push({
+                ...layerInfo,
+                fetchUrl: result.value.fetchUrl,
+                fetchDuration: result.value.fetchDuration + ' ms',
+                processingDuration: result.value.processingDuration + ' ms',
+              });
             }
           } else {
-            logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
-            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+            if (result.reason.type === 'cancelled') {
+              logDebug(`Layer ${layer.id} request was cancelled`);
+            } else {
+              failed.push({
+                ...layerInfo,
+                fetchUrl: result.reason.fetchUrl,
+                fetchDuration: result.reason.fetchDuration + ' ms',
+                processingDuration: result.reason.processingDuration + ' ms',
+                error: result.reason.type || 'unknown',
+                message: result.reason.error?.message || 'Unknown error',
+              });
+            }
           }
-        },
-        onerror(res3) {
-          logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
-          $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-        },
+        });
+
+        hostResultsSummary[hostname] = {
+          successful,
+          failed,
+          counts: `${successful.length}/${successful.length + failed.length}`,
+        };
       });
-    });
+
+      // Log final summary with fetch and processing durations per layer
+      logDebug(`Fetch completed - ${successCount}/${layersToFetch.length} layers:`, hostResultsSummary);
+
+      // Update popup if all layers are processed and popup is visible
+      if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
+        updatePopup(layerLabels);
+      }
+    } catch (error) {
+      logError('Unexpected error during processing:', error);
+    }
   }
 
+  /**
+   * Debounced version of the feature fetching process, designed to optimize map movement performance.
+   *
+   * This function delays execution by 250ms after the last call, preventing excessive server requests
+   * during rapid map panning or zooming. It loads visible country data and fetches GIS features
+   * only after the user has stopped interacting with the map for the debounce period.
+   *
+   * Usage:
+   * - Called by onMapMove() to handle map pan/zoom events efficiently
+   * - NOT used for direct UI interactions (checkboxes, buttons) which need immediate response
+   * - Automatically cancelled if fetchFeatures() is called directly (user actions take priority)
+   *
+   * Performance Benefits:
+   * - Reduces server load during rapid map movements
+   * - Maintains responsive UI for deliberate user actions
+   * - Works with existing per-host concurrency controls in fetchFeatures()
+   *
+   * @async
+   * @function debouncedFetch
+   * @returns {Promise<void>} Resolves when the debounced fetch operation completes, or immediately if cancelled.
+   *
+   * @example
+   * // In onMapMove() - waits 250ms after last movement
+   * debouncedFetch();
+   *
+   * @example
+   * // Direct fetchFeatures() call cancels any pending debounced execution
+   * await fetchFeatures(); // User clicked checkbox - executes immediately
+   *
+   * @see {@link fetchFeatures} - The underlying function that performs the actual data fetching
+   * @see {@link onMapMove} - Primary caller of this debounced function
+   * @see {@link loadVisibleCountryData} - Called before fetching features to ensure data availability
+   */
+  const debouncedFetch = _.debounce(async () => {
+    if (settings.enabled) {
+      await loadVisibleCountryData();
+      await fetchFeatures();
+    }
+  }, 250);
+
+  /**
+   * Displays an informational alert dialog (via WME UI) with script and context information.
+   * Used for "info" button or link clicks in the Layer tab.
+   *
+   * @function showScriptInfoAlert
+   * @param {MouseEvent|Event} [evt] Optional event from the info button click.
+   * @returns {void}
+   *
+   * @see {@link sdk.alert}
+   * @see {@link getScriptInfo}
+   */
   function showScriptInfoAlert() {
     /* Check version and alert on update */
     if (SHOW_UPDATE_MESSAGE && scriptVersion !== settings.lastVersion) {
@@ -3719,6 +4431,16 @@
     }
   }
 
+  /**
+   * Enables or disables GIS Layers on the map.
+   * Updates the application state and triggers layer visibility changes.
+   *
+   * @function setEnabled
+   * @param {boolean} isEnabled - Whether GIS Layers should be visible/enabled.
+   * @returns {void}
+   *
+   * @see {@link settings.enabled}
+   */
   async function setEnabled(value) {
     settings.enabled = value;
     saveSettingsToStorage();
@@ -3737,6 +4459,19 @@
     }
   }
 
+  /**
+   * Event handler for toggling the visibility of a GIS Layer checkbox in the UI.
+   * Updates {@link settings.visibleLayers} and triggers a feature refresh.
+   *
+   * @async
+   * @function onGisLayerToggleChanged
+   * @this {HTMLInputElement} Checkbox that triggered the event.
+   * @returns {Promise<void>}
+   *
+   * @see {@link settings.visibleLayers}
+   * @see {@link fetchFeatures}
+   * @see {@link saveSettingsToStorage}
+   */
   async function onGisLayerToggleChanged() {
     const checked = $(this).is(':checked');
     const layerId = $(this).data('layer-id');
@@ -3761,18 +4496,57 @@
     }
   }
 
+  /**
+   * Change event handler for the "Only show applicable layers" setting checkbox.
+   * Updates {@link settings.onlyShowApplicableLayers} and refreshes layer checkboxes.
+   *
+   * @function onOnlyShowApplicableLayersChanged
+   * @param {Event} [event] Change event (optional).
+   * @returns {void}
+   *
+   * @see {@link settings.onlyShowApplicableLayers}
+   * @see {@link saveSettingsToStorage}
+   * @see {@link filterLayerCheckboxes}
+   */
   async function onOnlyShowApplicableLayersChanged() {
     settings.onlyShowApplicableLayers = $(this).is(':checked');
     saveSettingsToStorage();
     filterLayerCheckboxes();
   }
 
+  /**
+   * Change event handler for the "Include Zoom Level in filter" setting checkbox.
+   * Updates {@link settings.onlyShowApplicableLayersZoom} and refreshes layer checkboxes.
+   *
+   * @function onOnlyShowApplicableLayersZoomChanged
+   * @param {Event} [event] Change event (optional).
+   * @returns {void}
+   *
+   * @see {@link settings.onlyShowApplicableLayersZoom}
+   * @see {@link saveSettingsToStorage}
+   * @see {@link filterLayerCheckboxes}
+   */
   async function onOnlyShowApplicableLayersZoomChanged() {
     settings.onlyShowApplicableLayersZoom = $(this).is(':checked');
     saveSettingsToStorage();
     filterLayerCheckboxes();
   }
 
+  /**
+   * Event handler for toggling a region (subL1) checkbox for GIS layer selection.
+   * Updates {@link settings.selectedSubL1}, initializes layer tabs, and refreshes features.
+   *
+   * @async
+   * @function onSub1CheckChanged
+   * @param {string} subL1 Region/subdivision code being toggled.
+   * @param {Event} evt Change event from the checkbox.
+   * @returns {Promise<void>}
+   *
+   * @see {@link settings.selectedSubL1}
+   * @see {@link saveSettingsToStorage}
+   * @see {@link initLayersTab}
+   * @see {@link fetchFeatures}
+   */
   async function onSub1CheckChanged(subL1, evt) {
     const idx = settings.selectedSubL1.indexOf(subL1);
     if (evt.target.checked) {
@@ -3802,16 +4576,53 @@
     }
   }
 
+  /**
+   * Handler for toggling the global "GIS Layers" on/off checkbox in the sidebar Layer Switcher.
+   * Updates layer visibility using {@link setEnabled}.
+   *
+   * @function onLayerCheckboxChanged
+   * @param {{checked: boolean}} args Callback argument with checkbox state.
+   * @returns {void}
+   *
+   * @see {@link setEnabled}
+   * @see {@link sdk.LayerSwitcher}
+   */
   function onLayerCheckboxChanged(args) {
     setEnabled(args.checked);
   }
 
+  /**
+   * Sets the fill opacity for parcel style layers to display filled or unfilled appearance.
+   *
+   * Modifies the {@link LAYER_STYLES.parcels} and {@link LAYER_STYLES.state_parcels} objects' `fillOpacity` property.
+   *
+   * @function setFillParcels
+   * @param {boolean} doFill - If true, parcels are filled with opacity 0.2; otherwise, not filled (opacity 0).
+   * @returns {void}
+   *
+   * @see {@link LAYER_STYLES.parcels}
+   * @see {@link LAYER_STYLES.state_parcels}
+   */
   function setFillParcels(doFill) {
     [LAYER_STYLES.parcels, LAYER_STYLES.state_parcels].forEach((style) => {
       style.fillOpacity = doFill ? 0.2 : 0;
     });
   }
 
+  /**
+   * Handler for changes to the "Fill parcels" appearance checkbox.
+   * Updates parcel fill style using {@link setFillParcels}, updates {@link settings}, and triggers a feature refresh.
+   *
+   * @async
+   * @function onFillParcelsCheckedChanged
+   * @param {Event} evt Change event from the checkbox.
+   * @returns {Promise<void>}
+   *
+   * @see {@link setFillParcels}
+   * @see {@link settings.fillParcels}
+   * @see {@link saveSettingsToStorage}
+   * @see {@link fetchFeatures}
+   */
   async function onFillParcelsCheckedChanged(evt) {
     const { checked } = evt.target;
     setFillParcels(checked);
@@ -3820,22 +4631,56 @@
     await fetchFeatures();
   }
 
+  /**
+   * Event handler for WME map pan/zoom actions.
+   * If GIS layers are enabled ({@link settings.enabled}), loads visible country data then triggers a debounced feature fetch.
+   *
+   * @async
+   * @function onMapMove
+   * @param {Event} [event] Map move event (optional).
+   * @returns {Promise<void>}
+   *
+   * @see {@link settings.enabled}
+   * @see {@link loadVisibleCountryData}
+   * @see {@link debouncedFetch}
+   */
   async function onMapMove() {
     if (settings.enabled) {
       await loadVisibleCountryData();
-      await fetchFeatures();
+      debouncedFetch(); // Changed from fetchFeatures()
     }
   }
 
+  /**
+   * Handler for the GIS Layers tab "refresh" button.
+   * Reloads all layer data and UI without duplicating one-time setup by calling {@link init}.
+   *
+   * @function onRefreshLayersClick
+   * @param {Event} [event] Click event from the refresh icon (optional).
+   * @returns {void}
+   *
+   * @see {@link init}
+   */
   function onRefreshLayersClick() {
     const $btn = $('#gis-layers-refresh');
     if (!$btn.hasClass('fa-spin')) {
       $btn.css({ cursor: 'auto' });
       $btn.addClass('fa-spin');
-      init(false);
+      init(false); // This will reset data and rebuild UI without duplicating one-time setup
     }
   }
 
+  /**
+   * Handler for chevron clicks expanding or collapsing region/group fieldsets in the UI.
+   * Updates {@link settings.collapsedSections} and persists state.
+   *
+   * @function onChevronClick
+   * @param {Event} evt Click event from the chevron icon.
+   * @returns {void}
+   *
+   * @see {@link settings.collapsedSections}
+   * @see {@link saveSettingsToStorage}
+   */
   function onChevronClick(evt) {
     const $target = $(evt.currentTarget);
     const $div = $($target.siblings()[0]);
@@ -3852,6 +4697,21 @@
     if (sectionKey) saveSettingsToStorage();
   }
 
+  /**
+   * Helper function for batch toggling region or layer checkboxes (select all/none).
+   * Updates settings, optionally triggers {@link initLayersTab}, and re-fetches features.
+   * Temporarily disables fetches during batch operation.
+   *
+   * @async
+   * @function doToggleABunch
+   * @param {Event} evt Click event from the select all/none control.
+   * @param {boolean} checkState Desired checked state: true for select all, false for select none.
+   * @returns {Promise<void>}
+   *
+   * @see {@link fetchFeatures}
+   * @see {@link initLayersTab}
+   * @see {@link saveSettingsToStorage}
+   */
   async function doToggleABunch(evt, checkState) {
     ignoreFetch = true;
     $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
@@ -3861,20 +4721,64 @@
     await fetchFeatures();
   }
 
+  /**
+   * Handler for "Select All" links used to check all region/layer checkboxes in the current fieldset.
+   * Triggers a batch update using {@link doToggleABunch}.
+   *
+   * @async
+   * @function onSelectAllClick
+   * @param {Event} evt Click event from the link.
+   * @returns {Promise<void>}
+   *
+   * @see {@link doToggleABunch}
+   */
   function onSelectAllClick(evt) {
     doToggleABunch(evt, true);
   }
 
+  /**
+   * Handler for "Select None" links used to uncheck all region/layer checkboxes in the current fieldset.
+   * Triggers a batch update using {@link doToggleABunch}.
+   *
+   * @async
+   * @function onSelectNoneClick
+   * @param {Event} evt Click event from the link.
+   * @returns {Promise<void>}
+   *
+   * @see {@link doToggleABunch}
+   */
   function onSelectNoneClick(evt) {
     doToggleABunch(evt, false);
   }
 
+  /**
+   * Handler for changes to the address label display radio buttons.
+   * Updates {@link settings.addrLabelDisplay} and triggers a feature refresh.
+   *
+   * @async
+   * @function onGisAddrDisplayChange
+   * @param {Event} evt Radio button change event.
+   * @returns {Promise<void>}
+   *
+   * @see {@link settings.addrLabelDisplay}
+   * @see {@link saveSettingsToStorage}
+   * @see {@link fetchFeatures}
+   */
   async function onGisAddrDisplayChange(evt) {
     settings.addrLabelDisplay = evt.target.value;
     saveSettingsToStorage();
     await fetchFeatures();
   }
 
+  /**
+   * Keyboard shortcut handler for toggling address label display mode between HN-only and All.
+   * Simulates radio button clicks in the UI.
+   *
+   * @function onAddressDisplayShortcutKey
+   * @returns {void}
+   *
+   * @see {@link settings.addrLabelDisplay}
+   */
   function onAddressDisplayShortcutKey() {
     if (!$('#gisAddrDisplay-hn').is(':checked')) {
       $('#gisAddrDisplay-hn').click();
@@ -3883,10 +4787,34 @@
     }
   }
 
+  /**
+   * Keyboard shortcut handler to toggle the enabled state of GIS Layers.
+   * Calls {@link setEnabled} to update map layer visibility.
+   *
+   * @function onToggleGisLayersShortcutKey
+   * @returns {void}
+   *
+   * @see {@link setEnabled}
+   * @see {@link settings.enabled}
+   */
   function onToggleGisLayersShortcutKey() {
     setEnabled(!settings.enabled);
   }
 
+  /**
+   * Toggles the visibility of the GIS Layer labels popup based on the {@link isPopupVisible} setting.
+   *
+   * - Locates the popup DOM element by its ID.
+   * - Sets its display style to 'block' when {@link isPopupVisible} is true, 'none' otherwise.
+   * - Persists the visibility state to {@link settings} storage via {@link saveSettingsToStorage}.
+   *
+   * @function togglePopupVisibility
+   * @returns {void}
+   *
+   * @see {@link isPopupVisible}
+   * @see {@link saveSettingsToStorage}
+   * @see {@link settings}
+   */
   function togglePopupVisibility() {
     const popup = document.getElementById('layerLabelPopup');
     if (popup) {
@@ -4167,13 +5095,69 @@
                   title: `This may not work properly for all layers. Please report issues to ${SCRIPT_AUTHOR}.`,
                 }).tooltip(),
                 $('<br>'),
-                $('<label>', { style: 'font-weight:normal; margin-left:8px;' }).text('Label Popup:'),
+                $('<label>', { style: 'font-weight:normal; margin-left:4px; margin-top: 4px;' }).text('Label Popup:'),
                 createRadioBtn('popupVisibility', 'show', 'Show', isPopupVisible),
                 createRadioBtn('popupVisibility', 'hide', 'Hide', !isPopupVisible)
               )
           )
         )
       );
+
+    // Font Input section.......
+    const fontOptions = [
+      { value: 'inherit', label: 'Default' },
+      { value: 'Arial, Helvetica, sans-serif', label: 'Arial' },
+      { value: 'Arial Black, Arial, sans-serif', label: 'Arial Black (Block)' },
+      { value: '"Courier New", Courier, monospace', label: 'Courier New' },
+      { value: 'Consolas, "Courier New", monospace', label: 'Consolas (Monospace)' },
+      { value: 'Georgia, serif', label: 'Georgia' },
+      { value: 'Impact, Charcoal, sans-serif', label: 'Impact (Blocky)' },
+      { value: '"Lucida Console", Monaco, monospace', label: 'Lucida Console (Monospace)' },
+      { value: 'Segoe UI, Arial, sans-serif', label: 'Segoe UI' },
+      { value: 'Tahoma, Geneva, sans-serif', label: 'Tahoma' },
+      { value: '"Times New Roman", Times, serif', label: 'Times New Roman' },
+      { value: 'Trebuchet MS, Helvetica, sans-serif', label: 'Trebuchet MS' },
+      { value: 'Verdana, Geneva, sans-serif', label: 'Verdana (Wide Digits)' },
+    ];
+
+    const $fontRow = $('<div>', {
+      style: ['display:flex', 'align-items:center', 'margin-top:4px', 'margin-left:4px'].join(';'),
+      class: 'gis-label-font-row',
+    }).append(
+      $('<label>', {
+        for: 'gis-label-font-select',
+        style: ['font-weight:normal', 'font-size:14px', 'margin-right:4px'].join(';'),
+      }).text('Font:'),
+      $('<select>', {
+        id: 'gis-label-font-select',
+        style: ['font-size:12px', 'padding:2px 6px', 'line-height:0.8', 'border:1px solid #b9b9b9', 'border-radius:3px', 'min-width:240px'].join(';'),
+      }).append(
+        fontOptions.map((opt) =>
+          $('<option>', {
+            value: opt.value,
+            text: opt.label,
+          }).prop('selected', settings.fontFamily === opt.value)
+        )
+      )
+    );
+
+    $fontRow.find('select').on('change', function () {
+      settings.fontFamily = $(this).val();
+      saveSettingsToStorage();
+      DEFAULT_STYLE.fontFamily = settings.fontFamily;
+      ROAD_STYLE.fontFamily = settings.fontFamily;
+
+      // Redraw visual layers to apply updated font
+      try {
+        sdk.Map.redrawLayer({ layerName: DEFAULT_LAYER_NAME });
+        sdk.Map.redrawLayer({ layerName: ROAD_LAYER_NAME });
+      } catch (e) {
+        logError('Layer does not exist during style update', e);
+      }
+      updatePopup(layerLabels);
+    });
+
+    $('#labelSettings .controls-container').append($fontRow);
 
     // Create groups by country
     Object.keys(layersByCountry)
@@ -4282,7 +5266,7 @@
         }).append(
           $('<span>', {
             style: 'color:#777;font-size:11px;',
-            html: 'Recommended for all <b>·</b> <span style="color:#b00;">Required for V3 API</span>',
+            html: 'Recommended for all Tyler/Socrata layers<br><span style="color:#b00;">Required for V3 API</span>',
           })
         )
       );
@@ -4511,6 +5495,7 @@
   function initGui(firstCall = true) {
     initLayer();
     if (firstCall) {
+      // One-time UI setup that should never be repeated
       initTab(true);
       sdk.LayerSwitcher.addLayerCheckbox({ name: 'GIS Layers' });
       sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: settings.enabled });
@@ -4518,7 +5503,8 @@
       sdk.Events.on({ eventName: 'wme-map-move-end', eventHandler: onMapMove });
       showScriptInfoAlert();
     } else {
-      initTab(firstCall);
+      // Refreshable UI parts - always rebuild the tab contents
+      initTab(false);
     }
   }
 
@@ -4812,16 +5798,12 @@
       const countryRegionCodes = {};
 
       // Collect visible country and subdivision codes
-      for (const countryKey in _whatsInView) {
-        if (!_whatsInView.hasOwnProperty(countryKey)) continue;
-        const c = _whatsInView[countryKey];
+      for (const c of Object.values(_whatsInView)) {
         if (!c?.ISO_ALPHA3) continue;
         countryCodes.add(c.ISO_ALPHA3);
         const regionSet = new Set();
         if (c.subL1) {
-          for (const subCode in c.subL1) {
-            if (!c.subL1.hasOwnProperty(subCode)) continue;
-            const sub = c.subL1[subCode];
+          for (const sub of Object.values(c.subL1)) {
             if (sub?.subL1_id) regionSet.add(sub.subL1_id);
           }
         }
@@ -4919,6 +5901,16 @@
     let dataObjects = [];
     /** @type {{ error: string | null }} */
     const result = { error: null };
+
+    // Helper function to extract hostname from URL
+    const getHostname = (url) => {
+      try {
+        return new URL(url).hostname;
+      } catch (e) {
+        logError(`Invalid URL during layer setup: ${url}`);
+        return 'unknown';
+      }
+    };
 
     try {
       const resp = await fetch(LAYER_DEF_URL);
@@ -5074,6 +6066,7 @@
             }
           });
 
+          // Platform detection
           if (typeof layerDef.url === 'string') {
             const url = layerDef.url;
             if (/\/rest\/(services|Shared)\//i.test(url) || /\/MapServer(\/\d*)?$/i.test(url) || /\/gis\/rest\//i.test(url)) {
@@ -5085,8 +6078,12 @@
             } else {
               layerDef.platform = 'Other';
             }
+
+            // **ADD HOSTNAME PRE-COMPUTATION**
+            layerDef.hostname = getHostname(layerDef.url);
           } else {
             layerDef.platform = 'Other';
+            layerDef.hostname = 'unknown';
           }
 
           let validSubL1 = false;
@@ -5126,8 +6123,12 @@
    *
    * @param {string} shortcutId - Unique identifier for the shortcut.
    * @param {string} description - Human-readable description of the shortcut.
-   * @param {Function} callback - Callback to execute when the shortcut is triggered.
+   * @param {() => void} callback - Callback to execute when the shortcut is triggered.
    * @returns {boolean} Returns `true` if registration succeeded, otherwise `false`.
+   *
+   * @see {@link sdk.Shortcuts.createShortcut}
+   * @see {@link logError}
+   * @see {@link logDebug}
    */
   function createShortcut(shortcutId, description, callback) {
     const shortcutObj = settings.shortcuts?.[shortcutId] ?? null;
@@ -5166,16 +6167,11 @@
    * @returns {Promise<void>} Resolves when initialization steps are complete.
    */
   async function init(firstCall = true) {
-    _gisLayers = [];
-    _whatsInView = {};
-    alreadyLoadedCountries.clear();
-    alreadyLoadedSubL1.clear();
-    countrySubdivisionMapping = {};
-
     if (firstCall) {
+      // One-time initialization
       userInfo = sdk.State.getUserInfo();
       labelProcessingGlobalVariables.sdk = sdk;
-      loadSettingsFromStorage();
+      loadSettingsFromStorage(true);
 
       // Register shortcuts with stored keys (if set), else with no keys (user must assign)
       createShortcut('toggleHnsOnly', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);
@@ -5184,14 +6180,19 @@
       installPathFollowingLabels();
       window.addEventListener('beforeunload', saveSettingsToStorage, false);
       _layerSettingsDialog = new LayerSettingsDialog();
+      await buildCountrySubdivisionMapping();
+    } else {
+      // Refresh - clear everything for complete reload
+      _gisLayers = [];
+      alreadyLoadedCountries.clear();
+      alreadyLoadedSubL1.clear();
     }
 
     const t0 = performance.now();
     try {
-      await buildCountrySubdivisionMapping();
       await loadVisibleCountryData();
       logDebug(`Loaded ${_gisLayers.length} layer definitions in ${Math.round(performance.now() - t0)} ms.`);
-      initGui(firstCall);
+      if (firstCall) initGui(firstCall); // Only need to do this at startup, and initGui(false) is called at the end of loadVisibleCountryData()
       await fetchFeatures();
       $('#gis-layers-refresh').removeClass('fa-spin').css({ cursor: 'pointer' });
       logDebug('Initialized.');
@@ -5199,7 +6200,6 @@
       logError(err);
     }
   }
-
   init();
 
   /**
