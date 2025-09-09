@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.08.28.00
+// @version      2025.09.09.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -82,15 +82,16 @@
 // @connect arcgis.water.nv.gov
 // @connect arcgis.waxahachie.com
 // @connect arcgis.yumacountyaz.gov
+// @connect arcgis2.catawbacountync.gov
 // @connect arcgis4.roktech.net
 // @connect arcgis5.roktech.net
 // @connect arcgisce2.co.valencia.nm.us
 // @connect arcgisserver.digital.mass.gov
-// @connect arcgisserver.lincolncounty.org
+// @connect arcgisserver.lincolncountync.gov
 // @connect arcgisserver.maine.gov
 // @connect arcgisserver2.morpc.org
 // @connect arcgissrv.cityofbartlesville.org
-// @connect arcgiswap01.ci.temple.tx.us
+// @connect arcgiswap02.ci.temple.tx.us
 // @connect arcgisweb.carteretcountync.gov
 // @connect arcgisweb.countyofnewaygo.com
 // @connect arcgisweb.welland.ca
@@ -162,10 +163,10 @@
 // @connect dcgis.dekalbcountyga.gov
 // @connect dcimapapps.countyofdane.com
 // @connect dekalbgis.integritygis.com
+// @connect delivery.maps.gov.bc.ca
 // @connect delta.co.clatsop.or.us
 // @connect dev.wilsonvillemaps.com
 // @connect doniphangis.integritygis.com
-// @connect dotapp9.dot.state.mn.us
 // @connect douglasgis.integritygis.com
 // @connect dtdapps.coloradodot.info
 // @connect dungis.dunwoodyga.gov
@@ -214,6 +215,7 @@
 // @connect geonb.snb.ca
 // @connect geoportal.kelowna.ca
 // @connect geopower.jws.com
+// @connect geoservices.mapleridge.ca
 // @connect geospatial.alberta.ca
 // @connect geoweb.martin.fl.us
 // @connect geoweb02.ci.richmond.ca.us
@@ -254,6 +256,7 @@
 // @connect gis.buncombecounty.org
 // @connect gis.burkenc.org
 // @connect gis.burleighco.com
+// @connect gis.burlesontx.com
 // @connect gis.burnaby.ca
 // @connect gis.buttecounty.net
 // @connect gis.caldwellcountync.org
@@ -334,6 +337,7 @@
 // @connect gis.cookeville-tn.org
 // @connect gis.corvallisoregon.gov
 // @connect gis.cosb.us
+// @connect gis.countyofnapa.org
 // @connect gis.countyofriverside.us
 // @connect gis.cowleycounty.org
 // @connect gis.cranstonri.org
@@ -592,6 +596,7 @@
 // @connect gis3.montgomerycountymd.gov
 // @connect gis3.richmondnc.com
 // @connect gis4.montgomerycountymd.gov
+// @connect gis4.polkcountyiowa.gov
 // @connect gisago-qa.mcgi.state.mi.us
 // @connect gisago.mcgi.state.mi.us
 // @connect gisapp.adcogov.org
@@ -797,7 +802,6 @@
 // @connect maps.brla.gov
 // @connect maps.brookhavenga.gov
 // @connect maps.bryantx.gov
-// @connect maps.burlesontx.com
 // @connect maps.butlercountyauditor.org
 // @connect maps.cambridge.ca
 // @connect maps.canyonco.org
@@ -850,7 +854,6 @@
 // @connect maps.deltacountyco.gov
 // @connect maps.deschutes.org
 // @connect maps.desotocountyms.gov
-// @connect maps.dmgov.org
 // @connect maps.dot.nh.gov
 // @connect maps.dotd.la.gov
 // @connect maps.douglascountyga.gov
@@ -989,7 +992,6 @@
 // @connect mcogis.co.marion.oh.us
 // @connect millergis.integritygis.com
 // @connect mms.hursttx.gov
-// @connect mndotgis.dot.state.mn.us
 // @connect moberlygis.integritygis.com
 // @connect mobile.alamedaca.gov
 // @connect moniteaugis.integritygis.com
@@ -1105,7 +1107,6 @@
 // @connect utility.arcgis.com
 // @connect vernongis.integritygis.com
 // @connect vginmaps.vdem.virginia.gov
-// @connect vtransmap01.aot.state.vt.us
 // @connect wallawallagis.com
 // @connect warrengis.integritygis.com
 // @connect wcg-gisweb.co.worcester.md.us
@@ -1121,6 +1122,7 @@
 // @connect webadaptor.glynncounty-ga.gov
 // @connect webgis.bedfordcountyva.gov
 // @connect webgis.co.davidson.nc.us
+// @connect webgis.dot.state.mn.us
 // @connect webgis.durhamnc.gov
 // @connect webgis.lafayetteassessor.com
 // @connect webgis.providenceri.gov
@@ -1197,7 +1199,19 @@
 // @connect xmaps.indy.gov
 // ==/UserScript==
 
-/* global WazeWrap, _, turf, ESTreeProcessor, bootstrap, OpenLayers, wmeGisLBBOX */
+/* global $, WazeWrap, _, turf, ESTreeProcessor, bootstrap, OpenLayers, wmeGisLBBOX */
+
+/**
+ * Global dependencies used by this script:
+ * @global {Object} $ - jQuery (used extensively for DOM manipulation) {@link https://jquery.com/}
+ * @global {Object} WazeWrap - Waze Wrapper library (for alerts, interface functions)
+ * @global {Object} _ - Lodash (for utility functions like _.uniq, _.groupBy, _.debounce) {@link https://lodash.com/}
+ * @global {Object} turf - Turf.js (for geospatial operations like turf.point, turf.area, etc.) {@link https://turfjs.org/}
+ * @global {Object} ESTreeProcessor - For processing custom label JavaScript
+ * @global {Object} bootstrap - For SDK initialization
+ * @global {Object} OpenLayers - For the path-following labels functionality
+ * @global {Object} wmeGisLBBOX - For geographic boundary box operations
+ */
 
 /**
  * WME GIS Layers Script - Main initialization function
@@ -1222,14 +1236,23 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    'Update: 2025.08.28.00',
-    'Add font selection dropdown to label settings; include multiple commonly used system fonts for improved customization.',
-    'GIS Fetch: Faster, stable, supports concurrency',
-    '- Caches map extent to prevent redundant queries',
-    '- Groups layers by host; batches concurrent requests to avoid server overload',
-    '- Improved error handling; UI shows individual layer failures',
-    '- Fetches are cancellation-aware; debounced to prevent race conditions',
-    '- Code cleanup and documentation',
+    '✨ New Features:',
+    'Added font size selection dropdown to label settings',
+    'Updated list of commonly used system fonts for better readability',
+    'Font style and type are now saved as part of layer groups',
+    '',
+    '🔧 Improvements:',
+    'Fixed label handling for multiple point features in the same location',
+    'Labels now consolidate address ranges by street name',
+    '',
+    '📍 Example:',
+    'When multiple addresses exist at the same coordinates:',
+    '1101 SW CHAPEL LN, 1105 SW CHAPEL LN, 1201 SW CHAPEL LN',
+    '1301 SW FLOYD LN, 1305 SW FLOYD LN',
+    '',
+    'They now display as consolidated ranges:',
+    '1101-1201 SW CHAPEL LN',
+    '1301-1305 SW FLOYD LN',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -1238,21 +1261,6 @@
   const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSevPQLz2ohu_LTge9gJ9Nv6PURmCmaSSjq0ayOJpGdRr2xI0g/viewform?usp=pp_url&entry.2116052852={username}';
   const DEFAULT_LAYER_NAME = 'GIS Layers - Default';
   const ROAD_LAYER_NAME = 'GIS Layers - Roads';
-
-  /**
-   * @external jQuery
-   * @see {@link https://jquery.com/}
-   */
-
-  /**
-   * @external turf
-   * @see {@link https://turfjs.org/}
-   */
-
-  /**
-   * @external lodash
-   * @see {@link https://lodash.com/}
-   */
 
   /**
    * @typedef {Object} StyleDefinition
@@ -1288,7 +1296,7 @@
     strokeOpacity: 0.95,
     strokeWidth: 1.5,
     fontColor: '#ffc520',
-    fontSize: '13',
+    fontSize: 12,
     labelOutlineColor: 'black',
     labelOutlineWidth: 3,
     fontFamily: 'inherit',
@@ -1315,7 +1323,6 @@
       fillOpacity: 0,
       labelYOffset: 10,
       pointRadius: 2,
-      fontSize: 12,
     },
     parcels: {
       fillOpacity: 0,
@@ -1379,7 +1386,7 @@
     strokeColor: '#f0f',
     strokeOpacity: 0.4,
     fontWeight: 'bold',
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: 'inherit',
   };
 
@@ -1463,18 +1470,6 @@
    */
 
   /**
-   * @typedef {object} wmeGisLBBOX
-   * @property {(url: string) => Promise<object>} fetchJsonWithCache
-   * @property {(viewportBbox: ViewportBBox) => Promise<Array<{ISO_ALPHA2:string, ISO_ALPHA3:string, name:string, Sub_level:number, source:string}>>} getIntersectingCountries
-   * @property {() => Promise<Object>} getCountriesAndSubsJson
-   * @property {(intersectingCountries: Object) => void} cleanIntersectingData
-   * @property {(countyCode: string, subCode: string, subSubCode: string, viewportBbox: ViewportBBox, returnGeoJson?: boolean) => Promise<boolean|Object>} fetchAndCheckGeoJsonIntersection
-   * @property {(viewportBbox: ViewportBBox, highPrecision?: boolean, returnGeoJson?: boolean) => Promise<Object>} getIntersectingStatesAndCounties
-   * @property {(countryObj: Object, viewportBbox: ViewportBBox) => Promise<Object>} getIntersectingSubdivisions
-   * @property {(viewportBbox: ViewportBBox, highPrecision?: boolean, returnGeoJson?: boolean) => Promise<Object>} whatsInView
-   */
-
-  /**
    * @typedef {Object} ProcessedFeature
    * @property {string} type - GeoJSON feature type, typically "Feature"
    * @property {Object} geometry - GeoJSON geometry object
@@ -1495,7 +1490,37 @@
    * @property {string} userName - User's Waze username
    */
 
-  /** @type {wmeGisLBBOX} */
+  /**
+   * @typedef {Object} WmeGisLBBOXViewportBbox
+   * @property {number} minLon - Minimum longitude
+   * @property {number} minLat - Minimum latitude
+   * @property {number} maxLon - Maximum longitude
+   * @property {number} maxLat - Maximum latitude
+   */
+
+  /**
+   * @typedef {Object} WmeGisLBBOXCountry
+   * @property {string} ISO_ALPHA2 - Two-letter country code
+   * @property {string} ISO_ALPHA3 - Three-letter country code
+   * @property {string} name - Country name
+   * @property {number} Sub_level - Subdivision level depth
+   * @property {string} source - Data source ("BBOX" or "GEOJSON")
+   */
+
+  /**
+   * @typedef {Object} WmeGisLBBOX
+   * @property {Object} cache - Internal cache for storing fetched JSON/GeoJSON data
+   * @property {function(string): Promise<Object>} fetchJsonWithCache - Fetch JSON with caching
+   * @property {function(WmeGisLBBOXViewportBbox): Promise<Array<WmeGisLBBOXCountry>>} getIntersectingCountries - Get countries intersecting viewport
+   * @property {function(): Promise<Object>} getCountriesAndSubsJson - Get comprehensive country and subdivision data
+   * @property {function(Object): void} cleanIntersectingData - Clean empty subdivisions from intersecting data
+   * @property {function(string, string, string, WmeGisLBBOXViewportBbox, boolean=): Promise<boolean|Object>} fetchAndCheckGeoJsonIntersection - Check GeoJSON intersection
+   * @property {function(WmeGisLBBOXViewportBbox, boolean=, boolean=): Promise<Object>} getIntersectingStatesAndCounties - Get intersecting US states and counties
+   * @property {function(Object, WmeGisLBBOXViewportBbox): Promise<Object>} getIntersectingSubdivisions - Get intersecting subdivisions for a country
+   * @property {function(WmeGisLBBOXViewportBbox, boolean=, boolean=): Promise<Object>} whatsInView - Main function to determine all regions in viewport
+   */
+
+  /** @type {WmeGisLBBOX} */
   const WmeGisLBBOX = new wmeGisLBBOX(); // Create and reuse this instance as wmeGisLBBOX uses an instance-level cache (i.e., this.cache)
 
   /**
@@ -1682,6 +1707,8 @@
    * @property {Object.<string, boolean>} collapsedSections - Map of section names to collapsed state (can be empty).
    * @property {string} addrLabelDisplay - Address label display mode ("all" in this sample).
    * @property {boolean} fillParcels - Whether to fill parcels in this group.
+   * @property {string} [fontFamily] - Font family for labels in this group (optional, for groups saved after font feature).
+   * @property {number} [fontSize] - Font size for labels in this group (optional, for groups saved after font feature).
    */
 
   /**
@@ -1705,6 +1732,8 @@
    * @property {Object.<string, LayerGroupSettings>} layerGroups - Map of group names to per-group settings.
    * @property {string} addrLabelDisplay - Display mode for address labels ("all" in this sample).
    * @property {string} socrataAppToken - Token for Socrata API access.
+   * @property {string} fontFamily - Font family for GIS layer labels (e.g., "Arial, sans-serif", "inherit").
+   * @property {number} fontSize - Font size in pixels for GIS layer labels (default: 20).
    * @property {string} [toggleHnsOnlyShortcut] - legacy, only present Pre SDK migration, moved to shortcuts.toggleHnsOnlyShortcut
    * @property {string} [toggleEnabledShortcut] - legacy, only present Pre SDK migration, moved to shortcuts.toggleEnabledShortcut
    *
@@ -2070,6 +2099,76 @@
   }
 
   /**
+   * Applies the current font family and font size settings to the default and road layer styles.
+   *
+   * This function synchronizes the font settings from the user's saved preferences with the
+   * global style objects used for rendering GIS features on the map. It handles both font
+   * family selection and font size configuration, applying appropriate fallbacks when
+   * settings are missing or invalid.
+   *
+   * Font Family Logic:
+   * - If a valid font family is set and not 'inherit', applies it to both styles
+   * - Otherwise, defaults both styles to 'inherit' to use system/browser defaults
+   *
+   * Font Size Logic:
+   * - If a valid numeric font size is set, applies it to both styles
+   * - Otherwise, defaults both styles to 20px as the fallback size
+   *
+   * Side Effects:
+   * - Modifies {@link DEFAULT_STYLE.fontFamily} and {@link ROAD_STYLE.fontFamily}
+   * - Modifies {@link DEFAULT_STYLE.fontSize} and {@link ROAD_STYLE.fontSize}
+   * - Changes take effect on next map layer redraw/refresh
+   *
+   * @function applyFontSettingsToStyles
+   * @returns {void} No return value - operates via side effects on global style objects
+   *
+   * @see {@link settings.fontFamily} - User's selected font family preference
+   * @see {@link settings.fontSize} - User's selected font size preference
+   * @see {@link DEFAULT_STYLE} - Style object for default GIS layer features
+   * @see {@link ROAD_STYLE} - Style object for road/line GIS layer features
+   * @see {@link loadSettingsFromStorage} - Calls this function after loading settings
+   * @see {@link initSettingsTab} - Font controls call this function on change
+   *
+   * @example
+   * // Called automatically when settings are loaded
+   * loadSettingsFromStorage();
+   * // applyFontSettingsToStyles() is called internally
+   *
+   * @example
+   * // Called when user changes font settings
+   * settings.fontFamily = 'Arial, sans-serif';
+   * settings.fontSize = 24;
+   * applyFontSettingsToStyles();
+   * // Both DEFAULT_STYLE and ROAD_STYLE now use Arial at 24px
+   *
+   * @example
+   * // Fallback behavior with invalid settings
+   * settings.fontFamily = 'inherit';
+   * settings.fontSize = null;
+   * applyFontSettingsToStyles();
+   * // Results in fontFamily: 'inherit', fontSize: 12
+   */
+  function applyFontSettingsToStyles() {
+    // Apply font family
+    if (settings.fontFamily && settings.fontFamily !== 'inherit') {
+      DEFAULT_STYLE.fontFamily = settings.fontFamily;
+      ROAD_STYLE.fontFamily = settings.fontFamily;
+    } else {
+      DEFAULT_STYLE.fontFamily = 'inherit';
+      ROAD_STYLE.fontFamily = 'inherit';
+    }
+
+    // Apply font size
+    if (settings.fontSize && typeof settings.fontSize === 'number') {
+      DEFAULT_STYLE.fontSize = settings.fontSize;
+      ROAD_STYLE.fontSize = settings.fontSize;
+    } else {
+      DEFAULT_STYLE.fontSize = 20; // fallback to default
+      ROAD_STYLE.fontSize = 20;
+    }
+  }
+
+  /**
    * Loads user settings from localStorage and initializes the global settings object.
    *
    * Performs the following operations:
@@ -2130,6 +2229,7 @@
       addrLabelDisplay: 'all',
       socrataAppToken: '',
       fontFamily: 'inherit',
+      fontSize: 12,
       getLayerSetting: function () {
         return undefined;
       },
@@ -2213,6 +2313,9 @@
     useTitleCase = settings.useTitleCase;
     useStateHwy = settings.useStateHwy;
     removeNewLines = settings.removeNewLines;
+
+    // Apply font family and font size to styles
+    applyFontSettingsToStyles();
 
     // --- Utility layer functions ---
     settings.getLayerSetting = function getLayerSetting(layerID, settingName) {
@@ -3102,29 +3205,83 @@
   }
 
   /**
-   * Deduplicates GeoJSON Point features in-place based on proximity and label value.
+   * Deduplicates GeoJSON Point features in-place based on proximity and consolidates addresses into street ranges.
    *
    * Uses a spatial grid to find and merge Points that are within ~1 meter of each other and have labels.
-   * Merges duplicate labels (combining unique labels with newlines), then removes duplicates from the array.
+   * Groups addresses by street name and creates min-max ranges (e.g., "1101-1435 SW 11TH ST").
+   * Handles alphanumeric house numbers (12A, 100½) with proper sorting.
+   * Limits display to 10 street ranges with "<X more streets>" for additional ones.
    * Skips features marked with `skipDupeCheck`.
    *
    * Dependencies:
    * - {@link turf.distance} for spatial measurement
-   * - {@link _.uniq} from lodash for label deduplication
+   * - {@link turf.flatten} (used upstream in processing pipeline)
    *
    * @function deduplicatePointFeatures
    * @param {Array<ProcessedFeature>} features - Array of GeoJSON features (should have `.geometry.type === "Point"` and `.properties.label`).
    * @returns {Array<ProcessedFeature>} The deduplicated array (modifies and returns original input).
    *
    * @example
-   * // Removes close duplicate points, merging labels.
-   * deduplicatePointFeatures(featureArray);
+   * // Input: Multiple points at same location with individual addresses
+   * const features = [
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '1101 SW CHAPEL LN' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '1105 SW CHAPEL LN' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '1201 SW CHAPEL LN' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '1301 SW FLOYD LN' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '1305 SW FLOYD LN' } }
+   * ];
+   *
+   * deduplicatePointFeatures(features);
+   *
+   * // Result: Single point with consolidated label:
+   * // "1101-1201 SW CHAPEL LN\n1301-1305 SW FLOYD LN"
+   *
+   * @example
+   * // Handles alphanumeric house numbers
+   * const alphanumericFeatures = [
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '12A MAIN ST' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '12B MAIN ST' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '15 MAIN ST' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '100½ OAK AVE' } }
+   * ];
+   *
+   * deduplicatePointFeatures(alphanumericFeatures);
+   *
+   * // Result: Single point with label:
+   * // "12A-15 MAIN ST\n100½ OAK AVE"
+   *
+   * @example
+   * // Limits display when many streets are present
+   * const manyStreets = [
+   *   // ... 15 different streets with various house numbers at same location
+   * ];
+   *
+   * deduplicatePointFeatures(manyStreets);
+   *
+   * // Result: Single point with label showing first 10 streets:
+   * // "1101-1435 SW 11TH ST\n1302-1416 SW 12TH LN\n...\n<5 more streets>"
+   *
+   * @example
+   * // Preserves features that are far apart
+   * const distantFeatures = [
+   *   { geometry: { type: 'Point', coordinates: [-122.1, 37.4] }, properties: { label: '123 NORTH ST' } },
+   *   { geometry: { type: 'Point', coordinates: [-122.2, 37.5] }, properties: { label: '456 SOUTH ST' } } // >1 meter away
+   * ];
+   *
+   * deduplicatePointFeatures(distantFeatures);
+   *
+   * // Result: Both points preserved as separate features (no merging)
    */
   function deduplicatePointFeatures(features) {
     const GRID_SIZE = 0.00001; // ~1 meter
-    const spatialIndex = new Map();
+    const MAX_LABELS = 10; // Maximum number of labels to display
     const toRemove = new Set();
+    const processed = new Set();
 
+    // Group features by location first
+    const locationGroups = new Map();
+
+    // First pass: group all features by their grid location
     features.forEach((feature, index) => {
       if (feature.geometry.type !== 'Point' || feature.skipDupeCheck || !feature.properties.label) {
         return;
@@ -3133,37 +3290,136 @@
       const [x, y] = feature.geometry.coordinates;
       const gridX = Math.floor(x / GRID_SIZE);
       const gridY = Math.floor(y / GRID_SIZE);
+      const locationKey = `${gridX},${gridY}`;
 
-      // Check 9 grid cells (current + 8 neighbors)
-      for (let dx = -1; dx <= 1; dx++) {
-        for (let dy = -1; dy <= 1; dy++) {
-          const key = `${gridX + dx},${gridY + dy}`;
-          const nearby = spatialIndex.get(key);
-
-          if (nearby) {
-            const distance = turf.distance(feature, features[nearby.index], { units: 'meters' });
-            if (distance < 1) {
-              // Merge labels
-              const labels = [features[nearby.index].properties.label, feature.properties.label];
-              features[nearby.index].properties.label = _.uniq(labels).join('\n');
-              toRemove.add(index);
-              return;
-            }
-          }
-        }
+      if (!locationGroups.has(locationKey)) {
+        locationGroups.set(locationKey, []);
       }
-
-      // Add to spatial index
-      const key = `${gridX},${gridY}`;
-      spatialIndex.set(key, { index, feature });
+      locationGroups.get(locationKey).push({ feature, index });
     });
 
-    // Remove duplicates in reverse order to maintain indices
-    Array.from(toRemove)
-      .sort((a, b) => b - a)
-      .forEach((index) => {
-        features.splice(index, 1);
+    // Function to parse address and extract house number and street name
+    function parseAddress(address) {
+      const match = address.match(/^([0-9]+[A-Z½¼¾]?)\s+(.+)$/i);
+      if (match) {
+        return {
+          houseNumber: match[1], // Keep as string to preserve letters
+          numericPart: parseInt(match[1], 10), // Extract numeric part for sorting
+          streetName: match[2].trim(),
+        };
+      }
+      return null;
+    }
+
+    // Function to create street ranges from addresses
+    function createStreetRanges(addresses) {
+      const streetMap = new Map();
+
+      // Group addresses by street name
+      addresses.forEach((address) => {
+        const parsed = parseAddress(address.trim());
+        if (parsed) {
+          if (!streetMap.has(parsed.streetName)) {
+            streetMap.set(parsed.streetName, []);
+          }
+          streetMap.get(parsed.streetName).push(parsed);
+        }
       });
+
+      // Create ranges for each street
+      const ranges = [];
+      streetMap.forEach((houseData, streetName) => {
+        if (houseData.length === 1) {
+          // Single address
+          ranges.push(`${houseData[0].houseNumber} ${streetName}`);
+        } else {
+          // Multiple addresses - sort by numeric part, then by full house number
+          const sortedHouses = houseData.sort((a, b) => {
+            if (a.numericPart !== b.numericPart) {
+              return a.numericPart - b.numericPart;
+            }
+            // If numeric parts are equal, sort by full house number string
+            return a.houseNumber.localeCompare(b.houseNumber);
+          });
+
+          const minHouse = sortedHouses[0].houseNumber;
+          const maxHouse = sortedHouses[sortedHouses.length - 1].houseNumber;
+
+          if (minHouse === maxHouse) {
+            ranges.push(`${minHouse} ${streetName}`);
+          } else {
+            ranges.push(`${minHouse}-${maxHouse} ${streetName}`);
+          }
+        }
+      });
+
+      // Sort ranges alphabetically by street name
+      return ranges.sort();
+    }
+
+    // Second pass: for each location group, check distances and merge
+    locationGroups.forEach((candidates) => {
+      if (candidates.length <= 1) return; // No duplicates at this grid location
+
+      // Find all features that are actually within 1 meter of each other
+      const clusters = [];
+
+      candidates.forEach((candidate) => {
+        if (processed.has(candidate.index)) return;
+
+        // Find all other candidates within 1 meter of this one
+        const cluster = [candidate];
+
+        candidates.forEach((other) => {
+          if (other.index === candidate.index || processed.has(other.index)) return;
+
+          const distance = turf.distance(candidate.feature, other.feature, { units: 'meters' });
+          if (distance < 1) {
+            cluster.push(other);
+          }
+        });
+
+        if (cluster.length > 1) {
+          // Mark all as processed
+          cluster.forEach((item) => processed.add(item.index));
+          clusters.push(cluster);
+        }
+      });
+
+      // Process each cluster
+      clusters.forEach((cluster) => {
+        // Collect all labels from this cluster
+        const allLabels = cluster.map((item) => item.feature.properties.label.trim()).filter((label) => label.length > 0);
+
+        // Create street ranges from the addresses
+        const streetRanges = createStreetRanges(allLabels);
+
+        // Format the final label
+        let finalLabel;
+        if (streetRanges.length <= MAX_LABELS) {
+          finalLabel = streetRanges.join('\n');
+        } else {
+          const visibleRanges = streetRanges.slice(0, MAX_LABELS);
+          const hiddenCount = streetRanges.length - MAX_LABELS;
+          finalLabel = visibleRanges.join('\n') + `\n<${hiddenCount} more streets>`;
+        }
+
+        // Keep the first feature, update its label
+        const keepIndex = cluster[0].index;
+        features[keepIndex].properties.label = finalLabel;
+
+        // Mark the rest for removal
+        cluster.slice(1).forEach((item) => {
+          toRemove.add(item.index);
+        });
+      });
+    });
+
+    // Remove duplicate features in reverse order
+    const sortedToRemove = Array.from(toRemove).sort((a, b) => b - a);
+    sortedToRemove.forEach((index) => {
+      features.splice(index, 1);
+    });
 
     return features;
   }
@@ -3924,6 +4180,7 @@
     const contentContainer = document.querySelector('#layerLabelPopup div:nth-child(4)');
 
     contentContainer.style.fontFamily = settings.fontFamily || 'inherit';
+    contentContainer.style.fontSize = (settings.fontSize || 13) + 'px';
 
     dropdownContainer.innerHTML = '';
     contentContainer.innerHTML = '';
@@ -5106,46 +5363,79 @@
     // Font Input section.......
     const fontOptions = [
       { value: 'inherit', label: 'Default' },
+
+      // Best for maps - excellent readability and built-in tabular numbers
+      { value: '"SF Pro Display", "Segoe UI", Tahoma, Arial, sans-serif', label: 'SF Pro / Segoe UI (Recommended)' },
+      { value: 'Verdana, Geneva, sans-serif', label: 'Verdana (Wide & Clear)' },
+      { value: 'Tahoma, Geneva, Verdana, sans-serif', label: 'Tahoma' },
+
+      // Fonts with excellent tabular numbers
+      { value: '"Source Sans Pro", "Segoe UI", Arial, sans-serif', label: 'Source Sans Pro (Tabular)' },
+      { value: '"Roboto", "Segoe UI", Arial, sans-serif', label: 'Roboto (Modern)' },
+      { value: '"Inter", "Segoe UI", Arial, sans-serif', label: 'Inter (Designed for UI)' },
+
+      // Traditional options
       { value: 'Arial, Helvetica, sans-serif', label: 'Arial' },
-      { value: 'Arial Black, Arial, sans-serif', label: 'Arial Black (Block)' },
-      { value: '"Courier New", Courier, monospace', label: 'Courier New' },
-      { value: 'Consolas, "Courier New", monospace', label: 'Consolas (Monospace)' },
-      { value: 'Georgia, serif', label: 'Georgia' },
-      { value: 'Impact, Charcoal, sans-serif', label: 'Impact (Blocky)' },
-      { value: '"Lucida Console", Monaco, monospace', label: 'Lucida Console (Monospace)' },
-      { value: 'Segoe UI, Arial, sans-serif', label: 'Segoe UI' },
-      { value: 'Tahoma, Geneva, sans-serif', label: 'Tahoma' },
-      { value: '"Times New Roman", Times, serif', label: 'Times New Roman' },
       { value: 'Trebuchet MS, Helvetica, sans-serif', label: 'Trebuchet MS' },
-      { value: 'Verdana, Geneva, sans-serif', label: 'Verdana (Wide Digits)' },
+
+      // Bold/Heavy options for high contrast
+      { value: 'Arial Black, Arial, sans-serif', label: 'Arial Black (Bold)' },
+      { value: 'Impact, "Arial Black", sans-serif', label: 'Impact (Heavy)' },
+
+      // Monospace - perfect alignment for addresses/coordinates
+      { value: 'Consolas, "SF Mono", Monaco, "Cascadia Code", monospace', label: 'Consolas (Monospace)' },
+      { value: '"JetBrains Mono", Consolas, "Courier New", monospace', label: 'JetBrains Mono (Clear)' },
+      { value: '"Courier New", Courier, monospace', label: 'Courier New (Classic)' },
     ];
 
     const $fontRow = $('<div>', {
-      style: ['display:flex', 'align-items:center', 'margin-top:4px', 'margin-left:4px'].join(';'),
+      style: ['display:flex', 'align-items:flex-start', 'margin-top:4px', 'margin-left:4px', 'gap:8px', 'flex-wrap:wrap'].join(';'),
       class: 'gis-label-font-row',
     }).append(
-      $('<label>', {
-        for: 'gis-label-font-select',
-        style: ['font-weight:normal', 'font-size:14px', 'margin-right:4px'].join(';'),
-      }).text('Font:'),
-      $('<select>', {
-        id: 'gis-label-font-select',
-        style: ['font-size:12px', 'padding:2px 6px', 'line-height:0.8', 'border:1px solid #b9b9b9', 'border-radius:3px', 'min-width:240px'].join(';'),
+      // Font Family Section
+      $('<div>', {
+        style: ['display:flex', 'align-items:center', 'gap:4px', 'flex:1 1 auto', 'min-width:200px'].join(';'),
       }).append(
-        fontOptions.map((opt) =>
-          $('<option>', {
-            value: opt.value,
-            text: opt.label,
-          }).prop('selected', settings.fontFamily === opt.value)
+        $('<label>', {
+          for: 'gis-label-font-select',
+          style: ['font-weight:normal', 'font-size:14px', 'white-space:nowrap', 'flex-shrink:0'].join(';'),
+        }).text('Font:'),
+        $('<select>', {
+          id: 'gis-label-font-select',
+          style: ['font-size:12px', 'padding:2px 6px', 'line-height:0.8', 'border:1px solid #b9b9b9', 'border-radius:3px', 'flex:1 1 auto', 'min-width:0', 'max-width:100%'].join(';'),
+        }).append(
+          fontOptions.map((opt) =>
+            $('<option>', {
+              value: opt.value,
+              text: opt.label,
+            }).prop('selected', settings.fontFamily === opt.value)
+          )
         )
+      ),
+      // Font Size Section
+      $('<div>', {
+        style: ['display:flex', 'align-items:center', 'gap:4px', 'flex:0 0 auto'].join(';'),
+      }).append(
+        $('<label>', {
+          for: 'gis-label-font-size',
+          style: ['font-weight:normal', 'font-size:14px', 'white-space:nowrap'].join(';'),
+        }).text('Size:'),
+        $('<input>', {
+          type: 'number',
+          id: 'gis-label-font-size',
+          min: 8,
+          max: 48,
+          value: settings.fontSize || 20,
+          style: ['font-size:12px', 'padding:2px 6px', 'border:1px solid #b9b9b9', 'border-radius:3px', 'width:60px', 'text-align:center'].join(';'),
+        })
       )
     );
 
-    $fontRow.find('select').on('change', function () {
+    // Font Family change handler
+    $fontRow.find('#gis-label-font-select').on('change', function () {
       settings.fontFamily = $(this).val();
       saveSettingsToStorage();
-      DEFAULT_STYLE.fontFamily = settings.fontFamily;
-      ROAD_STYLE.fontFamily = settings.fontFamily;
+      applyFontSettingsToStyles();
 
       // Redraw visual layers to apply updated font
       try {
@@ -5155,6 +5445,25 @@
         logError('Layer does not exist during style update', e);
       }
       updatePopup(layerLabels);
+    });
+
+    // Font Size change handler
+    $fontRow.find('#gis-label-font-size').on('change input', function () {
+      const newSize = parseInt($(this).val(), 10);
+      if (newSize >= 8 && newSize <= 48) {
+        settings.fontSize = newSize;
+        saveSettingsToStorage();
+        applyFontSettingsToStyles();
+
+        // Redraw visual layers to apply updated font size
+        try {
+          sdk.Map.redrawLayer({ layerName: DEFAULT_LAYER_NAME });
+          sdk.Map.redrawLayer({ layerName: ROAD_LAYER_NAME });
+        } catch (e) {
+          logError('Layer does not exist during style update', e);
+        }
+        updatePopup(layerLabels);
+      }
     });
 
     $('#labelSettings .controls-container').append($fontRow);
@@ -5628,6 +5937,8 @@
                   collapsedSections: { ...settings.collapsedSections },
                   addrLabelDisplay: settings.addrLabelDisplay,
                   fillParcels: settings.fillParcels,
+                  fontFamily: settings.fontFamily,
+                  fontSize: settings.fontSize,
                 };
                 saveSettingsToStorage();
                 loadSettingsFromStorage();
@@ -5703,6 +6014,8 @@
             settings.collapsedSections = { ...grp.collapsedSections };
             settings.addrLabelDisplay = grp.addrLabelDisplay;
             settings.fillParcels = grp.fillParcels;
+            if (grp.fontFamily !== undefined) settings.fontFamily = grp.fontFamily;
+            if (grp.fontSize !== undefined) settings.fontSize = grp.fontSize;
             saveSettingsToStorage();
             loadSettingsFromStorage();
             initGui(false);
