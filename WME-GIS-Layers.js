@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.09.09.00
+// @version      2025.09.11.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1236,23 +1236,13 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    '✨ New Features:',
-    'Added font size selection dropdown to label settings',
-    'Updated list of commonly used system fonts for better readability',
-    'Font style and type are now saved as part of layer groups',
+    '✨ Updates & Fixes:',
+    'Offset functionality fixed; feature positions now update reliably when moving the map!',
+    'Added a Offset display to show current X and Y values in meters for clarity',
     '',
-    '🔧 Improvements:',
-    'Fixed label handling for multiple point features in the same location',
-    'Labels now consolidate address ranges by street name',
-    '',
-    '📍 Example:',
-    'When multiple addresses exist at the same coordinates:',
-    '1101 SW CHAPEL LN, 1105 SW CHAPEL LN, 1201 SW CHAPEL LN',
-    '1301 SW FLOYD LN, 1305 SW FLOYD LN',
-    '',
-    'They now display as consolidated ranges:',
-    '1101-1201 SW CHAPEL LN',
-    '1301-1305 SW FLOYD LN',
+    '📌 Example:',
+    'Current offset:',
+    'X = 5 m | Y = -3 m',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -1865,6 +1855,7 @@
     #maxVisibleAtZoom = 22;
     #titleText;
     #visibleAtZoomInput;
+    #offsetDisplayDiv;
 
     constructor() {
       this.#titleText = $('<span>');
@@ -1887,9 +1878,15 @@
         .text('Reset')
         .on('click', () => this.#onResetOffsetButtonClick());
 
+      //Offset display element
+      this.#offsetDisplayDiv = $('<div>', {
+        style: 'font-size:12px; color:#4d6a88; background:#d6e6f3; border-radius:6px; margin:4px 0 4px 0; padding:4px 8px; text-align:center; font-weight:bold;',
+      });
+      this.#updateOffsetDisplay();
+
+      // Compose main dialog UI
       this._dialogDiv = $('<div>', {
         style:
-          // Modern blue theme & rounded & drop shadow
           'position: fixed; top: 15%; left: 400px; width: 235px; z-index: 100; background: #73a9bd;' +
           'border-width: 1px; border-style: solid; border-radius: 14px; box-shadow: 5px 6px 14px rgba(0,0,0,0.58);' +
           'border-color: #50667b; padding: 0; font-family: inherit;',
@@ -1930,6 +1927,7 @@
                 )
               )
             ),
+            this.#offsetDisplayDiv,
             $('<div>', {
               style: 'border-radius: 7px; width:100%; padding:12px 8px 8px 10px; margin-top:2px; background: #d6e6f3; margin-right:0px;box-sizing:border-box;',
             }).append(
@@ -1981,6 +1979,7 @@
         this.#gisLayer = value;
         this.#titleText.text(this.#gisLayer.name);
         this.#initVisibleAtZoomInput();
+        this.#updateOffsetDisplay();
       }
     }
 
@@ -1994,6 +1993,7 @@
 
     show() {
       this._dialogDiv.show();
+      this.#updateOffsetDisplay();
     }
 
     hide() {
@@ -2027,10 +2027,9 @@
     }
 
     #onShiftButtonClick(x, y) {
-      const shiftAmount = this.getShiftAmount();
+      const shiftAmount = parseFloat(this.getShiftAmount());
       x *= shiftAmount;
       y *= shiftAmount;
-      this.#shiftLayerFeatures(x, y);
       const { id } = this.gisLayer;
       let offset = settings.getLayerSetting(id, 'offset');
       if (!offset) {
@@ -2040,53 +2039,27 @@
       offset.x += x;
       offset.y += y;
       saveSettingsToStorage();
+      this.#updateOffsetDisplay(); // <--- UPDATE DISPLAY
+      debouncedFetch(); // reload features using new offset
     }
 
     #onResetOffsetButtonClick() {
-      const offset = settings.getLayerSetting(this.gisLayer.id, 'offset');
-      if (offset) {
-        this.#shiftLayerFeatures(offset.x * -1, offset.y * -1);
-        settings.removeLayerSetting(this.gisLayer.id, 'offset');
+      const { id } = this.gisLayer;
+      if (settings.getLayerSetting(id, 'offset')) {
+        settings.removeLayerSetting(id, 'offset');
         saveSettingsToStorage();
-      }
-    }
-
-    #shiftLayerFeatures(x, y) {
-      //Given the inputs have been updated to Degrees, shifting by meters still makes sense and works.
-      const { isRoadLayer } = this.gisLayer;
-      let featureCollection = isRoadLayer ? roadFeatures : defaultFeatures;
-      const { distance, bearing } = LayerSettingsDialog.#calculateDistanceAndBearing(x, y);
-      featureCollection = featureCollection.filter((f) => f.properties.layerID === this.gisLayer.id).map((f) => turf.transformTranslate(f, distance, bearing, { units: 'meters' }));
-      if (isRoadLayer) {
-        roadFeatures = featureCollection;
+        this.#updateOffsetDisplay(); // <--- UPDATE DISPLAY
+        debouncedFetch(); //reload features removing offset
       } else {
-        defaultFeatures = featureCollection;
+        this.#updateOffsetDisplay(); // <--- Also update even if no offset was set
       }
-      const layerName = isRoadLayer ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
-      const featureIds = featureCollection.map((f) => f.id);
-      sdk.Map.removeFeaturesFromLayer({ layerName, featureIds });
-      sdk.Map.addFeaturesToLayer({ layerName, features: featureCollection });
     }
 
-    /**
-     * Calculates the total distance and bearing from X and Y meter offsets.
-     * @param {number} dx_meters - X offset in meters (east/west).
-     * @param {number} dy_meters - Y offset in meters (north/south).
-     * @returns {{distance: number, bearing: number}}
-     */
-    static #calculateDistanceAndBearing(dx_meters, dy_meters) {
-      const distance = Math.sqrt(dx_meters ** 2 + dy_meters ** 2);
-
-      // Calculate bearing in radians
-      // Math.atan2(y, x) returns angle in radians between -PI and PI
-      // Need to adjust to be 0-360 degrees clockwise from North
-      const bearing_rad = Math.atan2(dx_meters, dy_meters); // dx_meters is 'x' (east), dy_meters is 'y' (north)
-
-      // Convert to degrees and adjust for 0-360, clockwise from North
-      let bearing_deg = bearing_rad * (180 / Math.PI);
-      bearing_deg = (bearing_deg + 360) % 360; // Ensure positive and within 0-360 range
-
-      return { distance, bearing: bearing_deg };
+    #updateOffsetDisplay() {
+      if (!this.#gisLayer || !this.#offsetDisplayDiv) return;
+      const offset = settings.getLayerSetting(this.#gisLayer.id, 'offset') ?? { x: 0, y: 0 };
+      const fmt = (v) => (typeof v === 'number' ? v.toFixed(0) : '0');
+      this.#offsetDisplayDiv.html(`Current offset:<br>X = ${fmt(offset.x)} m  |  Y = ${fmt(offset.y)} m`);
     }
 
     static #createShiftButton(fontAwesomeClass) {
@@ -2579,14 +2552,14 @@
 
     // ----- ArcGIS -----
     if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
-      const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
       const geometry = {
-        xmin: extent[0] - layerOffset.x,
-        ymin: extent[1] - layerOffset.y,
-        xmax: extent[2] - layerOffset.x,
-        ymax: extent[3] - layerOffset.y,
+        xmin: extent[0],
+        ymin: extent[1],
+        xmax: extent[2],
+        ymax: extent[3],
         spatialReference: { wkid: 4326 },
       };
+
       const maxAllowableOffset = getMaxAllowableOffsetForZoom(zoom);
       const fields = getFields(gisLayer.labelFields).join(',');
 
@@ -3034,12 +3007,11 @@
     // --- Post-processing for certain styles (e.g., address shorteners) ---
     if (!isPolyLine) {
       if (label && ['points', 'parcels', 'state_points', 'state_parcels'].includes(gisLayer.style)) {
+        const parsed = parseAddress(label);
         if (settings.addrLabelDisplay === 'hn') {
-          const m = label.match(/^\d+/);
-          label = m ? m[0] : '';
+          label = parsed && parsed.houseNumber ? parsed.houseNumber : '';
         } else if (settings.addrLabelDisplay === 'street') {
-          const m = label.match(/^(?:\d+\s)?(.*)/);
-          label = m ? m[1].trim() : '';
+          label = parsed && parsed.streetName ? parsed.streetName : '';
         } else if (settings.addrLabelDisplay === 'none') {
           label = '';
         }
@@ -3054,6 +3026,32 @@
   let defaultFeatures = [];
   /** @type {ProcessedFeature[]} */
   let roadFeatures = [];
+
+  /**
+   * Offsets a geographic coordinate by a given distance in meters, accounting for latitude.
+   *
+   * Converts offset values in meters to degrees, using WGS84 (EPSG:4326) coordinate system.
+   * X (east/west) offset is correctly scaled by the cosine of latitude.
+   *
+   * @param {number[]} coord           An array [longitude, latitude] in degrees.
+   * @param {{x: number, y: number}} offsetInMeters
+   *                                   Offset distances in meters:
+   *                                     - x: meters east (positive) or west (negative)
+   *                                     - y: meters north (positive) or south (negative)
+   * @returns {number[]}               New coordinate [longitude, latitude] in degrees after offset.
+   *
+   * @example
+   * // Move a point 50 meters north and 25 meters east
+   * const newCoord = offsetCoord([-157.857, 21.304], {x: 25, y: 50});
+   */
+
+  function offsetCoord(coord, offsetInMeters) {
+    const lat = coord[1];
+    const latRads = (lat * Math.PI) / 180;
+    const dLat = offsetInMeters.y / 111320;
+    const dLon = offsetInMeters.x / (111320 * Math.cos(latRads));
+    return [coord[0] + dLon, coord[1] + dLat];
+  }
 
   /**
    * Returns a new geometry object with its coordinates offset by the given layerOffset.
@@ -3071,52 +3069,26 @@
    * @see https://datatracker.ietf.org/doc/html/rfc7946#section-3.1
    */
   function offsetGeometry(geometry, layerOffset) {
-    if (!geometry || !layerOffset) return geometry;
-
-    /**
-     * @param {[number, number]} coord
-     * @returns {[number, number]}
-     */
-    function offsetCoord(coord) {
-      return [coord[0] + layerOffset.x, coord[1] + layerOffset.y];
+    if (!geometry || !layerOffset || (layerOffset.x === 0 && layerOffset.y === 0)) {
+      return geometry;
     }
 
     switch (geometry.type) {
       case 'Point':
-        // Safe to treat as [number, number]
-        return { ...geometry, coordinates: offsetCoord(geometry.coordinates) };
+        return { ...geometry, coordinates: offsetCoord(geometry.coordinates, layerOffset) };
       case 'LineString':
       case 'MultiPoint':
-        // Array of [number, number]
-        return { ...geometry, coordinates: geometry.coordinates.map(offsetCoord) };
+        return { ...geometry, coordinates: geometry.coordinates.map((coord) => offsetCoord(coord, layerOffset)) };
       case 'Polygon':
       case 'MultiLineString':
-        // Array of Array of [number, number]
         return {
           ...geometry,
-          coordinates: geometry.coordinates.map(
-            /**
-             * @param {Array<[number, number]>} ring
-             */
-            (ring) => ring.map(offsetCoord)
-          ),
+          coordinates: geometry.coordinates.map((ring) => ring.map((coord) => offsetCoord(coord, layerOffset))),
         };
       case 'MultiPolygon':
-        // Array of Array of Array of [number, number]
         return {
           ...geometry,
-          coordinates: geometry.coordinates.map(
-            /**
-             * @param {Array<Array<[number, number]>>} poly
-             */
-            (poly) =>
-              poly.map(
-                /**
-                 * @param {Array<[number, number]>} ring
-                 */
-                (ring) => ring.map(offsetCoord)
-              )
-          ),
+          coordinates: geometry.coordinates.map((poly) => poly.map((ring) => ring.map((coord) => offsetCoord(coord, layerOffset)))),
         };
       default:
         return geometry;
@@ -3205,6 +3177,69 @@
   }
 
   /**
+   * Parses an address string into its house number and street components.
+   *
+   * This function splits addresses of the form "<houseNumber><suffix> <streetName>" using the following rules:
+   * - The house number is a leading sequence of digits, optionally immediately followed by letters,
+   *   digits, hyphens, or fraction unicode characters (such as "½"), attached without a space.
+   *   Examples: "955A", "123-1", "123½".
+   * - If a space appears after the house number, all following characters are treated as the street name.
+   *   Example: "955A Cooke St" → houseNumber: "955A", streetName: "Cooke St"
+   * - If there is a space between the numeric portion and the next character, the next word is considered part of the street name
+   *   (e.g. "955 A Cooke St" → houseNumber: "955", streetName: "A Cooke St").
+   * - Pure house number or pure street name are also supported.
+   * - Returns null if the input does not match a recognized pattern.
+   *
+   * @param {string} address - The raw address string to parse.
+   * @returns {Object|null} Parsed address object, or null if parsing fails. The object may have:
+   *  - {string} houseNumber - The parsed house number, may include attached suffixes (as described above).
+   *  - {number} numericPart - The numeric portion of the house number, parsed as an integer.
+   *  - {string} streetName - The parsed street name, if present.
+   *  - {boolean} hasHouseNumber - True if a house number was identified.
+   *  - {boolean} hasStreetName - True if a street name was identified.
+   *
+   * @example
+   * parseAddress("955A Cooke St"); // { houseNumber: "955A", numericPart: 955, streetName: "Cooke St", hasHouseNumber: true, hasStreetName: true }
+   * parseAddress("955 A Cooke St"); // { houseNumber: "955", numericPart: 955, streetName: "A Cooke St", hasHouseNumber: true, hasStreetName: true }
+   * parseAddress("123-1 Oak Rd");   // { houseNumber: "123-1", numericPart: 123, streetName: "Oak Rd", hasHouseNumber: true, hasStreetName: true }
+   * parseAddress("Park Lane");      // { streetName: "Park Lane", hasHouseNumber: false, hasStreetName: true }
+   */
+  function parseAddress(address) {
+    address = address.trim();
+    // Match number plus trailing NO-SPACE suffixes (letters, hyphens, unicode fractions, digits)
+    const mainMatch = address.match(/^([0-9]+(?:[A-Za-z½¼¾⁄\-0-9]*))\s+(.*)$/);
+    if (mainMatch) {
+      return {
+        houseNumber: mainMatch[1],
+        numericPart: parseInt(mainMatch[1], 10),
+        streetName: mainMatch[2].trim(),
+        hasHouseNumber: true,
+        hasStreetName: true,
+      };
+    }
+    // Only house number
+    const hnOnly = address.match(/^([0-9]+[A-Za-z½¼¾⁄\-0-9]*)$/);
+    if (hnOnly) {
+      return {
+        houseNumber: hnOnly[1],
+        numericPart: parseInt(hnOnly[1], 10),
+        hasHouseNumber: true,
+        hasStreetName: false,
+      };
+    }
+    // Only street name
+    const streetOnly = address.match(/^([A-Za-z0-9\s]+)$/);
+    if (streetOnly) {
+      return {
+        streetName: streetOnly[1].trim(),
+        hasHouseNumber: false,
+        hasStreetName: true,
+      };
+    }
+    return null;
+  }
+
+  /**
    * Deduplicates GeoJSON Point features in-place based on proximity and consolidates addresses into street ranges.
    *
    * Uses a spatial grid to find and merge Points that are within ~1 meter of each other and have labels.
@@ -3273,7 +3308,8 @@
    * // Result: Both points preserved as separate features (no merging)
    */
   function deduplicatePointFeatures(features) {
-    const GRID_SIZE = 0.00001; // ~1 meter
+    const GRID_SIZE = 0.00004; // ~4 meters, safely includes possible nearby features globally
+    const DEDUP_DISTANCE = 4; // meters
     const MAX_LABELS = 10; // Maximum number of labels to display
     const toRemove = new Set();
     const processed = new Set();
@@ -3298,47 +3334,64 @@
       locationGroups.get(locationKey).push({ feature, index });
     });
 
-    // Function to parse address and extract house number and street name
-    function parseAddress(address) {
-      const match = address.match(/^([0-9]+[A-Z½¼¾]?)\s+(.+)$/i);
-      if (match) {
-        return {
-          houseNumber: match[1], // Keep as string to preserve letters
-          numericPart: parseInt(match[1], 10), // Extract numeric part for sorting
-          streetName: match[2].trim(),
-        };
-      }
-      return null;
-    }
-
     // Function to create street ranges from addresses
     function createStreetRanges(addresses) {
-      const streetMap = new Map();
+      // Parse each address, collecting what fields are present
+      const parsedAddresses = addresses.map((address) => parseAddress(address));
+      const allHaveHouseNumber = parsedAddresses.every((a) => a && a.hasHouseNumber && !a.hasStreetName);
+      const allHaveStreetName = parsedAddresses.every((a) => a && a.hasStreetName && !a.hasHouseNumber);
 
-      // Group addresses by street name
-      addresses.forEach((address) => {
-        const parsed = parseAddress(address.trim());
-        if (parsed) {
-          if (!streetMap.has(parsed.streetName)) {
-            streetMap.set(parsed.streetName, []);
+      if (allHaveHouseNumber) {
+        // Only house numbers, show as a range if possible
+        const houseDatas = parsedAddresses.filter((a) => a);
+        if (houseDatas.length === 1) {
+          return [houseDatas[0].houseNumber];
+        } else if (houseDatas.length > 1) {
+          // Sort by numeric part
+          const sortedHouses = houseDatas.sort((a, b) => {
+            if (a.numericPart !== b.numericPart) {
+              return a.numericPart - b.numericPart;
+            }
+            return a.houseNumber.localeCompare(b.houseNumber);
+          });
+          const minHouse = sortedHouses[0].houseNumber;
+          const maxHouse = sortedHouses[sortedHouses.length - 1].houseNumber;
+          if (minHouse === maxHouse) {
+            return [minHouse];
+          } else {
+            return [`${minHouse}-${maxHouse}`];
           }
-          streetMap.get(parsed.streetName).push(parsed);
         }
+        // If none, empty label
+        return [];
+      }
+
+      if (allHaveStreetName) {
+        // Only street names, group & show each (no house number range)
+        const streets = Array.from(new Set(parsedAddresses.map((a) => a.streetName).filter((x) => x)));
+        return streets.sort();
+      }
+
+      // Else: Original grouping logic, group by street
+      const streetMap = new Map();
+      parsedAddresses.forEach((parsed) => {
+        if (!parsed || !parsed.houseNumber || !parsed.streetName) return;
+        if (!streetMap.has(parsed.streetName)) {
+          streetMap.set(parsed.streetName, []);
+        }
+        streetMap.get(parsed.streetName).push(parsed);
       });
 
       // Create ranges for each street
       const ranges = [];
       streetMap.forEach((houseData, streetName) => {
         if (houseData.length === 1) {
-          // Single address
           ranges.push(`${houseData[0].houseNumber} ${streetName}`);
         } else {
-          // Multiple addresses - sort by numeric part, then by full house number
           const sortedHouses = houseData.sort((a, b) => {
             if (a.numericPart !== b.numericPart) {
               return a.numericPart - b.numericPart;
             }
-            // If numeric parts are equal, sort by full house number string
             return a.houseNumber.localeCompare(b.houseNumber);
           });
 
@@ -3352,8 +3405,6 @@
           }
         }
       });
-
-      // Sort ranges alphabetically by street name
       return ranges.sort();
     }
 
@@ -3374,7 +3425,7 @@
           if (other.index === candidate.index || processed.has(other.index)) return;
 
           const distance = turf.distance(candidate.feature, other.feature, { units: 'meters' });
-          if (distance < 1) {
+          if (distance < DEDUP_DISTANCE) {
             cluster.push(other);
           }
         });
@@ -3538,17 +3589,15 @@
         if (token.cancel || error) return;
         if (!item.geometry) return;
 
-        //---------- POINT ----------
+        //------ POINT ------
         if (item.geometry.x !== undefined && item.geometry.y !== undefined) {
           let feature = turf.point([item.geometry.x, item.geometry.y]);
           feature.geometry = offsetGeometry(feature.geometry, layerOffset);
-
           feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', false));
-
           if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
           features.push(feature);
 
-          //---------- MULTI-POINT ----------
+          //------ MULTI-POINT ------
         } else if (item.geometry.points) {
           item.geometry.points.forEach((point) => {
             let feature = turf.point(point);
@@ -3558,29 +3607,32 @@
             features.push(feature);
           });
 
-          //---------- POLYGON ----------
+          //------ FLATTENED POLYGONS ------
         } else if (item.geometry.rings) {
           const separatePolygons = [];
           let currentOuterRing = null;
           const innerRings = [];
+
           item.geometry.rings.forEach((ringIn) => {
-            const ring = ringIn.map(([x, y]) => [x + layerOffset.x, y + layerOffset.y]);
-            if (turf.booleanClockwise(ring)) {
+            if (turf.booleanClockwise(ringIn)) {
               if (currentOuterRing) {
                 separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
               }
-              currentOuterRing = ring;
+              currentOuterRing = ringIn;
               innerRings.length = 0;
             } else {
-              innerRings.push(ring);
+              innerRings.push(ringIn);
             }
           });
           if (currentOuterRing) {
             separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
           }
+
           separatePolygons.forEach(({ outer, inners }) => {
             const polygonRings = [outer, ...inners];
             let feature = turf.polygon(polygonRings);
+            feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+
             const area = turf.area(feature);
 
             feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, area, false));
@@ -3588,11 +3640,11 @@
             features.push(feature);
           });
 
-          //---------- LINES / POLYLINE ----------
+          //------ POLYLINE ------
         } else if (data.geometryType === 'esriGeometryPolyline' && item.geometry.paths) {
           item.geometry.paths.forEach((path) => {
-            const offsetPath = path.map(([x, y]) => [x + layerOffset.x, y + layerOffset.y]);
-            let feature = turf.lineString(offsetPath);
+            let feature = turf.lineString(path);
+            feature.geometry = offsetGeometry(feature.geometry, layerOffset);
 
             feature = clipLineFeatureToExtent(feature, extent) || null;
             if (!feature) return;
@@ -3604,7 +3656,7 @@
             features.push(feature);
           });
 
-          //---------- UNKNOWN / ERROR ----------
+          //------ UNKNOWN / ERROR ------
         } else {
           logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
           logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
@@ -4264,7 +4316,7 @@
    *
    * Concurrency Strategy:
    * - Groups requests by hostname to avoid overwhelming individual servers.
-   * - Limits concurrent requests per host (default: 3) while allowing parallel processing across different hosts.
+   * - Limits concurrent requests per host (default: 5) while allowing parallel processing across different hosts.
    * - Processes hosts concurrently but controls per-host request batching with small delays between batches.
    * - Optimizes for scenarios where multiple layers may hit the same server.
    *
@@ -4537,7 +4589,7 @@
       });
     };
 
-    // Helper for concurrency (no change needed here)
+    // Helper for concurrency
     const processHostLayers = async (hostname, layers) => {
       const results = [];
       for (let i = 0; i < layers.length; i += MAX_CONCURRENT_PER_HOST) {
