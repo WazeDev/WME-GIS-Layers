@@ -372,18 +372,16 @@ Controls the appearance of GIS features (points, lines, polygons, and labels) in
 
 ***Most layers should use one of the preset styles from the LAYER_STYLES object, which ensures a consistent and tested look for common geospatial themes like cities, parks, roads, or points. For advanced or unique visualization needs, you may freely define a custom style for any layer or feature.***
 
-```
- cities
- forests_parks
- milemarkers
- parcels
- points
- post_offices
- state_parcels
- state_points
- road_labels
- structures
- ```
+ - cities
+ - forests_parks
+ - milemarkers
+ - parcels
+ - points
+ - post_offices
+ - state_parcels
+ - state_points
+ - road_labels
+ - structures
 
 Style properties let you define things like colors, opacities, label formats, sizes, font styles, and label alignment for visualization in the editor.
 
@@ -392,20 +390,20 @@ Style properties let you define things like colors, opacities, label formats, si
 ---
 
 ###   <u>**visibleAtZoom**</u>
-    Minimum zoom for layer to appear (number). (12 most zoomed out to 22 most Zoomed in)
-    Defult is not set is 18!
+- Minimum zoom for layer to appear (number). (12 most zoomed out to 22 most Zoomed in)
+- Defult is not set is 18!
 
 ---
 
 ###   <u>**labelsVisibleAtZoom** *(optional)*</u>
-    Minimum zoom for labels (number).  Must be <= to `visibleAtZoom`
-    Defult is `visibleAtZoom` value -1.
+- Minimum zoom for labels (number).  Must be <= to `visibleAtZoom`
+- Defult is `visibleAtZoom` value -1.
 
 ---
 
 ###   <u>**enabled**</u>
-    `1` to show layer in the script.
-    `0` or blank to hide in the script.
+- `1` to show layer in the script.
+- `0` or blank to hide in the script.
 
 ---
 
