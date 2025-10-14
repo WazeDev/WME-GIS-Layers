@@ -96,29 +96,45 @@ This sheet configures WME GIS Layers. Each row defines a layer. Use the descript
 ---
 
 ### <u>**labelFields** *(optional)*</u>
-   Provide a comma-separated list of field names used for labeling map features.
-   
-   By default, the label will be a space-separated string of the non-NULL values from these fields.
-   
-   Examples:
-   ```
-   NAME
+  Provide a comma-separated list of field names to use for labeling map features.
 
-   STATE,COUNTY
-   
-   HOUSE_NUMBER,ROAD_NAME
-   ```
-   Tip: Double-check the field names in your data layer’s metadata.
+By default, the label will be a space-separated string of the non-NULL values from these fields.
+
+**Examples:**
+- `NAME`
+- `STATE,COUNTY`
+- `HOUSE_NUMBER,ROAD_NAME`
+
+*Tip: Double-check the field names in your data layer’s metadata.*
 
 ---
 
 ### <u>**processLabel** *(optional)*</u>
 
-Write JavaScript code that returns a custom label string for your map features.  
-You have access to a `fieldValues` object with your feature’s data fields.
+You may write JavaScript code to generate a custom `label` string for your map features.
 
-Often used to clean, format, or combine address fields, using the `label` variable and GIS-L built-in regex rules (`_regexReplace`).
+**Important:**  
+The `fieldValues` object available in `processLabel` will **only include the fields you specify in `labelFields`**.  
+If you want to use a field in your custom labeling logic, you **must** add its name to `labelFields` above.
 
+#### What is `processLabel` for?
+Use `processLabel` to combine, clean, or reformat address and label fields—especially when simple field concatenation isn’t enough.
+
+#### Rules:
+- Return a value named `label` at the end of your script.
+- **Do not** declare `label` with `let` or `var`; it is a predefined global. (Just assign and use `label = ...;`)
+- GIS-L offers built-in regex cleaning routines via the `_regexReplace` object to help format addresses and labels.
+
+#### Only the following global variables and functions are available:
+`label`, `sdk`, `Math`, `_regexReplace`, `parseInt`, `Number`, `Boolean`, and `Date`.
+
+**Example:**  
+If your `labelFields` are `HOUSE_NUMBER,ROAD_NAME`, then your `processLabel` can use only `fieldValues.HOUSE_NUMBER` and `fieldValues.ROAD_NAME`:
+
+```javascript
+label = fieldValues.HOUSE_NUMBER + ' ' + fieldValues.ROAD_NAME;
+return label;
+```
 ---
 
 #### How to Use Custom Regex Label/Address Cleaning Rules
@@ -145,7 +161,8 @@ Where `rX` is a rule from the list below.
     - `'N/A' → ''`
 
 - **r1 — Truncate after the street type**  
-  Pattern includes common street types.  
+  Pattern includes common street types.
+  Pattern: `/^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi`  
   Usage:  
   `return label.replace(_regexReplace.r1, '$1$2');`  
   Example:  
@@ -194,7 +211,9 @@ Where `rX` is a rule from the list below.
 You can combine multiple replacements for more powerful cleaning.
 
 Example:  
-`return label.replace(_regexReplace.r0, '').replace(_regexReplace.r2, '').replace(_regexReplace.r3, '').replace(_regexReplace.r5, '$1\n$2');`  
+```javascript
+return label.replace(_regexReplace.r0, '').replace(_regexReplace.r2, '').replace(_regexReplace.r3, '').replace(_regexReplace.r5, '$1\n$2');
+```
 
 This blanks zero addresses, removes ZIP codes, strips after comma or tilde, and splits the number/street onto two lines.
 
@@ -204,11 +223,15 @@ This blanks zero addresses, removes ZIP codes, strips after comma or tilde, and 
 
 To clean and format a typical address label:
 
-`return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r2, '').replace(_regexReplace.r3, '');`
+```javascript
+return label.replace(_regexReplace.r1, '$1$2').replace(_regexReplace.r2, '').replace(_regexReplace.r3, '');
+```
 
 Or quickly split number/street for map popups:
 
-`return label.replace(_regexReplace.r0, '').replace(_regexReplace.r6, '$1\n$2');`
+```javascript
+return label.replace(_regexReplace.r0, '').replace(_regexReplace.r6, '$1\n$2');
+```
 
 ---
 
@@ -245,7 +268,7 @@ var FEATURE_TYPE_MAP = {
   "1": "Ferry Crossing"
 };
 
-var label = "";
+label = "";
 if (fieldValues.FEATURE_TYPE) {
   // Use mapped description if available, else code value
   var mapped = FEATURE_TYPE_MAP[fieldValues.FEATURE_TYPE];
@@ -262,7 +285,7 @@ return label;
 Add only fields that exist, joining with pipe delimiters.
 
 ```javascript
-var label = "";
+label = "";
 if (fieldValues.FULLNAME) {
   label += fieldValues.FULLNAME;
 }
