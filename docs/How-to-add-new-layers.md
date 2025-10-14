@@ -250,7 +250,7 @@ For more complex needs, you can use a variety of JavaScript logic in your `proce
 
 #### 1. Value Mapping with Code Translation
 
-Map code numbers to readable labels and combine with other fields.
+Map numeric codes to readable labels and combine with other fields
 
 ```javascript
 var FEATURE_TYPE_MAP = {
@@ -280,7 +280,7 @@ if (fieldValues.ROAD_CLASS) {
 return label;
 ```
 
-#### 2. Concatenation and Field Checks
+#### 2. Conditional Concatenation
 
 Add only fields that exist, joining with pipe delimiters.
 
@@ -300,7 +300,7 @@ return label;
 
 #### 3. Declarative Array Assembly
 
-Build your label by assembling a list, skipping empty values, and joining by |.
+Build your label by assembling a list, skipping empty values, and joining by "|".
 
 ```javascript
 label = [
@@ -312,7 +312,7 @@ label = [
   ].filter(Boolean).join(' ') : null,
 
   // Surface type
-  fieldValues.SurfaceType || null,
+  fieldValues.SurfaceType,
 
   // Speed zone
   fieldValues.SpeedZone ? 'KMH: ' + fieldValues.SpeedZone : null
@@ -322,9 +322,35 @@ label = [
 return label;
 ```
 
+#### 4. In-line Destructuring (for even shorter code)
+
+Use destructuring for brevity, then array assembly.
+
+```javascript
+const {
+  StandardizedStreetName,
+  StreetType,
+  SuffixDirection,
+  SurfaceType,
+  SpeedZone
+} = fieldValues;
+
+label = [
+  StandardizedStreetName 
+    ? [StandardizedStreetName, StreetType, SuffixDirection].filter(Boolean).join(' ')
+    : null,
+  SurfaceType || null,
+  SpeedZone ? 'KMH: ' + SpeedZone : null
+].filter(Boolean).join(' | ');
+
+return label;
+```
+
 **Pro Tips**
 - Advanced logic allows you to format numbers, abbreviate values, or control which fields appear for different feature types.
 - You can combine these JavaScript patterns with regex cleaning methods for even more flexibility.
+- If you only want to show a field when it’s present, use conditional logic or .filter(Boolean).
+- Always specify fields in your labelFields that you plan to use in processLabel.
 - Always test your script in WME and check for errors.
 
 ---
