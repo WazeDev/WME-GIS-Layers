@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.10.13.00
+// @version      2025.11.1.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -42,6 +42,8 @@
 // @connect ags1.wgxtreme.com
 // @connect ags2maps.srcity.org
 // @connect ags3.scgov.net
+// @connect al03montrevenue.kcsgis.com
+// @connect al61portal.kcsgis.com
 // @connect aldotgis.dot.state.al.us
 // @connect alleganygis.allconet.org
 // @connect alphagis.alpharetta.ga.us
@@ -161,6 +163,7 @@
 // @connect data.ct.gov
 // @connect data.edmonton.ca
 // @connect data.novascotia.ca
+// @connect data.winnipeg.ca
 // @connect data.wsdot.wa.gov
 // @connect data1.digitaldataservices.com
 // @connect dc-web-2.co.douglas.mn.us
@@ -264,7 +267,6 @@
 // @connect gis.burnaby.ca
 // @connect gis.buttecounty.net
 // @connect gis.caldwellcountync.org
-// @connect gis.calhouncounty.org
 // @connect gis.campbellca.gov
 // @connect gis.campbellcountywy.gov
 // @connect gis.carboncounty.com
@@ -273,7 +275,7 @@
 // @connect gis.ccpa.net
 // @connect gis.cedarfalls.com
 // @connect gis.cedarhilltx.com
-// @connect gis.cherokeega.com
+// @connect gis.cherokeecountyga.gov
 // @connect gis.chestermere.ca
 // @connect gis.chippewa.mn
 // @connect gis.chisagocountymn.gov
@@ -316,6 +318,7 @@
 // @connect gis.co.mille-lacs.mn.us
 // @connect gis.co.nezperce.id.us
 // @connect gis.co.oneida.wi.us
+// @connect gis.co.ottawa.oh.us
 // @connect gis.co.pepin.wi.us
 // @connect gis.co.pierce.wi.us
 // @connect gis.co.polk.mn.us
@@ -396,17 +399,16 @@
 // @connect gis.hardeecounty.net
 // @connect gis.harnett.org
 // @connect gis.hartford.gov
-// @connect gis.hawaiicounty.gov
 // @connect gis.hcpafl.org
 // @connect gis.hennepin.us
 // @connect gis.huntingtonbeachca.gov
 // @connect gis.iberiagov.net
+// @connect gis.idwr.idaho.gov
 // @connect gis.indot.in.gov
 // @connect gis.interdev.com
 // @connect gis.iowadot.gov
 // @connect gis.itd.idaho.gov
 // @connect gis.jacksonnc.org
-// @connect gis.jccal.org
 // @connect gis.johnsoncitytn.org
 // @connect gis.johnsoncountyiowa.gov
 // @connect gis.kalamazoocity.org
@@ -488,6 +490,7 @@
 // @connect gis.outagamie.org
 // @connect gis.owensboro.org
 // @connect gis.pandai.com
+// @connect gis.pcmn.us
 // @connect gis.pendercountync.gov
 // @connect gis.pendoreilleco.org
 // @connect gis.penndot.gov
@@ -836,7 +839,6 @@
 // @connect maps.co.grayson.tx.us
 // @connect maps.co.itasca.mn.us
 // @connect maps.co.kendall.il.us
-// @connect maps.co.kern.ca.us
 // @connect maps.co.lincoln.wi.us
 // @connect maps.co.palm-beach.fl.us
 // @connect maps.co.polk.or.us
@@ -994,6 +996,7 @@
 // @connect mcgis4.monroecounty-fl.gov
 // @connect mcmap.montrosecounty.net
 // @connect mcogis.co.marion.oh.us
+// @connect mde.geodata.md.gov
 // @connect millergis.integritygis.com
 // @connect mms.hursttx.gov
 // @connect moberlygis.integritygis.com
@@ -1026,6 +1029,7 @@
 // @connect polkgis.integritygis.com
 // @connect portal.carolinabeach.org
 // @connect portal.carson.org
+// @connect portal.elmoreco.org
 // @connect portal.henrico.gov
 // @connect portal.niagarafalls.ca
 // @connect programs.iowadnr.gov
@@ -1112,13 +1116,14 @@
 // @connect wcg-gisweb.co.worcester.md.us
 // @connect wcgis3.co.winnebago.wi.us
 // @connect wcgisweb.washoecounty.us
-// @connect wcoh.geopowered.com
+// @connect wcohgis.woodcountyohio.gov
 // @connect web.binghamid.gov
 // @connect web2.co.ottertail.mn.us
 // @connect web2.kcsgis.com
 // @connect web3.kcsgis.com
 // @connect web4.kcsgis.com
 // @connect web5.kcsgis.com
+// @connect web6.kcsgis.com
 // @connect webadaptor.glynncounty-ga.gov
 // @connect webgis.bedfordcountyva.gov
 // @connect webgis.co.davidson.nc.us
@@ -1234,8 +1239,10 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    '✨ Updates:',
-    'Expose the SDK as part of the label Processing Global Variables!'
+    '✨ Update:',
+    'Added `zoomLevel` variable for use in label processing functions.',
+    'Removed direct access to the full SDK in label processing; only `zoomLevel` is provided now for improved performance.',
+    'Polygon layer feature deduplication added to reduce overlapping labels by merging features.',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -2952,7 +2959,7 @@
     parseInt,
     Date,
     _regexReplace,
-    sdk,
+    zoomLevel: null,
   };
 
   /**
@@ -2968,13 +2975,16 @@
    * @returns {string} The processed label string for display (may be `''` if label is suppressed or error is present).
    */
   function processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine = false) {
+    // Set zoomLevel at the start, just before use
+    labelProcessingGlobalVariables.zoomLevel = sdk.Map.getZoomLevel();
+
     // --- Allow both ArcGIS and GeoJSON: resolve field source ---
     // If the item has .attributes, use that (ArcGIS); else .properties (GeoJSON); fallback: item itself.
     const fieldValues = item && typeof item === 'object' ? item.attributes || item.properties || item : {};
     let label = '';
 
     // --- Main label fields, only if zoom/area triggers label ---
-    if (sdk.Map.getZoomLevel() >= displayLabelsAtZoom || area >= 1000000) {
+    if (labelProcessingGlobalVariables.zoomLevel >= displayLabelsAtZoom || area >= 1000000) {
       label +=
         gisLayer.labelFields
           ?.map((fieldName) => fieldValues[fieldName])
@@ -3468,6 +3478,97 @@
 
     return features;
   }
+  /**
+   * Deduplicate overlapping Polygon features with identical geometry.
+   * If multiple polygons share geometry, their labels are merged.
+   * Each label is normalized by replacing any newline (`\n`) with a space,
+   * collapsing multiple spaces, and trimming leading/trailing whitespace.
+   * Duplicated labels are removed. Up to MAX_LABELS are included; if more
+   * labels are present, the merged label is truncated and a summary is appended.
+   *
+   * @param {Array<Object>} features - Array of GeoJSON Polygon features,
+   *    where each feature has a `.properties.label` string.
+   * @returns {Array<Object>} The deduplicated features array (modified in-place).
+   *
+   * @example
+   * // Given three overlapping polygons:
+   * const features = [
+   *   { geometry: { type: 'Polygon', coordinates: [[...]] }, properties: { label: "1A MAIN STREET\nNEW TOWN" } },
+   *   { geometry: { type: 'Polygon', coordinates: [[...]] }, properties: { label: "1B MAIN STREET\nNEW TOWN" } },
+   *   { geometry: { type: 'Polygon', coordinates: [[...]] }, properties: { label: "1C MAIN STREET\nNEW TOWN" } }
+   * ];
+   *
+   * const result = deduplicatePolygonFeatures(features);
+   *
+   * // Result will be:
+   * // [
+   * //   {
+   * //     geometry: { ... },
+   * //     properties: {
+   * //       label: "1A MAIN STREET NEW TOWN\n1B MAIN STREET NEW TOWN\n1C MAIN STREET NEW TOWN"
+   * //     }
+   * //   }
+   * // ]
+   *
+   * // If more than MAX_LABELS (e.g. 10), the label will end with:
+   * // <N more>
+   */
+  function deduplicatePolygonFeatures(features) {
+    const geometryMap = new Map();
+    const MAX_LABELS = 10;
+
+    // 1. Index by stringified geometry key
+    features.forEach((feature, idx) => {
+      if (!feature.geometry || feature.geometry.type !== 'Polygon') return;
+
+      // Use only exterior ring for key (if that's parcel convention)
+      const key = JSON.stringify(feature.geometry.coordinates);
+      if (!geometryMap.has(key)) geometryMap.set(key, []);
+      geometryMap.get(key).push({ feature, idx });
+    });
+
+    // 2. "Suspicious" check — are any duplicates present?
+    let hasDuplicates = false;
+    for (const group of geometryMap.values()) {
+      if (group.length > 1) {
+        hasDuplicates = true;
+        break;
+      }
+    }
+    if (!hasDuplicates) return features; // Zero cost, very fast!
+
+    // 3. Only process duplication if needed
+    const toRemove = new Set();
+
+    geometryMap.forEach((group) => {
+      if (group.length < 2) return;
+
+      // Merge and flatten labels: replace newlines with spaces, trim/collapse spaces, ensure uniqueness
+      const labels = Array.from(
+        new Set(
+          group
+            .map(({ feature }) => feature.properties && feature.properties.label)
+            .filter(Boolean)
+            .map((label) => label.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim())
+        )
+      ).sort();
+
+      let finalLabel = labels.slice(0, MAX_LABELS).join('\n');
+      if (labels.length > MAX_LABELS) {
+        finalLabel += `\n<${labels.length - MAX_LABELS} more>`;
+      }
+
+      group[0].feature.properties.label = finalLabel;
+      group.slice(1).forEach(({ idx }) => toRemove.add(idx));
+    });
+
+    // 4. Remove duplicates (splice from end for index safety)
+    Array.from(toRemove)
+      .sort((a, b) => b - a)
+      .forEach((idx) => features.splice(idx, 1));
+
+    return features;
+  }
 
   /**
    * Updates the given GIS map layer with a new set of features.
@@ -3667,6 +3768,11 @@
         deduplicatePointFeatures(features);
       }
 
+      // Deduplicate Polygons (Polygon and MultiPolygon) if present
+      if (features.some((f) => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon')) {
+        deduplicatePolygonFeatures(features);
+      }
+
       // Layer/collection logic handled by helper
       updateGisLayerFeatures(gisLayer, features);
     }
@@ -3743,6 +3849,11 @@
       // Only deduplicate if any Point features are present
       if (features.some((f) => f.geometry.type === 'Point')) {
         deduplicatePointFeatures(features);
+      }
+
+      // Deduplicate Polygons (Polygon and MultiPolygon) if present
+      if (features.some((f) => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon')) {
+        deduplicatePolygonFeatures(features);
       }
 
       // Layer/collection logic handled by helper
@@ -5150,6 +5261,7 @@
    *
    * @function initLayer
    */
+
   function initLayer() {
     const rules = _gisLayers
       .filter((gisLayer) => gisLayer.style && gisLayer.style !== 'roads')
@@ -5161,7 +5273,8 @@
           style = gisLayer.style;
         }
         return {
-          predicate: (featureProperties) => featureProperties.layerID === gisLayer.id,
+          // `zoomLevel` is available in the predicate by the SDK as of v2.306
+          predicate: (featureProperties, zoomLevel) => featureProperties.layerID === gisLayer.id,
           style,
         };
       });
@@ -5171,7 +5284,6 @@
     try {
       sdk.Map.removeLayer({ layerName: DEFAULT_LAYER_NAME });
     } catch (e) {
-      // If InvalidStateError, then the layer doesn't exist yet. Ignore the error
       if (!(e instanceof sdk.Errors.InvalidStateError)) {
         throw e;
       }
@@ -5188,18 +5300,18 @@
     try {
       sdk.Map.removeLayer({ layerName: ROAD_LAYER_NAME });
     } catch (e) {
-      // If InvalidStateError, then the layer doesn't exist yet. Ignore the error
       if (!(e instanceof sdk.Errors.InvalidStateError)) {
         throw e;
       }
     }
-    const zoomLevel = sdk.Map.getZoomLevel();
+
     sdk.Map.addLayer({
       layerName: ROAD_LAYER_NAME,
       styleContext: {
         getLabel: (context) => context.feature?.properties?.label,
-        getOffset: () => -(zoomLevel + 5),
-        getSmooth: () => '',
+        // use ({ zoomLevel }) argument for dynamic props
+        getOffset: ({ zoomLevel }) => -zoomLevel,
+        getSmooth: () => '1',
         getReadable: () => '1',
       },
       styleRules: [{ style: ROAD_STYLE }],
