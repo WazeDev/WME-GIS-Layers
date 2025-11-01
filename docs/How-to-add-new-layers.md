@@ -250,7 +250,7 @@ For more complex needs, you can use a variety of JavaScript logic in your `proce
 
 #### 1. Value Mapping with Code Translation
 
-Map code numbers to readable labels and combine with other fields.
+Map numeric codes to readable labels and combine with other fields
 
 ```javascript
 var FEATURE_TYPE_MAP = {
@@ -280,7 +280,7 @@ if (fieldValues.ROAD_CLASS) {
 return label;
 ```
 
-#### 2. Concatenation and Field Checks
+#### 2. Conditional Concatenation
 
 Add only fields that exist, joining with pipe delimiters.
 
@@ -300,7 +300,7 @@ return label;
 
 #### 3. Declarative Array Assembly
 
-Build your label by assembling a list, skipping empty values, and joining by |.
+Build your label by assembling a list, skipping empty values, and joining by "|".
 
 ```javascript
 label = [
@@ -312,7 +312,7 @@ label = [
   ].filter(Boolean).join(' ') : null,
 
   // Surface type
-  fieldValues.SurfaceType || null,
+  fieldValues.SurfaceType,
 
   // Speed zone
   fieldValues.SpeedZone ? 'KMH: ' + fieldValues.SpeedZone : null
@@ -322,9 +322,35 @@ label = [
 return label;
 ```
 
+#### 4. In-line Destructuring (for even shorter code)
+
+Use destructuring for brevity, then array assembly.
+
+```javascript
+const {
+  StandardizedStreetName,
+  StreetType,
+  SuffixDirection,
+  SurfaceType,
+  SpeedZone
+} = fieldValues;
+
+label = [
+  StandardizedStreetName 
+    ? [StandardizedStreetName, StreetType, SuffixDirection].filter(Boolean).join(' ')
+    : null,
+  SurfaceType || null,
+  SpeedZone ? 'KMH: ' + SpeedZone : null
+].filter(Boolean).join(' | ');
+
+return label;
+```
+
 **Pro Tips**
 - Advanced logic allows you to format numbers, abbreviate values, or control which fields appear for different feature types.
 - You can combine these JavaScript patterns with regex cleaning methods for even more flexibility.
+- If you only want to show a field when it’s present, use conditional logic or .filter(Boolean).
+- Always specify fields in your labelFields that you plan to use in processLabel.
 - Always test your script in WME and check for errors.
 
 ---
@@ -346,18 +372,16 @@ Controls the appearance of GIS features (points, lines, polygons, and labels) in
 
 ***Most layers should use one of the preset styles from the LAYER_STYLES object, which ensures a consistent and tested look for common geospatial themes like cities, parks, roads, or points. For advanced or unique visualization needs, you may freely define a custom style for any layer or feature.***
 
-```
- cities
- forests_parks
- milemarkers
- parcels
- points
- post_offices
- state_parcels
- state_points
- road_labels
- structures
- ```
+ - cities
+ - forests_parks
+ - milemarkers
+ - parcels
+ - points
+ - post_offices
+ - state_parcels
+ - state_points
+ - road_labels
+ - structures
 
 Style properties let you define things like colors, opacities, label formats, sizes, font styles, and label alignment for visualization in the editor.
 
@@ -366,20 +390,20 @@ Style properties let you define things like colors, opacities, label formats, si
 ---
 
 ###   <u>**visibleAtZoom**</u>
-    Minimum zoom for layer to appear (number). (12 most zoomed out to 22 most Zoomed in)
-    Defult is not set is 18!
+- Minimum zoom for layer to appear (number). (12 most zoomed out to 22 most Zoomed in)
+- Defult is not set is 18!
 
 ---
 
 ###   <u>**labelsVisibleAtZoom** *(optional)*</u>
-    Minimum zoom for labels (number).  Must be <= to `visibleAtZoom`
-    Defult is `visibleAtZoom` value -1.
+- Minimum zoom for labels (number).  Must be <= to `visibleAtZoom`
+- Defult is `visibleAtZoom` value -1.
 
 ---
 
 ###   <u>**enabled**</u>
-    `1` to show layer in the script.
-    `0` or blank to hide in the script.
+- `1` to show layer in the script.
+- `0` or blank to hide in the script.
 
 ---
 
