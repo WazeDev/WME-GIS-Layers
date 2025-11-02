@@ -2,40 +2,77 @@
 
 This sheet configures WME GIS Layers. Each row defines a layer. Use the descriptions below when adding or editing:
 
+- [Guide: Adding a New GIS Layer (Google Sheet)](#guide-adding-a-new-gis-layer-google-sheet)
+  - [Column Reference](#column-reference)
+  - [Step-by-Step Checklist](#step-by-step-checklist)
+    - [COUNTRY and Subdivision Codes](#country-and-subdivision-codes)
+    - [name](#name)
+    - [id](#id)
+    - [subL2 _(optional)_](#subl2-optional)
+    - [url](#url)
+    - [where _(optional)_](#where-optional)
+    - [labelFields _(optional)_](#labelfields-optional)
+    - [processLabel _(optional)_](#processlabel-optional)
+      - [What is `processLabel` for?](#what-is-processlabel-for)
+      - [Rules:](#rules)
+      - [Only the following global variables and functions are available:](#only-the-following-global-variables-and-functions-are-available)
+      - [How to Use Custom Regex Label/Address Cleaning Rules](#how-to-use-custom-regex-labeladdress-cleaning-rules)
+      - [Rule Reference](#rule-reference)
+      - [Chaining Example](#chaining-example)
+      - [**Complete Sample Usage**](#complete-sample-usage)
+    - [Advanced processLabel Examples](#advanced-processlabel-examples)
+      - [1. Value Mapping with Code Translation](#1-value-mapping-with-code-translation)
+      - [2. Conditional Concatenation](#2-conditional-concatenation)
+      - [3. Declarative Array Assembly](#3-declarative-array-assembly)
+      - [4. In-line Destructuring (for even shorter code)](#4-in-line-destructuring-for-even-shorter-code)
+    - [processLabel Known Limitations \& Issues](#processlabel-known-limitations--issues)
+    - [style](#style)
+    - [visibleAtZoom](#visibleatzoom)
+    - [labelsVisibleAtZoom _(optional)_](#labelsvisibleatzoom-optional)
+    - [enabled](#enabled)
+    - [restrictTo _(optional)_](#restrictto-optional)
+    - [How It Works](#how-it-works)
+    - [Permission Checking](#permission-checking)
+    - [oneTimeAlert _(optional)_](#onetimealert-optional)
+  - [Tips \& Best Practices](#tips--best-practices)
+  - [Validation Checklist](#validation-checklist)
+
+
 ## Column Reference
 
-| Column               | Description                                                                                           | Example/Notes                      |
-|----------------------|------------------------------------------------------------------------------------------------------|-------------------------------------|
-| `country`            | ISO 3166-1 alpha-3 code for the country the layer covers.                                            | `USA`, `CAN`, `FRA`                |
-| `subL1`              | Top-level subdivision (state/province) code, **UPPERCASE**.                                          | `CA`, `TX`, `ON`, `FRA`            |
-| `name`               | Display name for the layer (as seen in UI).                                                          | `California Roads`                 |
-| `id`                 | Unique identifier, typically country, region, type (lowercase, dashes/underscores).                  | `us-ca-roads`, `can-on-huron-co-streets` |
-| `subL2`              | (Optional) Comma-separated list of second-level subdivisions (counties/regions).                     | `Huron`, `Toronto, Peel`           |
-| `url`                | GIS service endpoint (ArcGIS, Socrata, etc). Paste full feature-layer URL.                           | `https://.../FeatureServer/0`      |
-| `where`              | (Optional) Filter string (SQL or service-specific syntax) to limit results.                          | `STATE_NAME='CA'`                  |
-| `labelFields`        | (Optional) Comma-separated field names to use as feature labels.                                     | `Full_StName, Surface`             |
-| `processLabel`       | (Optional) JS code to generate custom label. If blank, uses `labelFields`.                           | `return fieldValues.NAME + ' (' + fieldValues.TYPE + ')';` |
-| `style`              | Layer style. `"roads"` for lines; other styles as needed (see docs).                                 | `roads`, `state_points`            |
-| `visibleAtZoom`      | Minimum zoom level where layer is shown. Leave blank for default.                                    | `14`                               |
-| `labelsVisibleAtZoom`| Minimum zoom for showing labels. Leave blank for default.                                            | `15`                               |
-| `enabled`            | `1` to enable/show; `0` or blank to disable/hide.                                                    | `1`                                |
-| `restrictTo`         | (Optional) Restrict layer by ranks/usernames. `"AM"` for Area Managers.                              | `R5+AM`, `MapOMatic,AM`            |
-| `oneTimeAlert`       | (Optional) Message shown to user once when layer is enabled.                                         | `For AMs only!`                    |
+| Column                | Description                                                                         | Example/Notes                                              |
+| --------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `country`             | ISO 3166-1 alpha-3 code for the country the layer covers.                           | `USA`, `CAN`, `FRA`                                        |
+| `subL1`               | Top-level subdivision (state/province) code, **UPPERCASE**.                         | `CA`, `TX`, `ON`, `FRA`                                    |
+| `name`                | Display name for the layer (as seen in UI).                                         | `California Roads`                                         |
+| `id`                  | Unique identifier, typically country, region, type (lowercase, dashes/underscores). | `us-ca-roads`, `can-on-huron-co-streets`                   |
+| `subL2`               | (Optional) Comma-separated list of second-level subdivisions (counties/regions).    | `Huron`, `Toronto, Peel`                                   |
+| `url`                 | GIS service endpoint (ArcGIS, Socrata, etc). Paste full feature-layer URL.          | `https://.../FeatureServer/0`                              |
+| `where`               | (Optional) Filter string (SQL or service-specific syntax) to limit results.         | `STATE_NAME='CA'`                                          |
+| `labelFields`         | (Optional) Comma-separated field names to use as feature labels.                    | `Full_StName, Surface`                                     |
+| `processLabel`        | (Optional) JS code to generate custom label. If blank, uses `labelFields`.          | `return fieldValues.NAME + ' (' + fieldValues.TYPE + ')';` |
+| `style`               | Layer style. `"roads"` for lines; other styles as needed (see docs).                | `roads`, `state_points`                                    |
+| `visibleAtZoom`       | (Optional) Minimum zoom level where layer is shown. Leave blank for default.        | `Default` is 18                                            |
+| `labelsVisibleAtZoom` | (Optional) Minimum zoom for showing labels. Leave blank for default.                | `Default` is `visibleAtZoom` -1 or 17                      |
+| `enabled`             | `1` to enable/show; `0` or blank to disable/hide.                                   | `1`                                                        |
+| `restrictTo`          | (Optional) Restrict layer by ranks/usernames. `"AM"` for Area Managers.             | `R5+AM`, `MapOMatic,AM`                                    |
+| `oneTimeAlert`        | (Optional) Message shown to user once when layer is enabled.                        | `For AMs only!`                                            |
 
 ---
 
 ## Step-by-Step Checklist
 
-### **COUNTRY and Subdivision Codes**  
+### COUNTRY and Subdivision Codes
 
 - [COUNTRY and Subdivision Codes Cheat Sheet:](./COUNTRY-Subdivision-Cheat-Sheet.md)
 
 ---
 
-### <u>**name**</u>  
-   Human-friendly layer name:
+### <u>name</u>
 
-```
+Human-friendly layer name:
+
+```text
    Santa Cruz Co - Address Points
    Santa Cruz Co - Parcels
    Santa Cruz Co - Roads
@@ -47,69 +84,79 @@ This sheet configures WME GIS Layers. Each row defines a layer. Use the descript
    Alameda Co - Parcels
    Alameda Co - Streets
 ```
----
-
-### <u>**id**</u>
-   Unique, lowercase identifier: combine country, region, type`.
-
-   ```
-   us-ca-alameda-city-pts
-   us-ca-alamada-city-parcels
-   us-ca-alameda-city-roads
-   us-ca-alameda-co-addr-pts
-   us-ca-alameda-co-parcels
-   us-ca-alameda-co-streets
-   ```
----
-
-### <u>**subL2** *(optional)*</u>
-   If needed, comma-separated list of counties/regions. See COUNTRY and Subdivision table  above.
 
 ---
 
-### <u>**url**</u>  
-   Full GIS endpoint that returns data, not a web page.
+### <u>id</u>
+
+Unique, lowercase identifier: combine country, region, type`.
+
+```text
+us-ca-alameda-city-pts
+us-ca-alamada-city-parcels
+us-ca-alameda-city-roads
+us-ca-alameda-co-addr-pts
+us-ca-alameda-co-parcels
+us-ca-alameda-co-streets
+```
 
 ---
 
-### <u>**where** *(optional)*</u>  
-   Write a filter or SQL-like expression to limit records shown.
-   
-   Field (item) names must match available metadata for the layer.
+### <u>subL2 _(optional)_</u>
 
-   Filed (item) used here do NOT have to be in the labelFields list!
-
-   ```
-   SYMBOL_CODE <> '106' AND SYMBOL_CODE IS NOT NULL
-
-   confidence = 'nominal' OR confidence = 'high'
-
-   STATE = '01' AND POP100>10000
-
-   R_Type = 'Complete Closure' OR R_Type = 'Special Event'
-   ```
-    **Tips:**
-    - String and numeric comparisons are supported (=, <>, >, etc.).
-    - Use logical operators (AND, OR) to combine conditions.
-    - Check your layer’s field names in its metadata before creating a filter.
+If needed, comma-separated list of counties/regions. See COUNTRY and Subdivision table above.
 
 ---
 
-### <u>**labelFields** *(optional)*</u>
-  Provide a comma-separated list of field names to use for labeling map features.
+### <u>url</u>
+
+Full GIS endpoint that returns data, not a web page.
+
+---
+
+### <u>where _(optional)_</u>
+
+Write a filter or SQL-like expression to limit records shown.
+
+Field (item) names must match available metadata for the layer.
+
+Filed (item) used here do NOT have to be in the labelFields list!
+
+```text
+SYMBOL_CODE <> '106' AND SYMBOL_CODE IS NOT NULL
+
+confidence = 'nominal' OR confidence = 'high'
+
+STATE = '01' AND POP100>10000
+
+R_Type = 'Complete Closure' OR R_Type = 'Special Event'
+```
+
+> **Tips:**
+>
+> - String and numeric comparisons are supported (=, <>, >, etc.).
+> - Use logical operators (AND, OR) to combine conditions.
+> - Check your layer’s field names in its metadata before creating a filter.
+
+---
+
+### <u>labelFields _(optional)_</u>
+
+Provide a comma-separated list of field names to use for labeling map features.
 
 By default, the label will be a space-separated string of the non-NULL values from these fields.
 
 **Examples:**
+
 - `NAME`
 - `STATE,COUNTY`
 - `HOUSE_NUMBER,ROAD_NAME`
 
-*Tip: Double-check the field names in your data layer’s metadata.*
+_Tip: Double-check the field names in your data layer’s metadata._
 
 ---
 
-### <u>**processLabel** *(optional)*</u>
+### <u>processLabel _(optional)_</u>
 
 You may write JavaScript code to generate a custom `label` string for your map features.
 
@@ -118,15 +165,18 @@ The `fieldValues` object available in `processLabel` will **only include the fie
 If you want to use a field in your custom labeling logic, you **must** add its name to `labelFields` above.
 
 #### What is `processLabel` for?
+
 Use `processLabel` to combine, clean, or reformat address and label fields—especially when simple field concatenation isn’t enough.
 
 #### Rules:
+
 - Return a value named `label` at the end of your script.
 - **Do not** declare `label` with `let` or `var`; it is a predefined global. (Just assign and use `label = ...;`)
 - GIS-L offers built-in regex cleaning routines via the `_regexReplace` object to help format addresses and labels.
 
 #### Only the following global variables and functions are available:
-`label`, `sdk`, `Math`, `_regexReplace`, `parseInt`, `Number`, `Boolean`, and `Date`.
+
+`label`, `zoomLevel`, `Math`, `_regexReplace`, `parseInt`, `Number`, `Boolean`, and `Date`.
 
 **Example:**  
 If your `labelFields` are `HOUSE_NUMBER,ROAD_NAME`, then your `processLabel` can use only `fieldValues.HOUSE_NUMBER` and `fieldValues.ROAD_NAME`:
@@ -135,6 +185,7 @@ If your `labelFields` are `HOUSE_NUMBER,ROAD_NAME`, then your `processLabel` can
 label = fieldValues.HOUSE_NUMBER + ' ' + fieldValues.ROAD_NAME;
 return label;
 ```
+
 ---
 
 #### How to Use Custom Regex Label/Address Cleaning Rules
@@ -149,68 +200,75 @@ Where `rX` is a rule from the list below.
 
 ---
 
-#### **Rule Reference**
+#### Rule Reference
 
 - **r0 — Strip leading zeros or blank if label starts with non-digit**  
   Pattern: `/^(0+(\s.*)?|\D.*)/`  
   Removes labels beginning with '0' or a non-digit.  
   Usage:  
   `return label.replace(_regexReplace.r0, '');`  
-  Example:  
-    - `'000 Main St' → ''`  
-    - `'N/A' → ''`
+  Example:
+
+  - `'000 Main St' → ''`
+  - `'N/A' → ''`
 
 - **r1 — Truncate after the street type**  
   Pattern includes common street types.
   Pattern: `/^(.* )(Ave(nue)?|Dr(ive)?|St(reet)?|C(our)?t|Cir(cle)?|Blvd|Boulevard|Pl(ace)?|Ln|Lane|Fwy|Freeway|R(oa)?d|Ter(r|race)?|Tr(ai)?l|Way|Rte \d+|Route \d+)\b.*/gi`  
   Usage:  
   `return label.replace(_regexReplace.r1, '$1$2');`  
-  Example:  
-    - `'123 Main Street Apt 4B' → '123 Main Street'`
+  Example:
+
+  - `'123 Main Street Apt 4B' → '123 Main Street'`
 
 - **r2 — Remove ZIP code at end**  
   Pattern: `/\s\d{5}$/`  
   Usage:  
   `return label.replace(_regexReplace.r2, '');`  
-  Example:  
-    - `'123 Main St 90210' → '123 Main St'`
+  Example:
+
+  - `'123 Main St 90210' → '123 Main St'`
 
 - **r3 — Remove everything after ",", "~", or ";"**  
   Pattern: `/(~|,|;|\s?\r\n).*$/`  
   Usage:  
   `return label.replace(_regexReplace.r3, '');`  
-  Example:  
-    - `'123 Main St, Apt 2B' → '123 Main St'`  
-    - `'123 Main St ~Former Name' → '123 Main St'`
+  Example:
+
+  - `'123 Main St, Apt 2B' → '123 Main St'`
+  - `'123 Main St ~Former Name' → '123 Main St'`
 
 - **r4 — Move trailing numbers to the front**  
   Pattern: `/^(.*)\s(\d+).*/`  
   Usage:  
   `return label.replace(_regexReplace.r4, '$2 $1');`  
-  Example:  
-    - `'Main St 260' → '260 Main St'`
+  Example:
+
+  - `'Main St 260' → '260 Main St'`
 
 - **r5 — Insert newline after digits (including "-")**  
   Pattern: `/^([-\d]+)\s+([^,]+).*/`  
   Usage:  
   `return label.replace(_regexReplace.r5, '$1\n$2');`  
-  Example:  
-    - `'123-125 Main Street, Upper Level' → '123-125\nMain Street'`
+  Example:
+
+  - `'123-125 Main Street, Upper Level' → '123-125\nMain Street'`
 
 - **r6 — Newline between numbers and street**  
   Pattern: `/^(\d+)\s+(.*)/`  
   Usage:  
   `return label.replace(_regexReplace.r6, '$1\n$2');`  
-  Example:  
-    - `'123 Main Street' → '123\nMain Street'`
+  Example:
+  - `'123 Main Street' → '123\nMain Street'`
 
 ---
 
-#### **Chaining Example**
+#### Chaining Example
 
 You can combine multiple replacements for more powerful cleaning.
 
-Example:  
+Example:
+
 ```javascript
 return label.replace(_regexReplace.r0, '').replace(_regexReplace.r2, '').replace(_regexReplace.r3, '').replace(_regexReplace.r5, '$1\n$2');
 ```
@@ -235,14 +293,15 @@ return label.replace(_regexReplace.r0, '').replace(_regexReplace.r6, '$1\n$2');
 
 ---
 
-**Tips:**  
+**Tips:**
+
 - Use `fieldValues.FIELDNAME` if you need to build your own string from specific record fields.
 - Test your rules with your own data!
 - You can use `.toUpperCase()`, `.trim()`, and other JS string methods for extra tweaks.
 
 ---
 
-### <u>**Advanced processLabel Examples**</u>
+### <u>Advanced processLabel Examples</u>
 
 For more complex needs, you can use a variety of JavaScript logic in your `processLabel` function—including value mapping, conditional assembly, concatenation, and multi-field formatting using the `fieldValues` object. Here are some advanced patterns:
 
@@ -254,21 +313,21 @@ Map numeric codes to readable labels and combine with other fields
 
 ```javascript
 var FEATURE_TYPE_MAP = {
-  "6": "Divided Paved Road",
-  "9": "Four Lane Undivided Paved Road",
-  "8": "Two Lane Undivided Paved Road",
-  "7": "One Lane Undivided Paved Road",
-  "5": "Two Lane Gravel Road",
-  "4": "One Lane Gravel Road",
-  "14": "Dry-Weather Road",
-  "3": "Interchange Ramp",
-  "12": "Winter Road",
-  "2": "Ford/Winter Crossing",
-  "10": "Driveway",
-  "1": "Ferry Crossing"
+  6: 'Divided Paved Road',
+  9: 'Four Lane Undivided Paved Road',
+  8: 'Two Lane Undivided Paved Road',
+  7: 'One Lane Undivided Paved Road',
+  5: 'Two Lane Gravel Road',
+  4: 'One Lane Gravel Road',
+  14: 'Dry-Weather Road',
+  3: 'Interchange Ramp',
+  12: 'Winter Road',
+  2: 'Ford/Winter Crossing',
+  10: 'Driveway',
+  1: 'Ferry Crossing',
 };
 
-label = "";
+label = '';
 if (fieldValues.FEATURE_TYPE) {
   // Use mapped description if available, else code value
   var mapped = FEATURE_TYPE_MAP[fieldValues.FEATURE_TYPE];
@@ -285,7 +344,7 @@ return label;
 Add only fields that exist, joining with pipe delimiters.
 
 ```javascript
-label = "";
+label = '';
 if (fieldValues.FULLNAME) {
   label += fieldValues.FULLNAME;
 }
@@ -305,19 +364,16 @@ Build your label by assembling a list, skipping empty values, and joining by "|"
 ```javascript
 label = [
   // Street name/detail
-  fieldValues.StandardizedStreetName ? [
-    fieldValues.StandardizedStreetName,
-    fieldValues.StreetType,
-    fieldValues.SuffixDirection
-  ].filter(Boolean).join(' ') : null,
+  fieldValues.StandardizedStreetName ? [fieldValues.StandardizedStreetName, fieldValues.StreetType, fieldValues.SuffixDirection].filter(Boolean).join(' ') : null,
 
   // Surface type
   fieldValues.SurfaceType,
 
   // Speed zone
-  fieldValues.SpeedZone ? 'KMH: ' + fieldValues.SpeedZone : null
-
-].filter(Boolean).join(' | ');
+  fieldValues.SpeedZone ? 'KMH: ' + fieldValues.SpeedZone : null,
+]
+  .filter(Boolean)
+  .join(' | ');
 
 return label;
 ```
@@ -327,26 +383,17 @@ return label;
 Use destructuring for brevity, then array assembly.
 
 ```javascript
-const {
-  StandardizedStreetName,
-  StreetType,
-  SuffixDirection,
-  SurfaceType,
-  SpeedZone
-} = fieldValues;
+const { StandardizedStreetName, StreetType, SuffixDirection, SurfaceType, SpeedZone } = fieldValues;
 
-label = [
-  StandardizedStreetName 
-    ? [StandardizedStreetName, StreetType, SuffixDirection].filter(Boolean).join(' ')
-    : null,
-  SurfaceType || null,
-  SpeedZone ? 'KMH: ' + SpeedZone : null
-].filter(Boolean).join(' | ');
+label = [StandardizedStreetName ? [StandardizedStreetName, StreetType, SuffixDirection].filter(Boolean).join(' ') : null, SurfaceType || null, SpeedZone ? 'KMH: ' + SpeedZone : null]
+  .filter(Boolean)
+  .join(' | ');
 
 return label;
 ```
 
 **Pro Tips**
+
 - Advanced logic allows you to format numbers, abbreviate values, or control which fields appear for different feature types.
 - You can combine these JavaScript patterns with regex cleaning methods for even more flexibility.
 - If you only want to show a field when it’s present, use conditional logic or .filter(Boolean).
@@ -355,33 +402,33 @@ return label;
 
 ---
 
-### <u>**processLabel Known Limitations & Issues**</u>
+### <u>processLabel Known Limitations & Issues</u>
 
 - [Limitations & Unsupported Features of ESTreeProcessor:](./ESTreeProcessor.md)
 
-- **Access to "external" variables is LIMITED.**  
-  - Only the following globals are accessible, `sdk`, `Math`, `_regexReplace`, `parseInt` , `Number` , `Boolean` and `Date`.
+- **Access to "external" variables is LIMITED.**
+  - Only the following globals are accessible, `zoomLevel`, `Math`, `_regexReplace`, `parseInt` , `Number` , `Boolean` and `Date`.
   - These restrictions are intended to keep your label scripts simple, safe, and fast. Most common address formatting and mapping tasks do not require advanced JS features.
   - If your script needs a function, object, or utility that's not available, **let the developer know so it can be safely added.**
 
 ---
 
+### <u>style</u>
 
-###   <u>**style**</u>  
 Controls the appearance of GIS features (points, lines, polygons, and labels) in the WME GIS Layers script. Styles can be set globally, per-layer, or for specific feature types (e.g., roads).
 
-***Most layers should use one of the preset styles from the LAYER_STYLES object, which ensures a consistent and tested look for common geospatial themes like cities, parks, roads, or points. For advanced or unique visualization needs, you may freely define a custom style for any layer or feature.***
+**_Most layers should use one of the preset styles from the LAYER_STYLES object, which ensures a consistent and tested look for common geospatial themes like cities, parks, roads, or points. For advanced or unique visualization needs, you may freely define a custom style for any layer or feature._**
 
- - cities
- - forests_parks
- - milemarkers
- - parcels
- - points
- - post_offices
- - state_parcels
- - state_points
- - road_labels
- - structures
+- cities
+- forests_parks
+- milemarkers
+- parcels
+- points
+- post_offices
+- state_parcels
+- state_points
+- road_labels
+- structures
 
 Style properties let you define things like colors, opacities, label formats, sizes, font styles, and label alignment for visualization in the editor.
 
@@ -389,25 +436,29 @@ Style properties let you define things like colors, opacities, label formats, si
 
 ---
 
-###   <u>**visibleAtZoom**</u>
+### <u>visibleAtZoom</u>
+
 - Minimum zoom for layer to appear (number). (12 most zoomed out to 22 most Zoomed in)
 - Defult is not set is 18!
 
 ---
 
-###   <u>**labelsVisibleAtZoom** *(optional)*</u>
-- Minimum zoom for labels (number).  Must be <= to `visibleAtZoom`
+### <u>labelsVisibleAtZoom _(optional)_</u>
+
+- Minimum zoom for labels (number). Must be <= to `visibleAtZoom`
 - Defult is `visibleAtZoom` value -1.
 
 ---
 
-###   <u>**enabled**</u>
+### <u>enabled</u>
+
 - `1` to show layer in the script.
 - `0` or blank to hide in the script.
 
 ---
 
-###   <u>**restrictTo** *(optional)*</u>
+### <u>restrictTo _(optional)_</u>
+
 Some GIS layers use a `restrictTo` field to specify which users or roles can access (view/edit) the layer in WME.  
 The parser interprets the contents of this field and sets `layerDef.notAllowed` accordingly.
 
@@ -416,11 +467,11 @@ The parser interprets the contents of this field and sets `layerDef.notAllowed` 
 - The `restrictTo` field (if present) should be a comma-separated string, such as:  
   `R4,AM,johndoe`
 - Each entry describes a group or user:
-    - **`R#`**: Restrict to users of rank `#` (Waze editor rank `<#>`). Supports optional `+AM` (area manager):  
-      - `R4` = rank 4+
-      - `R4+AM` = rank 4+ who are area managers
-      - `AM` = any area manager
-    - **Usernames**: Restrict to an individual (case-insensitive), e.g. `johndoe`
+  - **`R#`**: Restrict to users of rank `#` (Waze editor rank `<#>`). Supports optional `+AM` (area manager):
+    - `R4` = rank 4+
+    - `R4+AM` = rank 4+ who are area managers
+    - `AM` = any area manager
+  - **Usernames**: Restrict to an individual (case-insensitive), e.g. `johndoe`
 
 ### Permission Checking
 
@@ -428,15 +479,16 @@ When the script loads a layer with `restrictTo`:
 
 1. It splits the string into entries.
 2. For each entry, it checks:
-    - Does the current user have the required rank? For `R#`, is user rank `>= #`? For `+AM`, also require Area Manager status.
-    - Is the current user an Area Manager (`AM`)?
-    - Does the entry match the user's username?
+   - Does the current user have the required rank? For `R#`, is user rank `>= #`? For `+AM`, also require Area Manager status.
+   - Is the current user an Area Manager (`AM`)?
+   - Does the entry match the user's username?
 3. If **any** entry matches the current user, permission is **granted** (`layerDef.notAllowed = false`).
 4. If **no** entry matches, the layer is **restricted** (`layerDef.notAllowed = true`).
 
 ---
 
-###   <u>**oneTimeAlert** *(optional)*</u>
+### <u>oneTimeAlert _(optional)_</u>
+
 Message (info/caution) shown to the user once when they enable the layer in the script.
 
 ---
