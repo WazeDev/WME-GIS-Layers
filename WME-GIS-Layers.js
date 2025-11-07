@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.11.1.000
+// @version      2025.11.7.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -827,6 +827,7 @@
 // @connect maps.cityofsherman.com
 // @connect maps.cityoftulsa.org
 // @connect maps.cityofwaterlooiowa.com
+// @connect maps.civ.quest
 // @connect maps.clarkcountynv.gov
 // @connect maps.claycountygov.com
 // @connect maps.clermontauditor.org
@@ -1240,9 +1241,7 @@
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
     '✨ Update:',
-    'Added `zoomLevel` variable for use in label processing functions.',
-    'Removed direct access to the full SDK in label processing; only `zoomLevel` is provided now for improved performance.',
-    'Polygon layer feature deduplication added to reduce overlapping labels by merging features.',
+    'Fixed label path curvature (pathLabelCurve) for edge cases where text could split and appear above/below the line; now generates smoother, more reliable label paths.',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -5311,7 +5310,7 @@
         getLabel: (context) => context.feature?.properties?.label,
         // use ({ zoomLevel }) argument for dynamic props
         getOffset: ({ zoomLevel }) => -zoomLevel,
-        getSmooth: () => '1',
+        getSmooth: () => '.01',
         getReadable: () => '1',
       },
       styleRules: [{ style: ROAD_STYLE }],
@@ -6722,6 +6721,36 @@
         }
     }
 
+    /**
+     * Creates a gentle, consistent curve for smooth text flow without direction changes
+     */
+    function createConsistentCurve(points, curveIntensity) {
+      // Clamp curveIntensity for sanity
+      curveIntensity = Math.max(0, Math.min(0.04, curveIntensity || 0.012));
+      if (points.length < 2) return 'M ' + points[0].x + ' ' + points[0].y;
+      if (points.length === 2) {
+        return 'M ' + points[0].x + ' ' + points[0].y + ' L ' + points[1].x + ' ' + points[1].y;
+      }
+      // For longer paths
+      var path = 'M ' + points[0].x + ' ' + points[0].y;
+      for (var i = 1; i < points.length; i++) {
+        var prev = points[i - 1];
+        var curr = points[i];
+        var segLen = Math.sqrt(Math.pow(curr.x - prev.x, 2) + Math.pow(curr.y - prev.y, 2));
+        if (segLen < 5) {
+          path += ' L ' + curr.x + ' ' + curr.y;
+          continue;
+        }
+        var perpX = -(curr.y - prev.y) / segLen;
+        var perpY = +(curr.x - prev.x) / segLen;
+        var offsetMag = Math.min(segLen * curveIntensity, 8); // MAX 8px offset per segment
+        var controlX = (prev.x + curr.x) / 2 + perpX * offsetMag;
+        var controlY = (prev.y + curr.y) / 2 + perpY * offsetMag;
+        path += ' Q ' + controlX + ' ' + controlY + ' ' + curr.x + ' ' + curr.y;
+      }
+      return path;
+    }
+
     var setStyle = OpenLayers.Renderer.SVG.prototype.setStyle;
     OpenLayers.Renderer.SVG.LABEL_STARTOFFSET = { l: '0%', r: '100%', m: '50%' };
 
@@ -6774,30 +6803,14 @@
       var path = this.nodeFactory(null, 'path');
       var tpid = node._featureId + '_t' + suffix;
       var tpath = node.getAttribute('points');
+
       if (style.pathLabelCurve) {
         var pts = getpath(tpath, style.pathLabelReadable);
-        var p = pts[0].x + ' ' + pts[0].y;
-        var dx, dy, s1, s2;
-        dx = (pts[0].x - pts[1].x) / 4;
-        dy = (pts[0].y - pts[1].y) / 4;
-        for (var i = 1; i < pts.length - 1; i++) {
-          p += ' C ' + (pts[i - 1].x - dx) + ' ' + (pts[i - 1].y - dy);
-          dx = (pts[i - 1].x - pts[i + 1].x) / 4;
-          dy = (pts[i - 1].y - pts[i + 1].y) / 4;
-          s1 = Math.sqrt(Math.pow(pts[i - 1].x - pts[i].x, 2) + Math.pow(pts[i - 1].y - pts[i].y, 2));
-          s2 = Math.sqrt(Math.pow(pts[i + 1].x - pts[i].x, 2) + Math.pow(pts[i + 1].y - pts[i].y, 2));
-          p += ' ' + (pts[i].x + (s1 * dx) / s2) + ' ' + (pts[i].y + (s1 * dy) / s2);
-          dx *= s2 / s1;
-          dy *= s2 / s1;
-          p += ' ' + pts[i].x + ' ' + pts[i].y;
-        }
-        p += ' C ' + (pts[i - 1].x - dx) + ' ' + (pts[i - 1].y - dy);
-        dx = (pts[i - 1].x - pts[i].x) / 4;
-        dy = (pts[i - 1].y - pts[i].y) / 4;
-        p += ' ' + (pts[i].x + dx) + ' ' + (pts[i].y + dy);
-        p += ' ' + pts[i].x + ' ' + pts[i].y;
 
-        path.setAttribute('d', 'M ' + p);
+        // Use consistent curve generation that prevents text splitting
+        var curveIntensity = parseFloat(style.pathLabelCurve) || 0.012;
+        path.setAttribute('d', createConsistentCurve(pts, curveIntensity));
+
       } else {
         if (style.pathLabelReadable) {
           var pts = getpath(tpath, style.pathLabelReadable);
