@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2025.11.7.000
+// @version      2025.12.16.000
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1241,7 +1241,7 @@
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
     '✨ Update:',
-    'Fixed label path curvature (pathLabelCurve) for edge cases where text could split and appear above/below the line; now generates smoother, more reliable label paths.',
+    'Improve API error handling in fetchFeatures for non-HTTP errors',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -4467,6 +4467,7 @@
       Object.keys(layerLabels).forEach((key) => delete layerLabels[key]);
     }
 
+    // Early exit if data fetch is disabled or zoom is too low
     if (ignoreFetch) {
       return;
     }
@@ -4476,14 +4477,17 @@
 
     await whatsInView();
 
+    // Token object for cancellation of in-flight requests
     lastToken.cancel = true;
     lastToken = { cancel: false, features: [], layersProcessed: 0 };
+
+    // Reset UI layer status
     $('.gis-subL1-layer-label').css({});
 
     let _layersCleared = false;
     let layersToFetch = [];
 
-    // 2. Prepare and clean features for layers not being fetched
+    // 2. Remove map features for layers that won't be fetched
     if (!_layersCleared) {
       _layersCleared = true;
       layersToFetch = getFetchableLayers(true, true);
@@ -4508,7 +4512,7 @@
 
     // **EARLY EXIT: No layers to fetch**
     if (layersToFetch.length === 0) {
-      filterLayerCheckboxes(); // Still update UI for layers coming into view
+      filterLayerCheckboxes(); // Update UI for layers coming into view
       logDebug('No layers to fetch!');
       return;
     }
@@ -4520,7 +4524,7 @@
     const extentWGS84 = getMapExtent('wgs84');
     const zoom = sdk.Map.getZoomLevel();
 
-    // Group layers by hostname
+    // Group the layers that need fetching by host so requests can be batched for concurrency limiting
     const layersByHost = {};
     layersToFetch.forEach((gisLayer) => {
       const hostname = gisLayer.hostname;
@@ -4530,7 +4534,7 @@
       layersByHost[hostname].push(gisLayer);
     });
 
-    // Helper function to fetch a single layer, with fetch/processing timings
+    // Helper function: performs AJAX fetch, parses result, runs error handling & processing
     const fetchLayer = async (gisLayer) => {
       const url = getUrl(extentWGS84, gisLayer, zoom);
       const headers = {};
@@ -4540,6 +4544,7 @@
         headers['X-App-Token'] = appToken;
       }
       if (gisLayer.platform === 'SocrataV3' && !appToken) {
+        // Socrata V3 layers require a token (can't even attempt fetch)
         logDebug(`Socrata V3 layer "${gisLayer.id}" requires an App Token, but none was provided.`);
         WazeWrap.Alerts.warning(GM_info.script.name, `A Socrata App Token is required for layer "${gisLayer.name}".<br>Please provide one in the GIS Layers settings.`);
         return Promise.reject(new Error('Missing Socrata App Token'));
@@ -4556,98 +4561,29 @@
             const fetchEnd = performance.now();
             const fetchDuration = fetchEnd - fetchStart;
 
-            // **RACE condition event Check**
+            // ----------------------------------------
+            // Cancellation check (RACE condition):
+            // If the token was cancelled, cancel quietly (don't log UI as error).
+            // ----------------------------------------
             if (res2.context.cancel) {
               layersProcessedCount += 1;
               resolve({ gisLayer, cancelled: true, fetchUrl: url, fetchDuration });
               return;
             }
-            if (res2.status < 400) {
-              try {
-                const parsedData = $.parseJSON(res2.responseText);
 
-                // Check for API errors in the response:
-                if (parsedData.error) {
-                  let errorMessage, errorCode;
+            // ----------------------------------------
+            // Error Handling Section
+            // ----------------------------------------
 
-                  if (parsedData.error === true) {
-                    errorMessage = parsedData.message || 'Unknown Socrata error';
-                    errorCode = parsedData.code || parsedData.status;
-                  } else if (parsedData.error.message) {
-                    errorMessage = parsedData.error.message;
-                    errorCode = parsedData.error.code;
-                  } else {
-                    errorMessage = parsedData.error;
-                    errorCode = 'unknown';
-                  }
-                  const fullErrorMessage = `${errorMessage}${errorCode !== 'unknown' ? ` (Code: ${errorCode})` : ''}`;
-                  const apiError = new Error(`API Error: ${fullErrorMessage}`);
-
-                  logError(`API error for layer "${gisLayer.id}": ${fullErrorMessage}`);
-                  $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `API Error: ${fullErrorMessage}`);
-
-                  layersProcessedCount += 1;
-                  reject({
-                    gisLayer,
-                    error: apiError,
-                    type: 'api-error',
-                    fetchUrl: url,
-                    fetchDuration,
-                  });
-                  return;
-                }
-                if (res2.context.cancel) {
-                  layersProcessedCount += 1;
-                  resolve({ gisLayer, cancelled: true, fetchUrl: url, fetchDuration });
-                  return;
-                }
-
-                // ------ PROCESSING TIME ------ //
-                let processingDuration = null;
-                if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
-                  const processStart = performance.now();
-                  processFeaturesArcGIS(parsedData, res2.context, gisLayer);
-                  const processEnd = performance.now();
-                  processingDuration = processEnd - processStart;
-                } else if (isSocrata) {
-                  const processStart = performance.now();
-                  processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
-                  const processEnd = performance.now();
-                  processingDuration = processEnd - processStart;
-                } else {
-                  logError(`Unknown platform "${gisLayer.platform}" for layer "${gisLayer.id}". Skipped processing.`);
-                }
-
-                layersProcessedCount += 1;
-                successCount += 1;
-                resolve({
-                  gisLayer,
-                  success: true,
-                  fetchUrl: url,
-                  fetchDuration,
-                  processingDuration,
-                });
-              } catch (parseError) {
-                const parseErrorMessage = `JSON parsing failed: ${parseError.message}`;
-                logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
-                $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `Parse Error: ${parseErrorMessage}`);
-
-                layersProcessedCount += 1;
-                reject({
-                  gisLayer,
-                  error: parseError,
-                  type: 'parse',
-                  fetchUrl: url,
-                  fetchDuration,
-                });
-              }
-            } else {
+            // -------------------------------
+            // 1. HTTP status error:
+            // If the response is a true HTTP error (status 400+), log it and update the UI.
+            // -------------------------------
+            if (res2.status >= 400) {
               const httpErrorMessage = `HTTP ${res2.status}: ${res2.statusText}`;
               const httpError = new Error(`HTTP error: ${res2.status} ${res2.statusText}`);
               logError(`HTTP error for layer "${gisLayer.id}": ${res2.status} ${res2.statusText}`);
-
               $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `HTTP Error: ${httpErrorMessage}`);
-
               layersProcessedCount += 1;
               reject({
                 gisLayer,
@@ -4656,12 +4592,132 @@
                 fetchUrl: url,
                 fetchDuration,
               });
+              return;
+            }
+
+            // Otherwise: status < 400 (most API errors are in-body JSON), so parse JSON
+            try {
+              // ----------------------------------------
+              // 2. JSON parsing error:
+              // If the response can't parse as JSON, it's likely a server or connectivity bug.
+              // ----------------------------------------
+              const parsedData = $.parseJSON(res2.responseText);
+
+              // ----------------------------------------
+              // 3. ArcGIS REST/modern API "status:error"/"status:failed" error:
+              // Detect ArcGIS's "status": "error" (or "failed") error pattern.
+              // Logs details, marks UI red, rejects with message.
+              // ----------------------------------------
+              if ((parsedData.status === 'error' || parsedData.status === 'failed') && Array.isArray(parsedData.messages)) {
+                const message = parsedData.messages.join('; ');
+                const apiError = new Error(`API Error: ${message}`);
+                logError(`API error for layer "${gisLayer.id}": ${message}`);
+                $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `API Error: ${message}`);
+                layersProcessedCount += 1;
+                reject({
+                  gisLayer,
+                  error: apiError,
+                  type: 'api-error',
+                  fetchUrl: url,
+                  fetchDuration,
+                });
+                return;
+              }
+
+              // ----------------------------------------
+              // 4. Classic API "error" property (SocRata, ArcGIS, etc)
+              // API returns an "error" property -- could be object or boolean.
+              // Logs details, marks UI red, rejects with message.
+              // ----------------------------------------
+              if (parsedData.error) {
+                let errorMessage, errorCode;
+                if (parsedData.error === true) {
+                  errorMessage = parsedData.message || 'Unknown Socrata error';
+                  errorCode = parsedData.code || parsedData.status;
+                } else if (parsedData.error.message) {
+                  errorMessage = parsedData.error.message;
+                  errorCode = parsedData.error.code;
+                } else {
+                  errorMessage = parsedData.error;
+                  errorCode = 'unknown';
+                }
+                const fullErrorMessage = `${errorMessage}${errorCode !== 'unknown' ? ` (Code: ${errorCode})` : ''}`;
+                const apiError = new Error(`API Error: ${fullErrorMessage}`);
+                logError(`API error for layer "${gisLayer.id}": ${fullErrorMessage}`);
+                $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `API Error: ${fullErrorMessage}`);
+                layersProcessedCount += 1;
+                reject({
+                  gisLayer,
+                  error: apiError,
+                  type: 'api-error',
+                  fetchUrl: url,
+                  fetchDuration,
+                });
+                return;
+              }
+
+              // ----------------------------------------
+              // Cancellation race: check again after parse
+              // ----------------------------------------
+              if (res2.context.cancel) {
+                layersProcessedCount += 1;
+                resolve({ gisLayer, cancelled: true, fetchUrl: url, fetchDuration });
+                return;
+              }
+
+              // ----------------------------------------
+              // Feature parsing/processing (success path)
+              // ----------------------------------------
+              let processingDuration = null;
+              if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
+                const processStart = performance.now();
+                processFeaturesArcGIS(parsedData, res2.context, gisLayer);
+                const processEnd = performance.now();
+                processingDuration = processEnd - processStart;
+              } else if (isSocrata) {
+                const processStart = performance.now();
+                processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
+                const processEnd = performance.now();
+                processingDuration = processEnd - processStart;
+              } else {
+                logError(`Unknown platform "${gisLayer.platform}" for layer "${gisLayer.id}". Skipped processing.`);
+              }
+              layersProcessedCount += 1;
+              successCount += 1;
+              resolve({
+                gisLayer,
+                success: true,
+                fetchUrl: url,
+                fetchDuration,
+                processingDuration,
+              });
+            } catch (parseError) {
+              // ----------------------------------------
+              // 2. JSON parsing error (catch block):
+              // Logs details, marks UI red, rejects with error info.
+              // ----------------------------------------
+              const parseErrorMessage = `JSON parsing failed: ${parseError.message}`;
+              logError(`Parsing error for layer "${gisLayer.id}": ${parseError.message}`);
+              $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `Parse Error: ${parseErrorMessage}`);
+
+              layersProcessedCount += 1;
+              reject({
+                gisLayer,
+                error: parseError,
+                type: 'parse',
+                fetchUrl: url,
+                fetchDuration,
+              });
             }
           },
           onerror(res3) {
             const fetchEnd = performance.now();
             const fetchDuration = fetchEnd - fetchStart;
-            // **RACE condition event Check**
+
+            // ----------------------------------------
+            // Cancellation check for network error:
+            // If in-flight request was cancelled, mark as cancelled (not error).
+            // ----------------------------------------
             if (res3.context && res3.context.cancel) {
               layersProcessedCount += 1;
               reject({
@@ -4674,12 +4730,15 @@
               return;
             }
 
+            // ----------------------------------------
+            // 5. Network-level error handling:
+            // Could be connection drop, DNS issue, server down, CORS, etc.
+            // Logs details, marks UI red, rejects with error info.
+            // ----------------------------------------
             const networkErrorMessage = `${res3.statusText || 'Network request failed'} ${res3.status ? `(${res3.status})` : ''}`.trim();
             const networkError = new Error(`Network error: ${res3.statusText} (status code: ${res3.status})`);
             logError(`Could not fetch layer "${gisLayer.id}". Error: ${res3.statusText} (status code: ${res3.status})`);
-
             $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', `Network Error: ${networkErrorMessage}`);
-
             layersProcessedCount += 1;
             reject({
               gisLayer,
@@ -4693,16 +4752,15 @@
       });
     };
 
-    // Helper for concurrency
+    // Helper for per-host concurrency limiting: batches by host, adds inter-batch delay
     const processHostLayers = async (hostname, layers) => {
       const results = [];
       for (let i = 0; i < layers.length; i += MAX_CONCURRENT_PER_HOST) {
         const batch = layers.slice(i, i + MAX_CONCURRENT_PER_HOST);
-
         const promises = batch.map(fetchLayer);
         const batchResults = await Promise.allSettled(promises);
         results.push(...batchResults);
-
+        // Add small delay if more batches remain for host
         if (i + MAX_CONCURRENT_PER_HOST < layers.length) {
           await new Promise((resolve) => setTimeout(resolve, 50));
         }
@@ -4710,17 +4768,16 @@
       return { hostname, results };
     };
 
-    // 3. Process all hosts concurrently (with timing)
+    // 3. Kick off all host batches concurrently
     try {
       const hostPromises = Object.entries(layersByHost).map(([hostname, layers]) => processHostLayers(hostname, layers));
       const allHostResults = await Promise.all(hostPromises);
 
-      // Build success summary with layer details by host (INCLUDES fetch & processing time)
+      // Build structured results for debugging/logging/user feedback
       const hostResultsSummary = {};
       allHostResults.forEach(({ hostname, results }) => {
         const successful = [];
         const failed = [];
-
         results.forEach((result, index) => {
           const layer = layersByHost[hostname][index];
           const layerInfo = {
@@ -4729,7 +4786,6 @@
             platform: layer.platform,
             url: layer.url,
           };
-
           if (result.status === 'fulfilled') {
             if (result.value.cancelled) {
               logDebug(`Layer ${layer.id} request was cancelled`);
@@ -4756,7 +4812,6 @@
             }
           }
         });
-
         hostResultsSummary[hostname] = {
           successful,
           failed,
@@ -4764,14 +4819,17 @@
         };
       });
 
-      // Log final summary with fetch and processing durations per layer
+      // Log/Show final summary by host
       logDebug(`Fetch completed - ${successCount}/${layersToFetch.length} layers:`, hostResultsSummary);
 
-      // Update popup if all layers are processed and popup is visible
+      // If in popup mode and everything is processed, refresh popup
       if (layersProcessedCount === layersToFetch.length && isPopupVisible) {
         updatePopup(layerLabels);
       }
     } catch (error) {
+      // ----------------------------------------
+      // Unexpected global error catch for fetch process.
+      // ----------------------------------------
       logError('Unexpected error during processing:', error);
     }
   }
@@ -6810,7 +6868,6 @@
         // Use consistent curve generation that prevents text splitting
         var curveIntensity = parseFloat(style.pathLabelCurve) || 0.012;
         path.setAttribute('d', createConsistentCurve(pts, curveIntensity));
-
       } else {
         if (style.pathLabelReadable) {
           var pts = getpath(tpath, style.pathLabelReadable);
