@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.01.25.000
+// @version      2026.01.25.01
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -14,7 +14,7 @@
 // @require      https://update.greasyfork.org/scripts/506614/1441195/ESTreeProcessor.js
 // @require      https://update.greasyfork.org/scripts/509664/WME%20Utils%20-%20Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/516445/1480246/Make%20GM%20xhr%20more%20parallel%20again.js
-// @require      https://update.greasyfork.org/scripts/542477/1623802/wmeGisLBBOX.js
+// @require      https://update.greasyfork.org/scripts/542477/1742119/wmeGisLBBOX.js
 // @connect      greasyfork.org
 // @connect      github.io
 // @grant        GM_xmlhttpRequest
