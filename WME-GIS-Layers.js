@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.01.25.01
+// @version      2026.02.09.01
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1241,7 +1241,7 @@
   // IMPORTANT: Update this when releasing a new version of script
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
-  const SCRIPT_VERSION_CHANGES = ['✨ Update:', 'Performance improvements to reduce loading time!'];
+  const SCRIPT_VERSION_CHANGES = ['✨ Update:', 'Added support for additional style types!'];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
   // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
@@ -1273,110 +1273,18 @@
    * @property {string|number} [pathLabelReadable]
    * @property {boolean} [stroke]
    * @property {string} [fontFamily]
+   * @property {string} [externalGraphic]        // URL of an external graphic image
+   * @property {number} [graphicWidth]           // Width of the graphic in pixels
+   * @property {number} [graphicHeight]          // Height of the graphic in pixels
+   * @property {number} [graphicXOffset]         // Horizontal offset for graphic placement
+   * @property {number} [graphicYOffset]         // Vertical offset for graphic placement
    */
   /** @type {StyleDefinition} */
-  const DEFAULT_STYLE = {
-    fillColor: '#000',
-    pointRadius: 4,
-    label: '${getLabel}',
-    fillOpacity: 0.95,
-    strokeColor: '#ffa500',
-    strokeOpacity: 0.95,
-    strokeWidth: 1.5,
-    fontColor: '#ffc520',
-    fontSize: 12,
-    labelOutlineColor: 'black',
-    labelOutlineWidth: 3,
-    fontFamily: 'inherit',
-  };
-
+  let DEFAULT_STYLE = null;
   /** @type {Object.<string, StyleDefinition>} */
-  const LAYER_STYLES = {
-    cities: {
-      fillOpacity: 0.3,
-      fillColor: '#f65',
-      strokeColor: '#f65',
-      fontColor: '#f62',
-    },
-    forests_parks: {
-      fillOpacity: 0.4,
-      fillColor: '#585',
-      strokeColor: '#484',
-      fontColor: '#8b8',
-    },
-    milemarkers: {
-      strokeColor: '#fff',
-      fontColor: '#fff',
-      fontWeight: 'bold',
-      fillOpacity: 0,
-      labelYOffset: 10,
-      pointRadius: 2,
-    },
-    parcels: {
-      fillOpacity: 0,
-      fillColor: '#ffa500',
-    },
-    points: {
-      strokeColor: '#000',
-      fontColor: '#0ff',
-      fillColor: '#0ff',
-      labelYOffset: -10,
-      labelAlign: 'ct',
-    },
-    post_offices: {
-      strokeColor: '#000',
-      fontColor: '#f84',
-      fillColor: '#f84',
-      fontWeight: 'bold',
-      labelYOffset: -10,
-      labelAlign: 'ct',
-    },
-    state_parcels: {
-      fillOpacity: 0,
-      strokeColor: '#e62',
-      fillColor: '#e62',
-      fontColor: '#e73',
-    },
-    state_points: {
-      strokeColor: '#000',
-      fontColor: '#3cf',
-      fillColor: '#3cf',
-      labelYOffset: -10,
-      labelAlign: 'ct',
-    },
-    road_labels: {
-      strokeOpacity: 0,
-      fillOpacity: 0,
-      fontColor: '#faf',
-    },
-    structures: {
-      fillOpacity: 0,
-      strokeColor: '#f7f',
-      fontColor: '#f7f',
-    },
-  };
+  let LAYER_STYLES = {};
   /** @type {StyleDefinition} */
-  let ROAD_STYLE = {
-    pointRadius: 12,
-    fillColor: '#369',
-    pathLabel: '${getLabel}',
-    label: '',
-    fontColor: '#faf',
-    labelSelect: true,
-    pathLabelYOffset: '${getOffset}',
-    pathLabelCurve: '${getSmooth}',
-    pathLabelReadable: '${getReadable}',
-    labelAlign: '${getAlign}',
-    labelOutlineWidth: 3,
-    labelOutlineColor: '#000',
-    strokeWidth: 3,
-    stroke: true,
-    strokeColor: '#f0f',
-    strokeOpacity: 0.4,
-    fontWeight: 'bold',
-    fontSize: 12,
-    fontFamily: 'inherit',
-  };
+  let ROAD_STYLE = null;
 
   /**
    * @typedef {Object} GisLayer
@@ -1566,6 +1474,107 @@
     // replace '$1\n$2'
     r6: /^(\d+)\s+(.*)/,
   };
+
+  /**
+ * Asynchronously loads and parses style definitions from a Google Spreadsheet "STYLE" sheet.
+ *
+ * This function fetches style data from a given Google Sheets document, expects a specific
+ * tab layout (with headers: "STYLE TYPE", "STYLE NAME", "STYLE JSON") and parses the style
+ * JSON blobs in each row, assigning them to global variables: `DEFAULT_STYLE`, `ROAD_STYLE`,
+ * and populating the `LAYER_STYLES` dictionary as appropriate.
+ *
+ * The Google Sheets call returns a non-standard JSON envelope, so the function extracts the
+ * JSON using a regex before parsing.
+ *
+ * If fetching or parsing fails at any stage, the function logs errors to the console and returns
+ * an error object describing the problem.
+ *
+ * @async
+ * @function
+ * @returns {Promise<Object|void>} On error, returns an object with an `error` property describing the failure.
+ *                                 On success, does not explicitly return but assigns global style variables.
+ *
+ * @example
+ * await loadStylesFromSheetAsync();
+ *
+ * @throws Does not throw; errors are captured and reported both to console and by returned error objects.
+ *
+ * @global
+ * @see DEFAULT_STYLE
+ * @see ROAD_STYLE
+ * @see LAYER_STYLES
+ */
+  async function loadStylesFromSheetAsync() {
+    const TAB_NAME = 'STYLE';
+    const SHEET_ID = '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw';
+    const STYLE_DEF_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(TAB_NAME)}`;
+  
+    try {
+      const resp = await fetch(STYLE_DEF_URL);
+      const text = await resp.text();
+      const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);/);
+      if (!match) {
+        console.error('Failed to parse style Google Sheet data!');
+        return { error: 'Failed to parse style Google Sheet data!' };
+      }
+      const json = JSON.parse(match[1]);
+      const rows = json.table.rows;
+  
+      // Use first row as header
+      const headerRow = rows[0]; // First row is header
+      const headerCells = headerRow.c.map(cell => (cell.v || '').trim());
+  
+      const typeIdx = headerCells.indexOf('STYLE TYPE');
+      const nameIdx = headerCells.indexOf('STYLE NAME');
+      const jsonIdx = headerCells.indexOf('STYLE JSON');
+  
+      if ([typeIdx, nameIdx, jsonIdx].some(idx => idx === -1)) {
+        console.error('Missing headers in first row of Styles tab!');
+        return { error: 'Missing headers in first row of Styles tab!' };
+      }
+  
+      for (let i = 1; i < rows.length; i++) { // start from row 1, skip header row
+        const row = rows[i];
+        const type = row.c[typeIdx] && row.c[typeIdx].v ? row.c[typeIdx].v.trim() : null;
+        const name = row.c[nameIdx] && row.c[nameIdx].v ? row.c[nameIdx].v.trim() : null;
+        let jsonString = row.c[jsonIdx] && row.c[jsonIdx].v ? row.c[jsonIdx].v.trim() : null;
+  
+        if (!type || !name || !jsonString) continue;
+  
+        // Clean semicolons, extra quotes (if present)
+        if (jsonString.endsWith(';')) jsonString = jsonString.slice(0, -1);
+        if (jsonString.startsWith('"') && jsonString.endsWith('"')) {
+          jsonString = jsonString.slice(1, -1).replace(/""/g, '"');
+        }
+  
+        let styleObj;
+        try {
+          styleObj = JSON.parse(jsonString);
+        } catch (err) {
+          console.warn(`Could not parse style for ${type}:${name}`, err, jsonString);
+          continue;
+        }
+  
+        if (type === 'DEFAULT_STYLE' && name === 'DEFAULT_STYLE') {
+          DEFAULT_STYLE = styleObj;
+        } else if (type === 'ROAD_STYLE' && name === 'ROAD_STYLE') {
+          ROAD_STYLE = styleObj;
+        } else if (type === 'LAYER_STYLES') {
+          LAYER_STYLES[name] = styleObj;
+        }
+      }
+  
+      logDebug("Loaded styles: DEFAULT_STYLE", DEFAULT_STYLE );
+      logDebug("Loaded styles: ROAD_STYLE", ROAD_STYLE );
+      logDebug("Loaded styles: LAYER_STYLES", LAYER_STYLES );
+  
+      //return styles;
+    } catch (err) {
+      console.error('SpreadSheet call failed for styles', err);
+      return { error: 'SpreadSheet call failed for styles' };
+    }
+  }
+
 
   /**
    * Asynchronously builds a mapping from country-subdivision identifiers to display names.
@@ -6695,9 +6704,12 @@
    */
   async function init(firstCall = true) {
     if (firstCall) {
+      await loadStylesFromSheetAsync(); // Load Style data from Sheet 1st!
+
       // One-time initialization
       userInfo = sdk.State.getUserInfo();
       loadSettingsFromStorage(true);
+
 
       // Register shortcuts with stored keys (if set), else with no keys (user must assign)
       createShortcut('toggleHnsOnly', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);
