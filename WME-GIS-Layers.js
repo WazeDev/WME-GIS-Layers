@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.02.09.01
+// @version      2026.02.13.01
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1241,7 +1241,7 @@
   // IMPORTANT: Update this when releasing a new version of script
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
-  const SCRIPT_VERSION_CHANGES = ['✨ Update:', 'Added support for additional style types!'];
+  const SCRIPT_VERSION_CHANGES = ['✨ Update:', 'Minor bug fixes to make layer styles more stable!'];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
   // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
@@ -1564,6 +1564,11 @@
         }
       }
   
+      // Now merge ALL layer styles with DEFAULT_STYLE
+      for (const [name, layerStyle] of Object.entries(LAYER_STYLES)) {
+        LAYER_STYLES[name] = { ...DEFAULT_STYLE, ...layerStyle };
+      }
+
       logDebug("Loaded styles: DEFAULT_STYLE", DEFAULT_STYLE );
       logDebug("Loaded styles: ROAD_STYLE", ROAD_STYLE );
       logDebug("Loaded styles: LAYER_STYLES", LAYER_STYLES );
@@ -2137,14 +2142,22 @@
       DEFAULT_STYLE.fontFamily = 'inherit';
       ROAD_STYLE.fontFamily = 'inherit';
     }
-
+  
     // Apply font size
     if (settings.fontSize && typeof settings.fontSize === 'number') {
       DEFAULT_STYLE.fontSize = settings.fontSize;
       ROAD_STYLE.fontSize = settings.fontSize;
     } else {
-      DEFAULT_STYLE.fontSize = 20; // fallback to default
-      ROAD_STYLE.fontSize = 20;
+      DEFAULT_STYLE.fontSize = 12; // fallback to default
+      ROAD_STYLE.fontSize = 12;
+    }
+  
+    // Update all LAYER_STYLES as well
+    for (const styleObj of Object.values(LAYER_STYLES)) {
+      if (styleObj && typeof styleObj === 'object') {
+        styleObj.fontFamily = DEFAULT_STYLE.fontFamily;
+        styleObj.fontSize = DEFAULT_STYLE.fontSize;
+      }
     }
   }
 
