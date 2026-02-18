@@ -1214,13 +1214,13 @@
 /* Modern GIS Layers UI Styles */
 
 /* Region Selector */
-.region-selector {
+.wme-gis-panel .region-selector {
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
-.region-selector-header {
+.wme-gis-panel .region-selector-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1230,11 +1230,11 @@
   border-radius: 3px;
 }
 
-.region-selector-header:hover {
+.wme-gis-panel .region-selector-header:hover {
   background: #f8f9fa;
 }
 
-.region-selector-title {
+.wme-gis-panel .region-selector-title {
   font-size: 12px;
   font-weight: 600;
   color: #333;
@@ -1242,17 +1242,17 @@
   letter-spacing: 0.3px;
 }
 
-.region-selector-toggle {
+.wme-gis-panel .region-selector-toggle {
   font-size: 10px;
   color: #999;
   transition: transform 0.2s;
 }
 
-.region-selector.collapsed .region-selector-toggle {
+.wme-gis-panel .region-selector.collapsed .region-selector-toggle {
   transform: rotate(-90deg);
 }
 
-.region-selector-body {
+.wme-gis-panel .region-selector-body {
   background: #f8f9fa;
   border-radius: 3px;
   padding: 4px;
@@ -1260,16 +1260,16 @@
   overflow-y: auto;
 }
 
-.region-selector.collapsed .region-selector-body {
+.wme-gis-panel .region-selector.collapsed .region-selector-body {
   display: none;
 }
 
 /* Country Group */
-.country-group {
+.wme-gis-panel .country-group {
   margin-bottom: 8px;
 }
 
-.country-header {
+.wme-gis-panel .country-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1280,11 +1280,11 @@
   cursor: pointer;
 }
 
-.country-header:hover {
+.wme-gis-panel .country-header:hover {
   background: #e9ecef;
 }
 
-.country-name {
+.wme-gis-panel .country-name {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1295,35 +1295,35 @@
   letter-spacing: 0.3px;
 }
 
-.country-toggle-icon {
+.wme-gis-panel .country-toggle-icon {
   font-size: 9px;
   color: #999;
   transition: transform 0.2s;
 }
 
-.country-group.collapsed .country-toggle-icon {
+.wme-gis-panel .country-group.collapsed .country-toggle-icon {
   transform: rotate(-90deg);
 }
 
-.country-count {
+.wme-gis-panel .country-count {
   font-size: 10px;
   color: #999;
   font-weight: 600;
 }
 
-.country-subdivisions {
+.wme-gis-panel .country-subdivisions {
   padding-left: 16px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 3px;
 }
 
-.country-group.collapsed .country-subdivisions {
+.wme-gis-panel .country-group.collapsed .country-subdivisions {
   display: none;
 }
 
 /* Subdivision Option */
-.subdivision-option {
+.wme-gis-panel .subdivision-option {
   display: flex;
   align-items: center;
   padding: 4px 4px;
@@ -1333,16 +1333,16 @@
   transition: background 0.15s;
 }
 
-.subdivision-option:hover {
+.wme-gis-panel .subdivision-option:hover {
   background: white;
 }
 
-.subdivision-option input[type="checkbox"] {
+.wme-gis-panel .subdivision-option input[type="checkbox"] {
   margin: 0 6px 0 0;
   cursor: pointer;
 }
 
-.subdivision-option label {
+.wme-gis-panel .subdivision-option label {
   margin: 0;
   cursor: pointer;
   font-weight: normal;
@@ -1354,12 +1354,12 @@
   text-overflow: ellipsis;
 }
 
-.subdivision-option.enabled label {
+.wme-gis-panel .subdivision-option.enabled label {
   font-weight: 600;
   color: #0066cc;
 }
 
-.subdivision-count {
+.wme-gis-panel .subdivision-count {
   font-size: 9px;
   color: #999;
   margin-left: 4px;
@@ -1367,7 +1367,7 @@
 }
 
 /* Country-level checkbox */
-.country-level-option {
+.wme-gis-panel .country-level-option {
   display: flex;
   align-items: center;
   padding: 4px 4px;
@@ -1381,16 +1381,16 @@
   background: rgba(255, 255, 255, 0.5);
 }
 
-.country-level-option:hover {
+.wme-gis-panel .country-level-option:hover {
   background: white;
 }
 
-.country-level-option input[type="checkbox"] {
+.wme-gis-panel .country-level-option input[type="checkbox"] {
   margin: 0 6px 0 0;
   cursor: pointer;
 }
 
-.country-level-option label {
+.wme-gis-panel .country-level-option label {
   margin: 0;
   cursor: pointer;
   font-weight: normal;
@@ -1399,13 +1399,13 @@
   flex: 1;
 }
 
-.country-level-option.enabled label {
+.wme-gis-panel .country-level-option.enabled label {
   font-weight: 600;
   color: #0066cc;
 }
 
 /* Country-only */
-.country-only {
+.wme-gis-panel .country-only {
   display: flex;
   align-items: center;
   padding: 4px 4px;
@@ -1415,16 +1415,16 @@
   cursor: pointer;
 }
 
-.country-only:hover {
+.wme-gis-panel .country-only:hover {
   background: #e9ecef;
 }
 
-.country-only input[type="checkbox"] {
+.wme-gis-panel .country-only input[type="checkbox"] {
   margin: 0 6px 0 0;
   cursor: pointer;
 }
 
-.country-only label {
+.wme-gis-panel .country-only label {
   margin: 0;
   cursor: pointer;
   font-size: 11px;
@@ -1435,12 +1435,12 @@
   letter-spacing: 0.3px;
 }
 
-.country-only.enabled label {
+.wme-gis-panel .country-only.enabled label {
   color: #0066cc;
 }
 
 /* Quick Actions */
-.filter-label {
+.wme-gis-panel .filter-label {
   font-size: 9px;
   color: #666;
   margin-bottom: 3px;
@@ -1449,14 +1449,14 @@
   letter-spacing: 0.3px;
 }
 
-.region-quick-actions {
+.wme-gis-panel .region-quick-actions {
   display: flex;
   gap: 6px;
   margin-top: 8px;
   font-size: 11px;
 }
 
-.region-action-button {
+.wme-gis-panel .region-action-button {
   flex: 1;
   padding: 5px 8px;
   border: 1px solid #ccc;
@@ -1470,13 +1470,13 @@
   letter-spacing: 0.3px;
 }
 
-.region-action-button:hover {
+.wme-gis-panel .region-action-button:hover {
   background: #f8f9fa;
   border-color: #0066cc;
   color: #0066cc;
 }
 
-.region-quick-actions button {
+.wme-gis-panel .region-quick-actions button {
   flex: 1;
   padding: 5px 8px;
   border: 1px solid #ccc;
@@ -1490,27 +1490,27 @@
   letter-spacing: 0.3px;
 }
 
-.region-quick-actions button:hover {
+.wme-gis-panel .region-quick-actions button:hover {
   background: #f8f9fa;
   border-color: #0066cc;
   color: #0066cc;
 }
 
-.region-quick-actions .toggle-button.active {
+.wme-gis-panel .region-quick-actions .toggle-button.active {
   background: #0066cc;
   border-color: #0066cc;
   color: white;
   font-weight: 700;
 }
 
-.region-quick-actions .toggle-button.active:hover {
+.wme-gis-panel .region-quick-actions .toggle-button.active:hover {
   background: #0052a3;
   border-color: #0052a3;
   color: white;
 }
 
 /* Stats Bar */
-.gis-stats-bar {
+.wme-gis-panel .gis-stats-bar {
   display: flex;
   justify-content: space-between;
   padding: 5px 6px;
@@ -1521,17 +1521,17 @@
   font-size: 11px;
 }
 
-.gis-stats-bar .stat {
+.wme-gis-panel .gis-stats-bar .stat {
   color: #333;
 }
 
-.gis-stats-bar .stat strong {
+.wme-gis-panel .gis-stats-bar .stat strong {
   color: #0066cc;
   font-weight: 600;
 }
 
 /* Sticky Section */
-.gis-sticky-section {
+.wme-gis-panel .gis-sticky-section {
   position: sticky;
   top: 0;
   z-index: 10;
@@ -1541,7 +1541,7 @@
 }
 
 /* Region Fieldset - Modern styling */
-.region-fieldset {
+.wme-gis-panel .region-fieldset {
   border: 1px solid #ccc;
   padding: 0;
   border-radius: 4px;
@@ -1549,11 +1549,11 @@
   display: none;
 }
 
-.region-fieldset.visible {
+.wme-gis-panel .region-fieldset.visible {
   display: block;
 }
 
-.region-legend {
+.wme-gis-panel .region-legend {
   margin: 0 0 8px 10px;
   padding: 0 5px;
   border: none;
@@ -1565,43 +1565,43 @@
   color: #333;
 }
 
-.region-legend:hover {
+.wme-gis-panel .region-legend:hover {
   color: #0066cc;
 }
 
-.region-legend .toggle-icon {
+.wme-gis-panel .region-legend .toggle-icon {
   font-size: 11px;
   margin-right: 6px;
   transition: transform 0.2s;
   display: inline-block;
 }
 
-.region-fieldset.collapsed .toggle-icon {
+.wme-gis-panel .region-fieldset.collapsed .toggle-icon {
   transform: rotate(-90deg);
 }
 
-.region-body {
+.wme-gis-panel .region-body {
   padding: 0 4px 6px 4px;
 }
 
-.region-fieldset.collapsed .region-body {
+.wme-gis-panel .region-fieldset.collapsed .region-body {
   display: none;
 }
 
-.action-links {
+.wme-gis-panel .action-links {
   font-size: 11px;
   margin-bottom: 8px;
   color: #666;
 }
 
-.action-links a {
+.wme-gis-panel .action-links a {
   color: #6290b7;
   cursor: pointer;
   text-decoration: none;
 }
 
 /* Category Fieldset */
-.category-fieldset {
+.wme-gis-panel .category-fieldset {
   border: 1px solid #e0e0e0;
   padding: 0;
   border-radius: 3px;
@@ -1609,7 +1609,7 @@
   background: #fafafa;
 }
 
-.category-legend {
+.wme-gis-panel .category-legend {
   margin: 0 0 6px 8px;
   padding: 0 4px;
   border: none;
@@ -1620,60 +1620,60 @@
   color: #555;
 }
 
-.category-legend .toggle-icon {
+.wme-gis-panel .category-legend .toggle-icon {
   font-size: 10px;
   margin-right: 5px;
   transition: transform 0.2s;
   display: inline-block;
 }
 
-.category-fieldset.collapsed .toggle-icon {
+.wme-gis-panel .category-fieldset.collapsed .toggle-icon {
   transform: rotate(-90deg);
 }
 
-.category-body {
+.wme-gis-panel .category-body {
   padding: 0 6px 6px 6px;
 }
 
-.category-fieldset.collapsed .category-body {
+.wme-gis-panel .category-fieldset.collapsed .category-body {
   display: none;
 }
 
 /* Empty State */
-.gis-empty-state {
+.wme-gis-panel .gis-empty-state {
   text-align: center;
   padding: 60px 20px;
   color: #999;
 }
 
-.gis-empty-state i {
+.wme-gis-panel .gis-empty-state i {
   font-size: 48px;
   margin-bottom: 16px;
   opacity: 0.3;
 }
 
-.gis-empty-state p {
+.wme-gis-panel .gis-empty-state p {
   font-size: 13px;
   margin: 0;
   line-height: 1.6;
 }
 
 /* Scrollbar */
-.region-selector-body::-webkit-scrollbar {
+.wme-gis-panel .region-selector-body::-webkit-scrollbar {
   width: 8px;
 }
 
-.region-selector-body::-webkit-scrollbar-track {
+.wme-gis-panel .region-selector-body::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-.region-selector-body::-webkit-scrollbar-thumb {
+.wme-gis-panel .region-selector-body::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 4px;
 }
 
 /* Settings - Modern Section Card */
-.settings-section {
+.wme-gis-panel .settings-section {
   background: #fafafa;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
@@ -1683,12 +1683,12 @@
   transition: box-shadow 0.2s;
 }
 
-.settings-section:hover {
+.wme-gis-panel .settings-section:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 /* Collapsible Section Header */
-.settings-section-header {
+.wme-gis-panel .settings-section-header {
   padding: 8px 8px;
   background: linear-gradient(to bottom, #f8f9fa 0%, #f0f1f3 100%);
   border-bottom: 1px solid #e0e0e0;
@@ -1699,11 +1699,11 @@
   user-select: none;
 }
 
-.settings-section-header:hover {
+.wme-gis-panel .settings-section-header:hover {
   background: linear-gradient(to bottom, #f0f1f3 0%, #e8e9eb 100%);
 }
 
-.settings-section-title {
+.wme-gis-panel .settings-section-title {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1714,37 +1714,37 @@
   letter-spacing: 0.5px;
 }
 
-.settings-section-title i {
+.wme-gis-panel .settings-section-title i {
   color: #0066cc;
   font-size: 14px;
 }
 
-.section-toggle-icon {
+.wme-gis-panel .section-toggle-icon {
   font-size: 10px;
   color: #999;
   transition: transform 0.2s;
 }
 
-.settings-section.collapsed .section-toggle-icon {
+.wme-gis-panel .settings-section.collapsed .section-toggle-icon {
   transform: rotate(-90deg);
 }
 
 /* Section Body */
-.settings-section-body {
+.wme-gis-panel .settings-section-body {
   padding: 8px;
   background: white;
 }
 
-.settings-section.collapsed .settings-section-body {
+.wme-gis-panel .settings-section.collapsed .settings-section-body {
   display: none;
 }
 
 /* Setting Item Block */
-.setting-item-block {
+.wme-gis-panel .setting-item-block {
   margin-bottom: 14px;
 }
 
-.setting-item-block:last-child {
+.wme-gis-panel .setting-item-block:last-child {
   margin-bottom: 0;
 }
 
@@ -2063,128 +2063,128 @@
 }
 
 /* ========== DARK MODE SUPPORT ========== */
-[wz-theme="dark"] .gis-sticky-section {
+[wz-theme="dark"] .wme-gis-panel .gis-sticky-section {
   background: #202124;
   border-bottom-color: #55595e;
 }
 
-[wz-theme="dark"] .region-selector-body {
+[wz-theme="dark"] .wme-gis-panel .region-selector-body {
   background: #3c4043;
 }
 
-[wz-theme="dark"] .region-selector-header {
+[wz-theme="dark"] .wme-gis-panel .region-selector-header {
   background: #202124;
   color: #e8eaed;
   border-bottom-color: #55595e;
 }
 
-[wz-theme="dark"] .region-selector-header:hover {
+[wz-theme="dark"] .wme-gis-panel .region-selector-header:hover {
   background: #3c4043;
 }
 
-[wz-theme="dark"] .region-selector-title {
+[wz-theme="dark"] .wme-gis-panel .region-selector-title {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .region-selector-toggle {
+[wz-theme="dark"] .wme-gis-panel .region-selector-toggle {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .country-header {
+[wz-theme="dark"] .wme-gis-panel .country-header {
   background: #202124;
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .country-header:hover {
+[wz-theme="dark"] .wme-gis-panel .country-header:hover {
   background: #55595e;
 }
 
-[wz-theme="dark"] .country-name,
-[wz-theme="dark"] .subdivision-option label,
-[wz-theme="dark"] .country-level-option label,
-[wz-theme="dark"] .country-only label {
+[wz-theme="dark"] .wme-gis-panel .country-name,
+[wz-theme="dark"] .wme-gis-panel .subdivision-option label,
+[wz-theme="dark"] .wme-gis-panel .country-level-option label,
+[wz-theme="dark"] .wme-gis-panel .country-only label {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .subdivision-option:hover,
-[wz-theme="dark"] .country-level-option:hover {
+[wz-theme="dark"] .wme-gis-panel .subdivision-option:hover,
+[wz-theme="dark"] .wme-gis-panel .country-level-option:hover {
   background: #202124;
 }
 
-[wz-theme="dark"] .country-only {
+[wz-theme="dark"] .wme-gis-panel .country-only {
   background: #202124;
 }
 
-[wz-theme="dark"] .country-only:hover {
+[wz-theme="dark"] .wme-gis-panel .country-only:hover {
   background: #55595e;
 }
 
-[wz-theme="dark"] .country-level-option {
+[wz-theme="dark"] .wme-gis-panel .country-level-option {
   background: rgba(60, 64, 67, 0.5);
 }
 
-[wz-theme="dark"] .gis-stats-bar {
+[wz-theme="dark"] .wme-gis-panel .gis-stats-bar {
   background: #1a3950;
   border-color: #55595e;
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .gis-stats-bar .stat {
+[wz-theme="dark"] .wme-gis-panel .gis-stats-bar .stat {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .region-fieldset {
+[wz-theme="dark"] .wme-gis-panel .region-fieldset {
   border-color: #55595e;
   background: #3c4043;
 }
 
-[wz-theme="dark"] .region-legend {
+[wz-theme="dark"] .wme-gis-panel .region-legend {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .region-legend:hover {
+[wz-theme="dark"] .wme-gis-panel .region-legend:hover {
   color: #33ccff;
 }
 
-[wz-theme="dark"] .region-body {
+[wz-theme="dark"] .wme-gis-panel .region-body {
   background: #3c4043;
 }
 
-[wz-theme="dark"] .gis-subL1-layer-label {
+[wz-theme="dark"] .wme-gis-panel .gis-subL1-layer-label {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .action-links {
+[wz-theme="dark"] .wme-gis-panel .action-links {
   color: #b7babf;
 }
 
-[wz-theme="dark"] .action-links a {
+[wz-theme="dark"] .wme-gis-panel .action-links a {
   color: #33ccff;
 }
 
-[wz-theme="dark"] .gis-empty-state {
+[wz-theme="dark"] .wme-gis-panel .gis-empty-state {
   color: #b7babf;
 }
 
-[wz-theme="dark"] .settings-section {
+[wz-theme="dark"] .wme-gis-panel .settings-section {
   background: #3c4043;
   border-color: #55595e;
 }
 
-[wz-theme="dark"] .settings-section-header {
+[wz-theme="dark"] .wme-gis-panel .settings-section-header {
   background: linear-gradient(to bottom, #3c4043 0%, #202124 100%);
   border-bottom-color: #55595e;
 }
 
-[wz-theme="dark"] .settings-section-header:hover {
+[wz-theme="dark"] .wme-gis-panel .settings-section-header:hover {
   background: linear-gradient(to bottom, #55595e 0%, #3c4043 100%);
 }
 
-[wz-theme="dark"] .settings-section-title {
+[wz-theme="dark"] .wme-gis-panel .settings-section-title {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .settings-section-body {
+[wz-theme="dark"] .wme-gis-panel .settings-section-body {
   background: #202124;
 }
 
@@ -2255,31 +2255,31 @@
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .region-quick-actions button {
+[wz-theme="dark"] .wme-gis-panel .region-quick-actions button {
   background: #3c4043;
   border-color: #55595e;
   color: #b7babf;
 }
 
-[wz-theme="dark"] .region-quick-actions button:hover {
+[wz-theme="dark"] .wme-gis-panel .region-quick-actions button:hover {
   background: #55595e;
   border-color: #33ccff;
   color: #33ccff;
 }
 
-[wz-theme="dark"] .region-action-button {
+[wz-theme="dark"] .wme-gis-panel .region-action-button {
   background: #3c4043;
   border-color: #55595e;
   color: #b7babf;
 }
 
-[wz-theme="dark"] .region-action-button:hover {
+[wz-theme="dark"] .wme-gis-panel .region-action-button:hover {
   background: #55595e;
   border-color: #33ccff;
   color: #33ccff;
 }
 
-[wz-theme="dark"] .gis-internal-tabs > li > a:hover {
+[wz-theme="dark"] .wme-gis-panel .gis-internal-tabs > li > a:hover {
   background-color: #1a3950 !important;
 }
 
@@ -2293,7 +2293,7 @@
   color: #90959c;
 }
 
-[wz-theme="dark"] .filter-label {
+[wz-theme="dark"] .wme-gis-panel .filter-label {
   color: #b7babf;
 }
 
