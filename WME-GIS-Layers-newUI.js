@@ -1748,7 +1748,7 @@
   margin-bottom: 0;
 }
 
-.setting-label {
+.wme-gis-panel .setting-label {
   display: block;
   font-size: 11px;
   font-weight: 600;
@@ -1757,7 +1757,7 @@
 }
 
 /* Pill-Style Radio Buttons */
-.pill-group {
+.wme-gis-panel .pill-group {
   display: flex;
   background: #e9ecef;
   border-radius: 6px;
@@ -1765,18 +1765,18 @@
   gap: 2px;
 }
 
-.pill-option {
+.wme-gis-panel .pill-option {
   flex: 1;
   position: relative;
 }
 
-.pill-option input[type="radio"] {
+.wme-gis-panel .pill-option input[type="radio"] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
 
-.pill-option label {
+.wme-gis-panel .pill-option label {
   display: block;
   text-align: center;
   padding: 6px 8px;
@@ -1792,38 +1792,38 @@
   letter-spacing: 0.3px;
 }
 
-.pill-option input[type="radio"]:checked + label {
+.wme-gis-panel .pill-option input[type="radio"]:checked + label {
   background: #0066cc;
   color: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   font-weight: 700;
 }
 
-.pill-option label:hover {
+.wme-gis-panel .pill-option label:hover {
   color: #0066cc;
 }
 
-.pill-option input[type="radio"]:checked + label:hover {
+.wme-gis-panel .pill-option input[type="radio"]:checked + label:hover {
   background: #0052a3;
   color: white;
 }
 
 /* Toggle Switch */
-.toggle-switch {
+.wme-gis-panel .toggle-switch {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 0;
 }
 
-.toggle-switch > label:first-child {
+.wme-gis-panel .toggle-switch > label:first-child {
   font-size: 12px;
   color: #555;
   margin: 0;
   cursor: pointer;
 }
 
-.switch {
+.wme-gis-panel .switch {
   position: relative;
   display: inline-block;
   width: 36px;
@@ -1831,13 +1831,13 @@
   flex-shrink: 0;
 }
 
-.switch input {
+.wme-gis-panel .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.slider {
+.wme-gis-panel .toggle-switch .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -1849,7 +1849,7 @@
   border-radius: 20px;
 }
 
-.slider:before {
+.wme-gis-panel .toggle-switch .slider:before {
   position: absolute;
   content: "";
   height: 14px;
@@ -1862,16 +1862,16 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-input:checked + .slider {
+.wme-gis-panel .toggle-switch input:checked + .slider {
   background-color: #0066cc;
 }
 
-input:checked + .slider:before {
+.wme-gis-panel .toggle-switch input:checked + .slider:before {
   transform: translateX(16px);
 }
 
 /* Help Text */
-.help-text {
+.wme-gis-panel .help-text {
   font-size: 10px;
   color: #999;
   margin-top: 4px;
@@ -1880,7 +1880,7 @@ input:checked + .slider:before {
 }
 
 /* Select */
-.setting-select {
+.wme-gis-panel .setting-select {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid #d0d0d0;
@@ -1891,14 +1891,14 @@ input:checked + .slider:before {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.setting-select:focus {
+.wme-gis-panel .setting-select:focus {
   outline: none;
   border-color: #0066cc;
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
 /* Number Input */
-.setting-input {
+.wme-gis-panel .setting-input {
   width: 80px;
   padding: 6px 8px;
   border: 1px solid #d0d0d0;
@@ -1908,13 +1908,13 @@ input:checked + .slider:before {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.setting-input:focus {
+.wme-gis-panel .setting-input:focus {
   outline: none;
   border-color: #0066cc;
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
-.setting-unit {
+.wme-gis-panel .setting-unit {
   font-size: 11px;
   color: #999;
   margin-left: 6px;
@@ -1922,7 +1922,7 @@ input:checked + .slider:before {
 }
 
 /* Full Width Input */
-.setting-input-full {
+.wme-gis-panel .setting-input-full {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid #d0d0d0;
@@ -1932,21 +1932,23 @@ input:checked + .slider:before {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.setting-input-full:focus {
+.wme-gis-panel .setting-input-full:focus {
   outline: none;
   border-color: #0066cc;
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
 /* Button Group */
-.button-group {
+.wme-gis-panel .button-group {
   display: flex;
   gap: 6px;
 }
 
 /* Modern Buttons */
-.btn-primary-modern,
-.btn-secondary-modern {
+.wme-gis-panel .btn-primary-modern,
+.wme-gis-panel .btn-secondary-modern,
+.gis-popup-dialog .btn-primary-modern,
+.gis-popup-dialog .btn-secondary-modern {
   flex: 1;
   padding: 8px 14px;
   border: none;
@@ -1960,42 +1962,48 @@ input:checked + .slider:before {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.btn-primary-modern {
+.wme-gis-panel .btn-primary-modern,
+.gis-popup-dialog .btn-primary-modern {
   background: linear-gradient(to bottom, #0077dd 0%, #0066cc 100%);
   color: white;
 }
 
-.btn-primary-modern:hover {
+.wme-gis-panel .btn-primary-modern:hover,
+.gis-popup-dialog .btn-primary-modern:hover {
   background: linear-gradient(to bottom, #0066cc 0%, #0055aa 100%);
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   transform: translateY(-1px);
 }
 
-.btn-primary-modern:active {
+.wme-gis-panel .btn-primary-modern:active,
+.gis-popup-dialog .btn-primary-modern:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-.btn-secondary-modern {
+.wme-gis-panel .btn-secondary-modern,
+.gis-popup-dialog .btn-secondary-modern {
   background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
   color: #666;
   border: 1px solid #d0d0d0;
 }
 
-.btn-secondary-modern:hover {
+.wme-gis-panel .btn-secondary-modern:hover,
+.gis-popup-dialog .btn-secondary-modern:hover {
   background: linear-gradient(to bottom, #e9ecef 0%, #dee2e6 100%);
   color: #333;
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   transform: translateY(-1px);
 }
 
-.btn-secondary-modern:active {
+.wme-gis-panel .btn-secondary-modern:active,
+.gis-popup-dialog .btn-secondary-modern:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 
 /* Full Width Button */
-.btn-full {
+.wme-gis-panel .btn-full {
   width: 100%;
   padding: 10px 14px;
   border: none;
@@ -2011,23 +2019,23 @@ input:checked + .slider:before {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.btn-full:hover {
+.wme-gis-panel .btn-full:hover {
   background: linear-gradient(to bottom, #0066cc 0%, #0055aa 100%);
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   transform: translateY(-1px);
 }
 
-.btn-full:active {
+.wme-gis-panel .btn-full:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-.btn-full i {
+.wme-gis-panel .btn-full i {
   margin-right: 8px;
 }
 
 /* Description Text */
-.section-description {
+.wme-gis-panel .section-description {
   font-size: 11px;
   color: #666;
   margin: 0 0 10px 0;
@@ -2180,67 +2188,69 @@ input:checked + .slider:before {
   background: #202124;
 }
 
-[wz-theme="dark"] .setting-label {
+[wz-theme="dark"] .wme-gis-panel .setting-label {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .pill-group {
+[wz-theme="dark"] .wme-gis-panel .pill-group {
   background: #3c4043;
 }
 
-[wz-theme="dark"] .pill-option label {
+[wz-theme="dark"] .wme-gis-panel .pill-option label {
   color: #b7babf;
 }
 
-[wz-theme="dark"] .pill-option input[type="radio"]:checked + label {
+[wz-theme="dark"] .wme-gis-panel .pill-option input[type="radio"]:checked + label {
   background: #0066cc;
   color: white;
 }
 
-[wz-theme="dark"] .pill-option label:hover {
+[wz-theme="dark"] .wme-gis-panel .pill-option label:hover {
   color: #33ccff;
 }
 
-[wz-theme="dark"] .pill-option input[type="radio"]:checked + label:hover {
+[wz-theme="dark"] .wme-gis-panel .pill-option input[type="radio"]:checked + label:hover {
   background: #0052a3;
   color: white;
 }
 
-[wz-theme="dark"] .toggle-switch > label:first-child {
+[wz-theme="dark"] .wme-gis-panel .toggle-switch > label:first-child {
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .slider {
+[wz-theme="dark"] .wme-gis-panel .toggle-switch .slider {
   background-color: #55595e;
 }
 
-[wz-theme="dark"] .setting-select,
-[wz-theme="dark"] .setting-input,
-[wz-theme="dark"] .setting-input-full {
+[wz-theme="dark"] .wme-gis-panel .setting-select,
+[wz-theme="dark"] .wme-gis-panel .setting-input,
+[wz-theme="dark"] .wme-gis-panel .setting-input-full {
   background: #3c4043;
   border-color: #55595e;
   color: #e8eaed;
 }
 
-[wz-theme="dark"] .setting-select:focus,
-[wz-theme="dark"] .setting-input:focus,
-[wz-theme="dark"] .setting-input-full:focus {
+[wz-theme="dark"] .wme-gis-panel .setting-select:focus,
+[wz-theme="dark"] .wme-gis-panel .setting-input:focus,
+[wz-theme="dark"] .wme-gis-panel .setting-input-full:focus {
   border-color: #33ccff;
   box-shadow: 0 0 0 3px rgba(51, 204, 255, 0.1);
 }
 
-[wz-theme="dark"] .help-text,
-[wz-theme="dark"] .section-description {
+[wz-theme="dark"] .wme-gis-panel .help-text,
+[wz-theme="dark"] .wme-gis-panel .section-description {
   color: #90959c;
 }
 
-[wz-theme="dark"] .btn-secondary-modern {
+[wz-theme="dark"] .wme-gis-panel .btn-secondary-modern,
+[wz-theme="dark"] .gis-popup-dialog .btn-secondary-modern {
   background: linear-gradient(to bottom, #3c4043 0%, #202124 100%);
   color: #e8eaed;
   border-color: #55595e;
 }
 
-[wz-theme="dark"] .btn-secondary-modern:hover {
+[wz-theme="dark"] .wme-gis-panel .btn-secondary-modern:hover,
+[wz-theme="dark"] .gis-popup-dialog .btn-secondary-modern:hover {
   background: linear-gradient(to bottom, #55595e 0%, #3c4043 100%);
   color: #e8eaed;
 }
@@ -2271,13 +2281,6 @@ input:checked + .slider:before {
 
 [wz-theme="dark"] .gis-internal-tabs > li > a:hover {
   background-color: #1a3950 !important;
-}
-
-[wz-theme="dark"] input[type="text"],
-[wz-theme="dark"] input[type="password"] {
-  background: #3c4043;
-  border-color: #55595e;
-  color: #e8eaed;
 }
 
 [wz-theme="dark"] #gis-layer-search {
@@ -2465,7 +2468,13 @@ input:checked + .slider:before {
   // IMPORTANT: Update this when releasing a new version of script
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
-  const SCRIPT_VERSION_CHANGES = ['✨ Update:', 'Minor bug fixes to make layer styles more stable!'];
+  const SCRIPT_VERSION_CHANGES = [
+    '🎉 Major Update: Complete UI Redesign!',
+    '✨ Region selector now on Layers tab (no more tab switching!)',
+    '🔍 Added Search filter for layers alongside Viewport/Zoom',
+    '🌙 Modern blue theme with full Dark Mode support',
+    '📐 Better visual hierarchy, spacing, and consistency throughout'
+  ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
   // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
@@ -5394,15 +5403,38 @@ input:checked + .slider:before {
 
   /**
    * Updates the visibility and content of the layer label popup UI element.
-   * Handles display toggling based on state, and calls {@link updatePopupContent}.
+   *
+   * Creates and manages a draggable, resizable popup dialog that displays collected
+   * GIS layer labels. The popup features modern styling with a blue header, collapsible
+   * options section, layer dropdown selector, and scrollable content area. Automatically
+   * adapts to WME Editor's dark mode theme.
+   *
+   * **Popup Structure:**
+   * - Header: Blue bar with title "GIS-L Layer Labels" and close button (draggable)
+   * - Options Section: Checkboxes for label formatting (Title Case, Acronyms, Highway Labels, Remove New Lines)
+   * - Dropdown: Selector to switch between different layer label collections
+   * - Content: Scrollable list of labels with copy-to-clipboard functionality
+   *
+   * **Features:**
+   * - Draggable by header for repositioning
+   * - Resizable for adjusting dimensions
+   * - Remembers position across page loads
+   * - Modern blue theme (#0066cc) matching script styling
+   * - Full dark mode support (adapts to WME theme)
+   * - Label formatting options apply in real-time
+   * - Copy labels to clipboard with click
    *
    * **Dependencies:**
-   * - Depends on jQuery (`$`) for DOM selection and manipulation.
-   * - Assumes the popup HTML structure exists in the DOM.
+   * - jQuery (`$`) for DOM selection and manipulation
+   * - Native DOM APIs for element creation
+   * - Global state: popupPosition, isPopupVisible, useTitleCase, useAcronyms, useStateHwy, removeNewLines
    *
    * **Side Effects:**
-   * - Directly mutates DOM elements; not a pure function.
-   * - May trigger jQuery event handlers.
+   * - Creates popup DOM element on first call (appends to wz-page-content)
+   * - Directly mutates DOM elements; not a pure function
+   * - Updates global popupPosition when dragged
+   * - Calls {@link updatePopupContent} to refresh label display
+   * - May trigger jQuery event handlers
    *
    * @function updatePopup
    * @param {LayerLabelsMap} labels - Map of layer names to label sets
@@ -6632,9 +6664,18 @@ input:checked + .slider:before {
   /**
    * Initializes and renders the GIS Layers tab user interface.
    *
-   * This function rebuilds the '#panel-gis-subL1-layers' container DOM,
-   * including checkboxes and controls for filtering layers by region, zoom level,
-   * and specific SubL1 categories. It binds all relevant event handlers for interactions.
+   * This function rebuilds the '#panel-gis-subL1-layers' container DOM with a modern,
+   * organized layout including a region selector at the top, search functionality,
+   * stats bar, and layer checkboxes with filtering controls.
+   *
+   * Key Features:
+   * - Region selector with country groups and subdivisions (collapsible, maintains scroll position)
+   * - Search input for filtering layers by name
+   * - Quick action buttons: Clear All Regions, Viewport Filter, Zoom Filter
+   * - Stats bar showing selected regions, visible layers, and loaded features
+   * - Layer checkboxes organized by country with collapsible sections
+   * - Filtering options: Viewport, Zoom level, Search text
+   * - Supports dark mode theming
    *
    * Dependencies (must be in scope when called):
    * - userInfo: { userName }
@@ -6643,13 +6684,15 @@ input:checked + .slider:before {
    * - NameMapper: object with method toFullName(subL1) -> string
    * - jQuery ($)
    * - Lodash (_)
-   * - Event handlers: onOnlyShowApplicableLayersChanged, onOnlyShowApplicableLayersZoomChanged, onSelectAllClick, onSelectNoneClick, onChevronClick, onGisLayerToggleChanged
+   * - Event handlers: onOnlyShowApplicableLayersChanged, onOnlyShowApplicableLayersZoomChanged, onSelectAllClick, onSelectNoneClick, onChevronClick, onGisLayerToggleChanged, onSub1CheckChanged
    *
    * Side Effects:
    * - Modifies the DOM inside #panel-gis-subL1-layers
    * - Sets up interactive controls for GIS layer filtering and visibility
+   * - Preserves region selector scroll position and collapsed states across rebuilds
    *
-   * @function
+   * @function initLayersTab
+   * @returns {void}
    */
   function initLayersTab() {
     // Save region selector scroll position and country collapse states before rebuilding DOM
@@ -7120,31 +7163,39 @@ input:checked + .slider:before {
    * Initializes and renders the GIS Layers "Settings" tab UI.
    *
    * This function dynamically builds the user interface for the GIS settings panel,
-   * allowing users to control label display, popup options, country/group enablement,
-   * layer appearance (e.g., fill parcels), and manage special tokens for data access.
+   * allowing users to control label display, popup visibility, layer appearance,
+   * and manage data access tokens. Settings are organized into collapsible sections
+   * with modern styling and dark mode support.
+   *
+   * Settings Sections:
+   * - Labels: Address display options (HN, Street, Both, None), font family/size selectors
+   * - Label Popup: Show/Hide toggle for the layer labels popup window
+   * - Appearance: Fill parcels toggle for polygon rendering style
+   * - Custom Groups: Manage saved layer/region groups, Load All Layers button
+   * - Tyler/Socrata Token: API token management with save/remove functionality
    *
    * Features:
-   * - Group GIS layers by country and present checkboxes for subregion enablement.
-   * - Provide radio buttons for address label and popup display settings.
-   * - Provide 'Select All' / 'Select None' batch controls for subregions per country.
-   * - Present appearance options (e.g., "Fill parcels" toggle).
-   * - Manage Tyler/Socrata App Token with in-panel input and help links.
-   * - Integrate custom group management and "Load All Layers" functionality.
-   * - Set up all necessary event handlers for user interactions (clicks/change, etc.).
+   * - Pill-style radio buttons for address display and popup visibility
+   * - Dropdown selectors for font family and numeric input for font size
+   * - Token input field with password masking when saved
+   * - "Manage Custom Groups" button to open group manager dialog
+   * - "Load All Layers" button for bulk layer loading
+   * - Modern blue theme with consistent styling across all controls
+   * - Full dark mode support matching WME Editor theme
    *
    * Dependencies (must be defined in scope at runtime):
    * - _gisLayers: Array of GIS layer objects ({id, name, country, countrySubL1, ...})
-   * - settings: Object containing UI/user state/settings (see code for properties used)
-   * - NameMapper: Object/function mapping region codes to display names (`toFullName`)
+   * - settings: Object containing UI/user state/settings (addrLabelDisplay, fontFamily, fontSize, fillParcels, socrataAppToken, etc.)
    * - SCRIPT_AUTHOR: String for author/contact (for tooltips)
-   * - jQuery ($), Lodash (_)
-   * - Event/callback handlers: onChevronClick, onSub1CheckChanged, onFillParcelsCheckedChanged, onGisAddrDisplayChange, openLayerGroupManagerDialog, batchUpdateSelectedSubL1, saveSettingsToStorage, loadSpreadsheetAsync, initTab, logDebug, logError, togglePopupVisibility
+   * - jQuery ($)
+   * - Event/callback handlers: onFillParcelsCheckedChanged, onGisAddrDisplayChange, openLayerGroupManagerDialog, saveSettingsToStorage, loadSpreadsheetAsync, initTab, logDebug, logError, togglePopupVisibility
    * - isPopupVisible: Boolean flag for popup state (mutated)
    *
    * Side Effects:
    * - Rebuilds the DOM within #panel-gis-layers-settings
-   * - Registers event handlers and toggles settings state objects
-   * - May trigger async functions for loading layers/groups and updating settings
+   * - Registers event handlers for all interactive controls
+   * - May trigger async functions for loading layers and updating settings
+   * - Persists settings to localStorage when changed
    *
    * @function initSettingsTab
    * @returns {void}
@@ -7520,6 +7571,7 @@ input:checked + .slider:before {
       const { tabLabel, tabPane } = await sdk.Sidebar.registerScriptTab();
       tabLabel.innerHTML = labelText;
       tabPane.innerHTML = content;
+      tabPane.classList.add('wme-gis-panel');
 
       // Tweak tab spacing and wire up power and refresh buttons.
       $(tabPane).parent().css({ width: 'auto', padding: '4px' });
@@ -7568,10 +7620,24 @@ input:checked + .slider:before {
   /**
    * Opens the GIS Layer Group Manager dialog for managing saved layer/region groups.
    *
-   * - Renders a draggable dialog unless already open.
-   * - Allows the user to save, load, and delete "layer groups": sets of currently selected regions and visible GIS layers.
-   * - Integrates with `settings` (for state), WazeWrap.Alerts (for confirmation/prompt), and uses jQuery for UI.
-   * - Cleans up event handlers on close/escape.
+   * Features:
+   * - Renders a draggable modal dialog with modern blue theme styling
+   * - Allows the user to save, load, and delete "layer groups": sets of currently selected regions and visible GIS layers
+   * - Uses native browser dialogs (confirm/prompt/alert) for user interactions
+   * - Supports dark mode theming that adapts to WME Editor theme
+   * - Includes "Clear All" functionality to reset all selections
+   * - Prevents duplicate dialog instances
+   * - Cleans up event handlers on close/escape
+   *
+   * Dialog Structure:
+   * - Header: Blue bar with title and close button
+   * - Section 1: Current Selection - "Clear All" and "Save as Group" buttons
+   * - Section 2: My Saved Groups - Dropdown selector with "Load Group" and "Delete Group" buttons
+   *
+   * Integrations:
+   * - settings: Global state object for storing/retrieving layer groups
+   * - jQuery: For DOM manipulation and event handling
+   * - Native dialogs: confirm(), prompt(), alert() for user interactions
    *
    * @function openLayerGroupManagerDialog
    * @returns {void}
