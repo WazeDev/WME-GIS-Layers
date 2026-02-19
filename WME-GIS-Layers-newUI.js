@@ -6171,7 +6171,7 @@
   function showScriptInfoAlert() {
     /* Check version and alert on update */
     if (SHOW_UPDATE_MESSAGE && scriptVersion !== settings.lastVersion) {
-      // alert(SCRIPT_VERSION_CHANGES);
+
       let releaseNotes = '';
       releaseNotes += "<p>What's New:</p>";
       if (SCRIPT_VERSION_CHANGES.length > 0) {
@@ -6250,85 +6250,6 @@
     }
   }
 
-  /**
-   * Change event handler for the "Only show applicable layers" setting checkbox.
-   * Updates {@link settings.onlyShowApplicableLayers} and refreshes layer checkboxes.
-   *
-   * @function onOnlyShowApplicableLayersChanged
-   * @param {Event} [event] Change event (optional).
-   * @returns {void}
-   *
-   * @see {@link settings.onlyShowApplicableLayers}
-   * @see {@link saveSettingsToStorage}
-   * @see {@link filterLayerCheckboxes}
-   */
-  async function onOnlyShowApplicableLayersChanged() {
-    settings.onlyShowApplicableLayers = $(this).is(':checked');
-    saveSettingsToStorage();
-    filterLayerCheckboxes();
-  }
-
-  /**
-   * Change event handler for the "Include Zoom Level in filter" setting checkbox.
-   * Updates {@link settings.onlyShowApplicableLayersZoom} and refreshes layer checkboxes.
-   *
-   * @function onOnlyShowApplicableLayersZoomChanged
-   * @param {Event} [event] Change event (optional).
-   * @returns {void}
-   *
-   * @see {@link settings.onlyShowApplicableLayersZoom}
-   * @see {@link saveSettingsToStorage}
-   * @see {@link filterLayerCheckboxes}
-   */
-  async function onOnlyShowApplicableLayersZoomChanged() {
-    settings.onlyShowApplicableLayersZoom = $(this).is(':checked');
-    saveSettingsToStorage();
-    filterLayerCheckboxes();
-  }
-
-  /**
-   * Event handler for toggling a region (subL1) checkbox for GIS layer selection.
-   * Updates {@link settings.selectedSubL1}, initializes layer tabs, and refreshes features.
-   *
-   * @async
-   * @function onSub1CheckChanged
-   * @param {string} subL1 Region/subdivision code being toggled.
-   * @param {Event} evt Change event from the checkbox.
-   * @returns {Promise<void>}
-   *
-   * @see {@link settings.selectedSubL1}
-   * @see {@link saveSettingsToStorage}
-   * @see {@link initLayersTab}
-   * @see {@link fetchFeatures}
-   */
-  async function onSub1CheckChanged(subL1, evt) {
-    const idx = settings.selectedSubL1.indexOf(subL1);
-    if (evt.target.checked) {
-      if (idx === -1) settings.selectedSubL1.push(subL1);
-    } else if (idx > -1) settings.selectedSubL1.splice(idx, 1);
-    if (!ignoreFetch) {
-      saveSettingsToStorage();
-      initLayersTab();
-      await fetchFeatures();
-    }
-  }
-
-  async function batchUpdateSelectedSubL1() {
-    // Gather all checked subL1's from DOM
-    const checked = $('.gis-layers-subL1-checkbox:checked')
-      .map(function () {
-        return $(this).data('sub');
-      })
-      .get();
-
-    settings.selectedSubL1 = checked;
-
-    if (!ignoreFetch) {
-      saveSettingsToStorage();
-      initLayersTab();
-      await fetchFeatures();
-    }
-  }
 
   /**
    * Handler for toggling the global "GIS Layers" on/off checkbox in the sidebar Layer Switcher.
@@ -6424,86 +6345,6 @@
     }
   }
 
-  /**
-   * Handler for chevron clicks expanding or collapsing region/group fieldsets in the UI.
-   * Updates {@link settings.collapsedSections} and persists state.
-   *
-   * @function onChevronClick
-   * @param {Event} evt Click event from the chevron icon.
-   * @returns {void}
-   *
-   * @see {@link settings.collapsedSections}
-   * @see {@link saveSettingsToStorage}
-   */
-  function onChevronClick(evt) {
-    const $target = $(evt.currentTarget);
-    const $div = $($target.siblings()[0]);
-    const fieldsetId = $target.parent('fieldset').attr('id');
-    const sectionKey = fieldsetId ? fieldsetId.replace('gis-layers-for-', '') : null;
-    $($target.children()[0]).toggleClass('fa fa-fw fa-chevron-down').toggleClass('fa fa-fw fa-chevron-right');
-    if ($div.css('display') === 'none') {
-      $div.css('display', 'block');
-      if (sectionKey) settings.collapsedSections[sectionKey] = false;
-    } else {
-      $div.css('display', 'none');
-      if (sectionKey) settings.collapsedSections[sectionKey] = true;
-    }
-    if (sectionKey) saveSettingsToStorage();
-  }
-
-  /**
-   * Helper function for batch toggling region or layer checkboxes (select all/none).
-   * Updates settings, optionally triggers {@link initLayersTab}, and re-fetches features.
-   * Temporarily disables fetches during batch operation.
-   *
-   * @async
-   * @function doToggleABunch
-   * @param {Event} evt Click event from the select all/none control.
-   * @param {boolean} checkState Desired checked state: true for select all, false for select none.
-   * @returns {Promise<void>}
-   *
-   * @see {@link fetchFeatures}
-   * @see {@link initLayersTab}
-   * @see {@link saveSettingsToStorage}
-   */
-  async function doToggleABunch(evt, checkState) {
-    ignoreFetch = true;
-    $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
-    ignoreFetch = false;
-    saveSettingsToStorage();
-    if (evt.data) initLayersTab();
-    await fetchFeatures();
-  }
-
-  /**
-   * Handler for "Select All" links used to check all region/layer checkboxes in the current fieldset.
-   * Triggers a batch update using {@link doToggleABunch}.
-   *
-   * @async
-   * @function onSelectAllClick
-   * @param {Event} evt Click event from the link.
-   * @returns {Promise<void>}
-   *
-   * @see {@link doToggleABunch}
-   */
-  function onSelectAllClick(evt) {
-    doToggleABunch(evt, true);
-  }
-
-  /**
-   * Handler for "Select None" links used to uncheck all region/layer checkboxes in the current fieldset.
-   * Triggers a batch update using {@link doToggleABunch}.
-   *
-   * @async
-   * @function onSelectNoneClick
-   * @param {Event} evt Click event from the link.
-   * @returns {Promise<void>}
-   *
-   * @see {@link doToggleABunch}
-   */
-  function onSelectNoneClick(evt) {
-    doToggleABunch(evt, false);
-  }
 
   /**
    * Handler for changes to the address label display radio buttons.
@@ -6684,7 +6525,7 @@
    * - NameMapper: object with method toFullName(subL1) -> string
    * - jQuery ($)
    * - Lodash (_)
-   * - Event handlers: onOnlyShowApplicableLayersChanged, onOnlyShowApplicableLayersZoomChanged, onSelectAllClick, onSelectNoneClick, onChevronClick, onGisLayerToggleChanged, onSub1CheckChanged
+   * - Event handlers: onGisLayerToggleChanged
    *
    * Side Effects:
    * - Modifies the DOM inside #panel-gis-subL1-layers
@@ -6714,8 +6555,7 @@
     $panel.off('click', '.region-legend');
     $panel.off('change', '.layer-item input[type="checkbox"]');
     $panel.off('contextmenu', '.gis-subL1-layer-label');
-    $panel.off('click', '.select-all-link');
-    $panel.off('click', '.select-none-link');
+
     $('#gis-clear-all-regions').off('click');
     $('#gis-viewport-filter').off('click');
     $('#gis-zoom-filter').off('click');
