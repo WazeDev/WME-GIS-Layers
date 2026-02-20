@@ -1327,6 +1327,7 @@
   display: flex;
   align-items: center;
   padding: 4px 4px;
+  padding-left: 12px;
   font-size: 11px;
   cursor: pointer;
   border-radius: 2px;
@@ -1371,7 +1372,6 @@
   display: flex;
   align-items: center;
   padding: 4px 4px;
-  padding-left: 16px;
   font-size: 11px;
   cursor: pointer;
   border-radius: 2px;
@@ -1488,6 +1488,19 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.3px;
+  position: relative;
+}
+
+.wme-gis-panel .region-quick-actions button .btn-info-icon {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 10px;
+  opacity: 0.6;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  pointer-events: none;
 }
 
 .wme-gis-panel .region-quick-actions button:hover {
@@ -6574,7 +6587,7 @@
     Object.keys(layersByCountry)
       .sort()
       .forEach((country) => {
-        const subRegions = _.uniq(layersByCountry[country].map((l) => l.countrySubL1));
+        const subRegions = _.uniq(layersByCountry[country].map((l) => l.countrySubL1)).filter(Boolean);
         const countrySubL1 = subRegions.find((sub) => sub.split('-')[0] === sub.split('-')[1]); // e.g., "USA-USA"
         const subdivisions = subRegions.filter((sub) => sub.split('-')[0] !== sub.split('-')[1]);
 
@@ -6669,10 +6682,18 @@
     );
 
     const $filterRow = $('<div>', { style: 'margin-top:6px;' }).append(
-      $('<div>', { class: 'filter-label' }).text('Filter to:'),
+      $('<div>', { class: 'filter-label' }).text('Filter Layers to:'),
       $('<div>', { class: 'region-quick-actions', style: 'margin-top:0;' }).append(
-        $('<button>', { id: 'gis-viewport-filter', class: settings.onlyShowApplicableLayers ? 'toggle-button active' : 'toggle-button' }).text('Viewport'),
-        $('<button>', { id: 'gis-zoom-filter', class: settings.onlyShowApplicableLayersZoom ? 'toggle-button active' : 'toggle-button' }).text('Zoom'),
+        $('<button>', {
+          id: 'gis-viewport-filter',
+          class: settings.onlyShowApplicableLayers ? 'toggle-button active' : 'toggle-button',
+          title: 'Viewport: Only show layers that have data in the current map view area. Layers outside your current pan position are hidden from the list.',
+        }).append('Viewport', $('<i>', { class: 'fa fa-info-circle btn-info-icon' })),
+        $('<button>', {
+          id: 'gis-zoom-filter',
+          class: settings.onlyShowApplicableLayersZoom ? 'toggle-button active' : 'toggle-button',
+          title: 'Zoom: Only show layers that are set to display at the current zoom level. Layers configured to appear at a different zoom are hidden from the list.',
+        }).append('Zoom', $('<i>', { class: 'fa fa-info-circle btn-info-icon' })),
       ),
     );
 
@@ -6856,10 +6877,14 @@
       filterLayerCheckboxes();
     });
 
-    // Zoom filter toggle
+    // Zoom filter toggle — Viewport must be active for Zoom to work, so enable it automatically
     $('#gis-zoom-filter').on('click', function () {
       $(this).toggleClass('active');
       settings.onlyShowApplicableLayersZoom = $(this).hasClass('active');
+      if (settings.onlyShowApplicableLayersZoom && !settings.onlyShowApplicableLayers) {
+        settings.onlyShowApplicableLayers = true;
+        $('#gis-viewport-filter').addClass('active');
+      }
       saveSettingsToStorage();
       filterLayerCheckboxes();
     });
@@ -7163,8 +7188,8 @@
     );
     $groupingsSection.append($groupingsHeader, $groupingsBody);
 
-    // ========== API TOKENS SECTION (Expanded by default) ==========
-    const $tokensSection = $('<div>', { class: 'settings-section' });
+    // ========== API TOKENS SECTION (Collapsed by default) ==========
+    const $tokensSection = $('<div>', { class: 'settings-section collapsed' });
     const $tokensHeader = $('<div>', { class: 'settings-section-header' }).append(
       $('<div>', { class: 'settings-section-title' }).append($('<i>', { class: 'fa fa-key' }), $('<span>').text('API Tokens')),
       $('<i>', { class: 'fa fa-chevron-down section-toggle-icon' }),
@@ -8003,7 +8028,7 @@
             if (countryId === isoCode.toUpperCase() && subL1Upper) {
               layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
             }
-            validSubL1 = regionCodes && (regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase());
+            validSubL1 = regionCodes && countryId === isoCode.toUpperCase() && (regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase());
           }
           if (validSubL1 && !layerDef.notAllowed) {
             const layerExists = typeof _gisLayers !== 'undefined' && _gisLayers.some((existingLayer) => existingLayer.id === layerDef.id);
