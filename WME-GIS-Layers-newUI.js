@@ -3106,7 +3106,7 @@
       this.#titleText = $('<span>');
 
       const closeButton = $('<span>', {
-        style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#eaf6ff;float:right;',
+        style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#fff;float:right;',
         class: 'fa fa-window-close',
         title: 'Close',
       }).on('click', () => this.#onCloseButtonClick());
@@ -3115,89 +3115,75 @@
       const shiftLeftButton = LayerSettingsDialog.#createShiftButton('fa-angle-left').on('click', () => this.#onShiftButtonClick(-1, 0));
       const shiftRightButton = LayerSettingsDialog.#createShiftButton('fa-angle-right').on('click', () => this.#onShiftButtonClick(1, 0));
       const shiftDownButton = LayerSettingsDialog.#createShiftButton('fa-angle-down').on('click', () => this.#onShiftButtonClick(0, -1));
-      const resetOffsetButton = $('<button>', {
-        class: 'form-control',
-        style:
-          'height: 26px; width: auto; padding: 2px 12px 2px 12px; display: inline-block; float: right; font-weight:bold;background:#4d6a88;color:#eaf6ff;border-radius:5px;border:1px solid #4d6a88;margin-left:4px;',
-      })
+
+      const resetOffsetButton = $('<button>', { class: 'btn-secondary-modern', style: 'flex:0 0 auto;' })
         .text('Reset')
         .on('click', () => this.#onResetOffsetButtonClick());
 
       //Offset display element
       this.#offsetDisplayDiv = $('<div>', {
-        style: 'font-size:12px; color:#4d6a88; background:#d6e6f3; border-radius:6px; margin:4px 0 4px 0; padding:4px 8px; text-align:center; font-weight:bold;',
+        style: 'font-size:12px; border-radius:4px; margin-top:10px; padding:6px 8px; text-align:center; font-weight:bold; background:rgba(0,102,204,0.08); color:#0066cc; border:1px solid rgba(0,102,204,0.2);',
       });
       this.#updateOffsetDisplay();
 
       // Compose main dialog UI
       this._dialogDiv = $('<div>', {
+        class: 'gis-popup-dialog',
         style:
-          'position: fixed; top: 15%; left: 400px; width: 235px; z-index: 100; background: #73a9bd;' +
-          'border-width: 1px; border-style: solid; border-radius: 14px; box-shadow: 5px 6px 14px rgba(0,0,0,0.58);' +
-          'border-color: #50667b; padding: 0; font-family: inherit;',
+          'position:fixed; top:15%; left:400px; width:270px; z-index:100;' +
+          'border-width:1px; border-style:solid; border-radius:8px;' +
+          'box-shadow:0 4px 16px rgba(0,0,0,0.2); padding:0; font-family:inherit;',
       }).append(
-        $('<div>').append(
-          // HEADER
-          $('<div>', {
-            style: 'border-radius:14px 14px 0px 0px; padding: 5px 5px 5px 5px; color: #fff; background:#4d6a88;font-weight: bold; text-align:left; font-size:17px;',
-          }).append(this.#titleText, closeButton),
-          // BODY
-          $('<div>', { style: 'padding: 5px 5px 5px 5px;' }).append(
-            $('<div>', {
-              style: 'border-radius: 7px; width: 100%; padding:8px 6px 10px 8px; background:#d6e6f3; margin-bottom:6px; margin-right:0; box-sizing:border-box;',
-            }).append(
-              resetOffsetButton,
-              $('<input>', {
-                type: 'radio',
-                id: 'gisLayerShiftAmt1',
-                name: 'gisLayerShiftAmt',
-                value: '1',
-                checked: 'checked',
-                style: 'margin-left:4px;accent-color:#4d6a88;',
-              }),
-              $('<label>', { for: 'gisLayerShiftAmt1', style: 'margin-right:8px;margin-left:2px;color:#4d6a88;font-weight:600;font-size:13px;' }).text('1m'),
-              $('<input>', {
-                type: 'radio',
-                id: 'gisLayerShiftAmt10',
-                name: 'gisLayerShiftAmt',
-                value: '10',
-                style: 'margin-left: 6px;accent-color:#4d6a88;',
-              }),
-              $('<label>', { for: 'gisLayerShiftAmt10', style: 'color:#4d6a88;font-weight:600;font-size:13px;' }).text('10m'),
-              $('<div>', { style: 'padding: 6px 0 0 0;' }).append(
-                $('<table>', { style: 'table-layout:fixed; width:70px; height:84px; margin:auto;' }).append(
-                  $('<tr>').append($('<td>', { align: 'center', style: 'width:20px;height:28px;' }), $('<td>', { align: 'center', style: 'width:20px;' }).append(shiftUpButton), $('<td>')),
-                  $('<tr>').append($('<td>', { align: 'center' }).append(shiftLeftButton), $('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftRightButton)),
-                  $('<tr>').append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftDownButton), $('<td>', { align: 'center' })),
-                ),
-              ),
+        // HEADER
+        $('<div>', {
+          class: 'gis-dialog-header',
+          style: 'border-radius:8px 8px 0 0; padding:12px 16px; font-weight:600; text-align:left; font-size:16px;',
+        }).append(this.#titleText, closeButton),
+        // OFFSET SECTION
+        $('<div>', {
+          class: 'gis-dialog-section',
+          style: 'border-radius:6px; margin:12px; padding:16px; border:1px solid;',
+        }).append(
+          $('<div>', { class: 'gis-dialog-section-title', style: 'font-size:14px;font-weight:600;margin-bottom:10px;' }).text('Layer Offset'),
+          $('<div>', { style: 'display:flex;align-items:center;margin-bottom:8px;' }).append(
+            $('<div>', { style: 'flex:1;' }).append(
+              $('<input>', { type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked', style: 'accent-color:#0066cc;' }),
+              $('<label>', { for: 'gisLayerShiftAmt1', style: 'margin-left:4px;margin-right:10px;font-size:13px;font-weight:600;' }).text('1m'),
+              $('<input>', { type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left:4px;accent-color:#0066cc;' }),
+              $('<label>', { for: 'gisLayerShiftAmt10', style: 'margin-left:4px;font-size:13px;font-weight:600;' }).text('10m'),
             ),
-            this.#offsetDisplayDiv,
-            $('<div>', {
-              style: 'border-radius: 7px; width:100%; padding:12px 8px 8px 10px; margin-top:2px; background: #d6e6f3; margin-right:0px;box-sizing:border-box;',
-            }).append(
-              $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 8px;' }).append(
-                $('<button>', {
-                  class: 'form-control',
-                  style: 'height: 26px; width:auto;padding: 2px 12px 2px 12px; background:#4d6a88;color:#eaf6ff;border:1px solid #4d6a88;font-weight:bold;border-radius:5px;',
-                })
-                  .text('Reset')
-                  .on('click', this.#onResetVisibleAtZoomClick.bind(this)),
-              ),
-              $('<div>').append(
-                $('<label>', { for: 'visible-at-zoom-input', style: 'font-size:14px;font-weight:bold;color:#4d6a88;' }).text('Visible at zoom:'),
-                (this.#visibleAtZoomInput = $('<input>', {
-                  type: 'number',
-                  id: 'visible-at-zoom-input',
-                  min: this.#minVisibleAtZoom,
-                  max: this.#maxVisibleAtZoom,
-                  style: 'margin-left: 6px; width:46px;font-size:13px;border-radius:3px;',
-                }).change((v) => this.#onVisibleAtZoomChange(v))),
-              ),
-              $('<div>', { style: 'font-size: 12.5px; color: #4d6a88; margin-top:5px;white-space:pre-line;text-align:left;' }).text(
-                'Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.',
-              ),
+            resetOffsetButton,
+          ),
+          $('<div>', { style: 'padding:4px 0;' }).append(
+            $('<table>', { style: 'table-layout:fixed; width:70px; height:84px; margin:auto;' }).append(
+              $('<tr>').append($('<td>', { align: 'center', style: 'width:20px;height:28px;' }), $('<td>', { align: 'center', style: 'width:20px;' }).append(shiftUpButton), $('<td>')),
+              $('<tr>').append($('<td>', { align: 'center' }).append(shiftLeftButton), $('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftRightButton)),
+              $('<tr>').append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftDownButton), $('<td>', { align: 'center' })),
             ),
+          ),
+          this.#offsetDisplayDiv,
+        ),
+        // ZOOM SECTION
+        $('<div>', {
+          class: 'gis-dialog-section',
+          style: 'border-radius:6px; margin:12px; padding:16px; border:1px solid;',
+        }).append(
+          $('<div>', { class: 'gis-dialog-section-title', style: 'font-size:14px;font-weight:600;margin-bottom:10px;' }).text('Visible at Zoom'),
+          $('<div>', { style: 'display:flex;align-items:center;gap:8px;margin-bottom:8px;' }).append(
+            $('<label>', { for: 'visible-at-zoom-input', style: 'font-size:13px;font-weight:600;flex:1;' }).text('Zoom level:'),
+            (this.#visibleAtZoomInput = $('<input>', {
+              type: 'number',
+              id: 'visible-at-zoom-input',
+              min: this.#minVisibleAtZoom,
+              max: this.#maxVisibleAtZoom,
+              style: 'width:52px;font-size:13px;border-radius:4px;border:1px solid #ccc;padding:2px 4px;',
+            }).change((v) => this.#onVisibleAtZoomChange(v))),
+            $('<button>', { class: 'btn-secondary-modern', style: 'flex:0 0 auto;' })
+              .text('Reset')
+              .on('click', this.#onResetVisibleAtZoomClick.bind(this)),
+          ),
+          $('<div>', { class: 'gis-dialog-section-text', style: 'font-size:12px;margin-top:4px;white-space:pre-line;' }).text(
+            'Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.',
           ),
         ),
       );
@@ -3311,8 +3297,8 @@
       return $('<button>', {
         class: 'form-control',
         style:
-          'cursor:pointer;font-size:15px;padding: 3px;border-radius: 8px;width: 25px;height: 25px;background:#eaf6ff;border:1px solid #8ea0b7;color:#4d6a88;box-shadow:0 1.5px 4px #b6d0eb66;margin:1.5px;',
-      }).append($('<i>', { class: 'fa', style: 'vertical-align: middle;font-size:16px;' }).addClass(fontAwesomeClass));
+          'cursor:pointer;font-size:15px;padding:3px;border-radius:6px;width:25px;height:25px;background:#f0f4ff;border:1px solid #b3c9f0;color:#0066cc;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin:1.5px;',
+      }).append($('<i>', { class: 'fa', style: 'vertical-align:middle;font-size:16px;' }).addClass(fontAwesomeClass));
     }
   }
 
