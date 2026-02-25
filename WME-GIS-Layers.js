@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.02.13.01
+// @version      2026.02.25.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1207,6 +1207,1246 @@
 
 /* global $, WazeWrap, _, turf, ESTreeProcessor, bootstrap, OpenLayers, wmeGisLBBOX */
 
+// Add modern UI styles using DOM injection (more compatible than GM_addStyle)
+(function () {
+  const style = document.createElement('style');
+  style.textContent = `
+/* Modern GIS Layers UI Styles */
+
+/* Region Selector */
+.wme-gis-panel .region-selector {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.wme-gis-panel .region-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+}
+
+.wme-gis-panel .region-selector-header:hover {
+  background: #f8f9fa;
+}
+
+.wme-gis-panel .region-selector-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wme-gis-panel .region-selector-toggle {
+  font-size: 10px;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.wme-gis-panel .region-selector.collapsed .region-selector-toggle {
+  transform: rotate(-90deg);
+}
+
+.wme-gis-panel .region-selector-body {
+  background: #f8f9fa;
+  border-radius: 3px;
+  padding: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.wme-gis-panel .region-selector.collapsed .region-selector-body {
+  display: none;
+}
+
+/* Country Group */
+.wme-gis-panel .country-group {
+  margin-bottom: 8px;
+}
+
+.wme-gis-panel .country-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px;
+  background: white;
+  border-radius: 3px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.wme-gis-panel .country-header:hover {
+  background: #e9ecef;
+}
+
+.wme-gis-panel .country-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wme-gis-panel .country-toggle-icon {
+  font-size: 9px;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.wme-gis-panel .country-group.collapsed .country-toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.wme-gis-panel .country-count {
+  font-size: 10px;
+  color: #999;
+  font-weight: 600;
+}
+
+.wme-gis-panel .country-subdivisions {
+  padding-left: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3px;
+}
+
+.wme-gis-panel .country-group.collapsed .country-subdivisions {
+  display: none;
+}
+
+/* Subdivision Option */
+.wme-gis-panel .subdivision-option {
+  display: flex;
+  align-items: center;
+  padding: 4px 4px;
+  padding-left: 12px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.wme-gis-panel .subdivision-option:hover {
+  background: white;
+}
+
+.wme-gis-panel .subdivision-option input[type="checkbox"] {
+  margin: 0 6px 0 0;
+  cursor: pointer;
+}
+
+.wme-gis-panel .subdivision-option label {
+  margin: 0;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 11px;
+  color: #555;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wme-gis-panel .subdivision-option.enabled label {
+  font-weight: 600;
+  color: #0066cc;
+}
+
+.wme-gis-panel .subdivision-count {
+  font-size: 9px;
+  color: #999;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+/* Country-level checkbox */
+.wme-gis-panel .country-level-option {
+  display: flex;
+  align-items: center;
+  padding: 4px 4px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s;
+  margin-bottom: 2px;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.wme-gis-panel .country-level-option:hover {
+  background: white;
+}
+
+.wme-gis-panel .country-level-option input[type="checkbox"] {
+  margin: 0 6px 0 0;
+  cursor: pointer;
+}
+
+.wme-gis-panel .country-level-option label {
+  margin: 0;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 10px;
+  color: #777;
+  flex: 1;
+}
+
+.wme-gis-panel .country-level-option.enabled label {
+  font-weight: 600;
+  color: #0066cc;
+}
+
+/* Country-only */
+.wme-gis-panel .country-only {
+  display: flex;
+  align-items: center;
+  padding: 4px 4px;
+  background: white;
+  border-radius: 3px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.wme-gis-panel .country-only:hover {
+  background: #e9ecef;
+}
+
+.wme-gis-panel .country-only input[type="checkbox"] {
+  margin: 0 6px 0 0;
+  cursor: pointer;
+}
+
+.wme-gis-panel .country-only label {
+  margin: 0;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wme-gis-panel .country-only.enabled label {
+  color: #0066cc;
+}
+
+/* Quick Actions */
+.wme-gis-panel .filter-label {
+  font-size: 9px;
+  color: #666;
+  margin-bottom: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wme-gis-panel .region-quick-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.wme-gis-panel .region-action-button {
+  flex: 1;
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: white;
+  color: #666;
+  font-size: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wme-gis-panel .region-action-button:hover {
+  background: #f8f9fa;
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.wme-gis-panel .region-quick-actions button {
+  flex: 1;
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: white;
+  color: #666;
+  font-size: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  position: relative;
+}
+
+.wme-gis-panel .region-quick-actions button .btn-info-icon {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 10px;
+  opacity: 0.6;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+
+.wme-gis-panel .region-quick-actions button:hover {
+  background: #f8f9fa;
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.wme-gis-panel .region-quick-actions .toggle-button.active {
+  background: #0066cc;
+  border-color: #0066cc;
+  color: white;
+  font-weight: 700;
+}
+
+.wme-gis-panel .region-quick-actions .toggle-button.active:hover {
+  background: #0052a3;
+  border-color: #0052a3;
+  color: white;
+}
+
+/* Stats Bar */
+.wme-gis-panel .gis-stats-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 6px;
+  background: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+.wme-gis-panel .gis-stats-bar .stat {
+  color: #333;
+}
+
+.wme-gis-panel .gis-stats-bar .stat strong {
+  color: #0066cc;
+  font-weight: 600;
+}
+
+/* Sticky Section */
+.wme-gis-panel .gis-sticky-section {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+  border-bottom: 2px solid #ddd;
+  padding: 6px;
+}
+
+/* Region Fieldset - Modern styling */
+.wme-gis-panel .region-fieldset {
+  border: 1px solid #ccc;
+  padding: 0;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+.wme-gis-panel .region-fieldset.visible {
+  display: block;
+}
+
+.wme-gis-panel .region-legend {
+  margin: 0 0 8px 10px;
+  padding: 0 5px;
+  border: none;
+  width: auto;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #333;
+}
+
+.wme-gis-panel .region-legend:hover {
+  color: #0066cc;
+}
+
+.wme-gis-panel .region-legend .toggle-icon {
+  font-size: 11px;
+  margin-right: 6px;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.wme-gis-panel .region-fieldset.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.wme-gis-panel .region-body {
+  padding: 0 4px 6px 4px;
+}
+
+.wme-gis-panel .region-fieldset.collapsed .region-body {
+  display: none;
+}
+
+.wme-gis-panel .action-links {
+  font-size: 11px;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.wme-gis-panel .action-links a {
+  color: #6290b7;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Category Fieldset */
+.wme-gis-panel .category-fieldset {
+  border: 1px solid #e0e0e0;
+  padding: 0;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  background: #fafafa;
+}
+
+.wme-gis-panel .category-legend {
+  margin: 0 0 6px 8px;
+  padding: 0 4px;
+  border: none;
+  width: auto;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+}
+
+.wme-gis-panel .category-legend .toggle-icon {
+  font-size: 10px;
+  margin-right: 5px;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.wme-gis-panel .category-fieldset.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.wme-gis-panel .category-body {
+  padding: 0 6px 6px 6px;
+}
+
+.wme-gis-panel .category-fieldset.collapsed .category-body {
+  display: none;
+}
+
+/* Empty State */
+.wme-gis-panel .gis-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.wme-gis-panel .gis-empty-state i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.wme-gis-panel .gis-empty-state p {
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Scrollbar */
+.wme-gis-panel .region-selector-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.wme-gis-panel .region-selector-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.wme-gis-panel .region-selector-body::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+/* Settings - Modern Section Card */
+.wme-gis-panel .settings-section {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s;
+}
+
+.wme-gis-panel .settings-section:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Collapsible Section Header */
+.wme-gis-panel .settings-section-header {
+  padding: 8px 8px;
+  background: linear-gradient(to bottom, #f8f9fa 0%, #f0f1f3 100%);
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.wme-gis-panel .settings-section-header:hover {
+  background: linear-gradient(to bottom, #f0f1f3 0%, #e8e9eb 100%);
+}
+
+.wme-gis-panel .settings-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wme-gis-panel .settings-section-title i {
+  color: #0066cc;
+  font-size: 14px;
+}
+
+.wme-gis-panel .section-toggle-icon {
+  font-size: 10px;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.wme-gis-panel .settings-section.collapsed .section-toggle-icon {
+  transform: rotate(-90deg);
+}
+
+/* Section Body */
+.wme-gis-panel .settings-section-body {
+  padding: 8px;
+  background: white;
+}
+
+.wme-gis-panel .settings-section.collapsed .settings-section-body {
+  display: none;
+}
+
+/* Setting Item Block */
+.wme-gis-panel .setting-item-block {
+  margin-bottom: 14px;
+}
+
+.wme-gis-panel .setting-item-block:last-child {
+  margin-bottom: 0;
+}
+
+.wme-gis-panel .setting-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+/* Pill-Style Radio Buttons */
+.wme-gis-panel .pill-group {
+  display: flex;
+  background: #e9ecef;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.wme-gis-panel .pill-option {
+  flex: 1;
+  position: relative;
+}
+
+.wme-gis-panel .pill-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wme-gis-panel .pill-option label {
+  display: block;
+  text-align: center;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wme-gis-panel .pill-option input[type="radio"]:checked + label {
+  background: #0066cc;
+  color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  font-weight: 700;
+}
+
+.wme-gis-panel .pill-option label:hover {
+  color: #0066cc;
+}
+
+.wme-gis-panel .pill-option input[type="radio"]:checked + label:hover {
+  background: #0052a3;
+  color: white;
+}
+
+/* Toggle Switch */
+.wme-gis-panel .toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.wme-gis-panel .toggle-switch > label:first-child {
+  font-size: 12px;
+  color: #555;
+  margin: 0;
+  cursor: pointer;
+}
+
+.wme-gis-panel .switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.wme-gis-panel .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.wme-gis-panel .toggle-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: 20px;
+}
+
+.wme-gis-panel .toggle-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.wme-gis-panel .toggle-switch input:checked + .slider {
+  background-color: #0066cc;
+}
+
+.wme-gis-panel .toggle-switch input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+/* Help Text */
+.wme-gis-panel .help-text {
+  font-size: 10px;
+  color: #999;
+  margin-top: 4px;
+  line-height: 1.3;
+  font-style: italic;
+}
+
+/* Select */
+.wme-gis-panel .setting-select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 12px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wme-gis-panel .setting-select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+/* Number Input */
+.wme-gis-panel .setting-input {
+  width: 80px;
+  padding: 6px 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wme-gis-panel .setting-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.wme-gis-panel .setting-unit {
+  font-size: 11px;
+  color: #999;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* Full Width Input */
+.wme-gis-panel .setting-input-full {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wme-gis-panel .setting-input-full:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+/* Button Group */
+.wme-gis-panel .button-group {
+  display: flex;
+  gap: 6px;
+}
+
+/* Modern Buttons */
+.wme-gis-panel .btn-primary-modern,
+.wme-gis-panel .btn-secondary-modern,
+.gis-popup-dialog .btn-primary-modern,
+.gis-popup-dialog .btn-secondary-modern {
+  flex: 1;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.wme-gis-panel .btn-primary-modern,
+.gis-popup-dialog .btn-primary-modern {
+  background: linear-gradient(to bottom, #0077dd 0%, #0066cc 100%);
+  color: white;
+}
+
+.wme-gis-panel .btn-primary-modern:hover,
+.gis-popup-dialog .btn-primary-modern:hover {
+  background: linear-gradient(to bottom, #0066cc 0%, #0055aa 100%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.wme-gis-panel .btn-primary-modern:active,
+.gis-popup-dialog .btn-primary-modern:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.wme-gis-panel .btn-secondary-modern,
+.gis-popup-dialog .btn-secondary-modern {
+  background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+  color: #666;
+  border: 1px solid #d0d0d0;
+}
+
+.wme-gis-panel .btn-secondary-modern:hover,
+.gis-popup-dialog .btn-secondary-modern:hover {
+  background: linear-gradient(to bottom, #e9ecef 0%, #dee2e6 100%);
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+}
+
+.wme-gis-panel .btn-secondary-modern:active,
+.gis-popup-dialog .btn-secondary-modern:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* Full Width Button */
+.wme-gis-panel .btn-full {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: linear-gradient(to bottom, #0077dd 0%, #0066cc 100%);
+  color: white;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.wme-gis-panel .btn-full:hover {
+  background: linear-gradient(to bottom, #0066cc 0%, #0055aa 100%);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.wme-gis-panel .btn-full:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.wme-gis-panel .btn-full i {
+  margin-right: 8px;
+}
+
+/* Description Text */
+.wme-gis-panel .section-description {
+  font-size: 11px;
+  color: #666;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+/* GIS Internal Tab Navigation - Make active tab blue (only for internal tabs, not WME tabs) */
+.gis-internal-tabs > li.active > a,
+.gis-internal-tabs > li.active > a:hover,
+.gis-internal-tabs > li.active > a:focus {
+  background-color: #0066cc !important;
+  border-color: #0066cc !important;
+  color: white !important;
+  font-weight: 700;
+}
+
+.gis-internal-tabs > li > a {
+  transition: all 0.2s;
+}
+
+.gis-internal-tabs > li > a:hover {
+  background-color: #f0f8ff !important;
+  border-color: #0066cc !important;
+  color: #0066cc !important;
+}
+
+/* ========== DARK MODE SUPPORT ========== */
+[wz-theme="dark"] .wme-gis-panel .gis-sticky-section {
+  background: #202124;
+  border-bottom-color: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-selector-body {
+  background: #3c4043;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-selector-header {
+  background: #202124;
+  color: #e8eaed;
+  border-bottom-color: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-selector-header:hover {
+  background: #3c4043;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-selector-title {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-selector-toggle {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .country-header {
+  background: #202124;
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .country-header:hover {
+  background: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .country-name,
+[wz-theme="dark"] .wme-gis-panel .subdivision-option label,
+[wz-theme="dark"] .wme-gis-panel .country-level-option label,
+[wz-theme="dark"] .wme-gis-panel .country-only label {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .subdivision-option:hover,
+[wz-theme="dark"] .wme-gis-panel .country-level-option:hover {
+  background: #202124;
+}
+
+[wz-theme="dark"] .wme-gis-panel .country-only {
+  background: #202124;
+}
+
+[wz-theme="dark"] .wme-gis-panel .country-only:hover {
+  background: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .country-level-option {
+  background: rgba(60, 64, 67, 0.5);
+}
+
+[wz-theme="dark"] .wme-gis-panel .gis-stats-bar {
+  background: #1a3950;
+  border-color: #55595e;
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .gis-stats-bar .stat {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-fieldset {
+  border-color: #55595e;
+  background: #3c4043;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-legend {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-legend:hover {
+  color: #33ccff;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-body {
+  background: #3c4043;
+}
+
+[wz-theme="dark"] .wme-gis-panel .gis-subL1-layer-label {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .action-links {
+  color: #b7babf;
+}
+
+[wz-theme="dark"] .wme-gis-panel .action-links a {
+  color: #33ccff;
+}
+
+[wz-theme="dark"] .wme-gis-panel .gis-empty-state {
+  color: #b7babf;
+}
+
+[wz-theme="dark"] .wme-gis-panel .settings-section {
+  background: #3c4043;
+  border-color: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .settings-section-header {
+  background: linear-gradient(to bottom, #3c4043 0%, #202124 100%);
+  border-bottom-color: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .settings-section-header:hover {
+  background: linear-gradient(to bottom, #55595e 0%, #3c4043 100%);
+}
+
+[wz-theme="dark"] .wme-gis-panel .settings-section-title {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .settings-section-body {
+  background: #202124;
+}
+
+[wz-theme="dark"] .wme-gis-panel .setting-label {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .pill-group {
+  background: #3c4043;
+}
+
+[wz-theme="dark"] .wme-gis-panel .pill-option label {
+  color: #b7babf;
+}
+
+[wz-theme="dark"] .wme-gis-panel .pill-option input[type="radio"]:checked + label {
+  background: #0066cc;
+  color: white;
+}
+
+[wz-theme="dark"] .wme-gis-panel .pill-option label:hover {
+  color: #33ccff;
+}
+
+[wz-theme="dark"] .wme-gis-panel .pill-option input[type="radio"]:checked + label:hover {
+  background: #0052a3;
+  color: white;
+}
+
+[wz-theme="dark"] .wme-gis-panel .toggle-switch > label:first-child {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .toggle-switch .slider {
+  background-color: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .setting-select,
+[wz-theme="dark"] .wme-gis-panel .setting-input,
+[wz-theme="dark"] .wme-gis-panel .setting-input-full {
+  background: #3c4043;
+  border-color: #55595e;
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .setting-select:focus,
+[wz-theme="dark"] .wme-gis-panel .setting-input:focus,
+[wz-theme="dark"] .wme-gis-panel .setting-input-full:focus {
+  border-color: #33ccff;
+  box-shadow: 0 0 0 3px rgba(51, 204, 255, 0.1);
+}
+
+[wz-theme="dark"] .wme-gis-panel .help-text,
+[wz-theme="dark"] .wme-gis-panel .section-description {
+  color: #90959c;
+}
+
+[wz-theme="dark"] .wme-gis-panel .btn-secondary-modern,
+[wz-theme="dark"] .gis-popup-dialog .btn-secondary-modern {
+  background: linear-gradient(to bottom, #3c4043 0%, #202124 100%);
+  color: #e8eaed;
+  border-color: #55595e;
+}
+
+[wz-theme="dark"] .wme-gis-panel .btn-secondary-modern:hover,
+[wz-theme="dark"] .gis-popup-dialog .btn-secondary-modern:hover {
+  background: linear-gradient(to bottom, #55595e 0%, #3c4043 100%);
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-quick-actions button {
+  background: #3c4043;
+  border-color: #55595e;
+  color: #b7babf;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-quick-actions button:hover {
+  background: #55595e;
+  border-color: #33ccff;
+  color: #33ccff;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-action-button {
+  background: #3c4043;
+  border-color: #55595e;
+  color: #b7babf;
+}
+
+[wz-theme="dark"] .wme-gis-panel .region-action-button:hover {
+  background: #55595e;
+  border-color: #33ccff;
+  color: #33ccff;
+}
+
+[wz-theme="dark"] .wme-gis-panel .gis-internal-tabs > li > a:hover {
+  background-color: #1a3950 !important;
+}
+
+[wz-theme="dark"] #gis-layer-search {
+  background: #3c4043 !important;
+  border-color: #55595e !important;
+  color: #e8eaed !important;
+}
+
+[wz-theme="dark"] #gis-layer-search::placeholder {
+  color: #90959c;
+}
+
+[wz-theme="dark"] .wme-gis-panel .filter-label {
+  color: #b7babf;
+}
+
+/* ========== POPUP DIALOGS LIGHT MODE ========== */
+.gis-popup-dialog {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.gis-dialog-header {
+  background: #0066cc;
+  color: #fff;
+}
+
+.gis-dialog-section {
+  background: #fff;
+  border-color: #e0e0e0;
+}
+
+.gis-dialog-section-title {
+  color: #333;
+}
+
+.gis-dialog-section-text {
+  color: #666;
+}
+
+.gis-dialog-select {
+  background: #fff;
+  border-color: #ccc;
+  color: #333;
+}
+
+.gis-dialog-select:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.gis-label-popup-options {
+  background: #f5f7fa;
+  border-bottom-color: #e0e0e0;
+  color: #333;
+}
+
+.gis-label-popup-options label {
+  color: #333;
+}
+
+.gis-label-popup-dropdown {
+  background: #fff;
+  border-bottom-color: #e0e0e0;
+}
+
+.gis-label-popup-content {
+  background: #fff;
+  color: #333;
+}
+
+#layerLabelPopup {
+  background: #fff;
+  border-color: #ddd;
+}
+
+#gis-layer-group-dialog {
+  background: #f5f7fa;
+  border-color: #ddd;
+}
+
+/* ========== POPUP DIALOGS DARK MODE ========== */
+[wz-theme="dark"] .gis-popup-dialog {
+  background: #3c4043;
+  border-color: #55595e;
+}
+
+[wz-theme="dark"] .gis-dialog-header {
+  background: #0066cc;
+  color: #fff;
+}
+
+[wz-theme="dark"] .gis-dialog-section {
+  background: #202124;
+  border-color: #55595e;
+}
+
+[wz-theme="dark"] .gis-dialog-section > div:first-child {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .gis-dialog-section > div:nth-child(2) {
+  color: #90959c;
+}
+
+[wz-theme="dark"] .gis-dialog-select {
+  background: #3c4043;
+  border-color: #55595e;
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .gis-dialog-select:focus {
+  border-color: #33ccff;
+  box-shadow: 0 0 0 3px rgba(51, 204, 255, 0.1);
+}
+
+[wz-theme="dark"] .gis-label-popup-options {
+  background: #202124;
+  border-bottom-color: #55595e;
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .gis-label-popup-options label {
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] .gis-label-popup-dropdown {
+  background: #3c4043;
+  border-bottom-color: #55595e;
+}
+
+[wz-theme="dark"] .gis-label-popup-content {
+  background: #3c4043;
+  color: #e8eaed;
+}
+
+[wz-theme="dark"] #layerLabelPopup {
+  background: #3c4043;
+  border-color: #55595e;
+}
+
+[wz-theme="dark"] .gis-label-popup-content li {
+  color: #e8eaed !important;
+}
+
+[wz-theme="dark"] #gis-layer-group-dialog {
+  background: #3c4043;
+  border-color: #55595e;
+}
+`;
+  document.head.appendChild(style);
+})();
+
 /**
  * Global dependencies used by this script:
  * @global {Object} $ - jQuery (used extensively for DOM manipulation) {@link https://jquery.com/}
@@ -1241,7 +2481,13 @@
   // IMPORTANT: Update this when releasing a new version of script
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
-  const SCRIPT_VERSION_CHANGES = ['✨ Update:', 'Minor bug fixes to make layer styles more stable!'];
+  const SCRIPT_VERSION_CHANGES = [
+    '🎉 Major Update: Complete UI Redesign!',
+    '✨ Region selector now on Layers tab (no more tab switching!)',
+    '🔍 Added Search filter for layers alongside Viewport/Zoom',
+    '🌙 Modern blue theme with full Dark Mode support',
+    '📐 Better visual hierarchy, spacing, and consistency throughout'
+  ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
   // Used in tooltips to tell people who to report issues to.  Update if a new author takes ownership of this script.
@@ -1476,39 +2722,39 @@
   };
 
   /**
- * Asynchronously loads and parses style definitions from a Google Spreadsheet "STYLE" sheet.
- *
- * This function fetches style data from a given Google Sheets document, expects a specific
- * tab layout (with headers: "STYLE TYPE", "STYLE NAME", "STYLE JSON") and parses the style
- * JSON blobs in each row, assigning them to global variables: `DEFAULT_STYLE`, `ROAD_STYLE`,
- * and populating the `LAYER_STYLES` dictionary as appropriate.
- *
- * The Google Sheets call returns a non-standard JSON envelope, so the function extracts the
- * JSON using a regex before parsing.
- *
- * If fetching or parsing fails at any stage, the function logs errors to the console and returns
- * an error object describing the problem.
- *
- * @async
- * @function
- * @returns {Promise<Object|void>} On error, returns an object with an `error` property describing the failure.
- *                                 On success, does not explicitly return but assigns global style variables.
- *
- * @example
- * await loadStylesFromSheetAsync();
- *
- * @throws Does not throw; errors are captured and reported both to console and by returned error objects.
- *
- * @global
- * @see DEFAULT_STYLE
- * @see ROAD_STYLE
- * @see LAYER_STYLES
- */
+   * Asynchronously loads and parses style definitions from a Google Spreadsheet "STYLE" sheet.
+   *
+   * This function fetches style data from a given Google Sheets document, expects a specific
+   * tab layout (with headers: "STYLE TYPE", "STYLE NAME", "STYLE JSON") and parses the style
+   * JSON blobs in each row, assigning them to global variables: `DEFAULT_STYLE`, `ROAD_STYLE`,
+   * and populating the `LAYER_STYLES` dictionary as appropriate.
+   *
+   * The Google Sheets call returns a non-standard JSON envelope, so the function extracts the
+   * JSON using a regex before parsing.
+   *
+   * If fetching or parsing fails at any stage, the function logs errors to the console and returns
+   * an error object describing the problem.
+   *
+   * @async
+   * @function
+   * @returns {Promise<Object|void>} On error, returns an object with an `error` property describing the failure.
+   *                                 On success, does not explicitly return but assigns global style variables.
+   *
+   * @example
+   * await loadStylesFromSheetAsync();
+   *
+   * @throws Does not throw; errors are captured and reported both to console and by returned error objects.
+   *
+   * @global
+   * @see DEFAULT_STYLE
+   * @see ROAD_STYLE
+   * @see LAYER_STYLES
+   */
   async function loadStylesFromSheetAsync() {
     const TAB_NAME = 'STYLE';
     const SHEET_ID = '1cEG3CvXSCI4TOZyMQTI50SQGbVhJ48Xip-jjWg4blWw';
     const STYLE_DEF_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(TAB_NAME)}`;
-  
+
     try {
       const resp = await fetch(STYLE_DEF_URL);
       const text = await resp.text();
@@ -1519,34 +2765,35 @@
       }
       const json = JSON.parse(match[1]);
       const rows = json.table.rows;
-  
+
       // Use first row as header
       const headerRow = rows[0]; // First row is header
-      const headerCells = headerRow.c.map(cell => (cell.v || '').trim());
-  
+      const headerCells = headerRow.c.map((cell) => (cell.v || '').trim());
+
       const typeIdx = headerCells.indexOf('STYLE TYPE');
       const nameIdx = headerCells.indexOf('STYLE NAME');
       const jsonIdx = headerCells.indexOf('STYLE JSON');
-  
-      if ([typeIdx, nameIdx, jsonIdx].some(idx => idx === -1)) {
+
+      if ([typeIdx, nameIdx, jsonIdx].some((idx) => idx === -1)) {
         console.error('Missing headers in first row of Styles tab!');
         return { error: 'Missing headers in first row of Styles tab!' };
       }
-  
-      for (let i = 1; i < rows.length; i++) { // start from row 1, skip header row
+
+      for (let i = 1; i < rows.length; i++) {
+        // start from row 1, skip header row
         const row = rows[i];
         const type = row.c[typeIdx] && row.c[typeIdx].v ? row.c[typeIdx].v.trim() : null;
         const name = row.c[nameIdx] && row.c[nameIdx].v ? row.c[nameIdx].v.trim() : null;
         let jsonString = row.c[jsonIdx] && row.c[jsonIdx].v ? row.c[jsonIdx].v.trim() : null;
-  
+
         if (!type || !name || !jsonString) continue;
-  
+
         // Clean semicolons, extra quotes (if present)
         if (jsonString.endsWith(';')) jsonString = jsonString.slice(0, -1);
         if (jsonString.startsWith('"') && jsonString.endsWith('"')) {
           jsonString = jsonString.slice(1, -1).replace(/""/g, '"');
         }
-  
+
         let styleObj;
         try {
           styleObj = JSON.parse(jsonString);
@@ -1554,7 +2801,7 @@
           console.warn(`Could not parse style for ${type}:${name}`, err, jsonString);
           continue;
         }
-  
+
         if (type === 'DEFAULT_STYLE' && name === 'DEFAULT_STYLE') {
           DEFAULT_STYLE = styleObj;
         } else if (type === 'ROAD_STYLE' && name === 'ROAD_STYLE') {
@@ -1563,23 +2810,22 @@
           LAYER_STYLES[name] = styleObj;
         }
       }
-  
+
       // Now merge ALL layer styles with DEFAULT_STYLE
       for (const [name, layerStyle] of Object.entries(LAYER_STYLES)) {
         LAYER_STYLES[name] = { ...DEFAULT_STYLE, ...layerStyle };
       }
 
-      logDebug("Loaded styles: DEFAULT_STYLE", DEFAULT_STYLE );
-      logDebug("Loaded styles: ROAD_STYLE", ROAD_STYLE );
-      logDebug("Loaded styles: LAYER_STYLES", LAYER_STYLES );
-  
+      logDebug('Loaded styles: DEFAULT_STYLE', DEFAULT_STYLE);
+      logDebug('Loaded styles: ROAD_STYLE', ROAD_STYLE);
+      logDebug('Loaded styles: LAYER_STYLES', LAYER_STYLES);
+
       //return styles;
     } catch (err) {
       console.error('SpreadSheet call failed for styles', err);
       return { error: 'SpreadSheet call failed for styles' };
     }
   }
-
 
   /**
    * Asynchronously builds a mapping from country-subdivision identifiers to display names.
@@ -1873,7 +3119,7 @@
       this.#titleText = $('<span>');
 
       const closeButton = $('<span>', {
-        style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#eaf6ff;float:right;',
+        style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#fff;float:right;',
         class: 'fa fa-window-close',
         title: 'Close',
       }).on('click', () => this.#onCloseButtonClick());
@@ -1882,89 +3128,75 @@
       const shiftLeftButton = LayerSettingsDialog.#createShiftButton('fa-angle-left').on('click', () => this.#onShiftButtonClick(-1, 0));
       const shiftRightButton = LayerSettingsDialog.#createShiftButton('fa-angle-right').on('click', () => this.#onShiftButtonClick(1, 0));
       const shiftDownButton = LayerSettingsDialog.#createShiftButton('fa-angle-down').on('click', () => this.#onShiftButtonClick(0, -1));
-      const resetOffsetButton = $('<button>', {
-        class: 'form-control',
-        style:
-          'height: 26px; width: auto; padding: 2px 12px 2px 12px; display: inline-block; float: right; font-weight:bold;background:#4d6a88;color:#eaf6ff;border-radius:5px;border:1px solid #4d6a88;margin-left:4px;',
-      })
+
+      const resetOffsetButton = $('<button>', { class: 'btn-secondary-modern', style: 'flex:0 0 auto;' })
         .text('Reset')
         .on('click', () => this.#onResetOffsetButtonClick());
 
       //Offset display element
       this.#offsetDisplayDiv = $('<div>', {
-        style: 'font-size:12px; color:#4d6a88; background:#d6e6f3; border-radius:6px; margin:4px 0 4px 0; padding:4px 8px; text-align:center; font-weight:bold;',
+        style: 'font-size:12px; border-radius:4px; margin-top:10px; padding:6px 8px; text-align:center; font-weight:bold; background:rgba(0,102,204,0.08); color:#0066cc; border:1px solid rgba(0,102,204,0.2);',
       });
       this.#updateOffsetDisplay();
 
       // Compose main dialog UI
       this._dialogDiv = $('<div>', {
+        class: 'gis-popup-dialog',
         style:
-          'position: fixed; top: 15%; left: 400px; width: 235px; z-index: 100; background: #73a9bd;' +
-          'border-width: 1px; border-style: solid; border-radius: 14px; box-shadow: 5px 6px 14px rgba(0,0,0,0.58);' +
-          'border-color: #50667b; padding: 0; font-family: inherit;',
+          'position:fixed; top:15%; left:400px; width:270px; z-index:100;' +
+          'border-width:1px; border-style:solid; border-radius:8px;' +
+          'box-shadow:0 4px 16px rgba(0,0,0,0.2); padding:0; font-family:inherit;',
       }).append(
-        $('<div>').append(
-          // HEADER
-          $('<div>', {
-            style: 'border-radius:14px 14px 0px 0px; padding: 5px 5px 5px 5px; color: #fff; background:#4d6a88;font-weight: bold; text-align:left; font-size:17px;',
-          }).append(this.#titleText, closeButton),
-          // BODY
-          $('<div>', { style: 'padding: 5px 5px 5px 5px;' }).append(
-            $('<div>', {
-              style: 'border-radius: 7px; width: 100%; padding:8px 6px 10px 8px; background:#d6e6f3; margin-bottom:6px; margin-right:0; box-sizing:border-box;',
-            }).append(
-              resetOffsetButton,
-              $('<input>', {
-                type: 'radio',
-                id: 'gisLayerShiftAmt1',
-                name: 'gisLayerShiftAmt',
-                value: '1',
-                checked: 'checked',
-                style: 'margin-left:4px;accent-color:#4d6a88;',
-              }),
-              $('<label>', { for: 'gisLayerShiftAmt1', style: 'margin-right:8px;margin-left:2px;color:#4d6a88;font-weight:600;font-size:13px;' }).text('1m'),
-              $('<input>', {
-                type: 'radio',
-                id: 'gisLayerShiftAmt10',
-                name: 'gisLayerShiftAmt',
-                value: '10',
-                style: 'margin-left: 6px;accent-color:#4d6a88;',
-              }),
-              $('<label>', { for: 'gisLayerShiftAmt10', style: 'color:#4d6a88;font-weight:600;font-size:13px;' }).text('10m'),
-              $('<div>', { style: 'padding: 6px 0 0 0;' }).append(
-                $('<table>', { style: 'table-layout:fixed; width:70px; height:84px; margin:auto;' }).append(
-                  $('<tr>').append($('<td>', { align: 'center', style: 'width:20px;height:28px;' }), $('<td>', { align: 'center', style: 'width:20px;' }).append(shiftUpButton), $('<td>')),
-                  $('<tr>').append($('<td>', { align: 'center' }).append(shiftLeftButton), $('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftRightButton)),
-                  $('<tr>').append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftDownButton), $('<td>', { align: 'center' })),
-                ),
-              ),
+        // HEADER
+        $('<div>', {
+          class: 'gis-dialog-header',
+          style: 'border-radius:8px 8px 0 0; padding:12px 16px; font-weight:600; text-align:left; font-size:16px;',
+        }).append(this.#titleText, closeButton),
+        // OFFSET SECTION
+        $('<div>', {
+          class: 'gis-dialog-section',
+          style: 'border-radius:6px; margin:12px; padding:16px; border:1px solid;',
+        }).append(
+          $('<div>', { class: 'gis-dialog-section-title', style: 'font-size:14px;font-weight:600;margin-bottom:10px;' }).text('Layer Offset'),
+          $('<div>', { style: 'display:flex;align-items:center;margin-bottom:8px;' }).append(
+            $('<div>', { style: 'flex:1;' }).append(
+              $('<input>', { type: 'radio', id: 'gisLayerShiftAmt1', name: 'gisLayerShiftAmt', value: '1', checked: 'checked', style: 'accent-color:#0066cc;' }),
+              $('<label>', { for: 'gisLayerShiftAmt1', style: 'margin-left:4px;margin-right:10px;font-size:13px;font-weight:600;' }).text('1m'),
+              $('<input>', { type: 'radio', id: 'gisLayerShiftAmt10', name: 'gisLayerShiftAmt', value: '10', style: 'margin-left:4px;accent-color:#0066cc;' }),
+              $('<label>', { for: 'gisLayerShiftAmt10', style: 'margin-left:4px;font-size:13px;font-weight:600;' }).text('10m'),
             ),
-            this.#offsetDisplayDiv,
-            $('<div>', {
-              style: 'border-radius: 7px; width:100%; padding:12px 8px 8px 10px; margin-top:2px; background: #d6e6f3; margin-right:0px;box-sizing:border-box;',
-            }).append(
-              $('<div>', { style: 'display: flex; justify-content: flex-end; margin-bottom: 8px;' }).append(
-                $('<button>', {
-                  class: 'form-control',
-                  style: 'height: 26px; width:auto;padding: 2px 12px 2px 12px; background:#4d6a88;color:#eaf6ff;border:1px solid #4d6a88;font-weight:bold;border-radius:5px;',
-                })
-                  .text('Reset')
-                  .on('click', this.#onResetVisibleAtZoomClick.bind(this)),
-              ),
-              $('<div>').append(
-                $('<label>', { for: 'visible-at-zoom-input', style: 'font-size:14px;font-weight:bold;color:#4d6a88;' }).text('Visible at zoom:'),
-                (this.#visibleAtZoomInput = $('<input>', {
-                  type: 'number',
-                  id: 'visible-at-zoom-input',
-                  min: this.#minVisibleAtZoom,
-                  max: this.#maxVisibleAtZoom,
-                  style: 'margin-left: 6px; width:46px;font-size:13px;border-radius:3px;',
-                }).change((v) => this.#onVisibleAtZoomChange(v))),
-              ),
-              $('<div>', { style: 'font-size: 12.5px; color: #4d6a88; margin-top:5px;white-space:pre-line;text-align:left;' }).text(
-                'Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.',
-              ),
+            resetOffsetButton,
+          ),
+          $('<div>', { style: 'padding:4px 0;' }).append(
+            $('<table>', { style: 'table-layout:fixed; width:70px; height:84px; margin:auto;' }).append(
+              $('<tr>').append($('<td>', { align: 'center', style: 'width:20px;height:28px;' }), $('<td>', { align: 'center', style: 'width:20px;' }).append(shiftUpButton), $('<td>')),
+              $('<tr>').append($('<td>', { align: 'center' }).append(shiftLeftButton), $('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftRightButton)),
+              $('<tr>').append($('<td>', { align: 'center' }), $('<td>', { align: 'center' }).append(shiftDownButton), $('<td>', { align: 'center' })),
             ),
+          ),
+          this.#offsetDisplayDiv,
+        ),
+        // ZOOM SECTION
+        $('<div>', {
+          class: 'gis-dialog-section',
+          style: 'border-radius:6px; margin:12px; padding:16px; border:1px solid;',
+        }).append(
+          $('<div>', { class: 'gis-dialog-section-title', style: 'font-size:14px;font-weight:600;margin-bottom:10px;' }).text('Visible at Zoom'),
+          $('<div>', { style: 'display:flex;align-items:center;gap:8px;margin-bottom:8px;' }).append(
+            $('<label>', { for: 'visible-at-zoom-input', style: 'font-size:13px;font-weight:600;flex:1;' }).text('Zoom level:'),
+            (this.#visibleAtZoomInput = $('<input>', {
+              type: 'number',
+              id: 'visible-at-zoom-input',
+              min: this.#minVisibleAtZoom,
+              max: this.#maxVisibleAtZoom,
+              style: 'width:52px;font-size:13px;border-radius:4px;border:1px solid #ccc;padding:2px 4px;',
+            }).change((v) => this.#onVisibleAtZoomChange(v))),
+            $('<button>', { class: 'btn-secondary-modern', style: 'flex:0 0 auto;' })
+              .text('Reset')
+              .on('click', this.#onResetVisibleAtZoomClick.bind(this)),
+          ),
+          $('<div>', { class: 'gis-dialog-section-text', style: 'font-size:12px;margin-top:4px;white-space:pre-line;' }).text(
+            'Pan or zoom the map to refresh after changing.\n\nSetting this value too low may cause performance issues.',
           ),
         ),
       );
@@ -2078,8 +3310,8 @@
       return $('<button>', {
         class: 'form-control',
         style:
-          'cursor:pointer;font-size:15px;padding: 3px;border-radius: 8px;width: 25px;height: 25px;background:#eaf6ff;border:1px solid #8ea0b7;color:#4d6a88;box-shadow:0 1.5px 4px #b6d0eb66;margin:1.5px;',
-      }).append($('<i>', { class: 'fa', style: 'vertical-align: middle;font-size:16px;' }).addClass(fontAwesomeClass));
+          'cursor:pointer;font-size:15px;padding:3px;border-radius:6px;width:25px;height:25px;background:#f0f4ff;border:1px solid #b3c9f0;color:#0066cc;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin:1.5px;',
+      }).append($('<i>', { class: 'fa', style: 'vertical-align:middle;font-size:16px;' }).addClass(fontAwesomeClass));
     }
   }
 
@@ -2142,7 +3374,7 @@
       DEFAULT_STYLE.fontFamily = 'inherit';
       ROAD_STYLE.fontFamily = 'inherit';
     }
-  
+
     // Apply font size
     if (settings.fontSize && typeof settings.fontSize === 'number') {
       DEFAULT_STYLE.fontSize = settings.fontSize;
@@ -2151,7 +3383,7 @@
       DEFAULT_STYLE.fontSize = 12; // fallback to default
       ROAD_STYLE.fontSize = 12;
     }
-  
+
     // Update all LAYER_STYLES as well
     for (const styleObj of Object.values(LAYER_STYLES)) {
       if (styleObj && typeof styleObj === 'object') {
@@ -4170,15 +5402,38 @@
 
   /**
    * Updates the visibility and content of the layer label popup UI element.
-   * Handles display toggling based on state, and calls {@link updatePopupContent}.
+   *
+   * Creates and manages a draggable, resizable popup dialog that displays collected
+   * GIS layer labels. The popup features modern styling with a blue header, collapsible
+   * options section, layer dropdown selector, and scrollable content area. Automatically
+   * adapts to WME Editor's dark mode theme.
+   *
+   * **Popup Structure:**
+   * - Header: Blue bar with title "GIS-L Layer Labels" and close button (draggable)
+   * - Options Section: Checkboxes for label formatting (Title Case, Acronyms, Highway Labels, Remove New Lines)
+   * - Dropdown: Selector to switch between different layer label collections
+   * - Content: Scrollable list of labels with copy-to-clipboard functionality
+   *
+   * **Features:**
+   * - Draggable by header for repositioning
+   * - Resizable for adjusting dimensions
+   * - Remembers position across page loads
+   * - Modern blue theme (#0066cc) matching script styling
+   * - Full dark mode support (adapts to WME theme)
+   * - Label formatting options apply in real-time
+   * - Copy labels to clipboard with click
    *
    * **Dependencies:**
-   * - Depends on jQuery (`$`) for DOM selection and manipulation.
-   * - Assumes the popup HTML structure exists in the DOM.
+   * - jQuery (`$`) for DOM selection and manipulation
+   * - Native DOM APIs for element creation
+   * - Global state: popupPosition, isPopupVisible, useTitleCase, useAcronyms, useStateHwy, removeNewLines
    *
    * **Side Effects:**
-   * - Directly mutates DOM elements; not a pure function.
-   * - May trigger jQuery event handlers.
+   * - Creates popup DOM element on first call (appends to wz-page-content)
+   * - Directly mutates DOM elements; not a pure function
+   * - Updates global popupPosition when dragged
+   * - Calls {@link updatePopupContent} to refresh label display
+   * - May trigger jQuery event handlers
    *
    * @function updatePopup
    * @param {LayerLabelsMap} labels - Map of layer names to label sets
@@ -4194,11 +5449,13 @@
     if (!popup) {
       popup = document.createElement('div');
       popup.id = 'layerLabelPopup';
-      popup.style = `position: absolute; background: #d3d3d3; border: 2px solid #007bff; border-radius: 5px; 
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 500px; max-width: 800px;
+      popup.className = 'gis-popup-dialog';
+      popup.style = `position: absolute; border-radius: 8px;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); z-index: 1000; width: 500px; max-width: 800px;
                 height: 300px; resize: both; overflow: hidden; max-height: 700px; left: ${popupPosition.left}; top: ${popupPosition.top}; `;
       const header = document.createElement('div');
-      header.style = 'background: #007bff; color: #fff; padding: 5px; cursor: move; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; height: 30px; ';
+      header.className = 'gis-dialog-header';
+      header.style = 'padding: 12px 16px; cursor: move; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 16px;';
 
       const title = document.createElement('span');
       title.innerText = 'GIS-L Layer Labels';
@@ -4206,7 +5463,7 @@
 
       const closeButton = document.createElement('span');
       closeButton.innerText = '×';
-      closeButton.style = 'cursor: pointer; font-size: 20px; margin-left: 10px; ';
+      closeButton.style = 'cursor: pointer; font-size: 24px; margin-left: 10px; line-height: 1;';
       closeButton.addEventListener('click', () => {
         isPopupVisible = false;
         togglePopupVisibility();
@@ -4218,7 +5475,8 @@
       popup.appendChild(header);
 
       const formatOptionContainer = document.createElement('div');
-      formatOptionContainer.style = 'background: #72767d; color: #fff;';
+      formatOptionContainer.className = 'gis-label-popup-options';
+      formatOptionContainer.style = 'padding: 8px 12px;';
 
       const firstRow = document.createElement('div');
       firstRow.style = 'display: flex; gap: 10px; align-items: flex-start; justify-content: flex-start;';
@@ -4238,7 +5496,7 @@
       const formatCheckboxLabel = document.createElement('label');
       formatCheckboxLabel.htmlFor = 'useTitleCaseCheckbox';
       formatCheckboxLabel.innerText = 'Use Title Case';
-      formatCheckboxLabel.style = 'font-weight: 100; width: 150px;';
+      formatCheckboxLabel.style = 'font-weight: 400; width: 150px; cursor: pointer;';
       firstRow.appendChild(formatCheckboxLabel);
 
       const acronymCheckbox = document.createElement('input');
@@ -4255,7 +5513,7 @@
       const acronymCheckboxLabel = document.createElement('label');
       acronymCheckboxLabel.htmlFor = 'useacronymsCheckbox';
       acronymCheckboxLabel.innerText = 'Use Acronyms & Abbreviations';
-      acronymCheckboxLabel.style = 'font-weight: 100;';
+      acronymCheckboxLabel.style = 'font-weight: 400; cursor: pointer;';
       firstRow.appendChild(acronymCheckboxLabel);
       formatOptionContainer.appendChild(firstRow);
 
@@ -4278,7 +5536,7 @@
       stateHwyCheckboxLabel.htmlFor = 'useStateHwyCheckbox';
       stateHwyCheckboxLabel.innerText = 'Fix Highway Labels';
 
-      stateHwyCheckboxLabel.style = 'font-weight: 100; width: 150px;';
+      stateHwyCheckboxLabel.style = 'font-weight: 400; width: 150px; cursor: pointer;';
       secondRow.appendChild(stateHwyCheckboxLabel);
 
       const removeNewLinesCheckbox = document.createElement('input');
@@ -4295,18 +5553,20 @@
       const removeNewLinesCheckboxLabel = document.createElement('label');
       removeNewLinesCheckboxLabel.htmlFor = 'removeNewLinesCheckbox';
       removeNewLinesCheckboxLabel.innerText = 'Remove New Lines';
-      removeNewLinesCheckboxLabel.style = 'font-weight: 100;';
+      removeNewLinesCheckboxLabel.style = 'font-weight: 400; cursor: pointer;';
       secondRow.appendChild(removeNewLinesCheckboxLabel);
 
       formatOptionContainer.appendChild(secondRow);
       popup.appendChild(formatOptionContainer);
 
       const dropdownContainer = document.createElement('div');
-      dropdownContainer.style = 'margin-bottom: 10px;';
+      dropdownContainer.className = 'gis-label-popup-dropdown';
+      dropdownContainer.style = 'padding: 12px;';
       popup.appendChild(dropdownContainer);
 
       const contentContainer = document.createElement('div');
-      contentContainer.style = 'padding: 5px; overflow-y: auto; overflow-x: auto; height: calc(100% - 110px);';
+      contentContainer.className = 'gis-label-popup-content';
+      contentContainer.style = 'padding: 12px; overflow-y: auto; overflow-x: auto; height: calc(100% - 140px);';
 
       popup.appendChild(contentContainer);
 
@@ -4363,7 +5623,8 @@
     contentContainer.innerHTML = '';
 
     const select = document.createElement('select');
-    select.style = 'width: 100%; padding: 5px; border: 1px solid #ccc;';
+    select.className = 'gis-dialog-select';
+    select.style = 'width: 100%; padding: 8px 12px; border: 1px solid; border-radius: 4px; font-size: 13px;';
 
     const sortedLayerNames = Object.keys(labels).sort();
     sortedLayerNames.forEach((layerName) => {
@@ -4909,7 +6170,7 @@
   function showScriptInfoAlert() {
     /* Check version and alert on update */
     if (SHOW_UPDATE_MESSAGE && scriptVersion !== settings.lastVersion) {
-      // alert(SCRIPT_VERSION_CHANGES);
+
       let releaseNotes = '';
       releaseNotes += "<p>What's New:</p>";
       if (SCRIPT_VERSION_CHANGES.length > 0) {
@@ -4988,85 +6249,6 @@
     }
   }
 
-  /**
-   * Change event handler for the "Only show applicable layers" setting checkbox.
-   * Updates {@link settings.onlyShowApplicableLayers} and refreshes layer checkboxes.
-   *
-   * @function onOnlyShowApplicableLayersChanged
-   * @param {Event} [event] Change event (optional).
-   * @returns {void}
-   *
-   * @see {@link settings.onlyShowApplicableLayers}
-   * @see {@link saveSettingsToStorage}
-   * @see {@link filterLayerCheckboxes}
-   */
-  async function onOnlyShowApplicableLayersChanged() {
-    settings.onlyShowApplicableLayers = $(this).is(':checked');
-    saveSettingsToStorage();
-    filterLayerCheckboxes();
-  }
-
-  /**
-   * Change event handler for the "Include Zoom Level in filter" setting checkbox.
-   * Updates {@link settings.onlyShowApplicableLayersZoom} and refreshes layer checkboxes.
-   *
-   * @function onOnlyShowApplicableLayersZoomChanged
-   * @param {Event} [event] Change event (optional).
-   * @returns {void}
-   *
-   * @see {@link settings.onlyShowApplicableLayersZoom}
-   * @see {@link saveSettingsToStorage}
-   * @see {@link filterLayerCheckboxes}
-   */
-  async function onOnlyShowApplicableLayersZoomChanged() {
-    settings.onlyShowApplicableLayersZoom = $(this).is(':checked');
-    saveSettingsToStorage();
-    filterLayerCheckboxes();
-  }
-
-  /**
-   * Event handler for toggling a region (subL1) checkbox for GIS layer selection.
-   * Updates {@link settings.selectedSubL1}, initializes layer tabs, and refreshes features.
-   *
-   * @async
-   * @function onSub1CheckChanged
-   * @param {string} subL1 Region/subdivision code being toggled.
-   * @param {Event} evt Change event from the checkbox.
-   * @returns {Promise<void>}
-   *
-   * @see {@link settings.selectedSubL1}
-   * @see {@link saveSettingsToStorage}
-   * @see {@link initLayersTab}
-   * @see {@link fetchFeatures}
-   */
-  async function onSub1CheckChanged(subL1, evt) {
-    const idx = settings.selectedSubL1.indexOf(subL1);
-    if (evt.target.checked) {
-      if (idx === -1) settings.selectedSubL1.push(subL1);
-    } else if (idx > -1) settings.selectedSubL1.splice(idx, 1);
-    if (!ignoreFetch) {
-      saveSettingsToStorage();
-      initLayersTab();
-      await fetchFeatures();
-    }
-  }
-
-  async function batchUpdateSelectedSubL1() {
-    // Gather all checked subL1's from DOM
-    const checked = $('.gis-layers-subL1-checkbox:checked')
-      .map(function () {
-        return $(this).data('sub');
-      })
-      .get();
-
-    settings.selectedSubL1 = checked;
-
-    if (!ignoreFetch) {
-      saveSettingsToStorage();
-      initLayersTab();
-      await fetchFeatures();
-    }
-  }
 
   /**
    * Handler for toggling the global "GIS Layers" on/off checkbox in the sidebar Layer Switcher.
@@ -5162,86 +6344,6 @@
     }
   }
 
-  /**
-   * Handler for chevron clicks expanding or collapsing region/group fieldsets in the UI.
-   * Updates {@link settings.collapsedSections} and persists state.
-   *
-   * @function onChevronClick
-   * @param {Event} evt Click event from the chevron icon.
-   * @returns {void}
-   *
-   * @see {@link settings.collapsedSections}
-   * @see {@link saveSettingsToStorage}
-   */
-  function onChevronClick(evt) {
-    const $target = $(evt.currentTarget);
-    const $div = $($target.siblings()[0]);
-    const fieldsetId = $target.parent('fieldset').attr('id');
-    const sectionKey = fieldsetId ? fieldsetId.replace('gis-layers-for-', '') : null;
-    $($target.children()[0]).toggleClass('fa fa-fw fa-chevron-down').toggleClass('fa fa-fw fa-chevron-right');
-    if ($div.css('display') === 'none') {
-      $div.css('display', 'block');
-      if (sectionKey) settings.collapsedSections[sectionKey] = false;
-    } else {
-      $div.css('display', 'none');
-      if (sectionKey) settings.collapsedSections[sectionKey] = true;
-    }
-    if (sectionKey) saveSettingsToStorage();
-  }
-
-  /**
-   * Helper function for batch toggling region or layer checkboxes (select all/none).
-   * Updates settings, optionally triggers {@link initLayersTab}, and re-fetches features.
-   * Temporarily disables fetches during batch operation.
-   *
-   * @async
-   * @function doToggleABunch
-   * @param {Event} evt Click event from the select all/none control.
-   * @param {boolean} checkState Desired checked state: true for select all, false for select none.
-   * @returns {Promise<void>}
-   *
-   * @see {@link fetchFeatures}
-   * @see {@link initLayersTab}
-   * @see {@link saveSettingsToStorage}
-   */
-  async function doToggleABunch(evt, checkState) {
-    ignoreFetch = true;
-    $(evt.target).closest('fieldset').find('input').prop('checked', !checkState).trigger('click');
-    ignoreFetch = false;
-    saveSettingsToStorage();
-    if (evt.data) initLayersTab();
-    await fetchFeatures();
-  }
-
-  /**
-   * Handler for "Select All" links used to check all region/layer checkboxes in the current fieldset.
-   * Triggers a batch update using {@link doToggleABunch}.
-   *
-   * @async
-   * @function onSelectAllClick
-   * @param {Event} evt Click event from the link.
-   * @returns {Promise<void>}
-   *
-   * @see {@link doToggleABunch}
-   */
-  function onSelectAllClick(evt) {
-    doToggleABunch(evt, true);
-  }
-
-  /**
-   * Handler for "Select None" links used to uncheck all region/layer checkboxes in the current fieldset.
-   * Triggers a batch update using {@link doToggleABunch}.
-   *
-   * @async
-   * @function onSelectNoneClick
-   * @param {Event} evt Click event from the link.
-   * @returns {Promise<void>}
-   *
-   * @see {@link doToggleABunch}
-   */
-  function onSelectNoneClick(evt) {
-    doToggleABunch(evt, false);
-  }
 
   /**
    * Handler for changes to the address label display radio buttons.
@@ -5402,9 +6504,18 @@
   /**
    * Initializes and renders the GIS Layers tab user interface.
    *
-   * This function rebuilds the '#panel-gis-subL1-layers' container DOM,
-   * including checkboxes and controls for filtering layers by region, zoom level,
-   * and specific SubL1 categories. It binds all relevant event handlers for interactions.
+   * This function rebuilds the '#panel-gis-subL1-layers' container DOM with a modern,
+   * organized layout including a region selector at the top, search functionality,
+   * stats bar, and layer checkboxes with filtering controls.
+   *
+   * Key Features:
+   * - Region selector with country groups and subdivisions (collapsible, maintains scroll position)
+   * - Search input for filtering layers by name
+   * - Quick action buttons: Clear All Regions, Viewport Filter, Zoom Filter
+   * - Stats bar showing selected regions, visible layers, and loaded features
+   * - Layer checkboxes organized by country with collapsible sections
+   * - Filtering options: Viewport, Zoom level, Search text
+   * - Supports dark mode theming
    *
    * Dependencies (must be in scope when called):
    * - userInfo: { userName }
@@ -5413,262 +6524,730 @@
    * - NameMapper: object with method toFullName(subL1) -> string
    * - jQuery ($)
    * - Lodash (_)
-   * - Event handlers: onOnlyShowApplicableLayersChanged, onOnlyShowApplicableLayersZoomChanged, onSelectAllClick, onSelectNoneClick, onChevronClick, onGisLayerToggleChanged
+   * - Event handlers: onGisLayerToggleChanged
    *
    * Side Effects:
    * - Modifies the DOM inside #panel-gis-subL1-layers
    * - Sets up interactive controls for GIS layer filtering and visibility
+   * - Preserves region selector scroll position and collapsed states across rebuilds
    *
-   * @function
+   * @function initLayersTab
+   * @returns {void}
    */
   function initLayersTab() {
-    const subL1 = _.uniq(_gisLayers.map((l) => l.countrySubL1)).filter((sub) => settings?.selectedSubL1?.includes(sub));
+    // Save region selector scroll position and country collapse states before rebuilding DOM
+    const $existingRegionBody = $('.region-selector-body');
+    const savedScrollTop = $existingRegionBody.length ? $existingRegionBody.scrollTop() : 0;
 
-    $('#panel-gis-subL1-layers')
-      .empty()
-      .append(
-        $('<div>', { class: 'controls-container' })
-          .css({ 'padding-top': '0px' })
-          .append(
-            $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers' }).on('change', onOnlyShowApplicableLayersChanged).prop('checked', settings?.onlyShowApplicableLayers),
-            $('<label>', { for: 'only-show-applicable-gis-layers' }).css({ 'white-space': 'pre-line' }).text('Only show applicable layers for Region'),
-          ),
-        $('<div>', { class: 'controls-container' })
-          .css({ 'padding-top': '0px' })
-          .append(
-            $('<input>', { type: 'checkbox', id: 'only-show-applicable-gis-layers-for-zoom-level' })
-              .on('change', onOnlyShowApplicableLayersZoomChanged)
-              .prop('checked', settings?.onlyShowApplicableLayersZoom),
-            $('<label>', { for: 'only-show-applicable-gis-layers-for-zoom-level' }).css({ 'white-space': 'pre-line' }).text('Include Zoom Level in filter'),
-          ),
-        $('.gis-layers-subL1-checkbox:checked').length === 0
-          ? $('<div>').text('Turn on layer categories in the Settings tab.')
-          : subL1.map((sub) =>
-              $('<fieldset>', {
-                id: `gis-layers-for-${sub}`,
-                style: 'border:1px solid silver;padding:4px;border-radius:4px;-webkit-padding-before: 0;',
-              }).append(
-                $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
-                  .on('click', onChevronClick)
-                  .append(
-                    $('<i>', {
-                      class: settings?.collapsedSections[sub] ? 'fa fa-fw fa-chevron-right' : 'fa fa-fw fa-chevron-down',
-                      style: 'cursor: pointer;font-size: 12px;margin-right: 4px',
-                    }),
-                    $('<span>', {
-                      style: 'font-size:14px;font-weight:600;text-transform: uppercase; cursor: pointer',
-                    }).text(NameMapper.toFullName(sub)),
-                  ),
-                $('<div>', {
-                  id: `${sub}_body`,
-                  style: settings?.collapsedSections[sub] ? 'display: none;' : 'display: block;',
-                }).append(
-                  $('<div>')
-                    .css({ 'font-size': '11px' })
-                    .append(
-                      $('<span>').append('Select ', $('<a>', { href: '#' }).text('All').on('click', onSelectAllClick), ' / ', $('<a>', { href: '#' }).text('None').on('click', onSelectNoneClick)),
-                    ),
-                  $('<div>', { class: 'controls-container', style: 'padding-top:0px;' }).append(
-                    _gisLayers
-                      .filter((l) => l.countrySubL1 === sub)
-                      .map((gisLayer) => {
-                        const id = `gis-layer-${gisLayer.id}`;
-                        return $('<div>', { class: 'controls-container', id: `${id}-container` })
-                          .css({ 'padding-top': '0px', display: 'block' })
-                          .append(
-                            $('<input>', { type: 'checkbox', id }).data('layer-id', gisLayer.id).on('change', onGisLayerToggleChanged).prop('checked', settings?.visibleLayers?.includes(gisLayer.id)),
-                            $('<label>', { for: id, class: 'gis-subL1-layer-label' })
-                              .css({ 'white-space': 'pre-line' })
-                              .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
-                              .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : '')
-                              .on('contextmenu', (evt) => {
-                                evt.preventDefault();
-                                _layerSettingsDialog.gisLayer = gisLayer;
-                                _layerSettingsDialog.show();
-                              }),
-                          );
-                      }),
-                  ),
-                ),
-              ),
+    // Save whether the region selector itself is collapsed
+    const regionSelectorCollapsed = $('.region-selector').hasClass('collapsed');
+
+    // Save which country groups are collapsed
+    const collapsedCountries = [];
+    $('.country-group.collapsed').each(function () {
+      const country = $(this).find('.country-header').data('country');
+      if (country) collapsedCountries.push(country);
+    });
+
+    // Unbind all event handlers to prevent duplicates when reinitializing
+    const $panel = $('#panel-gis-subL1-layers');
+    $panel.off('click', '.region-legend');
+    $panel.off('change', '.layer-item input[type="checkbox"]');
+    $panel.off('contextmenu', '.gis-subL1-layer-label');
+
+    $('#gis-clear-all-regions').off('click');
+    $('#gis-viewport-filter').off('click');
+    $('#gis-zoom-filter').off('click');
+    $('#gis-layer-search').off('input');
+    $('.gis-region-checkbox').off('change');
+    $('.region-selector-header').off('click');
+    $('.country-header').off('click');
+
+    // Group layers by country for region selector
+    const layersByCountry = _.groupBy(_gisLayers, 'country');
+    const allSubL1 = _.uniq(_gisLayers.map((l) => l.countrySubL1));
+    const selectedSubL1 = allSubL1.filter((sub) => settings?.selectedSubL1?.includes(sub));
+
+    // Create sticky section with region selector, search, and stats
+    const $stickySection = $('<div>', { class: 'gis-sticky-section' });
+
+    // ========== REGION SELECTOR ==========
+    const $regionSelector = $('<div>', { class: regionSelectorCollapsed ? 'region-selector collapsed' : 'region-selector' });
+
+    // Region selector header
+    const $regionHeader = $('<div>', { class: 'region-selector-header' }).append(
+      $('<div>', { class: 'region-selector-title' }).append($('<i>', { class: 'fa fa-map-marker', style: 'margin-right: 6px;' }), 'Select Regions to Load'),
+      $('<i>', { class: regionSelectorCollapsed ? 'fa fa-chevron-right region-selector-toggle' : 'fa fa-chevron-down region-selector-toggle' }),
+    );
+
+    // Region selector body with countries/subdivisions
+    const $regionBody = $('<div>', { class: 'region-selector-body' });
+
+    // Build country groups
+    Object.keys(layersByCountry)
+      .sort()
+      .forEach((country) => {
+        const subRegions = _.uniq(layersByCountry[country].map((l) => l.countrySubL1)).filter(Boolean);
+        const countrySubL1 = subRegions.find((sub) => sub.split('-')[0] === sub.split('-')[1]); // e.g., "USA-USA"
+        const subdivisions = subRegions.filter((sub) => sub.split('-')[0] !== sub.split('-')[1]);
+
+        if (subdivisions.length > 0) {
+          // Country with subdivisions
+          const isCollapsed = collapsedCountries.includes(country);
+          const $countryGroup = $('<div>', { class: isCollapsed ? 'country-group collapsed' : 'country-group' });
+          const $countryHeader = $('<div>', { class: 'country-header', 'data-country': country }).append(
+            $('<div>', { class: 'country-name' }).append(
+              $('<i>', { class: isCollapsed ? 'fa fa-chevron-right country-toggle-icon' : 'fa fa-chevron-down country-toggle-icon' }),
+              $('<span>').text(NameMapper.toFullName(country)),
             ),
+            $('<span>', { class: 'country-count' }).text(`${subdivisions.length} ${subdivisions.length === 1 ? 'subdivision' : 'subdivisions'}`),
+          );
+
+          const $subdivContainer = $('<div>', { class: 'country-subdivisions' });
+
+          // Country-level option if it exists
+          if (countrySubL1) {
+            const id = `gis-region-${countrySubL1}`;
+            const layerCount = _gisLayers.filter((l) => l.countrySubL1 === countrySubL1).length;
+            const $countryLevelOption = $('<div>', { class: 'country-level-option' }).append(
+              $('<input>', {
+                type: 'checkbox',
+                id,
+                'data-sub': countrySubL1,
+                'data-country': country,
+                class: 'gis-region-checkbox',
+              }).prop('checked', settings.selectedSubL1.includes(countrySubL1)),
+              $('<label>', { for: id }).text(`${country} - Country Level`),
+              $('<span>', { class: 'subdivision-count' }).text(`(${layerCount})`),
+            );
+            if (settings.selectedSubL1.includes(countrySubL1)) {
+              $countryLevelOption.addClass('enabled');
+            }
+            $subdivContainer.append($countryLevelOption);
+          }
+
+          // Subdivision options
+          subdivisions.forEach((subL1) => {
+            const id = `gis-region-${subL1}`;
+            const layerCount = _gisLayers.filter((l) => l.countrySubL1 === subL1).length;
+            const $subdivOption = $('<div>', { class: 'subdivision-option' }).append(
+              $('<input>', {
+                type: 'checkbox',
+                id,
+                'data-sub': subL1,
+                'data-country': country,
+                class: 'gis-region-checkbox',
+              }).prop('checked', settings.selectedSubL1.includes(subL1)),
+              $('<label>', { for: id }).text(NameMapper.toFullName(subL1)),
+              $('<span>', { class: 'subdivision-count' }).text(`(${layerCount})`),
+            );
+            if (settings.selectedSubL1.includes(subL1)) {
+              $subdivOption.addClass('enabled');
+            }
+            $subdivContainer.append($subdivOption);
+          });
+
+          $countryGroup.append($countryHeader, $subdivContainer);
+          $regionBody.append($countryGroup);
+        } else {
+          // Country-only region
+          const subL1 = subRegions[0];
+          const id = `gis-region-${subL1}`;
+          const layerCount = _gisLayers.filter((l) => l.countrySubL1 === subL1).length;
+          const $countryOnly = $('<div>', { class: 'country-only' }).append(
+            $('<input>', {
+              type: 'checkbox',
+              id,
+              'data-sub': subL1,
+              'data-country': country,
+              class: 'gis-region-checkbox',
+            }).prop('checked', settings.selectedSubL1.includes(subL1)),
+            $('<label>', { for: id }).text(NameMapper.toFullName(country)),
+            $('<span>', { class: 'subdivision-count' }).text(`(${layerCount})`),
+          );
+          if (settings.selectedSubL1.includes(subL1)) {
+            $countryOnly.addClass('enabled');
+          }
+          $regionBody.append($countryOnly);
+        }
+      });
+
+    // Quick action buttons
+    const $clearAllRow = $('<div>', { style: 'margin-top:8px;' }).append(
+      $('<button>', {
+        id: 'gis-clear-all-regions',
+        class: 'region-action-button',
+        style: 'width:100%;',
+      }).text('Clear All Regions'),
+    );
+
+    const $filterRow = $('<div>', { style: 'margin-top:6px;' }).append(
+      $('<div>', { class: 'filter-label' }).text('Filter Layers to:'),
+      $('<div>', { class: 'region-quick-actions', style: 'margin-top:0;' }).append(
+        $('<button>', {
+          id: 'gis-viewport-filter',
+          class: settings.onlyShowApplicableLayers ? 'toggle-button active' : 'toggle-button',
+          title: 'Viewport: Only show layers that have data in the current map view area. Layers outside your current pan position are hidden from the list.',
+        }).append('Viewport', $('<i>', { class: 'fa fa-info-circle btn-info-icon' })),
+        $('<button>', {
+          id: 'gis-zoom-filter',
+          class: settings.onlyShowApplicableLayersZoom ? 'toggle-button active' : 'toggle-button',
+          title: 'Zoom: Only show layers that are set to display at the current zoom level. Layers configured to appear at a different zoom are hidden from the list.',
+        }).append('Zoom', $('<i>', { class: 'fa fa-info-circle btn-info-icon' })),
+      ),
+    );
+
+    $regionSelector.append($regionHeader, $regionBody, $clearAllRow, $filterRow);
+
+    // ========== SEARCH BAR ==========
+    const $searchContainer = $('<div>', { class: 'controls-container', style: 'padding-top:0px;position:relative;margin-bottom:10px;' }).append(
+      $('<input>', {
+        type: 'text',
+        id: 'gis-layer-search',
+        placeholder: 'Search layers...',
+        style: 'width:100%;padding:6px 28px 6px 8px;border:1px solid #ccc;border-radius:3px;font-size:12px;',
+      }),
+      $('<i>', { class: 'fa fa-search', style: 'position:absolute;right:10px;top:8px;color:#999;font-size:12px;pointer-events:none;' }),
+    );
+
+    // ========== STATS BAR ==========
+    const visibleLayerCount = _gisLayers.filter((l) => selectedSubL1.includes(l.countrySubL1)).length;
+    const activeLayerCount = settings.visibleLayers.filter((layerId) => {
+      const layer = _gisLayers.find((l) => l.id === layerId);
+      return layer && selectedSubL1.includes(layer.countrySubL1);
+    }).length;
+
+    const $statsBar = $('<div>', { class: 'gis-stats-bar' }).append(
+      $('<div>', { class: 'stat' }).html(`Regions: <strong id="gis-region-count">${selectedSubL1.length}</strong>`),
+      $('<div>', { class: 'stat' }).html(`Showing: <strong id="gis-showing-count">${visibleLayerCount}</strong>`),
+      $('<div>', { class: 'stat' }).html(`Active: <strong id="gis-active-count">${activeLayerCount}</strong>`),
+    );
+
+    $stickySection.append($regionSelector, $searchContainer, $statsBar);
+
+    // ========== SCROLLABLE LAYERS AREA ==========
+    const $layersScrollable = $('<div>', { style: 'padding:6px;' });
+
+    // Empty state (shown when no regions selected)
+    const $emptyState = $('<div>', { class: 'gis-empty-state', id: 'gis-empty-state', style: selectedSubL1.length === 0 ? 'display:block;' : 'display:none;' }).append(
+      $('<i>', { class: 'fa fa-map-o' }),
+      $('<p>').html('<strong>No regions selected</strong><br>Select regions above to view available layers'),
+    );
+
+    $layersScrollable.append($emptyState);
+
+    // Build region fieldsets ONLY for selected regions (performance optimization for large layer counts)
+    selectedSubL1.forEach((sub) => {
+      const layerCount = _gisLayers.filter((l) => l.countrySubL1 === sub).length;
+
+      // Build class list including collapsed state from settings
+      const fieldsetClasses = ['region-fieldset', 'visible'];
+      if (settings?.collapsedSections?.[sub]) fieldsetClasses.push('collapsed');
+
+      const $fieldset = $('<fieldset>', {
+        id: `gis-layers-for-${sub}`,
+        class: fieldsetClasses.join(' '),
+        'data-sub': sub,
+      });
+
+      const $legend = $('<legend>', { class: 'region-legend' }).append(
+        $('<i>', {
+          class: settings?.collapsedSections[sub] ? 'fa fa-chevron-right toggle-icon' : 'fa fa-chevron-down toggle-icon',
+        }),
+        $('<span>').text(NameMapper.toFullName(sub)),
+        $('<span>', { style: 'font-size:11px;color:#999;font-weight:normal;margin-left:6px;' }).text(`(${layerCount})`),
       );
+
+      const $regionBody = $('<div>', {
+        class: 'region-body',
+        style: settings?.collapsedSections[sub] ? 'display:none;' : 'display:block;',
+      });
+
+      // Action links (Select All / None)
+      const $actionLinks = $('<div>', { class: 'action-links' }).html('Select <a class="gis-select-all">All</a> / <a class="gis-select-none">None</a>');
+
+      $regionBody.append($actionLinks);
+
+      // List all layers directly (no category grouping since category field doesn't exist)
+      const layersForRegion = _gisLayers.filter((l) => l.countrySubL1 === sub);
+
+      // Create a container for all layers
+      const $layersContainer = $('<div>', { style: 'padding-top:4px;' });
+
+      layersForRegion.forEach((gisLayer) => {
+        const id = `gis-layer-${gisLayer.id}`;
+        const isChecked = settings?.visibleLayers?.includes(gisLayer.id);
+        const $layerItem = $('<div>', {
+          class: 'controls-container layer-item',
+          id: `${id}-container`,
+          style: 'padding-top:0px;display:flex;align-items:flex-start;padding:3px 0;margin-bottom:2px;',
+        }).append(
+          $('<input>', {
+            type: 'checkbox',
+            id,
+            style: 'margin:2px 6px 0 0;flex-shrink:0;',
+          })
+            .data('layer-id', gisLayer.id)
+            .prop('checked', isChecked),
+          $('<label>', {
+            for: id,
+            class: 'gis-subL1-layer-label',
+            style: 'font-size:12px;font-weight:normal;margin:0;cursor:pointer;line-height:1.4;flex:1;',
+          })
+            .text(`${gisLayer.name}${gisLayer.restrictTo ? ' *' : ''}`)
+            .attr('title', gisLayer.restrictTo ? `Restricted to: ${gisLayer.restrictTo}` : ''),
+        );
+
+        $layersContainer.append($layerItem);
+      });
+
+      $regionBody.append($layersContainer);
+
+      $fieldset.append($legend, $regionBody);
+      $layersScrollable.append($fieldset);
+    });
+
+    // Clear and rebuild the layers tab
+    $('#panel-gis-subL1-layers').empty().append($stickySection, $layersScrollable);
+
+    // Restore region selector scroll position (use setTimeout to ensure DOM is fully rendered)
+    if (savedScrollTop > 0) {
+      setTimeout(() => {
+        const $newRegionBody = $('.region-selector-body');
+        if ($newRegionBody.length) {
+          $newRegionBody.scrollTop(savedScrollTop);
+        }
+      }, 0);
+    }
+
+    // ========== EVENT HANDLERS ==========
+
+    // Region selector collapse
+    $regionHeader.on('click', function () {
+      $regionSelector.toggleClass('collapsed');
+    });
+
+    // Country group toggle
+    $('.country-header').on('click', function () {
+      $(this).closest('.country-group').toggleClass('collapsed');
+    });
+
+    // Region checkbox change - rebuild layers tab to add/remove DOM elements
+    $('.gis-region-checkbox').on('change', async function () {
+      const subL1 = $(this).data('sub');
+      const isChecked = $(this).is(':checked');
+
+      // Update visual state
+      $(this).closest('.subdivision-option, .country-only, .country-level-option').toggleClass('enabled', isChecked);
+
+      // Update settings
+      const idx = settings.selectedSubL1.indexOf(subL1);
+      if (isChecked) {
+        if (idx === -1) settings.selectedSubL1.push(subL1);
+      } else if (idx > -1) {
+        settings.selectedSubL1.splice(idx, 1);
+      }
+
+      if (!ignoreFetch) {
+        saveSettingsToStorage();
+        initLayersTab();
+        await fetchFeatures();
+      }
+    });
+
+    // Clear all regions button
+    $('#gis-clear-all-regions').on('click', function () {
+      $('.gis-region-checkbox')
+        .prop('checked', false)
+        .each(function () {
+          $(this).closest('.subdivision-option, .country-only, .country-level-option').removeClass('enabled');
+        });
+      $('.region-fieldset').removeClass('visible');
+      settings.selectedSubL1 = [];
+      saveSettingsToStorage();
+      initLayersTab();
+      fetchFeatures();
+    });
+
+    // Viewport filter toggle
+    $('#gis-viewport-filter').on('click', function () {
+      $(this).toggleClass('active');
+      settings.onlyShowApplicableLayers = $(this).hasClass('active');
+      saveSettingsToStorage();
+      filterLayerCheckboxes();
+    });
+
+    // Zoom filter toggle — Viewport must be active for Zoom to work, so enable it automatically
+    $('#gis-zoom-filter').on('click', function () {
+      $(this).toggleClass('active');
+      settings.onlyShowApplicableLayersZoom = $(this).hasClass('active');
+      if (settings.onlyShowApplicableLayersZoom && !settings.onlyShowApplicableLayers) {
+        settings.onlyShowApplicableLayers = true;
+        $('#gis-viewport-filter').addClass('active');
+      }
+      saveSettingsToStorage();
+      filterLayerCheckboxes();
+    });
+
+    // Region legend collapse (using event delegation)
+    $('#panel-gis-subL1-layers').on('click', '.region-legend', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const $fieldset = $(this).closest('.region-fieldset');
+      const $regionBody = $fieldset.find('.region-body');
+      const sub = $fieldset.data('sub');
+      const isCollapsed = $fieldset.hasClass('collapsed');
+
+      if (isCollapsed) {
+        // Expand
+        $fieldset.removeClass('collapsed');
+        $regionBody.css('display', 'block');
+        $(this).find('.toggle-icon').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+      } else {
+        // Collapse
+        $fieldset.addClass('collapsed');
+        $regionBody.css('display', 'none');
+        $(this).find('.toggle-icon').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+      }
+
+      if (!settings.collapsedSections) settings.collapsedSections = {};
+      settings.collapsedSections[sub] = !isCollapsed;
+      saveSettingsToStorage();
+    });
+
+    // Layer checkbox change (using event delegation)
+    $('#panel-gis-subL1-layers').on('change', '.layer-item input[type="checkbox"]', onGisLayerToggleChanged);
+
+    // Right-click on layer label for settings (using event delegation)
+    $('#panel-gis-subL1-layers').on('contextmenu', '.gis-subL1-layer-label', function (evt) {
+      evt.preventDefault();
+      const layerId = $(this).attr('for').replace('gis-layer-', '');
+      const gisLayer = _gisLayers.find((l) => l.id === layerId);
+      if (gisLayer) {
+        _layerSettingsDialog.gisLayer = gisLayer;
+        _layerSettingsDialog.show();
+      }
+    });
+
+    // Select All / None within region (using event delegation)
+    $('#panel-gis-subL1-layers').on('click', '.gis-select-all', async function (e) {
+      e.preventDefault();
+      const $checkboxes = $(this).closest('.region-body').find('input[type="checkbox"]');
+
+      // Batch update to avoid multiple fetchFeatures calls
+      $checkboxes.each(function () {
+        const layerId = $(this).data('layer-id');
+        if (!settings.visibleLayers.includes(layerId)) {
+          settings.visibleLayers.push(layerId);
+        }
+        $(this).prop('checked', true);
+      });
+
+      if (!ignoreFetch) {
+        saveSettingsToStorage();
+        await fetchFeatures();
+      }
+    });
+
+    $('#panel-gis-subL1-layers').on('click', '.gis-select-none', async function (e) {
+      e.preventDefault();
+      const $checkboxes = $(this).closest('.region-body').find('input[type="checkbox"]');
+
+      // Batch update to avoid multiple fetchFeatures calls
+      $checkboxes.each(function () {
+        const layerId = $(this).data('layer-id');
+        const idx = settings.visibleLayers.indexOf(layerId);
+        if (idx > -1) {
+          settings.visibleLayers.splice(idx, 1);
+        }
+        $(this).prop('checked', false);
+      });
+
+      if (!ignoreFetch) {
+        saveSettingsToStorage();
+        await fetchFeatures();
+      }
+    });
+
+    // Search functionality
+    let searchTimeout;
+    $('#gis-layer-search').on('input', function () {
+      clearTimeout(searchTimeout);
+      const query = $(this).val().toLowerCase().trim();
+
+      searchTimeout = setTimeout(function () {
+        if (query === '') {
+          $('.region-fieldset.visible .layer-item').show();
+          updateLayerStats();
+        } else {
+          let matchCount = 0;
+          $('.region-fieldset.visible').each(function () {
+            const $region = $(this);
+            $region.find('.layer-item').each(function () {
+              const matches = $(this).find('label').text().toLowerCase().includes(query);
+              $(this).toggle(matches);
+              if (matches) matchCount++;
+            });
+          });
+
+          $('#gis-showing-count').text(matchCount);
+        }
+      }, 200);
+    });
+
+    // Helper function to update stats
+    function updateLayerStats() {
+      const regionCount = $('.gis-region-checkbox:checked').length;
+      const visibleLayers = $('.region-fieldset.visible .controls-container.layer-item:visible').length;
+      const activeLayers = $('.region-fieldset.visible input[type="checkbox"]:checked').length;
+
+      $('#gis-region-count').text(regionCount);
+      $('#gis-showing-count').text(visibleLayers);
+      $('#gis-active-count').text(activeLayers);
+
+      // Show/hide empty state
+      $('#gis-empty-state').toggle(regionCount === 0);
+    }
   }
 
   /**
    * Initializes and renders the GIS Layers "Settings" tab UI.
    *
    * This function dynamically builds the user interface for the GIS settings panel,
-   * allowing users to control label display, popup options, country/group enablement,
-   * layer appearance (e.g., fill parcels), and manage special tokens for data access.
+   * allowing users to control label display, popup visibility, layer appearance,
+   * and manage data access tokens. Settings are organized into collapsible sections
+   * with modern styling and dark mode support.
+   *
+   * Settings Sections:
+   * - Labels: Address display options (HN, Street, Both, None), font family/size selectors
+   * - Label Popup: Show/Hide toggle for the layer labels popup window
+   * - Appearance: Fill parcels toggle for polygon rendering style
+   * - Custom Groups: Manage saved layer/region groups, Load All Layers button
+   * - Tyler/Socrata Token: API token management with save/remove functionality
    *
    * Features:
-   * - Group GIS layers by country and present checkboxes for subregion enablement.
-   * - Provide radio buttons for address label and popup display settings.
-   * - Provide 'Select All' / 'Select None' batch controls for subregions per country.
-   * - Present appearance options (e.g., "Fill parcels" toggle).
-   * - Manage Tyler/Socrata App Token with in-panel input and help links.
-   * - Integrate custom group management and "Load All Layers" functionality.
-   * - Set up all necessary event handlers for user interactions (clicks/change, etc.).
+   * - Pill-style radio buttons for address display and popup visibility
+   * - Dropdown selectors for font family and numeric input for font size
+   * - Token input field with password masking when saved
+   * - "Manage Custom Groups" button to open group manager dialog
+   * - "Load All Layers" button for bulk layer loading
+   * - Modern blue theme with consistent styling across all controls
+   * - Full dark mode support matching WME Editor theme
    *
    * Dependencies (must be defined in scope at runtime):
    * - _gisLayers: Array of GIS layer objects ({id, name, country, countrySubL1, ...})
-   * - settings: Object containing UI/user state/settings (see code for properties used)
-   * - NameMapper: Object/function mapping region codes to display names (`toFullName`)
+   * - settings: Object containing UI/user state/settings (addrLabelDisplay, fontFamily, fontSize, fillParcels, socrataAppToken, etc.)
    * - SCRIPT_AUTHOR: String for author/contact (for tooltips)
-   * - jQuery ($), Lodash (_)
-   * - Event/callback handlers: onChevronClick, onSub1CheckChanged, onFillParcelsCheckedChanged, onGisAddrDisplayChange, openLayerGroupManagerDialog, batchUpdateSelectedSubL1, saveSettingsToStorage, loadSpreadsheetAsync, initTab, logDebug, logError, togglePopupVisibility
+   * - jQuery ($)
+   * - Event/callback handlers: onFillParcelsCheckedChanged, onGisAddrDisplayChange, openLayerGroupManagerDialog, saveSettingsToStorage, loadSpreadsheetAsync, initTab, logDebug, logError, togglePopupVisibility
    * - isPopupVisible: Boolean flag for popup state (mutated)
    *
    * Side Effects:
    * - Rebuilds the DOM within #panel-gis-layers-settings
-   * - Registers event handlers and toggles settings state objects
-   * - May trigger async functions for loading layers/groups and updating settings
+   * - Registers event handlers for all interactive controls
+   * - May trigger async functions for loading layers and updating settings
+   * - Persists settings to localStorage when changed
    *
    * @function initSettingsTab
    * @returns {void}
    */
   function initSettingsTab() {
-    // Group layers by country
-    const layersByCountry = _.groupBy(_gisLayers, 'country');
+    const $settingsContainer = $('<div>', { class: 'settings-content', style: 'padding:6px;' });
 
-    /**
-     * Creates a radio input and label as jQuery objects.
-     * @param {string} name
-     * @param {string} value
-     * @param {string} text
-     * @param {boolean} checked
-     * @returns {Array} [input, label] as jQuery objects
-     */
-    function createRadioBtn(name, value, text, checked) {
-      const id = `${name}-${value}`;
-      return [
+    // ========== LABELS SECTION (Expanded by default) ==========
+    const $labelsSection = $('<div>', { class: 'settings-section' });
+    const $labelsHeader = $('<div>', { class: 'settings-section-header' }).append(
+      $('<div>', { class: 'settings-section-title' }).append($('<i>', { class: 'fa fa-tag' }), $('<span>').text('Labels')),
+      $('<i>', { class: 'fa fa-chevron-down section-toggle-icon' }),
+    );
+    const $labelsBody = $('<div>', { class: 'settings-section-body' });
+
+    // Addresses pill-group
+    const $addressBlock = $('<div>', { class: 'setting-item-block' });
+    $addressBlock.append($('<label>', { class: 'setting-label' }).text('Addresses:'));
+    const $addressPillGroup = $('<div>', { class: 'pill-group' });
+    ['hn', 'street', 'all', 'none'].forEach((value) => {
+      const labels = { all: 'Both', hn: 'HN', street: 'Street', none: 'None' };
+      const id = `gisAddrDisplay-${value}`;
+      const $pillOption = $('<div>', { class: 'pill-option' }).append(
         $('<input>', {
           type: 'radio',
-          id,
-          name,
+          name: 'gisAddrDisplay',
           value,
-        }).prop('checked', checked),
-        $('<label>', { for: id }).text(text).css({
-          paddingLeft: '15px',
-          marginRight: '4px',
-        }),
-      ];
-    }
-
-    $('#panel-gis-layers-settings')
-      .empty()
-      .append(
-        $('<fieldset>', {
-          style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before: 0;margin-top:-8px;',
-        }).append(
-          $('<legend>', {
-            style: 'margin-bottom:0px;border-bottom-style:none;width:auto;',
-          }).append(
-            $('<span>', {
-              style: 'font-size:14px;font-weight:600;text-transform: uppercase;',
-            }).text('Labels'),
-          ),
-          $('<div>', { id: 'labelSettings' }).append(
-            $('<div>', { class: 'controls-container' })
-              .css({ 'padding-top': '2px' })
-              .append(
-                $('<label>', { style: 'font-weight:normal;' }).text('Addresses:'),
-                createRadioBtn('gisAddrDisplay', 'hn', 'HN', settings.addrLabelDisplay === 'hn'),
-                createRadioBtn('gisAddrDisplay', 'street', 'Street', settings.addrLabelDisplay === 'street'),
-                createRadioBtn('gisAddrDisplay', 'all', 'Both', settings.addrLabelDisplay === 'all'),
-                createRadioBtn('gisAddrDisplay', 'none', 'None', settings.addrLabelDisplay === 'none'),
-                // You may get TS errors for tooltip() unless you declare it (see previous answer)
-                $('<i>', {
-                  class: 'waze-tooltip',
-                  id: 'gisAddrDisplayInfo',
-                  'data-toggle': 'tooltip',
-                  style: 'margin-left:8px; font-size:12px',
-                  'data-placement': 'bottom',
-                  title: `This may not work properly for all layers. Please report issues to ${SCRIPT_AUTHOR}.`,
-                }).tooltip(),
-                $('<br>'),
-                $('<label>', { style: 'font-weight:normal; margin-left:4px; margin-top: 4px;' }).text('Label Popup:'),
-                createRadioBtn('popupVisibility', 'show', 'Show', isPopupVisible),
-                createRadioBtn('popupVisibility', 'hide', 'Hide', !isPopupVisible),
-              ),
-          ),
-        ),
+          id,
+        }).prop('checked', settings.addrLabelDisplay === value),
+        $('<label>', { for: id }).text(labels[value]),
       );
+      $addressPillGroup.append($pillOption);
+    });
+    $addressBlock.append($addressPillGroup);
 
-    // Font Input section.......
+    // Label Popup pill-group
+    const $popupBlock = $('<div>', { class: 'setting-item-block' });
+    $popupBlock.append($('<label>', { class: 'setting-label' }).text('Label Popup:'));
+    const $popupPillGroup = $('<div>', { class: 'pill-group' });
+    [
+      { value: 'show', label: 'Show' },
+      { value: 'hide', label: 'Hide' },
+    ].forEach((opt) => {
+      const id = `popupVisibility-${opt.value}`;
+      const checked = (opt.value === 'show' && isPopupVisible) || (opt.value === 'hide' && !isPopupVisible);
+      const $pillOption = $('<div>', { class: 'pill-option' }).append(
+        $('<input>', {
+          type: 'radio',
+          name: 'popupVisibility',
+          value: opt.value,
+          id,
+        }).prop('checked', checked),
+        $('<label>', { for: id }).text(opt.label),
+      );
+      $popupPillGroup.append($pillOption);
+    });
+    $popupBlock.append($popupPillGroup);
+
+    // Font select block
     const fontOptions = [
       { value: 'inherit', label: 'Default' },
-
-      // Best for maps - excellent readability and built-in tabular numbers
       { value: '"SF Pro Display", "Segoe UI", Tahoma, Arial, sans-serif', label: 'SF Pro / Segoe UI (Recommended)' },
-      { value: 'Verdana, Geneva, sans-serif', label: 'Verdana (Wide & Clear)' },
+      { value: 'Verdana, Geneva, sans-serif', label: 'Verdana' },
       { value: 'Tahoma, Geneva, Verdana, sans-serif', label: 'Tahoma' },
-
-      // Fonts with excellent tabular numbers
-      { value: '"Source Sans Pro", "Segoe UI", Arial, sans-serif', label: 'Source Sans Pro (Tabular)' },
-      { value: '"Roboto", "Segoe UI", Arial, sans-serif', label: 'Roboto (Modern)' },
-      { value: '"Inter", "Segoe UI", Arial, sans-serif', label: 'Inter (Designed for UI)' },
-
-      // Traditional options
+      { value: '"Source Sans Pro", "Segoe UI", Arial, sans-serif', label: 'Source Sans Pro' },
+      { value: '"Roboto", "Segoe UI", Arial, sans-serif', label: 'Roboto' },
+      { value: '"Inter", "Segoe UI", Arial, sans-serif', label: 'Inter' },
       { value: 'Arial, Helvetica, sans-serif', label: 'Arial' },
       { value: 'Trebuchet MS, Helvetica, sans-serif', label: 'Trebuchet MS' },
-
-      // Bold/Heavy options for high contrast
-      { value: 'Arial Black, Arial, sans-serif', label: 'Arial Black (Bold)' },
-      { value: 'Impact, "Arial Black", sans-serif', label: 'Impact (Heavy)' },
-
-      // Monospace - perfect alignment for addresses/coordinates
+      { value: 'Arial Black, Arial, sans-serif', label: 'Arial Black' },
+      { value: 'Impact, "Arial Black", sans-serif', label: 'Impact' },
       { value: 'Consolas, "SF Mono", Monaco, "Cascadia Code", monospace', label: 'Consolas (Monospace)' },
-      { value: '"JetBrains Mono", Consolas, "Courier New", monospace', label: 'JetBrains Mono (Clear)' },
-      { value: '"Courier New", Courier, monospace', label: 'Courier New (Classic)' },
+      { value: '"JetBrains Mono", Consolas, "Courier New", monospace', label: 'JetBrains Mono' },
+      { value: '"Courier New", Courier, monospace', label: 'Courier New' },
     ];
 
-    const $fontRow = $('<div>', {
-      style: ['display:flex', 'align-items:flex-start', 'margin-top:4px', 'margin-left:4px', 'gap:8px', 'flex-wrap:wrap'].join(';'),
-      class: 'gis-label-font-row',
-    }).append(
-      // Font Family Section
-      $('<div>', {
-        style: ['display:flex', 'align-items:center', 'gap:4px', 'flex:1 1 auto', 'min-width:200px'].join(';'),
-      }).append(
-        $('<label>', {
-          for: 'gis-label-font-select',
-          style: ['font-weight:normal', 'font-size:14px', 'white-space:nowrap', 'flex-shrink:0'].join(';'),
-        }).text('Font:'),
-        $('<select>', {
-          id: 'gis-label-font-select',
-          style: ['font-size:12px', 'padding:2px 6px', 'line-height:0.8', 'border:1px solid #b9b9b9', 'border-radius:3px', 'flex:1 1 auto', 'min-width:0', 'max-width:100%'].join(';'),
-        }).append(
-          fontOptions.map((opt) =>
-            $('<option>', {
-              value: opt.value,
-              text: opt.label,
-            }).prop('selected', settings.fontFamily === opt.value),
-          ),
-        ),
-      ),
-      // Font Size Section
-      $('<div>', {
-        style: ['display:flex', 'align-items:center', 'gap:4px', 'flex:0 0 auto'].join(';'),
-      }).append(
-        $('<label>', {
-          for: 'gis-label-font-size',
-          style: ['font-weight:normal', 'font-size:14px', 'white-space:nowrap'].join(';'),
-        }).text('Size:'),
-        $('<input>', {
-          type: 'number',
-          id: 'gis-label-font-size',
-          min: 8,
-          max: 48,
-          value: settings.fontSize || 20,
-          style: ['font-size:12px', 'padding:2px 6px', 'border:1px solid #b9b9b9', 'border-radius:3px', 'width:60px', 'text-align:center'].join(';'),
-        }),
-      ),
-    );
+    // Font select dropdown
+    const $fontBlock = $('<div>', { class: 'setting-item-block' });
+    $fontBlock.append($('<label>', { class: 'setting-label', for: 'gis-label-font-select' }).text('Font:'));
+    const $fontSelect = $('<select>', { id: 'gis-label-font-select', class: 'setting-select' });
+    fontOptions.forEach((opt) => {
+      $fontSelect.append($('<option>', { value: opt.value, text: opt.label }).prop('selected', settings.fontFamily === opt.value));
+    });
+    $fontBlock.append($fontSelect);
 
-    // Font Family change handler
-    $fontRow.find('#gis-label-font-select').on('change', function () {
+    // Font size input
+    const $sizeBlock = $('<div>', { class: 'setting-item-block' });
+    $sizeBlock.append($('<label>', { class: 'setting-label', for: 'gis-label-font-size' }).text('Size:'));
+    const $sizeInputRow = $('<div>', { style: 'display:flex;align-items:center;' }).append(
+      $('<input>', {
+        type: 'number',
+        id: 'gis-label-font-size',
+        class: 'setting-input',
+        min: 8,
+        max: 48,
+        value: settings.fontSize || 20,
+      }),
+      $('<span>', { class: 'setting-unit' }).text('px'),
+    );
+    $sizeBlock.append($sizeInputRow);
+    $sizeBlock.append($('<div>', { class: 'help-text' }).text('Recommended: 12-16px for readability'));
+
+    // Assemble Labels section
+    $labelsBody.append($addressBlock, $popupBlock, $fontBlock, $sizeBlock);
+    $labelsSection.append($labelsHeader, $labelsBody);
+
+    // ========== DISPLAY OPTIONS SECTION (Collapsed by default) ==========
+    const $displaySection = $('<div>', { class: 'settings-section collapsed' });
+    const $displayHeader = $('<div>', { class: 'settings-section-header' }).append(
+      $('<div>', { class: 'settings-section-title' }).append($('<i>', { class: 'fa fa-eye' }), $('<span>').text('Display Options')),
+      $('<i>', { class: 'fa fa-chevron-down section-toggle-icon' }),
+    );
+    const $displayBody = $('<div>', { class: 'settings-section-body' });
+
+    const $fillParcelsToggle = $('<div>', { class: 'toggle-switch' }).append(
+      $('<label>', { for: 'fill-parcels' }).text('Fill parcels with color'),
+      $('<label>', { class: 'switch' }).append($('<input>', { type: 'checkbox', id: 'fill-parcels' }).prop('checked', settings.fillParcels), $('<span>', { class: 'slider' })),
+    );
+    $displayBody.append($fillParcelsToggle);
+    $displaySection.append($displayHeader, $displayBody);
+
+    // ========== LAYER GROUPINGS SECTION (Collapsed by default) ==========
+    const $groupingsSection = $('<div>', { class: 'settings-section collapsed' });
+    const $groupingsHeader = $('<div>', { class: 'settings-section-header' }).append(
+      $('<div>', { class: 'settings-section-title' }).append($('<i>', { class: 'fa fa-layer-group' }), $('<span>').text('Layer Groupings')),
+      $('<i>', { class: 'fa fa-chevron-down section-toggle-icon' }),
+    );
+    const $groupingsBody = $('<div>', { class: 'settings-section-body' });
+
+    $groupingsBody.append(
+      $('<p>', { class: 'section-description' }).text('Save and manage your custom layer configurations for quick recall.'),
+      $('<button>', { id: 'gis-manager-launch-btn', class: 'btn-full' }).append($('<i>', { class: 'fa fa-cog' }), 'Manage Custom Groups'),
+      $('<button>', {
+        id: 'gis-load-all-btn',
+        class: 'btn-full',
+        style: 'margin-top:8px;background:linear-gradient(to bottom, #5d934a 0%, #548342 100%);border:1px solid #406927;',
+        title: 'Load ALL country/state/region layers for custom grouping (slower)',
+      }).append($('<i>', { class: 'fa fa-download' }), 'Load All Layers'),
+    );
+    $groupingsSection.append($groupingsHeader, $groupingsBody);
+
+    // ========== API TOKENS SECTION (Collapsed by default) ==========
+    const $tokensSection = $('<div>', { class: 'settings-section collapsed' });
+    const $tokensHeader = $('<div>', { class: 'settings-section-header' }).append(
+      $('<div>', { class: 'settings-section-title' }).append($('<i>', { class: 'fa fa-key' }), $('<span>').text('API Tokens')),
+      $('<i>', { class: 'fa fa-chevron-down section-toggle-icon' }),
+    );
+    const $tokensBody = $('<div>', { class: 'settings-section-body' });
+
+    const hasToken = !!settings.socrataAppToken;
+    const $tokenBlock = $('<div>', { class: 'setting-item-block' });
+    $tokenBlock.append($('<label>', { class: 'setting-label', for: 'socrata-app-token-input' }).text('Tyler/Socrata App Token:'));
+    $tokenBlock.append(
+      $('<input>', {
+        type: hasToken ? 'password' : 'text',
+        id: 'socrata-app-token-input',
+        class: 'setting-input-full',
+        placeholder: hasToken ? 'Token is set' : 'Enter token...',
+        value: hasToken ? settings.socrataAppToken : '',
+        disabled: hasToken,
+      }),
+    );
+    $tokenBlock.append($('<div>', { class: 'help-text' }).text('Improves API rate limits and required for V3 API'));
+
+    const $tokenButtons = $('<div>', { class: 'button-group' }).append(
+      $('<button>', { id: 'save-socrata-token-btn', class: hasToken ? 'btn-secondary-modern' : 'btn-primary-modern' }).text(hasToken ? 'Remove Token' : 'Save Token'),
+    );
+    $tokenBlock.append($tokenButtons);
+
+    $tokensBody.append($tokenBlock);
+    $tokensSection.append($tokensHeader, $tokensBody);
+
+    // ========== ASSEMBLE ALL SECTIONS ==========
+    $settingsContainer.append($labelsSection, $displaySection, $groupingsSection, $tokensSection);
+
+    // Clear and set the settings panel
+    $('#panel-gis-layers-settings').empty().append($settingsContainer);
+
+    // ========== EVENT HANDLERS ==========
+
+    // Collapsible section headers
+    $('.settings-section-header').on('click', function () {
+      $(this).closest('.settings-section').toggleClass('collapsed');
+    });
+
+    // Address label display change
+    $('input[name="gisAddrDisplay"]').on('change', onGisAddrDisplayChange);
+
+    // Prevent clicks on pill buttons from bubbling to section header
+    $('.pill-group').on('click', function(e) {
+      e.stopPropagation();
+    });
+
+    // Label popup visibility change
+    $('input[name="popupVisibility"]').on('change', function () {
+      isPopupVisible = $(this).val() === 'show';
+      togglePopupVisibility();
+    });
+
+    // Font select change
+    $('#gis-label-font-select').on('change', function () {
       settings.fontFamily = $(this).val();
       saveSettingsToStorage();
       applyFontSettingsToStyles();
@@ -5683,8 +7262,8 @@
       updatePopup(layerLabels);
     });
 
-    // Font Size change handler
-    $fontRow.find('#gis-label-font-size').on('change input', function () {
+    // Font size change
+    $('#gis-label-font-size').on('change input', function () {
       const newSize = parseInt($(this).val(), 10);
       if (newSize >= 8 && newSize <= 48) {
         settings.fontSize = newSize;
@@ -5702,242 +7281,77 @@
       }
     });
 
-    $('#labelSettings .controls-container').append($fontRow);
+    // Fill parcels toggle
+    $('#fill-parcels').on('change', onFillParcelsCheckedChanged);
 
-    // Create groups by country
-    Object.keys(layersByCountry)
-      .sort()
-      .forEach((country) => {
-        const subRegions = _.uniq(layersByCountry[country].map((l) => l.countrySubL1));
-        // Unique selector base for this country
-        const countryContainerId = `country_${country}_body`;
+    // Manage Custom Groups button
+    $('#gis-manager-launch-btn').on('click', openLayerGroupManagerDialog);
 
-        $('#panel-gis-layers-settings').append(
-          $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before:0;' }).append(
-            $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' })
-              // OLD: .click(onChevronClick) -- DEPRECATED
-              .on('click', onChevronClick)
-              .append(
-                $('<i>', { class: 'fa fa-fw fa-chevron-down', style: 'cursor: pointer;font-size: 12px;margin-right: 4px' }),
-                $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text(NameMapper.toFullName(country)),
-              ),
-            $('<div>', { id: countryContainerId }).append(
-              // One Select All/None row per COUNTRY
-              $('<div>', { class: 'gis-select-all-controls', style: 'font-size:11px;margin-bottom:4px;' }).append(
-                'Select ',
-                $('<a>', { href: '#', 'data-country': country, class: 'gis-select-all-country' }).text('All'),
-                ' / ',
-                $('<a>', { href: '#', 'data-country': country, class: 'gis-select-none-country' }).text('None'),
-              ),
-              // All the subregion checkboxes
-              subRegions.map((countrySubL1) => {
-                const fullName = NameMapper.toFullName(countrySubL1);
-                const id = `gis-layer-enable-subL1-${countrySubL1}`;
-                return $('<div>', { class: 'controls-container' })
-                  .css({ 'padding-top': '0px', display: 'block' })
-                  .append(
-                    $('<input>', {
-                      type: 'checkbox',
-                      id,
-                      class: 'gis-layers-subL1-checkbox',
-                      'data-sub': countrySubL1,
-                      'data-country': country,
-                    })
-                      .on('change', (evt) => onSub1CheckChanged(countrySubL1, evt)) // <--- pass subL1
-                      .prop('checked', settings.selectedSubL1.includes(countrySubL1)),
-                    $('<label>', { for: id }).css({ 'white-space': 'pre-line' }).text(fullName),
-                  );
-              }),
-            ),
-          ),
-        );
-      });
-
-    $('#panel-gis-layers-settings').append(
-      $('<fieldset>', { style: 'border:1px solid silver;padding:8px;border-radius:4px;-webkit-padding-before:0;' }).append(
-        $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' }).append(
-          $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text('Appearance'),
-        ),
-        $('<div>', { class: 'controls-container' })
-          .css({ 'padding-top': '2px' })
-          .append(
-            $('<input>', { type: 'checkbox', id: 'fill-parcels' }).change(onFillParcelsCheckedChanged).prop('checked', settings.fillParcels),
-            $('<label>', { for: 'fill-parcels' }).css({ 'white-space': 'pre-line' }).text('Fill parcels'),
-          ),
-      ),
-    );
-
-    // ---- SOCRATA APP TOKEN SECTION ----
-    $('#panel-gis-layers-settings').append('<div id="socrata-app-token-anchor"></div>');
-
-    function renderSocrataAppTokenSection() {
-      $('#socrata-app-token-section').remove();
-
-      const hasToken = !!settings.socrataAppToken;
-      const inputType = hasToken ? 'password' : 'text';
-      const inputVal = hasToken ? settings.socrataAppToken : '';
-      const inputPh = hasToken ? 'Token is set' : 'Enter Socrata App Token';
-      const btnLabel = hasToken ? 'Remove' : 'Save';
-
-      const $fieldset = $('<fieldset>', {
-        id: 'socrata-app-token-section',
-        style: 'border:1px solid #b9b9b9;margin-top:6px;padding:8px;border-radius:4px;',
-      }).append(
-        $('<legend>', {
-          style: 'margin-bottom:0px;border-bottom-style:none;width:auto;',
-        }).append(
-          $('<span>', {
-            style: 'font-size:14px;font-weight:600;text-transform:uppercase;',
-          }).text('Tyler/Socrata App Token'),
-        ),
-        $('<div>', {
-          style: ['display:flex', 'gap:8px', 'align-items:center', 'border:1px solid #b9b9b9', 'border-radius:4px', 'padding:4px 8px'].join(';'),
-        }).append(
-          $('<input>', {
-            type: inputType,
-            id: 'socrata-app-token-input',
-            style: ['flex:1 1 auto', 'border:none', 'background:transparent', 'outline:none', 'font-size:12px', 'padding:4px 0', 'color:inherit'].join(';'),
-            placeholder: inputPh,
-            disabled: hasToken, // disable input when token is set
-          }).val(inputVal),
-          $('<button>', {
-            id: 'save-socrata-app-token-btn',
-            style: ['border:none', 'background:transparent', 'color:#335', 'margin:0 2px', 'padding:2px 10px', 'border-radius:3px', 'font-size:13px', 'cursor:pointer'].join(';'),
-            text: btnLabel,
-          }),
-        ),
-        $('<div>', {
-          style: 'margin:6px 2px 0 2px;',
-        }).append(
-          $('<span>', {
-            style: 'color:#777;font-size:11px;',
-            html: 'Recommended for all Tyler/Socrata layers<br><span style="color:#b00;">Required for V3 API</span>',
-          }),
-        ),
-      );
-
-      if (!hasToken) {
-        // Show help links if token is not set
-        const $helpDiv = $('<div>', {
-          style: 'margin:2px 2px 0 2px;font-size:11px;',
-        }).append(
-          $('<div>').append(
-            $('<a>', {
-              href: 'https://support.socrata.com/hc/en-us/articles/115004055807-How-to-Sign-Up-for-a-Tyler-Data-Insights-ID',
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              style: 'color:#357ab8;text-decoration:underline;',
-              text: 'How to Sign Up for a Tyler Data & Insights ID',
-            }),
-          ),
-          $('<div>').append(
-            $('<a>', {
-              href: 'https://support.socrata.com/hc/en-us/articles/210138558-Generating-App-Tokens-and-API-Keys',
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              style: 'color:#357ab8;text-decoration:underline;',
-              text: 'How to Generating App Tokens',
-            }),
-          ),
-        );
-        $fieldset.append($helpDiv);
+    // Load All Layers button
+    $('#gis-load-all-btn').on('click', async function () {
+      $(this).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+      try {
+        await loadSpreadsheetAsync('ALL', 'ALL');
+        initTab(false);
+        logDebug('All layers loaded!');
+        alert('All layers loaded successfully!');
+      } catch (e) {
+        logError(`Error in load all Layers: ${e.message || e}`);
+        alert(`Failed to load all layers: ${e.message || e}`);
       }
-
-      // (insert after anchor)
-      $('#socrata-app-token-anchor').after($fieldset);
-
-      // Single handler for the button
-      $('#save-socrata-app-token-btn')
-        .off('click')
-        .on('click', function () {
-          if (!hasToken) {
-            const token = String($('#socrata-app-token-input').val()).trim();
-            settings.socrataAppToken = token;
-            saveSettingsToStorage();
-            $(this)
-              .text('Saved!')
-              .delay(1000)
-              .queue(function (next) {
-                $(this).text('Remove');
-                next();
-              });
-          } else {
-            // Remove the token
-            settings.socrataAppToken = '';
-            saveSettingsToStorage();
-          }
-          renderSocrataAppTokenSection();
-        });
-    }
-
-    renderSocrataAppTokenSection();
-    // ---- SOCRATA APP TOKEN SECTION END
-
-    $('input[name="gisAddrDisplay"]').on('change', onGisAddrDisplayChange);
-
-    $('input[name="popupVisibility"]').on('change', function () {
-      isPopupVisible = $(this).val() === 'show';
-      togglePopupVisibility();
+      $(this).prop('disabled', false).html('<i class="fa fa-download"></i> Load All Layers');
     });
 
-    // -- CUSTOM Group Popup & Load All Button  --
-    $('#panel-gis-layers-settings').append(
-      $('<fieldset>', { style: 'border:1px solid #8ea0b7;margin-top:6px;padding:8px;border-radius:4px;' }).append(
-        $('<legend>', { style: 'margin-bottom:0px;border-bottom-style:none;width:auto;' }).append(
-          $('<span>', { style: 'font-size:14px;font-weight:600;text-transform:uppercase;' }).text('Layer Groupings'),
-        ),
-        $('<div>').append(
-          $('<button>', {
-            id: 'gis-manager-launch-btn',
-            class: 'form-control',
-            style: 'display:inline-block;padding:2px 8px;margin-top:3px; background:#4d6a88; color:#eaf6ff; border:1px solid #50667b;',
-          }).text('Manage Custom Groups'),
-          $('<button>', {
-            id: 'gis-load-all-btn',
-            class: 'form-control',
-            style: 'display:inline-block;padding:2px 8px;margin-top:3px;background:#548342;color:#fff;border:1px solid #406927;',
-            title: 'Load ALL country/state/region layers for custom grouping (slower)',
-          }).text('Load All Layers'),
-        ),
-      ),
-    );
-
-    $('#gis-manager-launch-btn').off('click').on('click', openLayerGroupManagerDialog);
-
-    $('#gis-load-all-btn')
+    // Save/Remove Token button (toggles based on whether token is set)
+    $('#save-socrata-token-btn')
       .off('click')
-      .on('click', async function () {
-        $(this).prop('disabled', true).text('Loading...');
-        try {
-          await loadSpreadsheetAsync('ALL', 'ALL');
-          initTab(false);
-          logDebug('All layers loaded!');
-        } catch (e) {
-          logError(`Error in load all Layers: ${e.message || e}`);
+      .on('click', function () {
+        const hasToken = !!settings.socrataAppToken;
+
+        if (hasToken) {
+          // Remove token
+          if (confirm('Are you sure you want to remove the Tyler/Socrata App Token?')) {
+            settings.socrataAppToken = '';
+            saveSettingsToStorage();
+
+            // Update UI directly without full re-render
+            $('#socrata-app-token-input')
+              .attr('type', 'text')
+              .attr('placeholder', 'Enter token...')
+              .val('')
+              .prop('disabled', false);
+
+            $('#save-socrata-token-btn')
+              .text('Save Token')
+              .removeClass('btn-secondary-modern')
+              .addClass('btn-primary-modern');
+
+            alert('Token removed successfully.');
+          }
+        } else {
+          // Save token
+          const token = $('#socrata-app-token-input').val().trim();
+          if (token) {
+            settings.socrataAppToken = token;
+            saveSettingsToStorage();
+
+            // Update UI directly without full re-render
+            $('#socrata-app-token-input')
+              .attr('type', 'password')
+              .attr('placeholder', 'Token is set')
+              .val(token)
+              .prop('disabled', true);
+
+            $('#save-socrata-token-btn')
+              .text('Remove Token')
+              .removeClass('btn-primary-modern')
+              .addClass('btn-secondary-modern');
+
+            alert('Token saved successfully.');
+          } else {
+            alert('Please enter a token first.');
+          }
         }
-        $(this).prop('disabled', false).text('Load All Layers');
-      });
-    // -- END CUSTOM Group Popup & Load All Button  --
-
-    // Select all subregions under a country functionality
-    $('#panel-gis-layers-settings')
-      .off('click', '.gis-select-all-country')
-      .on('click', '.gis-select-all-country', async function (e) {
-        e.preventDefault();
-        const country = $(this).data('country');
-        // Check all
-        $(`.gis-layers-subL1-checkbox[data-country="${country}"]`).prop('checked', true);
-        await batchUpdateSelectedSubL1(); // <- collect and process only ONCE!
-      });
-
-    $('#panel-gis-layers-settings')
-      .off('click', '.gis-select-none-country')
-      .on('click', '.gis-select-none-country', async function (e) {
-        e.preventDefault();
-        const country = $(this).data('country');
-        // Uncheck all
-        $(`.gis-layers-subL1-checkbox[data-country="${country}"]`).prop('checked', false);
-        await batchUpdateSelectedSubL1(); // <- collect and process only ONCE!
       });
   }
 
@@ -5978,14 +7392,14 @@
             title: 'Pull new layer info from master sheet and refresh all layers.',
           }),
           // Nav tabs for layer/settings panels.
-          '<ul class="nav nav-tabs">' +
+          '<ul class="nav nav-tabs gis-internal-tabs">' +
             '<li class="active"><a data-toggle="tab" href="#panel-gis-subL1-layers" aria-expanded="true">Layers</a></li>' +
             '<li><a data-toggle="tab" href="#panel-gis-layers-settings" aria-expanded="true">Settings</a></li>' +
             '</ul>',
           // Tab panels for layers and settings.
-          $('<div>', { class: 'tab-content', style: 'padding:8px;padding-top:2px' }).append(
-            $('<div>', { class: 'tab-pane active', id: 'panel-gis-subL1-layers', style: 'padding: 4px 0px 0px 0px; width: auto' }),
-            $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 4px 0px 0px 0px; width: auto' }),
+          $('<div>', { class: 'tab-content', style: 'padding:4px;padding-top:2px' }).append(
+            $('<div>', { class: 'tab-pane active', id: 'panel-gis-subL1-layers', style: 'padding: 2px 0px 0px 0px; width: auto' }),
+            $('<div>', { class: 'tab-pane', id: 'panel-gis-layers-settings', style: 'padding: 2px 0px 0px 0px; width: auto' }),
           ),
         )
         .html();
@@ -6008,9 +7422,10 @@
       const { tabLabel, tabPane } = await sdk.Sidebar.registerScriptTab();
       tabLabel.innerHTML = labelText;
       tabPane.innerHTML = content;
+      tabPane.classList.add('wme-gis-panel');
 
       // Tweak tab spacing and wire up power and refresh buttons.
-      $(tabPane).parent().css({ width: 'auto', padding: '6px' });
+      $(tabPane).parent().css({ width: 'auto', padding: '4px' });
       $('#gis-layers-power-btn').on('click', function () {
         setEnabled(!settings.enabled);
 
@@ -6056,10 +7471,24 @@
   /**
    * Opens the GIS Layer Group Manager dialog for managing saved layer/region groups.
    *
-   * - Renders a draggable dialog unless already open.
-   * - Allows the user to save, load, and delete "layer groups": sets of currently selected regions and visible GIS layers.
-   * - Integrates with `settings` (for state), WazeWrap.Alerts (for confirmation/prompt), and uses jQuery for UI.
-   * - Cleans up event handlers on close/escape.
+   * Features:
+   * - Renders a draggable modal dialog with modern blue theme styling
+   * - Allows the user to save, load, and delete "layer groups": sets of currently selected regions and visible GIS layers
+   * - Uses native browser dialogs (confirm/prompt/alert) for user interactions
+   * - Supports dark mode theming that adapts to WME Editor theme
+   * - Includes "Clear All" functionality to reset all selections
+   * - Prevents duplicate dialog instances
+   * - Cleans up event handlers on close/escape
+   *
+   * Dialog Structure:
+   * - Header: Blue bar with title and close button
+   * - Section 1: Current Selection - "Clear All" and "Save as Group" buttons
+   * - Section 2: My Saved Groups - Dropdown selector with "Load Group" and "Delete Group" buttons
+   *
+   * Integrations:
+   * - settings: Global state object for storing/retrieving layer groups
+   * - jQuery: For DOM manipulation and event handling
+   * - Native dialogs: confirm(), prompt(), alert() for user interactions
    *
    * @function openLayerGroupManagerDialog
    * @returns {void}
@@ -6067,30 +7496,12 @@
   function openLayerGroupManagerDialog() {
     if ($('#gis-layer-group-dialog').length) return;
 
-    // --- Color & style constants for easy palette harmonization ---
-    const BTN_STYLE_BLUE =
-      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
-      'border:1.5px solid #50667b;border-radius:7px; font-size:15px;font-weight:600;' +
-      'background:#4d6a88;color:#eaf6ff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
-    const BTN_STYLE_GREEN =
-      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
-      'border:1.5px solid #406927;border-radius:7px;font-size:15px;font-weight:600;' +
-      'background:#548342;color:#fff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
-    const BTN_STYLE_RED =
-      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
-      'border:1.5px solid #9b2020;border-radius:7px;font-size:15px;font-weight:600;' +
-      'background:#c14444;color:#fff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
-    const BTN_STYLE_ORANGE =
-      'min-width:120px;height:38px;display:flex;align-items:center;justify-content:center;' +
-      'border:1.5px solid #9c5b13;border-radius:7px;font-size:15px;font-weight:600;' +
-      'background:#d58431;color:#fff;box-shadow:0 2px 7px #35587015;cursor:pointer; outline:none;';
-
     const scriptName = typeof GM_info !== 'undefined' ? GM_info.script.name : 'Layer Groups';
 
     // Header and close
     const $title = $('<span>').text(scriptName + ' — Layer Groups');
     const $close = $('<span>', {
-      style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#eaf6ff;float:right;',
+      style: 'cursor:pointer;padding-left:14px;font-size:20px;color:#fff;float:right;',
       class: 'fa fa-window-close',
       title: 'Close',
       tabindex: 0,
@@ -6101,93 +7512,81 @@
     // Dialog container
     const $dlg = $('<div>', {
       id: 'gis-layer-group-dialog',
+      class: 'gis-popup-dialog',
       style:
         'position:fixed; top:14%; left:420px; width:400px; z-index:99999;' +
-        'background:#73a9bd; border-width:1px; border-style:solid; border-radius:14px;' +
-        'box-shadow:5px 6px 14px rgba(0,0,0,0.58); border-color:#50667b; padding:0; font-family:inherit;',
+        'border-width:1px; border-style:solid; border-radius:8px;' +
+        'box-shadow:0 4px 16px rgba(0,0,0,0.2); padding:0; font-family:inherit;',
     });
 
     // Header
     $dlg.append(
       $('<div>', {
-        style: 'border-radius:14px 14px 0px 0px; padding: 7px 14px; color: #fff; background:#4d6a88; font-weight:bold; text-align:left; font-size:17px;',
+        class: 'gis-dialog-header',
+        style: 'border-radius:8px 8px 0 0; padding: 12px 16px; font-weight:600; text-align:left; font-size:16px;',
       }).append($title, $close),
     );
 
     // --- Section: Current Selection ---
     const $section1 = $('<div>', {
-      style: 'border-radius: 7px; background: #d6e6f3; margin:8px 8px 8px 8px; padding:8px 8px 8px 8px; box-shadow:0 1px 5px #0001;',
+      class: 'gis-dialog-section',
+      style: 'border-radius: 6px; margin:12px; padding:16px; border: 1px solid;',
     }).append(
-      $('<div>', { style: 'font-size:15.5px;font-weight:700;color:#355870;margin-bottom:6px;' }).text('Current Selection'),
-      $('<div>', { style: 'font-size:13.3px;color:#468;margin-bottom:13px;' }).text('Save or load your current visible layers and region selections as quick-access groups.'),
-      $('<div>', { style: 'display:flex;gap:14px;align-items:center;margin-top:4px;' }).append(
+      $('<div>', { class: 'gis-dialog-section-title', style: 'font-size:15px;font-weight:600;margin-bottom:8px;' }).text('Current Selection'),
+      $('<div>', { class: 'gis-dialog-section-text', style: 'font-size:13px;margin-bottom:16px;' }).text('Save or load your current visible layers and region selections as quick-access groups.'),
+      $('<div>', { style: 'display:flex;gap:12px;align-items:center;margin-top:4px;' }).append(
         $('<button>', {
-          class: 'GISGroupDlg-btn',
-          style: BTN_STYLE_RED,
+          class: 'GISGroupDlg-btn btn-secondary-modern',
           title: 'Remove all selected sub-regions and visible layers',
         })
           .text('Clear All')
           .on('click', function () {
-            WazeWrap.Alerts.confirm(
-              scriptName,
-              '<div style="color:#ff0000; font-size:17px; font-weight:bold; padding:10px 0; text-align:center;">' +
-                'Are you sure you want to remove all visible layers, and region selections?' +
-                '</div>',
-              function () {
-                settings.selectedSubL1 = [];
-                settings.visibleLayers = [];
-                settings.collapsedSections = {};
-                saveSettingsToStorage();
-                loadSettingsFromStorage();
-                initGui(false);
-                $dlg.remove();
-              },
-            );
+            if (confirm('Are you sure you want to remove all visible layers and region selections?')) {
+              settings.selectedSubL1 = [];
+              settings.visibleLayers = [];
+              settings.collapsedSections = {};
+              saveSettingsToStorage();
+              loadSettingsFromStorage();
+              initGui(false);
+              $dlg.remove();
+            }
           }),
         $('<button>', {
-          class: 'GISGroupDlg-btn',
-          style: BTN_STYLE_BLUE,
+          class: 'GISGroupDlg-btn btn-primary-modern',
           title: 'Save current layers and selections as a group',
         })
           .text('Save as Group')
           .on('click', function () {
-            WazeWrap.Alerts.prompt(scriptName, 'Enter a name for this group:', '', function (result, name) {
-              if (!result || !name || !name.trim()) return;
-              settings.layerGroups = settings.layerGroups || {};
-              if (settings.layerGroups[name]) {
-                WazeWrap.Alerts.confirm(scriptName, 'Group "' + name + '" exists. Overwrite?', function () {
-                  doSaveGroup(name, true);
-                });
-              } else {
-                doSaveGroup(name, false);
+            const name = prompt('Enter a name for this group:');
+            if (!name || !name.trim()) return;
+            settings.layerGroups = settings.layerGroups || {};
+            if (settings.layerGroups[name]) {
+              if (confirm('Group "' + name + '" exists. Overwrite?')) {
+                doSaveGroup(name, true);
               }
-              /**
-               * @param {string} groupName - Name for the saved group.
-               * @param {boolean} overwritten - If true, notify user it's an overwrite.
-               * @returns {void}
-               */
-              function doSaveGroup(groupName, overwritten) {
-                settings.layerGroups[groupName] = {
-                  selectedSubL1: [...settings.selectedSubL1],
-                  visibleLayers: [...settings.visibleLayers],
-                  collapsedSections: { ...settings.collapsedSections },
-                  addrLabelDisplay: settings.addrLabelDisplay,
-                  fillParcels: settings.fillParcels,
-                  fontFamily: settings.fontFamily,
-                  fontSize: settings.fontSize,
-                };
-                saveSettingsToStorage();
-                loadSettingsFromStorage();
-                populateGroupSelect();
-                setTimeout(function () {
-                  if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.success === 'function') {
-                    WazeWrap.Alerts.success(scriptName, 'Layer group saved as "' + groupName + '"' + (overwritten ? ' (overwritten)' : ''));
-                  } else {
-                    alert('Layer group saved as "' + groupName + '"' + (overwritten ? ' (overwritten)' : ''));
-                  }
-                }, 150);
-              }
-            });
+            } else {
+              doSaveGroup(name, false);
+            }
+            /**
+             * @param {string} groupName - Name for the saved group.
+             * @param {boolean} overwritten - If true, notify user it's an overwrite.
+             * @returns {void}
+             */
+            function doSaveGroup(groupName, overwritten) {
+              settings.layerGroups[groupName] = {
+                selectedSubL1: [...settings.selectedSubL1],
+                visibleLayers: [...settings.visibleLayers],
+                collapsedSections: { ...settings.collapsedSections },
+                addrLabelDisplay: settings.addrLabelDisplay,
+                fillParcels: settings.fillParcels,
+                fontFamily: settings.fontFamily,
+                fontSize: settings.fontSize,
+              };
+              saveSettingsToStorage();
+              loadSettingsFromStorage();
+              populateGroupSelect();
+              alert('Layer group saved as "' + groupName + '"' + (overwritten ? ' (overwritten)' : ''));
+            }
           }),
       ),
     );
@@ -6195,10 +7594,11 @@
     // --- Section: My Saved Groups ---
     const $groupSelect = $('<select>', {
       id: 'gis-layer-group-select',
+      class: 'gis-dialog-select',
       style:
-        'font-size:13px; border-radius:4px; border:1px solid #356079; padding:7px 12px;' +
-        'min-width:250px; max-width:365px; margin-right:8px; outline:none;' +
-        'background:#eaf4fd; color:#17354e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;',
+        'font-size:13px; border-radius:4px; border:1px solid; padding:8px 12px;' +
+        'width:100%; outline:none;' +
+        'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;',
     });
 
     /**
@@ -6223,14 +7623,14 @@
     populateGroupSelect();
 
     const $section2 = $('<div>', {
-      style: 'border-radius: 7px; background: #d6e6f3; margin:8px 8px 8px 8px; padding:8px 8px 8px 8px; box-shadow:0 1px 5px #0001;',
+      class: 'gis-dialog-section',
+      style: 'border-radius: 6px; margin:12px; padding:16px; border: 1px solid;',
     }).append(
-      $('<div>', { style: 'font-size:14.5px;font-weight:700;color:#355870;margin-bottom:10px;' }).text('My Saved Groups'),
-      $('<div>', { style: 'margin-bottom:8px;' }).append($groupSelect),
+      $('<div>', { class: 'gis-dialog-section-title', style: 'font-size:15px;font-weight:600;margin-bottom:12px;' }).text('My Saved Groups'),
+      $('<div>', { style: 'margin-bottom:12px;' }).append($groupSelect),
       $('<div>', { style: 'display:flex;gap:12px;align-items:center;margin-top:6px;' }).append(
         $('<button>', {
-          class: 'GISGroupDlg-btn',
-          style: BTN_STYLE_GREEN,
+          class: 'GISGroupDlg-btn btn-primary-modern',
           title: 'Load selected group',
         })
           .text('Load Group')
@@ -6258,38 +7658,23 @@
             $dlg.remove();
           }),
         $('<button>', {
-          class: 'GISGroupDlg-btn',
-          style: BTN_STYLE_ORANGE,
+          class: 'GISGroupDlg-btn btn-secondary-modern',
           title: 'Delete selected group',
         })
           .text('Delete Group')
           .on('click', function () {
             const group = $groupSelect.val();
             if (typeof group !== 'string' || !(settings.layerGroups && settings.layerGroups[group])) {
-              if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.info === 'function') {
-                WazeWrap.Alerts.info(scriptName, 'Please select a group to delete.');
-              } else {
-                alert('Please select a group to delete.');
-              }
+              alert('Please select a group to delete.');
               return;
             }
-            WazeWrap.Alerts.confirm(
-              scriptName,
-              '<div style="color:#ff0000; font-size:17px; font-weight:bold; padding:10px 0; text-align:Left;">' + 'Delete group "' + group + '"? \nThis cannot be undone!' + '</div>',
-              function () {
-                delete settings.layerGroups[group];
-                saveSettingsToStorage();
-                loadSettingsFromStorage();
-                populateGroupSelect();
-                setTimeout(function () {
-                  if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.success === 'function') {
-                    WazeWrap.Alerts.success(scriptName, 'Group "' + group + '" deleted.');
-                  } else {
-                    alert('Group "' + group + '" deleted.');
-                  }
-                }, 150);
-              },
-            );
+            if (confirm('Delete group "' + group + '"?\nThis cannot be undone!')) {
+              delete settings.layerGroups[group];
+              saveSettingsToStorage();
+              loadSettingsFromStorage();
+              populateGroupSelect();
+              alert('Group "' + group + '" deleted.');
+            }
           }),
       ),
     );
@@ -6643,7 +8028,7 @@
             if (countryId === isoCode.toUpperCase() && subL1Upper) {
               layerDef['countrySubL1'] = `${countryId}-${subL1Upper}`;
             }
-            validSubL1 = regionCodes && (regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase());
+            validSubL1 = regionCodes && countryId === isoCode.toUpperCase() && (regionCodes.has(subL1Upper) || subL1Upper === isoCode.toUpperCase());
           }
           if (validSubL1 && !layerDef.notAllowed) {
             const layerExists = typeof _gisLayers !== 'undefined' && _gisLayers.some((existingLayer) => existingLayer.id === layerDef.id);
@@ -6722,7 +8107,6 @@
       // One-time initialization
       userInfo = sdk.State.getUserInfo();
       loadSettingsFromStorage(true);
-
 
       // Register shortcuts with stored keys (if set), else with no keys (user must assign)
       createShortcut('toggleHnsOnly', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);

@@ -22,15 +22,17 @@
       - [`GisLayer`](#gislayer)
       - [`Settings`](#settings)
     - [Key Functions](#key-functions)
+      - [`init(firstCall?)`](#initfirstcall)
+      - [`setEnabled(value)`](#setenabledvalue)
       - [`fetchFeatures()`](#fetchfeatures)
-      - [`renderLayers()`](#renderlayers)
-      - [`toggleLayer(layerId)`](#togglelayerlayerid)
-      - [`setLayerVisibility(layerId, visible)`](#setlayervisibilitylayerid-visible)
-      - [`getFeatureLabel(feature, layer)`](#getfeaturelabelfeature-layer)
+      - [`getFetchableLayers(checkVisibility?, checkZoomVisibility?)`](#getfetchablelayerscheckvisibility-checkzoomvisibility)
+      - [`processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine?)`](#processlabelgislayer-item-displaylabelsatzoom-area-ispolyline)
       - [`getUrl(extent, gisLayer, zoom)`](#geturlextent-gislayer-zoom)
       - [`processFeaturesArcGIS(data, token, gisLayer)`](#processfeaturesarcgisdata-token-gislayer)
       - [`processFeaturesGeoJSON(data, token, gisLayer)`](#processfeaturesgeojsondata-token-gislayer)
-      - [`whatsInView(forceRefresh?: boolean): Promise<WhatsInViewResult>`](#whatsinviewforcerefresh-boolean-promisewhatsinviewresult)
+      - [`loadSpreadsheetAsync(isoCode, regionCodes)`](#loadspreadsheetasyncisocode-regioncodes)
+      - [`loadVisibleCountryData()`](#loadvisiblecountrydata)
+      - [`whatsInView(forceRefresh?)`](#whatsinviewforcerefresh)
   - [Keyboard Shortcuts](#keyboard-shortcuts)
   - [UI Reference](#ui-reference)
   - [Troubleshooting](#troubleshooting)
@@ -293,7 +295,7 @@ Represents user preferences, UI configurations, and per-layer/group overrides fo
 | `fillParcels`                  | `boolean`                                                                           | If `true`, filled parcel polygons are used when available.                                              | Default: `false`     |
 | `oneTimeAlerts`                | `Object.<string, number>`                                                           | Map of alert keys to timestamps (for tracking "once per user" info banners).                            | Optional             |
 | `layers`                       | `Object.<string, LayerSettings>`                                                    | Map of layer IDs to layer-specific settings (see below).                                                | Optional             |
-| `shortcuts`                    | `Object.<string, { raw: string, combo: string }>` OR <br> `Object.<string, string>` | Map of shortcut/action IDs to keyboard combos (`raw`, `combo` or legacy string).                        | Optional             |
+| `shortcuts`                    | `Object.<string, { raw: string, combo: string }>`                                   | Shortcut IDs to key combos. Keys: `toggleEnabled`, `toggleHnsOnly`. Format: `{ raw, combo }`.           | Optional             |
 | `isPopupVisible`               | `boolean`                                                                           | If `true`, the settings/config popup is open.                                                           | Optional             |
 | `useAcronyms`                  | `boolean`                                                                           | Use acronyms in some labels/fields (e.g., "HWY" instead of "Highway").                                  | Optional             |
 | `useTitleCase`                 | `boolean`                                                                           | Use Title Case for labels.                                                                              | Optional             |
@@ -396,74 +398,82 @@ const settings = {
 
 ### Key Functions
 
+#### `init(firstCall?)`
+
+Main entry point for the script. On first call performs full one-time setup; on subsequent calls (e.g. after a refresh) reloads data and rebuilds the UI without repeating one-time setup.
+
+- **Parameters:** `firstCall` (boolean, default `true`) — `true` on script boot; `false` when called by the refresh button.
+- **Returns:** `Promise<void>`
+- **Behavior (first call only):**
+  - Loads style definitions from the Google Sheet.
+  - Loads saved settings from storage.
+  - Registers keyboard shortcuts.
+  - Installs path-following label renderer.
+  - Attaches the `beforeunload` save handler.
+- **Behavior (every call):**
+  - Loads country/subdivision mappings and visible country data.
+  - Rebuilds the Layers and Settings tab UI.
+  - Fetches features for all visible layers.
+
+---
+
+#### `setEnabled(value)`
+
+Enables or disables the GIS Layers overlay entirely.
+
+- **Parameters:** `value` (boolean) — `true` to enable, `false` to disable.
+- **Returns:** `Promise<void>`
+- **Behavior:**
+  - Updates `settings.enabled` and persists to storage.
+  - Shows/hides both the default and road map layers via `sdk.Map.setLayerVisibility`.
+  - Updates the power button color in the UI.
+  - Shows/hides the label popup.
+  - Triggers `fetchFeatures()` when enabling.
+
+---
+
 #### `fetchFeatures()`
 
-Fetches GIS features for all _visible layers_ according to the currently selected region(s) and zoom level.  
+Fetches GIS features for all visible layers according to the currently selected region(s) and zoom level.
 Handles filtering, request batching, and error checks for different data sources (ArcGIS, Socrata, etc).
 
 - **Parameters:** _(none)_
 - **Returns:** `Promise<void>`
 - **Behavior:**
-  - Determines which layers are visible.
-  - Checks active region/sub-L1 selections and current map zoom.
-  - For each layer:
-    - Builds a request URL (ArcGIS, Socrata, or other).
-    - Applies any filters (`where` clause).
-    - Sends asynchronous fetch/XHR requests as needed.
-    - On success, parses feature data and caches in memory.
-    - Handles errors (shows alerts/toasts if fetch fails).
-  - Updates the UI map overlay with new features.
+  - Calls `getFetchableLayers()` to determine which layers to load.
+  - For each layer, builds a request URL via `getUrl()`.
+  - Sends async fetch requests and passes responses to `processFeaturesArcGIS()` or `processFeaturesGeoJSON()`.
+  - Handles errors (shows alerts/toasts if fetch fails).
+  - Updates the map overlay with new features.
 
 ---
 
-#### `renderLayers()`
+#### `getFetchableLayers(checkVisibility?, checkZoomVisibility?)`
 
-Renders all fetched GIS features for visible layers onto the WME map.  
-Handles point, line, polygon, and label rendering, applies styling and visibility logic.
-
-- **Parameters:** _(none)_
-- **Behavior:**
-  - Iterates over each visible layer's features.
-  - Applies style from layer config (see `StyleDefinition`).
-  - Handles per-layer and global overrides (custom fonts, colors, etc).
-  - Draws features as SVG, Canvas, or OpenLayers objects.
-  - Places and styles labels according to user settings.
-  - Respects zoom and visibility rules.
-
----
-
-#### `toggleLayer(layerId)`
-
-Toggles enabled/visible state for a given GIS layer.
-
-- **Parameters:** `layerId` (string) – The ID of the layer to toggle.
-- **Returns:** `void`
-- **Behavior:**
-  - Switches layer visibility in `Settings.visibleLayers`.
-  - Triggers re-fetch and re-render if necessary.
-  - Shows one-time alert if defined on first enable.
-
----
-
-#### `setLayerVisibility(layerId, visible)`
-
-Sets the visibility of a specific layer, updating settings and triggering re-render.
+Returns the set of GIS layers that are currently eligible to be fetched, applying enabled, visibility, zoom, and geographic viewport filters.
 
 - **Parameters:**
-  - `layerId` (string)
-  - `visible` (boolean)
-- **Returns:** `void`
+  - `checkVisibility` (boolean, default `true`) — if `true`, only returns layers in `settings.visibleLayers`.
+  - `checkZoomVisibility` (boolean, default `true`) — if `true`, excludes layers whose `visibleAtZoom` threshold has not been reached.
+- **Returns:** `GisLayer[]`
+- **Behavior:**
+  - Returns `[]` immediately if current zoom < 12.
+  - Excludes layers where `enabled !== 1`, URL is blank, or the layer's `countrySubL1` is not in `settings.selectedSubL1`.
+  - Excludes layers not geographically visible in the current viewport (via `isLayerInView()`).
 
 ---
 
-#### `getFeatureLabel(feature, layer)`
+#### `processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine?)`
 
-Generates the display label for a GIS feature, using configured fields or a custom label processing function.
+Generates the display label string for a single feature, applying field lookups, custom `processLabel` JS expressions, address formatting, and content shortening rules.
 
 - **Parameters:**
-  - `feature` (object) – The raw feature data object.
-  - `layer` (`GisLayer`) – The layer configuration for label logic.
-- **Returns:** `string` – Label text.
+  - `gisLayer` (`GisLayer`) — layer descriptor containing `labelFields`, `style`, and optional `processLabel` expression.
+  - `item` (object) — raw feature data; may use `.attributes` (ArcGIS) or `.properties` (GeoJSON).
+  - `displayLabelsAtZoom` (number) — minimum zoom level at which labels are shown.
+  - `area` (number) — feature area in square meters, used to suppress labels on small features.
+  - `isPolyLine` (boolean, default `false`) — adjusts label logic for line features.
+- **Returns:** `string` — processed label, or `''` if the label is suppressed or an error occurs.
 
 ---
 
@@ -569,16 +579,48 @@ Processes and adds features from a **GeoJSON** FeatureCollection or Feature arra
 | `token`    | `Object`   | Cancellation token object. If `token.cancel === true`, aborts processing.  |
 | `gisLayer` | `GisLayer` | GIS layer descriptor (`id`, `name`, `isRoadLayer`, etc).                   |
 
-**Returns:**  
+**Returns:**
 `void`
 
 ---
 
-#### `whatsInView(forceRefresh?: boolean): Promise<WhatsInViewResult>`
+#### `loadSpreadsheetAsync(isoCode, regionCodes)`
+
+Loads GIS layer definitions from the Google Sheets spreadsheet ("Layer Definitions v2" tab).
+Parses, filters, and augments the rows based on the given country and region codes, then populates the internal `_gisLayers` array.
+
+- **Parameters:**
+  - `isoCode` (string) — Country ISO code (e.g. `"USA"`), or `"ALL"` to load every country.
+  - `regionCodes` (`Set<string>` | `"ALL"`) — Set of region/subdivision codes to load, or `"ALL"` for all.
+- **Returns:** `Promise<{ error: string | null }>` — resolves to `{ error: null }` on success, or `{ error: "message" }` on failure.
+- **Behavior:**
+  - Fetches the Google Sheets Visualization API endpoint.
+  - Parses each row into a `GisLayer` object.
+  - Filters by enabled status, country, and region.
+  - Applies `restrictTo` rules for the current user.
+  - Compiles any `processLabel` expression strings via ESTree.
+
+---
+
+#### `loadVisibleCountryData()`
+
+Determines which countries and subdivisions are currently visible in the map viewport and loads their layer definitions from the spreadsheet if not already cached.
+
+- **Parameters:** _(none)_
+- **Returns:** `Promise<void>`
+- **Behavior:**
+  - Returns immediately if zoom < 12.
+  - Calls `whatsInView()` to get visible regions.
+  - For each newly visible country/region not yet loaded, calls `loadSpreadsheetAsync()`.
+  - Updates the Layers tab UI after loading.
+
+---
+
+#### `whatsInView(forceRefresh?)`
 
 Asynchronously determines which geographical regions are visible within the current map viewport.
 
-Retrieves the current map extent in WGS84, constructs a [`ViewportBBox`](#ViewportBBox), and passes it to [`WmeGisLBBOX.whatsInView`](#WmeGisLBBOX.whatsInView) with high-precision intersection checks.  
+Retrieves the current map extent in WGS84, constructs a `ViewportBBox`, and passes it to `WmeGisLBBOX.whatsInView` with high-precision intersection checks.
 The results are cached in an upper-scope `_whatsInView` variable and also returned from this function.
 
 Result caching is based on the current map extent. If the viewport has not changed since the last call and `forceRefresh` is not set, returns the cached result instead of recomputing.
@@ -587,9 +629,9 @@ Result caching is based on the current map extent. If the viewport has not chang
 
 1. Get current map extent in the "wgs84" coordinate system.
 2. If the extent is unchanged and `forceRefresh` is `false`, return the cached result.
-3. Convert extent into a [`ViewportBBox`](#ViewportBBox) (`minLon`, `minLat`, `maxLon`, `maxLat`).
-4. Call [`WmeGisLBBOX.whatsInView`](#WmeGisLBBOX.whatsInView) with high-precision enabled and `returnGeoJson` disabled.
-5. Store and return the detailed intersecting regions as a [`WhatsInViewResult`](#WhatsInViewResult).
+3. Convert extent into a `ViewportBBox` (`minLon`, `minLat`, `maxLon`, `maxLat`).
+4. Call `WmeGisLBBOX.whatsInView` with high-precision enabled and `returnGeoJson` disabled.
+5. Store and return the detailed intersecting regions as a `WhatsInViewResult`.
 
 **Parameters:**
 
@@ -598,7 +640,7 @@ Result caching is based on the current map extent. If the viewport has not chang
 | `forceRefresh` | `boolean` | (Optional) If `true`, forces a refresh even if the viewport has not changed since last call. Default is `false`. |
 
 **Returns:**  
-`Promise<WhatsInViewResult>` – The intersecting regions as returned by [`WmeGisLBBOX.whatsInView`](#WmeGisLBBOX.whatsInView).
+`Promise<WhatsInViewResult>` – The intersecting regions as returned by `WmeGisLBBOX.whatsInView`.
 
 **Example:**
 
@@ -664,6 +706,6 @@ Want to add a layer? Fix a bug?
 
 ---
 
-## [Back to Top](#wme-gis-layers-script-documentation)
+## [Back to Top](#wme-gis-layers-script-overview)
 
 ---
