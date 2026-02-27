@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.02.25.00
+// @version      2026.02.27.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -1260,7 +1260,8 @@
   overflow-y: auto;
 }
 
-.wme-gis-panel .region-selector.collapsed .region-selector-body {
+.wme-gis-panel .region-selector.collapsed .region-selector-body,
+.wme-gis-panel .region-selector.collapsed .region-selector-footer {
   display: none;
 }
 
@@ -2055,6 +2056,23 @@
   line-height: 1.4;
 }
 
+/* GIS Internal Tab Navigation - Full-width equal tabs */
+.wme-gis-panel .gis-internal-tabs {
+  display: flex;
+  width: 100%;
+}
+
+.wme-gis-panel .gis-internal-tabs > li {
+  flex: 1;
+  float: none;
+}
+
+.wme-gis-panel .gis-internal-tabs > li > a {
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* GIS Internal Tab Navigation - Make active tab blue (only for internal tabs, not WME tabs) */
 .gis-internal-tabs > li.active > a,
 .gis-internal-tabs > li.active > a:hover,
@@ -2482,11 +2500,11 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    '🎉 Major Update: Complete UI Redesign!',
-    '✨ Region selector now on Layers tab (no more tab switching!)',
-    '🔍 Added Search filter for layers alongside Viewport/Zoom',
-    '🌙 Modern blue theme with full Dark Mode support',
-    '📐 Better visual hierarchy, spacing, and consistency throughout'
+    '🐛 Bug Fixes & UI Polish',
+    '📊 Added "Total Layers" count to the stats bar (Regions / Total / Showing / Active)',
+    '🔢 Fixed "Active" layer count — now updates correctly when toggling layers on/off',
+    '📌 "Clear All Regions" button now collapses with the region selector',
+    '↔️ Layers/Settings tabs and Search box now correctly span full width across all browsers',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -4190,6 +4208,10 @@
     if (showSelectors.length) $(showSelectors.join(',')).show();
     if (hideSelectors.length) $(hideSelectors.join(',')).hide();
     if (showSubL1.size) $(Array.from(showSubL1).join(',')).show();
+
+    // Update stats bar to reflect current visible and active layer counts
+    $('#gis-showing-count').text($('.region-fieldset.visible .controls-container.layer-item:visible').length);
+    $('#gis-active-count').text($('.region-fieldset.visible input[type="checkbox"]:checked').length);
   }
 
   /**
@@ -5839,6 +5861,7 @@
           headers,
           context: lastToken,
           method: 'GET',
+          timeout: 20000,
           onload(res2) {
             const fetchEnd = performance.now();
             const fetchDuration = fetchEnd - fetchStart;
@@ -6026,6 +6049,28 @@
               gisLayer,
               error: networkError,
               type: 'network',
+              fetchUrl: url,
+              fetchDuration,
+            });
+          },
+          ontimeout() {
+            const fetchEnd = performance.now();
+            const fetchDuration = fetchEnd - fetchStart;
+
+            // ----------------------------------------
+            // 6. Timeout handling:
+            // Request hung for 20s with no response — common on VPNs with
+            // geo-restricted or IP-blocked GIS servers.
+            // Logs details, marks UI red, rejects with error info.
+            // ----------------------------------------
+            const timeoutError = new Error('Request timed out after 20s');
+            logError(`Timeout fetching layer "${gisLayer.id}" after 20s (possible VPN/IP restriction): ${url}`);
+            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red').attr('title', 'Timeout: Server did not respond within 20s. This may be caused by a VPN or IP restriction.');
+            layersProcessedCount += 1;
+            reject({
+              gisLayer,
+              error: timeoutError,
+              type: 'timeout',
               fetchUrl: url,
               fetchDuration,
             });
@@ -6673,7 +6718,7 @@
       });
 
     // Quick action buttons
-    const $clearAllRow = $('<div>', { style: 'margin-top:8px;' }).append(
+    const $clearAllRow = $('<div>', { class: 'region-selector-footer', style: 'margin-top:8px;' }).append(
       $('<button>', {
         id: 'gis-clear-all-regions',
         class: 'region-action-button',
@@ -6700,12 +6745,12 @@
     $regionSelector.append($regionHeader, $regionBody, $clearAllRow, $filterRow);
 
     // ========== SEARCH BAR ==========
-    const $searchContainer = $('<div>', { class: 'controls-container', style: 'padding-top:0px;position:relative;margin-bottom:10px;' }).append(
+    const $searchContainer = $('<div>', { style: 'padding:0;position:relative;margin-bottom:10px;' }).append(
       $('<input>', {
         type: 'text',
         id: 'gis-layer-search',
         placeholder: 'Search layers...',
-        style: 'width:100%;padding:6px 28px 6px 8px;border:1px solid #ccc;border-radius:3px;font-size:12px;',
+        style: 'width:100%;padding:6px 28px 6px 8px;border:1px solid #ccc;border-radius:3px;font-size:12px;box-sizing:border-box;',
       }),
       $('<i>', { class: 'fa fa-search', style: 'position:absolute;right:10px;top:8px;color:#999;font-size:12px;pointer-events:none;' }),
     );
@@ -6719,6 +6764,7 @@
 
     const $statsBar = $('<div>', { class: 'gis-stats-bar' }).append(
       $('<div>', { class: 'stat' }).html(`Regions: <strong id="gis-region-count">${selectedSubL1.length}</strong>`),
+      $('<div>', { class: 'stat' }).html(`Total: <strong id="gis-total-count">${visibleLayerCount}</strong>`),
       $('<div>', { class: 'stat' }).html(`Showing: <strong id="gis-showing-count">${visibleLayerCount}</strong>`),
       $('<div>', { class: 'stat' }).html(`Active: <strong id="gis-active-count">${activeLayerCount}</strong>`),
     );
