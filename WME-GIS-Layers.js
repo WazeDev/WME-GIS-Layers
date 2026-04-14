@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.02.27.00
+// @version      2026.04.14.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -2500,11 +2500,9 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    '🐛 Bug Fixes & UI Polish',
-    '📊 Added "Total Layers" count to the stats bar (Regions / Total / Showing / Active)',
-    '🔢 Fixed "Active" layer count — now updates correctly when toggling layers on/off',
-    '📌 "Clear All Regions" button now collapses with the region selector',
-    '↔️ Layers/Settings tabs and Search box now correctly span full width across all browsers',
+    '⚡ Performance: Chunked async feature processing — large layers no longer freeze WME',
+    '📊 Performance: Added timing metrics per layer (fetch / processing / map update time)',
+    '🔍 Performance: Feature counts now show pre-dedup vs post-dedup in console logs',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -4864,7 +4862,7 @@
     // **RACE condition Check**
     if (lastToken && lastToken.cancel) {
       logDebug(`Skipping map update for cancelled layer: ${gisLayer.id}`);
-      return; // Don't add features to map
+      return { mapUpdateTime: 0 }; // Don't add features to map
     }
 
     // Check if the layer checkbox is actually checked RIGHT NOW! Also part of the RACE condition Check
@@ -4872,7 +4870,7 @@
 
     if (!isLayerCurrentlyEnabled) {
       logDebug(`Skipping map update - layer ${gisLayer.id} is currently disabled in UI`);
-      return;
+      return { mapUpdateTime: 0 };
     }
 
     const isRoad = gisLayer.isRoadLayer;
@@ -4893,8 +4891,10 @@
       { featureIdsToRemove: [], remainingFeatures: [] },
     );
 
-    // Add new features to the layer
+    // Add new features to the layer (timed)
+    const mapUpdateStart = performance.now();
     sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
+    const mapUpdateTime = performance.now() - mapUpdateStart;
 
     // Remove old features from the layer
     if (featureIdsToRemove.length > 0) {
@@ -4913,6 +4913,8 @@
     if (features.length) {
       $(`label[for="gis-layer-${gisLayer.id}"]`).css({ color: '#00a009' });
     }
+
+    return { mapUpdateTime };
   }
 
   /**
@@ -4941,102 +4943,160 @@
    *   { id: 'roads', isRoadLayer: true, name: 'Streets' }
    * );
    */
-  function processFeaturesArcGIS(data, token, gisLayer) {
-    const features = [];
 
+  /**
+   * Helper function for chunked async feature processing.
+   * Splits items into chunks and yields to the browser between chunks using requestAnimationFrame.
+   * This prevents the main thread from blocking while processing large feature sets.
+   *
+   * @async
+   * @function processFeatureChunksAsync
+   * @param {Array} items - Features to process
+   * @param {Function} chunkProcessor - Callback that processes a chunk and returns features array
+   * @param {number} [chunkSize=150] - Number of items per chunk
+   * @returns {Promise<Array>} - Promise that resolves to array of processed features
+   *
+   * @example
+   * const features = await processFeatureChunksAsync(
+   *   items,
+   *   (chunk) => {
+   *     const processed = [];
+   *     chunk.forEach(item => {
+   *       // process item, push to processed
+   *     });
+   *     return processed;
+   *   },
+   *   150
+   * );
+   */
+  async function processFeatureChunksAsync(items, chunkProcessor, chunkSize = 150) {
+    const allFeatures = [];
+
+    for (let i = 0; i < items.length; i += chunkSize) {
+      const chunk = items.slice(i, Math.min(i + chunkSize, items.length));
+
+      // Process the chunk
+      const chunkFeatures = chunkProcessor(chunk);
+      allFeatures.push(...chunkFeatures);
+
+      // Yield to browser if more chunks remain (prevents main thread blocking)
+      if (i + chunkSize < items.length) {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      }
+    }
+
+    return allFeatures;
+  }
+
+  async function processFeaturesArcGIS(data, token, gisLayer) {
     if (data.skipIt) return;
 
     const items = data.features || [];
+    if (items.length === 0) return;
+
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
     const extent = getMapExtent('wgs84');
     const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
 
-    if (!token.cancel) {
-      let error = false;
+    if (token.cancel) return;
 
-      items.forEach((item) => {
-        if (token.cancel || error) return;
-        if (!item.geometry) return;
+    let error = false;
 
-        //------ POINT ------
-        if (item.geometry.x !== undefined && item.geometry.y !== undefined) {
-          let feature = turf.point([item.geometry.x, item.geometry.y]);
-          feature.geometry = offsetGeometry(feature.geometry, layerOffset);
-          feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', false));
-          if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
-          features.push(feature);
+    // Process features in chunks with async yielding to prevent main thread blocking
+    const features = await processFeatureChunksAsync(
+      items,
+      (chunk) => {
+        const chunkFeatures = [];
 
-          //------ MULTI-POINT ------
-        } else if (item.geometry.points) {
-          item.geometry.points.forEach((point) => {
-            let feature = turf.point(point);
+        chunk.forEach((item) => {
+          if (token.cancel || error) return;
+          if (!item.geometry) return;
+
+          //------ POINT ------
+          if (item.geometry.x !== undefined && item.geometry.y !== undefined) {
+            let feature = turf.point([item.geometry.x, item.geometry.y]);
             feature.geometry = offsetGeometry(feature.geometry, layerOffset);
             feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', false));
             if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
-            features.push(feature);
-          });
+            chunkFeatures.push(feature);
 
-          //------ FLATTENED POLYGONS ------
-        } else if (item.geometry.rings) {
-          const separatePolygons = [];
-          let currentOuterRing = null;
-          const innerRings = [];
+            //------ MULTI-POINT ------
+          } else if (item.geometry.points) {
+            item.geometry.points.forEach((point) => {
+              let feature = turf.point(point);
+              feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+              feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', false));
+              if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+              chunkFeatures.push(feature);
+            });
 
-          item.geometry.rings.forEach((ringIn) => {
-            if (turf.booleanClockwise(ringIn)) {
-              if (currentOuterRing) {
-                separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
+            //------ FLATTENED POLYGONS ------
+          } else if (item.geometry.rings) {
+            const separatePolygons = [];
+            let currentOuterRing = null;
+            const innerRings = [];
+
+            item.geometry.rings.forEach((ringIn) => {
+              if (turf.booleanClockwise(ringIn)) {
+                if (currentOuterRing) {
+                  separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
+                }
+                currentOuterRing = ringIn;
+                innerRings.length = 0;
+              } else {
+                innerRings.push(ringIn);
               }
-              currentOuterRing = ringIn;
-              innerRings.length = 0;
-            } else {
-              innerRings.push(ringIn);
+            });
+            if (currentOuterRing) {
+              separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
             }
-          });
-          if (currentOuterRing) {
-            separatePolygons.push({ outer: currentOuterRing, inners: [...innerRings] });
+
+            separatePolygons.forEach(({ outer, inners }) => {
+              const polygonRings = [outer, ...inners];
+              let feature = turf.polygon(polygonRings);
+              feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+
+              const area = turf.area(feature);
+
+              feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, area, false));
+              if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+              chunkFeatures.push(feature);
+            });
+
+            //------ POLYLINE ------
+          } else if (data.geometryType === 'esriGeometryPolyline' && item.geometry.paths) {
+            item.geometry.paths.forEach((path) => {
+              let feature = turf.lineString(path);
+              feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+
+              feature = clipLineFeatureToExtent(feature, extent) || null;
+              if (!feature) return;
+
+              feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', true));
+              feature.skipDupeCheck = true;
+
+              if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+              chunkFeatures.push(feature);
+            });
+
+            //------ UNKNOWN / ERROR ------
+          } else {
+            logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
+            logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
+            $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
+            error = true;
           }
+        });
 
-          separatePolygons.forEach(({ outer, inners }) => {
-            const polygonRings = [outer, ...inners];
-            let feature = turf.polygon(polygonRings);
-            feature.geometry = offsetGeometry(feature.geometry, layerOffset);
-
-            const area = turf.area(feature);
-
-            feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, area, false));
-            if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
-            features.push(feature);
-          });
-
-          //------ POLYLINE ------
-        } else if (data.geometryType === 'esriGeometryPolyline' && item.geometry.paths) {
-          item.geometry.paths.forEach((path) => {
-            let feature = turf.lineString(path);
-            feature.geometry = offsetGeometry(feature.geometry, layerOffset);
-
-            feature = clipLineFeatureToExtent(feature, extent) || null;
-            if (!feature) return;
-
-            feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, item, displayLabelsAtZoom, '', true));
-            feature.skipDupeCheck = true;
-
-            if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
-            features.push(feature);
-          });
-
-          //------ UNKNOWN / ERROR ------
-        } else {
-          logDebug(`Unexpected feature type in layer: ${JSON.stringify(item)}`);
-          logError(`Error: Unexpected feature type in layer "${gisLayer.name}"`);
-          $(`#gis-layer-${gisLayer.id}-container > label`).css('color', 'red');
-          error = true;
-        }
-      });
-    }
+        return chunkFeatures;
+      },
+      150
+    );
 
     // ----- De-duplication and feature management -----
-    if (!token.cancel) {
+    if (!token.cancel && !error) {
+      const preDedup = features.length;
+
       // Only deduplicate if any Point features are present
       if (features.some((f) => f.geometry.type === 'Point')) {
         deduplicatePointFeatures(features);
@@ -5047,9 +5107,13 @@
         deduplicatePolygonFeatures(features);
       }
 
+      const postDedup = features.length;
+
       // Layer/collection logic handled by helper
-      updateGisLayerFeatures(gisLayer, features);
+      const { mapUpdateTime } = updateGisLayerFeatures(gisLayer, features);
+      return { preDedup, postDedup, mapUpdateTime };
     }
+    return { preDedup: 0, postDedup: 0, mapUpdateTime: 0 };
   }
 
   /**
@@ -5064,62 +5128,75 @@
    *
    * @returns {void}
    */
-  function processFeaturesGeoJSON(data, token, gisLayer) {
-    const features = [];
-
+  async function processFeaturesGeoJSON(data, token, gisLayer) {
     if (data.skipIt) return;
 
     const items = data.features || [];
+    if (items.length === 0) return;
+
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
     const extent = getMapExtent('wgs84'); // [minX, minY, maxX, maxY]
     const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
 
-    if (!token.cancel) {
-      let error = false;
+    if (token.cancel) return;
 
-      items.forEach((item) => {
-        if (token.cancel || error) return;
-        if (!item.geometry) return;
+    let error = false;
 
-        // Always GeoJSON feature. Use turf.flatten to ensure individual features.
-        // flatten returns a FeatureCollection, so we need to iterate over .features
-        // But "flatten" expects a Feature or FeatureCollection, so ensure type.
-        let toFlatten = item;
-        if (toFlatten.type !== 'Feature') {
-          toFlatten = {
-            type: 'Feature',
-            geometry: item.geometry,
-            properties: item.properties || {},
-          };
-        }
-        const flatFeatures = turf.flatten(toFlatten).features;
+    // Process features in chunks with async yielding to prevent main thread blocking
+    const features = await processFeatureChunksAsync(
+      items,
+      (chunk) => {
+        const chunkFeatures = [];
 
-        flatFeatures.forEach((feature) => {
-          // Always offset geometry!
-          feature.geometry = offsetGeometry(feature.geometry, layerOffset);
+        chunk.forEach((item) => {
+          if (token.cancel || error) return;
+          if (!item.geometry) return;
 
-          // --- CLIP LINES TO EXTENT for LineString ---
-          if (feature.geometry.type === 'LineString') {
-            feature = clipLineFeatureToExtent(feature, extent) || null;
-            if (!feature) return; // If fully outside, skip
+          // Always GeoJSON feature. Use turf.flatten to ensure individual features.
+          // flatten returns a FeatureCollection, so we need to iterate over .features
+          // But "flatten" expects a Feature or FeatureCollection, so ensure type.
+          let toFlatten = item;
+          if (toFlatten.type !== 'Feature') {
+            toFlatten = {
+              type: 'Feature',
+              geometry: item.geometry,
+              properties: item.properties || {},
+            };
           }
+          const flatFeatures = turf.flatten(toFlatten).features;
 
-          // Calculate area for polygons (only needed for label)
-          let area = '';
-          if (feature.geometry.type === 'Polygon') {
-            area = turf.area(feature);
-          }
+          flatFeatures.forEach((feature) => {
+            // Always offset geometry!
+            feature.geometry = offsetGeometry(feature.geometry, layerOffset);
 
-          feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, feature, displayLabelsAtZoom, area, feature.geometry.type === 'LineString'));
+            // --- CLIP LINES TO EXTENT for LineString ---
+            if (feature.geometry.type === 'LineString') {
+              feature = clipLineFeatureToExtent(feature, extent) || null;
+              if (!feature) return; // If fully outside, skip
+            }
 
-          if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
-          features.push(feature);
+            // Calculate area for polygons (only needed for label)
+            let area = '';
+            if (feature.geometry.type === 'Polygon') {
+              area = turf.area(feature);
+            }
+
+            feature = assignGisProperties(feature, gisLayer, processLabel(gisLayer, feature, displayLabelsAtZoom, area, feature.geometry.type === 'LineString'));
+
+            if (isPopupVisible) addLabelToLayer(gisLayer.name, feature.properties.label);
+            chunkFeatures.push(feature);
+          });
         });
-      });
-    }
+
+        return chunkFeatures;
+      },
+      150
+    );
 
     // ----- De-duplication and feature management -----
-    if (!token.cancel) {
+    if (!token.cancel && !error) {
+      const preDedup = features.length;
+
       // Only deduplicate if any Point features are present
       if (features.some((f) => f.geometry.type === 'Point')) {
         deduplicatePointFeatures(features);
@@ -5130,9 +5207,13 @@
         deduplicatePolygonFeatures(features);
       }
 
+      const postDedup = features.length;
+
       // Layer/collection logic handled by helper
-      updateGisLayerFeatures(gisLayer, features);
+      const { mapUpdateTime } = updateGisLayerFeatures(gisLayer, features);
+      return { preDedup, postDedup, mapUpdateTime };
     }
+    return { preDedup: 0, postDedup: 0, mapUpdateTime: 0 };
   }
 
   /**
@@ -5862,7 +5943,7 @@
           context: lastToken,
           method: 'GET',
           timeout: 20000,
-          onload(res2) {
+          async onload(res2) {
             const fetchEnd = performance.now();
             const fetchDuration = fetchEnd - fetchStart;
 
@@ -5974,14 +6055,15 @@
               // Feature parsing/processing (success path)
               // ----------------------------------------
               let processingDuration = null;
+              let featureCounts = { preDedup: 0, postDedup: 0 };
               if (gisLayer.platform === 'ArcGIS' || !gisLayer.platform) {
                 const processStart = performance.now();
-                processFeaturesArcGIS(parsedData, res2.context, gisLayer);
+                featureCounts = await processFeaturesArcGIS(parsedData, res2.context, gisLayer);
                 const processEnd = performance.now();
                 processingDuration = processEnd - processStart;
               } else if (isSocrata) {
                 const processStart = performance.now();
-                processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
+                featureCounts = await processFeaturesGeoJSON(parsedData, res2.context, gisLayer);
                 const processEnd = performance.now();
                 processingDuration = processEnd - processStart;
               } else {
@@ -5995,6 +6077,8 @@
                 fetchUrl: url,
                 fetchDuration,
                 processingDuration,
+                featureCounts,
+                mapUpdateTime: featureCounts?.mapUpdateTime || 0,
               });
             } catch (parseError) {
               // ----------------------------------------
@@ -6117,11 +6201,17 @@
             if (result.value.cancelled) {
               logDebug(`Layer ${layer.id} request was cancelled`);
             } else {
+              const featureCounts = result.value.featureCounts || { preDedup: 0, postDedup: 0 };
+              const featuresDisplay = featureCounts.preDedup === featureCounts.postDedup
+                ? `${featureCounts.postDedup} features`
+                : `${featureCounts.postDedup} features (${featureCounts.preDedup} before dedup)`;
               successful.push({
                 ...layerInfo,
                 fetchUrl: result.value.fetchUrl,
-                fetchDuration: result.value.fetchDuration + ' ms',
-                processingDuration: result.value.processingDuration + ' ms',
+                features: featuresDisplay,
+                fetchDuration: (result.value.fetchDuration || 0).toFixed(2) + ' ms',
+                processingDuration: (result.value.processingDuration || 0).toFixed(2) + ' ms',
+                mapUpdateTime: (result.value.mapUpdateTime || 0).toFixed(2) + ' ms',
               });
             }
           } else {
@@ -6131,8 +6221,8 @@
               failed.push({
                 ...layerInfo,
                 fetchUrl: result.reason.fetchUrl,
-                fetchDuration: result.reason.fetchDuration + ' ms',
-                processingDuration: result.reason.processingDuration + ' ms',
+                fetchDuration: (result.reason.fetchDuration || 0).toFixed(2) + ' ms',
+                processingDuration: (result.reason.processingDuration || 0).toFixed(2) + ' ms',
                 error: result.reason.type || 'unknown',
                 message: result.reason.error?.message || 'Unknown error',
               });
