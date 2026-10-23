@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         WME GIS Layers
 // @namespace    https://greasyfork.org/users/45389
-// @version      2026.04.14.00
+// @version      2026.10.23.00
 // @description  Adds GIS layers in WME
 // @author       MapOMatic / JS55CT
 // @match         *://*.waze.com/*editor*
@@ -47,6 +47,7 @@
 // @connect aldotgis.dot.state.al.us
 // @connect alleganygis.allconet.org
 // @connect alphagis.alpharetta.ga.us
+// @connect amgis.yellowknife.ca
 // @connect andrewgis.integritygis.com
 // @connect anrmaps.vermont.gov
 // @connect ansoncountygis.com
@@ -56,20 +57,17 @@
 // @connect app.mdt.mt.gov
 // @connect apps.alamance-nc.com
 // @connect apps.fs.usda.gov
-// @connect apps.lickingcounty.gov
 // @connect apps.saltlakecounty.gov
-// @connect apps.vernoncounty.org
-// @connect apps.wyoroad.info
+// @connect apps.vernoncountywi.gov
 // @connect arcgis-morrowarcgis-1015369042.us-east-1.elb.amazonaws.com
 // @connect arcgis-web.chinohills.org
 // @connect arcgis.atlantaregional.com
 // @connect arcgis.c3gov.com
-// @connect arcgis.cityofcapegirardeau.org
-// @connect arcgis.cityofwatsonville.org
 // @connect arcgis.clearfieldco.org
 // @connect arcgis.co.beltrami.mn.us
 // @connect arcgis.co.henry.ga.us
 // @connect arcgis.co.lancaster.pa.us
+// @connect arcgis.dvrpc.org
 // @connect arcgis.forneytx.gov
 // @connect arcgis.gis.lacounty.gov
 // @connect arcgis.kingsporttn.gov
@@ -87,6 +85,7 @@
 // @connect arcgis4.roktech.net
 // @connect arcgis5.roktech.net
 // @connect arcgisce2.co.valencia.nm.us
+// @connect arcgispublicmap.co.st-clair.il.us
 // @connect arcgisserver.digital.mass.gov
 // @connect arcgisserver.lincolncountync.gov
 // @connect arcgisserver.maine.gov
@@ -95,9 +94,9 @@
 // @connect arcgiswap02.ci.temple.tx.us
 // @connect arcgisweb.carteretcountync.gov
 // @connect arcgisweb.countyofnewaygo.com
+// @connect arcgisweb.sccwi.gov
 // @connect arcgisweb.welland.ca
 // @connect arcmobile.co.albany.wy.us
-// @connect arcportal.florenceco.org
 // @connect arcserv.co.washington.ar.us
 // @connect arcserver.madisoncountyky.us
 // @connect arcserver2.oconeesc.com
@@ -110,16 +109,16 @@
 // @connect atlas.unioncountync.gov
 // @connect audraingis.integritygis.com
 // @connect badcompany.sagis.org
+// @connect barrygis.integritygis.com
 // @connect batesgis.integritygis.com
 // @connect bcgis.baltimorecountymd.gov
 // @connect bcgis.brunswickcountync.gov
 // @connect bcgishub.broward.org
 // @connect bcmaps.bradfordco.org
 // @connect bentongis.integritygis.com
+// @connect bharatmaps.gov.in
 // @connect biamaps.geoplatform.gov
 // @connect bocagis.ci.boca-raton.fl.us
-// @connect bonneville.esriemcs.com
-// @connect bpagis.bossierparish.org
 // @connect bryangis.bryan-county.org
 // @connect buchanangis.integritygis.com
 // @connect butlergis.integritygis.com
@@ -134,18 +133,20 @@
 // @connect cassweb.casscountymn.gov
 // @connect cc-gisgw.clintoncountygov.com
 // @connect cceo.co.comal.tx.us
+// @connect ccggisprod.columbusga.org
 // @connect ccgis.cayugacounty.us
 // @connect ccmap.cccounty.us
 // @connect cecilmaps.org
 // @connect charitongis.integritygis.com
 // @connect cherokeegis.integritygis.com
 // @connect christiangis.integritygis.com
+// @connect citygisweb.fortsask.ca
 // @connect clarindagis.integritygis.com
 // @connect cloud.longviewtexas.gov
+// @connect cloud.santarosa.fl.gov
 // @connect cloudgis.bonnercountyid.gov
 // @connect co.knox.il.us
 // @connect coagisweb.cabq.gov
-// @connect com.blountgis.org
 // @connect concordgis.ci.concord.ca.us
 // @connect conservationgis.alabama.gov
 // @connect coopergis.integritygis.com
@@ -176,6 +177,7 @@
 // @connect dev.wilsonvillemaps.com
 // @connect doniphangis.integritygis.com
 // @connect douglasgis.integritygis.com
+// @connect dtdapps.codot.gov
 // @connect dtdapps.coloradodot.info
 // @connect dungis.dunwoodyga.gov
 // @connect dunklingis.integritygis.com
@@ -186,7 +188,6 @@
 // @connect emapsplus.com
 // @connect enigma.accgov.com
 // @connect enterprise.firstmap.delaware.gov
-// @connect eoc.franklin-gov.com
 // @connect epv.ci.juneau.ak.us
 // @connect eservices.co.crook.or.us
 // @connect essex-gis.co.essex.ny.us
@@ -194,12 +195,12 @@
 // @connect fcgis.franklincountypa.gov
 // @connect fcgis.frederickcountymd.gov
 // @connect feature.geographic.texas.gov
-// @connect feature.tnris.org
 // @connect fieldstone.orangecountync.gov
 // @connect fragis.fra.dot.gov
 // @connect fremontgis.com
 // @connect gasconadegis.integritygis.com
 // @connect gateway.maps.rlid.org
+// @connect gcarcgis.co.grant.wi.gov
 // @connect gcgis.guilfordcountync.gov
 // @connect geaugarealink.co.geauga.oh.us
 // @connect geo.co.butler.pa.us
@@ -221,6 +222,8 @@
 // @connect geoportal.kelowna.ca
 // @connect geopower.jws.com
 // @connect geoservices.mapleridge.ca
+// @connect geoservices.nwfwmd.state.fl.us
+// @connect geoservices1.allentownpa.gov
 // @connect geospatial.alberta.ca
 // @connect geoweb.dnv.org
 // @connect geoweb.martin.fl.us
@@ -230,15 +233,17 @@
 // @connect gis-server.co.becker.mn.us
 // @connect gis-server.co.montezuma.co.us
 // @connect gis.aacounty.org
-// @connect gis.abilenetx.com
+// @connect gis.achdidaho.org
 // @connect gis.adamscounty.org
 // @connect gis.addisontx.gov
 // @connect gis.aecomonline.net
 // @connect gis.allegancounty.org
 // @connect gis.allencountyohio.com
+// @connect gis.anaheim.net
 // @connect gis.apachejunctionaz.gov
 // @connect gis.arapahoegov.com
 // @connect gis.arkansas.gov
+// @connect gis.ascensionparishla.gov
 // @connect gis.ashecountygov.com
 // @connect gis.ashevillenc.gov
 // @connect gis.ashland-ohio.com
@@ -250,6 +255,7 @@
 // @connect gis.baycountyfl.gov
 // @connect gis.beaufortcountysc.gov
 // @connect gis.beaumonttexas.gov
+// @connect gis.beavercountypa.gov
 // @connect gis.belcogis.com
 // @connect gis.bentoncountyar.gov
 // @connect gis.berkeleycountysc.gov
@@ -258,6 +264,7 @@
 // @connect gis.blaircountypa.gov
 // @connect gis.blm.gov
 // @connect gis.blueearthcountymn.gov
+// @connect gis.boonemo.gov
 // @connect gis.bransonmo.gov
 // @connect gis.brevardfl.gov
 // @connect gis.broomecountyny.gov
@@ -282,7 +289,6 @@
 // @connect gis.chippewa.mn
 // @connect gis.chisagocountymn.gov
 // @connect gis.ci.janesville.wi.us
-// @connect gis.ci.mcminnville.or.us
 // @connect gis.ci.waco.tx.us
 // @connect gis.ci.woodburn.or.us
 // @connect gis.citruspa.org
@@ -295,6 +301,7 @@
 // @connect gis.cityofmoore.com
 // @connect gis.cityofsanmateo.org
 // @connect gis.cityofwestsacramento.org
+// @connect gis.clark.wa.gov
 // @connect gis.clevelandtn.gov
 // @connect gis.cmpdd.org
 // @connect gis.co.benton.or.us
@@ -309,7 +316,6 @@
 // @connect gis.co.fillmore.mn.us
 // @connect gis.co.grand.co.us
 // @connect gis.co.grant.mn.us
-// @connect gis.co.grant.wi.gov
 // @connect gis.co.green-lake.wi.us
 // @connect gis.co.hubbard.mn.us
 // @connect gis.co.isanti.mn.us
@@ -319,7 +325,6 @@
 // @connect gis.co.marshall.mn.us
 // @connect gis.co.mille-lacs.mn.us
 // @connect gis.co.nezperce.id.us
-// @connect gis.co.oneida.wi.us
 // @connect gis.co.ottawa.oh.us
 // @connect gis.co.pepin.wi.us
 // @connect gis.co.pierce.wi.us
@@ -340,23 +345,20 @@
 // @connect gis.columbiacountyga.gov
 // @connect gis.columbiacountymaps.com
 // @connect gis.columbiasc.gov
-// @connect gis.columbusga.org
 // @connect gis.concordnh.gov
 // @connect gis.cookcountyil.gov
 // @connect gis.cookeville-tn.org
 // @connect gis.corvallisoregon.gov
 // @connect gis.cosb.us
+// @connect gis.countyofmerced.com
 // @connect gis.countyofnapa.org
 // @connect gis.countyofriverside.us
-// @connect gis.cranstonri.org
 // @connect gis.cravencountync.gov
 // @connect gis.crcog.org
-// @connect gis.crookcounty.wy.gov
 // @connect gis.crowwing.us
 // @connect gis.cstx.gov
 // @connect gis.cuyahogacounty.us
 // @connect gis.danville-va.gov
-// @connect gis.dauphincounty.org
 // @connect gis.daviecountync.gov
 // @connect gis.deerparktx.gov
 // @connect gis.dekalbcountyga.gov
@@ -366,7 +368,7 @@
 // @connect gis.districtiii.org
 // @connect gis.donaanacounty.org
 // @connect gis.dot.nv.gov
-// @connect gis.dot.state.oh.us
+// @connect gis.dot.ny.gov
 // @connect gis.dubuquecounty.us
 // @connect gis.dupageco.org
 // @connect gis.duplinnc.gov
@@ -383,7 +385,6 @@
 // @connect gis.franklincountyohio.gov
 // @connect gis.fultoncountyoh.com
 // @connect gis.fwb.org
-// @connect gis.fwp.mt.gov
 // @connect gis.gallatin.mt.gov
 // @connect gis.gallupnm.us
 // @connect gis.garrettcounty.org
@@ -418,7 +419,7 @@
 // @connect gis.kalamazoocity.org
 // @connect gis.kanawhacountyassessor.com
 // @connect gis.kaufmancounty.net
-// @connect gis.kcgov.us
+// @connect gis.kcca.go.ug
 // @connect gis.kcmn.us
 // @connect gis.kentcountyde.gov
 // @connect gis.kentcountymi.gov
@@ -426,6 +427,7 @@
 // @connect gis.kleinfelder.com
 // @connect gis.lacrossecounty.org
 // @connect gis.lafayettecountywi.org
+// @connect gis.lakecountyca.gov
 // @connect gis.lakecountyfl.gov
 // @connect gis.lakecountyohio.gov
 // @connect gis.lapazcountyaz.org
@@ -436,6 +438,7 @@
 // @connect gis.lehighcounty.org
 // @connect gis.leoc.net
 // @connect gis.lethbridge.ca
+// @connect gis.lickingcounty.gov
 // @connect gis.lincoln.ne.gov
 // @connect gis.lincolncountysd.gov
 // @connect gis.littleelm.org
@@ -449,18 +452,18 @@
 // @connect gis.macombgov.org
 // @connect gis.maconnc.org
 // @connect gis.maderacounty.com
+// @connect gis.maine.gov
 // @connect gis.marinpublic.com
 // @connect gis.marionfl.org
 // @connect gis.masoncountywa.gov
 // @connect gis.massdot.state.ma.us
-// @connect gis.mbakerintl.com
 // @connect gis.mcgtn.org
 // @connect gis.mckeancountypa.gov
 // @connect gis.mcohio.org
 // @connect gis.mercercountypa.gov
 // @connect gis.mesaaz.gov
 // @connect gis.mifflincountypa.gov
-// @connect gis.minnehahacounty.org
+// @connect gis.minnehahacounty.gov
 // @connect gis.miottawa.org
 // @connect gis.missoulacounty.us
 // @connect gis.mocogeo.org
@@ -486,6 +489,7 @@
 // @connect gis.odot.state.or.us
 // @connect gis.ohiodnr.gov
 // @connect gis.okc.gov
+// @connect gis.oneidacountywi.gov
 // @connect gis.orangecountygov.com
 // @connect gis.orangecountyva.gov
 // @connect gis.orrsc.com
@@ -525,14 +529,10 @@
 // @connect gis.rtcsnv.com
 // @connect gis.rutherfordcountync.gov
 // @connect gis.sanjuanco.com
-// @connect gis.santacruzcounty.us
 // @connect gis.santamonica.gov
 // @connect gis.saskatchewan.ca
-// @connect gis.sawyerwi.org
-// @connect gis.sccwi.gov
 // @connect gis.shastacounty.gov
 // @connect gis.shelbycountytn.gov
-// @connect gis.showmeboone.com
 // @connect gis.siouxfalls.gov
 // @connect gis.slocounty.ca.gov
 // @connect gis.sncoapps.us
@@ -544,7 +544,7 @@
 // @connect gis.sumtercountyfl.gov
 // @connect gis.surryinfo.net
 // @connect gis.talbotdes.org
-// @connect gis.tazewell.com
+// @connect gis.tazewell-il.gov
 // @connect gis.texoma.cog.tx.us
 // @connect gis.thecolonytx.gov
 // @connect gis.thomsonreuters.com
@@ -552,11 +552,12 @@
 // @connect gis.transylvaniacounty.org
 // @connect gis.traviscountytx.gov
 // @connect gis.ucdavis.edu
+// @connect gis.uclg.on.ca
 // @connect gis.ulstercountyny.gov
 // @connect gis.vernon-ct.gov
 // @connect gis.victorvilleca.gov
-// @connect gis.warrensburg-mo.com
 // @connect gis.washingtoncountyny.gov
+// @connect gis.washingtoncountytn.org
 // @connect gis.watertownwi.gov
 // @connect gis.waukesha-wi.gov
 // @connect gis.waukeshacounty.gov
@@ -573,7 +574,6 @@
 // @connect gis.wiu.edu
 // @connect gis.woodcountywi.gov
 // @connect gis.worldviewsolutions.com
-// @connect gis.wyo.gov
 // @connect gis.yadkincountync.gov
 // @connect gis.yanceycountync.org
 // @connect gis.yavapaiaz.gov
@@ -582,6 +582,7 @@
 // @connect gis.yolocounty.org
 // @connect gis.yuba.org
 // @connect gis1.acimap.us
+// @connect gis1.dot.illinois.gov
 // @connect gis1.georgetowncountysc.org
 // @connect gis1.hamiltoncounty.in.gov
 // @connect gis11.cama.io
@@ -593,14 +594,12 @@
 // @connect gis2.gworks.com
 // @connect gis2.idaho.gov
 // @connect gis2.lawrenceks.org
-// @connect gis2.orangeburgcounty.org
 // @connect gis2.sandyspringsga.gov
 // @connect gis2.sheboygancounty.com
 // @connect gis2.totaland.com
 // @connect gis21svweb.lincolnparish.org
 // @connect gis3.cdmsmithgis.com
 // @connect gis3.cmpdd.org
-// @connect gis3.gwinnettcounty.com
 // @connect gis3.gworks.com
 // @connect gis3.montgomerycountymd.gov
 // @connect gis3.richmondnc.com
@@ -624,7 +623,6 @@
 // @connect gisdata.kingcounty.gov
 // @connect gisdata.pandai.com
 // @connect gisdata.pima.gov
-// @connect gisdata.seattle.gov
 // @connect gisdemo1.cdmsmith.com
 // @connect gisdemo2.cdmsmith.com
 // @connect gisentapp01.highpointnc.gov
@@ -635,6 +633,7 @@
 // @connect gisinfo.co.portage.wi.gov
 // @connect gisinfo.co.walworth.wi.us
 // @connect gisinfo.lawrencevillega.org
+// @connect gisinfo.sprucegrove.org
 // @connect gisinfo.wichitafallstx.gov
 // @connect gismap.augustaga.gov
 // @connect gismap.cityofboise.org
@@ -651,6 +650,7 @@
 // @connect gismaps.guelph.ca
 // @connect gismaps.hctra.org
 // @connect gismaps.kingcounty.gov
+// @connect gismaps.onslowcountync.gov
 // @connect gismaps.redwoodcity.org
 // @connect gismaps.sedgwickcounty.org
 // @connect gismaps.wichita.gov
@@ -663,27 +663,27 @@
 // @connect gisportal.champaignil.gov
 // @connect gisportal.co.jefferson.id.us
 // @connect gisportal.co.madison.il.us
-// @connect gisportal.co.warren.oh.us
 // @connect gisportal.dorchestercounty.net
 // @connect gisportal.dot.ct.gov
 // @connect gisportal.fnsb.gov
+// @connect gisportal.fortbendcountytx.gov
 // @connect gisportal.ircgov.com
 // @connect gisportal.nct911.org
 // @connect gisportal.ontarioca.gov
 // @connect gisportal.stocktonca.gov
+// @connect gisportal.warrencountyohio.gov
 // @connect gisportal.whitehorse.ca
+// @connect gisportalp.itd.idaho.gov
 // @connect gispro.porterco.org
 // @connect gisprod10.co.fresno.ca.us
 // @connect gisprodops.chesco.org
 // @connect gispub.cityofaspen.com
 // @connect gispub.co.washington.or.us
 // @connect gispublic.barrie.ca
-// @connect gispublic.co.lake.ca.us
 // @connect gispw.coloradosprings.gov
-// @connect gisrevprxy.seattle.gov
 // @connect gisserver.christiancountymo.gov
 // @connect gisservice.cityofmesquite.com
-// @connect gisservicemt.gov
+// @connect gisservice.mt.gov
 // @connect gisservices.chathamcountync.gov
 // @connect gisservices.chathamnc.org
 // @connect gisservices.co.anoka.mn.us
@@ -692,6 +692,7 @@
 // @connect gisservices.its.ny.gov
 // @connect gisservices.oakgov.com
 // @connect gisservices.surrey.ca
+// @connect gisservices.wyoroad.info
 // @connect gisservices2.suffolkcountyny.gov
 // @connect gissites4.centrecountypa.gov
 // @connect gissvr.watgov.org
@@ -706,7 +707,6 @@
 // @connect gisweb.co.mower.mn.us
 // @connect gisweb.co.wilkin.mn.us
 // @connect gisweb.fdlco.wi.gov
-// @connect gisweb.fortbendcountytx.gov
 // @connect gisweb.hendersoncountync.gov
 // @connect gisweb.jeffcowa.us
 // @connect gisweb.miamidade.gov
@@ -733,11 +733,11 @@
 // @connect imap.klickitatcounty.org
 // @connect intervector.leoncountyfl.gov
 // @connect jeffarcgis.jeffersoncountywi.gov
+// @connect johnsongis.integritygis.com
 // @connect joplingis.org
 // @connect k3gis.com
 // @connect kanplan.ksdot.gov
 // @connect kartes.cerema.fr
-// @connect kcgis.kentoncounty.org
 // @connect kenhagis.kenha.co.ke
 // @connect kygisserver.ky.gov
 // @connect lacledegis.integritygis.com
@@ -748,12 +748,14 @@
 // @connect lcmaps.lanecounty.org
 // @connect lee-arcgis.leecountync.gov
 // @connect lincolngis.integritygis.com
-// @connect lio.milwaukeecountywi.gov
+// @connect live.maps-gis.ca
+// @connect livingatlas.esri.in
 // @connect livingstongis.integritygis.com
 // @connect location.cabarruscounty.us
 // @connect logis.loudoun.gov
 // @connect lrs.co.columbia.wi.us
 // @connect lucity.sbpg.net
+// @connect macgisworx.ci.mcminnville.or.us
 // @connect macongis.integritygis.com
 // @connect madison.rexburg.org
 // @connect madisongis.cityofalbany.net
@@ -765,10 +767,10 @@
 // @connect map.co.merced.ca.us
 // @connect map.co.thurston.wa.us
 // @connect map.co.trempealeau.wi.us
-// @connect map.coppelltx.gov
 // @connect map.dancgis.org
 // @connect map.eaglecounty.us
 // @connect map.haltonhills.ca
+// @connect map.kcgov.us
 // @connect map.ksh.hu
 // @connect map.newberrycounty.net
 // @connect map.oshawa.ca
@@ -776,7 +778,6 @@
 // @connect map.rdn.bc.ca
 // @connect map.stclairco.com
 // @connect map.sussexcountyde.gov
-// @connect map.wyoroad.info
 // @connect map11.incog.org
 // @connect mapd.kcmo.org
 // @connect mapdata.baytown.org
@@ -792,7 +793,6 @@
 // @connect mapping.mitchellcountync.gov
 // @connect mapping.modot.org
 // @connect mappmycity.ca
-// @connect maps.abbotsford.ca
 // @connect maps.adaok.com
 // @connect maps.alexandercountync.gov
 // @connect maps.alexandriava.gov
@@ -803,6 +803,7 @@
 // @connect maps.bcad.org
 // @connect maps.belmont.gov
 // @connect maps.berkeleywv.org
+// @connect maps.blainecountyid.gov
 // @connect maps.boonecountyil.org
 // @connect maps.bossierparishgis.org
 // @connect maps.bouldercounty.org
@@ -833,7 +834,6 @@
 // @connect maps.claycountygov.com
 // @connect maps.clermontauditor.org
 // @connect maps.clintoncountypa.com
-// @connect maps.co.blaine.id.us
 // @connect maps.co.ellis.tx.us
 // @connect maps.co.forsyth.nc.us
 // @connect maps.co.goodhue.mn.us
@@ -842,16 +842,15 @@
 // @connect maps.co.itasca.mn.us
 // @connect maps.co.kendall.il.us
 // @connect maps.co.lincoln.wi.us
+// @connect maps.co.monterey.ca.us
 // @connect maps.co.palm-beach.fl.us
 // @connect maps.co.polk.or.us
 // @connect maps.co.pueblo.co.us
 // @connect maps.co.ramsey.mn.us
 // @connect maps.co.shawano.wi.us
-// @connect maps.co.warren.oh.us
 // @connect maps.co.washington.mn.us
 // @connect maps.coj.net
 // @connect maps.collincountytx.gov
-// @connect maps.countyofmerced.com
 // @connect maps.crc.ga.gov
 // @connect maps.ctmetro.org
 // @connect maps.currituckcountync.gov
@@ -891,7 +890,6 @@
 // @connect maps.huntsvilleal.gov
 // @connect maps.iredellcountync.gov
 // @connect maps.itos.uga.edu
-// @connect maps.jocogov.org
 // @connect maps.kamloops.ca
 // @connect maps.kytc.ky.gov
 // @connect maps.lacity.org
@@ -932,9 +930,11 @@
 // @connect maps.prcity.com
 // @connect maps.raleighnc.gov
 // @connect maps.richlandcountyoh.us
+// @connect maps.rmwb.ca
 // @connect maps.rutherfordcountytn.gov
 // @connect maps.santa-clarita.com
 // @connect maps.santabarbaraca.gov
+// @connect maps.santaclaracounty.gov
 // @connect maps.sbcounty.gov
 // @connect maps.sccmo.org
 // @connect maps.semogis.com
@@ -953,7 +953,7 @@
 // @connect maps.vcgi.vermont.gov
 // @connect maps.ventura.org
 // @connect maps.victoria.ca
-// @connect maps.victoriatx.org
+// @connect maps.victoriatx.gov
 // @connect maps.vilascountywi.gov
 // @connect maps.vtrans.vermont.gov
 // @connect maps.wake.gov
@@ -972,9 +972,11 @@
 // @connect maps2.san-marcos.net
 // @connect maps2.timmons.com
 // @connect maps2.vcgov.org
+// @connect maps200.utahcounty.gov
 // @connect maps6.stlouis-mo.gov
 // @connect maps7.eriecounty.oh.gov
 // @connect maps8.eriecounty.oh.gov
+// @connect mapsdep.nj.gov
 // @connect mapsdev.hamiltontn.gov
 // @connect mapserv.cityofloveland.org
 // @connect mapserv.mesquitenv.gov
@@ -986,7 +988,6 @@
 // @connect mapservices.nps.gov
 // @connect mapservices.pasda.psu.edu
 // @connect mapservices.santacruzcountyaz.gov
-// @connect mapservices.sccgov.org
 // @connect mapservices.weather.noaa.gov
 // @connect mapservices1.jeffco.us
 // @connect mapservices2.jeffco.us
@@ -1028,12 +1029,13 @@
 // @connect parcelmap.ashtabulacounty.us
 // @connect parcelviewer.geodecisions.com
 // @connect pascogis.pascocountyfl.net
+// @connect pdsgismaps.bernco.gov
 // @connect pgis.plantation.org
 // @connect phelpsgis.integritygis.com
 // @connect polaris2.mecklenburgcountync.gov
 // @connect polkgis.integritygis.com
 // @connect portal.carolinabeach.org
-// @connect portal.carson.org
+// @connect portal.carsoncity.gov
 // @connect portal.elmoreco.org
 // @connect portal.henrico.gov
 // @connect portal.niagarafalls.ca
@@ -1045,8 +1047,8 @@
 // @connect pubgis.ci.lubbock.tx.us
 // @connect public.co.wasco.or.us
 // @connect public1.co.waupaca.wi.us
-// @connect publicmap01.co.st-clair.il.us
 // @connect publicmaps.co.goodhue.mn.us
+// @connect publicmaps.franklintn.gov
 // @connect publicmaps.txkusa.org
 // @connect pulaskigis.integritygis.com
 // @connect putnamcountygis.com
@@ -1075,16 +1077,16 @@
 // @connect services.aadnc-aandc.gc.ca
 // @connect services.arcgis.com
 // @connect services.co.schuylkill.pa.us
-// @connect services.gis.ca.gov
 // @connect services.gisqatar.org.qa
 // @connect services.integritygis.com
 // @connect services.mh-gis.com
 // @connect services.nconemap.gov
 // @connect services.wvgis.wvu.edu
+// @connect services.wygisc.org
 // @connect services1.arcgis.com
 // @connect services2.arcgis.com
-// @connect services2.integritygis.com
 // @connect services3.arcgis.com
+// @connect services4.integritygis.com
 // @connect services5.arcgis.com
 // @connect services6.arcgis.com
 // @connect services7.arcgis.com
@@ -1103,12 +1105,14 @@
 // @connect stclairgis.integritygis.com
 // @connect stokescountygis.com
 // @connect stonegis.integritygis.com
+// @connect streetsgis.phila.gov
 // @connect svr4.sumtercountysc.org
 // @connect tcgisws.tooeleco.gov
 // @connect tcweb.co.teller.co.us
 // @connect tfportal.tfid.org
 // @connect tharcgis2.thewoodlands-tx.gov
 // @connect tigerweb.geo.census.gov
+// @connect tims.dot.state.oh.us
 // @connect tiogagis.tiogacountypa.us
 // @connect tnmap.tn.gov
 // @connect tpwd.texas.gov
@@ -1118,7 +1122,7 @@
 // @connect vginmaps.vdem.virginia.gov
 // @connect wallawallagis.com
 // @connect warrengis.integritygis.com
-// @connect washingtongis.integritygis.com
+// @connect waynegis.integritygis.com
 // @connect wcg-gisweb.co.worcester.md.us
 // @connect wcgis3.co.winnebago.wi.us
 // @connect wcgisweb.washoecounty.us
@@ -1136,19 +1140,22 @@
 // @connect webgis.dot.state.mn.us
 // @connect webgis.durhamnc.gov
 // @connect webgis.lafayetteassessor.com
+// @connect webgis.providenceri.gov
 // @connect webgis.waterburyct.org
 // @connect webgis.yorbalindaca.gov
 // @connect webgis1.nic.in
 // @connect webmap.co.jackson.ms.us
 // @connect webmap.jeffparish.net
 // @connect webmap.trueautomation.com
+// @connect webmap.whistler.ca
 // @connect webmaps.elkgrovecity.org
 // @connect webmaps.sjcounty.net
 // @connect webportal.co.marquette.wi.us
 // @connect websrv31.clallamcountywa.gov
 // @connect webstergis.integritygis.com
-// @connect wfs.ksdot.org
 // @connect wfs.schneidercorp.com
+// @connect worthgis.integritygis.com
+// @connect wrightgis.integritygis.com
 // @connect ws.lioservices.lrc.gov.on.ca
 // @connect wvsams.mapwv.org
 // @connect ww1.bucoks.com
@@ -1167,6 +1174,7 @@
 // @connect www.denvergov.org
 // @connect www.dmcwebgis.com
 // @connect www.efsedge.com
+// @connect www.franklincountymaps.net
 // @connect www.franklinmo.net
 // @connect www.gcgis.org
 // @connect www.gfgis.com
@@ -1197,7 +1205,6 @@
 // @connect www.waynecounty.com
 // @connect www.webgis.net
 // @connect www.wildlifedepartment.com
-// @connect www.yamhillcountygis.com
 // @connect www1.cityofwebster.com
 // @connect www2.ci.lancaster.oh.us
 // @connect www3.multco.us
@@ -2500,9 +2507,8 @@
   // **************************************************************************************************************
   const SHOW_UPDATE_MESSAGE = true;
   const SCRIPT_VERSION_CHANGES = [
-    '⚡ Performance: Chunked async feature processing — large layers no longer freeze WME',
-    '📊 Performance: Added timing metrics per layer (fetch / processing / map update time)',
-    '🔍 Performance: Feature counts now show pre-dedup vs post-dedup in console logs',
+    '⚙️ Updated to the WME SDK async mode. No visible change to layers or settings.',
+    '⌨️ Keyboard shortcut keys are now read asynchronously when settings are saved.',
   ];
 
   const GF_URL = 'https://greasyfork.org/scripts/369632-wme-gis-layers';
@@ -2941,6 +2947,7 @@
    * @property {boolean} [useWazeWrap=false]
    * @property {ScriptUpdateMonitorArgs} [scriptUpdateMonitor]
    * @property {(wmeSdk: Object) => void} [callback]
+   * @property {'async'} [mode] - SDK mode. Omit for legacy sync mode.
    */
 
   /**
@@ -2950,6 +2957,7 @@
   const sdk = await bootstrap(
     /** @type {BootstrapArgs} */ ({
       scriptUpdateMonitor: { downloadUrl },
+      mode: 'async',
     }),
   );
 
@@ -3740,20 +3748,32 @@
    * settings.setLayerSetting('layer1', 'visible', true);
    * saveSettingsToStorage();
    */
-  function saveSettingsToStorage() {
-    settings.shortcuts = {};
+  async function saveSettingsToStorage() {
+    const shortcutSettings = {};
 
     /** @type {Shortcut[]} */
-    const shortcuts = sdk.Shortcuts.getAllShortcuts();
+    const shortcuts = await sdk.Shortcuts.getAllShortcuts();
     shortcuts.forEach(
       /** @param {Shortcut} shortcut */
       (shortcut) => {
         const raw = comboToRawKeycodes(shortcut.shortcutKeys);
         const combo = shortcutKeycodesToCombo(raw);
-        settings.shortcuts[shortcut.shortcutId] = { raw, combo };
+        shortcutSettings[shortcut.shortcutId] = { raw, combo };
       },
     );
+    settings.shortcuts = shortcutSettings;
 
+    persistSettingsToStorage();
+  }
+
+  /**
+   * Writes the current settings to localStorage. Synchronous, so it is safe to call from `beforeunload`.
+   * Shortcut keys are the ones cached by the last {@link saveSettingsToStorage} call.
+   *
+   * @function persistSettingsToStorage
+   * @returns {void}
+   */
+  function persistSettingsToStorage() {
     settings.lastVersion = scriptVersion;
     settings.isPopupVisible = isPopupVisible;
     settings.useAcronyms = useAcronyms;
@@ -3950,11 +3970,11 @@
    *
    * @param {'wgs84'|'CRS84'|'4326'|'EPSG:4326'} [projection='wgs84'] - Optional projection name
    *      (case-insensitive; allowed values: 'wgs84', 'CRS84', '4326', 'EPSG:4326').
-   * @returns {[number, number, number, number]} An array of [leftBottomLongitude, leftBottomLatitude, rightTopLongitude, rightTopLatitude] in WGS84.
+   * @returns {Promise<[number, number, number, number]>} An array of [leftBottomLongitude, leftBottomLatitude, rightTopLongitude, rightTopLatitude] in WGS84.
    * @throws {Error} If an unsupported projection type is specified.
    */
-  function getMapExtent(projection = 'wgs84') {
-    const wgs84Extent = sdk.Map.getMapExtent(); // [xmin, ymin, xmax, ymax] in WGS84
+  async function getMapExtent(projection = 'wgs84') {
+    const wgs84Extent = await sdk.Map.getMapExtent(); // [xmin, ymin, xmax, ymax] in WGS84
 
     const wgs84Projections = ['wgs84', 'CRS84', '4326', 'EPSG:4326'];
 
@@ -4036,7 +4056,7 @@
    * @returns {Promise<WhatsInViewResult>} The intersecting regions as returned by {@link WmeGisLBBOX.whatsInView}.
    */
   async function whatsInView(forceRefresh = false) {
-    const currentExtent = getMapExtent('wgs84');
+    const currentExtent = await getMapExtent('wgs84');
     const extentHash = currentExtent.join(',');
 
     if (!forceRefresh && _whatsInView && _lastExtentHash === extentHash) {
@@ -4071,10 +4091,10 @@
    *
    * @param {boolean} [checkVisibility=true] - If true, check whether each layer is visible in settings.
    * @param {boolean} [checkZoomVisibility=true] - If true, filter layers by their zoom visibility constraints.
-   * @returns {GisLayer[]} Array of `GISLayer` objects that passed all checks and are eligible for fetching.
+   * @returns {Promise<GisLayer[]>} Array of `GISLayer` objects that passed all checks and are eligible for fetching.
    */
-  function getFetchableLayers(checkVisibility = true, checkZoomVisibility = true) {
-    const zoom = sdk.Map.getZoomLevel();
+  async function getFetchableLayers(checkVisibility = true, checkZoomVisibility = true) {
+    const zoom = await sdk.Map.getZoomLevel();
 
     // If zoom level is below 12, log a message and return an empty array, as layers won't be fetched
     if (zoom < 12) {
@@ -4182,8 +4202,8 @@
    * @see {@link getFetchableLayers}
    * @see {@link settings}
    */
-  function filterLayerCheckboxes() {
-    const applicableLayers = getFetchableLayers(false, settings.onlyShowApplicableLayersZoom);
+  async function filterLayerCheckboxes() {
+    const applicableLayers = await getFetchableLayers(false, settings.onlyShowApplicableLayersZoom);
     const applicableSet = new Set(applicableLayers.map((l) => l.id));
 
     const showSelectors = [];
@@ -4247,9 +4267,6 @@
    * @returns {string} The processed label string for display (may be `''` if label is suppressed or error is present).
    */
   function processLabel(gisLayer, item, displayLabelsAtZoom, area, isPolyLine = false) {
-    // Set zoomLevel at the start, just before use
-    labelProcessingGlobalVariables.zoomLevel = sdk.Map.getZoomLevel();
-
     // --- Allow both ArcGIS and GeoJSON: resolve field source ---
     // If the item has .attributes, use that (ArcGIS); else .properties (GeoJSON); fallback: item itself.
     const fieldValues = item && typeof item === 'object' ? item.attributes || item.properties || item : {};
@@ -4858,7 +4875,7 @@
    * @example
    * updateGisLayerFeatures({ id: 'main', isRoadLayer: false }, [myPointFeature, myLineFeature]);
    */
-  function updateGisLayerFeatures(gisLayer, features) {
+  async function updateGisLayerFeatures(gisLayer, features) {
     // **RACE condition Check**
     if (lastToken && lastToken.cancel) {
       logDebug(`Skipping map update for cancelled layer: ${gisLayer.id}`);
@@ -4893,12 +4910,12 @@
 
     // Add new features to the layer (timed)
     const mapUpdateStart = performance.now();
-    sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
+    await sdk.Map.dangerouslyAddFeaturesToLayerWithoutValidation({ features, layerName });
     const mapUpdateTime = performance.now() - mapUpdateStart;
 
     // Remove old features from the layer
     if (featureIdsToRemove.length > 0) {
-      sdk.Map.removeFeaturesFromLayer({ layerName, featureIds: featureIdsToRemove });
+      await sdk.Map.removeFeaturesFromLayer({ layerName, featureIds: featureIdsToRemove });
     }
 
     // Update the in-memory collections
@@ -4995,7 +5012,8 @@
     if (items.length === 0) return;
 
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
-    const extent = getMapExtent('wgs84');
+    const extent = await getMapExtent('wgs84');
+    labelProcessingGlobalVariables.zoomLevel = await sdk.Map.getZoomLevel();
     const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
 
     if (token.cancel) return;
@@ -5110,7 +5128,7 @@
       const postDedup = features.length;
 
       // Layer/collection logic handled by helper
-      const { mapUpdateTime } = updateGisLayerFeatures(gisLayer, features);
+      const { mapUpdateTime } = await updateGisLayerFeatures(gisLayer, features);
       return { preDedup, postDedup, mapUpdateTime };
     }
     return { preDedup: 0, postDedup: 0, mapUpdateTime: 0 };
@@ -5135,7 +5153,8 @@
     if (items.length === 0) return;
 
     const layerOffset = settings.getLayerSetting(gisLayer.id, 'offset') ?? { x: 0, y: 0 };
-    const extent = getMapExtent('wgs84'); // [minX, minY, maxX, maxY]
+    const extent = await getMapExtent('wgs84'); // [minX, minY, maxX, maxY]
+    labelProcessingGlobalVariables.zoomLevel = await sdk.Map.getZoomLevel();
     const displayLabelsAtZoom = getGisLayerLabelsVisibleAtZoom(gisLayer, getGisLayerVisibleAtZoom(gisLayer));
 
     if (token.cancel) return;
@@ -5210,7 +5229,7 @@
       const postDedup = features.length;
 
       // Layer/collection logic handled by helper
-      const { mapUpdateTime } = updateGisLayerFeatures(gisLayer, features);
+      const { mapUpdateTime } = await updateGisLayerFeatures(gisLayer, features);
       return { preDedup, postDedup, mapUpdateTime };
     }
     return { preDedup: 0, postDedup: 0, mapUpdateTime: 0 };
@@ -5856,7 +5875,7 @@
     if (ignoreFetch) {
       return;
     }
-    if (sdk.Map.getZoomLevel() < 12) {
+    if ((await sdk.Map.getZoomLevel()) < 12) {
       return;
     }
 
@@ -5875,15 +5894,15 @@
     // 2. Remove map features for layers that won't be fetched
     if (!_layersCleared) {
       _layersCleared = true;
-      layersToFetch = getFetchableLayers(true, true);
+      layersToFetch = await getFetchableLayers(true, true);
 
-      _gisLayers.forEach((gisLayer) => {
+      for (const gisLayer of _gisLayers) {
         if (!layersToFetch.includes(gisLayer)) {
           let featureCollection = gisLayer.isRoadLayer ? roadFeatures : defaultFeatures;
           const layerName = gisLayer.isRoadLayer ? ROAD_LAYER_NAME : DEFAULT_LAYER_NAME;
           const featureIds = featureCollection.filter((f) => f.properties.layerID === gisLayer.id).map((f) => f.id);
           if (featureIds.length) {
-            sdk.Map.removeFeaturesFromLayer({ layerName, featureIds });
+            await sdk.Map.removeFeaturesFromLayer({ layerName, featureIds });
             featureCollection = featureCollection.filter((f) => !featureIds.includes(f.id));
             if (gisLayer.isRoadLayer) {
               roadFeatures = featureCollection;
@@ -5892,22 +5911,22 @@
             }
           }
         }
-      });
+      }
     }
 
     // **EARLY EXIT: No layers to fetch**
     if (layersToFetch.length === 0) {
-      filterLayerCheckboxes(); // Update UI for layers coming into view
+      await filterLayerCheckboxes(); // Update UI for layers coming into view
       logDebug('No layers to fetch!');
       return;
     }
 
-    filterLayerCheckboxes(); // Update UI for layers coming into view
+    await filterLayerCheckboxes(); // Update UI for layers coming into view
 
     let layersProcessedCount = 0;
     let successCount = 0;
-    const extentWGS84 = getMapExtent('wgs84');
-    const zoom = sdk.Map.getZoomLevel();
+    const extentWGS84 = await getMapExtent('wgs84');
+    const zoom = await sdk.Map.getZoomLevel();
 
     // Group the layers that need fetching by host so requests can be batched for concurrency limiting
     const layersByHost = {};
@@ -6332,12 +6351,12 @@
   async function setEnabled(value) {
     settings.enabled = value;
     saveSettingsToStorage();
-    sdk.Map.setLayerVisibility({ layerName: DEFAULT_LAYER_NAME, visibility: value });
-    sdk.Map.setLayerVisibility({ layerName: ROAD_LAYER_NAME, visibility: value });
+    await sdk.Map.setLayerVisibility({ layerName: DEFAULT_LAYER_NAME, visibility: value });
+    await sdk.Map.setLayerVisibility({ layerName: ROAD_LAYER_NAME, visibility: value });
     const color = value ? '#00bd00' : '#ccc';
     $('span#gis-layers-power-btn').css({ color });
     if (value) await fetchFeatures();
-    sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: value });
+    await sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: value });
 
     // Show/hide the popup based on the enabled state
     const popup = document.getElementById('layerLabelPopup');
@@ -6577,7 +6596,7 @@
    * @function initLayer
    */
 
-  function initLayer() {
+  async function initLayer() {
     const rules = _gisLayers
       .filter((gisLayer) => gisLayer.style && gisLayer.style !== 'roads')
       .map((gisLayer) => {
@@ -6597,13 +6616,13 @@
     setFillParcels(settings.fillParcels);
 
     try {
-      sdk.Map.removeLayer({ layerName: DEFAULT_LAYER_NAME });
+      await sdk.Map.removeLayer({ layerName: DEFAULT_LAYER_NAME });
     } catch (e) {
       if (!(e instanceof sdk.Errors.InvalidStateError)) {
         throw e;
       }
     }
-    sdk.Map.addLayer({
+    await sdk.Map.addLayer({
       layerName: DEFAULT_LAYER_NAME,
       styleContext: {
         getLabel: (context) => context.feature?.properties?.label,
@@ -6613,14 +6632,14 @@
     });
 
     try {
-      sdk.Map.removeLayer({ layerName: ROAD_LAYER_NAME });
+      await sdk.Map.removeLayer({ layerName: ROAD_LAYER_NAME });
     } catch (e) {
       if (!(e instanceof sdk.Errors.InvalidStateError)) {
         throw e;
       }
     }
 
-    sdk.Map.addLayer({
+    await sdk.Map.addLayer({
       layerName: ROAD_LAYER_NAME,
       styleContext: {
         getLabel: (context) => context.feature?.properties?.label,
@@ -6632,8 +6651,8 @@
       styleRules: [{ style: ROAD_STYLE }],
     });
 
-    sdk.Map.setLayerVisibility({ layerName: DEFAULT_LAYER_NAME, visibility: settings?.enabled });
-    sdk.Map.setLayerVisibility({ layerName: ROAD_LAYER_NAME, visibility: settings?.enabled });
+    await sdk.Map.setLayerVisibility({ layerName: DEFAULT_LAYER_NAME, visibility: settings?.enabled });
+    await sdk.Map.setLayerVisibility({ layerName: ROAD_LAYER_NAME, visibility: settings?.enabled });
   } // END InitLayer
 
   /**
@@ -7006,15 +7025,15 @@
     });
 
     // Viewport filter toggle
-    $('#gis-viewport-filter').on('click', function () {
+    $('#gis-viewport-filter').on('click', async function () {
       $(this).toggleClass('active');
       settings.onlyShowApplicableLayers = $(this).hasClass('active');
       saveSettingsToStorage();
-      filterLayerCheckboxes();
+      await filterLayerCheckboxes();
     });
 
     // Zoom filter toggle — Viewport must be active for Zoom to work, so enable it automatically
-    $('#gis-zoom-filter').on('click', function () {
+    $('#gis-zoom-filter').on('click', async function () {
       $(this).toggleClass('active');
       settings.onlyShowApplicableLayersZoom = $(this).hasClass('active');
       if (settings.onlyShowApplicableLayersZoom && !settings.onlyShowApplicableLayers) {
@@ -7022,7 +7041,7 @@
         $('#gis-viewport-filter').addClass('active');
       }
       saveSettingsToStorage();
-      filterLayerCheckboxes();
+      await filterLayerCheckboxes();
     });
 
     // Region legend collapse (using event delegation)
@@ -7383,15 +7402,15 @@
     });
 
     // Font select change
-    $('#gis-label-font-select').on('change', function () {
+    $('#gis-label-font-select').on('change', async function () {
       settings.fontFamily = $(this).val();
       saveSettingsToStorage();
       applyFontSettingsToStyles();
 
       // Redraw visual layers to apply updated font
       try {
-        sdk.Map.redrawLayer({ layerName: DEFAULT_LAYER_NAME });
-        sdk.Map.redrawLayer({ layerName: ROAD_LAYER_NAME });
+        await sdk.Map.redrawLayer({ layerName: DEFAULT_LAYER_NAME });
+        await sdk.Map.redrawLayer({ layerName: ROAD_LAYER_NAME });
       } catch (e) {
         logError('Layer does not exist during style update', e);
       }
@@ -7399,7 +7418,7 @@
     });
 
     // Font size change
-    $('#gis-label-font-size').on('change input', function () {
+    $('#gis-label-font-size').on('change input', async function () {
       const newSize = parseInt($(this).val(), 10);
       if (newSize >= 8 && newSize <= 48) {
         settings.fontSize = newSize;
@@ -7408,8 +7427,8 @@
 
         // Redraw visual layers to apply updated font size
         try {
-          sdk.Map.redrawLayer({ layerName: DEFAULT_LAYER_NAME });
-          sdk.Map.redrawLayer({ layerName: ROAD_LAYER_NAME });
+          await sdk.Map.redrawLayer({ layerName: DEFAULT_LAYER_NAME });
+          await sdk.Map.redrawLayer({ layerName: ROAD_LAYER_NAME });
         } catch (e) {
           logError('Layer does not exist during style update', e);
         }
@@ -7428,7 +7447,7 @@
       $(this).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
       try {
         await loadSpreadsheetAsync('ALL', 'ALL');
-        initTab(false);
+        await initTab(false);
         logDebug('All layers loaded!');
         alert('All layers loaded successfully!');
       } catch (e) {
@@ -7588,19 +7607,19 @@
    * @param {boolean} [firstCall=true] - Whether this is the initial setup or a subsequent refresh.
    * @returns {void}
    */
-  function initGui(firstCall = true) {
-    initLayer();
+  async function initGui(firstCall = true) {
+    await initLayer();
     if (firstCall) {
       // One-time UI setup that should never be repeated
-      initTab(true);
-      sdk.LayerSwitcher.addLayerCheckbox({ name: 'GIS Layers' });
-      sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: settings.enabled });
+      await initTab(true);
+      await sdk.LayerSwitcher.addLayerCheckbox({ name: 'GIS Layers' });
+      await sdk.LayerSwitcher.setLayerCheckboxChecked({ name: 'GIS Layers', isChecked: settings.enabled });
       sdk.Events.on({ eventName: 'wme-layer-checkbox-toggled', eventHandler: onLayerCheckboxChanged });
       sdk.Events.on({ eventName: 'wme-map-move-end', eventHandler: onMapMove });
       showScriptInfoAlert();
     } else {
       // Refreshable UI parts - always rebuild the tab contents
-      initTab(false);
+      await initTab(false);
     }
   }
 
@@ -7676,14 +7695,14 @@
           title: 'Remove all selected sub-regions and visible layers',
         })
           .text('Clear All')
-          .on('click', function () {
+          .on('click', async function () {
             if (confirm('Are you sure you want to remove all visible layers and region selections?')) {
               settings.selectedSubL1 = [];
               settings.visibleLayers = [];
               settings.collapsedSections = {};
-              saveSettingsToStorage();
+              await saveSettingsToStorage();
               loadSettingsFromStorage();
-              initGui(false);
+              await initGui(false);
               $dlg.remove();
             }
           }),
@@ -7770,7 +7789,7 @@
           title: 'Load selected group',
         })
           .text('Load Group')
-          .on('click', function () {
+          .on('click', async function () {
             const group = $groupSelect.val();
             if (typeof group !== 'string' || !(settings.layerGroups && settings.layerGroups[group])) {
               if (typeof WazeWrap !== 'undefined' && WazeWrap.Alerts && typeof WazeWrap.Alerts.info === 'function') {
@@ -7788,9 +7807,9 @@
             settings.fillParcels = grp.fillParcels;
             if (grp.fontFamily !== undefined) settings.fontFamily = grp.fontFamily;
             if (grp.fontSize !== undefined) settings.fontSize = grp.fontSize;
-            saveSettingsToStorage();
+            await saveSettingsToStorage();
             loadSettingsFromStorage();
-            initGui(false);
+            await initGui(false);
             $dlg.remove();
           }),
         $('<button>', {
@@ -7798,7 +7817,7 @@
           title: 'Delete selected group',
         })
           .text('Delete Group')
-          .on('click', function () {
+          .on('click', async function () {
             const group = $groupSelect.val();
             if (typeof group !== 'string' || !(settings.layerGroups && settings.layerGroups[group])) {
               alert('Please select a group to delete.');
@@ -7857,7 +7876,7 @@
   async function loadVisibleCountryData() {
     try {
       // Only load at suitable zoom levels
-      const currentZoomLevel = sdk.Map.getZoomLevel();
+      const currentZoomLevel = await sdk.Map.getZoomLevel();
       if (currentZoomLevel < 12) return;
 
       await whatsInView();
@@ -7903,7 +7922,7 @@
         if (needToLoad) {
           await loadSpreadsheetAsync(isoCode, newRegionCodesToLoad);
           alreadyLoadedCountries.add(isoCode);
-          initGui(false);
+          await initGui(false);
           newRegionCodesToLoad.forEach((regionCode) => alreadyLoadedSubL1.add(regionCode));
         }
       }
@@ -8200,20 +8219,20 @@
    * @see {@link logError}
    * @see {@link logDebug}
    */
-  function createShortcut(shortcutId, description, callback) {
+  async function createShortcut(shortcutId, description, callback) {
     const shortcutObj = settings.shortcuts?.[shortcutId] ?? null;
     let shortcutKeys = shortcutObj?.combo ?? null;
 
     // Always convert to combo format for SDK
     if (shortcutKeys) {
-      if (sdk.Shortcuts.areShortcutKeysInUse({ shortcutKeys })) {
+      if (await sdk.Shortcuts.areShortcutKeysInUse({ shortcutKeys })) {
         logError(`Shortcut Keys "${shortcutKeys}" are already in use by another script. "${description}" will not be set with these keys.`);
         shortcutKeys = null;
       }
     }
 
     try {
-      sdk.Shortcuts.createShortcut({
+      await sdk.Shortcuts.createShortcut({
         shortcutId,
         shortcutKeys,
         description,
@@ -8241,15 +8260,15 @@
       await loadStylesFromSheetAsync(); // Load Style data from Sheet 1st!
 
       // One-time initialization
-      userInfo = sdk.State.getUserInfo();
+      userInfo = await sdk.State.getUserInfo();
       loadSettingsFromStorage(true);
 
       // Register shortcuts with stored keys (if set), else with no keys (user must assign)
-      createShortcut('toggleHnsOnly', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);
-      createShortcut('toggleEnabled', 'Toggle display of GIS Layers', onToggleGisLayersShortcutKey);
+      await createShortcut('toggleHnsOnly', 'Toggle HN-only address labels', onAddressDisplayShortcutKey);
+      await createShortcut('toggleEnabled', 'Toggle display of GIS Layers', onToggleGisLayersShortcutKey);
 
       installPathFollowingLabels();
-      window.addEventListener('beforeunload', saveSettingsToStorage, false);
+      window.addEventListener('beforeunload', persistSettingsToStorage, false);
       _layerSettingsDialog = new LayerSettingsDialog();
 
       const tBuildMap0 = performance.now();
@@ -8269,7 +8288,7 @@
 
       if (firstCall) {
         const tGui = performance.now();
-        initGui(firstCall); // Only need to do this at startup
+        await initGui(firstCall); // Only need to do this at startup
         logDebug(`initGui: ${Math.round(performance.now() - tGui)} ms`);
       }
 
