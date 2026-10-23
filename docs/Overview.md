@@ -23,6 +23,7 @@
       - [`Settings`](#settings)
     - [Key Functions](#key-functions)
       - [`init(firstCall?)`](#initfirstcall)
+      - [`saveSettingsToStorage()`](#savesettingstostorage)
       - [`setEnabled(value)`](#setenabledvalue)
       - [`fetchFeatures()`](#fetchfeatures)
       - [`getFetchableLayers(checkVisibility?, checkZoomVisibility?)`](#getfetchablelayerscheckvisibility-checkzoomvisibility)
@@ -114,7 +115,7 @@ _Adjust these in the 'Settings' tab UI in WME._
 - **lodash**
 - **turf.js** (geospatial utilities)
 - **OpenLayers**
-- **bootstrap** (WME utility for SDK initialization)
+- **bootstrap** (WME utility for SDK initialization; this script calls it with `mode: 'async'`, so SDK methods return Promises)
 - **ESTreeProcessor** (utility for label scripts)
 - **wmeGisLBBOX** (utility for Geo boundary location)
 
@@ -417,6 +418,20 @@ Main entry point for the script. On first call performs full one-time setup; on 
 
 ---
 
+#### `saveSettingsToStorage()`
+
+Saves `settings` to `localStorage`, including the current keyboard shortcut keys.
+
+- **Parameters:** _(none)_
+- **Returns:** `Promise<void>`
+- **Behavior:**
+  - Reads the current shortcut keys from `sdk.Shortcuts.getAllShortcuts()` (async in SDK async mode), then stores them on `settings.shortcuts`.
+  - Writes `settings` to `localStorage` through the synchronous helper `persistSettingsToStorage()`.
+  - Call sites that don't need the write to have finished can omit `await`. Callers that read back what was just saved must `await` it.
+  - The `beforeunload` handler calls `persistSettingsToStorage()` directly, because an async save can't finish during page unload. It writes the shortcut keys cached by the last `saveSettingsToStorage()` call.
+
+---
+
 #### `setEnabled(value)`
 
 Enables or disables the GIS Layers overlay entirely.
@@ -455,7 +470,7 @@ Returns the set of GIS layers that are currently eligible to be fetched, applyin
 - **Parameters:**
   - `checkVisibility` (boolean, default `true`) — if `true`, only returns layers in `settings.visibleLayers`.
   - `checkZoomVisibility` (boolean, default `true`) — if `true`, excludes layers whose `visibleAtZoom` threshold has not been reached.
-- **Returns:** `GisLayer[]`
+- **Returns:** `Promise<GisLayer[]>` (async because it reads the map zoom from the SDK)
 - **Behavior:**
   - Returns `[]` immediately if current zoom < 12.
   - Excludes layers where `enabled !== 1`, URL is blank, or the layer's `countrySubL1` is not in `settings.selectedSubL1`.
